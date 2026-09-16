@@ -191,8 +191,8 @@ USAspending descriptions write `PMW 160` [J]; PID numbers embed `PMW-160` [I].
 | [O] | ONR and NRL LRAE document | direct | retrieved 2026-09-16 | `29db4e9d73fb` |
 | [H] | NAVWAR home | wayback | capture 2026-09-01 | `1c6dd971e695` |
 | [G] | NAVWAR CSO opportunities / acquisition pathways (README link) | wayback | capture 2026-09-01 | `1e97effb2e65` |
-| [P] | DoN FY2027 budget materials page | body is a 245-byte 'Request Rejected' WAF stub, not the page | wayback | capture 2026-07-16 | `19880a1fd474` |
-| [P] | DoN FY2026 budget materials page | body is a 245-byte 'Request Rejected' WAF stub, not the page | wayback | capture 2026-08-30 | `8ba3f5b14d95` |
+| [P] | DoN FY2027 budget materials page; body is a 245-byte 'Request Rejected' WAF stub, not the page | wayback | capture 2026-07-16 | `19880a1fd474` |
+| [P] | DoN FY2026 budget materials page; body is a 245-byte 'Request Rejected' WAF stub, not the page | wayback | capture 2026-08-30 | `8ba3f5b14d95` |
 | [M] | PMW 760 tear sheet 2025 | wayback | capture 2026-01-21 | `c0a13af26e4c` |
 | [M] | PMW 770 tear sheet 2025 | wayback | capture 2026-01-21 | `0a1b2c3042e0` |
 | [M] | PMW 790 tear sheet 2025 | wayback | capture 2025-11-13 | `606a844eca01` |
