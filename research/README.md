@@ -27,7 +27,7 @@ method and time), `manual_pdf_requests.json` (documents that still need a human 
 | 01 source registry | done (2026-09-16); budget books pending manual retrieval |
 | 02 organization map | done (2026-09-16) |
 | 03 data-connection map | done (2026-09-16) |
-| 04 attribution process + examples | done (2026-09-16); 19 reviewed examples |
+| 04 attribution process + examples | done (2026-09-16); 19 reviewed examples, 17 directly documented after reading SAM.gov notices |
 | 05 early signals + backtests | done (2026-09-16); 8 backtests, 2 with public first-notice dates; archived SAM years queued |
 | 06 continuous-monitor design | done (2026-09-16); forecast-revision alert illustrative until a second LRAE release is captured |
 | 07 implementation backlog | done (2026-09-16) |

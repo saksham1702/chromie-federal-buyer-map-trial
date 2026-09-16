@@ -60,7 +60,7 @@ post-cutoff checks and never as evidence.
 | BT04 | MIDS-LVT IDIQ new contracts (PMA/PMW 101 follow-on to the 2015 multipl | pmw:101 | 2025-06-19 | LRAE row 'MIDS-LVT IDIQ - New Contracts (C)'; incumbent MAC IDIQ N0003915D0042 (Data Link Solutions) signe; PMA/PMW 101  | 2026-05-14: no new MIDS-LVT IDIQ observed in FPDS for NAVWAR HQ through the observable windo | missed: no FY25 Q3 award; the incumbents' vehicles continued into FY26 |
 | BT05 | PEO C4I engineering support for PMW 160, the 2021 recompete (N0003922F | pmw:160 | 2021-06-30 | incumbent order N0003917F3000 (Booz Allen, SeaPort-e IDV N00 | 2021-10-26: task order N0003922F3000 awarded to Booz Allen under SeaPort-NxG IDV N0017819D72 | correct (award the day before the incumbent order ended) |
 | BT06 | PMW 120 Professional Support Services follow-on (forecast FY26 Q2 awar | pmw:120 | 2025-06-19 | LRAE row 'PMW 120 Professional Support Services (C)'; incumbent order N0003921F3003 (Booz Allen, SeaPort-NxG) with | 2026-05-07: no follow-on award observed in the FPDS actions retrieved (the FY2026 scan was c | probable slip past FY26 Q2 (incumbent extended in May 2026); not confi |
-| BT07 | NILE In-Service Support (ISS) 6 engineering services (PMW 150) | pmw:150 | 2026-01-28 | LRAE row 'NILE In-Service Support (ISS) 6 Contract (C)'; companion LRAE rows 'NILE ISS 5 Task Order 5' (FY25 Q4 / FY2 | 2026-01-29: Sources Sought notice N0003926RE013 'NILE IN SERVICE SUPPORT (ISS) 6 ENGINEERING | correct to the quarter (FY26 Q2) |
+| BT07 | NILE In-Service Support (ISS) 6 engineering services (PMW 150) | pmw:150 | 2026-01-28 | LRAE row 'NILE In-Service Support (ISS) 6 Contract (C)'; companion LRAE rows 'NILE ISS 5 Task Order 5' (FY25 Q4 / FY2 | 2026-01-29: Sources Sought N0003926RE013 'NILE IN SERVICE SUPPORT (ISS) 6 ENGINEERING SERVIC | correct to the quarter (FY26 Q2) |
 | BT08 | Egyptian Navy Autonomous INTelligence System (AINTS) platform integrat | pmw:740 | 2026-07-30 | LRAE row 'EGYPTIAN Navy AINTS (EG-P-LGQ, A2) (C)'; PMW 740 tear sheet | 2026-07-31: Presolicitation N0003926RE014 'Egyptian Navy Autonomous INTelligence System (AIN | missed by about five quarters: presolicitation in FY26 Q4 against a fo |
 
 Results in short: BT01 and BT05 predicted the recompete to the quarter and to the day from the
@@ -82,9 +82,14 @@ Missed signals and false positives:
   the presolicitation appeared. A monitor that alerts on a forecast quarter must
   also watch for extension modifications on the incumbent, which is the usual public trace of a
   slip.
-- Not observable: sole-source justifications and SeaPort task-order RFPs do not create SAM.gov
-  notices, so "first RFI or solicitation" is undefined for a large share of PEO C4I support work;
-  the LRAE and the incumbent's end date are the only advance signals for those.
+- Not observable: SeaPort-NxG task-order competitions do not create SAM.gov notices (nine
+  solicitation numbers from the examples returned nothing), so "first RFI or solicitation" is
+  undefined for a large share of PEO C4I support work; the LRAE and the incumbent's end date are
+  the only advance signals for those. Sole-source actions do leave a J&A notice (the 2019
+  SURTASS LTS/CLTS J&A names PMS 485).
+- Notice text as confirmation: the NILE ISS 6 RFI and the AINTS presolicitation both name the
+  owning office in their first sentence, so the office predicted from the LRAE was confirmed by
+  the first public notice itself (BT07, BT08).
 
 Advance notice measured: 224 days from the LRAE release to the first public notice in BT07 and
 407 days in BT08; about 320 days from the LRAE release to award in BT01; about 1,700 days from the

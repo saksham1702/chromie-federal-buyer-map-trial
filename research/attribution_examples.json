@@ -54,7 +54,7 @@
       "pop_end": "2026-10-26"
     },
     "counterevidence": "none found; the LRAE lists the vehicle (IDV) rather than this order as the existing contract",
-    "notes": "Recorded at order level. The IDV serves many Navy customers and is not attributed. Period of performance ends 2026-10-26 with the follow-on forecast for FY26: a recompete signal.",
+    "notes": "Recorded at order level. The IDV serves many Navy customers and is not attributed. Period of performance ends 2026-10-26 with the follow-on forecast for FY26: a recompete signal. SAM.gov search for the order's solicitation number returned no notice (SeaPort-NxG task-order competitions are not posted on SAM.gov).",
     "review": {
       "status": "reviewed",
       "by": "assistant draft for Saksham's review",
@@ -156,7 +156,7 @@
       "pop_end": "2025-09-17"
     },
     "counterevidence": "none",
-    "notes": "Recurring purchase: the same requirement recompeted to the same vendor; a template for recompete alerts.",
+    "notes": "Recurring purchase: the same requirement recompeted to the same vendor; a template for recompete alerts. SAM.gov search for the order's solicitation number returned no notice (SeaPort-NxG task-order competitions are not posted on SAM.gov).",
     "review": {
       "status": "reviewed",
       "by": "assistant draft for Saksham's review",
@@ -204,7 +204,7 @@
       "forecast_pid": "N00039-24-RFPREQ-PMW-120-0001 ('PMW 120 Professional Support Services', existing N0017819D7264N0003921F3003, incumbent Booz Allen, award FY26)"
     },
     "counterevidence": "none",
-    "notes": "Same vendor, same vehicle and same contracting office as EX01 and EX05, three different program offices: vendor, vehicle and contracting office cannot determine the owner.",
+    "notes": "Same vendor, same vehicle and same contracting office as EX01 and EX05, three different program offices: vendor, vehicle and contracting office cannot determine the owner. SAM.gov search for the order's solicitation number returned no notice (SeaPort-NxG task-order competitions are not posted on SAM.gov).",
     "review": {
       "status": "reviewed",
       "by": "assistant draft for Saksham's review",
@@ -248,7 +248,7 @@
       }
     ],
     "counterevidence": "none",
-    "notes": "Program manager changed on 2025-08-19 (Castillejo relieved Jolie); office ownership unchanged.",
+    "notes": "Program manager changed on 2025-08-19 (Castillejo relieved Jolie); office ownership unchanged. SAM.gov search for the order's solicitation number returned no notice (SeaPort-NxG task-order competitions are not posted on SAM.gov).",
     "review": {
       "status": "reviewed",
       "by": "assistant draft for Saksham's review",
@@ -290,7 +290,8 @@
       "status": "reviewed",
       "by": "assistant draft for Saksham's review",
       "date": "2026-09-16"
-    }
+    },
+    "notes": "SAM.gov search for the order's solicitation number returned no notice (SeaPort-NxG task-order competitions are not posted on SAM.gov)."
   },
   {
     "id": "EX07",
@@ -332,7 +333,7 @@
     ],
     "ownership_structure": "multi-office: one primary office and two named supporting offices; 'FRD' is not resolved",
     "counterevidence": "'FRD' is not an office in the alias table",
-    "notes": "Multi-program case. It must not collapse to PMW 760 alone, and the unresolved 'FRD' component is recorded rather than guessed.",
+    "notes": "Multi-program case. It must not collapse to PMW 760 alone, and the unresolved 'FRD' component is recorded rather than guessed. SAM.gov search for the order's solicitation number returned no notice (SeaPort-NxG task-order competitions are not posted on SAM.gov).",
     "review": {
       "status": "reviewed",
       "by": "assistant draft for Saksham's review",
@@ -385,7 +386,7 @@
       "forecast_pid": "N00039-24-RFPREQ-PMW-740-0052"
     },
     "counterevidence": "the award text itself never names an office",
-    "notes": "Inferred, not directly documented: the office comes from the forecast row for the follow-on and from the office's mission statement, not from the award record. Two official documents agree, so confidence is high, but the class stays 'inferred' by rule.",
+    "notes": "Inferred, not directly documented: the office comes from the forecast row for the follow-on and from the office's mission statement, not from the award record. Two official documents agree, so confidence is high, but the class stays 'inferred' by rule. SAM.gov search for the order's solicitation number returned no notice (SeaPort-NxG task-order competitions are not posted on SAM.gov).",
     "review": {
       "status": "reviewed",
       "by": "assistant draft for Saksham's review",
@@ -409,11 +410,11 @@
     "program_offices": [
       "pms:485"
     ],
-    "owner_summary": "PMS 485, a NAVSEA program office: LTS/CLTS production and sustainment contracted through NAVWAR HQ",
+    "owner_summary": "PMS 485 Maritime Surveillance Systems Program Office (PEO Submarines, NAVSEA): SURTASS LTS/CLTS production and support contracted through NAVWAR HQ",
     "ancestry": [
-      "PMS 485 -> (parent not asserted; NAVSEA) -> Department of the Navy"
+      "PMS 485 -> PEO Submarines (as stated in the 2019 J&A) -> NAVSEA -> Department of the Navy"
     ],
-    "evidence_class": "inferred",
+    "evidence_class": "directly_documented",
     "evidence": [
       {
         "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003919C0002&start=0",
@@ -432,13 +433,19 @@
         "observed_at": "2026-09-16",
         "passage": "award detail retrieved",
         "document": "USAspending"
+      },
+      {
+        "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/83f41b3f3f6d536077c852ab8de75fc8?api_key=null",
+        "observed_at": "2019-07-03",
+        "passage": "engineering services, material, travel, and provisioned items orders for spares under the Program Executive Office Submarines (PEO SUB), Maritime Surveillance Systems (MSS) Program Office (PMS 485)",
+        "document": "SAM.gov Justification and Approval notice for N00039-19-R-0002 'SURTASS LTS/CLTS Support and Production J&A', posted 2019-07-03 (retrieved via sam.gov site API 2026-09-16)"
       }
     ],
     "related": {
       "forecast_pid": "N00039-23-RFPREQ-PMS-485-0038"
     },
-    "counterevidence": "none against PMS 485; strong evidence against any PEO C4I office (funding office is NAVSEA HQ)",
-    "notes": "Hard negative for the pilot portfolio: a NAVWAR HQ contract whose requirement belongs to a NAVSEA program office. The funding office separates systems commands even when the contracting office does not.",
+    "counterevidence": "none against PMS 485; funding office NAVSEA HQ agrees",
+    "notes": "Hard negative for the pilot portfolio: a NAVWAR HQ contract whose requirement belongs to a NAVSEA program office. The funding office separates systems commands even when the contracting office does not. Upgraded 2026-09-16: the J&A notice for solicitation N00039-19-R-0002 names the owning office and its PEO outright.",
     "review": {
       "status": "reviewed",
       "by": "assistant draft for Saksham's review",
@@ -538,12 +545,12 @@
     "program_offices": [
       "office:nen"
     ],
-    "owner_summary": "Naval Enterprise Networks (NEN) program office: NGEN Re-Compete Service Management, Integration and Transport (SMIT); PEO EIS at award (2020-02-05), PEO Digital from May 2020",
+    "owner_summary": "Naval Enterprise Networks Program Office (PMW 205) under PEO EIS at award, PEO Digital from May 2020: NGEN-R Service Management, Integration and Transport (SMIT)",
     "ancestry": [
       "NEN -> PEO EIS (to 2020-05) -> NAVWAR",
       "NEN -> PEO Digital (from 2020-05) -> NAVWAR; PEO Digital consolidated into PAE Mission Systems from 2026-05-11"
     ],
-    "evidence_class": "inferred",
+    "evidence_class": "directly_documented",
     "evidence": [
       {
         "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003920D0054&start=0",
@@ -562,10 +569,16 @@
         "observed_at": "2026-09-16",
         "passage": "IDV detail retrieved",
         "document": "USAspending"
+      },
+      {
+        "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/bd4813b9840d7c650054cdd3551d07e6?api_key=null",
+        "observed_at": "2019-01-17",
+        "passage": "The Space and Naval Warfare Systems Command (SPAWAR), on behalf of the Navy Program Executive Office for Enterprise Information Systems (PEO EIS), the Naval Enterprise Networks Program Office (PMW 205), and the United States Marine Corps (USMC) is announcing the release of the FINAL Service Management, Integration and Transport (SMIT) ...",
+        "document": "SAM.gov Presolicitation for N00039-18-R-0005 'NGEN-R Service Management, Integration and Transport (SMIT)', posted 2019-01-17"
       }
     ],
-    "counterevidence": "the office code (PMW 205) is not stated in any retrieved official document; the string 'SMIT' also appears in the PMW 770 tear sheet in an unrelated sense",
-    "notes": "Program-name case resolved through an official article that names the awarding office. Ownership changed parent twice (PEO EIS to PEO Digital in 2020; PAE Mission Systems in 2026) while the office stayed the same.",
+    "counterevidence": "none",
+    "notes": "Program-name case resolved through an official article that names the awarding office. Ownership changed parent twice (PEO EIS to PEO Digital in 2020; PAE Mission Systems in 2026) while the office stayed the same. Upgraded 2026-09-16: the presolicitation for N00039-18-R-0005 names PEO EIS, PMW 205 (NEN) and the Marine Corps as the requiring parties.",
     "review": {
       "status": "reviewed",
       "by": "assistant draft for Saksham's review",
@@ -589,12 +602,12 @@
     "program_offices": [
       "pmw:101"
     ],
-    "owner_summary": "PMA/PMW 101 MIDS: production of MIDS Low Volume Terminals, spares, Block Upgrade 2 retrofits and engineering services",
+    "owner_summary": "MIDS International Program Office (IPO), a component of PMA/PMW 101: production of MIDS Low Volume Terminals",
     "ancestry": [
       "PMW -> PEO C4I -> NAVWAR -> Department of the Navy (to 2026-05-10)",
       "PMW -> PEO C4I -> PAE Mission Systems (from 2026-05-11; NAVWAR HQ remains the contracting office) -> Department of the Navy"
     ],
-    "evidence_class": "inferred",
+    "evidence_class": "directly_documented",
     "evidence": [
       {
         "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003915D0042&start=0",
@@ -613,6 +626,12 @@
         "observed_at": "2025-01-31",
         "passage": "PMA/PMW 101 develops, produces, and sustains tactical data link products and waveforms ... The MIDS FMS division acquires and delivers MIDS-LVT, MIDS JTRS, and Small Form Factor Link 16 terminals",
         "document": "PMA/PMW 101 tear sheet (Wayback 2026-01-21)"
+      },
+      {
+        "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/02ba61d02f4a6a909ee42c090ede2e0e?api_key=null",
+        "observed_at": "2014-12-17",
+        "passage": "The Space and Naval Warfare Systems Command (SPAWAR), on behalf of the Multifunctional Information Distribution System (MIDS) International Program Office (IPO), plans to award one or more firm fixed price IDIQ contracts for production of MIDS Low Volume Terminals (LVT), spares and engineering services.",
+        "document": "SAM.gov Presolicitation for N00039-15-R-0222, posted 2014-12-17"
       }
     ],
     "related": {
@@ -620,7 +639,7 @@
       "budget_line": "OPN 1810N BA2 LI 2614 Adv Tact Data Link Sys (ATDLS), related PE 0205604N (inferred link by program)"
     },
     "counterevidence": "none",
-    "notes": "Attribution at vehicle level is acceptable here because the IDV is single-purpose (MIDS-LVT), unlike SeaPort-NxG. Modification P00029 (2026-05-14) falls after the PAE consolidation: the same office, a different ancestry by date.",
+    "notes": "Attribution at vehicle level is acceptable here because the IDV is single-purpose (MIDS-LVT), unlike SeaPort-NxG. Modification P00029 (2026-05-14) falls after the PAE consolidation: the same office, a different ancestry by date. Upgraded 2026-09-16: the presolicitation for N00039-15-R-0222 names the MIDS IPO as the requiring office; the PMA/PMW 101 tear sheet places the IPO inside PMA/PMW 101.",
     "review": {
       "status": "reviewed",
       "by": "assistant draft for Saksham's review",
@@ -644,11 +663,11 @@
     "program_offices": [
       "pmw:160"
     ],
-    "owner_summary": "PMW 160: ADNS (Automated Digital Network System) enclave hardware",
+    "owner_summary": "PMW 160 Tactical Networks: ADNS Increment III production (the IDV N0003917D0009 came from solicitation N00039-16-R-0028)",
     "ancestry": [
       "PMW -> PEO C4I -> NAVWAR -> Department of the Navy (to 2026-05-10)"
     ],
-    "evidence_class": "inferred",
+    "evidence_class": "directly_documented",
     "evidence": [
       {
         "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003920F9504&start=0",
@@ -661,13 +680,19 @@
         "observed_at": "2025-01-01",
         "passage": "Automated Digital Network System (ADNS) (ACAT II) ADNS supplies the tactical wide area network (WAN) capabilities of the naval communications system",
         "document": "PMW 160 tear sheet (Wayback 2026-01-21)"
+      },
+      {
+        "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/37f5601517acff08348093c104e0fac3?api_key=null",
+        "observed_at": "2016-03-01",
+        "passage": "SPAWAR, in support of the Program Executive Office - Command, Control, Communications, Computers and Intelligence (PEO- C4I), Tactical Networks Program Office (PMW 160), ... has released draft Request for Proposal (RFP) number N00039-16-R-0028 for the procurement of Automated Digital Network System (ADNS) Increment III",
+        "document": "SAM.gov Presolicitation for N00039-16-R-0028, posted 2016-03-01"
       }
     ],
     "related": {
       "budget_line": "OPN 1810N BA2 LI 3050 Ship Communications Automation (P-1 line 74), related PE 0303138N"
     },
     "counterevidence": "NIWC Pacific competency NP-41200 holds ADNS in-service engineering and installation requirements in the LRAE (PIDs N66001-25-RFPREQ-NP-41200-0221 and following), so 'ADNS' alone does not always mean PMW 160",
-    "notes": "Program-name inference with recorded counterevidence: production buys of ADNS enclaves through NAVWAR HQ fit the program office of record; in-service engineering tasks through NIWC Pacific belong to a technical-center division.",
+    "notes": "Program-name inference with recorded counterevidence: production buys of ADNS enclaves through NAVWAR HQ fit the program office of record; in-service engineering tasks through NIWC Pacific belong to a technical-center division. Upgraded 2026-09-16: the draft-RFP notice for the vehicle's solicitation names PMW 160; the NIWC Pacific in-service rows remain a caution for ADNS sustainment tasks.",
     "review": {
       "status": "reviewed",
       "by": "assistant draft for Saksham's review",
@@ -691,11 +716,11 @@
     "program_offices": [
       "pmw:101"
     ],
-    "owner_summary": "Modification text says only 'DE-OBLIGATION'; the base order (2019-03-04) reads 'MIDS JTRS MMI2', a PMA/PMW 101 program",
+    "owner_summary": "MIDS Program Office (MPO), today PMA/PMW 101, with PEO Tactical Aircraft Programs named as co-sponsor in 2014: MIDS JTRS terminals",
     "ancestry": [
-      "PMW -> PEO C4I -> NAVWAR -> Department of the Navy (to 2026-05-10)"
+      "MIDS Program Office -> PEO C4I (Navy) and PEO(T) (NAVAIR) co-sponsorship in 2014 -> today PMA/PMW 101 under PEO C4I"
     ],
-    "evidence_class": "inferred",
+    "evidence_class": "directly_documented",
     "evidence": [
       {
         "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003919F9520&start=0",
@@ -708,10 +733,16 @@
         "observed_at": "2025-01-31",
         "passage": "PMA/PMW 101 is comprised of the MIDS International Program Office (IPO), MIDS Joint Tactical Radio Systems (JTRS), Advanced Tactical Data Links, and the Link 16 Waveform Programs",
         "document": "PMA/PMW 101 tear sheet"
+      },
+      {
+        "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/1f7726c51459f5b07b87e730b9da0a1b?api_key=null",
+        "observed_at": "2014-01-21",
+        "passage": "SPAWAR, on behalf of the Program Executive Office Tactical Aircraft Programs (PEO-T) and the Multifunctional Information Distribution System (MIDS) Program Office (MPO) intends to issue a Request for Proposal (RFP) which would result in sole source IDIQ contracts to Data Link Solutions and ViaSat",
+        "document": "SAM.gov Presolicitation for N00039-14-R-0021, posted 2014-01-21"
       }
     ],
     "counterevidence": "none",
-    "notes": "Process point: a modification is attributed through its base award, never from the modification text alone.",
+    "notes": "Process point: a modification is attributed through its base award, never from the modification text alone. Upgraded 2026-09-16: the 2014 presolicitation for N00039-14-R-0021 names the MIDS Program Office and PEO(T); the joint PMA/PMW designation reflects that dual sponsorship.",
     "review": {
       "status": "reviewed",
       "by": "assistant draft for Saksham's review",
@@ -732,12 +763,14 @@
       "code": "N00039",
       "name": "NAVAL INFORMATION WARFARE SYSTEMS (FPDS fundingRequestingOfficeID)"
     },
-    "program_offices": [],
-    "owner_summary": "Base description 'GPNTS SOFTWARE SUPPORT SERVICES'; GPNTS is a GPS-based positioning, navigation and timing system, which matches PMW/A 170's stated mission area but no retrieved official document names the office for GPNTS",
-    "ancestry": [
-      "candidate: PMW/A 170 -> PEO C4I -> NAVWAR"
+    "program_offices": [
+      "pmw:170"
     ],
-    "evidence_class": "ambiguous",
+    "owner_summary": "PMW/A 170 Communications and GPS Navigation: GPS-based Positioning, Navigation and Timing Service (GPNTS) software support IDIQ",
+    "ancestry": [
+      "PMW/A 170 -> PEO C4I -> SPAWAR (2019) / NAVWAR -> Department of the Navy"
+    ],
+    "evidence_class": "directly_documented",
     "evidence": [
       {
         "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003920D0021&start=0",
@@ -750,13 +783,22 @@
         "observed_at": "2025-01-31",
         "passage": "PMW/A 170's mission is to be the premier provider of advanced, resilient, and adaptive communication and assured position, navigation, and timing capabilities",
         "document": "PMW/A 170 tear sheet"
+      },
+      {
+        "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/c85e5bca65f2abcd78d839725a27eef8?api_key=null",
+        "observed_at": "2019-01-08",
+        "passage": "SPAWARSYSCOM, in support of the Program Executive Office for Command, Control, Communications, Computers, and Intelligence (PEO C4I), Communications and GPS Navigation Program Office (PMW/A 170), releases Request For Proposal (RFP) N00039-19-R-0005 for procurement of the Global Positioning System (GPS)-based Positioning, Navigation, and Timing Service",
+        "document": "SAM.gov Presolicitation for N00039-19-R-0005, posted 2019-01-08"
+      },
+      {
+        "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/216ee349ef594307886806be01a823cd?api_key=null",
+        "observed_at": "2019-12-03",
+        "passage": "NAVWARSYSCOM, in support of ... (PEO C4I), Communications and GPS Navigation Program Office (PMW/A 170), awarded one (1) indefinite-delivery indefinite-quantity (IDIQ) contract for the Global Positioning System (GPS)-based Positioning, Navigation, and Timing Service",
+        "document": "SAM.gov Award Notice for N00039-19-R-0005, posted 2019-12-03"
       }
     ],
-    "counterevidence": "the tear sheet describes a capability area, not the GPNTS program by name",
-    "candidates": [
-      "pmw:170"
-    ],
-    "notes": "Ambiguous by rule: a functional match between a program name and an office mission is candidate generation, not ownership evidence. Resolution path: the PMW/A 170 program list on the official site (blocked host) or a SAM notice naming the office.",
+    "counterevidence": "none",
+    "notes": "Ambiguous by rule: a functional match between a program name and an office mission is candidate generation, not ownership evidence. Resolution path: the PMW/A 170 program list on the official site (blocked host) or a SAM notice naming the office. Resolved 2026-09-16: both the RFP notice (2019-01-08) and the award notice (2019-12-03) for N00039-19-R-0005 name PMW/A 170. This was the ambiguous case; the solicitation notice resolved it exactly as the process predicted.",
     "review": {
       "status": "reviewed",
       "by": "assistant draft for Saksham's review",
@@ -803,7 +845,7 @@
       "forecast_pid": "N00039-25-RFPREQ-C4IEXEC-0014"
     },
     "counterevidence": "none",
-    "notes": "Portfolio-level owner. The resolver must stop at PEO C4I here rather than pick PMW 750 or PMW 760 because the work is integration for the portfolio; the LRAE names the front office explicitly.",
+    "notes": "Portfolio-level owner. The resolver must stop at PEO C4I here rather than pick PMW 750 or PMW 760 because the work is integration for the portfolio; the LRAE names the front office explicitly. SAM.gov search for the order's solicitation number returned no notice (SeaPort-NxG task-order competitions are not posted on SAM.gov).",
     "review": {
       "status": "reviewed",
       "by": "assistant draft for Saksham's review",
@@ -845,7 +887,8 @@
       "status": "reviewed",
       "by": "assistant draft for Saksham's review",
       "date": "2026-09-16"
-    }
+    },
+    "notes": "SAM.gov search for the order's solicitation number returned no notice (SeaPort-NxG task-order competitions are not posted on SAM.gov)."
   },
   {
     "id": "EX19",

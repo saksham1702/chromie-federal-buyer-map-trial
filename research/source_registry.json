@@ -864,7 +864,7 @@
     "publication_frequency": "real time",
     "reporting_lag": "none",
     "access_mode": "api",
-    "access_restrictions": "personal api.data.gov key required (not yet available in this environment); daily request limits",
+    "access_restrictions": "host api.sam.gov returned HTTP 404 with an empty body for every path from this network and from a second egress on 2026-09-16 (root, v1, v2, v3, entity API); the documentation says keys are issued from a SAM.gov account's Account Details page, so an api.data.gov key would not be accepted even if the host answered",
     "extraction_difficulty": "low (JSON); attachments are PDFs/DOCX",
     "answers": [
       "notice text and attachments that name the requiring office",
@@ -876,12 +876,12 @@
     "proposed_monitor_frequency": "hourly for watched offices once a key is available",
     "inspected_example": {
       "url": "https://api.sam.gov/opportunities/v2/search",
-      "retrieved_at": null,
-      "method": null,
+      "retrieved_at": "2026-09-16",
+      "method": "direct",
       "sha256": null,
-      "note": "requires the user's own api.data.gov key; Chromie's production key is not used for the trial"
+      "note": "HTTP 404, empty body, server istio-envoy, with and without a key"
     },
-    "verification_status": "restricted"
+    "verification_status": "blocked"
   },
   {
     "last_verified_at": "2026-09-16",
@@ -899,7 +899,7 @@
       "amendments",
       "vendor Q&A"
     ],
-    "historical_coverage": "NAVWAR moved solicitations here from NAVWAR eCommerce (date not yet verified)",
+    "historical_coverage": "NAVWAR notices posted in 2026 (NILE ISS 6 RFI, AINTS presolicitation) attach no files on SAM.gov, only a 'PIEE Solicitation Module Link for <solicitation>' plus PIEE registration and training links",
     "publication_frequency": "real time",
     "reporting_lag": "none",
     "access_mode": "manual",
@@ -917,7 +917,7 @@
       "retrieved_at": "2026-09-16",
       "method": "direct",
       "sha256": "f52f63ca15cd5609fcf192fe18d83d838218c1692d8e193e24922aef8d9b2441",
-      "note": "official access-instructions PDF (TLS chain is DoD PKI; fetched with verification off and recorded)"
+      "note": "official access-instructions PDF (TLS chain is DoD PKI; fetched with verification off and recorded); SAM.gov attachment lists for two 2026 NAVWAR notices contain only PIEE links (resources JSON retrieved 2026-09-16)"
     },
     "verification_status": "restricted"
   },
@@ -1200,6 +1200,53 @@
       "note": "listing inspected (36 files); no yearly file downloaded yet"
     },
     "verification_status": "not_inspected",
+    "last_verified_at": "2026-09-16"
+  },
+  {
+    "source_key": "sam_gov_site_api",
+    "provider_name": "SAM.gov site API (opps v2/v3 and sgs search, keyless)",
+    "official_url": "https://sam.gov/api/prod/opps/v2/opportunities/{noticeId}?api_key=null",
+    "responsible_org": "GSA (SAM.gov); the JSON endpoints behind the SAM.gov web application",
+    "lifecycle_stages": [
+      "active_acquisition",
+      "award"
+    ],
+    "fields_and_identifiers": [
+      "notice id",
+      "solicitationNumber",
+      "type",
+      "postedDate",
+      "organizationId",
+      "pointOfContact (name, email, type)",
+      "description[].body (full text)",
+      "attachments (resourceId, name, size, mimeType) via /opps/v3/opportunities/{id}/resources",
+      "download via /opps/v3/opportunities/resources/files/{resourceId}/download",
+      "search: /sgs/v1/search/?index=opp&q=<solicitation number>&is_active=false (Accept: application/hal+json)"
+    ],
+    "historical_coverage": "archived notices back to at least 2014 returned by search (MIDS JTRS presolicitation 2014-01-21)",
+    "publication_frequency": "real time",
+    "reporting_lag": "none",
+    "access_mode": "api",
+    "access_restrictions": "undocumented but public and keyless (api_key=null, as the SAM.gov site itself sends); Chromie's runner uses the same endpoints; the opps v2 date search requires authentication (401) so discovery goes through sgs search or the daily extract",
+    "extraction_difficulty": "low (JSON); attachments are PDF/DOCX",
+    "answers": [
+      "the requiring office named in the notice text for a solicitation number",
+      "notice lineage and dates back to 2014",
+      "attachments (statements of work) for current notices"
+    ],
+    "cannot_answer": [
+      "SeaPort-NxG task-order competitions (never posted)",
+      "bulk date-range discovery without the extract"
+    ],
+    "proposed_monitor_frequency": "on demand per solicitation number surfaced by FPDS, the LRAE or the daily extract; daily for watched notices",
+    "inspected_example": {
+      "url": "https://sam.gov/api/prod/opps/v2/opportunities/718070f9d4bd4d7f9550c2385e00bb28?api_key=null",
+      "retrieved_at": "2026-09-16",
+      "method": "direct",
+      "sha256": "32a005eec3927b7c0f2c48a2feecec9695695879f529e241440571765f0680e3",
+      "note": "NILE ISS 6 RFI detail with description body naming PEO C4I / PMW 150; 15 solicitation numbers searched, notices found for 6 (2014-2026), none for 9 SeaPort-NxG orders"
+    },
+    "verification_status": "verified",
     "last_verified_at": "2026-09-16"
   }
 ]

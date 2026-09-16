@@ -43,7 +43,7 @@ budget host resets connections, and solicitation documents increasingly sit insi
 | Planned requirements | NAVWAR Commercial Solutions Openings | webpage | verified | page links a SAM notice and the PIEE vendor instructions (wayback, 2026-09-16) | weekly |
 | Planned requirements | SBIR/STTR topics (sbir.gov; DoD SBIR/STTR portal) | webpage | verified | search page reachable; Navy topic sampling deferred (direct, 2026-09-16) | per cycle (three times a year) |
 | Active acquisition | SAM.gov Contract Opportunities public data extract (daily CSV of current notices) | export | verified | 241,486,025 bytes; 47 columns incl. AAC Code, Sol#, Type, PostedDate, AwardNumber; 535 NAVWAR-family notices ( (direct, 2026-09-16) | nightly download and diff on notice id + modified date |
-| Active acquisition | SAM.gov Opportunities API v2 (search, description, attachments) | api | restricted | requires the user's own api.data.gov key; Chromie's production key is not used for the trial | hourly for watched offices once a key is available |
+| Active acquisition | SAM.gov Opportunities API v2 (search, description, attachments) | api | blocked | HTTP 404, empty body, server istio-envoy, with and without a key (direct, 2026-09-16) | hourly for watched offices once a key is available |
 | Active acquisition | PIEE Solicitation Module (replaced NAVWAR eCommerce) | manual | restricted | official access-instructions PDF (TLS chain is DoD PKI; fetched with verification off and recorded) (direct, 2026-09-16) | not automated; rely on SAM synopses and record the gap |
 | Active acquisition | SeaPort-NxG portal (Navy services vehicle) | manual | blocked | connection failed (HTTP 000) on every attempt | not automated; awards tracked through FPDS referenced IDVs |
 | Awards and execution | FPDS ATOM public feed | api | verified | 10 actions; funding offices N00039 and N00024 (NAVSEA HQ); descriptions such as 'LTS/CLTS PRODUCTION AND SUSTA (direct, 2026-09-16) | daily pull per contracting office since last signed date |
@@ -52,6 +52,7 @@ budget host resets connections, and solicitation documents increasingly sit insi
 | Awards and execution | GAO bid protest decisions and docket | webpage | blocked | blocked (HTTP 403); Chromie's existing pursuit-intelligence runner already covers GAO | weekly |
 | Organization and ownership | Internet Archive Wayback Machine (dated copies of official pages) | api | verified | 2026-05-19 capture shows the PAE Mission Systems front page (wayback, 2026-09-16) | on demand |
 | Active acquisition | SAM.gov Contract Opportunities archived yearly extracts (FYxxxx_archived_opportunities.csv) | export | not_inspected | listing inspected (36 files); no yearly file downloaded yet (direct, 2026-09-16) | quarterly re-pull of the two most recent fiscal years |
+| Active acquisition | SAM.gov site API (opps v2/v3 and sgs search, keyless) | api | verified | NILE ISS 6 RFI detail with description body naming PEO C4I / PMW 150; 15 solicitation numbers searched, notice (direct, 2026-09-16) | on demand per solicitation number surfaced by FPDS, the LRAE or the da |
 
 ## How the sources connect
 
@@ -89,7 +90,8 @@ flow from that line to a specific contract is not observable.
 | Open, direct | USAspending API, FPDS ATOM, SAM public extract listing, govinfo, congress.gov, Federal Register, DVIDS, paemaritime.navy.mil, ONR, IT Dashboard, sbir.gov, PIEE landing, DoD contracts RSS | no key or a free api.data.gov key |
 | Akamai bot protection (HTTP 403 to curl and headless Chrome) | navwar, peoc4i, navsea, navair, niwc, navy.mil, defense.gov pages, gao.gov | Wayback captures used; a WARP-off session or Browserbase is the live fallback |
 | Firewall resets | secnav.navy.mil (budget library, OSBP) | one direct fetch of the FY2027 page succeeded; the Wayback crawler receives "Request Rejected" stubs; manual queue |
-| Login or key required | SAM Opportunities API (key), PIEE Solicitation Module (vendor login), SeaPort-NxG (vehicle holder) | recorded as `restricted` or `blocked`; SAM synopses and FPDS awards stand in |
+| Login or key required | PIEE Solicitation Module (vendor login), SeaPort-NxG (vehicle holder) | recorded as `restricted` or `blocked`; SAM synopses and FPDS awards stand in |
+| Documented host dead | api.sam.gov (Opportunities public API): 404 from two networks; its keys come from a SAM.gov account, not api.data.gov | the keyless SAM.gov site API (notice detail, description, attachments, archived search) replaces it |
 
 ## Cadence and lag
 

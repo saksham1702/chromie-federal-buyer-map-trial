@@ -4,7 +4,7 @@
     "requirement": "PMW 160 Engineering Support Services follow-on (PEO C4I ESS for the Tactical Networks program office)",
     "program_office": "pmw:160",
     "cutoff_date": "2026-05-05",
-    "cutoff_basis": "day before the follow-on award N0003926FG001 was signed (2026-05-06); the task order was competed inside SeaPort-NxG, so no public RFI or solicitation notice exists on SAM.gov for it (to be confirmed against the SAM extract)",
+    "cutoff_basis": "day before the follow-on award N0003926FG001 was signed (2026-05-06); the task order was competed inside SeaPort-NxG, so no public RFI or solicitation notice exists on SAM.gov for it (confirmed: a SAM.gov search for the solicitation number returns no notice)",
     "evidence": [
       {
         "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
@@ -120,6 +120,11 @@
         "available_by": "2019-10-01",
         "what": "incumbent contract N0003919C0002 (BAE) signed 2019-07-03, period of performance to 2025-09-30; funding office N00024 NAVSEA HQ",
         "basis": "FPDS publication lag for DoD (about 90 days) added to the signed date"
+      },
+      {
+        "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/83f41b3f3f6d536077c852ab8de75fc8?api_key=null",
+        "available_by": "2019-07-03",
+        "what": "2019 J&A for the incumbent contract's solicitation N00039-19-R-0002 names the requiring office: PEO Submarines, Maritime Surveillance Systems Program Office (PMS 485), sole source to BAE for SURTASS LTS/CLTS production and support"
       }
     ],
     "prediction_as_of_cutoff": {
@@ -167,6 +172,16 @@
         "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMA%20PMW%20101_Tear%20Sheet_v01312025.pdf",
         "available_by": "2025-01-31",
         "what": "PMA/PMW 101 tear sheet: the office develops, produces and sustains MIDS-LVT and MIDS JTRS terminals"
+      },
+      {
+        "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/02ba61d02f4a6a909ee42c090ede2e0e?api_key=null",
+        "available_by": "2014-12-17",
+        "what": "presolicitation for the incumbent IDIQs (N00039-15-R-0222) names the MIDS International Program Office; multiple firm-fixed-price IDIQs for MIDS-LVT production"
+      },
+      {
+        "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/61573419406300f1fa976204736ca24b?api_key=null",
+        "available_by": "2015-08-24",
+        "what": "award notices for the two 2015 MIDS-LVT IDIQs (ten-year vehicles by their FPDS ordering period), so a recompete around 2025 was inferable a decade ahead"
       }
     ],
     "prediction_as_of_cutoff": {
@@ -196,7 +211,7 @@
     "requirement": "PEO C4I engineering support for PMW 160, the 2021 recompete (N0003922F3000)",
     "program_office": "pmw:160",
     "cutoff_date": "2021-06-30",
-    "cutoff_basis": "end of FY21 Q3, before the solicitation N0003921R3015 (its posting date is to be confirmed from the SAM extract) and before the 2021-10-26 award",
+    "cutoff_basis": "end of FY21 Q3, before the solicitation N0003921R3015 (a SAM.gov search for that solicitation number returns no notice, consistent with a SeaPort-NxG task-order competition) and before the 2021-10-26 award",
     "evidence": [
       {
         "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003917F3000&start=0",
@@ -296,8 +311,8 @@
     },
     "actual_event": {
       "date": "2026-01-29",
-      "what": "Sources Sought notice N0003926RE013 'NILE IN SERVICE SUPPORT (ISS) 6 ENGINEERING SERVICES RFI' posted by NAVWAR HQ (AAC N00039), notice id 718070f9d4bd4d7f9550c2385e00bb28",
-      "source_url": "https://sam.gov/api/prod/fileextractservices/v1/api/download/Contract%20Opportunities/datagov/ContractOpportunitiesFullCSV.csv?privacy=Public",
+      "what": "Sources Sought N0003926RE013 'NILE IN SERVICE SUPPORT (ISS) 6 ENGINEERING SERVICES RFI' posted by NAVWAR HQ; the notice text names 'PEO C4I, Navy Command and Control Program Office (PMW 150), in conjunction with the NATO Improved Link Eleven Project Management Office'",
+      "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/718070f9d4bd4d7f9550c2385e00bb28?api_key=null",
       "observed_at": "2026-09-16"
     },
     "comparison": {
@@ -338,8 +353,8 @@
     },
     "actual_event": {
       "date": "2026-07-31",
-      "what": "Presolicitation N0003926RE014 'Egyptian Navy Autonomous INTelligence System (AINTS) Platform Integration' posted by NAVWAR HQ (AAC N00039), notice id 64f0d3726ec24750811dfb0658da5d44",
-      "source_url": "https://sam.gov/api/prod/fileextractservices/v1/api/download/Contract%20Opportunities/datagov/ContractOpportunitiesFullCSV.csv?privacy=Public",
+      "what": "Presolicitation N0003926RE014 'Egyptian Navy Autonomous INTelligence System (AINTS) Platform Integration' posted by NAVWAR HQ; the notice text names 'PEO C4I International Integration Program Office (PMW 740)'",
+      "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/64f0d3726ec24750811dfb0658da5d44?api_key=null",
       "observed_at": "2026-09-16"
     },
     "comparison": {

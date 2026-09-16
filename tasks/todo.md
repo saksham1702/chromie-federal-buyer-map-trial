@@ -50,5 +50,5 @@ Plan: ~/.claude/plans/eager-hopping-rivest.md (approved 2026-09-16). Branch: tri
 - [ ] optional 1h: replay the 19 examples through prod `resolve_program_office()` offline
 
 ## Needs from Saksham
-- [ ] personal api.data.gov key for SAM Opportunities API (attachments only)
+- [x] api.data.gov key received and stored in .env; SAM itself is served by the keyless site API (api.sam.gov host dead), so the key is only for other api.data.gov services
 - [ ] WARP-off window when the blocked-URL batch is ready

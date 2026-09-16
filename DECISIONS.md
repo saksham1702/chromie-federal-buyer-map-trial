@@ -107,3 +107,13 @@ archive capture timestamp when the page is undated, or for FPDS records the sign
 90 days of DoD publication lag. Later documents are recorded as post-cutoff checks, never as
 evidence. The validator enforces the date rule and the rule that every cited evidence URL has a
 fetched, hashed manifest row.
+
+## 2026-09-16 - SAM.gov notices come from the keyless site API, not the documented public API
+
+The documented Opportunities API host (api.sam.gov) returned HTTP 404 with an empty body for
+every path from two different networks, and its documentation issues keys from a SAM.gov
+account, not api.data.gov. The JSON endpoints behind the SAM.gov web application
+(`/api/prod/opps/v2/opportunities/{id}`, `/opps/v3/.../resources`, `/sgs/v1/search/`) answer
+without a key, return full description text and attachments, and reach archived notices back to
+2014; Chromie's runner already uses them. Saksham's api.data.gov key is kept in the ignored
+`.env` for other api.data.gov-fronted services (govinfo, congress.gov) and is not sent to SAM.

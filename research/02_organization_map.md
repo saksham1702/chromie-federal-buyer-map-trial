@@ -72,6 +72,7 @@ SHARKCAGE -> PMW 130; force-level platform integration -> PMW 750/760.
 | LRAE requirement-office column and PID numbers | `PMW-160`, `PMW/A-170`, `PMA/PMW-101`, plus `C4IEXEC` / `PEO-C4I` for the front office | alias table in the seed graph |
 | FPDS and USAspending descriptions | `PMW 160`, `PMW/A 170`, `PEOC4I`, `PEO C4I`, `PROGRAM MANAGER, WARFARE TACTICAL NETWORKS (PMW 160)` | regex over the alias table; PEO-level mentions resolve to the portfolio, not an office |
 | Office names over time | PMW 150 "Navy" vs "Naval" Command and Control Systems; PMW 790 with and without "Tactical" | both names kept with dates |
+| SAM.gov notice text | "Navy Command and Control Program Office (PMW 150)", "International Integration Program Office (PMW 740)", "MIDS International Program Office (IPO)", "Naval Enterprise Networks Program Office (PMW 205)" | first-sentence office names; IPO/MPO map to PMA/PMW 101, NEN to PMW 205 |
 | PEO Digital and PEO MLB in the LRAE | `Pf007NERP`, `Pf004MNHR`, `Pf005NABS`, `Pf008MLBFO`, `Digital TD`, `PEO-MLB`, `PCE` instead of PMW codes | recorded as HQ/PEO codes; office-level crosswalk needs the PEO Digital and PEO MLB pages (blocked hosts, manual queue) |
 | NIWC requirement offices | `LSUBP000xx - <division> - NIWCLANT`, `NP-xxxxx - <competency> - NIWCPAC` | technical-center divisions, never program offices |
 | Contracting offices | `N00039 - NAVWAR` (LRAE), `NAVAL INFORMATION WARFARE SYSTEMS` (FPDS), `N00039` (PIID prefix) | one node with all three |
@@ -84,7 +85,7 @@ SHARKCAGE -> PMW 130; force-level platform integration -> PMW 750/760.
 - Office-level detail of what moved into PAE Mission Systems; the release lists organizations,
   not program offices.
 - NIWC Pacific and Atlantic division inventories beyond the codes observed in the LRAE.
-- PMS 485's parent (a NAVSEA program office appearing in the NAVWAR LRAE; not asserted).
+- PMS 485's current parent after the 2026 reorganization (the 2019 J&A places it under PEO Submarines, NAVSEA).
 
 ## 5. Maintaining the map when the Navy changes
 

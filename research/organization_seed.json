@@ -353,19 +353,26 @@
     {
       "id": "pms:485",
       "type": "program_office",
-      "name": "PMS 485",
+      "name": "PMS 485 Maritime Surveillance Systems Program Office",
       "evidence": [
         {
           "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
           "observed_at": "2025-06-19",
           "access": "wayback capture 20260108121536",
           "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        },
+        {
+          "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/83f41b3f3f6d536077c852ab8de75fc8?api_key=null",
+          "observed_at": "2019-07-03",
+          "passage": "engineering services, material, travel, and provisioned items orders for spares under the Program Executive Office Submarines (PEO SUB), Maritime Surveillance Systems (MSS) Program Office (PMS 485)"
         }
       ],
       "aliases": [
-        "PMS-485"
+        "PMS-485",
+        "Maritime Surveillance Systems (MSS) Program Office",
+        "SURTASS program office"
       ],
-      "notes": "appears as 'Associated Program or Requirement Office' on NAVWAR LRAE rows contracted by N00039 (e.g. CLTS-25 production, existing contract N0003919C0002, incumbent BAE); parent not asserted here"
+      "notes": "named with its PEO in the 2019 J&A for N00039-19-R-0002; appears as requirement office on NAVWAR LRAE rows contracted by N00039"
     },
     {
       "id": "pmw:101",
@@ -392,6 +399,16 @@
           "observed_at": "2025-06-19",
           "access": "wayback capture 20260108121536",
           "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        },
+        {
+          "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/02ba61d02f4a6a909ee42c090ede2e0e?api_key=null",
+          "observed_at": "2014-12-17",
+          "passage": "The Space and Naval Warfare Systems Command (SPAWAR), on behalf of the Multifunctional Information Distribution System (MIDS) International Program Office (IPO), plans to award one or more firm fixed price IDIQ contracts for production of MIDS Low Volume Terminals (LVT), spares and engineering services."
+        },
+        {
+          "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/1f7726c51459f5b07b87e730b9da0a1b?api_key=null",
+          "observed_at": "2014-01-21",
+          "passage": "SPAWAR, on behalf of the Program Executive Office Tactical Aircraft Programs (PEO-T) and the Multifunctional Information Distribution System (MIDS) Program Office (MPO) intends to issue a Request for Proposal (RFP) which would result in sole source IDIQ contracts to Data Link Solutions and ViaSat"
         }
       ],
       "codes": {
@@ -400,8 +417,11 @@
       "aliases": [
         "PMA/PMW-101",
         "PMW 101",
-        "PMA 101"
-      ]
+        "PMA 101",
+        "MIDS International Program Office (IPO)",
+        "MIDS Program Office (MPO)"
+      ],
+      "notes": "joint PMA/PMW designation: 2014 notice names PEO Tactical Aircraft Programs (NAVAIR) as co-sponsor with the MIDS Program Office"
     },
     {
       "id": "pmw:120",
@@ -502,6 +522,11 @@
           "observed_at": "2023-05-23",
           "access": "wayback capture 20251231160016",
           "passage": "PEO C4I's 11 program offices include Multifunctional Information Distribution System (PMW/A 101), Battlespace Awareness and Information Operations (PMW 120), Cybersecurity (PMW 130), Navy Command and Control Systems (PMW 150), Tactical Networks (PMW 160), ... Shore and Expeditionary Integration (PMW 790)"
+        },
+        {
+          "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/718070f9d4bd4d7f9550c2385e00bb28?api_key=null",
+          "observed_at": "2026-01-29",
+          "passage": "The Naval Information Warfare Systems Command (NAVWAR) Program Executive Office Command, Control, Communications, Computers, and Intelligence (PEO C4I), Navy Command and Control Program Office (PMW 150), in conjunction with the NATO Improved Link Eleven Project Management Office (NILE PMO) are conducting ..."
         }
       ],
       "codes": {
@@ -542,6 +567,11 @@
           "observed_at": "2025-06-19",
           "access": "wayback capture 20260108121536",
           "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        },
+        {
+          "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/37f5601517acff08348093c104e0fac3?api_key=null",
+          "observed_at": "2016-03-01",
+          "passage": "SPAWAR, in support of the Program Executive Office - Command, Control, Communications, Computers and Intelligence (PEO- C4I), Tactical Networks Program Office (PMW 160), ... has released draft Request for Proposal (RFP) number N00039-16-R-0028 for the procurement of Automated Digital Network System (ADNS) Increment III"
         }
       ],
       "codes": {
@@ -576,6 +606,11 @@
           "observed_at": "2025-06-19",
           "access": "wayback capture 20260108121536",
           "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        },
+        {
+          "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/c85e5bca65f2abcd78d839725a27eef8?api_key=null",
+          "observed_at": "2019-01-08",
+          "passage": "SPAWARSYSCOM, in support of the Program Executive Office for Command, Control, Communications, Computers, and Intelligence (PEO C4I), Communications and GPS Navigation Program Office (PMW/A 170), releases Request For Proposal (RFP) N00039-19-R-0005 for procurement of the Global Positioning System (GPS)-based Positioning, Navigation, and Timing Service"
         }
       ],
       "codes": {
@@ -611,6 +646,11 @@
           "observed_at": "2025-06-19",
           "access": "wayback capture 20260108121536",
           "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        },
+        {
+          "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/64f0d3726ec24750811dfb0658da5d44?api_key=null",
+          "observed_at": "2026-07-31",
+          "passage": "The Naval Information Warfare Systems Command (NAVWAR) HQ, in support of the Program Executive Office (PEO) Command, Control, Communications, Computers, and Intelligence (C41) International Integration Program Office (PMW 740) intends to issue Request for Proposal (RFP) N0003926RE014 to procure Autonomous INTelligence System (AINTS) platforms"
         }
       ],
       "codes": {
@@ -951,10 +991,12 @@
     {
       "id": "office:nen",
       "type": "program_office",
-      "name": "Naval Enterprise Networks (NEN) Program Office",
+      "name": "PMW 205 Naval Enterprise Networks Program Office",
       "aliases": [
         "NEN",
-        "PMW 205 (code not yet verified against an official page)"
+        "PMW 205",
+        "PMW-205",
+        "Naval Enterprise Networks Program Office"
       ],
       "evidence": [
         {
@@ -962,9 +1004,17 @@
           "observed_at": "2021-04-01",
           "access": "wayback capture 20260519123243",
           "passage": "In May 2020 ... PEO EIS was disestablished to make way for two new PEOs, PEO Digital and Enterprise Services (PEO Digital) and PEO Manpower, Logistics and Business Solutions (PEO MLB). ... 2020 NEN awarded the NGEN Re-Compete Service Management, Integration and Transport (SMIT) contract"
+        },
+        {
+          "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/bd4813b9840d7c650054cdd3551d07e6?api_key=null",
+          "observed_at": "2019-01-17",
+          "passage": "The Space and Naval Warfare Systems Command (SPAWAR), on behalf of the Navy Program Executive Office for Enterprise Information Systems (PEO EIS), the Naval Enterprise Networks Program Office (PMW 205), and the United States Marine Corps (USMC) is announcing the release of the FINAL Service Management, Integration and Transport (SMIT) ..."
         }
       ],
-      "notes": "official PEO Digital article: 'NEN awarded the NGEN Re-Compete Service Management, Integration and Transport (SMIT) contract' (2020); PEO EIS office until May 2020, PEO Digital afterwards"
+      "notes": "office code confirmed by the 2019 SMIT presolicitation; PEO EIS office until May 2020, PEO Digital afterwards",
+      "codes": {
+        "office_code": "PMW 205"
+      }
     },
     {
       "id": "person:rothenhaus",
@@ -979,6 +1029,23 @@
         }
       ],
       "notes": "public official role only; PEO C4I Commander as quoted in May 2023"
+    },
+    {
+      "id": "peo:submarines",
+      "type": "program_executive_office",
+      "name": "Program Executive Office Submarines",
+      "aliases": [
+        "PEO SUB",
+        "PEO Submarines"
+      ],
+      "evidence": [
+        {
+          "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/83f41b3f3f6d536077c852ab8de75fc8?api_key=null",
+          "observed_at": "2019-07-03",
+          "passage": "engineering services, material, travel, and provisioned items orders for spares under the Program Executive Office Submarines (PEO SUB), Maritime Surveillance Systems (MSS) Program Office (PMS 485)"
+        }
+      ],
+      "notes": "NAVSEA PEO named as PMS 485's parent in the 2019 J&A; current placement after the 2026 PAE reorganization not asserted"
     }
   ],
   "edges": [
@@ -1855,6 +1922,19 @@
           "passage": "PEO C4I's 11 program offices include Multifunctional Information Distribution System (PMW/A 101), Battlespace Awareness and Information Operations (PMW 120), Cybersecurity (PMW 130), Navy Command and Control Systems (PMW 150), Tactical Networks (PMW 160), ... Shore and Expeditionary Integration (PMW 790)"
         }
       ]
+    },
+    {
+      "from": "pms:485",
+      "to": "peo:submarines",
+      "type": "child_of",
+      "evidence": [
+        {
+          "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/83f41b3f3f6d536077c852ab8de75fc8?api_key=null",
+          "observed_at": "2019-07-03",
+          "passage": "engineering services, material, travel, and provisioned items orders for spares under the Program Executive Office Submarines (PEO SUB), Maritime Surveillance Systems (MSS) Program Office (PMS 485)"
+        }
+      ],
+      "notes": "as of 2019-07-03"
     }
   ]
 }

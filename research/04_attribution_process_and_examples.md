@@ -9,10 +9,11 @@ table below is generated from that file.
 A contract record almost never says outright which program office owns the need. NAVWAR's
 contracting office code appears on every action, but it serves three PEOs, a NAVSEA program
 office and NAVWAR's own headquarters, so the code alone narrows nothing. The description text
-does carry the answer often (about half of the sampled actions name a PMW), the Long-Range
-Acquisition Estimate names the requirement office for the follow-on of many existing contracts,
-and tear sheets map program names to offices. The process below applies those sources in a fixed
-order and records how strong the result is, including when it is "we do not know".
+does carry the answer often (about half of the sampled actions name a PMW), the SAM.gov notice
+for the action's solicitation almost always names the office in its first sentence, the
+Long-Range Acquisition Estimate names the requirement office for the follow-on of many existing
+contracts, and tear sheets map program names to offices. The process below applies those sources
+in a fixed order and records how strong the result is, including when it is "we do not know".
 
 ## 1. The repeatable process
 
@@ -31,21 +32,27 @@ order and records how strong the result is, including when it is "we do not know
    `directly_documented`. Lists of several offices yield a multi-office result with a primary and
    supporting offices; unknown tokens stay unresolved inside it (EX07). A PEO-level mention
    ("PEO C4I") resolves to the portfolio or its front office, not to a PMW (EX17).
-4. **Check the LRAE.** Match the contract number against the LRAE "Existing Contract Number"
+4. **Read the SAM.gov notice for the action's solicitation number.** NAVWAR's presolicitations,
+   RFPs, J&As and award notices open with "in support of PEO C4I, <office name> (PMW xxx)"; the
+   notice is an official record of the same action, so a match is `directly_documented` (EX09,
+   EX12-EX16). SAM.gov's site API returns notices back to at least 2014 by solicitation number.
+   Task orders competed inside SeaPort-NxG have no SAM.gov notice (nine solicitation numbers
+   checked, none found), so this step yields nothing for them.
+5. **Check the LRAE.** Match the contract number against the LRAE "Existing Contract Number"
    column and read the "Associated Program or Requirement Office" of the follow-on row. Because
    the LRAE is an estimate about a future requirement, it corroborates rather than documents:
    the result is `inferred` unless the award text also names the office (EX08, EX09, EX13).
-5. **Map program names through official tear sheets.** "CANES", "ADNS", "MIDS-LVT", "NMT" map to
+6. **Map program names through official tear sheets.** "CANES", "ADNS", "MIDS-LVT", "NMT" map to
    offices through the tear sheet that lists them as the office's programs. Result: `inferred`,
    with counterevidence recorded when another organization also holds requirements for the same
    program (EX14). A functional match (a program's purpose fits an office's mission) is
    `ambiguous`, not inferred (EX16).
-6. **Date the ancestry.** The office's parent chain is read from the seed graph as of the
+7. **Date the ancestry.** The office's parent chain is read from the seed graph as of the
    action date: PEO C4I under NAVWAR until 2026-05-10, consolidated into PAE Mission Systems from
    2026-05-11; PEO EIS offices moved to PEO Digital or PEO MLB in May 2020 (EX12, EX13).
    Descriptions are re-authored at modification time, so the organization name in a description
    never dates anything (EX02).
-7. **Record the result** with the quoted passages, document, observation date, evidence class,
+8. **Record the result** with the quoted passages, document, observation date, evidence class,
    counterevidence, and, when unresolved, what would resolve it (EX19). Every record goes to a
    reviewer when the class is `inferred`, `ambiguous` or `unresolved`.
 
@@ -53,9 +60,9 @@ order and records how strong the result is, including when it is "we do not know
 
 | Class | Meaning | Examples |
 | --- | --- | --- |
-| `directly_documented` | an official record of the action names the office or its code | EX01-EX07, EX10, EX11, EX17, EX18 |
-| `inferred` | the office is named only in a corroborating official document (LRAE row for the follow-on, tear sheet program list, an official article naming the awarding office) | EX08, EX09, EX12-EX15 |
-| `ambiguous` | candidates exist but no official document ties the program to an office | EX16 |
+| `directly_documented` | an official record of the action (award description, or the SAM.gov notice for the action's solicitation) names the office or its code | EX01-EX07, EX09-EX18 |
+| `inferred` | the office is named only in a corroborating official document (LRAE row for the follow-on, tear sheet program list) | EX08 |
+| `ambiguous` | candidates exist but no official document ties the program to an office | none remaining (EX16 was ambiguous until the solicitation notice was read) |
 | `unresolved` | no owner signal in any retrieved record; recorded with the path to resolution | EX19 |
 
 Things that never establish ownership on their own: contracting office, funding office, vendor,
@@ -67,27 +74,30 @@ vehicle, NAICS, PSC, platform or system name, or a semantic resemblance.
 | --- | --- | --- | --- | --- | --- | --- |
 | EX01 | `N0003922F3000` | Booz Allen Hamilton Inc. | N00039 | pmw:160 | directly_documented | Recorded at order level. The IDV serves many Navy customers and is not attributed. Period of performance ends 2026-10-26 with the follow-on forecast f |
 | EX02 | `N0003917F3000` | Booz Allen Hamilton Inc. | N00039 | pmw:160 | directly_documented | Awarded in 2016 under SPAWAR, yet the current description says 'NAVWAR': descriptions are re-authored at modification time, so the organization name i |
-| EX03 | `N0003920F3016` | Alpha Omega Group LLC | N00039 | pmw:160 | directly_documented | Recurring purchase: the same requirement recompeted to the same vendor; a template for recompete alerts. |
+| EX03 | `N0003920F3016` | Alpha Omega Group LLC | N00039 | pmw:160 | directly_documented | Recurring purchase: the same requirement recompeted to the same vendor; a template for recompete alerts. SAM.gov search for the order's solicitation n |
 | EX04 | `N0003921F3003` | Booz Allen Hamilton Inc. | N00039 | pmw:120 | directly_documented | Same vendor, same vehicle and same contracting office as EX01 and EX05, three different program offices: vendor, vehicle and contracting office cannot |
-| EX05 | `N0003921F3016` | Booz Allen Hamilton Inc. | N00039 | pmw:150 | directly_documented | Program manager changed on 2025-08-19 (Castillejo relieved Jolie); office ownership unchanged. |
-| EX06 | `N0003921F3012` | Highbury Defense Group | N00039 | pmw:170 | directly_documented |  |
-| EX07 | `N0003921F3008` | KOAM Engineering Systems, In | N00039 | pmw:760, pmw:160, pmw:740 | directly_documented | Multi-program case. It must not collapse to PMW 760 alone, and the unresolved 'FRD' component is recorded rather than guessed. |
+| EX05 | `N0003921F3016` | Booz Allen Hamilton Inc. | N00039 | pmw:150 | directly_documented | Program manager changed on 2025-08-19 (Castillejo relieved Jolie); office ownership unchanged. SAM.gov search for the order's solicitation number retu |
+| EX06 | `N0003921F3012` | Highbury Defense Group | N00039 | pmw:170 | directly_documented | SAM.gov search for the order's solicitation number returned no notice (SeaPort-NxG task-order competitions are not posted on SAM.gov). |
+| EX07 | `N0003921F3008` | KOAM Engineering Systems, In | N00039 | pmw:760, pmw:160, pmw:740 | directly_documented | Multi-program case. It must not collapse to PMW 760 alone, and the unresolved 'FRD' component is recorded rather than guessed. SAM.gov search for the  |
 | EX08 | `N0003920F3015` | Science Applications Interna | N00039 | pmw:740 | inferred | Inferred, not directly documented: the office comes from the forecast row for the follow-on and from the office's mission statement, not from the awar |
-| EX09 | `N0003919C0002` | BAE Systems Information and  | N00039 / funded by N00024 | pms:485 | inferred | Hard negative for the pilot portfolio: a NAVWAR HQ contract whose requirement belongs to a NAVSEA program office. The funding office separates systems |
+| EX09 | `N0003919C0002` | BAE Systems Information and  | N00039 / funded by N00024 | pms:485 | directly_documented | Hard negative for the pilot portfolio: a NAVWAR HQ contract whose requirement belongs to a NAVSEA program office. The funding office separates systems |
 | EX10 | `N0003918F1437` | Chenega Professional & Techn | N00039 | pmw:220 | directly_documented | Hard negative for PEO C4I: the same contracting office serves a PEO MLB office. |
 | EX11 | `N0003921F3013` | Falconwood, Inc. | N00039 | pmw:220 | directly_documented | The same vendor holds N0003922F3001, which the LRAE (code PCE, 'PEO Digital Engineering and Logistics Support') places with PEO Digital: one vendor, t |
-| EX12 | `N0003920D0054` | Leidos, Inc. | N00039 | office:nen | inferred | Program-name case resolved through an official article that names the awarding office. Ownership changed parent twice (PEO EIS to PEO Digital in 2020; |
-| EX13 | `N0003915D0042` | Data Link Solutions LLC (com | N00039 | pmw:101 | inferred | Attribution at vehicle level is acceptable here because the IDV is single-purpose (MIDS-LVT), unlike SeaPort-NxG. Modification P00029 (2026-05-14) fal |
-| EX14 | `N0003920F9504` | Serco Inc. | N00039 | pmw:160 | inferred | Program-name inference with recorded counterevidence: production buys of ADNS enclaves through NAVWAR HQ fit the program office of record; in-service  |
-| EX15 | `N0003919F9520 (modification P00019)` | L3 Technologies, Inc. | N00039 | pmw:101 | inferred | Process point: a modification is attributed through its base award, never from the modification text alone. |
-| EX16 | `N0003920D0021` | Raytheon Company | N00039 | none | ambiguous | Ambiguous by rule: a functional match between a program name and an office mission is candidate generation, not ownership evidence. Resolution path: t |
+| EX12 | `N0003920D0054` | Leidos, Inc. | N00039 | office:nen | directly_documented | Program-name case resolved through an official article that names the awarding office. Ownership changed parent twice (PEO EIS to PEO Digital in 2020; |
+| EX13 | `N0003915D0042` | Data Link Solutions LLC (com | N00039 | pmw:101 | directly_documented | Attribution at vehicle level is acceptable here because the IDV is single-purpose (MIDS-LVT), unlike SeaPort-NxG. Modification P00029 (2026-05-14) fal |
+| EX14 | `N0003920F9504` | Serco Inc. | N00039 | pmw:160 | directly_documented | Program-name inference with recorded counterevidence: production buys of ADNS enclaves through NAVWAR HQ fit the program office of record; in-service  |
+| EX15 | `N0003919F9520 (modification P00019)` | L3 Technologies, Inc. | N00039 | pmw:101 | directly_documented | Process point: a modification is attributed through its base award, never from the modification text alone. Upgraded 2026-09-16: the 2014 presolicitat |
+| EX16 | `N0003920D0021` | Raytheon Company | N00039 | pmw:170 | directly_documented | Ambiguous by rule: a functional match between a program name and an office mission is candidate generation, not ownership evidence. Resolution path: t |
 | EX17 | `N0003921F3014` | XST Inc. | N00039 | peo:c4i | directly_documented | Portfolio-level owner. The resolver must stop at PEO C4I here rather than pick PMW 750 or PMW 760 because the work is integration for the portfolio; t |
-| EX18 | `N0003917F3010` | Booz Allen Hamilton Inc. | N00039 | pmw:170 | directly_documented |  |
+| EX18 | `N0003917F3010` | Booz Allen Hamilton Inc. | N00039 | pmw:170 | directly_documented | SAM.gov search for the order's solicitation number returned no notice (SeaPort-NxG task-order competitions are not posted on SAM.gov). |
 | EX19 | `N6523618D8014 (modification P00025)` | Science Applications Interna | N65236 | none | unresolved | Explicit unknown. A large ceiling increase is a meaningful signal even without an owner, so the monitor should still raise it and route it to review. |
 
 Coverage of the set: seven PEO C4I program offices plus the PEO C4I front office
 (PMA/PMW 101, PMW 120, PMW 150, PMW 160, PMW/A 170, PMW 740, PMW 760), two PEO MLB offices, one
-PEO Digital office, one NAVSEA program office, one explicit unknown. Three Booz Allen orders under
+PEO Digital office (PMW 205), one NAVSEA program office (PMS 485, PEO Submarines), one explicit
+unknown. Seventeen of nineteen are directly documented once the solicitation notices are read;
+the one remaining inference (EX08) is a SeaPort-NxG order whose competition never appeared on
+SAM.gov. Three Booz Allen orders under
 one SeaPort-NxG vehicle resolve to three different offices (EX01, EX04, EX05); one Falconwood
 vendor serves PEO MLB and PEO Digital (EX11); one NAVWAR HQ contract is funded by NAVSEA HQ for a
 NAVSEA office (EX09); one order names three offices (EX07); one office changed parent twice while
@@ -107,8 +117,15 @@ from the base award (EX13).
 - NIWC actions attribute to technical-center divisions unless text or funding says otherwise;
   the same program (ADNS) appears both as a PMW 160 production buy and as NIWC Pacific
   in-service engineering work (EX14).
-- Solicitation documents would resolve most `inferred` and `ambiguous` cases; they sit in SAM
-  attachments (API key) or PIEE (login), which is why the manual queue lists those first.
+- SAM.gov notice text resolved every `inferred` and `ambiguous` case that had a notice: six
+  examples moved to `directly_documented` on 2026-09-16 once the site API was used. What remains
+  inferred or unresolved are SeaPort-NxG orders and an NIWC vehicle whose task orders were not
+  pulled. The notices' attachment lists hold no documents, only PIEE Solicitation Module links,
+  so the statement of work itself stays behind the PIEE login; the notice synopsis is what SAM.gov
+  publishes and it is enough to name the office.
+- The documented public API host (api.sam.gov) answered 404 from two networks; the keyless site
+  API that the SAM.gov web application uses (and that Chromie's runner already uses) worked for
+  notice detail, description text, attachment lists and archived search.
 
 ## 5. Replaying through Chromie's resolver
 

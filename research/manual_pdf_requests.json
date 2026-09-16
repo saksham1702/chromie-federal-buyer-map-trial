@@ -63,13 +63,6 @@
     "priority": "low"
   },
   {
-    "url": "https://api.sam.gov/opportunities/v2/search",
-    "document": "SAM.gov Opportunities API key",
-    "reason": "personal api.data.gov key needed for notice descriptions and attachments",
-    "suggested_method": "register a free key at api.data.gov and add it to .env (never commit)",
-    "priority": "high"
-  },
-  {
     "url": "https://www.gao.gov/legal/bid-protests/search",
     "document": "GAO protest decisions naming NAVWAR solicitations",
     "reason": "HTTP 403 to automation",

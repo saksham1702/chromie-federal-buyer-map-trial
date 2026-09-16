@@ -156,7 +156,7 @@ USAspending descriptions write `PMW 160` [J]; PID numbers embed `PMW-160` [I].
 
 | Gap | Effect | Evidence |
 | --- | --- | --- |
-| PIEE Solicitation Module replaced NAVWAR eCommerce for solicitations | Solicitation documents may sit behind a PIEE login while SAM shows only the synopsis | [G] |
+| PIEE Solicitation Module replaced NAVWAR eCommerce for solicitations | Solicitation documents sit behind a PIEE login while SAM.gov shows only the synopsis: the 2026 NILE ISS 6 RFI and AINTS presolicitation attach no files on SAM.gov, only PIEE Solicitation Module links | [G]; SAM.gov attachment lists in `documents_manifest.jsonl` |
 | SeaPort-NxG task orders (IDVs `N00178…`) | Task-order RFPs are issued inside the SeaPort portal; only awards surface in FPDS | LRAE rows list `N0017819D…` as existing contracts [I]; portal unreachable from this machine |
 | DoD contract actions reach FPDS/USAspending after a delay of roughly 90 days | Award and recompete signals arrive late | FPDS feeds show June 2026 actions in September 2026 [J] |
 | Department of the Navy budget library (`secnav.navy.mil/fmc`) rejects automated and archived requests | Budget exhibits need a WARP-off or manual retrieval | [P] |
