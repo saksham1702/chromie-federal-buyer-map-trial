@@ -82,5 +82,19 @@
     "reason": "war.gov article pages return 403 to automation",
     "suggested_method": "WARP-off session or Browserbase; RSS already monitored",
     "priority": "medium"
+  },
+  {
+    "url": "https://www.doncio.navy.mil/CHIPS/ArticleDetails.aspx?ID=13570",
+    "document": "DON CIO CHIPS: Navy Establishes Two New IT Delivery Offices (PEO Digital, PEO MLB, 2020)",
+    "reason": "doncio.navy.mil returns a 'Request Rejected' firewall stub to automation",
+    "suggested_method": "manual browser save",
+    "priority": "low"
+  },
+  {
+    "url": "https://www.secnav.navy.mil/fmc/fmb/Documents/27pres/RDTEN_BA7-8_Book.pdf",
+    "document": "FY2027 RDT&E,N BA7-8 justification book",
+    "reason": "download stalls part-way; host resets",
+    "suggested_method": "WARP-off session or manual download",
+    "priority": "high"
   }
 ]

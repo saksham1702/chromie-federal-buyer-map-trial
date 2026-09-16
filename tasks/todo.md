@@ -25,12 +25,12 @@ Plan: ~/.claude/plans/eager-hopping-rivest.md (approved 2026-09-16). Branch: tri
 - [x] identifier crosswalk narrative; requested vs enacted vs obligated vs ceiling
 
 ## P3 organization map + data-connection map
-- [ ] 02_organization_map.md (timeline: SPAWAR->NAVWAR, PEO EIS->Digital/MLB, PAE Mission Systems)
+- [x] 02_organization_map.md (timeline: SPAWAR->NAVWAR, PEO EIS->Digital/MLB, PAE Mission Systems)
 - [x] 03_data_connection_map.md (identifiers, joins, gaps, mermaid)
 
 ## P4 attribution process + >=10 examples across >=3 PMWs
-- [ ] candidate pool from FPDS N00039 (+NIWC) and SAM extract
-- [ ] examples incl. same-office-different-PEO, funding!=contracting, task order vs IDV, reorg case, unknown
+- [x] candidate pool from FPDS N00039 (+NIWC) and SAM extract
+- [x] examples incl. same-office-different-PEO, funding!=contracting, task order vs IDV, reorg case, unknown
 - [ ] optional 1h cross-check with prod resolve_program_office() offline
 
 ## P5 early signals + >=5 backtests

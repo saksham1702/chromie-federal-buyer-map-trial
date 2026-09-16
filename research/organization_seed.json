@@ -62,13 +62,30 @@
           "observed_at": "2026-09-01",
           "access": "wayback capture 20260901003800",
           "passage": "1NAVWAR: NAVWAR, NIWC Atlantic, NIWC Pacific, NSFA, DRPM Project Overmatch"
+        },
+        {
+          "source_url": "https://www.navy.mil/DesktopModules/ArticleCS/Print.aspx?PortalId=1&ModuleId=685&Article=2238060",
+          "observed_at": "2019-06-03",
+          "access": "wayback capture 20260123220908",
+          "passage": "Space and Naval Warfare Systems Command (SPAWARSYSCOM) has changed its name to Naval Information Warfare Systems Command (NAVWARSYSCOM) ... announced ... June 3. The change is effective immediately."
         }
       ],
       "aliases": [
         "NAVWAR",
-        "SPAWAR (legacy name, date to verify in 02)"
+        "NAVWARSYSCOM",
+        "Space and Naval Warfare Systems Command (SPAWAR / SPAWARSYSCOM), name valid to 2019-06-02"
       ],
-      "location": "4301 Pacific Highway, San Diego, CA 92110"
+      "location": "4301 Pacific Highway, San Diego, CA 92110",
+      "name_history": [
+        {
+          "name": "Space and Naval Warfare Systems Command",
+          "valid_to": "2019-06-02"
+        },
+        {
+          "name": "Naval Information Warfare Systems Command",
+          "valid_from": "2019-06-03"
+        }
+      ]
     },
     {
       "id": "contracting:n00039",
@@ -117,6 +134,11 @@
           "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=CONTRACTING_OFFICE_ID:N66001+SIGNED_DATE:%5B2026/03/01,2026/09/16%5D&start=0",
           "observed_at": "2026-09-16",
           "passage": "contractingOfficeID N66001 name='NIWC PACIFIC'"
+        },
+        {
+          "source_url": "https://www.dvidshub.net/news/310566/spawar-systems-center-names-change-naval-information-warfare-centers",
+          "observed_at": "2019-02-13",
+          "passage": "change the names of its Echelon III systems centers, SPAWAR Systems Center Atlantic ... and SPAWAR Systems Center Pacific ... to Naval Information Warfare Center Atlantic and Naval Information Warfare Center Pacific ... effective Feb. 18"
         }
       ],
       "codes": {
@@ -125,7 +147,18 @@
       "aliases": [
         "NIWC Pacific",
         "NIWCPAC",
-        "NIWC PACIFIC"
+        "NIWC PACIFIC",
+        "SPAWAR Systems Center Pacific (SSC Pacific), name valid to 2019-02-17"
+      ],
+      "name_history": [
+        {
+          "name": "SPAWAR Systems Center Pacific",
+          "valid_to": "2019-02-17"
+        },
+        {
+          "name": "Naval Information Warfare Center Pacific",
+          "valid_from": "2019-02-18"
+        }
       ]
     },
     {
@@ -143,6 +176,11 @@
           "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=CONTRACTING_OFFICE_ID:N65236+SIGNED_DATE:%5B2026/03/01,2026/09/16%5D&start=0",
           "observed_at": "2026-09-16",
           "passage": "contractingOfficeID N65236 name='NIWC ATLANTIC'"
+        },
+        {
+          "source_url": "https://www.dvidshub.net/news/310566/spawar-systems-center-names-change-naval-information-warfare-centers",
+          "observed_at": "2019-02-13",
+          "passage": "change the names of its Echelon III systems centers, SPAWAR Systems Center Atlantic ... and SPAWAR Systems Center Pacific ... to Naval Information Warfare Center Atlantic and Naval Information Warfare Center Pacific ... effective Feb. 18"
         }
       ],
       "codes": {
@@ -151,7 +189,18 @@
       "aliases": [
         "NIWC Atlantic",
         "NIWCLANT",
-        "NIWC ATLANTIC"
+        "NIWC ATLANTIC",
+        "SPAWAR Systems Center Atlantic (SSC Atlantic), name valid to 2019-02-17"
+      ],
+      "name_history": [
+        {
+          "name": "SPAWAR Systems Center Atlantic",
+          "valid_to": "2019-02-17"
+        },
+        {
+          "name": "Naval Information Warfare Center Atlantic",
+          "valid_from": "2019-02-18"
+        }
       ]
     },
     {
@@ -203,6 +252,12 @@
           "source_url": "https://www.peoc4i.navy.mil/Leadership/",
           "observed_at": "2026-04-12",
           "access": "wayback capture 20260412054538"
+        },
+        {
+          "source_url": "https://www.navwar.navy.mil/Media/Article/3404564/peo-c4i-celebrates-20th-anniversary/",
+          "observed_at": "2023-05-23",
+          "access": "wayback capture 20251231160016",
+          "passage": "PEO C4I's 11 program offices include Multifunctional Information Distribution System (PMW/A 101), Battlespace Awareness and Information Operations (PMW 120), Cybersecurity (PMW 130), Navy Command and Control Systems (PMW 150), Tactical Networks (PMW 160), ... Shore and Expeditionary Integration (PMW 790)"
         }
       ],
       "aliases": [
@@ -211,7 +266,7 @@
         "C4IEXEC (LRAE front-office code)"
       ],
       "location": "NAVWAR Old Town Campus, San Diego, CA",
-      "notes": "eleven program offices per the 2026-04-12 official page; annual portfolio described as $4B on the leadership page"
+      "notes": "eleven program offices per the 2026-04-12 official page; annual portfolio described as $4B on the leadership page; 20th anniversary marked May 2023 (established 2003 per the anniversary article's framing); PEO in May 2023: Rear Adm. Kurt Rothenhaus"
     },
     {
       "id": "peo:digital",
@@ -228,12 +283,19 @@
           "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
           "observed_at": "2026-04-12",
           "access": "wayback capture 20260412054606"
+        },
+        {
+          "source_url": "https://www.peodigital.navy.mil/News/Article/3431521/peo-eis-legacy-as-the-dons-defense-business-systems-and-enterprise-it-acquisiti/",
+          "observed_at": "2021-04-01",
+          "access": "wayback capture 20260519123243",
+          "passage": "In May 2020 ... PEO EIS was disestablished to make way for two new PEOs, PEO Digital and Enterprise Services (PEO Digital) and PEO Manpower, Logistics and Business Solutions (PEO MLB). ... 2020 NEN awarded the NGEN Re-Compete Service Management, Integration and Transport (SMIT) contract"
         }
       ],
       "aliases": [
         "PEO Digital"
       ],
-      "notes": "sibling of PEO C4I; LRAE uses non-PMW codes such as 'Digital TD'"
+      "notes": "sibling of PEO C4I; LRAE uses non-PMW codes such as 'Digital TD'; established May 2020 from PEO EIS (network, enterprise services, digital infrastructure offices)",
+      "valid_from": "2020-05-01"
     },
     {
       "id": "peo:mlb",
@@ -256,13 +318,21 @@
           "observed_at": "2025-06-19",
           "access": "wayback capture 20260108121536",
           "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        },
+        {
+          "source_url": "https://www.peodigital.navy.mil/News/Article/3431521/peo-eis-legacy-as-the-dons-defense-business-systems-and-enterprise-it-acquisiti/",
+          "observed_at": "2021-04-01",
+          "access": "wayback capture 20260519123243",
+          "passage": "In May 2020 ... PEO EIS was disestablished to make way for two new PEOs, PEO Digital and Enterprise Services (PEO Digital) and PEO Manpower, Logistics and Business Solutions (PEO MLB). ... 2020 NEN awarded the NGEN Re-Compete Service Management, Integration and Transport (SMIT) contract"
         }
       ],
       "aliases": [
         "PEO MLB",
         "PEO-MLB",
         "Pf008MLBFO (LRAE front-office code)"
-      ]
+      ],
+      "valid_from": "2020-05-01",
+      "notes": "established May 2020 from PEO EIS (manpower, logistics, business offices)"
     },
     {
       "id": "peo:iws",
@@ -426,6 +496,12 @@
           "source_url": "https://www.dvidshub.net/news/546147/program-executive-office-command-control-communications-computers-and-intelligence-peo-c4i-welcomes-new-program-managers",
           "observed_at": "2025-08-19",
           "passage": "Capt. Raphael R. Castillejo relieved Mr. Baron Jolie as the program manager for the ... Naval Command and Control Systems Program Office (PMW 150); Mr. Eric Andalis relieved Capt. Castillejo at the Ship Integration Program Office (PMW 760)"
+        },
+        {
+          "source_url": "https://www.navwar.navy.mil/Media/Article/3404564/peo-c4i-celebrates-20th-anniversary/",
+          "observed_at": "2023-05-23",
+          "access": "wayback capture 20251231160016",
+          "passage": "PEO C4I's 11 program offices include Multifunctional Information Distribution System (PMW/A 101), Battlespace Awareness and Information Operations (PMW 120), Cybersecurity (PMW 130), Navy Command and Control Systems (PMW 150), Tactical Networks (PMW 160), ... Shore and Expeditionary Integration (PMW 790)"
         }
       ],
       "codes": {
@@ -676,6 +752,12 @@
           "observed_at": "2025-06-19",
           "access": "wayback capture 20260108121536",
           "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        },
+        {
+          "source_url": "https://www.navwar.navy.mil/Media/Article/3404564/peo-c4i-celebrates-20th-anniversary/",
+          "observed_at": "2023-05-23",
+          "access": "wayback capture 20251231160016",
+          "passage": "PEO C4I's 11 program offices include Multifunctional Information Distribution System (PMW/A 101), Battlespace Awareness and Information Operations (PMW 120), Cybersecurity (PMW 130), Navy Command and Control Systems (PMW 150), Tactical Networks (PMW 160), ... Shore and Expeditionary Integration (PMW 790)"
         }
       ],
       "codes": {
@@ -807,6 +889,96 @@
         }
       ],
       "notes": "public official role only; recorded with source and observation date"
+    },
+    {
+      "id": "peo:eis",
+      "type": "program_executive_office",
+      "name": "Program Executive Office Enterprise Information Systems",
+      "aliases": [
+        "PEO EIS"
+      ],
+      "valid_from": "2006-04-01",
+      "valid_to": "2020-05-31",
+      "evidence": [
+        {
+          "source_url": "https://www.peodigital.navy.mil/News/Article/3431521/peo-eis-legacy-as-the-dons-defense-business-systems-and-enterprise-it-acquisiti/",
+          "observed_at": "2021-04-01",
+          "access": "wayback capture 20260519123243",
+          "passage": "In May 2020 ... PEO EIS was disestablished to make way for two new PEOs, PEO Digital and Enterprise Services (PEO Digital) and PEO Manpower, Logistics and Business Solutions (PEO MLB). ... 2020 NEN awarded the NGEN Re-Compete Service Management, Integration and Transport (SMIT) contract"
+        }
+      ],
+      "notes": "established spring 2006; disestablished May 2020; successor PEOs Digital and MLB; legacy owner of NGEN/NMCI and business systems"
+    },
+    {
+      "id": "pmw:220",
+      "type": "program_office",
+      "name": "PMW 220 Navy Enterprise Business Solutions Program Office",
+      "aliases": [
+        "PMW-220",
+        "NAVEBS",
+        "Navy EBS"
+      ],
+      "evidence": [
+        {
+          "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003921F3013&start=0",
+          "observed_at": "2026-09-16",
+          "passage": "ENGINEERING AND LOGISTICS SERVICES IN SUPPORT OF PEO MLB PMW 220."
+        },
+        {
+          "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003918F1437&start=0",
+          "observed_at": "2026-09-16",
+          "passage": "PROFESSIONAL PROGRAM SUPPORT SERVICES FOR PMW 220 NAVY ENTERPRISE BUSINESS SOLUTIONS (NAVEBS)"
+        }
+      ],
+      "notes": "PEO MLB office; evidence so far is contracting-office authored award text naming 'PEO MLB PMW 220'; official PEO MLB page not retrieved (blocked host)"
+    },
+    {
+      "id": "pmw:250",
+      "type": "program_office",
+      "name": "PMW 250 (PEO MLB program office named in award text)",
+      "aliases": [
+        "PMW-250"
+      ],
+      "evidence": [
+        {
+          "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003921F3015&start=0",
+          "observed_at": "2026-09-16",
+          "passage": "SYSTEMS ENGINEERING, LOGISTICS, AND CYBERSECURITY (SELOCY) ... FOR PMW 250 INCREMENTAL FUNDING"
+        }
+      ],
+      "notes": "office name not stated in the award text; PEO MLB parentage from the PEO MLB office inventory is not yet retrieved"
+    },
+    {
+      "id": "office:nen",
+      "type": "program_office",
+      "name": "Naval Enterprise Networks (NEN) Program Office",
+      "aliases": [
+        "NEN",
+        "PMW 205 (code not yet verified against an official page)"
+      ],
+      "evidence": [
+        {
+          "source_url": "https://www.peodigital.navy.mil/News/Article/3431521/peo-eis-legacy-as-the-dons-defense-business-systems-and-enterprise-it-acquisiti/",
+          "observed_at": "2021-04-01",
+          "access": "wayback capture 20260519123243",
+          "passage": "In May 2020 ... PEO EIS was disestablished to make way for two new PEOs, PEO Digital and Enterprise Services (PEO Digital) and PEO Manpower, Logistics and Business Solutions (PEO MLB). ... 2020 NEN awarded the NGEN Re-Compete Service Management, Integration and Transport (SMIT) contract"
+        }
+      ],
+      "notes": "official PEO Digital article: 'NEN awarded the NGEN Re-Compete Service Management, Integration and Transport (SMIT) contract' (2020); PEO EIS office until May 2020, PEO Digital afterwards"
+    },
+    {
+      "id": "person:rothenhaus",
+      "type": "person",
+      "name": "Rear Adm. Kurt Rothenhaus",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Media/Article/3404564/peo-c4i-celebrates-20th-anniversary/",
+          "observed_at": "2023-05-23",
+          "access": "wayback capture 20251231160016",
+          "passage": "PEO C4I's 11 program offices include Multifunctional Information Distribution System (PMW/A 101), Battlespace Awareness and Information Operations (PMW 120), Cybersecurity (PMW 130), Navy Command and Control Systems (PMW 150), Tactical Networks (PMW 160), ... Shore and Expeditionary Integration (PMW 790)"
+        }
+      ],
+      "notes": "public official role only; PEO C4I Commander as quoted in May 2023"
     }
   ],
   "edges": [
@@ -1570,6 +1742,119 @@
         }
       ],
       "notes": "LRAE rows with requirement office PMS-485 carry contracting UIC N00039"
+    },
+    {
+      "from": "peo:eis",
+      "to": "command:navwar",
+      "type": "child_of",
+      "valid_to": "2020-05-31",
+      "evidence": [
+        {
+          "source_url": "https://www.peodigital.navy.mil/News/Article/3431521/peo-eis-legacy-as-the-dons-defense-business-systems-and-enterprise-it-acquisiti/",
+          "observed_at": "2021-04-01",
+          "access": "wayback capture 20260519123243",
+          "passage": "In May 2020 ... PEO EIS was disestablished to make way for two new PEOs, PEO Digital and Enterprise Services (PEO Digital) and PEO Manpower, Logistics and Business Solutions (PEO MLB). ... 2020 NEN awarded the NGEN Re-Compete Service Management, Integration and Transport (SMIT) contract"
+        }
+      ]
+    },
+    {
+      "from": "pmw:220",
+      "to": "peo:mlb",
+      "type": "child_of",
+      "evidence": [
+        {
+          "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003921F3013&start=0",
+          "observed_at": "2026-09-16",
+          "passage": "ENGINEERING AND LOGISTICS SERVICES IN SUPPORT OF PEO MLB PMW 220."
+        }
+      ],
+      "notes": "stated in award text authored by NAVWAR HQ contracting; confirm against a PEO MLB page"
+    },
+    {
+      "from": "pmw:250",
+      "to": "peo:mlb",
+      "type": "child_of",
+      "evidence": [
+        {
+          "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003921F3015&start=0",
+          "observed_at": "2026-09-16",
+          "passage": "SYSTEMS ENGINEERING, LOGISTICS, AND CYBERSECURITY (SELOCY) ... FOR PMW 250 INCREMENTAL FUNDING"
+        }
+      ],
+      "review_status": "needs_official_page",
+      "notes": "inferred from the PEO MLB mission area (SELOCY for a business-systems office); not stated in the text"
+    },
+    {
+      "from": "office:nen",
+      "to": "peo:eis",
+      "type": "child_of",
+      "valid_to": "2020-05-31",
+      "evidence": [
+        {
+          "source_url": "https://www.peodigital.navy.mil/News/Article/3431521/peo-eis-legacy-as-the-dons-defense-business-systems-and-enterprise-it-acquisiti/",
+          "observed_at": "2021-04-01",
+          "access": "wayback capture 20260519123243",
+          "passage": "In May 2020 ... PEO EIS was disestablished to make way for two new PEOs, PEO Digital and Enterprise Services (PEO Digital) and PEO Manpower, Logistics and Business Solutions (PEO MLB). ... 2020 NEN awarded the NGEN Re-Compete Service Management, Integration and Transport (SMIT) contract"
+        }
+      ]
+    },
+    {
+      "from": "office:nen",
+      "to": "peo:digital",
+      "type": "child_of",
+      "valid_from": "2020-06-01",
+      "evidence": [
+        {
+          "source_url": "https://www.peodigital.navy.mil/News/Article/3431521/peo-eis-legacy-as-the-dons-defense-business-systems-and-enterprise-it-acquisiti/",
+          "observed_at": "2021-04-01",
+          "access": "wayback capture 20260519123243",
+          "passage": "In May 2020 ... PEO EIS was disestablished to make way for two new PEOs, PEO Digital and Enterprise Services (PEO Digital) and PEO Manpower, Logistics and Business Solutions (PEO MLB). ... 2020 NEN awarded the NGEN Re-Compete Service Management, Integration and Transport (SMIT) contract"
+        }
+      ],
+      "notes": "network offices moved to PEO Digital per the legacy article"
+    },
+    {
+      "from": "contracting:n00039",
+      "to": "pmw:220",
+      "type": "contracts_for",
+      "evidence": [
+        {
+          "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003921F3013&start=0",
+          "observed_at": "2026-09-16",
+          "passage": "ENGINEERING AND LOGISTICS SERVICES IN SUPPORT OF PEO MLB PMW 220."
+        },
+        {
+          "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003918F1437&start=0",
+          "observed_at": "2026-09-16",
+          "passage": "PROFESSIONAL PROGRAM SUPPORT SERVICES FOR PMW 220 NAVY ENTERPRISE BUSINESS SOLUTIONS (NAVEBS)"
+        }
+      ]
+    },
+    {
+      "from": "contracting:n00039",
+      "to": "office:nen",
+      "type": "contracts_for",
+      "evidence": [
+        {
+          "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003920D0054&start=0",
+          "observed_at": "2026-09-16",
+          "passage": "SERVICE MANAGEMENT, INTEGRATION, AND TRANSPORT (SMIT), contracting office N00039, signed 2020-02-05"
+        }
+      ]
+    },
+    {
+      "from": "person:rothenhaus",
+      "to": "peo:c4i",
+      "type": "leads",
+      "role": "Program Executive Officer (as of 2023-05-23)",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Media/Article/3404564/peo-c4i-celebrates-20th-anniversary/",
+          "observed_at": "2023-05-23",
+          "access": "wayback capture 20251231160016",
+          "passage": "PEO C4I's 11 program offices include Multifunctional Information Distribution System (PMW/A 101), Battlespace Awareness and Information Operations (PMW 120), Cybersecurity (PMW 130), Navy Command and Control Systems (PMW 150), Tactical Networks (PMW 160), ... Shore and Expeditionary Integration (PMW 790)"
+        }
+      ]
     }
   ]
 }
