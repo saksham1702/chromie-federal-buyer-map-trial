@@ -30,7 +30,7 @@ SAM API key, a network path to the Navy web hosts, and two documents that need a
 | 13 | Alert rules and templates (new requirement, funding change, forecast revision, recompete) writing `gov_intel_facts` and links | P1 | M | 3, 4, 10 | formats in `06_continuous_monitor_design.md` |
 | 14 | Review queue views for Navy attribution and alerts; reviewer outcomes feed the alias table and gold set | P1 | M | 5, 13 | existing gate-review tables may serve |
 | 15 | Backtest harness: cutoff-dated evidence sets, prediction record, comparison with the first notice or award; advance-notice metric | P2 | M | 3, 4, 7 | rules in `05_early_signals_and_backtests.md` |
-| 16 | Typed tables for forecast rows and budget lines (or agreed JSON shapes in `gov_intel_facts`) | P2 | M | Ananth's schema review | production schema change; not in this phase |
+| 16 | Typed tables for forecast rows and budget lines (or agreed JSON shapes in `gov_intel_facts`) | P2 | M | schema owner's review | production schema change; not in this phase |
 | 17 | Tear-sheet parser (office, programs, PM, contacts) and people edges with observation dates | P2 | S | 12 | 11 PEO C4I sheets inspected |
 | 18 | DoD contracts RSS + article fallback fetch; Federal Register weekly query | P2 | S | 1 | low yield for program-office attribution, useful for large awards |
 | 19 | Browserbase transport for Akamai-blocked hosts (test one page; keep if it passes) | P2 | S | Browserbase key | SLED trial's `BrowserFetcher(remote=True)` is reusable |
