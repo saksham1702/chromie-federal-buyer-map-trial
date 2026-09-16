@@ -34,7 +34,9 @@ SAM API key, a network path to the Navy web hosts, and two documents that need a
 | 17 | Tear-sheet parser (office, programs, PM, contacts) and people edges with observation dates | P2 | S | 12 | 11 PEO C4I sheets inspected |
 | 18 | DoD contracts RSS + article fallback fetch; Federal Register weekly query | P2 | S | 1 | low yield for program-office attribution, useful for large awards |
 | 19 | Browserbase transport for Akamai-blocked hosts (test one page; keep if it passes) | P2 | S | Browserbase key | SLED trial's `BrowserFetcher(remote=True)` is reusable |
-| 20 | Expansion: PEO Digital, PEO MLB, PEO IWS offices and their LRAE codes; NAVSEA and NAVAIR LRAEs; Army PAEs; civilian agencies through the existing per-agency ingest | P3 | L | 1-14 | same adapters, new alias tables and organization URLs |
+| 20 | Hosted change monitor (context.dev or similar) for organization pages and download links, feeding the review queue; compare with running the fetch helper on a schedule | P1 | S | 1 | pages that need the US browser go through Browserbase |
+| 21 | Contact candidates as data: load `contact_candidates.json` into `gov_contacts` / `gov_contact_positions` with observation dates and confidence; refresh from tear sheets, releases and LRAE POC columns | P1 | S | 2 | public sources only; recall-first posture |
+| 22 | Expansion: PEO Digital, PEO MLB, PEO IWS offices and their LRAE codes; NAVSEA and NAVAIR LRAEs; Army PAEs; civilian agencies through the existing per-agency ingest | P3 | L | 1-14 | same adapters, new alias tables and organization URLs |
 
 ## Blockers and what unblocks them
 

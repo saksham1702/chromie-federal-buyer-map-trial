@@ -158,3 +158,26 @@ def test_every_cited_evidence_url_has_a_fetched_manifest_row() -> None:
                     cited.add(item[key]["source_url"])
     missing = sorted(u for u in cited if u.replace("%5B", "[").replace("%5D", "]") not in fetched)
     assert not missing, f"cited evidence without a fetched manifest row: {missing[:5]}"
+
+
+def test_code_families_compile_and_carry_examples() -> None:
+    data = _load("org_code_families.json")
+    seen = set()
+    for family in data["families"]:
+        assert family["family"] not in seen, f"duplicate family {family['family']}"
+        seen.add(family["family"])
+        re.compile(family["pattern"])
+        for key in ("org_type", "era", "parent_hint", "where_seen", "normalize"):
+            assert family.get(key), f"{family['family']} lacks {key}"
+        for example in family.get("examples", []):
+            assert re.search(family["pattern"], example), f"{family['family']}: example {example!r} does not match its own pattern"
+
+
+def test_contact_candidates_are_public_sourced_and_dated() -> None:
+    rows = _load("contact_candidates.json")
+    for row in rows:
+        assert row.get("office") and row.get("role_type"), row
+        assert row.get("name") or row.get("channel"), row
+        assert row.get("source_url") and _dated(row.get("observed_at")), f"contact without a dated public source: {row.get('name') or row.get('channel')}"
+        assert row.get("confidence") in {"high", "medium", "low"}, row
+        assert row.get("basis"), row

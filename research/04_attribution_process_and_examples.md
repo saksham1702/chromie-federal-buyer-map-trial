@@ -47,14 +47,24 @@ in a fixed order and records how strong the result is, including when it is "we 
    with counterevidence recorded when another organization also holds requirements for the same
    program (EX14). A functional match (a program's purpose fits an office's mission) is
    `ambiguous`, not inferred (EX16).
-7. **Date the ancestry.** The office's parent chain is read from the seed graph as of the
+7. **Rank candidates even when nothing is decisive.** Ownership is ambiguous by design while
+   PEOs migrate into PAEs, and a wrong first contact is cheap (the office redirects to the right
+   one). So an `inferred`, `ambiguous` or `unresolved` result still lists the most likely
+   offices and the most likely public contacts, each with a confidence label and the basis, and
+   the monitor surfaces them instead of staying silent. Recall is favored over precision; the
+   evidence class keeps the record honest about how strong the answer is.
+8. **Date the ancestry.** The office's parent chain is read from the seed graph as of the
    action date: PEO C4I under NAVWAR until 2026-05-10, consolidated into PAE Mission Systems from
    2026-05-11; PEO EIS offices moved to PEO Digital or PEO MLB in May 2020 (EX12, EX13).
    Descriptions are re-authored at modification time, so the organization name in a description
    never dates anything (EX02).
-8. **Record the result** with the quoted passages, document, observation date, evidence class,
+9. **Record the result** with the quoted passages, document, observation date, evidence class,
    counterevidence, and, when unresolved, what would resolve it (EX19). Every record goes to a
    reviewer when the class is `inferred`, `ambiguous` or `unresolved`.
+
+Likely contacts per office, from published sources only (tear sheets, change-of-command releases,
+the LRAE's published contracting points of contact, official small-business and industry pages),
+are in `contact_candidates.json` with a confidence label and the reason for it.
 
 ## 2. Evidence classes
 

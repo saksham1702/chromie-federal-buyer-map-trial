@@ -391,7 +391,8 @@
       "status": "reviewed",
       "by": "assistant draft for Saksham's review",
       "date": "2026-09-16"
-    }
+    },
+    "candidate_confidence": "high"
   },
   {
     "id": "EX09",
@@ -932,6 +933,11 @@
       "status": "reviewed",
       "by": "assistant draft for Saksham's review",
       "date": "2026-09-16"
-    }
+    },
+    "candidates": [
+      "center:niwc-atlantic (divisions that hold C5ISR integration requirements in the LRAE: LSUBP00015 Shore C4I Integration, LSUBP00004 Expeditionary C3 Solutions, LSUBP00034 Surface Ship Integration)",
+      "sponsoring PEO C4I offices whose systems NIWC Atlantic installs and sustains (PMW 160, PMW 790), if task orders name them"
+    ],
+    "candidate_confidence": "low"
   }
 ]

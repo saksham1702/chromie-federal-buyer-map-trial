@@ -14,6 +14,9 @@ Research and planning only: no production writes, no outreach.
 6. `05_early_signals_and_backtests.md` + `backtests.json`
 7. `06_continuous_monitor_design.md`
 8. `07_implementation_backlog.md`
+9. `08_org_memory_format.md` + `org_code_families.json` - the dated PEO-plus-PAE organization memory and the code registry a parser uses
+10. `09_manual_collection_runbook.md` - each source worked by hand once, with what a monitor replaces
+11. `contact_candidates.json` - likely public contacts per office with confidence labels
 
 Supporting files: `documents_manifest.jsonl` (every document fetched: URL, hash, retrieval
 method and time), `manual_pdf_requests.json` (documents that still need a human to fetch),
@@ -31,6 +34,9 @@ method and time), `manual_pdf_requests.json` (documents that still need a human 
 | 05 early signals + backtests | done (2026-09-16); 8 backtests, 2 confirmed by notice text; budget-line table from Comptroller P-1/R-1 |
 | 06 continuous-monitor design | done (2026-09-16); forecast-revision alert illustrative until a second LRAE release is captured |
 | 07 implementation backlog | done (2026-09-16) |
+| 08 organization memory format + code families | done (2026-09-17) |
+| 09 manual collection runbook | done (2026-09-17) |
+| contact candidates | done (2026-09-17); recall-first, public sources only |
 
 ## Evidence rules
 

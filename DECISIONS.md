@@ -135,3 +135,23 @@ which names five capability portfolios and no program offices. The April 2026 ar
 the office pages and tear sheets are the last public record of the PMW inventory in that form. The
 organization map keeps the PEO C4I parentage with the dated consolidation edge and records the
 office-to-portfolio mapping only as a candidate until the PAE publishes it.
+
+## 2026-09-17 - Organization memory is a dated graph that holds PEO and PAE structures together
+
+No reliable org chart exists for Navy acquisition offices, and the PAE reorganization is in
+progress. The memory therefore stores offices as nodes with dated relationships and an alias table
+fed by a registry of code families (`org_code_families.json`); records resolve to the ancestry
+valid on their own date; PAE consolidations are added as dated edges and never overwrite PEO
+history. Specification in `08_org_memory_format.md`.
+
+## 2026-09-17 - Manual first, then monitor
+
+Each source is worked by hand once and the steps written down (`09_manual_collection_runbook.md`)
+so the source list can be verified before automation; the monitor design then replaces each manual
+step with a scheduled diff.
+
+## 2026-09-17 - Recall over precision for offices and contacts
+
+Because PEO and PAE ownership is ambiguous and a wrong first contact only costs a redirect, weak
+attributions still list ranked candidate offices and public contacts with a confidence label
+(`contact_candidates.json`); alerts surface uncertainty rather than suppress it.

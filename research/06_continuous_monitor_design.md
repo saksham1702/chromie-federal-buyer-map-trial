@@ -171,6 +171,13 @@ single source. Reviewers confirm, correct or reject; confirmed results become re
 | Advance notice | days between the earliest recorded signal and the first notice or award for the same requirement | backtests in `05_early_signals_and_backtests.md` |
 | Source health | share of sources verified within cadence | source registry |
 
+## 8a. Alerting posture: recall first
+
+Alerts name the most likely office and the most likely public contacts even when the evidence is
+`inferred` or `ambiguous`, with the confidence label attached. A false lead costs a redirect; a
+missed lead costs the opportunity. Suppression is limited to duplicates and administrative
+modifications; uncertainty is shown, not filtered.
+
 ## 9. Sample alerts
 
 Format: what changed; affected office and ancestry; evidence; uncertainty; why it matters.

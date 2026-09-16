@@ -42,6 +42,11 @@ Plan: ~/.claude/plans/eager-hopping-rivest.md (approved 2026-09-16). Branch: tri
 - [x] 07_implementation_backlog.md
 - [x] random spot-check of 3 examples + 1 backtest; git clean; dot_clean
 
+## Done 2026-09-17
+- [x] 08 organization memory format + org_code_families.json
+- [x] 09 manual collection runbook with reviewer checklist
+- [x] recall-first posture in 04/06; contact_candidates.json (public sources, confidence labels)
+
 ## Open follow-ups
 - [x] register the SAM.gov full extract (current dataset only) and confirm BT07/BT08 first-notice dates
 - [ ] download SAM archived FY2021 and FY2025 files (about 1.1 GB each) for BT02/BT05 first-notice dates and the MIDS/CLTS notices
