@@ -17,7 +17,7 @@ vehicle, not on SAM.gov.
 
 ## 1. Current early signals for the pilot portfolio
 
-Each row follows the brief: what may be needed and why, the likely office, the earliest dated
+Each row records what may be needed and why, the likely office, the earliest dated
 evidence, funding status and timing, uncertainty, and the event that would confirm or invalidate
 it. Evidence tags: LRAE = NAVWAR Long-Range Acquisition Estimate released 2025-06-19; OPN = FY2027
 Other Procurement, Navy BA2 justification book dated April 2026; FPDS = award records observed

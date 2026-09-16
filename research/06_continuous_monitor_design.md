@@ -13,6 +13,59 @@ rules used for the worked examples, and hands anything uncertain to a person. Mo
 machinery is generic; what is Navy-specific is a short list of adapters (the Annex 25 spreadsheet,
 the PEO and command web pages, the budget-book exhibits) and the alias table of office codes.
 
+## Architecture at a glance
+
+```
+ OFFICIAL SOURCES                REUSABLE CORE                          CHROMIE TABLES
+ ----------------                -------------                          --------------
+ LRAE spreadsheets  ---+                                            
+ (NAVWAR, NAVSEA, ONR) |     +------------------+   manifest rows    gov_procurement_sources
+ SAM.gov notices    ---+---> | FETCH and RECORD | ----------------->  gov_procurement_documents
+ (daily extract,       |     | direct / archive |   url, dates,       agency_brain_documents
+  site API)            |     | / US browser     |   sha256, failures
+ FPDS ATOM,         ---+     +--------+---------+
+ USAspending           |              |
+ Budget tables      ---+              v
+ (P-1, R-1, DoN books) |     +------------------+
+ govinfo, congress  ---+     | EXTRACT          |  rows by PID, PDF pages,
+ Org pages, tear    ---+     | (LRAE parser,    |  exhibit lines, HTML text
+ sheets, DVIDS               |  exhibit parser) |
+                             +---+----------+---+
+                                 |          |
+                 +---------------+          +------------------+
+                 v                                             v
+      +---------------------+                      +---------------------+
+      | ORGANIZATION GRAPH  |  dated nodes/edges,  | SIGNALS             |
+      | + alias table       |  reorg releases      | new LRAE row,       |
+      | (PMW codes, LRAE    |--------------------->| funding change,     |
+      |  HQ codes, NIWC     |  ancestry as of date | forecast revision,  |
+      |  competency codes)  |                      | recompete           |
+      +----------+----------+                      +----------+----------+
+                 |  gov_organizations,                        |  gov_intel_facts,
+                 |  gov_organization_relationships            |  agency_brain_items
+                 v                                             v
+      +---------------------+                      +---------------------+
+      | ATTRIBUTION         |  evidence class       | ALERTS              |
+      | evidence-gated      |  per action:          | what changed, office|
+      | resolver:           |  direct / inferred /  | + ancestry, evidence|
+      | award text, notice  |  ambiguous /          | uncertainty, why it |
+      | text, LRAE row,     |  unresolved           | matters             |
+      | tear-sheet map      |                       +----------+----------+
+      +----------+----------+                                 |
+                 |  gov_procurement_organizations,            |
+                 |  gov_intel_links (review_status)           |
+                 v                                             v
+      +---------------------------------------------------------------+
+      | REVIEW QUEUE: inferred / ambiguous / unresolved attributions,  |
+      | new organization codes, conflicting official statements,      |
+      | single-source alerts, stale or failing sources                |
+      +---------------------------------------------------------------+
+
+ Navy-specific: LRAE (Annex 25) parser, P-40/R-2 exhibit parser, alias table, list of
+ organization URLs, host fallback rules (archive capture -> US browser -> manual).
+ Everything else is reusable across agencies.
+```
+
 ## 1. Shape
 
 | Layer | Reusable core | Navy-specific adapter |

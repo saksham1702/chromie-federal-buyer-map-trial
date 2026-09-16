@@ -1,8 +1,8 @@
 # Research package: Navy (NAVWAR / PEO C4I) acquisition source map
 
-Phase-one deliverables for the Federal Program Office Intelligence Trial, scoped by the
-2026-09-16 assignment: source discovery, data understanding, worked examples, and an
-implementation plan. Research and planning only: no production writes, no outreach.
+Phase-one deliverables for the Federal Program Office Intelligence Trial: source discovery, data
+understanding, worked examples, and an implementation plan for the NAVWAR / PEO C4I pilot.
+Research and planning only: no production writes, no outreach.
 
 ## Review order
 

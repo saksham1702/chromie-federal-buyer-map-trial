@@ -5,8 +5,8 @@ Add dated technical and product decisions here.
 
 ## 2026-09-16 - Phase one is research and planning, not the README prototype
 
-The 2026-09-16 assignment scopes this phase to source discovery, data understanding, worked
-examples, and an implementation plan. The README's resolver, forecaster, PDF pipeline, and
+Phase one covers source discovery, data understanding, worked examples, and an implementation
+plan. The README's resolver, forecaster, PDF pipeline, and
 Supabase proposal move to the backlog. Code in this phase is limited to one artifact validator
 and a fetch-and-record helper.
 

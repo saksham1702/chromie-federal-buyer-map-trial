@@ -18,7 +18,7 @@ office, the contracting office, the incumbent and the existing contract on the s
 
 ### 1.1 The trial repository (`chromie-federal-buyer-map-trial`)
 
-One commit (2026-09-06). `README.md` is the full one-week prototype brief. `src/buyer_map/`
+One commit (2026-09-06). `README.md` is the full one-week prototype specification. `src/buyer_map/`
 holds a synthetic graph validator and an edge ranker over a five-node example; nothing in it is
 Navy-specific. `PROJECT_BRIEF.md`, `AGENTS.md`, `SECURITY.md`, `DECISIONS.md` are short stubs.
 Usable: the working agreement (evidence is part of the data model; facts, inferences and

@@ -2,7 +2,7 @@
 
 Written 2026-09-16. Effort is in engineer-days for one person who knows the Chromie runner; S is
 under a day, M is two to three days, L is a week or more. Priority P0 is needed before any
-monitoring runs; P1 makes the pilot useful; P2 completes the brief's ambitions; P3 is expansion.
+monitoring runs; P1 makes the pilot useful; P2 completes the trial README's full scope; P3 is expansion.
 
 ## In plain terms
 
