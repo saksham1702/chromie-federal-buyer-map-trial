@@ -1,0 +1,86 @@
+[
+  {
+    "url": "https://www.secnav.navy.mil/osbp/acquisition-estimate.aspx",
+    "document": "DoN OSBP LRAE index (all Navy activities)",
+    "reason": "connection reset on every automated attempt; Wayback receives a firewall stub",
+    "suggested_method": "WARP-off session or manual browser save",
+    "priority": "high"
+  },
+  {
+    "url": "https://www.secnav.navy.mil/fmc/fmb/Documents/27pres/OPN_BA2_Book.pdf",
+    "document": "FY2027 OPN BA2 justification book (Communications and Electronics Equipment)",
+    "reason": "host intermittently resets; large PDF",
+    "suggested_method": "WARP-off session; verify sha256 against manifest if retrieved twice",
+    "priority": "high"
+  },
+  {
+    "url": "https://www.secnav.navy.mil/fmc/fmb/Documents/27pres/RDTEN_BA7-8_Book.pdf",
+    "document": "FY2027 RDT&E,N BA7-8 justification book (Operational Systems Development)",
+    "reason": "host intermittently resets; large PDF",
+    "suggested_method": "WARP-off session",
+    "priority": "high"
+  },
+  {
+    "url": "https://www.secnav.navy.mil/fmc/Pages/Fiscal-Year-2026.aspx",
+    "document": "FY2026 DoN budget materials page and RDT&E/OPN books (enacted-year baseline)",
+    "reason": "connection reset; needed to compare FY2027 request with FY2026",
+    "suggested_method": "WARP-off session",
+    "priority": "high"
+  },
+  {
+    "url": "https://comptroller.defense.gov/Budget-Materials/Budget2027/",
+    "document": "DoD Comptroller FY2027 budget materials (R-1, P-1)",
+    "reason": "HTTP 403 to automation; archived index has no links",
+    "suggested_method": "manual browser save of R-1 and P-1 PDFs",
+    "priority": "medium"
+  },
+  {
+    "url": "https://www.peoc4i.navy.mil/Portals/98/2026_PMW%20150_Tear%20Sheet_FINAL_JAN2026.pdf",
+    "document": "PMW 150 tear sheet, January 2026",
+    "reason": "no Wayback capture; live site returns 403 to automation",
+    "suggested_method": "manual browser download",
+    "priority": "medium"
+  },
+  {
+    "url": "https://www.peoc4i.navy.mil/Portals/98/PMW120_Overview_Tearsheet.pdf",
+    "document": "PMW 120 overview tear sheet",
+    "reason": "no Wayback capture",
+    "suggested_method": "manual browser download",
+    "priority": "medium"
+  },
+  {
+    "url": "https://www.peoc4i.navy.mil/Portals/98/PMW%20130%20Teat%20Sheet.pdf",
+    "document": "PMW 130 tear sheet (current link on the program-office page)",
+    "reason": "no Wayback capture",
+    "suggested_method": "manual browser download",
+    "priority": "medium"
+  },
+  {
+    "url": "https://www.seaport.navy.mil/",
+    "document": "SeaPort-NxG public listing of NAVWAR task-order awards",
+    "reason": "no connection from this network",
+    "suggested_method": "manual check whether any public listing exists",
+    "priority": "low"
+  },
+  {
+    "url": "https://api.sam.gov/opportunities/v2/search",
+    "document": "SAM.gov Opportunities API key",
+    "reason": "personal api.data.gov key needed for notice descriptions and attachments",
+    "suggested_method": "register a free key at api.data.gov and add it to .env (never commit)",
+    "priority": "high"
+  },
+  {
+    "url": "https://www.gao.gov/legal/bid-protests/search",
+    "document": "GAO protest decisions naming NAVWAR solicitations",
+    "reason": "HTTP 403 to automation",
+    "suggested_method": "WARP-off session",
+    "priority": "low"
+  },
+  {
+    "url": "https://www.war.gov/News/Contracts/Contract/Article/4602178/contracts-for-sept-15-2026/",
+    "document": "DoD daily contract announcement article bodies (RSS gives titles and links only)",
+    "reason": "war.gov article pages return 403 to automation",
+    "suggested_method": "WARP-off session or Browserbase; RSS already monitored",
+    "priority": "medium"
+  }
+]

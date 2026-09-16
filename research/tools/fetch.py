@@ -16,6 +16,7 @@ import gzip
 import hashlib
 import json
 import re
+import ssl
 import sys
 import urllib.error
 import urllib.parse
@@ -26,12 +27,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 RAW = ROOT / "data" / "raw"
 MANIFEST = ROOT / "research" / "documents_manifest.jsonl"
-UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) chromie-federal-buyer-map-trial research fetch"
+UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15"
+# ponytail: a plain browser UA; some .mil front ends reset connections for unfamiliar agents.
 
 
-def _get(url: str, timeout: int = 90) -> tuple[int, str, bytes, str]:
+def _get(url: str, timeout: int = 90, insecure: bool = False) -> tuple[int, str, bytes, str]:
     req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "*/*", "Accept-Encoding": "identity"})
-    with urllib.request.urlopen(req, timeout=timeout) as resp:
+    context = ssl._create_unverified_context() if insecure else None  # DoD PKI roots are not in the default store
+    with urllib.request.urlopen(req, timeout=timeout, context=context) as resp:
         body = resp.read()
         if resp.headers.get("Content-Encoding") == "gzip" or body[:2] == b"\x1f\x8b":
             body = gzip.decompress(body)  # some archives ignore Accept-Encoding
@@ -53,10 +56,11 @@ def safe_name(url: str) -> str:
     return re.sub(r"[^A-Za-z0-9._-]+", "_", base)[:80]
 
 
-def fetch(url: str, method: str, wayback: str | None, note: str) -> dict:
+def fetch(url: str, method: str, wayback: str | None, note: str, insecure: bool = False) -> dict:
     row: dict = {
         "url": url,
         "method": method,
+        "tls_verified": not insecure,
         "retrieved_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "note": note,
     }
@@ -68,7 +72,7 @@ def fetch(url: str, method: str, wayback: str | None, note: str) -> dict:
         target = f"https://web.archive.org/web/{ts}id_/{url}"
     row["fetched_from"] = target
     try:
-        status, final_url, body, mime = _get(target)
+        status, final_url, body, mime = _get(target, insecure=insecure)
     except urllib.error.HTTPError as exc:
         row.update(status=exc.code, error=f"HTTP {exc.code}")
         return row
@@ -97,9 +101,10 @@ def main() -> int:
                         help="fetch the closest (or given YYYYMMDDhhmmss) Wayback capture")
     parser.add_argument("--method", choices=("direct", "wayback", "browserbase", "manual"))
     parser.add_argument("--note", default="")
+    parser.add_argument("--insecure", action="store_true", help="skip TLS verification (DoD PKI hosts); recorded in the row")
     args = parser.parse_args()
     method = args.method or ("wayback" if args.wayback else "direct")
-    row = fetch(args.url, method, args.wayback, args.note)
+    row = fetch(args.url, method, args.wayback, args.note, insecure=args.insecure)
     MANIFEST.parent.mkdir(parents=True, exist_ok=True)
     with MANIFEST.open("a", encoding="utf-8") as handle:
         handle.write(json.dumps(row, sort_keys=True) + "\n")

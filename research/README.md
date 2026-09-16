@@ -24,9 +24,9 @@ method and time), `manual_pdf_requests.json` (documents that still need a human 
 | Deliverable | Status |
 | --- | --- |
 | 00 existing work + pilot definition | done (2026-09-16) |
-| 01 source registry | in progress |
+| 01 source registry | done (2026-09-16); budget books pending manual retrieval |
 | 02 organization map | seed graph done (`organization_seed.json`); narrative planned |
-| 03 data-connection map | planned |
+| 03 data-connection map | done (2026-09-16) |
 | 04 attribution process + examples | planned |
 | 05 early signals + backtests | planned |
 | 06 continuous-monitor design | planned |

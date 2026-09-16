@@ -1,0 +1,1169 @@
+[
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "navy_peoc4i_site",
+    "provider_name": "PEO C4I official site (peoc4i.navy.mil)",
+    "official_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+    "responsible_org": "PEO C4I (NAVWAR; PAE Mission Systems from 2026-05-11)",
+    "lifecycle_stages": [
+      "organization",
+      "people",
+      "industry_engagement"
+    ],
+    "fields_and_identifiers": [
+      "program office code and name (PMW/PMA)",
+      "mission text",
+      "top programs",
+      "program manager name and phone (tear sheets)",
+      "tear-sheet date statement",
+      "Industry Intake Form"
+    ],
+    "historical_coverage": "site content 2023-2026; tear sheets dated 1 MAY 2023 and 1 JAN 2025; front page rebranded to PAE Mission Systems by 2026-05-19",
+    "publication_frequency": "irregular (tear sheets roughly annual)",
+    "reporting_lag": "none for the page; tear sheets lag leadership changes by months",
+    "access_mode": "webpage",
+    "access_restrictions": "Akamai bot protection returns 403 to non-browser clients and headless Chrome from this network; Wayback captures used",
+    "extraction_difficulty": "low (HTML lists); tear sheets are one-page PDFs with native text",
+    "answers": [
+      "which program offices exist under PEO C4I",
+      "what each office owns (programs)",
+      "who leads an office at a dated point",
+      "which office to contact"
+    ],
+    "cannot_answer": [
+      "contracts or notices by office",
+      "budget lines",
+      "current parent after the PAE consolidation (site under construction)"
+    ],
+    "proposed_monitor_frequency": "weekly hash diff of Program-Offices, Leadership, Contact and each tear sheet URL",
+    "inspected_example": {
+      "url": "https://www.peoc4i.navy.mil/Program-Offices/",
+      "retrieved_at": "2026-09-16",
+      "method": "wayback",
+      "sha256": "43c7525b85d563458c5a197b8a156da21b998e7a2eefae43bfff69c93eadf12f",
+      "note": "11 program offices listed with tear-sheet links; footer 'One NAVWAR ... PEO C4I & Space, PEO Digital, PEO MLB'",
+      "wayback_timestamp": "20260412054606"
+    },
+    "verification_status": "verified"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "navy_navwar_site",
+    "provider_name": "NAVWAR official site (navwar.navy.mil)",
+    "official_url": "https://www.navwar.navy.mil/Work-With-Us/NAVWAR-CSO-Opportunities/",
+    "responsible_org": "Naval Information Warfare Systems Command",
+    "lifecycle_stages": [
+      "organization",
+      "planned_requirement",
+      "active_acquisition"
+    ],
+    "fields_and_identifiers": [
+      "structure statement (HQ, NIWCs, PEOs)",
+      "contracting pathways (SAM, PIEE Solicitation Module, CSO)",
+      "LRAE download link",
+      "OSBP contact",
+      "1NAVWAR navigation (which organizations belong)"
+    ],
+    "historical_coverage": "captures available in Wayback through 2026-09-01",
+    "publication_frequency": "irregular",
+    "reporting_lag": "pages lag the reorganization (PEOs still described as NAVWAR components on 2026-09-01)",
+    "access_mode": "webpage",
+    "access_restrictions": "Akamai 403 to automation from this network; DNS for www.navwar.navy.mil intermittently unresolvable; Wayback used",
+    "extraction_difficulty": "low",
+    "answers": [
+      "which office contracts for which PEO",
+      "where solicitations are published",
+      "what NAVWAR says it is made of, dated"
+    ],
+    "cannot_answer": [
+      "program-office level detail",
+      "awards"
+    ],
+    "proposed_monitor_frequency": "weekly hash diff of About, Work-With-Us, Small-Business-Programs; monthly check for new LRAE link",
+    "inspected_example": {
+      "url": "https://www.navwar.navy.mil/Work-With-Us/NAVWAR-CSO-Opportunities/",
+      "retrieved_at": "2026-09-16",
+      "method": "wayback",
+      "sha256": "1e97effb2e659bbb4e0e23001959ed032424cde104380eb4f3b0c8cc56881c6c",
+      "note": "'NAVWAR HQ ... procures the IW systems sought by PEO C4I, PEO MLB and PEO Digital'; NIWCs 'the technical heart'; SAM and PIEE named as notice channels",
+      "wayback_timestamp": "20260901144827"
+    },
+    "verification_status": "verified"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "dvids_navy_units",
+    "provider_name": "DVIDS (Defense Visual Information Distribution Service) unit pages and releases",
+    "official_url": "https://www.dvidshub.net/unit/PEOC4I",
+    "responsible_org": "Defense Media Activity; releases authored by NAVWAR, PEO C4I, NIWC public affairs",
+    "lifecycle_stages": [
+      "organization",
+      "people",
+      "industry_engagement",
+      "planned_requirement"
+    ],
+    "fields_and_identifiers": [
+      "release date",
+      "headline",
+      "body text naming offices, programs, program managers, events",
+      "photo captions",
+      "unit tag"
+    ],
+    "historical_coverage": "PEO C4I unit page lists releases back to at least 2024; NAVWAR unit page back to 2025",
+    "publication_frequency": "event-driven (several per month for NAVWAR)",
+    "reporting_lag": "same day",
+    "access_mode": "webpage",
+    "access_restrictions": "none observed; RSS feeds exist but do not filter by unit",
+    "extraction_difficulty": "low (HTML); dates in MM.DD.YYYY",
+    "answers": [
+      "leadership changes with dates",
+      "industry engagement events and priorities",
+      "reorganization announcements (PAE Mission Systems)"
+    ],
+    "cannot_answer": [
+      "contract identifiers",
+      "budget figures"
+    ],
+    "proposed_monitor_frequency": "daily fetch of unit pages, diff headline list",
+    "inspected_example": {
+      "url": "https://www.dvidshub.net/news/546147/program-executive-office-command-control-communications-computers-and-intelligence-peo-c4i-welcomes-new-program-managers",
+      "retrieved_at": "2026-09-16",
+      "method": "direct",
+      "sha256": "6ba21425c5c1a36cadbb45753b1db6d08b5107c624dfa6a3467ca934870d1008",
+      "note": "change of command: Castillejo to PMW 150 relieving Jolie; Andalis to PMW 760"
+    },
+    "verification_status": "verified"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "navy_pae_press",
+    "provider_name": "Department of the Navy PAE press releases (navy.mil, paemaritime.navy.mil, DVIDS mirror)",
+    "official_url": "https://www.paemaritime.navy.mil/press-release/navy-reshapes-warfighting-acquisition-system/",
+    "responsible_org": "Office of the Assistant Secretary of the Navy (RD&A) / PAE organizations",
+    "lifecycle_stages": [
+      "organization"
+    ],
+    "fields_and_identifiers": [
+      "release date",
+      "PAE names and interim executives",
+      "organizations consolidated",
+      "Warfighting Acquisition System framing"
+    ],
+    "historical_coverage": "2026-03-15 (five PAEs) and 2026-05-11 (Aviation, Mission Systems, Munitions) releases",
+    "publication_frequency": "event-driven",
+    "reporting_lag": "same day",
+    "access_mode": "webpage",
+    "access_restrictions": "navy.mil returns 403 to automation; paemaritime.navy.mil and DVIDS are open",
+    "extraction_difficulty": "low",
+    "answers": [
+      "when portfolios were created and what moved into them"
+    ],
+    "cannot_answer": [
+      "office-level detail of what moved",
+      "effective dates for individual PMWs"
+    ],
+    "proposed_monitor_frequency": "weekly check of PAE domains and DVIDS for new releases",
+    "inspected_example": {
+      "url": "https://www.dvidshub.net/news/564916/department-navy-launches-pae-mission-systems-accelerate-warfighting-capability-speed",
+      "retrieved_at": "2026-09-16",
+      "method": "direct",
+      "sha256": "967d7526e0418279425a8d7cc2e1b0d6123e8af439eab2b7ca5eb16b4eedcc85",
+      "note": "consolidation list names PEO C4I, PEO Digital, PEO IWS, PEO MLB, DRPMs, Minotaur, NAVWAR, NAVSEA, NAVAIR, MCSC; interim PAE Jim Day"
+    },
+    "verification_status": "verified"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "navsea_small_business_org_docs",
+    "provider_name": "NAVSEA Small Business Partnerships documents (org chart, Deputy Program Manager roster)",
+    "official_url": "https://www.navsea.navy.mil/Small-Business-Partnerships/LRAE/",
+    "responsible_org": "NAVSEA Office of Small Business Programs",
+    "lifecycle_stages": [
+      "organization",
+      "people"
+    ],
+    "fields_and_identifiers": [
+      "PMS/IWS office codes",
+      "office descriptions",
+      "deputy program manager phone numbers",
+      "org chart"
+    ],
+    "historical_coverage": "roster dated 22 Jul 2025; org chart Aug 2025",
+    "publication_frequency": "roughly annual",
+    "reporting_lag": "months",
+    "access_mode": "pdf",
+    "access_restrictions": "Akamai 403; Wayback used",
+    "extraction_difficulty": "low-medium (tabular PDF)",
+    "answers": [
+      "NAVSEA program-office inventory and codes for expansion beyond the pilot"
+    ],
+    "cannot_answer": [
+      "NAVWAR offices"
+    ],
+    "proposed_monitor_frequency": "quarterly",
+    "inspected_example": {
+      "url": "https://www.navsea.navy.mil/Portals/103/Documents/Small_Business_Forum/DPMs_HQ_NamesCodesPhoneNumbers_For%20External%20Use_22July2025.pdf",
+      "retrieved_at": "2026-09-16",
+      "method": "wayback",
+      "sha256": "9f0c40adf2895418e66501ff1626be6f34c83642f59aaddde2df37df715e6093",
+      "note": "two-page table: title, phone, code, description (PMS 396, PMS 397, PMS 450, ...)",
+      "wayback_timestamp": "20260514044437"
+    },
+    "verification_status": "verified"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "federal_register",
+    "provider_name": "Federal Register API",
+    "official_url": "https://www.federalregister.gov/api/v1/documents.json",
+    "responsible_org": "Office of the Federal Register / GPO",
+    "lifecycle_stages": [
+      "organization"
+    ],
+    "fields_and_identifiers": [
+      "document_number",
+      "publication_date",
+      "type",
+      "agencies",
+      "title",
+      "abstract",
+      "pdf_url"
+    ],
+    "historical_coverage": "1994-present",
+    "publication_frequency": "daily",
+    "reporting_lag": "same day",
+    "access_mode": "api",
+    "access_restrictions": "none",
+    "extraction_difficulty": "low (JSON)",
+    "answers": [
+      "formal notices naming Navy organizations (renamings, demonstration projects, system-of-records notices)"
+    ],
+    "cannot_answer": [
+      "acquisition forecasts, notices, awards"
+    ],
+    "proposed_monitor_frequency": "weekly query per organization name",
+    "inspected_example": {
+      "url": "https://www.federalregister.gov/api/v1/documents.json?conditions%5Bterm%5D=%22Naval+Information+Warfare%22&per_page=5",
+      "retrieved_at": "2026-09-16",
+      "method": "direct",
+      "sha256": "b66e81efa8df6ab371915bdaeab5722249a4b0bfc5f8e6ce7f9c082840b34e54",
+      "note": "query 'Naval Information Warfare' returns dated notices with agencies and PDF links"
+    },
+    "verification_status": "verified"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "don_budget_justification_books",
+    "provider_name": "Department of the Navy budget materials (FMB): justification books by appropriation",
+    "official_url": "https://www.secnav.navy.mil/fmc/Pages/Fiscal-Year-2027.aspx",
+    "responsible_org": "Office of Budget (FMB), Assistant Secretary of the Navy (FM&C)",
+    "lifecycle_stages": [
+      "agency_intent"
+    ],
+    "fields_and_identifiers": [
+      "appropriation (RDT&E,N; OPN; O&M,N; WPN; APN; SCN)",
+      "budget activity",
+      "program element / line item",
+      "project",
+      "prior-year, current-year, request amounts",
+      "exhibit narratives naming programs and sometimes offices"
+    ],
+    "historical_coverage": "FY2012-FY2027 pages linked from the FMB landing page",
+    "publication_frequency": "annual (President's Budget release), plus amended and supplemental books",
+    "reporting_lag": "request year minus one",
+    "access_mode": "pdf",
+    "access_restrictions": "host resets many automated connections and returns 'Request Rejected' to the Wayback crawler; the FY2027 page fetched directly on one attempt; PDFs are tens of MB",
+    "extraction_difficulty": "high (large PDFs, exhibit tables spanning pages, fiscal-year columns)",
+    "answers": [
+      "what the Department requested per program element or line and how it changed",
+      "program narratives that name programs (and occasionally program offices)"
+    ],
+    "cannot_answer": [
+      "which contract a line funds",
+      "enacted amounts (see congressional sources)"
+    ],
+    "proposed_monitor_frequency": "annual at budget release, then monthly checks for amended books",
+    "inspected_example": {
+      "url": "https://www.secnav.navy.mil/fmc/Pages/Fiscal-Year-2027.aspx",
+      "retrieved_at": "2026-09-16",
+      "method": "direct",
+      "sha256": "4a5153ee3693915ed4f83fc4ff59b63236c1b104b83e957a6c95fa5aa06f782f",
+      "note": "37 PDF links: RDTEN_BA1-3 ... BA7-8, OPN_BA1 ... BA5-8, OMN, WPN, APN, SCN, Highlights_Book, DON_Budget_Card"
+    },
+    "verification_status": "verified"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "dod_comptroller_budget_materials",
+    "provider_name": "DoD Comptroller budget materials",
+    "official_url": "https://comptroller.defense.gov/Budget-Materials/Budget2027/",
+    "responsible_org": "Under Secretary of Defense (Comptroller)",
+    "lifecycle_stages": [
+      "agency_intent"
+    ],
+    "fields_and_identifiers": [
+      "DoD-wide overview, R-1, P-1 summary tables",
+      "links to component books"
+    ],
+    "historical_coverage": "FY1998-FY2027",
+    "publication_frequency": "annual",
+    "reporting_lag": "request year minus one",
+    "access_mode": "pdf",
+    "access_restrictions": "403 to this network; Wayback capture of the index is an empty shell",
+    "extraction_difficulty": "high",
+    "answers": [
+      "DoD-level R-1/P-1 line totals for cross-checking DoN books"
+    ],
+    "cannot_answer": [
+      "office-level detail"
+    ],
+    "proposed_monitor_frequency": "annual",
+    "inspected_example": {
+      "url": "https://comptroller.defense.gov/Budget-Materials/Budget2027/",
+      "retrieved_at": null,
+      "method": null,
+      "sha256": null,
+      "note": "index page captured by Wayback 2026-05-23 contains no document links (client-rendered); PDFs not retrieved"
+    },
+    "verification_status": "blocked"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "it_dashboard_it_collect",
+    "provider_name": "Federal IT Dashboard / IT Collect public API",
+    "official_url": "https://www.itdashboard.gov/",
+    "responsible_org": "OMB / GSA",
+    "lifecycle_stages": [
+      "agency_intent"
+    ],
+    "fields_and_identifiers": [
+      "UII (unique investment identifier)",
+      "investment title",
+      "agency code",
+      "DME/O&M funding by year",
+      "linked contract PIIDs",
+      "CIO rating"
+    ],
+    "historical_coverage": "FY2009-present (schema changed 2024)",
+    "publication_frequency": "annual submission with periodic updates",
+    "reporting_lag": "months",
+    "access_mode": "api",
+    "access_restrictions": "API key for IT Collect (already used by Chromie's agency_it_portfolio ingest)",
+    "extraction_difficulty": "low (JSON)",
+    "answers": [
+      "planned IT investment funding and contract links for Navy IT investments"
+    ],
+    "cannot_answer": [
+      "weapon-system C4I procurement lines outside the IT portfolio"
+    ],
+    "proposed_monitor_frequency": "weekly (existing prod job)",
+    "inspected_example": {
+      "url": "https://www.itdashboard.gov/",
+      "retrieved_at": "2026-09-16",
+      "method": "direct",
+      "sha256": "6707a13c88e20e67e1ae7eda153b45e47c0626ff7410b6c9de5ebfa0bbf34773",
+      "note": "landing page reachable; detailed pull deferred to the existing prod ingest"
+    },
+    "verification_status": "verified"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "navy_posture_testimony",
+    "provider_name": "Navy posture statements and acquisition testimony (congress.gov hearings, committee sites)",
+    "official_url": "https://api.congress.gov/v3/hearing",
+    "responsible_org": "Congress (committees); witnesses from ASN(RD&A), NAVWAR",
+    "lifecycle_stages": [
+      "agency_intent"
+    ],
+    "fields_and_identifiers": [
+      "hearing date",
+      "committee",
+      "witness statements (PDF)"
+    ],
+    "historical_coverage": "varies",
+    "publication_frequency": "annual cycle (Feb-May)",
+    "reporting_lag": "days",
+    "access_mode": "api",
+    "access_restrictions": "congress.gov API key (DEMO_KEY works for sampling); committee sites vary",
+    "extraction_difficulty": "medium (PDF statements)",
+    "answers": [
+      "stated priorities and gaps by senior leaders"
+    ],
+    "cannot_answer": [
+      "office-level acquisitions"
+    ],
+    "proposed_monitor_frequency": "weekly during posture season",
+    "inspected_example": {
+      "url": null,
+      "retrieved_at": null,
+      "method": null,
+      "sha256": null,
+      "note": "not yet sampled for Navy acquisition hearings"
+    },
+    "verification_status": "not_inspected"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "govinfo_api",
+    "provider_name": "govinfo API (committee reports, explanatory statements, enacted laws, bills)",
+    "official_url": "https://api.govinfo.gov/",
+    "responsible_org": "Government Publishing Office",
+    "lifecycle_stages": [
+      "congressional_decision"
+    ],
+    "fields_and_identifiers": [
+      "packageId (e.g. CRPT-119hrpt698)",
+      "collection (CRPT, CREC, PLAW, BILLS)",
+      "dateIssued",
+      "title",
+      "download links (PDF, text, XML)",
+      "funding tables with program element / line item and requested vs recommended amounts"
+    ],
+    "historical_coverage": "1994-present for most collections",
+    "publication_frequency": "daily",
+    "reporting_lag": "days",
+    "access_mode": "api",
+    "access_restrictions": "api.data.gov key (DEMO_KEY rate-limited)",
+    "extraction_difficulty": "medium-high (funding tables inside long PDFs/XML)",
+    "answers": [
+      "what Congress recommended, cut, added or directed by line",
+      "directive report language naming Navy programs"
+    ],
+    "cannot_answer": [
+      "contract-level effects"
+    ],
+    "proposed_monitor_frequency": "daily poll of new CRPT/CREC/PLAW packages matching defense keywords",
+    "inspected_example": {
+      "url": "https://api.govinfo.gov/packages/CRPT-119hrpt698/summary?api_key=DEMO_KEY",
+      "retrieved_at": "2026-09-16",
+      "method": "direct",
+      "sha256": "92cafb792cce1f59e4eb26feb111ce5df7adbd146bb50c7bd1b43ed8e6badf21",
+      "note": "H. Rept. 119-698, NDAA FY2027, issued 2026-06-15, with download links"
+    },
+    "verification_status": "verified"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "congress_gov_api",
+    "provider_name": "congress.gov API (bills, amendments, committee reports, hearings)",
+    "official_url": "https://api.congress.gov/v3/",
+    "responsible_org": "Library of Congress",
+    "lifecycle_stages": [
+      "congressional_decision"
+    ],
+    "fields_and_identifiers": [
+      "bill number",
+      "actions with dates",
+      "committee report citations",
+      "text versions"
+    ],
+    "historical_coverage": "1973-present",
+    "publication_frequency": "daily",
+    "reporting_lag": "days",
+    "access_mode": "api",
+    "access_restrictions": "api.data.gov key",
+    "extraction_difficulty": "low (JSON) for status; report text via govinfo",
+    "answers": [
+      "status and timing of defense authorization and appropriations bills"
+    ],
+    "cannot_answer": [
+      "line-level tables (use govinfo)"
+    ],
+    "proposed_monitor_frequency": "daily",
+    "inspected_example": {
+      "url": "https://api.congress.gov/v3/bill?api_key=DEMO_KEY&limit=1",
+      "retrieved_at": "2026-09-16",
+      "method": "direct",
+      "sha256": "2d6f7e3d81846986074c5e39a1095cd2cfc5ab6184a7db59923749dad7a8fff5",
+      "note": "bill endpoint responds with DEMO_KEY"
+    },
+    "verification_status": "verified"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "navwar_lrae_annex25",
+    "provider_name": "NAVWAR Long-Range Acquisition Estimate (LRAE Annex 25)",
+    "official_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "responsible_org": "NAVWAR HQ Contracts (HCA); release HQCA-2025-A-037",
+    "lifecycle_stages": [
+      "planned_requirement"
+    ],
+    "fields_and_identifiers": [
+      "Requirement Title / Description",
+      "Associated Program or Requirement Office (PMW/PMA, NIWC competency, HQ codes)",
+      "Anticipated Total Value range",
+      "Procurement Method / Contract Type / Instrument",
+      "Contracting Office UIC",
+      "Anticipated Solicitation FY+Q",
+      "Anticipated Award FY+Q",
+      "Period of Performance",
+      "Follow-on or New",
+      "Existing Contract Number",
+      "Incumbent Contractor",
+      "NAICS",
+      "PSC",
+      "Contracting POC name and email",
+      "Clearances",
+      "PALT code",
+      "PID Number"
+    ],
+    "historical_coverage": "June 2025 release inspected (833 rows); earlier releases exist (2024 referenced by third parties) and are not yet retrieved",
+    "publication_frequency": "roughly annual with mid-year updates (activity-dependent)",
+    "reporting_lag": "forecast; each row is an estimate with a disclaimer",
+    "access_mode": "spreadsheet",
+    "access_restrictions": "host blocks automation; Wayback capture of 2026-01-08 used",
+    "extraction_difficulty": "low (single sheet, header on row 6)",
+    "answers": [
+      "what each requirement office plans to buy, when, how, at what value range",
+      "which contract and incumbent a follow-on replaces",
+      "which contracting office will run it"
+    ],
+    "cannot_answer": [
+      "budget line",
+      "final solicitation number",
+      "whether it happened"
+    ],
+    "proposed_monitor_frequency": "monthly check for a new release; diff rows by PID number",
+    "inspected_example": {
+      "url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+      "retrieved_at": "2026-09-16",
+      "method": "wayback",
+      "sha256": "697ec8c004d239aeffab654a35f3a46101d227435a6929e64fc9b57cc75b6b7e",
+      "note": "833 rows; 144 rows name a PEO program office, all contracted by N00039; 200 rows carry an existing contract number",
+      "wayback_timestamp": "20260108121536"
+    },
+    "verification_status": "verified"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "don_osbp_lrae_index",
+    "provider_name": "Department of the Navy OSBP Long Range Acquisition Estimate index",
+    "official_url": "https://www.secnav.navy.mil/osbp/acquisition-estimate.aspx",
+    "responsible_org": "DoN Office of Small Business Programs",
+    "lifecycle_stages": [
+      "planned_requirement"
+    ],
+    "fields_and_identifiers": [
+      "links to each Navy activity's LRAE"
+    ],
+    "historical_coverage": "unknown (page not retrieved)",
+    "publication_frequency": "unknown",
+    "reporting_lag": "unknown",
+    "access_mode": "webpage",
+    "access_restrictions": "connection reset on every automated attempt from this network; one curl attempt with a browser UA succeeded earlier in the day",
+    "extraction_difficulty": "low",
+    "answers": [
+      "the list of Navy activities that publish LRAEs"
+    ],
+    "cannot_answer": [
+      "row-level forecasts"
+    ],
+    "proposed_monitor_frequency": "monthly",
+    "inspected_example": {
+      "url": "https://www.secnav.navy.mil/osbp/acquisition-estimate.aspx",
+      "retrieved_at": null,
+      "method": null,
+      "sha256": null,
+      "note": "three fetch attempts reset; queued for a WARP-off session"
+    },
+    "verification_status": "blocked"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "navsea_lrae_annex25",
+    "provider_name": "NAVSEA Enterprise Long-Range Acquisition Estimate",
+    "official_url": "https://www.navsea.navy.mil/Portals/103/Documents/Small_Business_Forum/LRAE-NAVSEA_Enterprise_LRAE_18DECEMBER2025_FINAL_Locked.xlsx",
+    "responsible_org": "NAVSEA HQ and field procurement offices",
+    "lifecycle_stages": [
+      "planned_requirement"
+    ],
+    "fields_and_identifiers": [
+      "same Annex 25 columns as NAVWAR",
+      "requirement offices include IWS-x.0, PMS codes, warfare-center departments, regional maintenance centers",
+      "contracting UICs N00024, N00164, N64498, N00178, ..."
+    ],
+    "historical_coverage": "release 2025-12-18 inspected",
+    "publication_frequency": "semiannual (activity-dependent)",
+    "reporting_lag": "forecast",
+    "access_mode": "spreadsheet",
+    "access_restrictions": "Akamai 403; Wayback capture 2025-12-26 used",
+    "extraction_difficulty": "low",
+    "answers": [
+      "planned NAVSEA requirements by office, incl. PEO IWS offices now consolidated into PAE Mission Systems"
+    ],
+    "cannot_answer": [
+      "NAVWAR rows"
+    ],
+    "proposed_monitor_frequency": "monthly",
+    "inspected_example": {
+      "url": "https://www.navsea.navy.mil/Portals/103/Documents/Small_Business_Forum/LRAE-NAVSEA_Enterprise_LRAE_18DECEMBER2025_FINAL_Locked.xlsx",
+      "retrieved_at": "2026-09-16",
+      "method": "wayback",
+      "sha256": "7a1b7d95f85bd10ccd87e93b256936d3f9132d7f97e9b81a180a7768cf627f15",
+      "note": "sheet 'Annex 25 Template'; 228 distinct requirement offices; N00024 NAVSEA HQ is the top contracting UIC",
+      "wayback_timestamp": "20251226203409"
+    },
+    "verification_status": "verified"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "onr_lrae_annex25",
+    "provider_name": "ONR and NRL Long-Range Acquisition Estimate",
+    "official_url": "https://www.onr.navy.mil/media/document/onr-and-nrl-long-range-acquisition-estimate",
+    "responsible_org": "Office of Naval Research / Naval Research Laboratory",
+    "lifecycle_stages": [
+      "planned_requirement"
+    ],
+    "fields_and_identifiers": [
+      "same Annex 25 columns",
+      "sheets ONR and NRL"
+    ],
+    "historical_coverage": "public release 2025-12-19",
+    "publication_frequency": "semiannual",
+    "reporting_lag": "forecast",
+    "access_mode": "spreadsheet",
+    "access_restrictions": "none (direct download works)",
+    "extraction_difficulty": "low",
+    "answers": [
+      "planned research procurements above $750K"
+    ],
+    "cannot_answer": [
+      "PEO C4I requirements"
+    ],
+    "proposed_monitor_frequency": "monthly",
+    "inspected_example": {
+      "url": "https://www.onr.navy.mil/media/document/onr-and-nrl-long-range-acquisition-estimate",
+      "retrieved_at": "2026-09-16",
+      "method": "direct",
+      "sha256": "29db4e9d73fb6c4bcbbd2238eeada54c17bee3281e21cdac018181d846aeb9b0",
+      "note": "two data sheets plus validation lists; header on row 7"
+    },
+    "verification_status": "verified"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "lrae_as_sam_special_notice",
+    "provider_name": "LRAEs posted as SAM.gov Special Notices (NAVSUP, NAWCAD pattern)",
+    "official_url": "https://sam.gov/opp/865f6c1e29514d81ab3ee16714d40a25/view",
+    "responsible_org": "individual Navy contracting activities",
+    "lifecycle_stages": [
+      "planned_requirement"
+    ],
+    "fields_and_identifiers": [
+      "SAM notice id",
+      "attachment xlsx/pdf",
+      "posted date"
+    ],
+    "historical_coverage": "examples seen for 2025",
+    "publication_frequency": "semiannual",
+    "reporting_lag": "forecast",
+    "access_mode": "api",
+    "access_restrictions": "SAM notice pages are client-rendered; attachments need the SAM API key or the public extract",
+    "extraction_difficulty": "medium",
+    "answers": [
+      "LRAEs for activities that do not host a spreadsheet on their own site"
+    ],
+    "cannot_answer": [
+      "NAVWAR (hosts its own)"
+    ],
+    "proposed_monitor_frequency": "weekly search of Special Notices for 'Long Range Acquisition'",
+    "inspected_example": {
+      "url": "https://sam.gov/opp/865f6c1e29514d81ab3ee16714d40a25/view",
+      "retrieved_at": null,
+      "method": null,
+      "sha256": null,
+      "note": "pointer only; notice attachment not retrieved (needs SAM API key)"
+    },
+    "verification_status": "not_inspected"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "peoc4i_industry_engagement",
+    "provider_name": "PEO C4I industry engagement (AFCEA WEST events, Industry Intake Form) via DVIDS",
+    "official_url": "https://www.dvidshub.net/news/558082/peo-c4i-highlights-industry-engagement-west-2026-with-launch-new-industry-intake-form",
+    "responsible_org": "PEO C4I",
+    "lifecycle_stages": [
+      "planned_requirement",
+      "industry_engagement"
+    ],
+    "fields_and_identifiers": [
+      "event date",
+      "offices participating",
+      "stated priorities and capability gaps",
+      "intake mechanism"
+    ],
+    "historical_coverage": "WEST 2024, 2025, 2026 releases",
+    "publication_frequency": "annual (February) plus ad hoc",
+    "reporting_lag": "days",
+    "access_mode": "webpage",
+    "access_restrictions": "none",
+    "extraction_difficulty": "low",
+    "answers": [
+      "what offices told industry they need, and when"
+    ],
+    "cannot_answer": [
+      "values, timing, contracting office"
+    ],
+    "proposed_monitor_frequency": "daily via DVIDS unit page",
+    "inspected_example": {
+      "url": "https://www.dvidshub.net/news/558082/peo-c4i-highlights-industry-engagement-west-2026-with-launch-new-industry-intake-form",
+      "retrieved_at": "2026-09-16",
+      "method": "direct",
+      "sha256": "52e3de2aa1df098626cb910d85355ad316d4bc787bbb90840befe80097473157",
+      "note": "'third annual engagement event at AFCEA WEST 2026, featuring all 11 program offices'"
+    },
+    "verification_status": "verified"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "navwar_cso",
+    "provider_name": "NAVWAR Commercial Solutions Openings",
+    "official_url": "https://www.navwar.navy.mil/Work-With-Us/Commercial-Solutions-Opening-CSO-Process/",
+    "responsible_org": "NAVWAR HQ Contracts",
+    "lifecycle_stages": [
+      "planned_requirement",
+      "active_acquisition"
+    ],
+    "fields_and_identifiers": [
+      "CSO problem statements",
+      "SAM notice links",
+      "DIU partnership"
+    ],
+    "historical_coverage": "page captured 2026-09-01",
+    "publication_frequency": "event-driven",
+    "reporting_lag": "days",
+    "access_mode": "webpage",
+    "access_restrictions": "Akamai 403; Wayback used",
+    "extraction_difficulty": "low",
+    "answers": [
+      "capability needs opened to commercial solutions"
+    ],
+    "cannot_answer": [
+      "owner office unless the CSO text names it"
+    ],
+    "proposed_monitor_frequency": "weekly",
+    "inspected_example": {
+      "url": "https://www.navwar.navy.mil/Work-With-Us/NAVWAR-CSO-Opportunities/",
+      "retrieved_at": "2026-09-16",
+      "method": "wayback",
+      "sha256": "1e97effb2e659bbb4e0e23001959ed032424cde104380eb4f3b0c8cc56881c6c",
+      "note": "page links a SAM notice and the PIEE vendor instructions",
+      "wayback_timestamp": "20260901144827"
+    },
+    "verification_status": "verified"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "sbir_sttr_topics",
+    "provider_name": "SBIR/STTR topics (sbir.gov; DoD SBIR/STTR portal)",
+    "official_url": "https://www.sbir.gov/topics",
+    "responsible_org": "SBA (sbir.gov); OUSD(R&E) for DoD topics",
+    "lifecycle_stages": [
+      "planned_requirement"
+    ],
+    "fields_and_identifiers": [
+      "topic number (e.g. N26x-xxx)",
+      "component",
+      "title, description",
+      "technical POC",
+      "release/open/close dates"
+    ],
+    "historical_coverage": "topics back to the 1980s in the awards database; current solicitations on the DoD portal",
+    "publication_frequency": "three DoD cycles per year",
+    "reporting_lag": "days",
+    "access_mode": "webpage",
+    "access_restrictions": "sbir.gov pages open; old topics.json API path returns 404; DoD portal client-rendered",
+    "extraction_difficulty": "medium",
+    "answers": [
+      "Navy S&T needs by topic, sometimes naming the sponsoring program office"
+    ],
+    "cannot_answer": [
+      "production requirements"
+    ],
+    "proposed_monitor_frequency": "per cycle (three times a year)",
+    "inspected_example": {
+      "url": "https://www.sbir.gov/topics",
+      "retrieved_at": "2026-09-16",
+      "method": "direct",
+      "sha256": "80884232edbfe6b415ed428e852924f4d7762e7451641b5a7c70ea4d338fda7f",
+      "note": "search page reachable; Navy topic sampling deferred"
+    },
+    "verification_status": "verified"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "sam_public_csv_extract",
+    "provider_name": "SAM.gov Contract Opportunities public data extract (daily CSV)",
+    "official_url": "https://sam.gov/data-services/Contract%20Opportunities/datagov?privacy=Public",
+    "responsible_org": "GSA (SAM.gov)",
+    "lifecycle_stages": [
+      "active_acquisition"
+    ],
+    "fields_and_identifiers": [
+      "notice id",
+      "title",
+      "solicitation number",
+      "department/agency/office",
+      "posted date",
+      "type",
+      "set-aside",
+      "response deadline",
+      "NAICS",
+      "PSC",
+      "POC name/email",
+      "description link",
+      "award fields when type is Award"
+    ],
+    "historical_coverage": "a 'historical' archive (2020) plus a daily full CSV (updated 2026-09-15 at inspection)",
+    "publication_frequency": "daily",
+    "reporting_lag": "one day",
+    "access_mode": "export",
+    "access_restrictions": "no key; file is large (redirects to S3); descriptions and attachments require the API",
+    "extraction_difficulty": "medium (large CSV, encoding)",
+    "answers": [
+      "every public notice by office, with dates and POCs",
+      "notice lineage by solicitation number"
+    ],
+    "cannot_answer": [
+      "attachment text",
+      "office ownership beyond the office field and title"
+    ],
+    "proposed_monitor_frequency": "nightly download and diff on notice id + modified date",
+    "inspected_example": {
+      "url": "https://sam.gov/api/prod/fileextractservices/v1/api/listfiles?random=1&domain=Contract%20Opportunities/datagov&privacy=Public",
+      "retrieved_at": "2026-09-16",
+      "method": "direct",
+      "sha256": "2d08b2e524047b475c01dfa8aa63dbf9dc86418f08c6bcecc5d30892117deba8",
+      "note": "listing shows ContractOpportunitiesFullCSV.csv modified Sep 15, 2026 and a 'historical' folder"
+    },
+    "verification_status": "verified"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "sam_opportunities_api",
+    "provider_name": "SAM.gov Opportunities API v2 (search, description, attachments)",
+    "official_url": "https://api.sam.gov/opportunities/v2/search",
+    "responsible_org": "GSA (SAM.gov)",
+    "lifecycle_stages": [
+      "active_acquisition"
+    ],
+    "fields_and_identifiers": [
+      "noticeId",
+      "solicitationNumber",
+      "fullParentPathName (dept/agency/office)",
+      "officeAddress",
+      "pointOfContact",
+      "description URL",
+      "resourceLinks (attachments)",
+      "postedDate",
+      "type",
+      "active"
+    ],
+    "historical_coverage": "notices since 2018 via API",
+    "publication_frequency": "real time",
+    "reporting_lag": "none",
+    "access_mode": "api",
+    "access_restrictions": "personal api.data.gov key required (not yet available in this environment); daily request limits",
+    "extraction_difficulty": "low (JSON); attachments are PDFs/DOCX",
+    "answers": [
+      "notice text and attachments that name the requiring office",
+      "amendments"
+    ],
+    "cannot_answer": [
+      "awards after 2020 for DoD except as award notices"
+    ],
+    "proposed_monitor_frequency": "hourly for watched offices once a key is available",
+    "inspected_example": {
+      "url": "https://api.sam.gov/opportunities/v2/search",
+      "retrieved_at": null,
+      "method": null,
+      "sha256": null,
+      "note": "requires the user's own api.data.gov key; Chromie's production key is not used for the trial"
+    },
+    "verification_status": "restricted"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "piee_solicitation_module",
+    "provider_name": "PIEE Solicitation Module (replaced NAVWAR eCommerce)",
+    "official_url": "https://piee.eb.mil/",
+    "responsible_org": "DoD Procurement Integrated Enterprise Environment (OSD DPC)",
+    "lifecycle_stages": [
+      "active_acquisition"
+    ],
+    "fields_and_identifiers": [
+      "solicitation number",
+      "issuing DoDAAC",
+      "attachments",
+      "amendments",
+      "vendor Q&A"
+    ],
+    "historical_coverage": "NAVWAR moved solicitations here from NAVWAR eCommerce (date not yet verified)",
+    "publication_frequency": "real time",
+    "reporting_lag": "none",
+    "access_mode": "manual",
+    "access_restrictions": "vendor login required for solicitation content; landing page and access instructions are public",
+    "extraction_difficulty": "high (authenticated portal)",
+    "answers": [
+      "full solicitation packages for NAVWAR requirements"
+    ],
+    "cannot_answer": [
+      "anything without a vendor account"
+    ],
+    "proposed_monitor_frequency": "not automated; rely on SAM synopses and record the gap",
+    "inspected_example": {
+      "url": "https://www.acq.osd.mil/asda/dpc/ce/cap/docs/piee/PIEE_Solicitation_Module_Vendor_Access_Instructions.pdf",
+      "retrieved_at": "2026-09-16",
+      "method": "direct",
+      "sha256": "f52f63ca15cd5609fcf192fe18d83d838218c1692d8e193e24922aef8d9b2441",
+      "note": "official access-instructions PDF (TLS chain is DoD PKI; fetched with verification off and recorded)"
+    },
+    "verification_status": "restricted"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "seaport_nxg",
+    "provider_name": "SeaPort-NxG portal (Navy services vehicle)",
+    "official_url": "https://www.seaport.navy.mil/",
+    "responsible_org": "NAVSEA / NSWC Dahlgren contracting (N00178) as vehicle owner",
+    "lifecycle_stages": [
+      "active_acquisition",
+      "award"
+    ],
+    "fields_and_identifiers": [
+      "task order solicitation number",
+      "ordering office",
+      "awardee",
+      "IDV N00178-19-D-xxxx"
+    ],
+    "historical_coverage": "vehicle since 2019",
+    "publication_frequency": "continuous",
+    "reporting_lag": "none",
+    "access_mode": "manual",
+    "access_restrictions": "no connection from this network; task-order RFPs are visible only to vehicle holders",
+    "extraction_difficulty": "high",
+    "answers": [
+      "task-order competitions for PEO C4I support services"
+    ],
+    "cannot_answer": [
+      "anything from outside the vehicle"
+    ],
+    "proposed_monitor_frequency": "not automated; awards tracked through FPDS referenced IDVs",
+    "inspected_example": {
+      "url": "https://www.seaport.navy.mil/",
+      "retrieved_at": null,
+      "method": null,
+      "sha256": null,
+      "note": "connection failed (HTTP 000) on every attempt"
+    },
+    "verification_status": "blocked"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "fpds_atom_feed",
+    "provider_name": "FPDS ATOM public feed",
+    "official_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=CONTRACTING_OFFICE_ID:N00039",
+    "responsible_org": "GSA (FPDS)",
+    "lifecycle_stages": [
+      "award"
+    ],
+    "fields_and_identifiers": [
+      "PIID, modNumber",
+      "referencedIDVID",
+      "contractingOfficeID (+name)",
+      "fundingRequestingOfficeID (+name)",
+      "contractingOfficeAgencyID",
+      "signedDate",
+      "descriptionOfContractRequirement",
+      "solicitationID",
+      "NAICS",
+      "PSC",
+      "obligatedAmount",
+      "vendor name, UEI",
+      "competition fields"
+    ],
+    "historical_coverage": "FY2004-present",
+    "publication_frequency": "continuous",
+    "reporting_lag": "DoD actions published about 90 days after signature",
+    "access_mode": "api",
+    "access_restrictions": "none; 10 entries per page, ~200 KB per page",
+    "extraction_difficulty": "medium (deep XML namespaces)",
+    "answers": [
+      "every action by contracting office with funding office, description, IDV, solicitation and dates"
+    ],
+    "cannot_answer": [
+      "requiring office unless named in the description"
+    ],
+    "proposed_monitor_frequency": "daily pull per contracting office since last signed date",
+    "inspected_example": {
+      "url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=CONTRACTING_OFFICE_ID:N00039+SIGNED_DATE:%5B2026/06/01,2026/09/16%5D&start=0",
+      "retrieved_at": "2026-09-16",
+      "method": "direct",
+      "sha256": "742559fc0a5eac2c8b46a11a177d50ff8ed51962bc411b20a736d30b5a75d0b5",
+      "note": "10 actions; funding offices N00039 and N00024 (NAVSEA HQ); descriptions such as 'LTS/CLTS PRODUCTION AND SUSTAINMENT'"
+    },
+    "verification_status": "verified"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "usaspending_api",
+    "provider_name": "USAspending API v2",
+    "official_url": "https://api.usaspending.gov/",
+    "responsible_org": "Treasury (Bureau of the Fiscal Service)",
+    "lifecycle_stages": [
+      "award"
+    ],
+    "fields_and_identifiers": [
+      "generated_unique_award_id",
+      "piid",
+      "parent_award_piid",
+      "description",
+      "awarding and funding agency/office names",
+      "period_of_performance (start, end, potential end)",
+      "total_obligation",
+      "base_and_all_options",
+      "recipient",
+      "NAICS/PSC",
+      "transactions and subawards"
+    ],
+    "historical_coverage": "FY2008-present",
+    "publication_frequency": "daily loads",
+    "reporting_lag": "follows FPDS (about 90 days for DoD)",
+    "access_mode": "api",
+    "access_restrictions": "none",
+    "extraction_difficulty": "low (JSON)",
+    "answers": [
+      "award ceilings, obligations, performance periods, incumbents, keyword search across descriptions"
+    ],
+    "cannot_answer": [
+      "requiring office unless in description"
+    ],
+    "proposed_monitor_frequency": "weekly refresh of watched awards; nightly keyword search for office codes",
+    "inspected_example": {
+      "url": "https://api.usaspending.gov/api/v2/awards/CONT_AWD_N0003922F3000_9700_N0017819D7264_9700/",
+      "retrieved_at": "2026-09-16",
+      "method": "direct",
+      "sha256": "3a8cb2ba9ffa4ceed7bef394fe5b35478b5914937ef809f8ffdaa2e52d7ec9b4",
+      "note": "description names 'PROGRAM MANAGER, WARFARE TACTICAL NETWORKS (PMW 160)'; PoP 2021-10-27 to 2026-10-26; solicitation N0003921R3015"
+    },
+    "verification_status": "verified"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "dod_contract_announcements",
+    "provider_name": "DoD (Department of War) daily contract announcements (RSS + article pages)",
+    "official_url": "https://www.defense.gov/DesktopModules/ArticleCS/RSS.ashx?max=10&ContentType=400&Site=945",
+    "responsible_org": "Department of Defense (Department of War) public affairs",
+    "lifecycle_stages": [
+      "award"
+    ],
+    "fields_and_identifiers": [
+      "award date",
+      "awardee",
+      "value",
+      "description",
+      "place of performance",
+      "contracting activity name",
+      "contract number"
+    ],
+    "historical_coverage": "daily since the 1990s",
+    "publication_frequency": "daily (awards over $7.5M)",
+    "reporting_lag": "same day",
+    "access_mode": "api",
+    "access_restrictions": "RSS feed answers directly; article pages on war.gov/defense.gov are behind Akamai (403 to automation) so article bodies need Wayback, WARP-off or Browserbase",
+    "extraction_difficulty": "medium (prose)",
+    "answers": [
+      "large awards the day they are made, naming the contracting activity"
+    ],
+    "cannot_answer": [
+      "awards under the threshold",
+      "requiring office unless stated"
+    ],
+    "proposed_monitor_frequency": "daily RSS poll; fetch each day's article through the fallback path",
+    "inspected_example": {
+      "url": "https://www.defense.gov/DesktopModules/ArticleCS/RSS.ashx?max=10&ContentType=400&Site=945",
+      "retrieved_at": "2026-09-16",
+      "method": "direct",
+      "sha256": "7aef465f4d740efcbd8bd84ab59d87ef33268e38f00a08827806484d5b423e93",
+      "note": "10 items: 'Contracts for Sept. 15, 2026' ... with war.gov article links and pubDate"
+    },
+    "verification_status": "verified"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "gao_bid_protests",
+    "provider_name": "GAO bid protest decisions and docket",
+    "official_url": "https://www.gao.gov/legal/bid-protests/search",
+    "responsible_org": "Government Accountability Office",
+    "lifecycle_stages": [
+      "award"
+    ],
+    "fields_and_identifiers": [
+      "B-number",
+      "agency",
+      "solicitation number",
+      "decision date",
+      "outcome"
+    ],
+    "historical_coverage": "decisions since 1996 online",
+    "publication_frequency": "continuous",
+    "reporting_lag": "days to weeks",
+    "access_mode": "webpage",
+    "access_restrictions": "403 to automation from this network",
+    "extraction_difficulty": "medium",
+    "answers": [
+      "contested NAVWAR procurements and their solicitation numbers"
+    ],
+    "cannot_answer": [
+      "office ownership"
+    ],
+    "proposed_monitor_frequency": "weekly",
+    "inspected_example": {
+      "url": "https://www.gao.gov/",
+      "retrieved_at": null,
+      "method": null,
+      "sha256": null,
+      "note": "blocked (HTTP 403); Chromie's existing pursuit-intelligence runner already covers GAO"
+    },
+    "verification_status": "blocked"
+  },
+  {
+    "last_verified_at": "2026-09-16",
+    "source_key": "wayback_machine",
+    "provider_name": "Internet Archive Wayback Machine (dated copies of official pages)",
+    "official_url": "https://web.archive.org/",
+    "responsible_org": "Internet Archive (not a government source; used only to retrieve dated copies of official URLs)",
+    "lifecycle_stages": [
+      "organization",
+      "planned_requirement",
+      "agency_intent"
+    ],
+    "fields_and_identifiers": [
+      "capture timestamp",
+      "original URL",
+      "raw bytes via the id_ endpoint"
+    ],
+    "historical_coverage": "varies by URL; NAVWAR LRAE captured 2026-01-08, PEO C4I pages 2024-2026",
+    "publication_frequency": "crawler-dependent",
+    "reporting_lag": "capture lag varies (days to months)",
+    "access_mode": "api",
+    "access_restrictions": "CDX index API intermittently returns 503; secnav.navy.mil returns firewall stubs to the crawler",
+    "extraction_difficulty": "low",
+    "answers": [
+      "what an official page said on a given date (available-by evidence for backtests)"
+    ],
+    "cannot_answer": [
+      "pages the crawler was blocked from"
+    ],
+    "proposed_monitor_frequency": "on demand",
+    "inspected_example": {
+      "url": "https://www.peoc4i.navy.mil/",
+      "retrieved_at": "2026-09-16",
+      "method": "wayback",
+      "sha256": "8a7c7610f1564f9967fa72e3c5f3f0092bd0dbc5fb223548b68e50e8ebcaea6c",
+      "note": "2026-05-19 capture shows the PAE Mission Systems front page",
+      "wayback_timestamp": "20260519222400"
+    },
+    "verification_status": "verified"
+  }
+]

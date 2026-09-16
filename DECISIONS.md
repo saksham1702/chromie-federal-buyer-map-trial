@@ -58,3 +58,17 @@ review rather than choosing one.
 secnav.navy.mil/fmc returns a "Request Rejected" firewall stub to the Wayback crawler as well
 as to this machine. Budget exhibits will be retrieved in a WARP-off session or manually and
 recorded in manual_pdf_requests.json until then.
+
+## 2026-09-16 - Registry records use Chromie's source-table vocabulary and four statuses
+
+`source_registry.json` uses the `gov_procurement_sources` field names where they exist and
+records each source as `verified` (an inspected example with a hashed document), `blocked` (every
+approved access path failed), `restricted` (login or key required) or `not_inspected`. The
+Wayback Machine is listed as a retrieval path, not as a source of record: a capture is a dated
+copy of an official URL and is always cited with its original URL and capture timestamp.
+
+## 2026-09-16 - DoD contract announcements are monitored through the RSS feed
+
+The defense.gov/war.gov article pages return 403 to automation, but the ArticleCS RSS endpoint
+answers directly with titles, dates and links. The registry treats the feed as the trigger and
+the article body as a fallback-path fetch.

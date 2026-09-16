@@ -16,17 +16,17 @@ Plan: ~/.claude/plans/eager-hopping-rivest.md (approved 2026-09-16). Branch: tri
 - [x] define comprehensive coverage; list known public-data gaps
 
 ## P2 source registry (source_registry.json, 01_source_registry.md, documents_manifest, manual queue)
-- [ ] organization sources
-- [ ] agency-intent sources (DoN budget books, posture, IT Dashboard)
-- [ ] congressional sources (govinfo, congress.gov)
-- [ ] planned-requirement sources (LRAEs, industry days, CSO, SBIR)
-- [ ] active-acquisition sources (SAM extract, SAM API, PIEE, SeaPort-NxG)
-- [ ] award sources (USAspending, FPDS, contract announcements, GAO)
-- [ ] identifier crosswalk narrative; requested vs enacted vs obligated vs ceiling
+- [x] organization sources
+- [x] agency-intent sources (DoN budget books, posture, IT Dashboard)
+- [x] congressional sources (govinfo, congress.gov)
+- [x] planned-requirement sources (LRAEs, industry days, CSO, SBIR)
+- [x] active-acquisition sources (SAM extract, SAM API, PIEE, SeaPort-NxG)
+- [x] award sources (USAspending, FPDS, contract announcements, GAO)
+- [x] identifier crosswalk narrative; requested vs enacted vs obligated vs ceiling
 
 ## P3 organization map + data-connection map
 - [ ] 02_organization_map.md (timeline: SPAWAR->NAVWAR, PEO EIS->Digital/MLB, PAE Mission Systems)
-- [ ] 03_data_connection_map.md (identifiers, joins, gaps, mermaid)
+- [x] 03_data_connection_map.md (identifiers, joins, gaps, mermaid)
 
 ## P4 attribution process + >=10 examples across >=3 PMWs
 - [ ] candidate pool from FPDS N00039 (+NIWC) and SAM extract
