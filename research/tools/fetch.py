@@ -12,6 +12,7 @@ documents are explicit rows rather than silent omissions. Stdlib only.
 from __future__ import annotations
 
 import argparse
+import gzip
 import hashlib
 import json
 import re
@@ -29,9 +30,12 @@ UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) chromie-federal-buyer-map-
 
 
 def _get(url: str, timeout: int = 90) -> tuple[int, str, bytes, str]:
-    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "*/*"})
+    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "*/*", "Accept-Encoding": "identity"})
     with urllib.request.urlopen(req, timeout=timeout) as resp:
-        return resp.status, resp.geturl(), resp.read(), resp.headers.get("Content-Type", "")
+        body = resp.read()
+        if resp.headers.get("Content-Encoding") == "gzip" or body[:2] == b"\x1f\x8b":
+            body = gzip.decompress(body)  # some archives ignore Accept-Encoding
+        return resp.status, resp.geturl(), body, resp.headers.get("Content-Type", "")
 
 
 def closest_capture(url: str) -> str | None:

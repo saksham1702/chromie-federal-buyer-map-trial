@@ -8,12 +8,12 @@ Plan: ~/.claude/plans/eager-hopping-rivest.md (approved 2026-09-16). Branch: tri
 - [x] research/tools/fetch.py (fetch, hash, record; direct or Wayback)
 
 ## P1 existing work + pilot definition (00_existing_work_and_pilot.md, organization_seed.json v1)
-- [ ] summarize trial repo + prod scaffolding: exists / usable / missing
-- [ ] verify PAE Mission Systems reorg from official releases (DVIDS, paemaritime), fetch + hash
-- [ ] verify PEO C4I program-office inventory (Wayback copies of peoc4i.navy.mil, tear sheets)
-- [ ] verify NAVWAR HQ / NIWC Pacific / NIWC Atlantic contracting offices (FPDS DoDAACs)
-- [ ] sibling PEOs (Digital, MLB) as hard negatives
-- [ ] define comprehensive coverage; list known public-data gaps
+- [x] summarize trial repo + prod scaffolding: exists / usable / missing
+- [x] verify PAE Mission Systems reorg from official releases (DVIDS, paemaritime), fetch + hash
+- [x] verify PEO C4I program-office inventory (Wayback copies of peoc4i.navy.mil, tear sheets)
+- [x] verify NAVWAR HQ / NIWC Pacific / NIWC Atlantic contracting offices (FPDS DoDAACs)
+- [x] sibling PEOs (Digital, MLB) as hard negatives
+- [x] define comprehensive coverage; list known public-data gaps
 
 ## P2 source registry (source_registry.json, 01_source_registry.md, documents_manifest, manual queue)
 - [ ] organization sources

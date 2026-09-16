@@ -1,0 +1,1575 @@
+{
+  "generated": "2026-09-16",
+  "scope": "Department of the Navy pilot: NAVWAR / PEO C4I and neighbours",
+  "rules": "every node and edge cites an official document with an observation date; Wayback captures are dated copies; inferences are labelled in notes",
+  "nodes": [
+    {
+      "id": "agency:don",
+      "type": "agency",
+      "name": "Department of the Navy",
+      "evidence": [
+        {
+          "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=CONTRACTING_OFFICE_ID:N00039+SIGNED_DATE:%5B2026/06/01,2026/09/16%5D&start=0",
+          "observed_at": "2026-09-16",
+          "passage": "contractingOfficeID N00039 name='NAVAL INFORMATION WARFARE SYSTEMS'; contractingOfficeAgencyID 1700 'DEPT OF THE NAVY'"
+        }
+      ],
+      "codes": {
+        "fpds_agency_id": "1700"
+      },
+      "aliases": [
+        "DoN",
+        "DEPT OF THE NAVY"
+      ]
+    },
+    {
+      "id": "pae:mission-systems",
+      "type": "acquisition_portfolio",
+      "name": "Portfolio Acquisition Executive Mission Systems",
+      "evidence": [
+        {
+          "source_url": "https://www.dvidshub.net/news/564916/department-navy-launches-pae-mission-systems-accelerate-warfighting-capability-speed",
+          "observed_at": "2026-05-11",
+          "passage": "By pulling together the mission systems elements of the following organizations, we are creating a unified and integrated command: PEO C4I, PEO Digital, PEO IWS, PEO MLB, DRPM Overmatch, DRPM LRNFO, DRPM MILE, the Minotaur program from PMA 290, NAVWAR, NAVSEA, NAVAIR, MCSC"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/",
+          "observed_at": "2026-05-19",
+          "access": "wayback capture 20260519222400",
+          "passage": "PAE Mission Systems - Front Page ... Site Under Construction"
+        }
+      ],
+      "aliases": [
+        "PAE Mission Systems",
+        "PAE MS"
+      ],
+      "valid_from": "2026-05-11",
+      "notes": "stood up under the Warfighting Acquisition System; former peoc4i.navy.mil front page carries its name by 2026-05-19"
+    },
+    {
+      "id": "command:navwar",
+      "type": "command",
+      "name": "Naval Information Warfare Systems Command",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Work-With-Us/NAVWAR-CSO-Opportunities/",
+          "observed_at": "2026-09-01",
+          "access": "wayback capture 20260901144827",
+          "passage": "NAVWAR Headquarters (HQ) ... this office procures the IW systems sought by PEO C4I, PEO MLB and PEO Digital. Naval Information Warfare Centers (NIWCs): Our NIWCs (Pacific and Atlantic) are the technical heart of NAVWAR"
+        },
+        {
+          "source_url": "https://www.navwar.navy.mil/",
+          "observed_at": "2026-09-01",
+          "access": "wayback capture 20260901003800",
+          "passage": "1NAVWAR: NAVWAR, NIWC Atlantic, NIWC Pacific, NSFA, DRPM Project Overmatch"
+        }
+      ],
+      "aliases": [
+        "NAVWAR",
+        "SPAWAR (legacy name, date to verify in 02)"
+      ],
+      "location": "4301 Pacific Highway, San Diego, CA 92110"
+    },
+    {
+      "id": "contracting:n00039",
+      "type": "contracting_office",
+      "name": "NAVWAR HQ contracts directorate",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Work-With-Us/NAVWAR-CSO-Opportunities/",
+          "observed_at": "2026-09-01",
+          "access": "wayback capture 20260901144827",
+          "passage": "NAVWAR Headquarters (HQ) ... this office procures the IW systems sought by PEO C4I, PEO MLB and PEO Digital. Naval Information Warfare Centers (NIWCs): Our NIWCs (Pacific and Atlantic) are the technical heart of NAVWAR"
+        },
+        {
+          "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=CONTRACTING_OFFICE_ID:N00039+SIGNED_DATE:%5B2026/06/01,2026/09/16%5D&start=0",
+          "observed_at": "2026-09-16",
+          "passage": "contractingOfficeID N00039 name='NAVAL INFORMATION WARFARE SYSTEMS'; contractingOfficeAgencyID 1700 'DEPT OF THE NAVY'"
+        },
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        }
+      ],
+      "codes": {
+        "uic": "N00039",
+        "dodaac": "N00039"
+      },
+      "aliases": [
+        "NAVAL INFORMATION WARFARE SYSTEMS",
+        "N00039 - NAVWAR"
+      ]
+    },
+    {
+      "id": "center:niwc-pacific",
+      "type": "technical_center",
+      "name": "Naval Information Warfare Center Pacific",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Work-With-Us/NAVWAR-CSO-Opportunities/",
+          "observed_at": "2026-09-01",
+          "access": "wayback capture 20260901144827",
+          "passage": "NAVWAR Headquarters (HQ) ... this office procures the IW systems sought by PEO C4I, PEO MLB and PEO Digital. Naval Information Warfare Centers (NIWCs): Our NIWCs (Pacific and Atlantic) are the technical heart of NAVWAR"
+        },
+        {
+          "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=CONTRACTING_OFFICE_ID:N66001+SIGNED_DATE:%5B2026/03/01,2026/09/16%5D&start=0",
+          "observed_at": "2026-09-16",
+          "passage": "contractingOfficeID N66001 name='NIWC PACIFIC'"
+        }
+      ],
+      "codes": {
+        "contracting_uic": "N66001"
+      },
+      "aliases": [
+        "NIWC Pacific",
+        "NIWCPAC",
+        "NIWC PACIFIC"
+      ]
+    },
+    {
+      "id": "center:niwc-atlantic",
+      "type": "technical_center",
+      "name": "Naval Information Warfare Center Atlantic",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Work-With-Us/NAVWAR-CSO-Opportunities/",
+          "observed_at": "2026-09-01",
+          "access": "wayback capture 20260901144827",
+          "passage": "NAVWAR Headquarters (HQ) ... this office procures the IW systems sought by PEO C4I, PEO MLB and PEO Digital. Naval Information Warfare Centers (NIWCs): Our NIWCs (Pacific and Atlantic) are the technical heart of NAVWAR"
+        },
+        {
+          "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=CONTRACTING_OFFICE_ID:N65236+SIGNED_DATE:%5B2026/03/01,2026/09/16%5D&start=0",
+          "observed_at": "2026-09-16",
+          "passage": "contractingOfficeID N65236 name='NIWC ATLANTIC'"
+        }
+      ],
+      "codes": {
+        "contracting_uic": "N65236"
+      },
+      "aliases": [
+        "NIWC Atlantic",
+        "NIWCLANT",
+        "NIWC ATLANTIC"
+      ]
+    },
+    {
+      "id": "drpm:overmatch",
+      "type": "direct_reporting_program_manager",
+      "name": "Direct Reporting Program Manager Overmatch",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/",
+          "observed_at": "2026-09-01",
+          "access": "wayback capture 20260901003800",
+          "passage": "1NAVWAR: NAVWAR, NIWC Atlantic, NIWC Pacific, NSFA, DRPM Project Overmatch"
+        },
+        {
+          "source_url": "https://www.dvidshub.net/news/564916/department-navy-launches-pae-mission-systems-accelerate-warfighting-capability-speed",
+          "observed_at": "2026-05-11",
+          "passage": "By pulling together the mission systems elements of the following organizations, we are creating a unified and integrated command: PEO C4I, PEO Digital, PEO IWS, PEO MLB, DRPM Overmatch, DRPM LRNFO, DRPM MILE, the Minotaur program from PMA 290, NAVWAR, NAVSEA, NAVAIR, MCSC"
+        },
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        }
+      ],
+      "aliases": [
+        "DRPM Project Overmatch",
+        "DRPM-NOA"
+      ],
+      "notes": "LRAE requirement-office code 'DRPM-NOA - Overmatch - NAVWAR'"
+    },
+    {
+      "id": "peo:c4i",
+      "type": "program_executive_office",
+      "name": "Program Executive Office Command, Control, Communications, Computers and Intelligence",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        },
+        {
+          "source_url": "https://www.navwar.navy.mil/Work-With-Us/NAVWAR-CSO-Opportunities/",
+          "observed_at": "2026-09-01",
+          "access": "wayback capture 20260901144827",
+          "passage": "NAVWAR Headquarters (HQ) ... this office procures the IW systems sought by PEO C4I, PEO MLB and PEO Digital. Naval Information Warfare Centers (NIWCs): Our NIWCs (Pacific and Atlantic) are the technical heart of NAVWAR"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Leadership/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054538"
+        }
+      ],
+      "aliases": [
+        "PEO C4I",
+        "PEO C4I & Space",
+        "C4IEXEC (LRAE front-office code)"
+      ],
+      "location": "NAVWAR Old Town Campus, San Diego, CA",
+      "notes": "eleven program offices per the 2026-04-12 official page; annual portfolio described as $4B on the leadership page"
+    },
+    {
+      "id": "peo:digital",
+      "type": "program_executive_office",
+      "name": "Program Executive Office Digital and Enterprise Services",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Work-With-Us/NAVWAR-CSO-Opportunities/",
+          "observed_at": "2026-09-01",
+          "access": "wayback capture 20260901144827",
+          "passage": "NAVWAR Headquarters (HQ) ... this office procures the IW systems sought by PEO C4I, PEO MLB and PEO Digital. Naval Information Warfare Centers (NIWCs): Our NIWCs (Pacific and Atlantic) are the technical heart of NAVWAR"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        }
+      ],
+      "aliases": [
+        "PEO Digital"
+      ],
+      "notes": "sibling of PEO C4I; LRAE uses non-PMW codes such as 'Digital TD'"
+    },
+    {
+      "id": "peo:mlb",
+      "type": "program_executive_office",
+      "name": "Program Executive Office Manpower, Logistics and Business Solutions",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Work-With-Us/NAVWAR-CSO-Opportunities/",
+          "observed_at": "2026-09-01",
+          "access": "wayback capture 20260901144827",
+          "passage": "NAVWAR Headquarters (HQ) ... this office procures the IW systems sought by PEO C4I, PEO MLB and PEO Digital. Naval Information Warfare Centers (NIWCs): Our NIWCs (Pacific and Atlantic) are the technical heart of NAVWAR"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        },
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        }
+      ],
+      "aliases": [
+        "PEO MLB",
+        "PEO-MLB",
+        "Pf008MLBFO (LRAE front-office code)"
+      ]
+    },
+    {
+      "id": "peo:iws",
+      "type": "program_executive_office",
+      "name": "Program Executive Office Integrated Warfare Systems",
+      "evidence": [
+        {
+          "source_url": "https://www.dvidshub.net/news/564916/department-navy-launches-pae-mission-systems-accelerate-warfighting-capability-speed",
+          "observed_at": "2026-05-11",
+          "passage": "By pulling together the mission systems elements of the following organizations, we are creating a unified and integrated command: PEO C4I, PEO Digital, PEO IWS, PEO MLB, DRPM Overmatch, DRPM LRNFO, DRPM MILE, the Minotaur program from PMA 290, NAVWAR, NAVSEA, NAVAIR, MCSC"
+        }
+      ],
+      "aliases": [
+        "PEO IWS"
+      ],
+      "notes": "NAVSEA PEO named in the PAE Mission Systems release; included only as a consolidation peer"
+    },
+    {
+      "id": "pms:485",
+      "type": "program_office",
+      "name": "PMS 485",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        }
+      ],
+      "aliases": [
+        "PMS-485"
+      ],
+      "notes": "appears as 'Associated Program or Requirement Office' on NAVWAR LRAE rows contracted by N00039 (e.g. CLTS-25 production, existing contract N0003919C0002, incumbent BAE); parent not asserted here"
+    },
+    {
+      "id": "pmw:101",
+      "type": "program_office",
+      "name": "PMA/PMW 101 Multifunctional Information Distribution Systems (MIDS) Program Office",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Contact/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412062012"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMA%20PMW%20101_Tear%20Sheet_v01312025.pdf",
+          "observed_at": "2025-01-31",
+          "access": "wayback capture 20260121123255"
+        },
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        }
+      ],
+      "codes": {
+        "office_code": "PMA/PMW 101"
+      },
+      "aliases": [
+        "PMA/PMW-101",
+        "PMW 101",
+        "PMA 101"
+      ]
+    },
+    {
+      "id": "pmw:120",
+      "type": "program_office",
+      "name": "PMW 120 Battlespace Awareness and Information Operations Program Office",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Contact/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412062012"
+        },
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        }
+      ],
+      "codes": {
+        "office_code": "PMW 120"
+      },
+      "aliases": [
+        "PMW-120"
+      ]
+    },
+    {
+      "id": "pmw:130",
+      "type": "program_office",
+      "name": "PMW 130 Cybersecurity Program Office",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Contact/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412062012"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2023_PMW%20130_Tear%20Sheet.pdf",
+          "observed_at": "2023-05-01",
+          "access": "wayback capture 20241217195241"
+        },
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        }
+      ],
+      "codes": {
+        "office_code": "PMW 130"
+      },
+      "aliases": [
+        "PMW-130"
+      ]
+    },
+    {
+      "id": "pmw:150",
+      "type": "program_office",
+      "name": "PMW 150 Naval Command and Control Systems Program Office",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Contact/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412062012"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMW%20150_Tear%20Sheet_v01312025.pdf",
+          "observed_at": "2025-01-31",
+          "access": "wayback capture 20260121130619"
+        },
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        },
+        {
+          "source_url": "https://www.dvidshub.net/news/546147/program-executive-office-command-control-communications-computers-and-intelligence-peo-c4i-welcomes-new-program-managers",
+          "observed_at": "2025-08-19",
+          "passage": "Capt. Raphael R. Castillejo relieved Mr. Baron Jolie as the program manager for the ... Naval Command and Control Systems Program Office (PMW 150); Mr. Eric Andalis relieved Capt. Castillejo at the Ship Integration Program Office (PMW 760)"
+        }
+      ],
+      "codes": {
+        "office_code": "PMW 150"
+      },
+      "aliases": [
+        "PMW-150",
+        "Navy Command and Control Systems (2023 name)"
+      ]
+    },
+    {
+      "id": "pmw:160",
+      "type": "program_office",
+      "name": "PMW 160 Tactical Networks Program Office",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Contact/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412062012"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2023_PMW%20160_Tear%20Sheet.pdf",
+          "observed_at": "2023-05-01",
+          "access": "wayback capture 20240517224851"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMW%20160_Tear%20Sheet_v01312025.pdf",
+          "observed_at": "2025-01-01",
+          "access": "wayback capture 20260121131840"
+        },
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        }
+      ],
+      "codes": {
+        "office_code": "PMW 160"
+      },
+      "aliases": [
+        "PMW-160"
+      ]
+    },
+    {
+      "id": "pmw:170",
+      "type": "program_office",
+      "name": "PMW/A 170 Communications and GPS Navigation Program Office",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Contact/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412062012"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMW%20170%20Tear%20Sheet_v01312025.pdf",
+          "observed_at": "2025-01-31",
+          "access": "wayback capture 20260121123040"
+        },
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        }
+      ],
+      "codes": {
+        "office_code": "PMW/A 170"
+      },
+      "aliases": [
+        "PMW/A-170",
+        "PMW 170"
+      ]
+    },
+    {
+      "id": "pmw:740",
+      "type": "program_office",
+      "name": "PMW 740 International C4I Integration Program Office",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Contact/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412062012"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMW%20740_Tear%20Sheet_v01312025.pdf",
+          "observed_at": "2025-01-01",
+          "access": "wayback capture 20260121120443"
+        },
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        }
+      ],
+      "codes": {
+        "office_code": "PMW 740"
+      },
+      "aliases": [
+        "PMW-740"
+      ]
+    },
+    {
+      "id": "pmw:750",
+      "type": "program_office",
+      "name": "PMW 750 Carrier and Air Integration Program Office",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Contact/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412062012"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMW%20750_Tear%20Sheet_v01312025.pdf",
+          "observed_at": "2025-01-31",
+          "access": "wayback capture 20260121122154"
+        },
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        }
+      ],
+      "codes": {
+        "office_code": "PMW 750"
+      },
+      "aliases": [
+        "PMW-750"
+      ]
+    },
+    {
+      "id": "pmw:760",
+      "type": "program_office",
+      "name": "PMW 760 Ship Integration Program Office",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Contact/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412062012"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMW%20760_Tear%20Sheet_v01312025.pdf",
+          "observed_at": "2025-01-01",
+          "access": "wayback capture 20260121123735"
+        },
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        },
+        {
+          "source_url": "https://www.dvidshub.net/news/546147/program-executive-office-command-control-communications-computers-and-intelligence-peo-c4i-welcomes-new-program-managers",
+          "observed_at": "2025-08-19",
+          "passage": "Capt. Raphael R. Castillejo relieved Mr. Baron Jolie as the program manager for the ... Naval Command and Control Systems Program Office (PMW 150); Mr. Eric Andalis relieved Capt. Castillejo at the Ship Integration Program Office (PMW 760)"
+        }
+      ],
+      "codes": {
+        "office_code": "PMW 760"
+      },
+      "aliases": [
+        "PMW-760"
+      ]
+    },
+    {
+      "id": "pmw:770",
+      "type": "program_office",
+      "name": "PMW 770 Undersea Communications and Integration Program Office",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Contact/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412062012"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMW%20770_Tear%20Sheet_v01312025.pdf",
+          "observed_at": "2025-01-31",
+          "access": "wayback capture 20260121125016"
+        },
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        }
+      ],
+      "codes": {
+        "office_code": "PMW 770"
+      },
+      "aliases": [
+        "PMW-770"
+      ]
+    },
+    {
+      "id": "pmw:790",
+      "type": "program_office",
+      "name": "PMW 790 Tactical Shore and Expeditionary Integration Program Office",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Contact/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412062012"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMW%20790_Tear%20Sheet_FINAL.pdf",
+          "observed_at": "2025-01-01",
+          "access": "wayback capture 20251113181900"
+        },
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        }
+      ],
+      "codes": {
+        "office_code": "PMW 790"
+      },
+      "aliases": [
+        "PMW-790",
+        "Shore and Expeditionary Integration (2023 name)"
+      ]
+    },
+    {
+      "id": "person:luebke",
+      "type": "person",
+      "name": "William H. Luebke, Ph.D.",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Leadership/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054538"
+        }
+      ],
+      "notes": "public official role only; recorded with source and observation date"
+    },
+    {
+      "id": "person:day",
+      "type": "person",
+      "name": "Jim Day",
+      "evidence": [
+        {
+          "source_url": "https://www.dvidshub.net/news/564916/department-navy-launches-pae-mission-systems-accelerate-warfighting-capability-speed",
+          "observed_at": "2026-05-11",
+          "passage": "By pulling together the mission systems elements of the following organizations, we are creating a unified and integrated command: PEO C4I, PEO Digital, PEO IWS, PEO MLB, DRPM Overmatch, DRPM LRNFO, DRPM MILE, the Minotaur program from PMA 290, NAVWAR, NAVSEA, NAVAIR, MCSC"
+        }
+      ],
+      "notes": "public official role only; recorded with source and observation date"
+    },
+    {
+      "id": "person:castillejo",
+      "type": "person",
+      "name": "CAPT Raphael R. Castillejo",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMW%20760_Tear%20Sheet_v01312025.pdf",
+          "observed_at": "2025-01-01",
+          "access": "wayback capture 20260121123735"
+        },
+        {
+          "source_url": "https://www.dvidshub.net/news/546147/program-executive-office-command-control-communications-computers-and-intelligence-peo-c4i-welcomes-new-program-managers",
+          "observed_at": "2025-08-19",
+          "passage": "Capt. Raphael R. Castillejo relieved Mr. Baron Jolie as the program manager for the ... Naval Command and Control Systems Program Office (PMW 150); Mr. Eric Andalis relieved Capt. Castillejo at the Ship Integration Program Office (PMW 760)"
+        }
+      ],
+      "notes": "public official role only; recorded with source and observation date"
+    },
+    {
+      "id": "person:jolie",
+      "type": "person",
+      "name": "Baron Jolie",
+      "evidence": [
+        {
+          "source_url": "https://www.dvidshub.net/news/546147/program-executive-office-command-control-communications-computers-and-intelligence-peo-c4i-welcomes-new-program-managers",
+          "observed_at": "2025-08-19",
+          "passage": "Capt. Raphael R. Castillejo relieved Mr. Baron Jolie as the program manager for the ... Naval Command and Control Systems Program Office (PMW 150); Mr. Eric Andalis relieved Capt. Castillejo at the Ship Integration Program Office (PMW 760)"
+        }
+      ],
+      "notes": "public official role only; recorded with source and observation date"
+    },
+    {
+      "id": "person:andalis",
+      "type": "person",
+      "name": "Eric Andalis",
+      "evidence": [
+        {
+          "source_url": "https://www.dvidshub.net/news/546147/program-executive-office-command-control-communications-computers-and-intelligence-peo-c4i-welcomes-new-program-managers",
+          "observed_at": "2025-08-19",
+          "passage": "Capt. Raphael R. Castillejo relieved Mr. Baron Jolie as the program manager for the ... Naval Command and Control Systems Program Office (PMW 150); Mr. Eric Andalis relieved Capt. Castillejo at the Ship Integration Program Office (PMW 760)"
+        }
+      ],
+      "notes": "public official role only; recorded with source and observation date"
+    },
+    {
+      "id": "person:boehme",
+      "type": "person",
+      "name": "CAPT Katy Boehme",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2023_PMW%20160_Tear%20Sheet.pdf",
+          "observed_at": "2023-05-01",
+          "access": "wayback capture 20240517224851"
+        }
+      ],
+      "notes": "public official role only; recorded with source and observation date"
+    },
+    {
+      "id": "person:nigro",
+      "type": "person",
+      "name": "CAPT Nicole Nigro",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMW%20160_Tear%20Sheet_v01312025.pdf",
+          "observed_at": "2025-01-01",
+          "access": "wayback capture 20260121131840"
+        }
+      ],
+      "notes": "public official role only; recorded with source and observation date"
+    },
+    {
+      "id": "person:desoto",
+      "type": "person",
+      "name": "CAPT Kris De Soto",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMW%20170%20Tear%20Sheet_v01312025.pdf",
+          "observed_at": "2025-01-31",
+          "access": "wayback capture 20260121123040"
+        }
+      ],
+      "notes": "public official role only; recorded with source and observation date"
+    },
+    {
+      "id": "person:miller-b",
+      "type": "person",
+      "name": "Brian Miller",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMW%20790_Tear%20Sheet_FINAL.pdf",
+          "observed_at": "2025-01-01",
+          "access": "wayback capture 20251113181900"
+        }
+      ],
+      "notes": "public official role only; recorded with source and observation date"
+    }
+  ],
+  "edges": [
+    {
+      "from": "pmw:101",
+      "to": "peo:c4i",
+      "type": "child_of",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Contact/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412062012"
+        }
+      ]
+    },
+    {
+      "from": "contracting:n00039",
+      "to": "pmw:101",
+      "type": "contracts_for",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        }
+      ],
+      "notes": "all LRAE rows naming a PMW/PMA requirement office carry contracting UIC N00039 (June 2025 release)"
+    },
+    {
+      "from": "pmw:120",
+      "to": "peo:c4i",
+      "type": "child_of",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Contact/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412062012"
+        }
+      ]
+    },
+    {
+      "from": "contracting:n00039",
+      "to": "pmw:120",
+      "type": "contracts_for",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        }
+      ],
+      "notes": "all LRAE rows naming a PMW/PMA requirement office carry contracting UIC N00039 (June 2025 release)"
+    },
+    {
+      "from": "pmw:130",
+      "to": "peo:c4i",
+      "type": "child_of",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Contact/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412062012"
+        }
+      ]
+    },
+    {
+      "from": "contracting:n00039",
+      "to": "pmw:130",
+      "type": "contracts_for",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        }
+      ],
+      "notes": "all LRAE rows naming a PMW/PMA requirement office carry contracting UIC N00039 (June 2025 release)"
+    },
+    {
+      "from": "pmw:150",
+      "to": "peo:c4i",
+      "type": "child_of",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Contact/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412062012"
+        }
+      ]
+    },
+    {
+      "from": "contracting:n00039",
+      "to": "pmw:150",
+      "type": "contracts_for",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        }
+      ],
+      "notes": "all LRAE rows naming a PMW/PMA requirement office carry contracting UIC N00039 (June 2025 release)"
+    },
+    {
+      "from": "pmw:160",
+      "to": "peo:c4i",
+      "type": "child_of",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Contact/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412062012"
+        }
+      ]
+    },
+    {
+      "from": "contracting:n00039",
+      "to": "pmw:160",
+      "type": "contracts_for",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        }
+      ],
+      "notes": "all LRAE rows naming a PMW/PMA requirement office carry contracting UIC N00039 (June 2025 release)"
+    },
+    {
+      "from": "pmw:170",
+      "to": "peo:c4i",
+      "type": "child_of",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Contact/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412062012"
+        }
+      ]
+    },
+    {
+      "from": "contracting:n00039",
+      "to": "pmw:170",
+      "type": "contracts_for",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        }
+      ],
+      "notes": "all LRAE rows naming a PMW/PMA requirement office carry contracting UIC N00039 (June 2025 release)"
+    },
+    {
+      "from": "pmw:740",
+      "to": "peo:c4i",
+      "type": "child_of",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Contact/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412062012"
+        }
+      ]
+    },
+    {
+      "from": "contracting:n00039",
+      "to": "pmw:740",
+      "type": "contracts_for",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        }
+      ],
+      "notes": "all LRAE rows naming a PMW/PMA requirement office carry contracting UIC N00039 (June 2025 release)"
+    },
+    {
+      "from": "pmw:750",
+      "to": "peo:c4i",
+      "type": "child_of",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Contact/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412062012"
+        }
+      ]
+    },
+    {
+      "from": "contracting:n00039",
+      "to": "pmw:750",
+      "type": "contracts_for",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        }
+      ],
+      "notes": "all LRAE rows naming a PMW/PMA requirement office carry contracting UIC N00039 (June 2025 release)"
+    },
+    {
+      "from": "pmw:760",
+      "to": "peo:c4i",
+      "type": "child_of",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Contact/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412062012"
+        }
+      ]
+    },
+    {
+      "from": "contracting:n00039",
+      "to": "pmw:760",
+      "type": "contracts_for",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        }
+      ],
+      "notes": "all LRAE rows naming a PMW/PMA requirement office carry contracting UIC N00039 (June 2025 release)"
+    },
+    {
+      "from": "pmw:770",
+      "to": "peo:c4i",
+      "type": "child_of",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Contact/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412062012"
+        }
+      ]
+    },
+    {
+      "from": "contracting:n00039",
+      "to": "pmw:770",
+      "type": "contracts_for",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        }
+      ],
+      "notes": "all LRAE rows naming a PMW/PMA requirement office carry contracting UIC N00039 (June 2025 release)"
+    },
+    {
+      "from": "pmw:790",
+      "to": "peo:c4i",
+      "type": "child_of",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Contact/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412062012"
+        }
+      ]
+    },
+    {
+      "from": "contracting:n00039",
+      "to": "pmw:790",
+      "type": "contracts_for",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        }
+      ],
+      "notes": "all LRAE rows naming a PMW/PMA requirement office carry contracting UIC N00039 (June 2025 release)"
+    },
+    {
+      "from": "person:luebke",
+      "to": "peo:c4i",
+      "type": "leads",
+      "role": "Program Executive Officer (acting from 2023-05; Executive Director from 2021-08)",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Leadership/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054538"
+        }
+      ],
+      "valid_from": "2023-05-01"
+    },
+    {
+      "from": "person:day",
+      "to": "pae:mission-systems",
+      "type": "leads",
+      "role": "interim Portfolio Acquisition Executive for Mission Systems",
+      "evidence": [
+        {
+          "source_url": "https://www.dvidshub.net/news/564916/department-navy-launches-pae-mission-systems-accelerate-warfighting-capability-speed",
+          "observed_at": "2026-05-11",
+          "passage": "By pulling together the mission systems elements of the following organizations, we are creating a unified and integrated command: PEO C4I, PEO Digital, PEO IWS, PEO MLB, DRPM Overmatch, DRPM LRNFO, DRPM MILE, the Minotaur program from PMA 290, NAVWAR, NAVSEA, NAVAIR, MCSC"
+        }
+      ],
+      "valid_from": "2026-05-11"
+    },
+    {
+      "from": "person:castillejo",
+      "to": "pmw:760",
+      "type": "leads",
+      "role": "Program Manager, PMW 760",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMW%20760_Tear%20Sheet_v01312025.pdf",
+          "observed_at": "2025-01-01",
+          "access": "wayback capture 20260121123735"
+        },
+        {
+          "source_url": "https://www.dvidshub.net/news/546147/program-executive-office-command-control-communications-computers-and-intelligence-peo-c4i-welcomes-new-program-managers",
+          "observed_at": "2025-08-19",
+          "passage": "Capt. Raphael R. Castillejo relieved Mr. Baron Jolie as the program manager for the ... Naval Command and Control Systems Program Office (PMW 150); Mr. Eric Andalis relieved Capt. Castillejo at the Ship Integration Program Office (PMW 760)"
+        }
+      ],
+      "valid_to": "2025-08-19"
+    },
+    {
+      "from": "person:castillejo",
+      "to": "pmw:150",
+      "type": "leads",
+      "role": "Program Manager, PMW 150",
+      "evidence": [
+        {
+          "source_url": "https://www.dvidshub.net/news/546147/program-executive-office-command-control-communications-computers-and-intelligence-peo-c4i-welcomes-new-program-managers",
+          "observed_at": "2025-08-19",
+          "passage": "Capt. Raphael R. Castillejo relieved Mr. Baron Jolie as the program manager for the ... Naval Command and Control Systems Program Office (PMW 150); Mr. Eric Andalis relieved Capt. Castillejo at the Ship Integration Program Office (PMW 760)"
+        }
+      ],
+      "valid_from": "2025-08-19"
+    },
+    {
+      "from": "person:jolie",
+      "to": "pmw:150",
+      "type": "leads",
+      "role": "Program Manager, PMW 150 (relieved 2025-08-19)",
+      "evidence": [
+        {
+          "source_url": "https://www.dvidshub.net/news/546147/program-executive-office-command-control-communications-computers-and-intelligence-peo-c4i-welcomes-new-program-managers",
+          "observed_at": "2025-08-19",
+          "passage": "Capt. Raphael R. Castillejo relieved Mr. Baron Jolie as the program manager for the ... Naval Command and Control Systems Program Office (PMW 150); Mr. Eric Andalis relieved Capt. Castillejo at the Ship Integration Program Office (PMW 760)"
+        }
+      ],
+      "valid_to": "2025-08-19"
+    },
+    {
+      "from": "person:andalis",
+      "to": "pmw:760",
+      "type": "leads",
+      "role": "Program Manager, PMW 760",
+      "evidence": [
+        {
+          "source_url": "https://www.dvidshub.net/news/546147/program-executive-office-command-control-communications-computers-and-intelligence-peo-c4i-welcomes-new-program-managers",
+          "observed_at": "2025-08-19",
+          "passage": "Capt. Raphael R. Castillejo relieved Mr. Baron Jolie as the program manager for the ... Naval Command and Control Systems Program Office (PMW 150); Mr. Eric Andalis relieved Capt. Castillejo at the Ship Integration Program Office (PMW 760)"
+        }
+      ],
+      "valid_from": "2025-08-19"
+    },
+    {
+      "from": "person:boehme",
+      "to": "pmw:160",
+      "type": "leads",
+      "role": "Program Manager, PMW 160 (2023-05-01 tear sheet)",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2023_PMW%20160_Tear%20Sheet.pdf",
+          "observed_at": "2023-05-01",
+          "access": "wayback capture 20240517224851"
+        }
+      ]
+    },
+    {
+      "from": "person:nigro",
+      "to": "pmw:160",
+      "type": "leads",
+      "role": "Program Manager, PMW 160 (2025-01-01 tear sheet)",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMW%20160_Tear%20Sheet_v01312025.pdf",
+          "observed_at": "2025-01-01",
+          "access": "wayback capture 20260121131840"
+        }
+      ]
+    },
+    {
+      "from": "person:desoto",
+      "to": "pmw:170",
+      "type": "leads",
+      "role": "Program Manager, PMW/A 170 (2025 tear sheet)",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMW%20170%20Tear%20Sheet_v01312025.pdf",
+          "observed_at": "2025-01-31",
+          "access": "wayback capture 20260121123040"
+        }
+      ]
+    },
+    {
+      "from": "person:miller-b",
+      "to": "pmw:790",
+      "type": "leads",
+      "role": "Program Manager, PMW 790 (2025-01-01 tear sheet)",
+      "evidence": [
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMW%20790_Tear%20Sheet_FINAL.pdf",
+          "observed_at": "2025-01-01",
+          "access": "wayback capture 20251113181900"
+        }
+      ]
+    },
+    {
+      "from": "command:navwar",
+      "to": "agency:don",
+      "type": "child_of",
+      "evidence": [
+        {
+          "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=CONTRACTING_OFFICE_ID:N00039+SIGNED_DATE:%5B2026/06/01,2026/09/16%5D&start=0",
+          "observed_at": "2026-09-16",
+          "passage": "contractingOfficeID N00039 name='NAVAL INFORMATION WARFARE SYSTEMS'; contractingOfficeAgencyID 1700 'DEPT OF THE NAVY'"
+        },
+        {
+          "source_url": "https://www.navwar.navy.mil/Work-With-Us/NAVWAR-CSO-Opportunities/",
+          "observed_at": "2026-09-01",
+          "access": "wayback capture 20260901144827",
+          "passage": "NAVWAR Headquarters (HQ) ... this office procures the IW systems sought by PEO C4I, PEO MLB and PEO Digital. Naval Information Warfare Centers (NIWCs): Our NIWCs (Pacific and Atlantic) are the technical heart of NAVWAR"
+        }
+      ]
+    },
+    {
+      "from": "pae:mission-systems",
+      "to": "agency:don",
+      "type": "child_of",
+      "evidence": [
+        {
+          "source_url": "https://www.dvidshub.net/news/564916/department-navy-launches-pae-mission-systems-accelerate-warfighting-capability-speed",
+          "observed_at": "2026-05-11",
+          "passage": "By pulling together the mission systems elements of the following organizations, we are creating a unified and integrated command: PEO C4I, PEO Digital, PEO IWS, PEO MLB, DRPM Overmatch, DRPM LRNFO, DRPM MILE, the Minotaur program from PMA 290, NAVWAR, NAVSEA, NAVAIR, MCSC"
+        }
+      ],
+      "valid_from": "2026-05-11"
+    },
+    {
+      "from": "contracting:n00039",
+      "to": "command:navwar",
+      "type": "part_of",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Work-With-Us/NAVWAR-CSO-Opportunities/",
+          "observed_at": "2026-09-01",
+          "access": "wayback capture 20260901144827",
+          "passage": "NAVWAR Headquarters (HQ) ... this office procures the IW systems sought by PEO C4I, PEO MLB and PEO Digital. Naval Information Warfare Centers (NIWCs): Our NIWCs (Pacific and Atlantic) are the technical heart of NAVWAR"
+        }
+      ]
+    },
+    {
+      "from": "center:niwc-pacific",
+      "to": "command:navwar",
+      "type": "part_of",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Work-With-Us/NAVWAR-CSO-Opportunities/",
+          "observed_at": "2026-09-01",
+          "access": "wayback capture 20260901144827",
+          "passage": "NAVWAR Headquarters (HQ) ... this office procures the IW systems sought by PEO C4I, PEO MLB and PEO Digital. Naval Information Warfare Centers (NIWCs): Our NIWCs (Pacific and Atlantic) are the technical heart of NAVWAR"
+        },
+        {
+          "source_url": "https://www.navwar.navy.mil/",
+          "observed_at": "2026-09-01",
+          "access": "wayback capture 20260901003800",
+          "passage": "1NAVWAR: NAVWAR, NIWC Atlantic, NIWC Pacific, NSFA, DRPM Project Overmatch"
+        }
+      ]
+    },
+    {
+      "from": "center:niwc-atlantic",
+      "to": "command:navwar",
+      "type": "part_of",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Work-With-Us/NAVWAR-CSO-Opportunities/",
+          "observed_at": "2026-09-01",
+          "access": "wayback capture 20260901144827",
+          "passage": "NAVWAR Headquarters (HQ) ... this office procures the IW systems sought by PEO C4I, PEO MLB and PEO Digital. Naval Information Warfare Centers (NIWCs): Our NIWCs (Pacific and Atlantic) are the technical heart of NAVWAR"
+        },
+        {
+          "source_url": "https://www.navwar.navy.mil/",
+          "observed_at": "2026-09-01",
+          "access": "wayback capture 20260901003800",
+          "passage": "1NAVWAR: NAVWAR, NIWC Atlantic, NIWC Pacific, NSFA, DRPM Project Overmatch"
+        }
+      ]
+    },
+    {
+      "from": "drpm:overmatch",
+      "to": "command:navwar",
+      "type": "listed_with",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/",
+          "observed_at": "2026-09-01",
+          "access": "wayback capture 20260901003800",
+          "passage": "1NAVWAR: NAVWAR, NIWC Atlantic, NIWC Pacific, NSFA, DRPM Project Overmatch"
+        }
+      ],
+      "notes": "appears in the 1NAVWAR navigation; reporting line not asserted"
+    },
+    {
+      "from": "peo:c4i",
+      "to": "command:navwar",
+      "type": "child_of",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Work-With-Us/NAVWAR-CSO-Opportunities/",
+          "observed_at": "2026-09-01",
+          "access": "wayback capture 20260901144827",
+          "passage": "NAVWAR Headquarters (HQ) ... this office procures the IW systems sought by PEO C4I, PEO MLB and PEO Digital. Naval Information Warfare Centers (NIWCs): Our NIWCs (Pacific and Atlantic) are the technical heart of NAVWAR"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        }
+      ],
+      "notes": "official NAVWAR page captured 2026-09-01 still describes these PEOs as NAVWAR components; review against the PAE consolidation",
+      "review_status": "conflict_flagged"
+    },
+    {
+      "from": "contracting:n00039",
+      "to": "peo:c4i",
+      "type": "contracts_for",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Work-With-Us/NAVWAR-CSO-Opportunities/",
+          "observed_at": "2026-09-01",
+          "access": "wayback capture 20260901144827",
+          "passage": "NAVWAR Headquarters (HQ) ... this office procures the IW systems sought by PEO C4I, PEO MLB and PEO Digital. Naval Information Warfare Centers (NIWCs): Our NIWCs (Pacific and Atlantic) are the technical heart of NAVWAR"
+        }
+      ]
+    },
+    {
+      "from": "peo:digital",
+      "to": "command:navwar",
+      "type": "child_of",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Work-With-Us/NAVWAR-CSO-Opportunities/",
+          "observed_at": "2026-09-01",
+          "access": "wayback capture 20260901144827",
+          "passage": "NAVWAR Headquarters (HQ) ... this office procures the IW systems sought by PEO C4I, PEO MLB and PEO Digital. Naval Information Warfare Centers (NIWCs): Our NIWCs (Pacific and Atlantic) are the technical heart of NAVWAR"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        }
+      ],
+      "notes": "official NAVWAR page captured 2026-09-01 still describes these PEOs as NAVWAR components; review against the PAE consolidation",
+      "review_status": "conflict_flagged"
+    },
+    {
+      "from": "contracting:n00039",
+      "to": "peo:digital",
+      "type": "contracts_for",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Work-With-Us/NAVWAR-CSO-Opportunities/",
+          "observed_at": "2026-09-01",
+          "access": "wayback capture 20260901144827",
+          "passage": "NAVWAR Headquarters (HQ) ... this office procures the IW systems sought by PEO C4I, PEO MLB and PEO Digital. Naval Information Warfare Centers (NIWCs): Our NIWCs (Pacific and Atlantic) are the technical heart of NAVWAR"
+        }
+      ]
+    },
+    {
+      "from": "peo:mlb",
+      "to": "command:navwar",
+      "type": "child_of",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Work-With-Us/NAVWAR-CSO-Opportunities/",
+          "observed_at": "2026-09-01",
+          "access": "wayback capture 20260901144827",
+          "passage": "NAVWAR Headquarters (HQ) ... this office procures the IW systems sought by PEO C4I, PEO MLB and PEO Digital. Naval Information Warfare Centers (NIWCs): Our NIWCs (Pacific and Atlantic) are the technical heart of NAVWAR"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-04-12",
+          "access": "wayback capture 20260412054606"
+        }
+      ],
+      "notes": "official NAVWAR page captured 2026-09-01 still describes these PEOs as NAVWAR components; review against the PAE consolidation",
+      "review_status": "conflict_flagged"
+    },
+    {
+      "from": "contracting:n00039",
+      "to": "peo:mlb",
+      "type": "contracts_for",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Work-With-Us/NAVWAR-CSO-Opportunities/",
+          "observed_at": "2026-09-01",
+          "access": "wayback capture 20260901144827",
+          "passage": "NAVWAR Headquarters (HQ) ... this office procures the IW systems sought by PEO C4I, PEO MLB and PEO Digital. Naval Information Warfare Centers (NIWCs): Our NIWCs (Pacific and Atlantic) are the technical heart of NAVWAR"
+        }
+      ]
+    },
+    {
+      "from": "peo:c4i",
+      "to": "pae:mission-systems",
+      "type": "consolidated_into",
+      "evidence": [
+        {
+          "source_url": "https://www.dvidshub.net/news/564916/department-navy-launches-pae-mission-systems-accelerate-warfighting-capability-speed",
+          "observed_at": "2026-05-11",
+          "passage": "By pulling together the mission systems elements of the following organizations, we are creating a unified and integrated command: PEO C4I, PEO Digital, PEO IWS, PEO MLB, DRPM Overmatch, DRPM LRNFO, DRPM MILE, the Minotaur program from PMA 290, NAVWAR, NAVSEA, NAVAIR, MCSC"
+        }
+      ],
+      "valid_from": "2026-05-11",
+      "notes": "'mission systems elements' consolidated; scope of what moved is not itemized in the release"
+    },
+    {
+      "from": "peo:digital",
+      "to": "pae:mission-systems",
+      "type": "consolidated_into",
+      "evidence": [
+        {
+          "source_url": "https://www.dvidshub.net/news/564916/department-navy-launches-pae-mission-systems-accelerate-warfighting-capability-speed",
+          "observed_at": "2026-05-11",
+          "passage": "By pulling together the mission systems elements of the following organizations, we are creating a unified and integrated command: PEO C4I, PEO Digital, PEO IWS, PEO MLB, DRPM Overmatch, DRPM LRNFO, DRPM MILE, the Minotaur program from PMA 290, NAVWAR, NAVSEA, NAVAIR, MCSC"
+        }
+      ],
+      "valid_from": "2026-05-11",
+      "notes": "'mission systems elements' consolidated; scope of what moved is not itemized in the release"
+    },
+    {
+      "from": "peo:mlb",
+      "to": "pae:mission-systems",
+      "type": "consolidated_into",
+      "evidence": [
+        {
+          "source_url": "https://www.dvidshub.net/news/564916/department-navy-launches-pae-mission-systems-accelerate-warfighting-capability-speed",
+          "observed_at": "2026-05-11",
+          "passage": "By pulling together the mission systems elements of the following organizations, we are creating a unified and integrated command: PEO C4I, PEO Digital, PEO IWS, PEO MLB, DRPM Overmatch, DRPM LRNFO, DRPM MILE, the Minotaur program from PMA 290, NAVWAR, NAVSEA, NAVAIR, MCSC"
+        }
+      ],
+      "valid_from": "2026-05-11",
+      "notes": "'mission systems elements' consolidated; scope of what moved is not itemized in the release"
+    },
+    {
+      "from": "peo:iws",
+      "to": "pae:mission-systems",
+      "type": "consolidated_into",
+      "evidence": [
+        {
+          "source_url": "https://www.dvidshub.net/news/564916/department-navy-launches-pae-mission-systems-accelerate-warfighting-capability-speed",
+          "observed_at": "2026-05-11",
+          "passage": "By pulling together the mission systems elements of the following organizations, we are creating a unified and integrated command: PEO C4I, PEO Digital, PEO IWS, PEO MLB, DRPM Overmatch, DRPM LRNFO, DRPM MILE, the Minotaur program from PMA 290, NAVWAR, NAVSEA, NAVAIR, MCSC"
+        }
+      ],
+      "valid_from": "2026-05-11",
+      "notes": "'mission systems elements' consolidated; scope of what moved is not itemized in the release"
+    },
+    {
+      "from": "drpm:overmatch",
+      "to": "pae:mission-systems",
+      "type": "consolidated_into",
+      "evidence": [
+        {
+          "source_url": "https://www.dvidshub.net/news/564916/department-navy-launches-pae-mission-systems-accelerate-warfighting-capability-speed",
+          "observed_at": "2026-05-11",
+          "passage": "By pulling together the mission systems elements of the following organizations, we are creating a unified and integrated command: PEO C4I, PEO Digital, PEO IWS, PEO MLB, DRPM Overmatch, DRPM LRNFO, DRPM MILE, the Minotaur program from PMA 290, NAVWAR, NAVSEA, NAVAIR, MCSC"
+        }
+      ],
+      "valid_from": "2026-05-11",
+      "notes": "'mission systems elements' consolidated; scope of what moved is not itemized in the release"
+    },
+    {
+      "from": "contracting:n00039",
+      "to": "pms:485",
+      "type": "contracts_for",
+      "evidence": [
+        {
+          "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+          "observed_at": "2025-06-19",
+          "access": "wayback capture 20260108121536",
+          "passage": "column 'Associated Program or Requirement Office'; column 'Contracting Office UIC'"
+        }
+      ],
+      "notes": "LRAE rows with requirement office PMS-485 carry contracting UIC N00039"
+    }
+  ]
+}
