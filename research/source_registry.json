@@ -793,7 +793,7 @@
   {
     "last_verified_at": "2026-09-16",
     "source_key": "sam_public_csv_extract",
-    "provider_name": "SAM.gov Contract Opportunities public data extract (daily CSV)",
+    "provider_name": "SAM.gov Contract Opportunities public data extract (daily CSV of current notices)",
     "official_url": "https://sam.gov/data-services/Contract%20Opportunities/datagov?privacy=Public",
     "responsible_org": "GSA (SAM.gov)",
     "lifecycle_stages": [
@@ -814,7 +814,7 @@
       "description link",
       "award fields when type is Award"
     ],
-    "historical_coverage": "a 'historical' archive (2020) plus a daily full CSV (updated 2026-09-15 at inspection)",
+    "historical_coverage": "the daily 'Full' CSV holds the current dataset only (84,504 rows on 2026-09-16, almost all posted 2025-2026); archived years are separate files in the extract service's archive folder (not yet retrieved)",
     "publication_frequency": "daily",
     "reporting_lag": "one day",
     "access_mode": "export",
@@ -826,15 +826,16 @@
     ],
     "cannot_answer": [
       "attachment text",
-      "office ownership beyond the office field and title"
+      "office ownership beyond the office field and title",
+      "notices older than the current dataset (use the archived yearly files)"
     ],
     "proposed_monitor_frequency": "nightly download and diff on notice id + modified date",
     "inspected_example": {
-      "url": "https://sam.gov/api/prod/fileextractservices/v1/api/listfiles?random=1&domain=Contract%20Opportunities/datagov&privacy=Public",
+      "url": "https://sam.gov/api/prod/fileextractservices/v1/api/download/Contract%20Opportunities/datagov/ContractOpportunitiesFullCSV.csv?privacy=Public",
       "retrieved_at": "2026-09-16",
       "method": "direct",
-      "sha256": "2d08b2e524047b475c01dfa8aa63dbf9dc86418f08c6bcecc5d30892117deba8",
-      "note": "listing shows ContractOpportunitiesFullCSV.csv modified Sep 15, 2026 and a 'historical' folder"
+      "sha256": "03323653796bd5c302781e451291a6c1f36843685b7a6cb7c3ef77a67a4310fa",
+      "note": "241,486,025 bytes; 47 columns incl. AAC Code, Sol#, Type, PostedDate, AwardNumber; 535 NAVWAR-family notices (N00039 66, N66001 323, N65236 146)"
     },
     "verification_status": "verified"
   },
@@ -1165,5 +1166,40 @@
       "wayback_timestamp": "20260519222400"
     },
     "verification_status": "verified"
+  },
+  {
+    "source_key": "sam_archived_yearly_extracts",
+    "provider_name": "SAM.gov Contract Opportunities archived yearly extracts (FYxxxx_archived_opportunities.csv)",
+    "official_url": "https://sam.gov/api/prod/fileextractservices/v1/api/listfiles?random=1&domain=Contract%20Opportunities/Archived%20Data&privacy=Public",
+    "responsible_org": "GSA (SAM.gov)",
+    "lifecycle_stages": [
+      "active_acquisition"
+    ],
+    "fields_and_identifiers": [
+      "same 47 columns as the daily extract",
+      "one file per fiscal year of archive date"
+    ],
+    "historical_coverage": "36 yearly files listed, FY1998 onward (plus a few mislabeled early years), refreshed 2026-09-13",
+    "publication_frequency": "periodic re-generation of the archive files",
+    "reporting_lag": "notices move here after archiving",
+    "access_mode": "export",
+    "access_restrictions": "no key; range requests supported; about 1.1 GB per fiscal year (FY2021 1,136,657,888 bytes; FY2025 1,159,352,018 bytes by Content-Range probe on 2026-09-16)",
+    "extraction_difficulty": "medium-high (1 GB CSVs; stream and filter by AAC Code)",
+    "answers": [
+      "first-notice dates and lineage for past solicitations (needed for 2021 and early-2025 backtests)"
+    ],
+    "cannot_answer": [
+      "attachment text"
+    ],
+    "proposed_monitor_frequency": "quarterly re-pull of the two most recent fiscal years",
+    "inspected_example": {
+      "url": "https://sam.gov/api/prod/fileextractservices/v1/api/listfiles?random=1&domain=Contract%20Opportunities/Archived%20Data&privacy=Public",
+      "retrieved_at": "2026-09-16",
+      "method": "direct",
+      "sha256": null,
+      "note": "listing inspected (36 files); no yearly file downloaded yet"
+    },
+    "verification_status": "not_inspected",
+    "last_verified_at": "2026-09-16"
   }
 ]

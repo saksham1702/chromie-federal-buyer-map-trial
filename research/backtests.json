@@ -268,5 +268,88 @@
       "advance_notice_days": "n/a"
     },
     "notes": "Recorded as pending rather than a miss: the observable record is incomplete (FPDS resets, publication lag) and the incumbent's extension is only suggestive."
+  },
+  {
+    "id": "BT07",
+    "requirement": "NILE In-Service Support (ISS) 6 engineering services (PMW 150)",
+    "program_office": "pmw:150",
+    "cutoff_date": "2026-01-28",
+    "cutoff_basis": "day before the first public notice, the Sources Sought / RFI N0003926RE013 posted 2026-01-29 (SAM.gov extract)",
+    "evidence": [
+      {
+        "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+        "available_by": "2025-06-19",
+        "what": "LRAE row 'NILE In-Service Support (ISS) 6 Contract (C)': requirement office PMW-150; $7.5M-$50M; method TBD; anticipated solicitation FY26 Q2; award FY27 Q2; Follow-on; existing contract N0003922D1004; incumbent Technology Unlimited Group; PID N00039-25-RFPREQ-PMW-150-0067"
+      },
+      {
+        "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+        "available_by": "2025-06-19",
+        "what": "companion LRAE rows 'NILE ISS 5 Task Order 5' (FY25 Q4 / FY26 Q1) and NILE Link 22 training task orders: a recurring PMW 150 requirement family"
+      }
+    ],
+    "prediction_as_of_cutoff": {
+      "need": "follow-on in-service support for NILE (NATO Improved Link Eleven) after ISS 5",
+      "office": "PMW 150",
+      "timing": "solicitation activity in FY26 Q2 (January-March 2026), award FY27 Q2",
+      "acquisition_path": "method TBD in the forecast; incumbent Technology Unlimited Group",
+      "contracting_office": "NAVWAR HQ N00039"
+    },
+    "actual_event": {
+      "date": "2026-01-29",
+      "what": "Sources Sought notice N0003926RE013 'NILE IN SERVICE SUPPORT (ISS) 6 ENGINEERING SERVICES RFI' posted by NAVWAR HQ (AAC N00039), notice id 718070f9d4bd4d7f9550c2385e00bb28",
+      "source_url": "https://sam.gov/api/prod/fileextractservices/v1/api/download/Contract%20Opportunities/datagov/ContractOpportunitiesFullCSV.csv?privacy=Public",
+      "observed_at": "2026-09-16"
+    },
+    "comparison": {
+      "office": "correct",
+      "timing": "correct to the quarter (FY26 Q2)",
+      "acquisition_path": "not yet testable (RFI stage)",
+      "incumbent": "not yet testable",
+      "missed": "none so far",
+      "false_positives": "none",
+      "advance_notice_days": "224 days from the LRAE release to the RFI"
+    },
+    "notes": "First case with a true public first notice: the forecast row preceded the RFI by seven months and named the office, the incumbent contract and the quarter."
+  },
+  {
+    "id": "BT08",
+    "requirement": "Egyptian Navy Autonomous INTelligence System (AINTS) platform integration (PMW 740 security-cooperation case)",
+    "program_office": "pmw:740",
+    "cutoff_date": "2026-07-30",
+    "cutoff_basis": "day before the first public notice, the Presolicitation N0003926RE014 posted 2026-07-31 (SAM.gov extract)",
+    "evidence": [
+      {
+        "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+        "available_by": "2025-06-19",
+        "what": "LRAE row 'EGYPTIAN Navy AINTS (EG-P-LGQ, A2) (C)': requirement office PMW-740; Full and Open Competition; $100M-$250M; anticipated solicitation FY25 Q3; award FY26 Q2; New; PID N00039-23-RFPREQ-PMW-740-0070"
+      },
+      {
+        "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMW%20740_Tear%20Sheet_v01312025.pdf",
+        "available_by": "2025-01-01",
+        "what": "PMW 740 tear sheet: the office is the PEO C4I focal point for security cooperation (Title 22 FMS cases)"
+      }
+    ],
+    "prediction_as_of_cutoff": {
+      "need": "competitive contract for the Egyptian Navy AINTS FMS case",
+      "office": "PMW 740",
+      "timing": "solicitation FY25 Q3 (April-June 2025), award FY26 Q2",
+      "acquisition_path": "full and open competition",
+      "contracting_office": "NAVWAR HQ N00039"
+    },
+    "actual_event": {
+      "date": "2026-07-31",
+      "what": "Presolicitation N0003926RE014 'Egyptian Navy Autonomous INTelligence System (AINTS) Platform Integration' posted by NAVWAR HQ (AAC N00039), notice id 64f0d3726ec24750811dfb0658da5d44",
+      "source_url": "https://sam.gov/api/prod/fileextractservices/v1/api/download/Contract%20Opportunities/datagov/ContractOpportunitiesFullCSV.csv?privacy=Public",
+      "observed_at": "2026-09-16"
+    },
+    "comparison": {
+      "office": "correct",
+      "timing": "missed by about five quarters: presolicitation in FY26 Q4 against a forecast solicitation in FY25 Q3",
+      "acquisition_path": "consistent so far (presolicitation for a competitive action)",
+      "missed": "the slip",
+      "false_positives": "the FY25 Q3 solicitation and FY26 Q2 award quarters",
+      "advance_notice_days": "407 days from the LRAE release to the first notice"
+    },
+    "notes": "Requirement and office were right; the calendar was wrong by more than a year. FMS cases depend on partner-nation funding events that the LRAE does not show."
   }
 ]

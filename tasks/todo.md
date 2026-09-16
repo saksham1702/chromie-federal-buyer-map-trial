@@ -43,7 +43,8 @@ Plan: ~/.claude/plans/eager-hopping-rivest.md (approved 2026-09-16). Branch: tri
 - [x] random spot-check of 3 examples + 1 backtest; git clean; dot_clean
 
 ## Open follow-ups
-- [ ] register the SAM.gov full extract once the parallel download completes; extract first-notice dates for BT01/BT02/BT05 and update `cutoff_basis`
+- [x] register the SAM.gov full extract (current dataset only) and confirm BT07/BT08 first-notice dates
+- [ ] download SAM archived FY2021 and FY2025 files (about 1.1 GB each) for BT02/BT05 first-notice dates and the MIDS/CLTS notices
 - [ ] RDT&E BA7-8 and FY2026 budget books (manual queue) for the request-vs-enacted signal
 - [ ] complete FY2026 FPDS scan for N00039 (host resets) to settle BT06 and the PMW 120 / NMT / Platform Integration forecasts
 - [ ] optional 1h: replay the 19 examples through prod `resolve_program_office()` offline

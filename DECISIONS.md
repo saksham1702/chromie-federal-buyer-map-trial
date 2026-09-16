@@ -92,9 +92,11 @@ office link is an inference by program name.
 ## 2026-09-16 - The SAM.gov full public extract is the notice history for backtests
 
 The daily ContractOpportunitiesFullCSV.csv (about 230 MB, range requests supported) carries notice
-id, solicitation number, office and AAC code, posted date, type and award fields for the whole
-public notice history, so it provides first-notice dates without an API key. It stays in
-data/raw/ (not committed) and is referenced by hash.
+id, solicitation number, office and AAC code, posted date, type and award fields, so it provides
+first-notice dates without an API key. Inspection showed it holds the current dataset only
+(84,504 rows, almost all 2025-2026); older years are separate archived files in the same extract
+service and are the next retrieval. The file stays in data/raw/ (not committed) and is referenced
+by hash.
 
 ## 2026-09-16 - Backtest cutoff rule
 

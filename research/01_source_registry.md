@@ -42,7 +42,7 @@ budget host resets connections, and solicitation documents increasingly sit insi
 | Planned requirements | PEO C4I industry engagement (AFCEA WEST events, Industry Intake Form) via DVIDS | webpage | verified | 'third annual engagement event at AFCEA WEST 2026, featuring all 11 program offices' (direct, 2026-09-16) | daily via DVIDS unit page |
 | Planned requirements | NAVWAR Commercial Solutions Openings | webpage | verified | page links a SAM notice and the PIEE vendor instructions (wayback, 2026-09-16) | weekly |
 | Planned requirements | SBIR/STTR topics (sbir.gov; DoD SBIR/STTR portal) | webpage | verified | search page reachable; Navy topic sampling deferred (direct, 2026-09-16) | per cycle (three times a year) |
-| Active acquisition | SAM.gov Contract Opportunities public data extract (daily CSV) | export | verified | listing shows ContractOpportunitiesFullCSV.csv modified Sep 15, 2026 and a 'historical' folder (direct, 2026-09-16) | nightly download and diff on notice id + modified date |
+| Active acquisition | SAM.gov Contract Opportunities public data extract (daily CSV of current notices) | export | verified | 241,486,025 bytes; 47 columns incl. AAC Code, Sol#, Type, PostedDate, AwardNumber; 535 NAVWAR-family notices ( (direct, 2026-09-16) | nightly download and diff on notice id + modified date |
 | Active acquisition | SAM.gov Opportunities API v2 (search, description, attachments) | api | restricted | requires the user's own api.data.gov key; Chromie's production key is not used for the trial | hourly for watched offices once a key is available |
 | Active acquisition | PIEE Solicitation Module (replaced NAVWAR eCommerce) | manual | restricted | official access-instructions PDF (TLS chain is DoD PKI; fetched with verification off and recorded) (direct, 2026-09-16) | not automated; rely on SAM synopses and record the gap |
 | Active acquisition | SeaPort-NxG portal (Navy services vehicle) | manual | blocked | connection failed (HTTP 000) on every attempt | not automated; awards tracked through FPDS referenced IDVs |
@@ -51,6 +51,7 @@ budget host resets connections, and solicitation documents increasingly sit insi
 | Awards and execution | DoD (Department of War) daily contract announcements (RSS + article pages) | api | verified | 10 items: 'Contracts for Sept. 15, 2026' ... with war.gov article links and pubDate (direct, 2026-09-16) | daily RSS poll; fetch each day's article through the fallback path |
 | Awards and execution | GAO bid protest decisions and docket | webpage | blocked | blocked (HTTP 403); Chromie's existing pursuit-intelligence runner already covers GAO | weekly |
 | Organization and ownership | Internet Archive Wayback Machine (dated copies of official pages) | api | verified | 2026-05-19 capture shows the PAE Mission Systems front page (wayback, 2026-09-16) | on demand |
+| Active acquisition | SAM.gov Contract Opportunities archived yearly extracts (FYxxxx_archived_opportunities.csv) | export | not_inspected | listing inspected (36 files); no yearly file downloaded yet (direct, 2026-09-16) | quarterly re-pull of the two most recent fiscal years |
 
 ## How the sources connect
 
