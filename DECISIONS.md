@@ -72,3 +72,26 @@ copy of an official URL and is always cited with its original URL and capture ti
 The defense.gov/war.gov article pages return 403 to automation, but the ArticleCS RSS endpoint
 answers directly with titles, dates and links. The registry treats the feed as the trigger and
 the article body as a fallback-path fetch.
+
+## 2026-09-16 - Attribution evidence classes and the modification rule
+
+Every reviewed attribution carries one of four classes: directly_documented (an official record
+of the action names the office), inferred (only a corroborating official document names it: an
+LRAE follow-on row, a tear-sheet program list, an article naming the awarding office), ambiguous
+(candidates without a document tying program to office) or unresolved (no signal; the path to
+resolution is recorded). Modifications are attributed through their base award. Multi-office
+descriptions keep every named office and never collapse to one.
+
+## 2026-09-16 - Alerts always carry the evidence class and the ancestry as of the event date
+
+An alert names what changed, the office and its parent chain as of the event date (PEO C4I under
+NAVWAR before 2026-05-11, under PAE Mission Systems from that date), the documents with dates, the
+uncertainty, and why it matters. A forecast alert says it is a forecast; a budget alert says the
+office link is an inference by program name.
+
+## 2026-09-16 - The SAM.gov full public extract is the notice history for backtests
+
+The daily ContractOpportunitiesFullCSV.csv (about 230 MB, range requests supported) carries notice
+id, solicitation number, office and AAC code, posted date, type and award fields for the whole
+public notice history, so it provides first-notice dates without an API key. It stays in
+data/raw/ (not committed) and is referenced by hash.

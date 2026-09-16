@@ -29,8 +29,8 @@ method and time), `manual_pdf_requests.json` (documents that still need a human 
 | 03 data-connection map | done (2026-09-16) |
 | 04 attribution process + examples | done (2026-09-16); 19 reviewed examples |
 | 05 early signals + backtests | planned |
-| 06 continuous-monitor design | planned |
-| 07 implementation backlog | planned |
+| 06 continuous-monitor design | done (2026-09-16); forecast-revision alert illustrative until a second LRAE release is captured |
+| 07 implementation backlog | done (2026-09-16) |
 
 ## Evidence rules
 

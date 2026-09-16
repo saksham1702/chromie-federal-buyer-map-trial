@@ -38,8 +38,8 @@ Plan: ~/.claude/plans/eager-hopping-rivest.md (approved 2026-09-16). Branch: tri
 - [ ] backtests with cutoff discipline; validator enforces available_by <= cutoff
 
 ## P6 monitor design + backlog + final review
-- [ ] 06_continuous_monitor_design.md with 4 sample alerts and table mapping
-- [ ] 07_implementation_backlog.md
+- [x] 06_continuous_monitor_design.md with 4 sample alerts and table mapping
+- [x] 07_implementation_backlog.md
 - [ ] random spot-check of 3 examples + 1 backtest; git clean; dot_clean
 
 ## Needs from Saksham
