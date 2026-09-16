@@ -87,10 +87,12 @@ def test_attribution_examples_are_classified_and_evidenced() -> None:
         assert ex["evidence_class"] in EVIDENCE_CLASSES, ex["id"]
         assert "contracting_office" in ex and "funding_organization" in ex, ex["id"]
         assert isinstance(ex.get("program_offices"), list), ex["id"]
+        assert _has_evidence(ex.get("evidence")), f"{ex['id']} lacks dated evidence with a source URL"
         if ex["evidence_class"] == "directly_documented":
             assert ex["program_offices"], f"{ex['id']} documented but names no office"
-            assert _has_evidence(ex.get("evidence")), ex["id"]
             assert any(e.get("passage") for e in ex["evidence"]), f"{ex['id']} has no quoted passage"
+        if ex["evidence_class"] in ("inferred", "ambiguous"):
+            assert ex.get("counterevidence") is not None, f"{ex['id']} must state counterevidence or 'none'"
         if ex["evidence_class"] == "unresolved":
             assert ex.get("why_unresolved"), ex["id"]
 

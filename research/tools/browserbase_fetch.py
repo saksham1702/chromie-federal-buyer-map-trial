@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """Fetch geo-blocked official pages and files through a Browserbase (US egress) browser.
 
+    pip install -e '.[live]'   # browserbase SDK + playwright
     BROWSERBASE_API_KEY=... python research/tools/browserbase_fetch.py URL [URL ...]
 
 The .mil hosts fronted by Akamai refuse requests from non-US addresses; a hosted US browser is
 the approved fallback. Pages are saved as rendered HTML, files (PDF, XLSX) as bytes, and every
 retrieval is recorded in research/documents_manifest.jsonl with method "browserbase". Links to
 tear sheets, LRAE spreadsheets and budget exhibits found on fetched pages are downloaded too.
+Sessions are never recorded (Browserbase `recordSession: false`).
 """
 
 from __future__ import annotations
@@ -43,14 +45,28 @@ def record(row: dict) -> None:
         fh.write(json.dumps(row, sort_keys=True) + "\n")
 
 
-def save(url: str, body: bytes, mime: str, status: int, note: str, final_url: str = "") -> dict:
+STUB_MARKERS = (b"Request Rejected", b"Access Denied", b"Attention Required", b"Pardon Our Interruption")
+
+
+def save(url: str, body: bytes, mime: str, status: int, note: str, final_url: str = "",
+         content_status: str = "", keep_bytes: bool = True) -> dict:
+    """Record a 200 response. Anomalies keep the hash and get a `content_status` instead of a lie."""
     digest = hashlib.sha256(body).hexdigest()
-    RAW.mkdir(parents=True, exist_ok=True)
-    path = RAW / f"{digest[:12]}_{safe_name(url)}"
-    path.write_bytes(body)
     row = {"url": url, "method": "browserbase", "retrieved_at": now(), "note": note, "status": status,
            "final_url": final_url or url, "mime": mime.split(";")[0].strip(), "size": len(body), "sha256": digest,
-           "path": str(path.relative_to(ROOT)), "tls_verified": True}
+           "tls_verified": True}
+    if keep_bytes:
+        RAW.mkdir(parents=True, exist_ok=True)
+        path = RAW / f"{digest[:12]}_{safe_name(url)}"
+        path.write_bytes(body)
+        row["path"] = str(path.relative_to(ROOT))
+    if not content_status and len(body) < 4000 and any(m in body[:1500] for m in STUB_MARKERS):
+        content_status = "rejected_stub"
+    if content_status:
+        row["content_status"] = content_status
+        row["error"] = {"rejected_stub": "body is a firewall or bot-protection stub, not the page",
+                        "over_size_cap": f"body of {len(body)} bytes exceeds the size cap; hashed, not stored",
+                        "html_for_file_url": "HTML returned for a file URL (moved or missing)"}.get(content_status, content_status)
     record(row)
     return row
 
@@ -62,11 +78,14 @@ def fail(url: str, note: str, error: str, status: int | None = None) -> dict:
 
 
 def main(urls: list[str]) -> int:
-    sys.path.insert(0, str(Path(os.environ.get("SLED_TRIAL_SRC", "/Users/pookie/chromie-sled-intelligence-trial/src"))))
-    from sled_trial.net.browser import create_session  # reuses the SLED trial's Browserbase wrapper
+    from browserbase import Browserbase
     from playwright.sync_api import sync_playwright
 
-    session = create_session(session_seconds=1800)
+    key = os.environ.get("BROWSERBASE_API_KEY", "").strip()
+    if not key:
+        raise SystemExit("BROWSERBASE_API_KEY is not set")
+    created = Browserbase(api_key=key).sessions.create(browser_settings={"recordSession": False}, api_timeout=1800)
+    session = {"id": created.id, "connectUrl": created.connect_url}
     print("session", session["id"][:8])
     discovered: list[tuple[str, str]] = []
     with sync_playwright() as p:
@@ -82,9 +101,11 @@ def main(urls: list[str]) -> int:
                 if resp.status != 200:
                     fail(url, note, f"HTTP {resp.status}", resp.status); print(f"  {resp.status} | {url[-80:]}"); return
                 if len(body) > MAX_FILE:
-                    fail(url, note, f"over size cap ({len(body)} bytes)", 200); print(f"  too large | {url[-80:]}"); return
+                    save(url, body, mime, 200, note, resp.url, content_status="over_size_cap", keep_bytes=False)
+                    print(f"  too large | {url[-80:]}"); return
                 if "text/html" in mime and FILE_LINK_RE.search(url):
-                    fail(url, note, "HTML returned for a file URL (moved or missing)", 200); print(f"  html-for-file | {url[-80:]}"); return
+                    save(url, body, mime, 200, note, resp.url, content_status="html_for_file_url")
+                    print(f"  html-for-file | {url[-80:]}"); return
                 save(url, body, mime, resp.status, note, resp.url)
                 print(f"  200 {mime.split(';')[0]} {len(body)} | {url[-80:]}")
             except Exception as exc:  # noqa: BLE001

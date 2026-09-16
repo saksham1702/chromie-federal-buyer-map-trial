@@ -54,12 +54,5 @@
     "reason": "site restructured; the LRAE link must be re-found from the live NAVSEA navigation",
     "suggested_method": "Browserbase",
     "priority": "medium"
-  },
-  {
-    "url": "https://www.peomlb.navy.mil/Portfolio/",
-    "document": "PEO MLB portfolio page (office inventory)",
-    "reason": "front page fetched; portfolio page not yet",
-    "suggested_method": "Browserbase",
-    "priority": "low"
   }
 ]

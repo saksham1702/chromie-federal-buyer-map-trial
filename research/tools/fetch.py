@@ -91,7 +91,17 @@ def fetch(url: str, method: str, wayback: str | None, note: str, insecure: bool 
     path.write_bytes(body)
     row.update(status=status, final_url=final_url, mime=mime.split(";")[0].strip(), size=len(body),
                sha256=digest, path=str(path.relative_to(ROOT)))
+    if is_stub(body):
+        # A 200 whose body is a firewall or bot-protection page is not the document.
+        row.update(content_status="rejected_stub", error="body is a firewall or bot-protection stub, not the page")
     return row
+
+
+STUB_MARKERS = (b"Request Rejected", b"Access Denied", b"Attention Required", b"Pardon Our Interruption")
+
+
+def is_stub(body: bytes) -> bool:
+    return len(body) < 4000 and any(marker in body[:1500] for marker in STUB_MARKERS)
 
 
 def main() -> int:
