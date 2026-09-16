@@ -28,34 +28,6 @@
     "priority": "high"
   },
   {
-    "url": "https://comptroller.defense.gov/Budget-Materials/Budget2027/",
-    "document": "DoD Comptroller FY2027 budget materials (R-1, P-1)",
-    "reason": "HTTP 403 to automation; archived index has no links",
-    "suggested_method": "manual browser save of R-1 and P-1 PDFs",
-    "priority": "medium"
-  },
-  {
-    "url": "https://www.peoc4i.navy.mil/Portals/98/2026_PMW%20150_Tear%20Sheet_FINAL_JAN2026.pdf",
-    "document": "PMW 150 tear sheet, January 2026",
-    "reason": "no Wayback capture; live site returns 403 to automation",
-    "suggested_method": "manual browser download",
-    "priority": "medium"
-  },
-  {
-    "url": "https://www.peoc4i.navy.mil/Portals/98/PMW120_Overview_Tearsheet.pdf",
-    "document": "PMW 120 overview tear sheet",
-    "reason": "no Wayback capture",
-    "suggested_method": "manual browser download",
-    "priority": "medium"
-  },
-  {
-    "url": "https://www.peoc4i.navy.mil/Portals/98/PMW%20130%20Teat%20Sheet.pdf",
-    "document": "PMW 130 tear sheet (current link on the program-office page)",
-    "reason": "no Wayback capture",
-    "suggested_method": "manual browser download",
-    "priority": "medium"
-  },
-  {
     "url": "https://www.seaport.navy.mil/",
     "document": "SeaPort-NxG public listing of NAVWAR task-order awards",
     "reason": "no connection from this network",
@@ -70,24 +42,24 @@
     "priority": "low"
   },
   {
-    "url": "https://www.war.gov/News/Contracts/Contract/Article/4602178/contracts-for-sept-15-2026/",
-    "document": "DoD daily contract announcement article bodies (RSS gives titles and links only)",
-    "reason": "war.gov article pages return 403 to automation",
-    "suggested_method": "WARP-off session or Browserbase; RSS already monitored",
-    "priority": "medium"
-  },
-  {
-    "url": "https://www.doncio.navy.mil/CHIPS/ArticleDetails.aspx?ID=13570",
-    "document": "DON CIO CHIPS: Navy Establishes Two New IT Delivery Offices (PEO Digital, PEO MLB, 2020)",
-    "reason": "doncio.navy.mil returns a 'Request Rejected' firewall stub to automation",
-    "suggested_method": "manual browser save",
-    "priority": "low"
-  },
-  {
     "url": "https://www.secnav.navy.mil/fmc/fmb/Documents/27pres/RDTEN_BA7-8_Book.pdf",
     "document": "FY2027 RDT&E,N BA7-8 justification book",
     "reason": "download stalls part-way; host resets",
     "suggested_method": "WARP-off session or manual download",
     "priority": "high"
+  },
+  {
+    "url": "https://www.navsea.navy.mil/",
+    "document": "NAVSEA LRAE current location (the April 2026 small-business pages return 404 live)",
+    "reason": "site restructured; the LRAE link must be re-found from the live NAVSEA navigation",
+    "suggested_method": "Browserbase",
+    "priority": "medium"
+  },
+  {
+    "url": "https://www.peomlb.navy.mil/Portfolio/",
+    "document": "PEO MLB portfolio page (office inventory)",
+    "reason": "front page fetched; portfolio page not yet",
+    "suggested_method": "Browserbase",
+    "priority": "low"
   }
 ]

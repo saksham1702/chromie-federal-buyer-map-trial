@@ -117,3 +117,21 @@ account, not api.data.gov. The JSON endpoints behind the SAM.gov web application
 without a key, return full description text and attachments, and reach archived notices back to
 2014; Chromie's runner already uses them. Saksham's api.data.gov key is kept in the ignored
 `.env` for other api.data.gov-fronted services (govinfo, congress.gov) and is not sent to SAM.
+
+## 2026-09-16 - The Navy web block is geographic; Browserbase is the standing live-fetch path
+
+Turning Cloudflare WARP off moved the egress to an Indian ISP address and every .mil host still
+returned 403 or dropped the connection, so the block is on non-US addresses, not on WARP. A
+Browserbase hosted browser (US egress) returned the live PEO C4I, NAVWAR, PEO Digital, PEO MLB,
+NIWC, navy.mil, war.gov, DON CIO and DoD Comptroller pages and files; secnav.navy.mil still
+resets. Live pages are recorded with method "browserbase". The Comptroller's P-1 and R-1 display
+tables are the source of record for line and program-element amounts; the DoN exhibit narratives
+remain queued for the text that names programs and milestones.
+
+## 2026-09-16 - The PEO C4I web presence is gone; the PAE publishes portfolios, not offices
+
+Every path on peoc4i.navy.mil now serves the PAE Mission Systems site (missionsystems.navy.mil),
+which names five capability portfolios and no program offices. The April 2026 archive captures of
+the office pages and tear sheets are the last public record of the PMW inventory in that form. The
+organization map keeps the PEO C4I parentage with the dated consolidation edge and records the
+office-to-portfolio mapping only as a candidate until the PAE publishes it.

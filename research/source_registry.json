@@ -18,11 +18,11 @@
       "tear-sheet date statement",
       "Industry Intake Form"
     ],
-    "historical_coverage": "site content 2023-2026; tear sheets dated 1 MAY 2023 and 1 JAN 2025; front page rebranded to PAE Mission Systems by 2026-05-19",
+    "historical_coverage": "site content 2023 to April 2026 in archive captures; on 2026-09-16 every path on peoc4i.navy.mil returns the PAE Mission Systems home page (new domain missionsystems.navy.mil), so the office pages and tear sheets are no longer published there",
     "publication_frequency": "irregular (tear sheets roughly annual)",
     "reporting_lag": "none for the page; tear sheets lag leadership changes by months",
     "access_mode": "webpage",
-    "access_restrictions": "Akamai bot protection returns 403 to non-browser clients and headless Chrome from this network; Wayback captures used",
+    "access_restrictions": "Akamai returns 403 to non-US addresses; reachable through Browserbase; live content is now the PAE Mission Systems site",
     "extraction_difficulty": "low (HTML lists); tear sheets are one-page PDFs with native text",
     "answers": [
       "which program offices exist under PEO C4I",
@@ -153,7 +153,7 @@
     "publication_frequency": "event-driven",
     "reporting_lag": "same day",
     "access_mode": "webpage",
-    "access_restrictions": "navy.mil returns 403 to automation; paemaritime.navy.mil and DVIDS are open",
+    "access_restrictions": "navy.mil returns 403 to non-US addresses; reachable through Browserbase; paemaritime.navy.mil and DVIDS are open",
     "extraction_difficulty": "low",
     "answers": [
       "when portfolios were created and what moved into them"
@@ -164,11 +164,11 @@
     ],
     "proposed_monitor_frequency": "weekly check of PAE domains and DVIDS for new releases",
     "inspected_example": {
-      "url": "https://www.dvidshub.net/news/564916/department-navy-launches-pae-mission-systems-accelerate-warfighting-capability-speed",
+      "url": "https://www.navy.mil/Press-Office/Press-Releases/display-pressreleases/Article/4483312/navy-advances-acquisition-reform-strategy-appoints-three-new-portfolio-acquisit/",
       "retrieved_at": "2026-09-16",
-      "method": "direct",
-      "sha256": "967d7526e0418279425a8d7cc2e1b0d6123e8af439eab2b7ca5eb16b4eedcc85",
-      "note": "consolidation list names PEO C4I, PEO Digital, PEO IWS, PEO MLB, DRPMs, Minotaur, NAVWAR, NAVSEA, NAVAIR, MCSC; interim PAE Jim Day"
+      "method": "browserbase",
+      "sha256": "b25bca5cf0e8451f0e857aa7ac374cc419144f6a23e025c2cac83ba613617f2b",
+      "note": "live navy.mil release: PAEs 'will have direct authority not only for program offices, but also over associated technical, contracting and sustainment functions'; nine PAEs"
     },
     "verification_status": "verified"
   },
@@ -192,7 +192,7 @@
     "publication_frequency": "roughly annual",
     "reporting_lag": "months",
     "access_mode": "pdf",
-    "access_restrictions": "Akamai 403; Wayback used",
+    "access_restrictions": "Akamai 403 to non-US addresses; the Small-Business-Partnerships pages used in April 2026 return 404 live (2026-09-16), so the documents' current location must be re-found",
     "extraction_difficulty": "low-medium (tabular PDF)",
     "answers": [
       "NAVSEA program-office inventory and codes for expansion beyond the pilot"
@@ -302,30 +302,32 @@
       "agency_intent"
     ],
     "fields_and_identifiers": [
-      "DoD-wide overview, R-1, P-1 summary tables",
-      "links to component books"
+      "P-1 display (xlsx): account, organization, budget activity, BSA, line number, budget line item, title, FY2025 actual/reconciliation/total, FY2026 enacted/spend plan/total, FY2027 request by cost type",
+      "R-1 display (xlsx): account, organization, budget activity, line number, program element, title, same fiscal-year columns",
+      "O-1, M-1, C-1, RF-1 displays; Budget Request Overview Book; Program Acquisition Cost by Weapon System book"
     ],
-    "historical_coverage": "FY1998-FY2027",
+    "historical_coverage": "FY1998-FY2027 budget-materials pages; FY2027 tables retrieved",
     "publication_frequency": "annual",
     "reporting_lag": "request year minus one",
-    "access_mode": "pdf",
-    "access_restrictions": "403 to this network; Wayback capture of the index is an empty shell",
+    "access_mode": "spreadsheet",
+    "access_restrictions": "403 to direct requests from non-US addresses (with and without Cloudflare WARP); reachable through the Browserbase US-egress browser; the site now redirects to comptroller.war.gov",
     "extraction_difficulty": "high",
     "answers": [
-      "DoD-level R-1/P-1 line totals for cross-checking DoN books"
+      "every Navy procurement line and RDT&E program element with FY2025 actual, FY2026 enacted and FY2027 request in one table",
+      "DoD-wide totals for cross-checking the DoN books"
     ],
     "cannot_answer": [
       "office-level detail"
     ],
     "proposed_monitor_frequency": "annual",
     "inspected_example": {
-      "url": "https://comptroller.defense.gov/Budget-Materials/Budget2027/",
-      "retrieved_at": null,
-      "method": null,
-      "sha256": null,
-      "note": "index page captured by Wayback 2026-05-23 contains no document links (client-rendered); PDFs not retrieved"
+      "url": "https://comptroller.war.gov/Portals/45/Documents/defbudget/FY2027/p1_display.xlsx",
+      "retrieved_at": "2026-09-16",
+      "method": "browserbase",
+      "sha256": "4b0544bb7d425b5f7d4063202de2c0ba1f18c75732ac983be2821cfb779f4387",
+      "note": "p1_display.xlsx: 1,138 rows; 55 OPN BA2 lines incl. 2915 CANES 439,977 / 534,324 / 493,046 ($K); r1_display.xlsx: 1,164 rows incl. 0303138N Afloat Networks 56,115 / 78,465 / 68,369"
     },
-    "verification_status": "blocked"
+    "verification_status": "verified"
   },
   {
     "last_verified_at": "2026-09-16",
@@ -586,7 +588,7 @@
     "publication_frequency": "semiannual (activity-dependent)",
     "reporting_lag": "forecast",
     "access_mode": "spreadsheet",
-    "access_restrictions": "Akamai 403; Wayback capture 2025-12-26 used",
+    "access_restrictions": "Akamai 403 to non-US addresses; archive capture 2025-12-26 used; the linking page returned 404 through Browserbase on 2026-09-16 (moved)",
     "extraction_difficulty": "low",
     "answers": [
       "planned NAVSEA requirements by office, incl. PEO IWS offices now consolidated into PAE Mission Systems"
@@ -1071,7 +1073,7 @@
     "publication_frequency": "daily (awards over $7.5M)",
     "reporting_lag": "same day",
     "access_mode": "api",
-    "access_restrictions": "RSS feed answers directly; article pages on war.gov/defense.gov are behind Akamai (403 to automation) so article bodies need Wayback, WARP-off or Browserbase",
+    "access_restrictions": "RSS feed answers directly; article pages on war.gov return 403 to non-US addresses and are reachable through Browserbase (Sept. 15, 2026 article retrieved)",
     "extraction_difficulty": "medium (prose)",
     "answers": [
       "large awards the day they are made, naming the contracting activity"
@@ -1245,6 +1247,159 @@
       "method": "direct",
       "sha256": "32a005eec3927b7c0f2c48a2feecec9695695879f529e241440571765f0680e3",
       "note": "NILE ISS 6 RFI detail with description body naming PEO C4I / PMW 150; 15 solicitation numbers searched, notices found for 6 (2014-2026), none for 9 SeaPort-NxG orders"
+    },
+    "verification_status": "verified",
+    "last_verified_at": "2026-09-16"
+  },
+  {
+    "source_key": "peo_digital_site",
+    "provider_name": "PEO Digital official site (peodigital.navy.mil)",
+    "official_url": "https://www.peodigital.navy.mil/About/",
+    "responsible_org": "PEO Digital and Enterprise Services (PAE Mission Systems from 2026-05-11)",
+    "lifecycle_stages": [
+      "organization"
+    ],
+    "fields_and_identifiers": [
+      "organizational goals",
+      "consolidation notice",
+      "offerings",
+      "news",
+      "industry page"
+    ],
+    "historical_coverage": "live 2026-09-16; news archive back to 2021 (PEO EIS legacy article)",
+    "publication_frequency": "irregular",
+    "reporting_lag": "days",
+    "access_mode": "webpage",
+    "access_restrictions": "Akamai 403 to non-US addresses; reachable through Browserbase",
+    "extraction_difficulty": "low",
+    "answers": [
+      "PEO Digital's own statement that it is part of PAE Mission Systems",
+      "its mission areas"
+    ],
+    "cannot_answer": [
+      "a PMW-coded office inventory (not on the About page)"
+    ],
+    "proposed_monitor_frequency": "weekly hash diff",
+    "inspected_example": {
+      "url": "https://www.peodigital.navy.mil/About/",
+      "retrieved_at": "2026-09-16",
+      "method": "browserbase",
+      "sha256": "58b95c5788ba3c03645927c701dfbed461fe4d07c2680486f02a556ad151fc1e",
+      "note": "'IMPORTANT NOTICE: On May 11, 2026 ... PEO Digital is now part of the PAE Mission Systems'"
+    },
+    "verification_status": "verified",
+    "last_verified_at": "2026-09-16"
+  },
+  {
+    "source_key": "don_cio_chips",
+    "provider_name": "DON CIO CHIPS magazine (official DoN IT publication)",
+    "official_url": "https://www.doncio.navy.mil/CHIPS/",
+    "responsible_org": "Department of the Navy Chief Information Officer",
+    "lifecycle_stages": [
+      "organization"
+    ],
+    "fields_and_identifiers": [
+      "article date",
+      "organization names",
+      "quoted officials"
+    ],
+    "historical_coverage": "articles back to the 1990s",
+    "publication_frequency": "continuous",
+    "reporting_lag": "days to weeks",
+    "access_mode": "webpage",
+    "access_restrictions": "firewall returns 'Request Rejected' stubs to non-US addresses; reachable through Browserbase",
+    "extraction_difficulty": "low",
+    "answers": [
+      "dated organizational changes for Navy IT acquisition (PEO EIS disestablished 2020-05-13; PEO Digital and PEO MLB established)"
+    ],
+    "cannot_answer": [
+      "acquisitions"
+    ],
+    "proposed_monitor_frequency": "monthly",
+    "inspected_example": {
+      "url": "https://www.doncio.navy.mil/CHIPS/ArticleDetails.aspx?ID=13570",
+      "retrieved_at": "2026-09-16",
+      "method": "browserbase",
+      "sha256": "3ba9c4387a31d4fc8882204adee05cc3687b01729fc52347cbe9232bb95b1ed9",
+      "note": "'On May 13, 2020, the Deputy Assistant Secretary of the Navy for Information Warfare and Enterprise ... disestablishing PEO EIS and realigning its existing programs ... to PEO Digital and PEO MLB'"
+    },
+    "verification_status": "verified",
+    "last_verified_at": "2026-09-16"
+  },
+  {
+    "source_key": "pae_mission_systems_site",
+    "provider_name": "PAE Mission Systems official site (missionsystems.navy.mil; also served at peoc4i.navy.mil)",
+    "official_url": "https://www.missionsystems.navy.mil/Industry/",
+    "responsible_org": "Portfolio Acquisition Executive Mission Systems",
+    "lifecycle_stages": [
+      "organization",
+      "industry_engagement"
+    ],
+    "fields_and_identifiers": [
+      "mission and vision",
+      "five capability portfolios",
+      "industry engagement process (Learn, Introduce via intake form, Propose a pilot)",
+      "links to SAM.gov, SeaPort-NxG, SBIR/STTR"
+    ],
+    "historical_coverage": "live since about May 2026; most paths still 404 (About, Leadership, Contact)",
+    "publication_frequency": "under construction",
+    "reporting_lag": "n/a",
+    "access_mode": "webpage",
+    "access_restrictions": "Akamai 403 to non-US addresses; reachable through Browserbase",
+    "extraction_difficulty": "low",
+    "answers": [
+      "the new portfolio structure above the former PEOs",
+      "how industry is now asked to engage (pilot intake portal)"
+    ],
+    "cannot_answer": [
+      "which former program offices belong to which capability portfolio (not published yet)",
+      "leadership below the interim PAE"
+    ],
+    "proposed_monitor_frequency": "weekly hash diff; alert when About, Leadership or a portfolio page appears",
+    "inspected_example": {
+      "url": "https://www.missionsystems.navy.mil/Industry/",
+      "retrieved_at": "2026-09-16",
+      "method": "browserbase",
+      "sha256": "e0222161b887eaa30f731852ab75a468d2218f2bd8c01ea9f6d31f1d1c329f15",
+      "note": "Industry page: five capability portfolios and the Learn / Introduce / Propose intake process"
+    },
+    "verification_status": "verified",
+    "last_verified_at": "2026-09-16"
+  },
+  {
+    "source_key": "peo_mlb_site",
+    "provider_name": "PEO MLB official site (peomlb.navy.mil)",
+    "official_url": "https://www.peomlb.navy.mil/",
+    "responsible_org": "PEO Manpower, Logistics and Business Solutions (PAE Mission Systems from 2026-05-11)",
+    "lifecycle_stages": [
+      "organization"
+    ],
+    "fields_and_identifiers": [
+      "portfolio page",
+      "industry engagement",
+      "strategic guidance",
+      "consolidation notice"
+    ],
+    "historical_coverage": "live 2026-09-16",
+    "publication_frequency": "irregular",
+    "reporting_lag": "days",
+    "access_mode": "webpage",
+    "access_restrictions": "Akamai 403 to non-US addresses; reachable through Browserbase",
+    "extraction_difficulty": "low",
+    "answers": [
+      "PEO MLB's own consolidation statement",
+      "its portfolio description (defense business systems)"
+    ],
+    "cannot_answer": [
+      "PMW-coded office inventory on the front page (the Portfolio page is the next fetch)"
+    ],
+    "proposed_monitor_frequency": "weekly hash diff",
+    "inspected_example": {
+      "url": "https://www.peomlb.navy.mil/",
+      "retrieved_at": "2026-09-16",
+      "method": "browserbase",
+      "sha256": "c844b6af61b473b7f3e1191107a6d6a741ab17ce49e22327cf5df74c3e4ec911",
+      "note": "'PEO MLB is now part of the PAE Mission Systems'; navigation: About, Portfolio, Industry Engagement, Strategic Guidance"
     },
     "verification_status": "verified",
     "last_verified_at": "2026-09-16"

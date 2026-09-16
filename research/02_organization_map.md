@@ -55,7 +55,7 @@ SHARKCAGE -> PMW 130; force-level platform integration -> PMW 750/760.
 | 2006 (spring) | PEO EIS established | PEO Digital legacy article (2021-04-01, Wayback 2026-05-19) |
 | 2019-02-18 | SPAWAR Systems Centers Pacific and Atlantic renamed Naval Information Warfare Centers | DVIDS release (2019-02-13) |
 | 2019-06-03 | SPAWAR renamed NAVWAR, "effective immediately" | navy.mil release (2019-06-03, Wayback 2026-01-23) |
-| 2020-05 | PEO EIS disestablished; PEO Digital and PEO MLB established; NEN awarded the SMIT contract the same year | PEO Digital legacy article |
+| 2020-05-13 | DASN(IW&ET) directs the disestablishment of PEO EIS and the realignment of its programs into PEO Digital and PEO MLB; NEN awarded the SMIT contract the same year | DON CIO CHIPS article (April-June 2020, retrieved live 2026-09-16); PEO Digital legacy article |
 | 2023-05-23 | PEO C4I marks 20 years; 11 program offices listed; PEO Rear Adm. Kurt Rothenhaus | NAVWAR article (Wayback 2025-12-31) |
 | 2023-05 | Dr. William Luebke acting PEO C4I | PEO C4I leadership page (Wayback 2026-04-12) |
 | 2025-08-19 | PMW 150 and PMW 760 change program managers | DVIDS release |
@@ -63,6 +63,7 @@ SHARKCAGE -> PMW 130; force-level platform integration -> PMW 750/760.
 | 2026-05-11 | PAE Mission Systems established; PEO C4I among the consolidated organizations | DVIDS release |
 | 2026-05-19 | `peoc4i.navy.mil` front page reads "PAE Mission Systems - Front Page / Site Under Construction" | Wayback capture |
 | 2026-09-01 | NAVWAR navigation lists NAVWAR, NIWC Atlantic, NIWC Pacific, NSFA, DRPM Project Overmatch and no PEOs; the acquisition-pathways page still describes the PEOs as NAVWAR components | Wayback captures |
+| 2026-09-16 | Live captures through a US browser: `peoc4i.navy.mil` serves the PAE Mission Systems site (`missionsystems.navy.mil`), whose Industry page lists five capability portfolios (Digital Infrastructure & Services; Warfighter Enterprise Business Services; Naval Intelligence, C2, Cyber Warfare & Information Operations; Sensors, PNT, EW & Communications Systems; Combat Systems & Fires); PEO Digital's and PEO MLB's sites carry the notice "now part of the PAE Mission Systems"; NAVWAR's About page says NAVWAR provides technical, in-service and support services "to its respective portfolio acquisition executive (PAEs)" and "consists of bicoastal reporting" NIWCs; navy.mil: PAEs "will have direct authority not only for program offices, but also over associated technical, contracting and sustainment functions" | Browserbase captures |
 
 ## 3. Aliases and identifier inconsistencies
 
@@ -78,10 +79,22 @@ SHARKCAGE -> PMW 130; force-level platform integration -> PMW 750/760.
 | Contracting offices | `N00039 - NAVWAR` (LRAE), `NAVAL INFORMATION WARFARE SYSTEMS` (FPDS), `N00039` (PIID prefix) | one node with all three |
 | Command name in old records | award descriptions written after 2019 say "NAVWAR" even for 2016 awards | descriptions are re-authored at modification time; never date an organization from an award description |
 
+### 3a. Where the PMWs sit in the new portfolio structure (candidate mapping, not yet documented)
+
+The PAE Mission Systems site names five capability portfolios but has not published which former
+offices belong to each. Reading the portfolio names against the PEO C4I tear sheets suggests:
+PMW 120, PMW 130 and PMW 150 under "Naval Intelligence, C2, Cyber Warfare & Information
+Operations"; PMA/PMW 101, PMW/A 170 and PMW 770 under "Sensors, PNT, EW & Communications
+Systems"; PEO Digital's offices under "Digital Infrastructure & Services"; PEO MLB's under
+"Warfighter Enterprise Business Services"; PEO IWS under "Combat Systems & Fires"; PMW 740, 750,
+760 and 790 (integration and international offices) unplaced. This is an inference and is
+recorded only here until an official page lists the offices; the seed graph keeps the PEO C4I
+parentage with the dated consolidation edge.
+
 ## 4. What is not yet in the map
 
-- PEO Digital and PEO MLB office inventories (their sites return 403 to automation and have no
-  Wayback copies of the office pages found yet).
+- PEO Digital and PEO MLB office inventories: their live sites (reached through a US browser on
+  2026-09-16) show mission areas and the consolidation notice but no PMW-coded office list.
 - Office-level detail of what moved into PAE Mission Systems; the release lists organizations,
   not program offices.
 - NIWC Pacific and Atlantic division inventories beyond the codes observed in the LRAE.

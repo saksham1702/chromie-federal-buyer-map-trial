@@ -41,8 +41,8 @@ SAM API key, a network path to the Navy web hosts, and two documents that need a
 | Blocker | Effect | Unblock |
 | --- | --- | --- |
 | No SAM Opportunities API key in this environment | notice descriptions and attachments unavailable; solicitation documents are where most `inferred` cases would become `directly_documented` | register a free api.data.gov key (user) and store it outside git |
-| Akamai bot protection on navwar, peoc4i, navsea, navair, niwc, navy.mil, war.gov, gao.gov | live pages unreadable from this network; archive captures lag | WARP-off fetch sessions, Browserbase test, or a fixed-IP fetcher in production |
-| secnav.navy.mil firewall resets (budget library, OSBP LRAE index) | budget books and the Navy-wide LRAE index need manual or WARP-off retrieval; RDT&E BA7-8 and FY2026 books still missing | manual queue in `manual_pdf_requests.json` |
+| Geographic block on navwar, peoc4i, navsea, navair, niwc, navy.mil, war.gov, comptroller, gao.gov (non-US addresses get 403; WARP on or off) | live pages unreadable from this machine; archive captures lag | Browserbase US-egress browser (tested 2026-09-16, works) or a US-hosted fetcher in production |
+| secnav.navy.mil firewall resets (budget library, OSBP LRAE index), also through Browserbase | DoN exhibit narratives (RDT&E BA7-8, FY2026 books) and the Navy-wide LRAE index still missing; line amounts are covered by the Comptroller P-1/R-1 tables | manual queue in `manual_pdf_requests.json`; a US residential or government network |
 | PIEE and SeaPort-NxG require accounts | solicitation packages and task-order competitions invisible | accept the gap; rely on SAM synopses and FPDS awards; record as `restricted` |
 | DoD FPDS publication delay (~90 days) | award and recompete signals arrive late | forecast (LRAE) and period-of-performance signals carry the early warning |
 | Wayback CDX index intermittently offline | historical LRAE versions cannot be enumerated | retry; keep the raw-capture path that works |

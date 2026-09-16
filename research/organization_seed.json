@@ -37,14 +37,40 @@
           "observed_at": "2026-05-19",
           "access": "wayback capture 20260519222400",
           "passage": "PAE Mission Systems - Front Page ... Site Under Construction"
+        },
+        {
+          "source_url": "https://www.peoc4i.navy.mil/Program-Offices/",
+          "observed_at": "2026-09-16",
+          "passage": "PAE Mission Systems ... Our Mission: Forging decisive combat power by unifying Naval acquisition ... Capability Portfolios: Digital Infrastructure & Services (DIS) ...",
+          "access": "live capture via Browserbase; served at the former peoc4i.navy.mil address"
+        },
+        {
+          "source_url": "https://www.missionsystems.navy.mil/Industry/",
+          "observed_at": "2026-09-16",
+          "passage": "Capabilities: Digital Infrastructure & Services; Warfighter Enterprise Business Services; Naval Intelligence, C2, Cyber Warfare, & Information Operations; Sensors, PNT, EW, & Communications Systems; Combat Systems & Fires ... Industry Pilot Intake Portal",
+          "access": "live capture via Browserbase"
+        },
+        {
+          "source_url": "https://www.navy.mil/Press-Office/Press-Releases/display-pressreleases/Article/4483312/navy-advances-acquisition-reform-strategy-appoints-three-new-portfolio-acquisit/",
+          "observed_at": "2026-05-11",
+          "passage": "PAEs are responsible for an entire portfolio of like programs and will have direct authority not only for program offices, but also over associated technical, contracting and sustainment functions ... brings the total of Department of the Navy PAEs to nine",
+          "access": "live capture via Browserbase 2026-09-16"
         }
       ],
       "aliases": [
         "PAE Mission Systems",
-        "PAE MS"
+        "PAE MS",
+        "missionsystems.navy.mil"
       ],
       "valid_from": "2026-05-11",
-      "notes": "stood up under the Warfighting Acquisition System; former peoc4i.navy.mil front page carries its name by 2026-05-19"
+      "notes": "stood up under the Warfighting Acquisition System; former peoc4i.navy.mil front page carries its name by 2026-05-19; live site organized by five capability portfolios (office membership not yet published); PAEs hold direct authority over program offices and associated technical, contracting and sustainment functions per the navy.mil release",
+      "capability_portfolios": [
+        "Digital Infrastructure & Services",
+        "Warfighter Enterprise Business Services",
+        "Naval Intelligence, C2, Cyber Warfare, & Information Operations",
+        "Sensors, PNT, EW, & Communications Systems",
+        "Combat Systems & Fires"
+      ]
     },
     {
       "id": "command:navwar",
@@ -68,6 +94,12 @@
           "observed_at": "2019-06-03",
           "access": "wayback capture 20260123220908",
           "passage": "Space and Naval Warfare Systems Command (SPAWARSYSCOM) has changed its name to Naval Information Warfare Systems Command (NAVWARSYSCOM) ... announced ... June 3. The change is effective immediately."
+        },
+        {
+          "source_url": "https://www.navwar.navy.mil/About/Who-We-Are/",
+          "observed_at": "2026-09-16",
+          "passage": "NAVWAR ... provides ... technical, in-service and support services to its respective portfolio acquisition executive (PAEs) during all phases of a program's lifecycle. NAVWAR consists of bicoastal reporting Naval Information Warfare Centers (NIWCs)",
+          "access": "live capture via Browserbase"
         }
       ],
       "aliases": [
@@ -85,7 +117,8 @@
           "name": "Naval Information Warfare Systems Command",
           "valid_from": "2019-06-03"
         }
-      ]
+      ],
+      "notes": "live About page 2026-09-16: provides technical, in-service and support services to the PAEs and consists of the two NIWCs"
     },
     {
       "id": "contracting:n00039",
@@ -289,13 +322,25 @@
           "observed_at": "2021-04-01",
           "access": "wayback capture 20260519123243",
           "passage": "In May 2020 ... PEO EIS was disestablished to make way for two new PEOs, PEO Digital and Enterprise Services (PEO Digital) and PEO Manpower, Logistics and Business Solutions (PEO MLB). ... 2020 NEN awarded the NGEN Re-Compete Service Management, Integration and Transport (SMIT) contract"
+        },
+        {
+          "source_url": "https://www.doncio.navy.mil/CHIPS/ArticleDetails.aspx?ID=13570",
+          "observed_at": "2020-05-13",
+          "passage": "On May 13, 2020, the Deputy Assistant Secretary of the Navy for Information Warfare and Enterprise ... disestablishing the Program Executive Office Enterprise Information Systems (PEO EIS) and realigning its existing programs and projects to one of two new PEOs, PEO Digital and Enterprise Services and PEO Manpower, Logistics and Business Solutions (PEO MLB)",
+          "access": "live capture via Browserbase 2026-09-16"
+        },
+        {
+          "source_url": "https://www.peodigital.navy.mil/About/",
+          "observed_at": "2026-09-16",
+          "passage": "On May 11, 2026, the Department of the Navy announced the establishment of the Portfolio Acquisition Executive for Mission Systems (PAE Mission Systems) ... PEO Digital is now part of the PAE Mission Systems",
+          "access": "live capture via Browserbase"
         }
       ],
       "aliases": [
         "PEO Digital"
       ],
       "notes": "sibling of PEO C4I; LRAE uses non-PMW codes such as 'Digital TD'; established May 2020 from PEO EIS (network, enterprise services, digital infrastructure offices)",
-      "valid_from": "2020-05-01"
+      "valid_from": "2020-05-13"
     },
     {
       "id": "peo:mlb",
@@ -324,6 +369,18 @@
           "observed_at": "2021-04-01",
           "access": "wayback capture 20260519123243",
           "passage": "In May 2020 ... PEO EIS was disestablished to make way for two new PEOs, PEO Digital and Enterprise Services (PEO Digital) and PEO Manpower, Logistics and Business Solutions (PEO MLB). ... 2020 NEN awarded the NGEN Re-Compete Service Management, Integration and Transport (SMIT) contract"
+        },
+        {
+          "source_url": "https://www.doncio.navy.mil/CHIPS/ArticleDetails.aspx?ID=13570",
+          "observed_at": "2020-05-13",
+          "passage": "On May 13, 2020, the Deputy Assistant Secretary of the Navy for Information Warfare and Enterprise ... disestablishing the Program Executive Office Enterprise Information Systems (PEO EIS) and realigning its existing programs and projects to one of two new PEOs, PEO Digital and Enterprise Services and PEO Manpower, Logistics and Business Solutions (PEO MLB)",
+          "access": "live capture via Browserbase 2026-09-16"
+        },
+        {
+          "source_url": "https://www.peomlb.navy.mil/",
+          "observed_at": "2026-09-16",
+          "passage": "PEO MLB is now part of the PAE Mission Systems, the critical mission integrator for kill chain closure, value chain optimization, capability interoperability, and maximum warfighting efficiency",
+          "access": "live capture via Browserbase"
         }
       ],
       "aliases": [
@@ -331,7 +388,7 @@
         "PEO-MLB",
         "Pf008MLBFO (LRAE front-office code)"
       ],
-      "valid_from": "2020-05-01",
+      "valid_from": "2020-05-13",
       "notes": "established May 2020 from PEO EIS (manpower, logistics, business offices)"
     },
     {
@@ -938,13 +995,19 @@
         "PEO EIS"
       ],
       "valid_from": "2006-04-01",
-      "valid_to": "2020-05-31",
+      "valid_to": "2020-05-13",
       "evidence": [
         {
           "source_url": "https://www.peodigital.navy.mil/News/Article/3431521/peo-eis-legacy-as-the-dons-defense-business-systems-and-enterprise-it-acquisiti/",
           "observed_at": "2021-04-01",
           "access": "wayback capture 20260519123243",
           "passage": "In May 2020 ... PEO EIS was disestablished to make way for two new PEOs, PEO Digital and Enterprise Services (PEO Digital) and PEO Manpower, Logistics and Business Solutions (PEO MLB). ... 2020 NEN awarded the NGEN Re-Compete Service Management, Integration and Transport (SMIT) contract"
+        },
+        {
+          "source_url": "https://www.doncio.navy.mil/CHIPS/ArticleDetails.aspx?ID=13570",
+          "observed_at": "2020-05-13",
+          "passage": "On May 13, 2020, the Deputy Assistant Secretary of the Navy for Information Warfare and Enterprise ... disestablishing the Program Executive Office Enterprise Information Systems (PEO EIS) and realigning its existing programs and projects to one of two new PEOs, PEO Digital and Enterprise Services and PEO Manpower, Logistics and Business Solutions (PEO MLB)",
+          "access": "live capture via Browserbase 2026-09-16"
         }
       ],
       "notes": "established spring 2006; disestablished May 2020; successor PEOs Digital and MLB; legacy owner of NGEN/NMCI and business systems"
@@ -1644,7 +1707,7 @@
           "access": "wayback capture 20260412054606"
         }
       ],
-      "notes": "official NAVWAR page captured 2026-09-01 still describes these PEOs as NAVWAR components; review against the PAE consolidation",
+      "notes": "official NAVWAR page captured 2026-09-01 still describes these PEOs as NAVWAR components; review against the PAE consolidation NAVWAR's live About page (2026-09-16) no longer lists PEOs and describes NAVWAR as a service provider to the PAEs; NAVWAR's Work-With-Us footer still lists them.",
       "review_status": "conflict_flagged"
     },
     {
@@ -1677,7 +1740,7 @@
           "access": "wayback capture 20260412054606"
         }
       ],
-      "notes": "official NAVWAR page captured 2026-09-01 still describes these PEOs as NAVWAR components; review against the PAE consolidation",
+      "notes": "official NAVWAR page captured 2026-09-01 still describes these PEOs as NAVWAR components; review against the PAE consolidation NAVWAR's live About page (2026-09-16) no longer lists PEOs and describes NAVWAR as a service provider to the PAEs; NAVWAR's Work-With-Us footer still lists them.",
       "review_status": "conflict_flagged"
     },
     {
@@ -1710,7 +1773,7 @@
           "access": "wayback capture 20260412054606"
         }
       ],
-      "notes": "official NAVWAR page captured 2026-09-01 still describes these PEOs as NAVWAR components; review against the PAE consolidation",
+      "notes": "official NAVWAR page captured 2026-09-01 still describes these PEOs as NAVWAR components; review against the PAE consolidation NAVWAR's live About page (2026-09-16) no longer lists PEOs and describes NAVWAR as a service provider to the PAEs; NAVWAR's Work-With-Us footer still lists them.",
       "review_status": "conflict_flagged"
     },
     {
@@ -1749,6 +1812,12 @@
           "source_url": "https://www.dvidshub.net/news/564916/department-navy-launches-pae-mission-systems-accelerate-warfighting-capability-speed",
           "observed_at": "2026-05-11",
           "passage": "By pulling together the mission systems elements of the following organizations, we are creating a unified and integrated command: PEO C4I, PEO Digital, PEO IWS, PEO MLB, DRPM Overmatch, DRPM LRNFO, DRPM MILE, the Minotaur program from PMA 290, NAVWAR, NAVSEA, NAVAIR, MCSC"
+        },
+        {
+          "source_url": "https://www.peodigital.navy.mil/About/",
+          "observed_at": "2026-09-16",
+          "passage": "On May 11, 2026, the Department of the Navy announced the establishment of the Portfolio Acquisition Executive for Mission Systems (PAE Mission Systems) ... PEO Digital is now part of the PAE Mission Systems",
+          "access": "live capture via Browserbase"
         }
       ],
       "valid_from": "2026-05-11",
@@ -1763,6 +1832,12 @@
           "source_url": "https://www.dvidshub.net/news/564916/department-navy-launches-pae-mission-systems-accelerate-warfighting-capability-speed",
           "observed_at": "2026-05-11",
           "passage": "By pulling together the mission systems elements of the following organizations, we are creating a unified and integrated command: PEO C4I, PEO Digital, PEO IWS, PEO MLB, DRPM Overmatch, DRPM LRNFO, DRPM MILE, the Minotaur program from PMA 290, NAVWAR, NAVSEA, NAVAIR, MCSC"
+        },
+        {
+          "source_url": "https://www.peomlb.navy.mil/",
+          "observed_at": "2026-09-16",
+          "passage": "PEO MLB is now part of the PAE Mission Systems, the critical mission integrator for kill chain closure, value chain optimization, capability interoperability, and maximum warfighting efficiency",
+          "access": "live capture via Browserbase"
         }
       ],
       "valid_from": "2026-05-11",
@@ -1814,13 +1889,19 @@
       "from": "peo:eis",
       "to": "command:navwar",
       "type": "child_of",
-      "valid_to": "2020-05-31",
+      "valid_to": "2020-05-13",
       "evidence": [
         {
           "source_url": "https://www.peodigital.navy.mil/News/Article/3431521/peo-eis-legacy-as-the-dons-defense-business-systems-and-enterprise-it-acquisiti/",
           "observed_at": "2021-04-01",
           "access": "wayback capture 20260519123243",
           "passage": "In May 2020 ... PEO EIS was disestablished to make way for two new PEOs, PEO Digital and Enterprise Services (PEO Digital) and PEO Manpower, Logistics and Business Solutions (PEO MLB). ... 2020 NEN awarded the NGEN Re-Compete Service Management, Integration and Transport (SMIT) contract"
+        },
+        {
+          "source_url": "https://www.doncio.navy.mil/CHIPS/ArticleDetails.aspx?ID=13570",
+          "observed_at": "2020-05-13",
+          "passage": "On May 13, 2020, the Deputy Assistant Secretary of the Navy for Information Warfare and Enterprise ... disestablishing the Program Executive Office Enterprise Information Systems (PEO EIS) and realigning its existing programs and projects to one of two new PEOs, PEO Digital and Enterprise Services and PEO Manpower, Logistics and Business Solutions (PEO MLB)",
+          "access": "live capture via Browserbase 2026-09-16"
         }
       ]
     },
@@ -1855,7 +1936,7 @@
       "from": "office:nen",
       "to": "peo:eis",
       "type": "child_of",
-      "valid_to": "2020-05-31",
+      "valid_to": "2020-05-13",
       "evidence": [
         {
           "source_url": "https://www.peodigital.navy.mil/News/Article/3431521/peo-eis-legacy-as-the-dons-defense-business-systems-and-enterprise-it-acquisiti/",
@@ -1869,7 +1950,7 @@
       "from": "office:nen",
       "to": "peo:digital",
       "type": "child_of",
-      "valid_from": "2020-06-01",
+      "valid_from": "2020-05-14",
       "evidence": [
         {
           "source_url": "https://www.peodigital.navy.mil/News/Article/3431521/peo-eis-legacy-as-the-dons-defense-business-systems-and-enterprise-it-acquisiti/",

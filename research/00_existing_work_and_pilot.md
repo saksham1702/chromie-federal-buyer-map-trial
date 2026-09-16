@@ -71,7 +71,10 @@ sought by PEO C4I, PEO MLB and PEO Digital" [G], while the PAE Mission Systems r
 by 2026-05-19 [D]. The 2026-09-01 NAVWAR navigation lists NAVWAR, NIWC Atlantic, NIWC Pacific,
 NSFA and DRPM Project Overmatch, and no PEOs [H]. Reading: the PEOs' web presence and
 reporting line moved to the PAE; contracting execution for their programs still runs through
-NAVWAR HQ. The organization seed records PEO C4I as a child of NAVWAR with an open end date and
+NAVWAR HQ. NAVWAR's own live About page (2026-09-16) now describes the command as providing
+technical, in-service and support services "to its respective portfolio acquisition executive
+(PAEs)" and as consisting of the two NIWCs, which is the post-reorganization role in the
+command's own words. The organization seed records PEO C4I as a child of NAVWAR with an open end date and
 as consolidated into PAE Mission Systems from 2026-05-11, and flags the pair for review.
 
 ### 2.2 Reorganization timeline (dated evidence only)
@@ -82,6 +85,7 @@ as consolidated into PAE Mission Systems from 2026-05-11, and flags the pair for
 | 2026-05-11 | DoN launches PAE Mission Systems (interim PAE Jim Day), consolidating the organizations listed in 2.1, under the Warfighting Acquisition System | [E] |
 | 2026-05-19 | `peoc4i.navy.mil` front page rebranded to PAE Mission Systems, "Site Under Construction" | [D] |
 | 2026-09-01 | NAVWAR navigation no longer lists PEOs; the acquisition-pathways page still describes them as NAVWAR components | [G][H] |
+| 2026-09-16 | Live check through a US browser: every path on `peoc4i.navy.mil` returns the PAE Mission Systems home page (new domain `missionsystems.navy.mil`, organized as "capability portfolios"); PEO Digital's site carries the notice "PEO Digital is now part of the PAE Mission Systems"; NAVWAR's Work-With-Us footer still lists PEO C4I, PEO Digital, PEO MLB | live captures in the manifest (`method: browserbase`) |
 
 Earlier history (SPAWAR renamed NAVWAR; PEO EIS split into PEO Digital and PEO MLB) is common
 knowledge but is not yet cited to an official document here; it is verified in `02_organization_map.md`.
@@ -160,11 +164,11 @@ USAspending descriptions write `PMW 160` [J]; PID numbers embed `PMW-160` [I].
 | SeaPort-NxG task orders (IDVs `N00178…`) | Task-order RFPs are issued inside the SeaPort portal; only awards surface in FPDS | LRAE rows list `N0017819D…` as existing contracts [I]; portal unreachable from this machine |
 | DoD contract actions reach FPDS/USAspending after a delay of roughly 90 days | Award and recompete signals arrive late | FPDS feeds show June 2026 actions in September 2026 [J] |
 | Department of the Navy budget library (`secnav.navy.mil/fmc`) rejects automated and archived requests | Budget exhibits need a WARP-off or manual retrieval | [P] |
-| Akamai bot protection on `navwar`, `peoc4i`, `navsea`, `navair`, `niwc*`, `navy.mil` | Direct fetch returns 403; Wayback captures used instead, which lag the live page | manifest rows with `method: wayback` |
+| Geographic block on `navwar`, `peoc4i`, `navsea`, `navair`, `niwc*`, `navy.mil`, `war.gov`, `comptroller` | Any client from a non-US address gets 403 (confirmed with Cloudflare WARP on and off); archive captures lag the live page; a US-egress hosted browser (Browserbase) passes and was used on 2026-09-16 | manifest rows with `method: wayback` and `method: browserbase` |
 | LRAE is an estimate | Many rows carry `TBD`; the disclaimer says nothing is a commitment | [I] |
 | PEO Digital and PEO MLB do not appear under PMW codes in the LRAE | Sibling offices use codes like `Pf007NERP`; identifier crosswalk needed before they can be used as hard negatives | [I] |
 | PID numbers are internal | They connect forecast rows to office codes but cannot be looked up publicly | [I] |
-| Tear sheets lag leadership changes | PMW 760 and PMW 150 program managers changed on 2025-08-19 while the 2025 tear sheets still name the prior holder | [K][M] |
+| Tear sheets lag leadership changes, and are no longer published | PMW 760 and PMW 150 program managers changed on 2025-08-19 while the 2025 tear sheets still name the prior holder; as of 2026-09-16 the tear-sheet URLs return the PAE Mission Systems home page, so the April 2026 archive copies are the last available | [K][M]; live capture |
 | Classified and CUI requirements | Absent from every public source | by construction |
 
 ## Appendix: evidence

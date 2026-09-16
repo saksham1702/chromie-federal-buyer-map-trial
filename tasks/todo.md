@@ -45,10 +45,10 @@ Plan: ~/.claude/plans/eager-hopping-rivest.md (approved 2026-09-16). Branch: tri
 ## Open follow-ups
 - [x] register the SAM.gov full extract (current dataset only) and confirm BT07/BT08 first-notice dates
 - [ ] download SAM archived FY2021 and FY2025 files (about 1.1 GB each) for BT02/BT05 first-notice dates and the MIDS/CLTS notices
-- [ ] RDT&E BA7-8 and FY2026 budget books (manual queue) for the request-vs-enacted signal
+- [~] request-vs-enacted amounts now from the Comptroller P-1/R-1 tables; DoN RDT&E BA7-8 and FY2026 exhibit narratives still queued (secnav resets)
 - [ ] complete FY2026 FPDS scan for N00039 (host resets) to settle BT06 and the PMW 120 / NMT / Platform Integration forecasts
 - [ ] optional 1h: replay the 19 examples through prod `resolve_program_office()` offline
 
 ## Needs from Saksham
 - [x] api.data.gov key received and stored in .env; SAM itself is served by the keyless site API (api.sam.gov host dead), so the key is only for other api.data.gov services
-- [ ] WARP-off window when the blocked-URL batch is ready
+- [x] WARP-off tested 2026-09-16: block is geographic (Indian egress also 403); Browserbase (US egress) works and fetched 70+ live pages and files

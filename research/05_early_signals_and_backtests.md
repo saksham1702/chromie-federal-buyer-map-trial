@@ -39,9 +39,59 @@ Other Procurement, Navy BA2 justification book dated April 2026; FPDS = award re
 | NILE ISS 6 (now at RFI stage) | Sources Sought N0003926RE013 posted 2026-01-29 | PMW 150 | LRAE row (2025-06-19) then the RFI | small value range; award forecast FY27 Q2 | none beyond timing | the solicitation |
 | CANES production quantity change in FY2027 | request below the prior enacted amount | PMW 160 | OPN line item 2915 "CANES": FY2026 enacted 534.324, FY2027 request 493.046 ($ millions); FY2028 529.811 | request stage; enacted FY2027 pending in Congress | inference by program name; Congress may add or cut | the FY2027 appropriations explanatory statement line for CANES |
 
-Congressional marks for FY2026 and FY2027 lines (govinfo) and RDT&E program-element changes
-(the RDT&E BA7-8 book is still in the manual queue) are the two signal families not yet
-extracted; both sources are registered and reachable.
+### 1a. Budget lines behind the pilot offices ($ millions)
+
+From the DoD Comptroller FY2027 P-1 and R-1 display tables (retrieved 2026-09-16 through the
+Browserbase path; hashes `4b0544bb7d42` and `d6c325bf6565`). The office column is an inference
+by program name through the tear sheets; the tables themselves name no office. Amounts are the
+"total" columns (FY2026 includes the PL 119-21 spend plan).
+
+| OPN line | Title | Likely office (inference by program) | FY25 actual | FY26 enacted | FY27 request |
+| --- | --- | --- | ---: | ---: | ---: |
+| 2237 (P-1 line 45) | SURTASS | PMS 485 (SURTASS; NAVSEA) | 46.0 | 31.2 | 72.2 |
+| 2614 (P-1 line 51) | ATDLS | PMA/PMW 101 (ATDLS / Link 16) | 68.5 | 58.7 | 52.8 |
+| 2618 (P-1 line 52) | Navy Command and Control System (NCCS) | PMW 150 (NCCS) | 3.6 | 3.5 | 16.2 |
+| 2657 (P-1 line 54) | Navstar GPS Receivers (SPACE) | PMW/A 170 (GPS receivers) | 38.0 | 45.7 | 43.1 |
+| 2906 (P-1 line 62) | Tactical/Mobile C4I Systems | PMW 150 / PMW 790 (to confirm) | 66.5 | 64.9 | 48.3 |
+| 2915 (P-1 line 64) | CANES | PMW 160 (CANES) | 440.0 | 534.3 | 493.0 |
+| 2925 (P-1 line 66) | CANES-Intell | PMW 160 (CANES-Intell) | 50.7 | 46.3 | 43.0 |
+| 2437 (P-1 line 72) | Battle Force Tactical Network | PMW 160 / PMW/A 170 (BFTN; office to confirm) | 104.0 | 106.6 | 125.7 |
+| 3010 (P-1 line 73) | Shipboard Tactical Communications | PMW/A 170 (shipboard tactical comms) | 24.6 | 20.9 | 50.4 |
+| 3050 (P-1 line 74) | Ship Communications Automation | PMW 160 (ADNS) | 127.3 | 162.1 | 156.6 |
+| 3107 (P-1 line 76) | Submarine Broadcast Support | PMW 770 (submarine broadcast) | 129.5 | 113.1 | 173.1 |
+| 3130 (P-1 line 77) | Submarine Communication Equipment | PMW 770 (submarine comms) | 68.3 | 84.6 | 88.1 |
+| 3215 (P-1 line 78) | Satellite Communications Systems | PMW/A 170 (SATCOM) | 59.7 | 62.9 | 58.0 |
+| 3216 (P-1 line 79) | Navy Multiband Terminal (NMT) | PMW/A 170 (NMT) | 162.9 | 63.4 | 57.8 |
+| 3222 (P-1 line 80) | Mobile Advanced EHF Terminal (MAT) | PMW/A 170 (MAT, new line; LRAE row "MAT Production and Sustainment") | - | 220.5 | 202.3 |
+| 3415 (P-1 line 82) | Info Systems Security Program (ISSP) | PMW 130 (ISSP) | 195.1 | 191.2 | 349.1 |
+| 3501 (P-1 line 84) | Cryptologic Communications Equip | PMW 130 (cryptologic comms) | 15.5 | 7.8 | 7.4 |
+
+| RDT&E PE | Title | Likely office | FY25 total | FY26 total | FY27 total |
+| --- | --- | --- | ---: | ---: | ---: |
+| 0101402N (BA 07, line 215) | Navy Strategic Communications | PMW 770 (Navy Strategic Communications) | 28.9 | 52.4 | 88.6 |
+| 0303138N (BA 07, line 242) | Afloat Networks | PMW 160 (Afloat Networks: CANES, ADNS) | 56.1 | 78.5 | 68.4 |
+| 0303140N (BA 07, line 243) | Information Systems Security Program | PMW 130 (ISSP) | 34.4 | 64.1 | 79.1 |
+| 0603598N (BA 04, line 54) | ATRT Enterprise Rapid Capability | PEO C4I or NIWC (ATRT rapid capability; to confirm) | 51.5 | 116.5 | 87.6 |
+| 0604231N (BA 05, line 115) | Command and Control Systems | PMW 150 (Command and Control Systems) | 139.7 | 64.5 | 73.5 |
+| 0604707N (BA 04, line 94) | Space and Electronic Warfare (SEW) Architecture/Engineering Support | NIWC (SEW architecture; to confirm) | 8.6 | 6.6 | 8.7 |
+| 0604777N (BA 05, line 155) | Navigation/ID System | PMW/A 170 (Navigation/ID; GPNTS) | 42.9 | 3.7 | 3.4 |
+| 0605866N (BA 06, line 196) | Navy Space and Electronic Warfare (SEW) Support | NIWC (SEW support; to confirm) | 23.0 | 22.6 | 21.5 |
+| 0608231N (BA 08, line 257) | Maritime Tactical Command and Control (MTC2) - Software Pilot Program | PMW 150 (MTC2 software) | 10.3 | 31.8 | 25.3 |
+
+Movements worth an alert: the NMT line falls from 162.9 (FY25) to 57.8 (FY27) while a new Mobile
+Advanced EHF Terminal line appears at 220.5 (FY26) and 202.3 (FY27), matching the LRAE's "MAT
+Production and Sustainment" (sole source, $250M-$1B, award FY26 Q4) and the NMT-X follow-on; ISSP
+procurement rises from 191.2 to 349.1 and its RDT&E PE from 34.4 to 79.1 (PMW 130); the Navy
+Command and Control System line rises from 3.5 to 16.2 and MTC2 software RDT&E from 10.3 to 25.3
+(PMW 150); Shipboard Tactical Communications rises from 20.9 to 50.4 and Submarine Broadcast
+Support from 113.1 to 173.1 (PMW/A 170, PMW 770); Navy Strategic Communications RDT&E climbs from
+28.9 to 88.6 (PMW 770); the Navigation/ID System PE collapses from 42.9 to 3.4 (PMW/A 170, GPNTS
+development winding down); CANES dips from 534.3 to 493.0 before recovering in the out-years.
+
+Congressional marks for FY2026 and FY2027 lines (govinfo) are the one signal family not yet
+extracted; the source is registered and reachable. RDT&E program-element amounts now come from
+the Comptroller R-1 table; the Navy RDT&E BA7-8 book (narratives per PE) remains in the manual
+queue for the exhibit text that names programs and milestones.
 
 ## 2. Backtests
 
