@@ -128,3 +128,31 @@ def test_manual_requests_say_why() -> None:
     rows = _load("manual_pdf_requests.json")
     for row in rows:
         assert row.get("url") and row.get("reason"), row
+
+
+def test_every_cited_evidence_url_has_a_fetched_manifest_row() -> None:
+    path = RESEARCH / "documents_manifest.jsonl"
+    if not path.exists():
+        pytest.skip("documents_manifest.jsonl not written yet")
+    fetched = set()
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        row = json.loads(line)
+        if row.get("status") == 200 and row.get("sha256") and row.get("content_status") != "rejected_stub":
+            fetched.add(row["url"].replace("%5B", "[").replace("%5D", "]"))
+    cited = set()
+    for name in ("attribution_examples.json", "backtests.json", "organization_seed.json"):
+        p = RESEARCH / name
+        if not p.exists():
+            continue
+        data = json.loads(p.read_text(encoding="utf-8"))
+        items = data["nodes"] + data["edges"] if isinstance(data, dict) else data
+        for item in items:
+            for e in item.get("evidence", []):
+                cited.add(e["source_url"])
+            for key in ("actual_event", "post_cutoff_check"):
+                if key in item:
+                    cited.add(item[key]["source_url"])
+    missing = sorted(u for u in cited if u.replace("%5B", "[").replace("%5D", "]") not in fetched)
+    assert not missing, f"cited evidence without a fetched manifest row: {missing[:5]}"

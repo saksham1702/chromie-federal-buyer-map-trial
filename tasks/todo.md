@@ -34,13 +34,19 @@ Plan: ~/.claude/plans/eager-hopping-rivest.md (approved 2026-09-16). Branch: tri
 - [ ] optional 1h cross-check with prod resolve_program_office() offline
 
 ## P5 early signals + >=5 backtests
-- [ ] current signals (budget, congressional marks, LRAE, industry day, expirations)
-- [ ] backtests with cutoff discipline; validator enforces available_by <= cutoff
+- [x] current signals (budget, congressional marks, LRAE, industry day, expirations)
+- [x] backtests with cutoff discipline; validator enforces available_by <= cutoff
 
 ## P6 monitor design + backlog + final review
 - [x] 06_continuous_monitor_design.md with 4 sample alerts and table mapping
 - [x] 07_implementation_backlog.md
-- [ ] random spot-check of 3 examples + 1 backtest; git clean; dot_clean
+- [x] random spot-check of 3 examples + 1 backtest; git clean; dot_clean
+
+## Open follow-ups
+- [ ] register the SAM.gov full extract once the parallel download completes; extract first-notice dates for BT01/BT02/BT05 and update `cutoff_basis`
+- [ ] RDT&E BA7-8 and FY2026 budget books (manual queue) for the request-vs-enacted signal
+- [ ] complete FY2026 FPDS scan for N00039 (host resets) to settle BT06 and the PMW 120 / NMT / Platform Integration forecasts
+- [ ] optional 1h: replay the 19 examples through prod `resolve_program_office()` offline
 
 ## Needs from Saksham
 - [ ] personal api.data.gov key for SAM Opportunities API (attachments only)

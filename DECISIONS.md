@@ -95,3 +95,13 @@ The daily ContractOpportunitiesFullCSV.csv (about 230 MB, range requests support
 id, solicitation number, office and AAC code, posted date, type and award fields for the whole
 public notice history, so it provides first-notice dates without an API key. It stays in
 data/raw/ (not committed) and is referenced by hash.
+
+## 2026-09-16 - Backtest cutoff rule
+
+A backtest's cutoff is the day before the first public RFI or solicitation, or, for SeaPort-NxG
+task orders and sole-source actions that never appear on SAM.gov, the day before award. Evidence
+counts only if its "available by" date is on or before the cutoff: a document's release date, an
+archive capture timestamp when the page is undated, or for FPDS records the signed date plus about
+90 days of DoD publication lag. Later documents are recorded as post-cutoff checks, never as
+evidence. The validator enforces the date rule and the rule that every cited evidence URL has a
+fetched, hashed manifest row.

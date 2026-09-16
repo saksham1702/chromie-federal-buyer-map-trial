@@ -1,0 +1,272 @@
+[
+  {
+    "id": "BT01",
+    "requirement": "PMW 160 Engineering Support Services follow-on (PEO C4I ESS for the Tactical Networks program office)",
+    "program_office": "pmw:160",
+    "cutoff_date": "2026-05-05",
+    "cutoff_basis": "day before the follow-on award N0003926FG001 was signed (2026-05-06); the task order was competed inside SeaPort-NxG, so no public RFI or solicitation notice exists on SAM.gov for it (to be confirmed against the SAM extract)",
+    "evidence": [
+      {
+        "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+        "available_by": "2025-06-19",
+        "what": "LRAE row 'PMW 160 Engineering Support Services (ESS) Follow-on Contract': requirement office PMW-160; Full and Open Competition; value $250M-$1B; anticipated solicitation FY25 Q4; anticipated award FY26 Q3; Follow-on; existing contract N0017819D7264; incumbent Booz Allen Hamilton; PID N00039-24-RFPREQ-PMW-160-0002"
+      },
+      {
+        "source_url": "https://api.usaspending.gov/api/v2/awards/CONT_AWD_N0003922F3000_9700_N0017819D7264_9700/",
+        "available_by": "2022-01-24",
+        "what": "incumbent order N0003922F3000 (Booz Allen) signed 2021-10-26 with period of performance ending 2026-10-26; description 'ESS ... IN SUPPORT OF PROGRAM MANAGER, WARFARE TACTICAL NETWORKS (PMW 160)'",
+        "basis": "FPDS publication lag for DoD (about 90 days) added to the signed date"
+      },
+      {
+        "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003917F3000&start=0",
+        "available_by": "2017-03-15",
+        "what": "predecessor order N0003917F3000 (Booz Allen) ran 2016-12-15 to 2021-10-27: a five-year cycle for the same requirement",
+        "basis": "FPDS publication lag for DoD (about 90 days) added to the signed date"
+      },
+      {
+        "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMW%20160_Tear%20Sheet_v01312025.pdf",
+        "available_by": "2025-01-01",
+        "what": "PMW 160 tear sheet lists CANES and ADNS as its programs and names the program manager (2025)"
+      }
+    ],
+    "prediction_as_of_cutoff": {
+      "need": "recompete of PEO C4I engineering support for PMW 160 before the incumbent order ends on 2026-10-26",
+      "office": "PMW 160",
+      "timing": "award in FY26 Q3 (April-June 2026) per the LRAE; at latest before 2026-10-26",
+      "acquisition_path": "full and open competition, most likely a SeaPort-NxG task order given the incumbent vehicle",
+      "contracting_office": "NAVWAR HQ N00039",
+      "likely_incumbent_outcome": "Booz Allen retains or competes"
+    },
+    "actual_event": {
+      "date": "2026-05-06",
+      "what": "task order N0003926FG001 awarded to Booz Allen Hamilton under SeaPort-NxG IDV N0017819D7264; description 'ENGINEERING SUPPORT SERVICES FOR TACTICAL NETWORKS PROGRAM OFFICE (PMW 160)'; period of performance 2026-08-03 to 2032-02-02; first obligation $21.5M",
+      "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003926FG001&start=0",
+      "observed_at": "2026-09-16"
+    },
+    "comparison": {
+      "office": "correct",
+      "timing": "correct to the quarter (FY26 Q3)",
+      "acquisition_path": "correct (competition; SeaPort-NxG)",
+      "incumbent": "correct (retained)",
+      "scope": "correct (engineering support for PMW 160)",
+      "missed": "the six-year period of performance was not predictable from the prior five-year cycle",
+      "false_positives": "none",
+      "advance_notice_days": "about 321 days from the LRAE release (2025-06-19) to award; about 1,560 days from the incumbent's award record to the follow-on if the cadence alone is used"
+    },
+    "notes": "Strongest case: forecast, incumbent record and cadence all pointed the same way. A SeaPort-NxG competition leaves no SAM trail, so the LRAE and the incumbent's end date are the only public advance signals."
+  },
+  {
+    "id": "BT02",
+    "requirement": "PMW 160 Professional Support Services recompete (follow-on to N0003920F3016)",
+    "program_office": "pmw:160",
+    "cutoff_date": "2025-03-31",
+    "cutoff_basis": "end of FY25 Q2, the quarter in which the LRAE later reported the solicitation N0003925R3002 was anticipated; the June 2025 LRAE release therefore falls after the solicitation and is excluded from pre-solicitation evidence (its row is listed only as a pre-award check)",
+    "evidence": [
+      {
+        "source_url": "https://api.usaspending.gov/api/v2/awards/CONT_AWD_N0003920F3016_9700_N0017819D7096_9700/",
+        "available_by": "2020-12-16",
+        "what": "incumbent order N0003920F3016 (Alpha Omega Group) signed 2020-09-17 with period of performance ending 2025-09-17; description 'PMW 160 PROFESSIONAL SUPPORT SERVICES'",
+        "basis": "FPDS publication lag for DoD (about 90 days) added to the signed date"
+      },
+      {
+        "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2023_PMW%20160_Tear%20Sheet.pdf",
+        "available_by": "2023-05-01",
+        "what": "PMW 160 tear sheet (1 May 2023): program office identity and programs"
+      }
+    ],
+    "post_cutoff_check": {
+      "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+      "available_by": "2025-06-19",
+      "what": "LRAE row 'PSS Recompete/20F3016 Follow-On (C)': requirement office PMW-160; Service-Disabled Veteran-Owned set-aside; $50M-$100M; solicitation FY25 Q2; award FY25 Q4; existing contract N0003920F3016; PID N00039-24-RFPREQ-PMW-160-0068 (after the cutoff; confirms the forecast but is not used as pre-solicitation evidence)"
+    },
+    "prediction_as_of_cutoff": {
+      "need": "recompete of PMW 160 professional support before 2025-09-17",
+      "office": "PMW 160",
+      "timing": "solicitation in the first half of 2025, award by September 2025",
+      "acquisition_path": "SeaPort-NxG task order (incumbent vehicle N0017819D7096); set-aside unknown before the LRAE",
+      "contracting_office": "NAVWAR HQ N00039"
+    },
+    "actual_event": {
+      "date": "2025-09-05",
+      "what": "task order N0003925F3011 awarded to Alpha Omega Group under SeaPort-NxG IDV N0017819D7096; solicitation N0003925R3002; period of performance 2025-09-16 to 2031-03-15; description 'PROFESSIONAL SUPPORT SERVICES (PSS) UNIQUE TO THE PMW 160 PROGRAM OFFICE'",
+      "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003925F3011&start=0",
+      "observed_at": "2026-09-16"
+    },
+    "comparison": {
+      "office": "correct",
+      "timing": "correct (award 12 days before the incumbent's end date)",
+      "acquisition_path": "correct vehicle; the set-aside was not predictable from the award record alone",
+      "incumbent": "retained",
+      "missed": "the set-aside type",
+      "false_positives": "none",
+      "advance_notice_days": "about 1,720 days from the incumbent's award record to the follow-on; the LRAE added the set-aside and value range about 78 days before award"
+    },
+    "notes": "Shows the limit of a single LRAE release: for solicitations issued before the release, only the incumbent's period of performance gives advance warning."
+  },
+  {
+    "id": "BT03",
+    "requirement": "CLTS-25 production and CLTS/LTS services follow-on (PMS 485 requirement contracted through NAVWAR HQ)",
+    "program_office": "pms:485",
+    "cutoff_date": "2025-06-19",
+    "cutoff_basis": "the LRAE release date; the row's anticipated solicitation (FY24 Q3) predates the release, so this test measures the award-timing forecast only",
+    "evidence": [
+      {
+        "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+        "available_by": "2025-06-19",
+        "what": "LRAE row 'CLTS-25 Production & CLTS/LTS Services IDIQ Contract': requirement office PMS-485; Sole Source; Fixed-Price; single-award IDIQ; $50M-$100M; solicitation FY24 Q3; award FY26 Q1; existing contract N0003919C0002; incumbent BAE Systems; PID N00039-23-RFPREQ-PMS-485-0038"
+      },
+      {
+        "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003919C0002&start=0",
+        "available_by": "2019-10-01",
+        "what": "incumbent contract N0003919C0002 (BAE) signed 2019-07-03, period of performance to 2025-09-30; funding office N00024 NAVSEA HQ",
+        "basis": "FPDS publication lag for DoD (about 90 days) added to the signed date"
+      }
+    ],
+    "prediction_as_of_cutoff": {
+      "need": "sole-source follow-on IDIQ to BAE for CLTS/LTS production and services",
+      "office": "PMS 485 (NAVSEA program office), contracted by NAVWAR HQ",
+      "timing": "award in FY26 Q1 (October-December 2025)",
+      "acquisition_path": "sole source, single-award IDIQ",
+      "funding": "NAVSEA HQ"
+    },
+    "actual_event": {
+      "date": "2026-06-15",
+      "what": "no follow-on award observed in FPDS through actions signed by mid-June 2026 (publication lag applies); the latest action on the incumbent contract is modification P00040 (2026-06-15, a de-obligation)",
+      "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003919C0002&start=0",
+      "observed_at": "2026-09-16"
+    },
+    "comparison": {
+      "office": "not testable yet",
+      "timing": "missed: the FY26 Q1 award has not appeared by the end of the observable window (actions through about June 2026)",
+      "acquisition_path": "not testable yet",
+      "missed": "the slip itself; nothing in the public record explains it",
+      "false_positives": "the FY26 Q1 award date, if the requirement was met another way",
+      "advance_notice_days": "n/a"
+    },
+    "notes": "A forecast that did not materialize on schedule. Either the award slipped past the observable window, was met through another vehicle, or was cancelled; the public record cannot distinguish these, which is exactly what a monitor should report."
+  },
+  {
+    "id": "BT04",
+    "requirement": "MIDS-LVT IDIQ new contracts (PMA/PMW 101 follow-on to the 2015 multiple-award IDIQs)",
+    "program_office": "pmw:101",
+    "cutoff_date": "2025-06-19",
+    "cutoff_basis": "the LRAE release date; the row's anticipated solicitation and award are both FY25 Q3, the quarter of the release",
+    "evidence": [
+      {
+        "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+        "available_by": "2025-06-19",
+        "what": "LRAE row 'MIDS-LVT IDIQ - New Contracts (C)': requirement office PMA/PMW-101; Full and Open Competition; $250M-$1B; solicitation FY25 Q3; award FY25 Q3; existing contracts N0003915D0042 and N0003915D0043; PID N00039-23-RFPREQ-PMA/PMW-101-0017"
+      },
+      {
+        "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003915D0042&start=0",
+        "available_by": "2015-11-20",
+        "what": "incumbent MAC IDIQ N0003915D0042 (Data Link Solutions) signed 2015-08-21 for MIDS-LVT production, spares, BU2 retrofits and engineering services; companion IDIQ N0003915D0043 (L3)",
+        "basis": "FPDS publication lag for DoD (about 90 days) added to the signed date"
+      },
+      {
+        "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMA%20PMW%20101_Tear%20Sheet_v01312025.pdf",
+        "available_by": "2025-01-31",
+        "what": "PMA/PMW 101 tear sheet: the office develops, produces and sustains MIDS-LVT and MIDS JTRS terminals"
+      }
+    ],
+    "prediction_as_of_cutoff": {
+      "need": "new competitive multiple-award IDIQs for MIDS-LVT production replacing the 2015 vehicles",
+      "office": "PMA/PMW 101",
+      "timing": "award in FY25 Q3 (April-June 2025)",
+      "acquisition_path": "full and open competition, multiple award"
+    },
+    "actual_event": {
+      "date": "2026-05-14",
+      "what": "no new MIDS-LVT IDIQ observed in FPDS for NAVWAR HQ through the observable window; the 2015 vehicles kept receiving modifications (N0003915D0042 P00026-P00029, 2025-03-13 to 2026-05-14) and orders",
+      "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003915D0042&start=0",
+      "observed_at": "2026-09-16"
+    },
+    "comparison": {
+      "office": "not testable yet",
+      "timing": "missed: no FY25 Q3 award; the incumbents' vehicles continued into FY26",
+      "acquisition_path": "not testable yet",
+      "missed": "the slip",
+      "false_positives": "the FY25 Q3 award quarter",
+      "advance_notice_days": "n/a"
+    },
+    "notes": "Second unrealized forecast. Both misses are follow-ons to long-running vehicles, where extensions of the incumbent vehicle are the usual public trace of a slip."
+  },
+  {
+    "id": "BT05",
+    "requirement": "PEO C4I engineering support for PMW 160, the 2021 recompete (N0003922F3000)",
+    "program_office": "pmw:160",
+    "cutoff_date": "2021-06-30",
+    "cutoff_basis": "end of FY21 Q3, before the solicitation N0003921R3015 (its posting date is to be confirmed from the SAM extract) and before the 2021-10-26 award",
+    "evidence": [
+      {
+        "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003917F3000&start=0",
+        "available_by": "2017-03-15",
+        "what": "incumbent order N0003917F3000 (Booz Allen, SeaPort-e IDV N0017804D4024) signed 2016-12-15, period of performance to 2021-10-27; description names engineering support services for PMW 160",
+        "basis": "FPDS publication lag for DoD (about 90 days) added to the signed date"
+      }
+    ],
+    "prediction_as_of_cutoff": {
+      "need": "recompete of PMW 160 engineering support before 2021-10-27",
+      "office": "PMW 160",
+      "timing": "award by October 2021",
+      "acquisition_path": "a Navy services vehicle (SeaPort-e was ending; SeaPort-NxG had been awarded in 2019)",
+      "contracting_office": "NAVWAR HQ N00039"
+    },
+    "actual_event": {
+      "date": "2021-10-26",
+      "what": "task order N0003922F3000 awarded to Booz Allen under SeaPort-NxG IDV N0017819D7264; solicitation N0003921R3015; period of performance 2021-10-27 to 2026-10-26; full and open competition",
+      "source_url": "https://api.usaspending.gov/api/v2/awards/CONT_AWD_N0003922F3000_9700_N0017819D7264_9700/",
+      "observed_at": "2026-09-16"
+    },
+    "comparison": {
+      "office": "correct",
+      "timing": "correct (award the day before the incumbent order ended)",
+      "acquisition_path": "correct in kind (services vehicle), vehicle change from SeaPort-e to SeaPort-NxG not predictable from the award record",
+      "incumbent": "retained",
+      "missed": "the vehicle change",
+      "false_positives": "none",
+      "advance_notice_days": "about 1,690 days from the incumbent's award record"
+    },
+    "notes": "Historical case using award records only. The incumbent's end date predicted the event to the day."
+  },
+  {
+    "id": "BT06",
+    "requirement": "PMW 120 Professional Support Services follow-on (forecast FY26 Q2 award)",
+    "program_office": "pmw:120",
+    "cutoff_date": "2025-06-19",
+    "cutoff_basis": "the LRAE release date; anticipated solicitation FY25 Q4 (July-September 2025) follows the release",
+    "evidence": [
+      {
+        "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+        "available_by": "2025-06-19",
+        "what": "LRAE row 'PMW 120 Professional Support Services (C)': requirement office PMW-120; $100M-$250M; solicitation FY25 Q4; award FY26 Q2; Follow-on; existing contract N0017819D7264N0003921F3003; incumbent Booz Allen; PID N00039-24-RFPREQ-PMW-120-0001"
+      },
+      {
+        "source_url": "https://api.usaspending.gov/api/v2/awards/CONT_AWD_N0003921F3003_9700_N0017819D7264_9700/",
+        "available_by": "2021-06-30",
+        "what": "incumbent order N0003921F3003 (Booz Allen, SeaPort-NxG) with description 'PSS TO PMW 120, PEOC4I'",
+        "basis": "FPDS publication lag for DoD (about 90 days) added to the signed date"
+      }
+    ],
+    "prediction_as_of_cutoff": {
+      "need": "recompete of PMW 120 professional support",
+      "office": "PMW 120",
+      "timing": "solicitation FY25 Q4, award FY26 Q2 (January-March 2026)",
+      "acquisition_path": "SeaPort-NxG task order, method 'TBD' in the forecast"
+    },
+    "actual_event": {
+      "date": "2026-05-07",
+      "what": "no follow-on award observed in the FPDS actions retrieved (the FY2026 scan was cut short by connection resets, so coverage is incomplete); the incumbent order received modification P00033 on 2026-05-07 adding $6.06M, consistent with an extension",
+      "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003921F3003&start=0",
+      "observed_at": "2026-09-16"
+    },
+    "comparison": {
+      "office": "not testable yet",
+      "timing": "probable slip past FY26 Q2 (incumbent extended in May 2026); not confirmed because the FY2026 award scan is incomplete",
+      "missed": "n/a",
+      "false_positives": "possibly the FY26 Q2 award quarter",
+      "advance_notice_days": "n/a"
+    },
+    "notes": "Recorded as pending rather than a miss: the observable record is incomplete (FPDS resets, publication lag) and the incumbent's extension is only suggestive."
+  }
+]
