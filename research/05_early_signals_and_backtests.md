@@ -11,7 +11,7 @@ It is one of three things: the office's own forecast spreadsheet (which names th
 incumbent contract and the quarter), the end date of the incumbent contract (which has been
 public since the day that contract was awarded), or a budget line moving. In the six cases tested,
 the forecast and the incumbent's end date predicted two recompetes to the quarter and one to the
-day; two forecasts did not materialize in the window; one is still pending. Solicitation notices
+day; three forecasts did not materialize in the window (BT06 slipped at least two quarters, confirmed by a complete FY2026 scan). Solicitation notices
 themselves were absent for the SeaPort-NxG task orders, because those competitions run inside the
 vehicle, not on SAM.gov.
 
@@ -160,7 +160,7 @@ now have real first-notice dates from the FY2025 SAM.gov archive and show that t
 incumbent vehicle alone predicted the solicitation quarter, with the office confirmed in the
 notice's first sentence each time; BT02 predicted the event from the incumbent's end date alone;
 BT08 got the requirement and office right but the calendar wrong by five quarters; BT03 is a
-forecast that did not appear in the observable window; BT06 is pending because the FY2026 award
+forecast that did not appear in the observable window; BT06 is a timing miss (the complete FY2026 scan shows the incumbent extended, no follow-on award
 scan is incomplete. Awards for BT04, BT09 and BT10 have not appeared in FPDS yet, which is the
 pattern to expect given the roughly 90-day publication lag and slipping award dates.
 
@@ -193,7 +193,7 @@ What would strengthen these tests: earlier LRAE releases (the 2024 release and a
 under `datapack/`; re-running the forecast cutoffs against them is the next step); the FY2021
 SAM.gov archive file for BT05's solicitation (the FY2025 file is retrieved and used above; the
 daily "Full" file holds only the current dataset); FY2026 enacted budget lines for the
-request-versus-enacted signal; and a complete FY2026 FPDS scan once the host stops resetting
+request-versus-enacted signal; and the 2026 LRAE release when it is published (the FY2026 FPDS scan is now complete through June 2026)
 connections.
 
 Update 2026-09-18: the June 2024 release and a 2023 export were recovered through the Wayback
@@ -202,3 +202,12 @@ newer packages). Two findings for the backtests: PIDs are only partly stable acr
 requirement has to be followed by title and office when its PID changes; and on the PEO C4I rows
 that do match, the fields that move between releases are mostly the solicitation and award
 quarters and fiscal years, which is the forecast-revision signal the monitor design assumed.
+
+FY2026 FPDS scan (2026-09-18): every action signed by NAVWAR HQ (N00039) from 2025-10-01 to
+2026-06-30 was retrieved month by month (pages in the manifest, note "FY2026 FPDS rescan"). The
+July to September 2026 windows returned nothing, which is the publication lag, not an absence of
+awards. Against the pending forecasts: no PMW 120 professional-support follow-on (BT06, incumbent
+extended); no Platform Integration 2.0 award (the incumbent PEO C4I integration order was
+modified in April 2026); NMT work continues on new Raytheon sustainment and engineering task
+orders signed December 2025 to June 2026, which is sustainment, not the NMT-X production
+follow-on the forecast lists. PMW 160 is the office most often named in FY2026 award text.

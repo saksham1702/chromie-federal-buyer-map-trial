@@ -54,7 +54,7 @@ Plan: ~/.claude/plans/eager-hopping-rivest.md (approved 2026-09-16). Branch: tri
 - [x] register the SAM.gov full extract (current dataset only) and confirm BT07/BT08 first-notice dates
 - [x] SAM archived FY2025 file downloaded and used (BT04 reworked, BT09/BT10 added); FY2021 still to pull for BT05
 - [~] request-vs-enacted amounts now from the Comptroller P-1/R-1 tables; DoN RDT&E BA7-8 and FY2026 exhibit narratives still queued (secnav resets)
-- [ ] complete FY2026 FPDS scan for N00039 (host resets) to settle BT06 and the PMW 120 / NMT / Platform Integration forecasts
+- [x] complete FY2026 FPDS scan for N00039 (2026-09-18, through June 2026): BT06 timing miss, no Platform Integration 2.0 award, NMT sustainment orders only
 - [ ] optional 1h: replay the 19 examples through prod `resolve_program_office()` offline
 
 ## Needs from Saksham

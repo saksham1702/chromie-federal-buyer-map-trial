@@ -265,19 +265,19 @@
       "acquisition_path": "SeaPort-NxG task order, method 'TBD' in the forecast"
     },
     "actual_event": {
-      "date": "2026-05-07",
-      "what": "no follow-on award observed in the FPDS actions retrieved (the FY2026 scan was cut short by connection resets, so coverage is incomplete); the incumbent order received modification P00033 on 2026-05-07 adding $6.06M, consistent with an extension",
-      "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003921F3003&start=0",
-      "observed_at": "2026-09-16"
+      "date": "2026-01-27",
+      "what": "no PMW 120 PSS follow-on award appears in the FPDS actions signed by NAVWAR HQ (N00039) from 2025-10-01 to 2026-06-30 (complete month-by-month scan, 157 pages, 2026-09-18); the incumbent order N0003921F3003 instead received a six-month option exercise on 2026-01-27 ('6-MTH OPTION EXERCISE, FUNDING, SOW REVISION') and funding modifications on 2026-05-07 and 2026-06-09",
+      "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=CONTRACTING_OFFICE_ID:N00039+SIGNED_DATE:%5B2026/01/01,2026/01/31%5D&start=10",
+      "observed_at": "2026-09-18"
     },
     "comparison": {
-      "office": "not testable yet",
-      "timing": "probable slip past FY26 Q2 (incumbent extended in May 2026); not confirmed because the FY2026 award scan is incomplete",
+      "office": "not testable: no follow-on award to attribute",
+      "timing": "miss: the forecast said award FY26 Q2 (January-March 2026); the incumbent was extended six months in January 2026 and was still being funded in June 2026, so the award slipped at least two quarters",
       "missed": "n/a",
-      "false_positives": "possibly the FY26 Q2 award quarter",
+      "false_positives": "the FY26 Q2 award quarter",
       "advance_notice_days": "n/a"
     },
-    "notes": "Recorded as pending rather than a miss: the observable record is incomplete (FPDS resets, publication lag) and the incumbent's extension is only suggestive."
+    "notes": "Observable window ends around June 2026: FPDS publishes DoD actions about 90 days after signature, and the July-September 2026 windows returned no actions on 2026-09-18. The 2026 LRAE release, when published, should show the revised quarter."
   },
   {
     "id": "BT07",
