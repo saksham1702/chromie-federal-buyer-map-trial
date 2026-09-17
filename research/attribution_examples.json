@@ -380,13 +380,19 @@
         "observed_at": "2025-01-01",
         "passage": "The International C4I Integration Program Office (PMW 740) is the PEO C4I focal point for security cooperation efforts. Under the authority of U.S. Title 22 (Foreign Military Sales ...)",
         "document": "PMW 740 tear sheet (Wayback 2026-01-21)"
+      },
+      {
+        "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/e4fbf2b472f74a978d6b614a82570a46?api_key=null",
+        "observed_at": "2025-04-30",
+        "passage": "NAVWAR HQ, in support of the Program Executive Office (PEO) Command, Control, Communications, Computers, and Intelligence (C4I) International Integration Program Office (PMW 740) intends to issue Request for Proposal (RFP) N0003925R4014 for Program Management, Systems Engineering, Operations and Maintenance",
+        "document": "SAM.gov Presolicitation for the follow-on to this order (FY2025 archive)"
       }
     ],
     "related": {
       "forecast_pid": "N00039-24-RFPREQ-PMW-740-0052"
     },
     "counterevidence": "the award text itself never names an office",
-    "notes": "Inferred, not directly documented: the office comes from the forecast row for the follow-on and from the office's mission statement, not from the award record. Two official documents agree, so confidence is high, but the class stays 'inferred' by rule. SAM.gov search for the order's solicitation number returned no notice (SeaPort-NxG task-order competitions are not posted on SAM.gov).",
+    "notes": "Inferred, not directly documented: the office comes from the forecast row for the follow-on and from the office's mission statement, not from the award record. Two official documents agree, so confidence is high, but the class stays 'inferred' by rule. SAM.gov search for the order's solicitation number returned no notice (SeaPort-NxG task-order competitions are not posted on SAM.gov). The 2025 presolicitation for the follow-on names PMW 740 outright; the class stays inferred because that notice is about the successor requirement, not this order.",
     "review": {
       "status": "reviewed",
       "by": "assistant draft for Saksham's review",
@@ -633,6 +639,12 @@
         "observed_at": "2014-12-17",
         "passage": "The Space and Naval Warfare Systems Command (SPAWAR), on behalf of the Multifunctional Information Distribution System (MIDS) International Program Office (IPO), plans to award one or more firm fixed price IDIQ contracts for production of MIDS Low Volume Terminals (LVT), spares and engineering services.",
         "document": "SAM.gov Presolicitation for N00039-15-R-0222, posted 2014-12-17"
+      },
+      {
+        "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/4ea95161c231462babc5a86d0a4bf8c0?api_key=null",
+        "observed_at": "2025-04-09",
+        "passage": "NAVWAR, on behalf of the Multifunctional Information Distribution System (MIDS) International Program Office (IPO) issues a Full and Open Request for Proposal (RFP) for production of MIDS Low Volume Terminals (LVT), spares, MIDS-LVT Block Upgrade 2 (BU2) retrofits",
+        "document": "SAM.gov Presolicitation N00039-24-R-4019 for the recompete, 2025-04-09"
       }
     ],
     "related": {
@@ -796,6 +808,12 @@
         "observed_at": "2019-12-03",
         "passage": "NAVWARSYSCOM, in support of ... (PEO C4I), Communications and GPS Navigation Program Office (PMW/A 170), awarded one (1) indefinite-delivery indefinite-quantity (IDIQ) contract for the Global Positioning System (GPS)-based Positioning, Navigation, and Timing Service",
         "document": "SAM.gov Award Notice for N00039-19-R-0005, posted 2019-12-03"
+      },
+      {
+        "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/5b568e4790934130b54e61f562eef2f3?api_key=null",
+        "observed_at": "2025-02-13",
+        "passage": "NAVWARSYSCOM, in support of PEO C4I, Communications and GPS Navigation Program Office (PMW/A 170), intends to award a sole source modification to contract N00039-20-D-0021 for the Global Positioning System (GPS)-Based Positioning, Navigation and Timing Service",
+        "document": "SAM.gov Presolicitation N00039-25-R-2005, 2025-02-13"
       }
     ],
     "counterevidence": "none",

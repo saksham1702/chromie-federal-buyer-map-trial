@@ -54,5 +54,12 @@
     "reason": "site restructured; the LRAE link must be re-found from the live NAVSEA navigation",
     "suggested_method": "Browserbase",
     "priority": "medium"
+  },
+  {
+    "url": "https://www.navsea.navy.mil/Home/Warfare-Centers/NSWC-Carderock/Business/Contracting-Small-Business/Long-Range-Acquisition-Forecast/",
+    "document": "NAVSEA LRAE(s): the enterprise page is gone; live navigation exposes per-warfare-center Long Range Acquisition Forecast pages (Carderock first) and PEO IWS industry pages",
+    "reason": "needs the US-egress browser; expansion beyond the pilot",
+    "suggested_method": "Browserbase",
+    "priority": "low"
   }
 ]

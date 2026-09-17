@@ -154,57 +154,52 @@
     "id": "BT04",
     "requirement": "MIDS-LVT IDIQ new contracts (PMA/PMW 101 follow-on to the 2015 multiple-award IDIQs)",
     "program_office": "pmw:101",
-    "cutoff_date": "2025-06-19",
-    "cutoff_basis": "the LRAE release date; the row's anticipated solicitation and award are both FY25 Q3, the quarter of the release",
+    "cutoff_date": "2025-04-08",
+    "cutoff_basis": "day before the first public notice for the recompete, the Presolicitation and RFP N00039-24-R-4019 posted 2025-04-09 (FY2025 SAM.gov archive); the June 2025 LRAE release comes after and is listed as a post-cutoff check",
     "evidence": [
-      {
-        "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
-        "available_by": "2025-06-19",
-        "what": "LRAE row 'MIDS-LVT IDIQ - New Contracts (C)': requirement office PMA/PMW-101; Full and Open Competition; $250M-$1B; solicitation FY25 Q3; award FY25 Q3; existing contracts N0003915D0042 and N0003915D0043; PID N00039-23-RFPREQ-PMA/PMW-101-0017"
-      },
       {
         "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003915D0042&start=0",
         "available_by": "2015-11-20",
-        "what": "incumbent MAC IDIQ N0003915D0042 (Data Link Solutions) signed 2015-08-21 for MIDS-LVT production, spares, BU2 retrofits and engineering services; companion IDIQ N0003915D0043 (L3)",
+        "what": "incumbent MAC IDIQ N0003915D0042 (Data Link Solutions) signed 2015-08-21 for MIDS-LVT production, spares, BU2 retrofits and engineering services; companion IDIQ N0003915D0043 (L3); ten-year vehicles by ordering period",
         "basis": "FPDS publication lag for DoD (about 90 days) added to the signed date"
+      },
+      {
+        "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/61573419406300f1fa976204736ca24b?api_key=null",
+        "available_by": "2015-08-24",
+        "what": "SAM.gov award notices for the two 2015 MIDS-LVT IDIQs (solicitation N00039-15-R-0222)"
       },
       {
         "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMA%20PMW%20101_Tear%20Sheet_v01312025.pdf",
         "available_by": "2025-01-31",
         "what": "PMA/PMW 101 tear sheet: the office develops, produces and sustains MIDS-LVT and MIDS JTRS terminals"
-      },
-      {
-        "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/02ba61d02f4a6a909ee42c090ede2e0e?api_key=null",
-        "available_by": "2014-12-17",
-        "what": "presolicitation for the incumbent IDIQs (N00039-15-R-0222) names the MIDS International Program Office; multiple firm-fixed-price IDIQs for MIDS-LVT production"
-      },
-      {
-        "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/61573419406300f1fa976204736ca24b?api_key=null",
-        "available_by": "2015-08-24",
-        "what": "award notices for the two 2015 MIDS-LVT IDIQs (ten-year vehicles by their FPDS ordering period), so a recompete around 2025 was inferable a decade ahead"
       }
     ],
     "prediction_as_of_cutoff": {
-      "need": "new competitive multiple-award IDIQs for MIDS-LVT production replacing the 2015 vehicles",
-      "office": "PMA/PMW 101",
-      "timing": "award in FY25 Q3 (April-June 2025)",
+      "need": "new competitive IDIQs for MIDS-LVT production replacing the 2015 vehicles as their ten-year ordering period ends",
+      "office": "PMA/PMW 101 (MIDS International Program Office)",
+      "timing": "solicitation in FY2025, award by the end of the 2015 vehicles' ordering period (August 2025)",
       "acquisition_path": "full and open competition, multiple award"
     },
     "actual_event": {
-      "date": "2026-05-14",
-      "what": "no new MIDS-LVT IDIQ observed in FPDS for NAVWAR HQ through the observable window; the 2015 vehicles kept receiving modifications (N0003915D0042 P00026-P00029, 2025-03-13 to 2026-05-14) and orders",
-      "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003915D0042&start=0",
-      "observed_at": "2026-09-16"
+      "date": "2025-04-09",
+      "what": "Presolicitation and RFP N00039-24-R-4019 posted by NAVWAR HQ 'on behalf of the Multifunctional Information Distribution System (MIDS) International Program Office (IPO)' for production of MIDS-LVT, spares, BU2 retrofits and engineering services; solicitation reposted 2025-05-02; no award observed in FPDS through the observable window",
+      "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/4ea95161c231462babc5a86d0a4bf8c0?api_key=null",
+      "observed_at": "2026-09-17"
     },
     "comparison": {
-      "office": "not testable yet",
-      "timing": "missed: no FY25 Q3 award; the incumbents' vehicles continued into FY26",
-      "acquisition_path": "not testable yet",
-      "missed": "the slip",
+      "office": "correct (MIDS IPO, a PMA/PMW 101 component)",
+      "timing": "solicitation correct to the quarter (FY25 Q3) from the vehicles' age alone; award forecast for FY25 Q3 not met by the observable window (the 2015 vehicles kept receiving modifications into May 2026)",
+      "acquisition_path": "correct (full and open, multiple award intended)",
+      "missed": "the award slip",
       "false_positives": "the FY25 Q3 award quarter",
-      "advance_notice_days": "n/a"
+      "advance_notice_days": "about 3,500 days from the 2015 award notices to the recompete RFP; the ten-year ordering period was the signal"
     },
-    "notes": "Second unrealized forecast. Both misses are follow-ons to long-running vehicles, where extensions of the incumbent vehicle are the usual public trace of a slip."
+    "notes": "Reworked with the FY2025 SAM.gov archive: the first notice is now known. Vehicle age predicted the solicitation quarter; the award has slipped.",
+    "post_cutoff_check": {
+      "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+      "available_by": "2025-06-19",
+      "what": "LRAE row 'MIDS-LVT IDIQ - New Contracts (C)': requirement office PMA/PMW-101; solicitation FY25 Q3; award FY25 Q3; existing N0003915D0042 and N0003915D0043"
+    }
   },
   {
     "id": "BT05",
@@ -366,5 +361,102 @@
       "advance_notice_days": "407 days from the LRAE release to the first notice"
     },
     "notes": "Requirement and office were right; the calendar was wrong by more than a year. FMS cases depend on partner-nation funding events that the LRAE does not show."
+  },
+  {
+    "id": "BT09",
+    "requirement": "Royal Saudi Naval Forces in-Kingdom C4ISR support services recompete (PMW 740)",
+    "program_office": "pmw:740",
+    "cutoff_date": "2025-04-29",
+    "cutoff_basis": "day before the Presolicitation N0003925R4014 posted 2025-04-30 (FY2025 SAM.gov archive); the RFP followed on 2025-05-15 with amendments through 2025-06-23",
+    "evidence": [
+      {
+        "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003920F3015&start=0",
+        "available_by": "2021-02-22",
+        "what": "incumbent order N0003920F3015 (SAIC, SeaPort-NxG IDV N0017819D8470) for the Royal Saudi Naval Forces in-Kingdom C4I upgrade and refurbishment; signed 2020 with a multi-year period of performance",
+        "basis": "FPDS publication lag for DoD (about 90 days) added to the signed date"
+      },
+      {
+        "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMW%20740_Tear%20Sheet_v01312025.pdf",
+        "available_by": "2025-01-01",
+        "what": "PMW 740 tear sheet: the office is the PEO C4I focal point for security cooperation (Title 22 FMS cases)"
+      }
+    ],
+    "post_cutoff_check": {
+      "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+      "available_by": "2025-06-19",
+      "what": "LRAE row 'RSNF inKSA Support Services (C4ISR) Upgrade and Refurbishment': requirement office PMW-740; solicitation FY25 Q3; award FY26 Q1; Follow-on; existing N0017819D8470N0003920F3015; incumbent SAIC"
+    },
+    "prediction_as_of_cutoff": {
+      "need": "follow-on support services for the Saudi FMS C4ISR case as the 2020 order ages out",
+      "office": "PMW 740",
+      "timing": "solicitation in FY2025",
+      "acquisition_path": "competition; the incumbent order sits on SeaPort-NxG, so either a task order or a stand-alone RFP"
+    },
+    "actual_event": {
+      "date": "2025-04-30",
+      "what": "Presolicitation N0003925R4014 'RSNF InKSA Services': 'NAVWAR HQ, in support of PEO C4I International Integration Program Office (PMW 740) intends to issue Request for Proposal (RFP) N0003925R4014 for Program Management, Systems Engineering, Operations and Maintenance'; RFP posted 2025-05-15; no award observed in FPDS through the observable window",
+      "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/e4fbf2b472f74a978d6b614a82570a46?api_key=null",
+      "observed_at": "2026-09-17"
+    },
+    "comparison": {
+      "office": "correct, named in the notice's first sentence",
+      "timing": "solicitation in FY25 Q3, consistent with the incumbent's age; award (forecast FY26 Q1) not yet observed",
+      "acquisition_path": "stand-alone RFP rather than a SeaPort-NxG order: not predictable from the incumbent record",
+      "missed": "the vehicle change",
+      "false_positives": "none so far",
+      "advance_notice_days": "about 1,530 days from the incumbent's award record to the presolicitation"
+    },
+    "notes": "Confirms EX08's inference: the follow-on notice names PMW 740 outright."
+  },
+  {
+    "id": "BT10",
+    "requirement": "ADNS (Automated Digital Network System) multiple-award production contract (PMW 160)",
+    "program_office": "pmw:160",
+    "cutoff_date": "2024-11-06",
+    "cutoff_basis": "day before the Presolicitation N00039-25-R-9510 posted 2024-11-07 (FY2025 SAM.gov archive); the RFP itself was posted 2025-06-16",
+    "evidence": [
+      {
+        "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/37f5601517acff08348093c104e0fac3?api_key=null",
+        "available_by": "2016-03-01",
+        "what": "2016 presolicitation for ADNS Increment III (N00039-16-R-0028) names 'PEO C4I, Tactical Networks Program Office (PMW 160)' as the requiring office"
+      },
+      {
+        "source_url": "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003920F9504&start=0",
+        "available_by": "2020-08-31",
+        "what": "ADNS enclave orders under the 2017 IDV N0003917D0009 (Serco), showing the vehicle in use and its age",
+        "basis": "FPDS publication lag for DoD (about 90 days) added to the signed date"
+      },
+      {
+        "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2023_PMW%20160_Tear%20Sheet.pdf",
+        "available_by": "2023-05-01",
+        "what": "PMW 160 tear sheet lists ADNS (ACAT II) as a top program"
+      }
+    ],
+    "post_cutoff_check": {
+      "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+      "available_by": "2025-06-19",
+      "what": "LRAE rows 'ADNS MAC N0003925R9510 (New Award FY25)' (solicitation FY25 Q4, award FY26 Q1) and nine 'ADNS MAC RFP #n' order rows FY26-FY27"
+    },
+    "prediction_as_of_cutoff": {
+      "need": "a new ADNS production vehicle as the 2017 Increment III IDV ages out",
+      "office": "PMW 160",
+      "timing": "solicitation in FY2025",
+      "acquisition_path": "competitive multiple award, as in 2016"
+    },
+    "actual_event": {
+      "date": "2024-11-07",
+      "what": "Presolicitation N00039-25-R-9510 'PMW 160 Wide Area Networks (WAN) Multiple Award Contract (MAC)': 'NAVWAR, in support of PEO C4I Program Manager, Warfare (PMW) 160, Tactical Networks, intends to issue a Full and Open competitive RFP ... the RFP will be released in Q2FY25, with a contract award estimated for the Q4FY25 timeframe'; renamed ADNS MAC 2025-03-21; RFP posted 2025-06-16 (FY25 Q3) with amendments through 2025-07-28; no award observed in FPDS through the observable window",
+      "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/41ac3ebdf6f440b8a2b21e0837358fe0?api_key=null",
+      "observed_at": "2026-09-17"
+    },
+    "comparison": {
+      "office": "correct",
+      "timing": "solicitation year correct; the agency's own presolicitation said RFP in Q2FY25 and award in Q4FY25, the RFP came in Q3FY25 and the award had not appeared by the observable window",
+      "acquisition_path": "correct (full and open, multiple award)",
+      "missed": "none on the requirement; the agency's own dates slipped",
+      "false_positives": "none",
+      "advance_notice_days": "about 3,170 days from the 2016 notice naming the office to the 2024 presolicitation; 221 days from presolicitation to RFP"
+    },
+    "notes": "The presolicitation itself is an early signal with the agency's own schedule; tracking the slip between announced and actual dates is a monitor metric."
   }
 ]

@@ -37,6 +37,11 @@ Other Procurement, Navy BA2 justification book dated April 2026; FPDS = award re
 | PMW 120 requirements after its 2026 industry day | the office briefed industry twice in February 2026 and again in March 2026 (Special Notices NAVWAR-PMW120-INDUSTRYDAY-26) | PMW 120 | SAM.gov notices posted 2026-02-09, 2026-02-10, 2026-03-12 | LRAE lists the PMW 120 PSS follow-on (award FY26 Q2) and small RDT&E orders | industry-day content not retrieved (attachments need the API key) | an RFI or solicitation naming PMW 120 |
 | MIDS Weapons Data Link production, next lot (SF3) and JTRS IDIQ ceiling growth | presolicitation for MIDS WDL SF3 (2026-08-12) and ceiling-increase special notices for MIDS WDL SF1 and MIDS JTRS IDIQ (August 2026) | PMA/PMW 101 (LRAE lists the earlier lot under the PEO C4I front office code) | SAM.gov notices N00039PRESOL_SF3 (2026-08-12), MIDS_WDL_SF1_CONTRACT_CEILING_INCREASE (2026-08-19), MIDS_JTRS_IDIQ_CONTRACT_CEILING_INCREASE (2026-08-27) | OPN line item 2614 Advanced Tactical Data Link Systems (related PE 0205604N) | lot quantities and values not in the notices | the SF3 solicitation and the ceiling modifications in FPDS |
 | NILE ISS 6 (now at RFI stage) | Sources Sought N0003926RE013 posted 2026-01-29 | PMW 150 | LRAE row (2025-06-19) then the RFI | small value range; award forecast FY27 Q2 | none beyond timing | the solicitation |
+| PMW 120 Maritime Integrated Broadcast Service (MIBS) satellite data terminal | market survey for a SATCOM data terminal (JTT-ME) for the MIBS program | PMW 120 | Sources Sought posted 2024-11-25 and 2025-01-07: "PEO C4I Battlespace Awareness and Information Operations (PMW 120) Maritime Integrated Broadcast Service (MIBS) program is conducting a market survey" | OPN line 61 Maritime Integrated Broadcast System shows FY25 8.5 ($M) and no FY26/FY27 request | funding line looks to be ending or moving; market survey may not lead to a buy | an RFP naming MIBS or a budget line reappearing |
+| MIDS Weapons Data Link SF4 radios and SWARMM Family 3 radio | RFIs for NSA-certified MIDS WDL SF4 radios (2025-04-25, 2025-05-14) and a SWARMM Family 3 radio (2025-08) | PMA/PMW 101 (MIDS Program Office named in the notice) | SAM.gov Sources Sought notices, FY2025 archive | ATDLS line 2614 flat at 52.8; WDL SF3 presolicitation followed in August 2026 | RFIs precede production by a year or more | a presolicitation naming SF4 or SWARMM |
+| GPNTS software support ceiling increase | sole-source modification to N00039-20-D-0021 announced | PMW/A 170 (named in the notice) | Presolicitation N00039-25-R-2005, 2025-02-13 | LRAE row "GPNTS - Software Ceiling Increase" (FY25 Q3 / Q4, $50M-$100M) | sole source, little competitive opening | the modification in FPDS |
+| ADNS multiple-award production contract (order competitions to follow) | presolicitation announced the MAC with RFP in Q2FY25 and award in Q4FY25; RFP posted 2025-06-16; LRAE lists nine "ADNS MAC RFP #n" order rows through FY27 | PMW 160 (named in the notice) | Presolicitation N00039-25-R-9510, 2024-11-07 | OPN line 74 Ship Communications Automation 162.1 (FY26) / 156.6 (FY27) | award not observed by September 2026 | the MAC award in FPDS, then the first order competitions |
+| CANES maritime containerized secure units | the House added $50.0M above the FY2027 request to the CANES procurement line for "maritime containerized secure units", a configuration not in the request | PMW 160 (CANES program office; inference by program) | H. Rept. 119-715, OPN line 64, 2026-06-26 | request 493.0 + 50.0 = 543.0 ($M) if enacted | House position only; Senate and conference may differ; no LRAE row or notice yet for containerized units | the Senate report and enacted act keeping the add; an LRAE row or SAM notice for containerized CANES units |
 | CANES production quantity change in FY2027 | request below the prior enacted amount | PMW 160 | OPN line item 2915 "CANES": FY2026 enacted 534.324, FY2027 request 493.046 ($ millions); FY2028 529.811 | request stage; enacted FY2027 pending in Congress | inference by program name; Congress may add or cut | the FY2027 appropriations explanatory statement line for CANES |
 
 ### 1a. Budget lines behind the pilot offices ($ millions)
@@ -88,10 +93,43 @@ Support from 113.1 to 173.1 (PMW/A 170, PMW 770); Navy Strategic Communications 
 28.9 to 88.6 (PMW 770); the Navigation/ID System PE collapses from 42.9 to 3.4 (PMW/A 170, GPNTS
 development winding down); CANES dips from 534.3 to 493.0 before recovering in the out-years.
 
-Congressional marks for FY2026 and FY2027 lines (govinfo) are the one signal family not yet
-extracted; the source is registered and reachable. RDT&E program-element amounts now come from
-the Comptroller R-1 table; the Navy RDT&E BA7-8 book (narratives per PE) remains in the manual
-queue for the exhibit text that names programs and milestones.
+### 1b. Congressional marks on the same lines (House, FY2027)
+
+House Appropriations Committee report on the Department of Defense Appropriations Act, 2027
+(H. Rept. 119-715, issued 2026-06-26; govinfo HTML text, hash `9e66c22b30d4`). Amounts in $ thousands.
+Only two of the tracked Other Procurement, Navy lines were changed by the House; the rest match the
+request. The Senate report and the enacted act will move these again, and the enacted table is
+the "enacted" figure for FY2027 in next year's comparison.
+
+| P-1 line | Title | FY2027 request | House recommendation | Change | Committee note |
+| --- | --- | ---: | ---: | ---: | --- |
+| 51 | ATDLS | 52,758 | 52,758 | 0 |  |
+| 52 | NAVY COMMAND AND CONTROL SYSTEM [NCCS] | 16,167 | 16,167 | 0 |  |
+| 54 | NAVSTAR GPS RECEIVERS (SPACE) | 43,097 | 43,097 | 0 |  |
+| 62 | TACTICAL/MOBILE C4I SYSTEMS | 48,262 | 48,262 | 0 |  |
+| 63 | INTELLIGENCE SURVEILLANCE AND RECONNAISSANCE (ISR) | 11,824 | 11,824 | 0 |  |
+| 64 | CANES | 493,046 | 543,046 | 50,000 | Program increase: maritime containerized secure units |
+| 65 | RADIAC | 38,000 | 23,048 | -14,952 | Contract award delays |
+| 66 | CANES-INTELL | 43,028 | 43,028 | 0 |  |
+| 72 | BATTLE FORCE TACTICAL NETWORK | 125,661 | 125,661 | 0 |  |
+| 73 | SHIPBOARD TACTICAL COMMUNICATIONS | 50,350 | 50,350 | 0 |  |
+| 74 | SHIP COMMUNICATIONS AUTOMATION | 156,605 | 156,605 | 0 |  |
+| 76 | SUBMARINE BROADCAST SUPPORT | 173,069 | 173,069 | 0 |  |
+| 77 | SUBMARINE COMMUNICATION EQUIPMENT | 88,071 | 88,071 | 0 |  |
+| 78 | SATELLITE COMMUNICATIONS SYSTEMS | 57,961 | 57,961 | 0 |  |
+| 79 | NAVY MULTIBAND TERMINAL [NMT] | 57,768 | 57,768 | 0 |  |
+| 80 | MOBILE ADVANCED EHF TERMINAL (MAT) | 202,305 | 202,305 | 0 |  |
+| 82 | INFO SYSTEMS SECURITY PROGRAM [ISSP] | 349,099 | 349,099 | 0 |  |
+| 84 | CRYPTOLOGIC COMMUNICATIONS EQUIPMENT | 7,419 | 7,419 | 0 |  |
+
+The RDT&E program-element table for the Navy is in the same report but the HTML granule did not
+yield the PE rows to the text search; the PDF rendering is the next step for those lines.
+
+Congressional marks for the FY2027 procurement lines are extracted above from the House report;
+the Senate report, the FY2027 enacted table and the RDT&E program-element marks are the next
+pulls from govinfo. RDT&E program-element request amounts come from the Comptroller R-1 table;
+the Navy RDT&E BA7-8 book (narratives per PE) remains in the manual queue for the exhibit text
+that names programs and milestones.
 
 ## 2. Backtests
 
@@ -107,20 +145,24 @@ post-cutoff checks and never as evidence.
 | BT01 | PMW 160 Engineering Support Services follow-on (PEO C4I ESS for the Ta | pmw:160 | 2026-05-05 | LRAE row 'PMW 160 Engineering Support Services (ESS) Follow-; incumbent order N0003922F3000 (Booz Allen) signed 2021-10- | 2026-05-06: task order N0003926FG001 awarded to Booz Allen Hamilton under SeaPort-NxG IDV N0 | correct to the quarter (FY26 Q3) |
 | BT02 | PMW 160 Professional Support Services recompete (follow-on to N0003920 | pmw:160 | 2025-03-31 | incumbent order N0003920F3016 (Alpha Omega Group) signed 202; PMW 160 tear sheet (1 May 2023) | 2025-09-05: task order N0003925F3011 awarded to Alpha Omega Group under SeaPort-NxG IDV N001 | correct (award 12 days before the incumbent's end date) |
 | BT03 | CLTS-25 production and CLTS/LTS services follow-on (PMS 485 requiremen | pms:485 | 2025-06-19 | LRAE row 'CLTS-25 Production & CLTS/LTS Services IDIQ Contra; incumbent contract N0003919C0002 (BAE) signed 2019-07-03,  | 2026-06-15: no follow-on award observed in FPDS through actions signed by mid-June 2026 (pub | missed: the FY26 Q1 award has not appeared by the end of the observabl |
-| BT04 | MIDS-LVT IDIQ new contracts (PMA/PMW 101 follow-on to the 2015 multipl | pmw:101 | 2025-06-19 | LRAE row 'MIDS-LVT IDIQ - New Contracts (C)'; incumbent MAC IDIQ N0003915D0042 (Data Link Solutions) signe; PMA/PMW 101  | 2026-05-14: no new MIDS-LVT IDIQ observed in FPDS for NAVWAR HQ through the observable windo | missed: no FY25 Q3 award; the incumbents' vehicles continued into FY26 |
+| BT04 | MIDS-LVT IDIQ new contracts (PMA/PMW 101 follow-on to the 2015 multipl | pmw:101 | 2025-04-08 | incumbent MAC IDIQ N0003915D0042 (Data Link Solutions) signe; SAM.gov award notices for the two 2015 MIDS-LVT IDIQs (sol | 2025-04-09: Presolicitation and RFP N00039-24-R-4019 posted by NAVWAR HQ 'on behalf of the M | solicitation correct to the quarter (FY25 Q3) from the vehicles' age a |
 | BT05 | PEO C4I engineering support for PMW 160, the 2021 recompete (N0003922F | pmw:160 | 2021-06-30 | incumbent order N0003917F3000 (Booz Allen, SeaPort-e IDV N00 | 2021-10-26: task order N0003922F3000 awarded to Booz Allen under SeaPort-NxG IDV N0017819D72 | correct (award the day before the incumbent order ended) |
 | BT06 | PMW 120 Professional Support Services follow-on (forecast FY26 Q2 awar | pmw:120 | 2025-06-19 | LRAE row 'PMW 120 Professional Support Services (C)'; incumbent order N0003921F3003 (Booz Allen, SeaPort-NxG) with | 2026-05-07: no follow-on award observed in the FPDS actions retrieved (the FY2026 scan was c | probable slip past FY26 Q2 (incumbent extended in May 2026); not confi |
 | BT07 | NILE In-Service Support (ISS) 6 engineering services (PMW 150) | pmw:150 | 2026-01-28 | LRAE row 'NILE In-Service Support (ISS) 6 Contract (C)'; companion LRAE rows 'NILE ISS 5 Task Order 5' (FY25 Q4 / FY2 | 2026-01-29: Sources Sought N0003926RE013 'NILE IN SERVICE SUPPORT (ISS) 6 ENGINEERING SERVIC | correct to the quarter (FY26 Q2) |
 | BT08 | Egyptian Navy Autonomous INTelligence System (AINTS) platform integrat | pmw:740 | 2026-07-30 | LRAE row 'EGYPTIAN Navy AINTS (EG-P-LGQ, A2) (C)'; PMW 740 tear sheet | 2026-07-31: Presolicitation N0003926RE014 'Egyptian Navy Autonomous INTelligence System (AIN | missed by about five quarters: presolicitation in FY26 Q4 against a fo |
+| BT09 | Royal Saudi Naval Forces in-Kingdom C4ISR support services recompete ( | pmw:740 | 2025-04-29 | incumbent order N0003920F3015 (SAIC, SeaPort-NxG IDV N001781; PMW 740 tear sheet | 2025-04-30: Presolicitation N0003925R4014 'RSNF InKSA Services': 'NAVWAR HQ, in support of P | solicitation in FY25 Q3, consistent with the incumbent's age; award (f |
+| BT10 | ADNS (Automated Digital Network System) multiple-award production cont | pmw:160 | 2024-11-06 | 2016 presolicitation for ADNS Increment III (N00039-16-R-002; ADNS enclave orders under the 2017 IDV N0003917D0009 (Serc | 2024-11-07: Presolicitation N00039-25-R-9510 'PMW 160 Wide Area Networks (WAN) Multiple Awar | solicitation year correct; the agency's own presolicitation said RFP i |
 
 Results in short: BT01 and BT05 predicted the recompete to the quarter and to the day from the
-forecast and the incumbent's end date; BT07 is the cleanest case, with the forecast row preceding
-a true public first notice (the NILE ISS 6 RFI) by seven months and naming office, incumbent
-contract and quarter; BT02 predicted the event from the incumbent's end date alone, and the
-forecast (released after the solicitation) added the set-aside and value only before award; BT08
-got the requirement and office right but the calendar wrong by five quarters; BT03 and BT04 are
-forecasts that did not appear in the observable window; BT06 is pending because the FY2026 award
-scan is incomplete.
+forecast and the incumbent's end date; BT07 is the cleanest forecast case, with the LRAE row
+preceding a true public first notice (the NILE ISS 6 RFI) by seven months; BT04, BT09 and BT10
+now have real first-notice dates from the FY2025 SAM.gov archive and show that the age of the
+incumbent vehicle alone predicted the solicitation quarter, with the office confirmed in the
+notice's first sentence each time; BT02 predicted the event from the incumbent's end date alone;
+BT08 got the requirement and office right but the calendar wrong by five quarters; BT03 is a
+forecast that did not appear in the observable window; BT06 is pending because the FY2026 award
+scan is incomplete. Awards for BT04, BT09 and BT10 have not appeared in FPDS yet, which is the
+pattern to expect given the roughly 90-day publication lag and slipping award dates.
 
 Missed signals and false positives:
 
@@ -129,7 +171,8 @@ Missed signals and false positives:
   LRAE (BT02).
 - False positives: the award quarters in BT03 and BT04 (FY26 Q1, FY25 Q3) passed without an award;
   the incumbents' vehicles were extended instead. BT08's solicitation quarter passed a year before
-  the presolicitation appeared. A monitor that alerts on a forecast quarter must
+  the presolicitation appeared. In BT10 the agency's own presolicitation promised the RFP in
+  Q2FY25 and award in Q4FY25; the RFP came a quarter late and the award has not appeared. A monitor that alerts on a forecast quarter must
   also watch for extension modifications on the incumbent, which is the usual public trace of a
   slip.
 - Not observable: SeaPort-NxG task-order competitions do not create SAM.gov notices (nine
@@ -147,8 +190,8 @@ incumbent's award record to the follow-on in BT02 and BT05 (the cadence signal);
 detail arrived 78 days before award in BT02.
 
 What would strengthen these tests: earlier LRAE releases (the 2024 release would move the
-forecast cutoff back a year; the archive's index API was offline during this work); the SAM.gov
-archived yearly extracts (the daily "Full" file, retrieved and hashed, holds only the current
-dataset of about 84,500 notices, so 2021 and early-2025 first-notice dates need the FY2021 and
-FY2025 archive files); FY2026 enacted budget lines for the request-versus-enacted signal; and a
-complete FY2026 FPDS scan once the host stops resetting connections.
+forecast cutoff back a year; the archive's index API was offline during this work); the FY2021
+SAM.gov archive file for BT05's solicitation (the FY2025 file is retrieved and used above; the
+daily "Full" file holds only the current dataset); FY2026 enacted budget lines for the
+request-versus-enacted signal; and a complete FY2026 FPDS scan once the host stops resetting
+connections.

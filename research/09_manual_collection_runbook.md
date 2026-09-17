@@ -76,7 +76,9 @@ Manual steps performed:
 3. Attachments: the detail's resource list for 2026 NAVWAR notices holds only PIEE links; the
    statement of work is behind the PIEE login.
 4. Older years: yearly archive files (`FYxxxx_archived_opportunities.csv`, about 1.1 GB each)
-   in the same data service; not yet downloaded.
+   in the same data service. FY2025 was pulled in 73 parallel byte ranges in about four minutes:
+   399,820 rows, 666 for the NAVWAR family, which supplied the first-notice dates for the
+   MIDS-LVT, RSNF and ADNS recompetes (posted 2024-11 to 2025-06).
 Time: minutes per solicitation number; an hour for the extract filter.
 What the monitor does: nightly extract diff by notice id and modified date; site-API lookup for
 every solicitation number that appears in FPDS or the LRAE; flag notices whose text names an
@@ -128,10 +130,22 @@ dated edges in the organization graph rather than overwrites.
 
 ### G. Congressional documents
 
-Manual steps performed: govinfo search (`api.govinfo.gov/search`) for the Navy program names
-and the NDAA and Defense appropriations reports; package summaries give download links. Funding
-tables were not yet extracted. What the monitor does: daily poll for new packages on the tracked
-bills; extract the funding-table rows for the tracked lines and PEs.
+Manual steps performed:
+1. govinfo search (`POST api.govinfo.gov/search`, query `"CANES" "Other Procurement, Navy"
+   collection:(CREC OR CRPT)`) lists the committee reports and explanatory statements that carry
+   the Navy procurement tables; the newest for FY2027 is H. Rept. 119-715 (2026-06-26).
+2. Fetch the package's HTML text (`/packages/CRPT-119hrpt715/htm`); the Other Procurement, Navy
+   table appears as flat text between the "OTHER PROCUREMENT, NAVY" and "PROCUREMENT, MARINE
+   CORPS" headings, one line per row: line number, title, request, recommendation, change, and a
+   committee note when the amounts differ.
+3. Read the tracked lines: on 2026-06-26 the House changed CANES (+50,000, "maritime
+   containerized secure units") and RADIAC (-14,952, contract award delays); the other sixteen
+   tracked lines equal the request.
+4. The RDT&E program-element table did not surface in the HTML text; use the PDF rendering.
+Time: half an hour once the right package is known. What the monitor does: daily poll for new
+packages on the tracked bills (House report, Senate report, conference or explanatory statement,
+enacted act); extract the funding-table rows for the tracked lines and PEs; alert on any change
+against the request, with the committee note.
 
 ## Verification checklist for the reviewer
 

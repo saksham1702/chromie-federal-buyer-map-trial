@@ -422,6 +422,11 @@
           "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/83f41b3f3f6d536077c852ab8de75fc8?api_key=null",
           "observed_at": "2019-07-03",
           "passage": "engineering services, material, travel, and provisioned items orders for spares under the Program Executive Office Submarines (PEO SUB), Maritime Surveillance Systems (MSS) Program Office (PMS 485)"
+        },
+        {
+          "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/0c2628c2f17d43fc9f3c531bc5005a4f?api_key=null",
+          "observed_at": "2025-05-13",
+          "passage": "NAVWAR, on behalf of the Program Executive Office, Undersea Warfare Systems (PEO UWS) Maritime Surveillance Systems (MSS) Program Office (PMS 485), under the authority of 10 U.S.C 2304(c)(1) ... amplifiers for PMS 485"
         }
       ],
       "aliases": [
@@ -429,7 +434,7 @@
         "Maritime Surveillance Systems (MSS) Program Office",
         "SURTASS program office"
       ],
-      "notes": "named with its PEO in the 2019 J&A for N00039-19-R-0002; appears as requirement office on NAVWAR LRAE rows contracted by N00039"
+      "notes": "named with its PEO in the 2019 J&A for N00039-19-R-0002; appears as requirement office on NAVWAR LRAE rows contracted by N00039; parent stated as PEO Submarines (2019 J&A) and PEO Undersea Warfare Systems (2025 presolicitation): two dated edges"
     },
     {
       "id": "pmw:101",
@@ -1109,6 +1114,22 @@
         }
       ],
       "notes": "NAVSEA PEO named as PMS 485's parent in the 2019 J&A; current placement after the 2026 PAE reorganization not asserted"
+    },
+    {
+      "id": "peo:uws",
+      "type": "program_executive_office",
+      "name": "Program Executive Office Undersea Warfare Systems",
+      "aliases": [
+        "PEO UWS"
+      ],
+      "evidence": [
+        {
+          "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/0c2628c2f17d43fc9f3c531bc5005a4f?api_key=null",
+          "observed_at": "2025-05-13",
+          "passage": "NAVWAR, on behalf of the Program Executive Office, Undersea Warfare Systems (PEO UWS) Maritime Surveillance Systems (MSS) Program Office (PMS 485), under the authority of 10 U.S.C 2304(c)(1) ... amplifiers for PMS 485"
+        }
+      ],
+      "notes": "named as PMS 485's PEO in a May 2025 NAVWAR notice; PEO Submarines held that role in the 2019 J&A; relationship to PAE Undersea (2026-03-15) not asserted"
     }
   ],
   "edges": [
@@ -2015,7 +2036,22 @@
           "passage": "engineering services, material, travel, and provisioned items orders for spares under the Program Executive Office Submarines (PEO SUB), Maritime Surveillance Systems (MSS) Program Office (PMS 485)"
         }
       ],
-      "notes": "as of 2019-07-03"
+      "notes": "as of 2019-07-03; closed the day before the first observation of PEO UWS as parent (exact realignment date unknown)",
+      "valid_to": "2025-05-12"
+    },
+    {
+      "from": "pms:485",
+      "to": "peo:uws",
+      "type": "child_of",
+      "valid_from": "2025-05-13",
+      "evidence": [
+        {
+          "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/0c2628c2f17d43fc9f3c531bc5005a4f?api_key=null",
+          "observed_at": "2025-05-13",
+          "passage": "NAVWAR, on behalf of the Program Executive Office, Undersea Warfare Systems (PEO UWS) Maritime Surveillance Systems (MSS) Program Office (PMS 485), under the authority of 10 U.S.C 2304(c)(1) ... amplifiers for PMS 485"
+        }
+      ],
+      "notes": "first observed 2025-05-13; the actual realignment date is earlier and unknown"
     }
   ]
 }

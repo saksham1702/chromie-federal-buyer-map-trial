@@ -426,7 +426,7 @@
     "reporting_lag": "days",
     "access_mode": "api",
     "access_restrictions": "api.data.gov key (DEMO_KEY rate-limited)",
-    "extraction_difficulty": "medium-high (funding tables inside long PDFs/XML)",
+    "extraction_difficulty": "medium: the HTML granule carries the procurement tables as flat text (parseable by line number); the RDT&E PE table needs the PDF rendering",
     "answers": [
       "what Congress recommended, cut, added or directed by line",
       "directive report language naming Navy programs"
@@ -436,11 +436,11 @@
     ],
     "proposed_monitor_frequency": "daily poll of new CRPT/CREC/PLAW packages matching defense keywords",
     "inspected_example": {
-      "url": "https://api.govinfo.gov/packages/CRPT-119hrpt698/summary?api_key=DEMO_KEY",
-      "retrieved_at": "2026-09-16",
+      "url": "https://api.govinfo.gov/packages/CRPT-119hrpt715/htm?api_key=DEMO_KEY",
+      "retrieved_at": "2026-09-17",
       "method": "direct",
-      "sha256": "92cafb792cce1f59e4eb26feb111ce5df7adbd146bb50c7bd1b43ed8e6badf21",
-      "note": "H. Rept. 119-698, NDAA FY2027, issued 2026-06-15, with download links"
+      "sha256": "9e66c22b30d4cc857a0011d0df2721ff58bb34290555cbfc92c1849d17d161a8",
+      "note": "H. Rept. 119-715 (DoD Appropriations Act, 2027) HTML text; OPN table rows read as line, title, request, recommendation, change, note (CANES +50,000 'maritime containerized secure units')"
     },
     "verification_status": "verified"
   },
@@ -588,7 +588,7 @@
     "publication_frequency": "semiannual (activity-dependent)",
     "reporting_lag": "forecast",
     "access_mode": "spreadsheet",
-    "access_restrictions": "Akamai 403 to non-US addresses; archive capture 2025-12-26 used; the linking page returned 404 through Browserbase on 2026-09-16 (moved)",
+    "access_restrictions": "Akamai 403 to non-US addresses; archive capture 2025-12-26 used; the enterprise LRAE page returned 404 live (2026-09-16); NAVSEA's live navigation now exposes per-warfare-center 'Long Range Acquisition Forecast' pages (e.g. NSWC Carderock) and PEO IWS industry-engagement pages, so the enterprise file must be re-found from those",
     "extraction_difficulty": "low",
     "answers": [
       "planned NAVSEA requirements by office, incl. PEO IWS offices now consolidated into PAE Mission Systems"
@@ -1181,7 +1181,7 @@
       "same 47 columns as the daily extract",
       "one file per fiscal year of archive date"
     ],
-    "historical_coverage": "36 yearly files listed, FY1998 onward (plus a few mislabeled early years), refreshed 2026-09-13",
+    "historical_coverage": "36 yearly files listed, FY1998 onward; FY2025 retrieved (about 1.1 GB, 73 parallel byte ranges in about four minutes)",
     "publication_frequency": "periodic re-generation of the archive files",
     "reporting_lag": "notices move here after archiving",
     "access_mode": "export",
@@ -1195,13 +1195,13 @@
     ],
     "proposed_monitor_frequency": "quarterly re-pull of the two most recent fiscal years",
     "inspected_example": {
-      "url": "https://sam.gov/api/prod/fileextractservices/v1/api/listfiles?random=1&domain=Contract%20Opportunities/Archived%20Data&privacy=Public",
-      "retrieved_at": "2026-09-16",
+      "url": "https://sam.gov/api/prod/fileextractservices/v1/api/download/Contract%20Opportunities/Archived%20Data/FY2025_archived_opportunities.csv?privacy=Public",
+      "retrieved_at": "2026-09-17",
       "method": "direct",
-      "sha256": null,
-      "note": "listing inspected (36 files); no yearly file downloaded yet"
+      "sha256": "ab097f4b06114dae1d79620ea824224c7d81e597830df06e0a6f40e2b91ec4ac",
+      "note": "FY2025 file: 1,159,352,018 bytes, 399,820 rows, 666 NAVWAR-family notices (posted 2024-10 to 2025-09); gave first-notice dates for three backtests"
     },
-    "verification_status": "not_inspected",
+    "verification_status": "verified",
     "last_verified_at": "2026-09-16"
   },
   {
@@ -1277,7 +1277,7 @@
       "its mission areas"
     ],
     "cannot_answer": [
-      "a PMW-coded office inventory (not on the About page)"
+      "a PMW-coded office inventory: the About, Offerings and Industry pages describe solution types (Digital Workplace, Cybersecurity and IT Lifecycle, IT Platform, IT Infrastructure) and name no offices; the LRAE codes (Digital TD, PCE) remain the public handle"
     ],
     "proposed_monitor_frequency": "weekly hash diff",
     "inspected_example": {
@@ -1391,7 +1391,7 @@
       "its portfolio description (defense business systems)"
     ],
     "cannot_answer": [
-      "PMW-coded office inventory on the front page (the Portfolio page is the next fetch)"
+      "a PMW-coded office inventory: the Portfolio page describes defense business systems in prose and names no offices; the LRAE codes (Pf007NERP, Pf004MNHR, Pf005NABS, Pf008MLBFO) remain the public handle"
     ],
     "proposed_monitor_frequency": "weekly hash diff",
     "inspected_example": {

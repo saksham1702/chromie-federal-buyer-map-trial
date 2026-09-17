@@ -43,13 +43,16 @@ Plan: ~/.claude/plans/eager-hopping-rivest.md (approved 2026-09-16). Branch: tri
 - [x] random spot-check of 3 examples + 1 backtest; git clean; dot_clean
 
 ## Done 2026-09-17
+- [x] congressional marks: House FY2027 DoD appropriations report lines for the tracked OPN items (CANES +$50.0M)
+- [x] PEO Digital / PEO MLB live pages checked: no office codes published
+- [x] NAVSEA LRAE relocation pointer recorded (per-warfare-center forecast pages)
 - [x] 08 organization memory format + org_code_families.json
 - [x] 09 manual collection runbook with reviewer checklist
 - [x] recall-first posture in 04/06; contact_candidates.json (public sources, confidence labels)
 
 ## Open follow-ups
 - [x] register the SAM.gov full extract (current dataset only) and confirm BT07/BT08 first-notice dates
-- [ ] download SAM archived FY2021 and FY2025 files (about 1.1 GB each) for BT02/BT05 first-notice dates and the MIDS/CLTS notices
+- [x] SAM archived FY2025 file downloaded and used (BT04 reworked, BT09/BT10 added); FY2021 still to pull for BT05
 - [~] request-vs-enacted amounts now from the Comptroller P-1/R-1 tables; DoN RDT&E BA7-8 and FY2026 exhibit narratives still queued (secnav resets)
 - [ ] complete FY2026 FPDS scan for N00039 (host resets) to settle BT06 and the PMW 120 / NMT / Platform Integration forecasts
 - [ ] optional 1h: replay the 19 examples through prod `resolve_program_office()` offline
