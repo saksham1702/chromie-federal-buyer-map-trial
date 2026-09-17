@@ -1,0 +1,560 @@
+record_key,pid,row_number,join_type,method,key_used,target_id,evidence_ref,note
+N00039-26-RFPREQ-PMA/PMW-101-0005,N00039-26-RFPREQ-PMA/PMW-101-0005,28,contact,explicit,"ARTIS, MICHAEL",,LRAE Annex 25!T28,contracting_poc has no contact observation for pmw:101
+N00039-26-RFPREQ-PMA/PMW-101-0005,N00039-26-RFPREQ-PMA/PMW-101-0005,28,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V28,secondary_poc has no contact observation for pmw:101
+N00039-26-RFPREQ-PMA/PMW-101-0005,N00039-26-RFPREQ-PMA/PMW-101-0005,28,existing_contract,explicit,N0017819D7675,fpds:N0017819D7675,sha256:639f12a42cef83cca115e79eb7f5c85a35fd9df0ad3c1b233571bdf47a687f39,"FPDS entries=10; contracting N00178; funding N00178; vendor G2 SOFTWARE SYSTEMS, INC.; idv -; first signed 2018-12-03"
+N00039-26-RFPREQ-PMA/PMW-101-0005,N00039-26-RFPREQ-PMA/PMW-101-0005,28,notice,explicit,N00039-26-RFPREQ-PMA/PMW-101-0005,,sha256:60e08cb787456d4f8f7beba45e0a02e5e963899ae8d0b22f51346ca16eaeb486; sha256:cf5401dec533de4fb0566d6477c0f1e2ad79875f3eae0dd26313b91d98f445d0,SAM.gov search returned no notice containing the key
+N00039-26-RFPREQ-PMA/PMW-101-0005,N00039-26-RFPREQ-PMA/PMW-101-0005,28,notice,explicit,N0017819D7675,,sha256:bbfe5137e8fe10851cf9aea3179425d830cf3db5cfd7a738d8a0cb9f456e223e; sha256:9f86b81cc9067fb1700a2eedfea8fc37c5cbb9e926ea0028617d9bd8e3548795,SAM.gov search returned no notice containing the key
+N00039-26-RFPREQ-PMA/PMW-101-0005,N00039-26-RFPREQ-PMA/PMW-101-0005,28,office,explicit,PMA/PMW-101,pmw:101,LRAE Annex 25!C28; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMA/PMW-101-0017,N00039-23-RFPREQ-PMA/PMW-101-0017,29,contact,explicit,"Bredesen, Editha",,LRAE Annex 25!T29,contracting_poc has no contact observation for pmw:101
+N00039-23-RFPREQ-PMA/PMW-101-0017,N00039-23-RFPREQ-PMA/PMW-101-0017,29,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V29,secondary_poc has no contact observation for pmw:101
+N00039-23-RFPREQ-PMA/PMW-101-0017,N00039-23-RFPREQ-PMA/PMW-101-0017,29,notice,explicit,N00039-23-RFPREQ-PMA/PMW-101-0017,,sha256:6a93c6778a4bb62c1c2067e47b14142fad5697dfa1cf9511383e36cf3ef5f905; sha256:5f03dd2f110c9bc0c966c8bb6063255f32d209fbe7331232b6fdb2a435c2d5f2,SAM.gov search returned no notice containing the key
+N00039-23-RFPREQ-PMA/PMW-101-0017,N00039-23-RFPREQ-PMA/PMW-101-0017,29,notice,inferred,N00039-23-RFPREQ-PMA/PMW-101-0017,attribution:EX13,attribution_examples.json EX13,"forecast row linked to award N0003915D0042 by office, title and existing contract; 2 SAM.gov notice(s) cited on that award; evidence class directly_documented"
+N00039-23-RFPREQ-PMA/PMW-101-0017,N00039-23-RFPREQ-PMA/PMW-101-0017,29,office,explicit,PMA/PMW-101,pmw:101,LRAE Annex 25!C29; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMA/PMW-101-0018,N00039-23-RFPREQ-PMA/PMW-101-0018,30,contact,explicit,"Bredesen, Editha",,LRAE Annex 25!T30,contracting_poc has no contact observation for pmw:101
+N00039-23-RFPREQ-PMA/PMW-101-0018,N00039-23-RFPREQ-PMA/PMW-101-0018,30,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V30,secondary_poc has no contact observation for pmw:101
+N00039-23-RFPREQ-PMA/PMW-101-0018,N00039-23-RFPREQ-PMA/PMW-101-0018,30,notice,explicit,N00039-23-RFPREQ-PMA/PMW-101-0018,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMA/PMW-101-0018,N00039-23-RFPREQ-PMA/PMW-101-0018,30,office,explicit,PMA/PMW-101,pmw:101,LRAE Annex 25!C30; organization_seed.json alias table,requirement-office code matched an alias
+N00039-22-RFPREQ-PMW-150-0017,N00039-22-RFPREQ-PMW-150-0017,156,contact,explicit,"Fleming, Matthew",,LRAE Annex 25!T156,contracting_poc has no contact observation for pmw:150
+N00039-22-RFPREQ-PMW-150-0017,N00039-22-RFPREQ-PMW-150-0017,156,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V156,secondary_poc has no contact observation for pmw:150
+N00039-22-RFPREQ-PMW-150-0017,N00039-22-RFPREQ-PMW-150-0017,156,notice,explicit,N00039-22-RFPREQ-PMW-150-0017,,,SAM.gov search not collected yet
+N00039-22-RFPREQ-PMW-150-0017,N00039-22-RFPREQ-PMW-150-0017,156,office,explicit,PMW-150,pmw:150,LRAE Annex 25!C156; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-150-0011,N00039-23-RFPREQ-PMW-150-0011,157,contact,explicit,"Fleming, Matthew",,LRAE Annex 25!T157,contracting_poc has no contact observation for pmw:150
+N00039-23-RFPREQ-PMW-150-0011,N00039-23-RFPREQ-PMW-150-0011,157,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V157,secondary_poc has no contact observation for pmw:150
+N00039-23-RFPREQ-PMW-150-0011,N00039-23-RFPREQ-PMW-150-0011,157,notice,explicit,N00039-23-RFPREQ-PMW-150-0011,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-150-0011,N00039-23-RFPREQ-PMW-150-0011,157,office,explicit,PMW-150,pmw:150,LRAE Annex 25!C157; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-150-0016,N00039-23-RFPREQ-PMW-150-0016,158,contact,explicit,"Fleming, Matthew",,LRAE Annex 25!T158,contracting_poc has no contact observation for pmw:150
+N00039-23-RFPREQ-PMW-150-0016,N00039-23-RFPREQ-PMW-150-0016,158,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V158,secondary_poc has no contact observation for pmw:150
+N00039-23-RFPREQ-PMW-150-0016,N00039-23-RFPREQ-PMW-150-0016,158,notice,explicit,N00039-23-RFPREQ-PMW-150-0016,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-150-0016,N00039-23-RFPREQ-PMW-150-0016,158,office,explicit,PMW-150,pmw:150,LRAE Annex 25!C158; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-150-0026,N00039-23-RFPREQ-PMW-150-0026,159,contact,explicit,"Fleming, Matthew",,LRAE Annex 25!T159,contracting_poc has no contact observation for pmw:150
+N00039-23-RFPREQ-PMW-150-0026,N00039-23-RFPREQ-PMW-150-0026,159,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V159,secondary_poc has no contact observation for pmw:150
+N00039-23-RFPREQ-PMW-150-0026,N00039-23-RFPREQ-PMW-150-0026,159,existing_contract,explicit,N0003920P0005,,,FPDS lookup not collected yet
+N00039-23-RFPREQ-PMW-150-0026,N00039-23-RFPREQ-PMW-150-0026,159,notice,explicit,N00039-23-RFPREQ-PMW-150-0026,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-150-0026,N00039-23-RFPREQ-PMW-150-0026,159,notice,explicit,N0003920P0005,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-150-0026,N00039-23-RFPREQ-PMW-150-0026,159,office,explicit,PMW-150,pmw:150,LRAE Annex 25!C159; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-150-0035,N00039-23-RFPREQ-PMW-150-0035,160,contact,explicit,"Fleming, Matthew",,LRAE Annex 25!T160,contracting_poc has no contact observation for pmw:150
+N00039-23-RFPREQ-PMW-150-0035,N00039-23-RFPREQ-PMW-150-0035,160,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V160,secondary_poc has no contact observation for pmw:150
+N00039-23-RFPREQ-PMW-150-0035,N00039-23-RFPREQ-PMW-150-0035,160,notice,explicit,N00039-23-RFPREQ-PMW-150-0035,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-150-0035,N00039-23-RFPREQ-PMW-150-0035,160,office,explicit,PMW-150,pmw:150,LRAE Annex 25!C160; organization_seed.json alias table,requirement-office code matched an alias
+N00039-22-RFPREQ-PMW-150-0019,N00039-22-RFPREQ-PMW-150-0019,161,contact,explicit,"Fleming, Matthew",,LRAE Annex 25!T161,contracting_poc has no contact observation for pmw:150
+N00039-22-RFPREQ-PMW-150-0019,N00039-22-RFPREQ-PMW-150-0019,161,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V161,secondary_poc has no contact observation for pmw:150
+N00039-22-RFPREQ-PMW-150-0019,N00039-22-RFPREQ-PMW-150-0019,161,notice,explicit,N00039-22-RFPREQ-PMW-150-0019,,,SAM.gov search not collected yet
+N00039-22-RFPREQ-PMW-150-0019,N00039-22-RFPREQ-PMW-150-0019,161,office,explicit,PMW-150,pmw:150,LRAE Annex 25!C161; organization_seed.json alias table,requirement-office code matched an alias
+N00039-22-RFPREQ-PMW-150-0013,N00039-22-RFPREQ-PMW-150-0013,162,contact,explicit,"Fleming, Matthew",,LRAE Annex 25!T162,contracting_poc has no contact observation for pmw:150
+N00039-22-RFPREQ-PMW-150-0013,N00039-22-RFPREQ-PMW-150-0013,162,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V162,secondary_poc has no contact observation for pmw:150
+N00039-22-RFPREQ-PMW-150-0013,N00039-22-RFPREQ-PMW-150-0013,162,notice,explicit,N00039-22-RFPREQ-PMW-150-0013,,,SAM.gov search not collected yet
+N00039-22-RFPREQ-PMW-150-0013,N00039-22-RFPREQ-PMW-150-0013,162,office,explicit,PMW-150,pmw:150,LRAE Annex 25!C162; organization_seed.json alias table,requirement-office code matched an alias
+N00039-26-RFPREQ-PMA/PMW-101-0003,N00039-26-RFPREQ-PMA/PMW-101-0003,169,contact,explicit,"Gonzales, Joseph",cobs:lrae:pmw-101:gonzalesjoseph,LRAE Annex 25!T169,contracting_poc on the row matches a contact observation for the same office
+N00039-26-RFPREQ-PMA/PMW-101-0003,N00039-26-RFPREQ-PMA/PMW-101-0003,169,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V169,secondary_poc has no contact observation for pmw:101
+N00039-26-RFPREQ-PMA/PMW-101-0003,N00039-26-RFPREQ-PMA/PMW-101-0003,169,notice,explicit,N00039-26-RFPREQ-PMA/PMW-101-0003,,sha256:1a550f1752ca3cdb702e752a326c72f85408875c0d9f7ee2f757f1432e629614; sha256:e09317a08ccad2cc3ee0ef2833ad67dfa001df5d65b31b23bdd9c365a86d2d84,SAM.gov search returned no notice containing the key
+N00039-26-RFPREQ-PMA/PMW-101-0003,N00039-26-RFPREQ-PMA/PMW-101-0003,169,office,explicit,PMA/PMW-101,pmw:101,LRAE Annex 25!C169; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-750-0014,N00039-23-RFPREQ-PMW-750-0014,171,contact,explicit,"Griffin, Brian",cobs:lrae:pmw-750:griffinbrian,LRAE Annex 25!T171,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-750-0014,N00039-23-RFPREQ-PMW-750-0014,171,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V171,secondary_poc has no contact observation for pmw:750
+N00039-23-RFPREQ-PMW-750-0014,N00039-23-RFPREQ-PMW-750-0014,171,notice,explicit,N00039-23-RFPREQ-PMW-750-0014,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-750-0014,N00039-23-RFPREQ-PMW-750-0014,171,office,explicit,PMW-750,pmw:750,LRAE Annex 25!C171; organization_seed.json alias table,requirement-office code matched an alias
+N00039-24-RFPREQ-PMW-750-0001,N00039-24-RFPREQ-PMW-750-0001,172,contact,explicit,"Griffin, Brian",cobs:lrae:pmw-750:griffinbrian,LRAE Annex 25!T172,contracting_poc on the row matches a contact observation for the same office
+N00039-24-RFPREQ-PMW-750-0001,N00039-24-RFPREQ-PMW-750-0001,172,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V172,secondary_poc has no contact observation for pmw:750
+N00039-24-RFPREQ-PMW-750-0001,N00039-24-RFPREQ-PMW-750-0001,172,notice,explicit,N00039-24-RFPREQ-PMW-750-0001,,sha256:c7d37aa73bc7955312beaac13113afbf78f73d1c386303d214426b4a58f7c83e; sha256:42d759e95ecb0c182cae85e67fc45249a3400f090f99877a0ff714a2f2b2d82c,SAM.gov search returned no notice containing the key
+N00039-24-RFPREQ-PMW-750-0001,N00039-24-RFPREQ-PMW-750-0001,172,office,explicit,PMW-750,pmw:750,LRAE Annex 25!C172; organization_seed.json alias table,requirement-office code matched an alias
+N00039-24-RFPREQ-PMW-750-0002,N00039-24-RFPREQ-PMW-750-0002,173,contact,explicit,"Griffin, Brian",cobs:lrae:pmw-750:griffinbrian,LRAE Annex 25!T173,contracting_poc on the row matches a contact observation for the same office
+N00039-24-RFPREQ-PMW-750-0002,N00039-24-RFPREQ-PMW-750-0002,173,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V173,secondary_poc has no contact observation for pmw:750
+N00039-24-RFPREQ-PMW-750-0002,N00039-24-RFPREQ-PMW-750-0002,173,notice,explicit,N00039-24-RFPREQ-PMW-750-0002,,sha256:d928851818efc9ce92ff626473f699146a8df9a3e1eabdd08d81608d0033aea9; sha256:f5d41be81051bb105dd96f169511767e7416e0a96ad17e071b378ebc8d27756d,SAM.gov search returned no notice containing the key
+N00039-24-RFPREQ-PMW-750-0002,N00039-24-RFPREQ-PMW-750-0002,173,office,explicit,PMW-750,pmw:750,LRAE Annex 25!C173; organization_seed.json alias table,requirement-office code matched an alias
+N00039-24-RFPREQ-PMW-750-0003,N00039-24-RFPREQ-PMW-750-0003,174,contact,explicit,"Griffin, Brian",cobs:lrae:pmw-750:griffinbrian,LRAE Annex 25!T174,contracting_poc on the row matches a contact observation for the same office
+N00039-24-RFPREQ-PMW-750-0003,N00039-24-RFPREQ-PMW-750-0003,174,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V174,secondary_poc has no contact observation for pmw:750
+N00039-24-RFPREQ-PMW-750-0003,N00039-24-RFPREQ-PMW-750-0003,174,notice,explicit,N00039-24-RFPREQ-PMW-750-0003,,sha256:1c543ccef2dd129cf4e92df800075309dafabe90e82c015eb3ea85baaf3f9384; sha256:bad76dd5ae36da8f1cd0ea90d5c2a8519ce3956163ad298e1ce767042a6c3270,SAM.gov search returned no notice containing the key
+N00039-24-RFPREQ-PMW-750-0003,N00039-24-RFPREQ-PMW-750-0003,174,office,explicit,PMW-750,pmw:750,LRAE Annex 25!C174; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-750-0015,N00039-23-RFPREQ-PMW-750-0015,175,contact,explicit,"Griffin, Brian",cobs:lrae:pmw-750:griffinbrian,LRAE Annex 25!T175,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-750-0015,N00039-23-RFPREQ-PMW-750-0015,175,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V175,secondary_poc has no contact observation for pmw:750
+N00039-23-RFPREQ-PMW-750-0015,N00039-23-RFPREQ-PMW-750-0015,175,notice,explicit,N00039-23-RFPREQ-PMW-750-0015,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-750-0015,N00039-23-RFPREQ-PMW-750-0015,175,office,explicit,PMW-750,pmw:750,LRAE Annex 25!C175; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-760-0020,N00039-23-RFPREQ-PMW-760-0020,176,contact,explicit,"Griffin, Brian",cobs:lrae:pmw-760:griffinbrian,LRAE Annex 25!T176,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-760-0020,N00039-23-RFPREQ-PMW-760-0020,176,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V176,secondary_poc has no contact observation for pmw:760
+N00039-23-RFPREQ-PMW-760-0020,N00039-23-RFPREQ-PMW-760-0020,176,notice,explicit,N00039-23-RFPREQ-PMW-760-0020,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-760-0020,N00039-23-RFPREQ-PMW-760-0020,176,office,explicit,PMW-760,pmw:760,LRAE Annex 25!C176; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-760-0021,N00039-23-RFPREQ-PMW-760-0021,177,contact,explicit,"Griffin, Brian",cobs:lrae:pmw-760:griffinbrian,LRAE Annex 25!T177,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-760-0021,N00039-23-RFPREQ-PMW-760-0021,177,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V177,secondary_poc has no contact observation for pmw:760
+N00039-23-RFPREQ-PMW-760-0021,N00039-23-RFPREQ-PMW-760-0021,177,notice,explicit,N00039-23-RFPREQ-PMW-760-0021,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-760-0021,N00039-23-RFPREQ-PMW-760-0021,177,office,explicit,PMW-760,pmw:760,LRAE Annex 25!C177; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-760-0029,N00039-23-RFPREQ-PMW-760-0029,178,contact,explicit,"Griffin, Brian",cobs:lrae:pmw-760:griffinbrian,LRAE Annex 25!T178,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-760-0029,N00039-23-RFPREQ-PMW-760-0029,178,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V178,secondary_poc has no contact observation for pmw:760
+N00039-23-RFPREQ-PMW-760-0029,N00039-23-RFPREQ-PMW-760-0029,178,notice,explicit,N00039-23-RFPREQ-PMW-760-0029,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-760-0029,N00039-23-RFPREQ-PMW-760-0029,178,office,explicit,PMW-760,pmw:760,LRAE Annex 25!C178; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-750-0016,N00039-23-RFPREQ-PMW-750-0016,179,contact,explicit,"Griffin, Brian",cobs:lrae:pmw-750:griffinbrian,LRAE Annex 25!T179,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-750-0016,N00039-23-RFPREQ-PMW-750-0016,179,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V179,secondary_poc has no contact observation for pmw:750
+N00039-23-RFPREQ-PMW-750-0016,N00039-23-RFPREQ-PMW-750-0016,179,notice,explicit,N00039-23-RFPREQ-PMW-750-0016,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-750-0016,N00039-23-RFPREQ-PMW-750-0016,179,office,explicit,PMW-750,pmw:750,LRAE Annex 25!C179; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-760-0016,N00039-23-RFPREQ-PMW-760-0016,180,contact,explicit,"Griffin, Brian",cobs:lrae:pmw-760:griffinbrian,LRAE Annex 25!T180,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-760-0016,N00039-23-RFPREQ-PMW-760-0016,180,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V180,secondary_poc has no contact observation for pmw:760
+N00039-23-RFPREQ-PMW-760-0016,N00039-23-RFPREQ-PMW-760-0016,180,notice,explicit,N00039-23-RFPREQ-PMW-760-0016,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-760-0016,N00039-23-RFPREQ-PMW-760-0016,180,office,explicit,PMW-760,pmw:760,LRAE Annex 25!C180; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-760-0031,N00039-23-RFPREQ-PMW-760-0031,181,contact,explicit,"Griffin, Brian",cobs:lrae:pmw-760:griffinbrian,LRAE Annex 25!T181,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-760-0031,N00039-23-RFPREQ-PMW-760-0031,181,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V181,secondary_poc has no contact observation for pmw:760
+N00039-23-RFPREQ-PMW-760-0031,N00039-23-RFPREQ-PMW-760-0031,181,notice,explicit,N00039-23-RFPREQ-PMW-760-0031,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-760-0031,N00039-23-RFPREQ-PMW-760-0031,181,office,explicit,PMW-760,pmw:760,LRAE Annex 25!C181; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-760-0032,N00039-23-RFPREQ-PMW-760-0032,182,contact,explicit,"Griffin, Brian",cobs:lrae:pmw-760:griffinbrian,LRAE Annex 25!T182,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-760-0032,N00039-23-RFPREQ-PMW-760-0032,182,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V182,secondary_poc has no contact observation for pmw:760
+N00039-23-RFPREQ-PMW-760-0032,N00039-23-RFPREQ-PMW-760-0032,182,notice,explicit,N00039-23-RFPREQ-PMW-760-0032,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-760-0032,N00039-23-RFPREQ-PMW-760-0032,182,office,explicit,PMW-760,pmw:760,LRAE Annex 25!C182; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-150-0069,N00039-23-RFPREQ-PMW-150-0069,183,contact,explicit,"Griffin, Brian",cobs:lrae:pmw-150:griffinbrian,LRAE Annex 25!T183,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-150-0069,N00039-23-RFPREQ-PMW-150-0069,183,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V183,secondary_poc has no contact observation for pmw:150
+N00039-23-RFPREQ-PMW-150-0069,N00039-23-RFPREQ-PMW-150-0069,183,notice,explicit,N00039-23-RFPREQ-PMW-150-0069,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-150-0069,N00039-23-RFPREQ-PMW-150-0069,183,office,explicit,PMW-150,pmw:150,LRAE Annex 25!C183; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-150-0059,N00039-23-RFPREQ-PMW-150-0059,184,contact,explicit,"Griffin, Brian",cobs:lrae:pmw-150:griffinbrian,LRAE Annex 25!T184,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-150-0059,N00039-23-RFPREQ-PMW-150-0059,184,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V184,secondary_poc has no contact observation for pmw:150
+N00039-23-RFPREQ-PMW-150-0059,N00039-23-RFPREQ-PMW-150-0059,184,notice,explicit,N00039-23-RFPREQ-PMW-150-0059,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-150-0059,N00039-23-RFPREQ-PMW-150-0059,184,office,explicit,PMW-150,pmw:150,LRAE Annex 25!C184; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-150-0033,N00039-23-RFPREQ-PMW-150-0033,187,contact,explicit,"HEARD, FELICIA",,LRAE Annex 25!T187,contracting_poc has no contact observation for pmw:150
+N00039-23-RFPREQ-PMW-150-0033,N00039-23-RFPREQ-PMW-150-0033,187,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V187,secondary_poc has no contact observation for pmw:150
+N00039-23-RFPREQ-PMW-150-0033,N00039-23-RFPREQ-PMW-150-0033,187,existing_contract,explicit,N0003921F3000,,,FPDS lookup not collected yet
+N00039-23-RFPREQ-PMW-150-0033,N00039-23-RFPREQ-PMW-150-0033,187,notice,explicit,N00039-23-RFPREQ-PMW-150-0033,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-150-0033,N00039-23-RFPREQ-PMW-150-0033,187,notice,explicit,N0003921F3000,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-150-0033,N00039-23-RFPREQ-PMW-150-0033,187,office,explicit,PMW-150,pmw:150,LRAE Annex 25!C187; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMA/PMW-101-0010,N00039-23-RFPREQ-PMA/PMW-101-0010,189,contact,explicit,"HEARD, FELICIA",,LRAE Annex 25!T189,contracting_poc has no contact observation for pmw:101
+N00039-23-RFPREQ-PMA/PMW-101-0010,N00039-23-RFPREQ-PMA/PMW-101-0010,189,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V189,secondary_poc has no contact observation for pmw:101
+N00039-23-RFPREQ-PMA/PMW-101-0010,N00039-23-RFPREQ-PMA/PMW-101-0010,189,existing_contract,explicit,N0003921F3011,,,FPDS lookup not collected yet
+N00039-23-RFPREQ-PMA/PMW-101-0010,N00039-23-RFPREQ-PMA/PMW-101-0010,189,notice,explicit,N00039-23-RFPREQ-PMA/PMW-101-0010,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMA/PMW-101-0010,N00039-23-RFPREQ-PMA/PMW-101-0010,189,notice,explicit,N0003921F3011,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMA/PMW-101-0010,N00039-23-RFPREQ-PMA/PMW-101-0010,189,office,explicit,PMA/PMW-101,pmw:101,LRAE Annex 25!C189; organization_seed.json alias table,requirement-office code matched an alias
+N00039-26-RFPREQ-PMW/A-170-0001,N00039-26-RFPREQ-PMW/A-170-0001,191,contact,explicit,"Holtet, Alexander",cobs:lrae:pmw-170:holtetalexander,LRAE Annex 25!T191,contracting_poc on the row matches a contact observation for the same office
+N00039-26-RFPREQ-PMW/A-170-0001,N00039-26-RFPREQ-PMW/A-170-0001,191,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V191,secondary_poc has no contact observation for pmw:170
+N00039-26-RFPREQ-PMW/A-170-0001,N00039-26-RFPREQ-PMW/A-170-0001,191,notice,explicit,N00039-26-RFPREQ-PMW/A-170-0001,,,SAM.gov search not collected yet
+N00039-26-RFPREQ-PMW/A-170-0001,N00039-26-RFPREQ-PMW/A-170-0001,191,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C191; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0133,N00039-23-RFPREQ-PMW/A-170-0133,192,contact,explicit,"Holtet, Alexander",cobs:lrae:pmw-170:holtetalexander,LRAE Annex 25!T192,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0133,N00039-23-RFPREQ-PMW/A-170-0133,192,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V192,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0133,N00039-23-RFPREQ-PMW/A-170-0133,192,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0133,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0133,N00039-23-RFPREQ-PMW/A-170-0133,192,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C192; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0230,N00039-23-RFPREQ-PMW/A-170-0230,193,contact,explicit,"Holtet, Alexander",cobs:lrae:pmw-170:holtetalexander,LRAE Annex 25!T193,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0230,N00039-23-RFPREQ-PMW/A-170-0230,193,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V193,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0230,N00039-23-RFPREQ-PMW/A-170-0230,193,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0230,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0230,N00039-23-RFPREQ-PMW/A-170-0230,193,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C193; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0185,N00039-23-RFPREQ-PMW/A-170-0185,194,contact,explicit,"Holtet, Alexander",cobs:lrae:pmw-170:holtetalexander,LRAE Annex 25!T194,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0185,N00039-23-RFPREQ-PMW/A-170-0185,194,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V194,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0185,N00039-23-RFPREQ-PMW/A-170-0185,194,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0185,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0185,N00039-23-RFPREQ-PMW/A-170-0185,194,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C194; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0163,N00039-23-RFPREQ-PMW/A-170-0163,195,contact,explicit,"Holtet, Alexander",cobs:lrae:pmw-170:holtetalexander,LRAE Annex 25!T195,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0163,N00039-23-RFPREQ-PMW/A-170-0163,195,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V195,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0163,N00039-23-RFPREQ-PMW/A-170-0163,195,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0163,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0163,N00039-23-RFPREQ-PMW/A-170-0163,195,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C195; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0180,N00039-23-RFPREQ-PMW/A-170-0180,196,contact,explicit,"Holtet, Alexander",cobs:lrae:pmw-170:holtetalexander,LRAE Annex 25!T196,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0180,N00039-23-RFPREQ-PMW/A-170-0180,196,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V196,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0180,N00039-23-RFPREQ-PMW/A-170-0180,196,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0180,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0180,N00039-23-RFPREQ-PMW/A-170-0180,196,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C196; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0181,N00039-23-RFPREQ-PMW/A-170-0181,197,contact,explicit,"Holtet, Alexander",cobs:lrae:pmw-170:holtetalexander,LRAE Annex 25!T197,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0181,N00039-23-RFPREQ-PMW/A-170-0181,197,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V197,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0181,N00039-23-RFPREQ-PMW/A-170-0181,197,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0181,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0181,N00039-23-RFPREQ-PMW/A-170-0181,197,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C197; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0182,N00039-23-RFPREQ-PMW/A-170-0182,198,contact,explicit,"Holtet, Alexander",cobs:lrae:pmw-170:holtetalexander,LRAE Annex 25!T198,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0182,N00039-23-RFPREQ-PMW/A-170-0182,198,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V198,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0182,N00039-23-RFPREQ-PMW/A-170-0182,198,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0182,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0182,N00039-23-RFPREQ-PMW/A-170-0182,198,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C198; organization_seed.json alias table,requirement-office code matched an alias
+N00039-24-RFPREQ-PMW/A-170-0005,N00039-24-RFPREQ-PMW/A-170-0005,199,contact,explicit,"Holtet, Alexander",cobs:lrae:pmw-170:holtetalexander,LRAE Annex 25!T199,contracting_poc on the row matches a contact observation for the same office
+N00039-24-RFPREQ-PMW/A-170-0005,N00039-24-RFPREQ-PMW/A-170-0005,199,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V199,secondary_poc has no contact observation for pmw:170
+N00039-24-RFPREQ-PMW/A-170-0005,N00039-24-RFPREQ-PMW/A-170-0005,199,notice,explicit,N00039-24-RFPREQ-PMW/A-170-0005,,,SAM.gov search not collected yet
+N00039-24-RFPREQ-PMW/A-170-0005,N00039-24-RFPREQ-PMW/A-170-0005,199,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C199; organization_seed.json alias table,requirement-office code matched an alias
+N00039-24-RFPREQ-PMW/A-170-0006,N00039-24-RFPREQ-PMW/A-170-0006,200,contact,explicit,"Holtet, Alexander",cobs:lrae:pmw-170:holtetalexander,LRAE Annex 25!T200,contracting_poc on the row matches a contact observation for the same office
+N00039-24-RFPREQ-PMW/A-170-0006,N00039-24-RFPREQ-PMW/A-170-0006,200,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V200,secondary_poc has no contact observation for pmw:170
+N00039-24-RFPREQ-PMW/A-170-0006,N00039-24-RFPREQ-PMW/A-170-0006,200,notice,explicit,N00039-24-RFPREQ-PMW/A-170-0006,,,SAM.gov search not collected yet
+N00039-24-RFPREQ-PMW/A-170-0006,N00039-24-RFPREQ-PMW/A-170-0006,200,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C200; organization_seed.json alias table,requirement-office code matched an alias
+N00039-24-RFPREQ-PMW/A-170-0007,N00039-24-RFPREQ-PMW/A-170-0007,201,contact,explicit,"Holtet, Alexander",cobs:lrae:pmw-170:holtetalexander,LRAE Annex 25!T201,contracting_poc on the row matches a contact observation for the same office
+N00039-24-RFPREQ-PMW/A-170-0007,N00039-24-RFPREQ-PMW/A-170-0007,201,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V201,secondary_poc has no contact observation for pmw:170
+N00039-24-RFPREQ-PMW/A-170-0007,N00039-24-RFPREQ-PMW/A-170-0007,201,notice,explicit,N00039-24-RFPREQ-PMW/A-170-0007,,,SAM.gov search not collected yet
+N00039-24-RFPREQ-PMW/A-170-0007,N00039-24-RFPREQ-PMW/A-170-0007,201,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C201; organization_seed.json alias table,requirement-office code matched an alias
+N00039-24-RFPREQ-PMW/A-170-0008,N00039-24-RFPREQ-PMW/A-170-0008,202,contact,explicit,"Holtet, Alexander",cobs:lrae:pmw-170:holtetalexander,LRAE Annex 25!T202,contracting_poc on the row matches a contact observation for the same office
+N00039-24-RFPREQ-PMW/A-170-0008,N00039-24-RFPREQ-PMW/A-170-0008,202,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V202,secondary_poc has no contact observation for pmw:170
+N00039-24-RFPREQ-PMW/A-170-0008,N00039-24-RFPREQ-PMW/A-170-0008,202,notice,explicit,N00039-24-RFPREQ-PMW/A-170-0008,,,SAM.gov search not collected yet
+N00039-24-RFPREQ-PMW/A-170-0008,N00039-24-RFPREQ-PMW/A-170-0008,202,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C202; organization_seed.json alias table,requirement-office code matched an alias
+N00039-24-RFPREQ-PMW/A-170-0009,N00039-24-RFPREQ-PMW/A-170-0009,203,contact,explicit,"Holtet, Alexander",cobs:lrae:pmw-170:holtetalexander,LRAE Annex 25!T203,contracting_poc on the row matches a contact observation for the same office
+N00039-24-RFPREQ-PMW/A-170-0009,N00039-24-RFPREQ-PMW/A-170-0009,203,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V203,secondary_poc has no contact observation for pmw:170
+N00039-24-RFPREQ-PMW/A-170-0009,N00039-24-RFPREQ-PMW/A-170-0009,203,notice,explicit,N00039-24-RFPREQ-PMW/A-170-0009,,,SAM.gov search not collected yet
+N00039-24-RFPREQ-PMW/A-170-0009,N00039-24-RFPREQ-PMW/A-170-0009,203,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C203; organization_seed.json alias table,requirement-office code matched an alias
+N00039-24-RFPREQ-PMW/A-170-0010,N00039-24-RFPREQ-PMW/A-170-0010,204,contact,explicit,"Holtet, Alexander",cobs:lrae:pmw-170:holtetalexander,LRAE Annex 25!T204,contracting_poc on the row matches a contact observation for the same office
+N00039-24-RFPREQ-PMW/A-170-0010,N00039-24-RFPREQ-PMW/A-170-0010,204,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V204,secondary_poc has no contact observation for pmw:170
+N00039-24-RFPREQ-PMW/A-170-0010,N00039-24-RFPREQ-PMW/A-170-0010,204,notice,explicit,N00039-24-RFPREQ-PMW/A-170-0010,,,SAM.gov search not collected yet
+N00039-24-RFPREQ-PMW/A-170-0010,N00039-24-RFPREQ-PMW/A-170-0010,204,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C204; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0014,N00039-23-RFPREQ-PMW/A-170-0014,205,contact,explicit,"Holtet, Alexander",cobs:lrae:pmw-170:holtetalexander,LRAE Annex 25!T205,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0014,N00039-23-RFPREQ-PMW/A-170-0014,205,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V205,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0014,N00039-23-RFPREQ-PMW/A-170-0014,205,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0014,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0014,N00039-23-RFPREQ-PMW/A-170-0014,205,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C205; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0015,N00039-23-RFPREQ-PMW/A-170-0015,206,contact,explicit,"Holtet, Alexander",cobs:lrae:pmw-170:holtetalexander,LRAE Annex 25!T206,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0015,N00039-23-RFPREQ-PMW/A-170-0015,206,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V206,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0015,N00039-23-RFPREQ-PMW/A-170-0015,206,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0015,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0015,N00039-23-RFPREQ-PMW/A-170-0015,206,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C206; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0220,N00039-23-RFPREQ-PMW/A-170-0220,207,contact,explicit,"Holtet, Alexander",cobs:lrae:pmw-170:holtetalexander,LRAE Annex 25!T207,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0220,N00039-23-RFPREQ-PMW/A-170-0220,207,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V207,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0220,N00039-23-RFPREQ-PMW/A-170-0220,207,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0220,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0220,N00039-23-RFPREQ-PMW/A-170-0220,207,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C207; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-160-0001,N00039-23-RFPREQ-PMW-160-0001,208,contact,explicit,"Johnson, Jeannie",,LRAE Annex 25!T208,contracting_poc has no contact observation for pmw:160
+N00039-23-RFPREQ-PMW-160-0001,N00039-23-RFPREQ-PMW-160-0001,208,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V208,secondary_poc has no contact observation for pmw:160
+N00039-23-RFPREQ-PMW-160-0001,N00039-23-RFPREQ-PMW-160-0001,208,notice,explicit,N00039-23-RFPREQ-PMW-160-0001,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-160-0001,N00039-23-RFPREQ-PMW-160-0001,208,office,explicit,PMW-160,pmw:160,LRAE Annex 25!C208; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-160-0002,N00039-23-RFPREQ-PMW-160-0002,209,contact,explicit,"Johnson, Jeannie",,LRAE Annex 25!T209,contracting_poc has no contact observation for pmw:160
+N00039-23-RFPREQ-PMW-160-0002,N00039-23-RFPREQ-PMW-160-0002,209,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V209,secondary_poc has no contact observation for pmw:160
+N00039-23-RFPREQ-PMW-160-0002,N00039-23-RFPREQ-PMW-160-0002,209,notice,explicit,N00039-23-RFPREQ-PMW-160-0002,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-160-0002,N00039-23-RFPREQ-PMW-160-0002,209,office,explicit,PMW-160,pmw:160,LRAE Annex 25!C209; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0108,N00039-23-RFPREQ-PMW/A-170-0108,221,contact,explicit,"Joworski, Tyler",cobs:lrae:pmw-170:joworskityler,LRAE Annex 25!T221,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0108,N00039-23-RFPREQ-PMW/A-170-0108,221,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V221,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0108,N00039-23-RFPREQ-PMW/A-170-0108,221,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0108,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0108,N00039-23-RFPREQ-PMW/A-170-0108,221,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C221; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0113,N00039-23-RFPREQ-PMW/A-170-0113,222,contact,explicit,"Joworski, Tyler",cobs:lrae:pmw-170:joworskityler,LRAE Annex 25!T222,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0113,N00039-23-RFPREQ-PMW/A-170-0113,222,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V222,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0113,N00039-23-RFPREQ-PMW/A-170-0113,222,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0113,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0113,N00039-23-RFPREQ-PMW/A-170-0113,222,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C222; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0114,N00039-23-RFPREQ-PMW/A-170-0114,223,contact,explicit,"Joworski, Tyler",cobs:lrae:pmw-170:joworskityler,LRAE Annex 25!T223,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0114,N00039-23-RFPREQ-PMW/A-170-0114,223,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V223,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0114,N00039-23-RFPREQ-PMW/A-170-0114,223,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0114,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0114,N00039-23-RFPREQ-PMW/A-170-0114,223,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C223; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0115,N00039-23-RFPREQ-PMW/A-170-0115,224,contact,explicit,"Joworski, Tyler",cobs:lrae:pmw-170:joworskityler,LRAE Annex 25!T224,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0115,N00039-23-RFPREQ-PMW/A-170-0115,224,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V224,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0115,N00039-23-RFPREQ-PMW/A-170-0115,224,existing_contract,explicit,Secret,,LRAE Annex 25!O224,no contract identifier pattern recognised in the cell
+N00039-23-RFPREQ-PMW/A-170-0115,N00039-23-RFPREQ-PMW/A-170-0115,224,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0115,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0115,N00039-23-RFPREQ-PMW/A-170-0115,224,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C224; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0173,N00039-23-RFPREQ-PMW/A-170-0173,374,contact,explicit,"Murr, Christopher",cobs:lrae:pmw-170:murrchristopher,LRAE Annex 25!T374,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0173,N00039-23-RFPREQ-PMW/A-170-0173,374,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V374,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0173,N00039-23-RFPREQ-PMW/A-170-0173,374,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0173,,sha256:5433ffa10c51c433da789ad503e696d05ad9c7e8147577bf9ac85afa1ce8c628; sha256:e1c40e1d283e2c6c39f73dc91398f086c3388ba918cee06c56a09562998a123b,SAM.gov search returned no notice containing the key
+N00039-23-RFPREQ-PMW/A-170-0173,N00039-23-RFPREQ-PMW/A-170-0173,374,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C374; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0191,N00039-23-RFPREQ-PMW/A-170-0191,375,contact,explicit,"Murr, Christopher",cobs:lrae:pmw-170:murrchristopher,LRAE Annex 25!T375,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0191,N00039-23-RFPREQ-PMW/A-170-0191,375,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V375,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0191,N00039-23-RFPREQ-PMW/A-170-0191,375,existing_contract,explicit,HC1013-20-C-0005,,LRAE Annex 25!O375,no contract identifier pattern recognised in the cell
+N00039-23-RFPREQ-PMW/A-170-0191,N00039-23-RFPREQ-PMW/A-170-0191,375,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0191,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0191,N00039-23-RFPREQ-PMW/A-170-0191,375,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C375; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0255,N00039-23-RFPREQ-PMW/A-170-0255,376,contact,explicit,"Murr, Christopher",cobs:lrae:pmw-170:murrchristopher,LRAE Annex 25!T376,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0255,N00039-23-RFPREQ-PMW/A-170-0255,376,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V376,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0255,N00039-23-RFPREQ-PMW/A-170-0255,376,existing_contract,explicit,N6833522C0473,,,FPDS lookup not collected yet
+N00039-23-RFPREQ-PMW/A-170-0255,N00039-23-RFPREQ-PMW/A-170-0255,376,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0255,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0255,N00039-23-RFPREQ-PMW/A-170-0255,376,notice,explicit,N6833522C0473,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0255,N00039-23-RFPREQ-PMW/A-170-0255,376,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C376; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0259,N00039-23-RFPREQ-PMW/A-170-0259,377,contact,explicit,"Murr, Christopher",cobs:lrae:pmw-170:murrchristopher,LRAE Annex 25!T377,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0259,N00039-23-RFPREQ-PMW/A-170-0259,377,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V377,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0259,N00039-23-RFPREQ-PMW/A-170-0259,377,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0259,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0259,N00039-23-RFPREQ-PMW/A-170-0259,377,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C377; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0275,N00039-23-RFPREQ-PMW/A-170-0275,378,contact,explicit,"Murr, Christopher",cobs:lrae:pmw-170:murrchristopher,LRAE Annex 25!T378,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0275,N00039-23-RFPREQ-PMW/A-170-0275,378,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V378,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0275,N00039-23-RFPREQ-PMW/A-170-0275,378,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0275,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0275,N00039-23-RFPREQ-PMW/A-170-0275,378,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C378; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0256,N00039-23-RFPREQ-PMW/A-170-0256,379,contact,explicit,"Murr, Christopher",cobs:lrae:pmw-170:murrchristopher,LRAE Annex 25!T379,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0256,N00039-23-RFPREQ-PMW/A-170-0256,379,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V379,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0256,N00039-23-RFPREQ-PMW/A-170-0256,379,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0256,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0256,N00039-23-RFPREQ-PMW/A-170-0256,379,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C379; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0241,N00039-23-RFPREQ-PMW/A-170-0241,380,contact,explicit,"Murr, Christopher",cobs:lrae:pmw-170:murrchristopher,LRAE Annex 25!T380,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0241,N00039-23-RFPREQ-PMW/A-170-0241,380,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V380,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0241,N00039-23-RFPREQ-PMW/A-170-0241,380,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0241,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0241,N00039-23-RFPREQ-PMW/A-170-0241,380,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C380; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0229,N00039-23-RFPREQ-PMW/A-170-0229,381,contact,explicit,"Murr, Christopher",cobs:lrae:pmw-170:murrchristopher,LRAE Annex 25!T381,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0229,N00039-23-RFPREQ-PMW/A-170-0229,381,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V381,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0229,N00039-23-RFPREQ-PMW/A-170-0229,381,existing_contract,explicit,N6833522C0216,,,FPDS lookup not collected yet
+N00039-23-RFPREQ-PMW/A-170-0229,N00039-23-RFPREQ-PMW/A-170-0229,381,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0229,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0229,N00039-23-RFPREQ-PMW/A-170-0229,381,notice,explicit,N6833522C0216,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0229,N00039-23-RFPREQ-PMW/A-170-0229,381,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C381; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0223,N00039-23-RFPREQ-PMW/A-170-0223,382,contact,explicit,"Murr, Christopher",cobs:lrae:pmw-170:murrchristopher,LRAE Annex 25!T382,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0223,N00039-23-RFPREQ-PMW/A-170-0223,382,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V382,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0223,N00039-23-RFPREQ-PMW/A-170-0223,382,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0223,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0223,N00039-23-RFPREQ-PMW/A-170-0223,382,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C382; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0155,N00039-23-RFPREQ-PMW/A-170-0155,383,contact,explicit,"Murr, Christopher",cobs:lrae:pmw-170:murrchristopher,LRAE Annex 25!T383,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0155,N00039-23-RFPREQ-PMW/A-170-0155,383,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V383,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0155,N00039-23-RFPREQ-PMW/A-170-0155,383,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0155,,sha256:309e7fd04b844fc5572d688648e64500be0d724ec81c31bd8d504ef52c5b80ac; sha256:5a740de980d1f1b5ccbe08e32d61ddb07cc9ebe51a202bd726166ce833c164b1,SAM.gov search returned no notice containing the key
+N00039-23-RFPREQ-PMW/A-170-0155,N00039-23-RFPREQ-PMW/A-170-0155,383,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C383; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0174,N00039-23-RFPREQ-PMW/A-170-0174,384,contact,explicit,"Murr, Christopher",cobs:lrae:pmw-170:murrchristopher,LRAE Annex 25!T384,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0174,N00039-23-RFPREQ-PMW/A-170-0174,384,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V384,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0174,N00039-23-RFPREQ-PMW/A-170-0174,384,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0174,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0174,N00039-23-RFPREQ-PMW/A-170-0174,384,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C384; organization_seed.json alias table,requirement-office code matched an alias
+N00039-22-RFPREQ-PMW/A-170-0021,N00039-22-RFPREQ-PMW/A-170-0021,385,contact,explicit,"Murr, Christopher",cobs:lrae:pmw-170:murrchristopher,LRAE Annex 25!T385,contracting_poc on the row matches a contact observation for the same office
+N00039-22-RFPREQ-PMW/A-170-0021,N00039-22-RFPREQ-PMW/A-170-0021,385,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V385,secondary_poc has no contact observation for pmw:170
+N00039-22-RFPREQ-PMW/A-170-0021,N00039-22-RFPREQ-PMW/A-170-0021,385,existing_contract,explicit,N0003916C0050,fpds:N0003916C0050,sha256:0229a9640ee66cd74c7e15780168767a5cdef6aed6f327edd4acc98e80d875a9,FPDS entries=10; contracting N00039; funding N00039; vendor RAYTHEON COMPANY; idv -; first signed 2015-12-29
+N00039-22-RFPREQ-PMW/A-170-0021,N00039-22-RFPREQ-PMW/A-170-0021,385,notice,explicit,N00039-22-RFPREQ-PMW/A-170-0021,,sha256:c99b923c4a7cc3a0f781adc27ee0e37adad3fe6c6e0981ef670375174d0dd681; sha256:2ed8c610fe6a438b9524594d3c345eaf3bc0ee08d67701b60b9ff0ed97405b60,SAM.gov search returned no notice containing the key
+N00039-22-RFPREQ-PMW/A-170-0021,N00039-22-RFPREQ-PMW/A-170-0021,385,notice,explicit,N0003916C0050,,sha256:4006fa044a1585e0c9c3f803d14de43c614e911d746081ad6a9b632b763662ec; sha256:804495c9f4bddbc220c4f74d40868fe801a9f1123211fd65d3d1acb66d487f8a,SAM.gov search returned no notice containing the key
+N00039-22-RFPREQ-PMW/A-170-0021,N00039-22-RFPREQ-PMW/A-170-0021,385,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C385; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0105,N00039-23-RFPREQ-PMW/A-170-0105,386,contact,explicit,"Murr, Christopher",cobs:lrae:pmw-170:murrchristopher,LRAE Annex 25!T386,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0105,N00039-23-RFPREQ-PMW/A-170-0105,386,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V386,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0105,N00039-23-RFPREQ-PMW/A-170-0105,386,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0105,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0105,N00039-23-RFPREQ-PMW/A-170-0105,386,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C386; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0106,N00039-23-RFPREQ-PMW/A-170-0106,387,contact,explicit,"Murr, Christopher",cobs:lrae:pmw-170:murrchristopher,LRAE Annex 25!T387,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0106,N00039-23-RFPREQ-PMW/A-170-0106,387,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V387,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0106,N00039-23-RFPREQ-PMW/A-170-0106,387,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0106,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0106,N00039-23-RFPREQ-PMW/A-170-0106,387,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C387; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0012,N00039-23-RFPREQ-PMW/A-170-0012,388,contact,explicit,"Murr, Christopher",cobs:lrae:pmw-170:murrchristopher,LRAE Annex 25!T388,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0012,N00039-23-RFPREQ-PMW/A-170-0012,388,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V388,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0012,N00039-23-RFPREQ-PMW/A-170-0012,388,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0012,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0012,N00039-23-RFPREQ-PMW/A-170-0012,388,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C388; organization_seed.json alias table,requirement-office code matched an alias
+N00039-24-RFPREQ-PMW/A-170-0001,N00039-24-RFPREQ-PMW/A-170-0001,389,contact,explicit,"Murr, Christopher",cobs:lrae:pmw-170:murrchristopher,LRAE Annex 25!T389,contracting_poc on the row matches a contact observation for the same office
+N00039-24-RFPREQ-PMW/A-170-0001,N00039-24-RFPREQ-PMW/A-170-0001,389,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V389,secondary_poc has no contact observation for pmw:170
+N00039-24-RFPREQ-PMW/A-170-0001,N00039-24-RFPREQ-PMW/A-170-0001,389,notice,explicit,N00039-24-RFPREQ-PMW/A-170-0001,,,SAM.gov search not collected yet
+N00039-24-RFPREQ-PMW/A-170-0001,N00039-24-RFPREQ-PMW/A-170-0001,389,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C389; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0013,N00039-23-RFPREQ-PMW/A-170-0013,390,contact,explicit,"Murr, Christopher",cobs:lrae:pmw-170:murrchristopher,LRAE Annex 25!T390,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0013,N00039-23-RFPREQ-PMW/A-170-0013,390,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V390,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0013,N00039-23-RFPREQ-PMW/A-170-0013,390,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0013,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0013,N00039-23-RFPREQ-PMW/A-170-0013,390,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C390; organization_seed.json alias table,requirement-office code matched an alias
+N00039-24-RFPREQ-PMW/A-170-0002,N00039-24-RFPREQ-PMW/A-170-0002,391,contact,explicit,"Murr, Christopher",cobs:lrae:pmw-170:murrchristopher,LRAE Annex 25!T391,contracting_poc on the row matches a contact observation for the same office
+N00039-24-RFPREQ-PMW/A-170-0002,N00039-24-RFPREQ-PMW/A-170-0002,391,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V391,secondary_poc has no contact observation for pmw:170
+N00039-24-RFPREQ-PMW/A-170-0002,N00039-24-RFPREQ-PMW/A-170-0002,391,notice,explicit,N00039-24-RFPREQ-PMW/A-170-0002,,,SAM.gov search not collected yet
+N00039-24-RFPREQ-PMW/A-170-0002,N00039-24-RFPREQ-PMW/A-170-0002,391,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C391; organization_seed.json alias table,requirement-office code matched an alias
+N00039-22-RFPREQ-PMW/A-170-0002,N00039-22-RFPREQ-PMW/A-170-0002,392,contact,explicit,"Murr, Christopher",cobs:lrae:pmw-170:murrchristopher,LRAE Annex 25!T392,contracting_poc on the row matches a contact observation for the same office
+N00039-22-RFPREQ-PMW/A-170-0002,N00039-22-RFPREQ-PMW/A-170-0002,392,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V392,secondary_poc has no contact observation for pmw:170
+N00039-22-RFPREQ-PMW/A-170-0002,N00039-22-RFPREQ-PMW/A-170-0002,392,existing_contract,explicit,N0003914C00041,,LRAE Annex 25!O392,no contract identifier pattern recognised in the cell
+N00039-22-RFPREQ-PMW/A-170-0002,N00039-22-RFPREQ-PMW/A-170-0002,392,notice,explicit,N00039-22-RFPREQ-PMW/A-170-0002,,sha256:3e55d3122dde8cd5ef692e5ce7e12c88d5d177c045225cc98590631a22cc19e6; sha256:5885ec570e2ee8f2e05a71c66868ea33d251bf8abf1e474510759770a078800f,SAM.gov search returned no notice containing the key
+N00039-22-RFPREQ-PMW/A-170-0002,N00039-22-RFPREQ-PMW/A-170-0002,392,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C392; organization_seed.json alias table,requirement-office code matched an alias
+N00039-22-RFPREQ-PMW/A-170-0003,N00039-22-RFPREQ-PMW/A-170-0003,393,contact,explicit,"Murr, Christopher",cobs:lrae:pmw-170:murrchristopher,LRAE Annex 25!T393,contracting_poc on the row matches a contact observation for the same office
+N00039-22-RFPREQ-PMW/A-170-0003,N00039-22-RFPREQ-PMW/A-170-0003,393,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V393,secondary_poc has no contact observation for pmw:170
+N00039-22-RFPREQ-PMW/A-170-0003,N00039-22-RFPREQ-PMW/A-170-0003,393,notice,explicit,N00039-22-RFPREQ-PMW/A-170-0003,,,SAM.gov search not collected yet
+N00039-22-RFPREQ-PMW/A-170-0003,N00039-22-RFPREQ-PMW/A-170-0003,393,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C393; organization_seed.json alias table,requirement-office code matched an alias
+N00039-22-RFPREQ-PMW/A-170-0004,N00039-22-RFPREQ-PMW/A-170-0004,394,contact,explicit,"Murr, Christopher",cobs:lrae:pmw-170:murrchristopher,LRAE Annex 25!T394,contracting_poc on the row matches a contact observation for the same office
+N00039-22-RFPREQ-PMW/A-170-0004,N00039-22-RFPREQ-PMW/A-170-0004,394,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V394,secondary_poc has no contact observation for pmw:170
+N00039-22-RFPREQ-PMW/A-170-0004,N00039-22-RFPREQ-PMW/A-170-0004,394,existing_contract,explicit,N0003918D0007,,,FPDS lookup not collected yet
+N00039-22-RFPREQ-PMW/A-170-0004,N00039-22-RFPREQ-PMW/A-170-0004,394,notice,explicit,N00039-22-RFPREQ-PMW/A-170-0004,,,SAM.gov search not collected yet
+N00039-22-RFPREQ-PMW/A-170-0004,N00039-22-RFPREQ-PMW/A-170-0004,394,notice,explicit,N0003918D0007,,,SAM.gov search not collected yet
+N00039-22-RFPREQ-PMW/A-170-0004,N00039-22-RFPREQ-PMW/A-170-0004,394,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C394; organization_seed.json alias table,requirement-office code matched an alias
+N00039-22-RFPREQ-PMW/A-170-0010,N00039-22-RFPREQ-PMW/A-170-0010,395,contact,explicit,"Murr, Christopher",cobs:lrae:pmw-170:murrchristopher,LRAE Annex 25!T395,contracting_poc on the row matches a contact observation for the same office
+N00039-22-RFPREQ-PMW/A-170-0010,N00039-22-RFPREQ-PMW/A-170-0010,395,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V395,secondary_poc has no contact observation for pmw:170
+N00039-22-RFPREQ-PMW/A-170-0010,N00039-22-RFPREQ-PMW/A-170-0010,395,notice,explicit,N00039-22-RFPREQ-PMW/A-170-0010,,,SAM.gov search not collected yet
+N00039-22-RFPREQ-PMW/A-170-0010,N00039-22-RFPREQ-PMW/A-170-0010,395,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C395; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-150-0014,N00039-23-RFPREQ-PMW-150-0014,396,contact,explicit,"Murr, Sarah",cobs:lrae:pmw-150:murrsarah,LRAE Annex 25!T396,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-150-0014,N00039-23-RFPREQ-PMW-150-0014,396,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V396,secondary_poc has no contact observation for pmw:150
+N00039-23-RFPREQ-PMW-150-0014,N00039-23-RFPREQ-PMW-150-0014,396,notice,explicit,N00039-23-RFPREQ-PMW-150-0014,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-150-0014,N00039-23-RFPREQ-PMW-150-0014,396,office,explicit,PMW-150,pmw:150,LRAE Annex 25!C396; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-120-0069,N00039-23-RFPREQ-PMW-120-0069,400,contact,explicit,"Murr, Sarah",,LRAE Annex 25!T400,contracting_poc has no contact observation for pmw:120; observed for cobs:lrae:pmw-150:murrsarah
+N00039-23-RFPREQ-PMW-120-0069,N00039-23-RFPREQ-PMW-120-0069,400,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V400,secondary_poc has no contact observation for pmw:120
+N00039-23-RFPREQ-PMW-120-0069,N00039-23-RFPREQ-PMW-120-0069,400,notice,explicit,N00039-23-RFPREQ-PMW-120-0069,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-120-0069,N00039-23-RFPREQ-PMW-120-0069,400,office,explicit,PMW-120,pmw:120,LRAE Annex 25!C400; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-120-0063,N00039-23-RFPREQ-PMW-120-0063,401,contact,explicit,"Murr, Sarah",,LRAE Annex 25!T401,contracting_poc has no contact observation for pmw:120; observed for cobs:lrae:pmw-150:murrsarah
+N00039-23-RFPREQ-PMW-120-0063,N00039-23-RFPREQ-PMW-120-0063,401,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V401,secondary_poc has no contact observation for pmw:120
+N00039-23-RFPREQ-PMW-120-0063,N00039-23-RFPREQ-PMW-120-0063,401,notice,explicit,N00039-23-RFPREQ-PMW-120-0063,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-120-0063,N00039-23-RFPREQ-PMW-120-0063,401,office,explicit,PMW-120,pmw:120,LRAE Annex 25!C401; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-120-0056,N00039-23-RFPREQ-PMW-120-0056,403,contact,explicit,"Murr, Sarah",,LRAE Annex 25!T403,contracting_poc has no contact observation for pmw:120; observed for cobs:lrae:pmw-150:murrsarah
+N00039-23-RFPREQ-PMW-120-0056,N00039-23-RFPREQ-PMW-120-0056,403,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V403,secondary_poc has no contact observation for pmw:120
+N00039-23-RFPREQ-PMW-120-0056,N00039-23-RFPREQ-PMW-120-0056,403,notice,explicit,N00039-23-RFPREQ-PMW-120-0056,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-120-0056,N00039-23-RFPREQ-PMW-120-0056,403,office,explicit,PMW-120,pmw:120,LRAE Annex 25!C403; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-120-0052,N00039-23-RFPREQ-PMW-120-0052,404,contact,explicit,"Murr, Sarah",,LRAE Annex 25!T404,contracting_poc has no contact observation for pmw:120; observed for cobs:lrae:pmw-150:murrsarah
+N00039-23-RFPREQ-PMW-120-0052,N00039-23-RFPREQ-PMW-120-0052,404,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V404,secondary_poc has no contact observation for pmw:120
+N00039-23-RFPREQ-PMW-120-0052,N00039-23-RFPREQ-PMW-120-0052,404,notice,explicit,N00039-23-RFPREQ-PMW-120-0052,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-120-0052,N00039-23-RFPREQ-PMW-120-0052,404,office,explicit,PMW-120,pmw:120,LRAE Annex 25!C404; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-150-0062,N00039-23-RFPREQ-PMW-150-0062,405,contact,explicit,"Murr, Sarah",cobs:lrae:pmw-150:murrsarah,LRAE Annex 25!T405,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-150-0062,N00039-23-RFPREQ-PMW-150-0062,405,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V405,secondary_poc has no contact observation for pmw:150
+N00039-23-RFPREQ-PMW-150-0062,N00039-23-RFPREQ-PMW-150-0062,405,notice,explicit,N00039-23-RFPREQ-PMW-150-0062,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-150-0062,N00039-23-RFPREQ-PMW-150-0062,405,office,explicit,PMW-150,pmw:150,LRAE Annex 25!C405; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-150-0063,N00039-23-RFPREQ-PMW-150-0063,406,contact,explicit,"Murr, Sarah",cobs:lrae:pmw-150:murrsarah,LRAE Annex 25!T406,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-150-0063,N00039-23-RFPREQ-PMW-150-0063,406,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V406,secondary_poc has no contact observation for pmw:150
+N00039-23-RFPREQ-PMW-150-0063,N00039-23-RFPREQ-PMW-150-0063,406,notice,explicit,N00039-23-RFPREQ-PMW-150-0063,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-150-0063,N00039-23-RFPREQ-PMW-150-0063,406,office,explicit,PMW-150,pmw:150,LRAE Annex 25!C406; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-150-0029,N00039-23-RFPREQ-PMW-150-0029,407,contact,explicit,"Murr, Sarah",cobs:lrae:pmw-150:murrsarah,LRAE Annex 25!T407,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-150-0029,N00039-23-RFPREQ-PMW-150-0029,407,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V407,secondary_poc has no contact observation for pmw:150
+N00039-23-RFPREQ-PMW-150-0029,N00039-23-RFPREQ-PMW-150-0029,407,notice,explicit,N00039-23-RFPREQ-PMW-150-0029,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-150-0029,N00039-23-RFPREQ-PMW-150-0029,407,office,explicit,PMW-150,pmw:150,LRAE Annex 25!C407; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-150-0007,N00039-23-RFPREQ-PMW-150-0007,408,contact,explicit,"Murr, Sarah",cobs:lrae:pmw-150:murrsarah,LRAE Annex 25!T408,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-150-0007,N00039-23-RFPREQ-PMW-150-0007,408,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V408,secondary_poc has no contact observation for pmw:150
+N00039-23-RFPREQ-PMW-150-0007,N00039-23-RFPREQ-PMW-150-0007,408,notice,explicit,N00039-23-RFPREQ-PMW-150-0007,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-150-0007,N00039-23-RFPREQ-PMW-150-0007,408,office,explicit,PMW-150,pmw:150,LRAE Annex 25!C408; organization_seed.json alias table,requirement-office code matched an alias
+N00039-25-RFPREQ-PMW/A-170-0001,N00039-25-RFPREQ-PMW/A-170-0001,409,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V409,secondary_poc has no contact observation for pmw:170
+N00039-25-RFPREQ-PMW/A-170-0001,N00039-25-RFPREQ-PMW/A-170-0001,409,contact,explicit,"Nickel, Kenneth",cobs:lrae:pmw-170:nickelkenneth,LRAE Annex 25!T409,contracting_poc on the row matches a contact observation for the same office
+N00039-25-RFPREQ-PMW/A-170-0001,N00039-25-RFPREQ-PMW/A-170-0001,409,notice,explicit,N00039-25-RFPREQ-PMW/A-170-0001,,sha256:b13a01aa6aa9b71eea9461efbfb4c744e2fa8c4b55df8230b25dfe06ca841ceb; sha256:26a59204b1eb596be2bdfeb06fc1f269f224bc9db9d5449814e285a5e91917a1,SAM.gov search returned no notice containing the key
+N00039-25-RFPREQ-PMW/A-170-0001,N00039-25-RFPREQ-PMW/A-170-0001,409,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C409; organization_seed.json alias table,requirement-office code matched an alias
+N00039-25-RFPREQ-PMW/A-170-0002,N00039-25-RFPREQ-PMW/A-170-0002,410,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V410,secondary_poc has no contact observation for pmw:170
+N00039-25-RFPREQ-PMW/A-170-0002,N00039-25-RFPREQ-PMW/A-170-0002,410,contact,explicit,"Nickel, Kenneth",cobs:lrae:pmw-170:nickelkenneth,LRAE Annex 25!T410,contracting_poc on the row matches a contact observation for the same office
+N00039-25-RFPREQ-PMW/A-170-0002,N00039-25-RFPREQ-PMW/A-170-0002,410,notice,explicit,N00039-25-RFPREQ-PMW/A-170-0002,,,SAM.gov search not collected yet
+N00039-25-RFPREQ-PMW/A-170-0002,N00039-25-RFPREQ-PMW/A-170-0002,410,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C410; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0194,N00039-23-RFPREQ-PMW/A-170-0194,411,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V411,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0194,N00039-23-RFPREQ-PMW/A-170-0194,411,contact,explicit,"Nickel, Kenneth",cobs:lrae:pmw-170:nickelkenneth,LRAE Annex 25!T411,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0194,N00039-23-RFPREQ-PMW/A-170-0194,411,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0194,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0194,N00039-23-RFPREQ-PMW/A-170-0194,411,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C411; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW/A-170-0148,N00039-23-RFPREQ-PMW/A-170-0148,412,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V412,secondary_poc has no contact observation for pmw:170
+N00039-23-RFPREQ-PMW/A-170-0148,N00039-23-RFPREQ-PMW/A-170-0148,412,contact,explicit,"Nickel, Kenneth",cobs:lrae:pmw-170:nickelkenneth,LRAE Annex 25!T412,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW/A-170-0148,N00039-23-RFPREQ-PMW/A-170-0148,412,notice,explicit,N00039-23-RFPREQ-PMW/A-170-0148,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW/A-170-0148,N00039-23-RFPREQ-PMW/A-170-0148,412,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C412; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMA/PMW-101-0014,N00039-23-RFPREQ-PMA/PMW-101-0014,413,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V413,secondary_poc has no contact observation for pmw:101
+N00039-23-RFPREQ-PMA/PMW-101-0014,N00039-23-RFPREQ-PMA/PMW-101-0014,413,contact,explicit,"Nickel, Lindsay",cobs:lrae:pmw-101:nickellindsay,LRAE Annex 25!T413,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMA/PMW-101-0014,N00039-23-RFPREQ-PMA/PMW-101-0014,413,notice,explicit,N00039-23-RFPREQ-PMA/PMW-101-0014,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMA/PMW-101-0014,N00039-23-RFPREQ-PMA/PMW-101-0014,413,office,explicit,PMA/PMW-101,pmw:101,LRAE Annex 25!C413; organization_seed.json alias table,requirement-office code matched an alias
+N00039-22-RFPREQ-PEO-C4I-0014,N00039-22-RFPREQ-PEO-C4I-0014,414,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V414,secondary_poc has no contact observation for peo:c4i
+N00039-22-RFPREQ-PEO-C4I-0014,N00039-22-RFPREQ-PEO-C4I-0014,414,contact,explicit,"Odonnell, Brian",cobs:lrae:peo-c4i:odonnellbrian,LRAE Annex 25!T414,contracting_poc on the row matches a contact observation for the same office
+N00039-22-RFPREQ-PEO-C4I-0014,N00039-22-RFPREQ-PEO-C4I-0014,414,notice,explicit,N00039-22-RFPREQ-PEO-C4I-0014,,,SAM.gov search not collected yet
+N00039-22-RFPREQ-PEO-C4I-0014,N00039-22-RFPREQ-PEO-C4I-0014,414,office,explicit,PEO-C4I,peo:c4i,LRAE Annex 25!C414; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-150-0040,N00039-23-RFPREQ-PMW-150-0040,415,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V415,secondary_poc has no contact observation for pmw:150
+N00039-23-RFPREQ-PMW-150-0040,N00039-23-RFPREQ-PMW-150-0040,415,contact,explicit,"Odonnell, Brian",cobs:lrae:pmw-150:odonnellbrian,LRAE Annex 25!T415,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-150-0040,N00039-23-RFPREQ-PMW-150-0040,415,existing_contract,explicit,N0003919F3501,,,FPDS lookup not collected yet
+N00039-23-RFPREQ-PMW-150-0040,N00039-23-RFPREQ-PMW-150-0040,415,notice,explicit,N00039-23-RFPREQ-PMW-150-0040,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-150-0040,N00039-23-RFPREQ-PMW-150-0040,415,notice,explicit,N0003919F3501,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-150-0040,N00039-23-RFPREQ-PMW-150-0040,415,office,explicit,PMW-150,pmw:150,LRAE Annex 25!C415; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-790-0021,N00039-23-RFPREQ-PMW-790-0021,416,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V416,secondary_poc has no contact observation for pmw:790
+N00039-23-RFPREQ-PMW-790-0021,N00039-23-RFPREQ-PMW-790-0021,416,contact,explicit,"Odonnell, Brian",cobs:lrae:pmw-790:odonnellbrian,LRAE Annex 25!T416,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-790-0021,N00039-23-RFPREQ-PMW-790-0021,416,existing_contract,explicit,N0003917F3006,,,FPDS lookup not collected yet
+N00039-23-RFPREQ-PMW-790-0021,N00039-23-RFPREQ-PMW-790-0021,416,notice,explicit,N00039-23-RFPREQ-PMW-790-0021,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-790-0021,N00039-23-RFPREQ-PMW-790-0021,416,notice,explicit,N0003917F3006,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-790-0021,N00039-23-RFPREQ-PMW-790-0021,416,office,explicit,PMW-790,pmw:790,LRAE Annex 25!C416; organization_seed.json alias table,requirement-office code matched an alias
+N00039-24-RFPREQ-PMW-120-0001,N00039-24-RFPREQ-PMW-120-0001,417,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V417,secondary_poc has no contact observation for pmw:120
+N00039-24-RFPREQ-PMW-120-0001,N00039-24-RFPREQ-PMW-120-0001,417,contact,explicit,"Odonnell, Brian",cobs:lrae:pmw-120:odonnellbrian,LRAE Annex 25!T417,contracting_poc on the row matches a contact observation for the same office
+N00039-24-RFPREQ-PMW-120-0001,N00039-24-RFPREQ-PMW-120-0001,417,notice,explicit,N00039-24-RFPREQ-PMW-120-0001,,sha256:ccc6882129a236c872413e78f6561f904ceb395bf6ef3e9b19756caf30ad380a; sha256:44a25f53f5cf3790f888b70034d2c7c45807814eeb32eab808984c3da8860c2f,SAM.gov search returned no notice containing the key
+N00039-24-RFPREQ-PMW-120-0001,N00039-24-RFPREQ-PMW-120-0001,417,notice,inferred,N00039-24-RFPREQ-PMW-120-0001,attribution:EX04,attribution_examples.json EX04,"forecast row linked to award N0003921F3003 by office, title and existing contract; 0 SAM.gov notice(s) cited on that award; evidence class directly_documented"
+N00039-24-RFPREQ-PMW-120-0001,N00039-24-RFPREQ-PMW-120-0001,417,office,explicit,PMW-120,pmw:120,LRAE Annex 25!C417; organization_seed.json alias table,requirement-office code matched an alias
+N00039-24-RFPREQ-PEO-C4I-0001,N00039-24-RFPREQ-PEO-C4I-0001,418,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V418,secondary_poc has no contact observation for peo:c4i
+N00039-24-RFPREQ-PEO-C4I-0001,N00039-24-RFPREQ-PEO-C4I-0001,418,contact,explicit,"Odonnell, Brian",cobs:lrae:peo-c4i:odonnellbrian,LRAE Annex 25!T418,contracting_poc on the row matches a contact observation for the same office
+N00039-24-RFPREQ-PEO-C4I-0001,N00039-24-RFPREQ-PEO-C4I-0001,418,notice,explicit,N00039-24-RFPREQ-PEO-C4I-0001,,sha256:058905addaf6ca80145e6ef6510424e2013aea2b7c93dcabfc6ec96890b0103f; sha256:d450703c76c848da0c371a6a941f33db5b6749237a94d08eaffd71cd5167538f,SAM.gov search returned no notice containing the key
+N00039-24-RFPREQ-PEO-C4I-0001,N00039-24-RFPREQ-PEO-C4I-0001,418,office,explicit,PEO-C4I,peo:c4i,LRAE Annex 25!C418; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PEO-C4I-0014,N00039-23-RFPREQ-PEO-C4I-0014,419,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V419,secondary_poc has no contact observation for peo:c4i
+N00039-23-RFPREQ-PEO-C4I-0014,N00039-23-RFPREQ-PEO-C4I-0014,419,contact,explicit,"Odonnell, Brian",cobs:lrae:peo-c4i:odonnellbrian,LRAE Annex 25!T419,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PEO-C4I-0014,N00039-23-RFPREQ-PEO-C4I-0014,419,notice,explicit,N00039-23-RFPREQ-PEO-C4I-0014,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PEO-C4I-0014,N00039-23-RFPREQ-PEO-C4I-0014,419,office,explicit,PEO-C4I,peo:c4i,LRAE Annex 25!C419; organization_seed.json alias table,requirement-office code matched an alias
+N00039-24-RFPREQ-PMW-770-0009,N00039-24-RFPREQ-PMW-770-0009,420,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V420,secondary_poc has no contact observation for pmw:770
+N00039-24-RFPREQ-PMW-770-0009,N00039-24-RFPREQ-PMW-770-0009,420,contact,explicit,"Odonnell, Brian",cobs:lrae:pmw-770:odonnellbrian,LRAE Annex 25!T420,contracting_poc on the row matches a contact observation for the same office
+N00039-24-RFPREQ-PMW-770-0009,N00039-24-RFPREQ-PMW-770-0009,420,existing_contract,explicit,N0003920F3014,,,FPDS lookup not collected yet
+N00039-24-RFPREQ-PMW-770-0009,N00039-24-RFPREQ-PMW-770-0009,420,notice,explicit,N00039-24-RFPREQ-PMW-770-0009,,sha256:54ad24e57939b7c10de89ad16993fc8ab03dc7e13820c3a3e719ea13dd99e914; sha256:d64834c856f625dd91a2a15d292e2e9dae1d864bddf791fb80e45c5ae125d0ab,SAM.gov search returned no notice containing the key
+N00039-24-RFPREQ-PMW-770-0009,N00039-24-RFPREQ-PMW-770-0009,420,notice,explicit,N0003920F3014,,,SAM.gov search not collected yet
+N00039-24-RFPREQ-PMW-770-0009,N00039-24-RFPREQ-PMW-770-0009,420,office,explicit,PMW-770,pmw:770,LRAE Annex 25!C420; organization_seed.json alias table,requirement-office code matched an alias
+N00039-22-RFPREQ-PMW-790-0002,N00039-22-RFPREQ-PMW-790-0002,423,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V423,secondary_poc has no contact observation for pmw:790
+N00039-22-RFPREQ-PMW-790-0002,N00039-22-RFPREQ-PMW-790-0002,423,contact,explicit,"Radaford, Heidi",,LRAE Annex 25!T423,contracting_poc has no contact observation for pmw:790
+N00039-22-RFPREQ-PMW-790-0002,N00039-22-RFPREQ-PMW-790-0002,423,notice,explicit,N00039-22-RFPREQ-PMW-790-0002,,,SAM.gov search not collected yet
+N00039-22-RFPREQ-PMW-790-0002,N00039-22-RFPREQ-PMW-790-0002,423,office,explicit,PMW-790,pmw:790,LRAE Annex 25!C423; organization_seed.json alias table,requirement-office code matched an alias
+N00039-22-RFPREQ-PMW-790-0034,N00039-22-RFPREQ-PMW-790-0034,424,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V424,secondary_poc has no contact observation for pmw:790
+N00039-22-RFPREQ-PMW-790-0034,N00039-22-RFPREQ-PMW-790-0034,424,contact,explicit,"Radaford, Heidi",,LRAE Annex 25!T424,contracting_poc has no contact observation for pmw:790
+N00039-22-RFPREQ-PMW-790-0034,N00039-22-RFPREQ-PMW-790-0034,424,notice,explicit,N00039-22-RFPREQ-PMW-790-0034,,,SAM.gov search not collected yet
+N00039-22-RFPREQ-PMW-790-0034,N00039-22-RFPREQ-PMW-790-0034,424,office,explicit,PMW-790,pmw:790,LRAE Annex 25!C424; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-770-0004,N00039-23-RFPREQ-PMW-770-0004,425,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V425,secondary_poc has no contact observation for pmw:770
+N00039-23-RFPREQ-PMW-770-0004,N00039-23-RFPREQ-PMW-770-0004,425,contact,explicit,"Radaford, Heidi",,LRAE Annex 25!T425,contracting_poc has no contact observation for pmw:770
+N00039-23-RFPREQ-PMW-770-0004,N00039-23-RFPREQ-PMW-770-0004,425,existing_contract,explicit,N0003918C0033,,,FPDS lookup not collected yet
+N00039-23-RFPREQ-PMW-770-0004,N00039-23-RFPREQ-PMW-770-0004,425,notice,explicit,N00039-23-RFPREQ-PMW-770-0004,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-770-0004,N00039-23-RFPREQ-PMW-770-0004,425,notice,explicit,N0003918C0033,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-770-0004,N00039-23-RFPREQ-PMW-770-0004,425,office,explicit,PMW-770,pmw:770,LRAE Annex 25!C425; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-770-0024,N00039-23-RFPREQ-PMW-770-0024,426,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V426,secondary_poc has no contact observation for pmw:770
+N00039-23-RFPREQ-PMW-770-0024,N00039-23-RFPREQ-PMW-770-0024,426,contact,explicit,"Radaford, Heidi",,LRAE Annex 25!T426,contracting_poc has no contact observation for pmw:770
+N00039-23-RFPREQ-PMW-770-0024,N00039-23-RFPREQ-PMW-770-0024,426,notice,explicit,N00039-23-RFPREQ-PMW-770-0024,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-770-0024,N00039-23-RFPREQ-PMW-770-0024,426,office,explicit,PMW-770,pmw:770,LRAE Annex 25!C426; organization_seed.json alias table,requirement-office code matched an alias
+N00039-24-RFPREQ-PMW-770-0008,N00039-24-RFPREQ-PMW-770-0008,427,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V427,secondary_poc has no contact observation for pmw:770
+N00039-24-RFPREQ-PMW-770-0008,N00039-24-RFPREQ-PMW-770-0008,427,contact,explicit,"Radaford, Heidi",,LRAE Annex 25!T427,contracting_poc has no contact observation for pmw:770
+N00039-24-RFPREQ-PMW-770-0008,N00039-24-RFPREQ-PMW-770-0008,427,notice,explicit,N00039-24-RFPREQ-PMW-770-0008,,sha256:6594a100582b4e78042aa00dd8f17838fe68089d7f2c7b39ee7ae2aefb374745; sha256:b628ac9fe5ce1147c02abb00a5270e2830b7267b3ed23e7e03a3ae5904e97d9a,SAM.gov search returned no notice containing the key
+N00039-24-RFPREQ-PMW-770-0008,N00039-24-RFPREQ-PMW-770-0008,427,office,explicit,PMW-770,pmw:770,LRAE Annex 25!C427; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-770-0034,N00039-23-RFPREQ-PMW-770-0034,428,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V428,secondary_poc has no contact observation for pmw:770
+N00039-23-RFPREQ-PMW-770-0034,N00039-23-RFPREQ-PMW-770-0034,428,contact,explicit,"Radaford, Heidi",,LRAE Annex 25!T428,contracting_poc has no contact observation for pmw:770
+N00039-23-RFPREQ-PMW-770-0034,N00039-23-RFPREQ-PMW-770-0034,428,existing_contract,explicit,N0003920C0013,,,FPDS lookup not collected yet
+N00039-23-RFPREQ-PMW-770-0034,N00039-23-RFPREQ-PMW-770-0034,428,notice,explicit,N00039-23-RFPREQ-PMW-770-0034,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-770-0034,N00039-23-RFPREQ-PMW-770-0034,428,notice,explicit,N0003920C0013,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-770-0034,N00039-23-RFPREQ-PMW-770-0034,428,office,explicit,PMW-770,pmw:770,LRAE Annex 25!C428; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-790-0011,N00039-23-RFPREQ-PMW-790-0011,429,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V429,secondary_poc has no contact observation for pmw:790
+N00039-23-RFPREQ-PMW-790-0011,N00039-23-RFPREQ-PMW-790-0011,429,contact,explicit,"Radaford, Heidi",,LRAE Annex 25!T429,contracting_poc has no contact observation for pmw:790
+N00039-23-RFPREQ-PMW-790-0011,N00039-23-RFPREQ-PMW-790-0011,429,notice,explicit,N00039-23-RFPREQ-PMW-790-0011,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-790-0011,N00039-23-RFPREQ-PMW-790-0011,429,office,explicit,PMW-790,pmw:790,LRAE Annex 25!C429; organization_seed.json alias table,requirement-office code matched an alias
+N00039-22-RFPREQ-PMW-790-0003,N00039-22-RFPREQ-PMW-790-0003,430,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V430,secondary_poc has no contact observation for pmw:790
+N00039-22-RFPREQ-PMW-790-0003,N00039-22-RFPREQ-PMW-790-0003,430,contact,explicit,"Radaford, Heidi",,LRAE Annex 25!T430,contracting_poc has no contact observation for pmw:790
+N00039-22-RFPREQ-PMW-790-0003,N00039-22-RFPREQ-PMW-790-0003,430,notice,explicit,N00039-22-RFPREQ-PMW-790-0003,,,SAM.gov search not collected yet
+N00039-22-RFPREQ-PMW-790-0003,N00039-22-RFPREQ-PMW-790-0003,430,office,explicit,PMW-790,pmw:790,LRAE Annex 25!C430; organization_seed.json alias table,requirement-office code matched an alias
+N00039-22-RFPREQ-PMW-790-0017,N00039-22-RFPREQ-PMW-790-0017,431,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V431,secondary_poc has no contact observation for pmw:790
+N00039-22-RFPREQ-PMW-790-0017,N00039-22-RFPREQ-PMW-790-0017,431,contact,explicit,"Radaford, Heidi",,LRAE Annex 25!T431,contracting_poc has no contact observation for pmw:790
+N00039-22-RFPREQ-PMW-790-0017,N00039-22-RFPREQ-PMW-790-0017,431,notice,explicit,N00039-22-RFPREQ-PMW-790-0017,,,SAM.gov search not collected yet
+N00039-22-RFPREQ-PMW-790-0017,N00039-22-RFPREQ-PMW-790-0017,431,office,explicit,PMW-790,pmw:790,LRAE Annex 25!C431; organization_seed.json alias table,requirement-office code matched an alias
+N00039-22-RFPREQ-PMW-790-0006,N00039-22-RFPREQ-PMW-790-0006,432,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V432,secondary_poc has no contact observation for pmw:790
+N00039-22-RFPREQ-PMW-790-0006,N00039-22-RFPREQ-PMW-790-0006,432,contact,explicit,"Radaford, Heidi",,LRAE Annex 25!T432,contracting_poc has no contact observation for pmw:790
+N00039-22-RFPREQ-PMW-790-0006,N00039-22-RFPREQ-PMW-790-0006,432,existing_contract,explicit,N0003916D0010,,,FPDS lookup not collected yet
+N00039-22-RFPREQ-PMW-790-0006,N00039-22-RFPREQ-PMW-790-0006,432,notice,explicit,N00039-22-RFPREQ-PMW-790-0006,,,SAM.gov search not collected yet
+N00039-22-RFPREQ-PMW-790-0006,N00039-22-RFPREQ-PMW-790-0006,432,notice,explicit,N0003916D0010,,,SAM.gov search not collected yet
+N00039-22-RFPREQ-PMW-790-0006,N00039-22-RFPREQ-PMW-790-0006,432,office,explicit,PMW-790,pmw:790,LRAE Annex 25!C432; organization_seed.json alias table,requirement-office code matched an alias
+N00039-22-RFPREQ-PMW-740-0006,N00039-22-RFPREQ-PMW-740-0006,632,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V632,secondary_poc has no contact observation for pmw:740
+N00039-22-RFPREQ-PMW-740-0006,N00039-22-RFPREQ-PMW-740-0006,632,contact,explicit,"White, Kristin",cobs:lrae:pmw-740:whitekristin,LRAE Annex 25!T632,contracting_poc on the row matches a contact observation for the same office
+N00039-22-RFPREQ-PMW-740-0006,N00039-22-RFPREQ-PMW-740-0006,632,notice,explicit,N00039-22-RFPREQ-PMW-740-0006,,,SAM.gov search not collected yet
+N00039-22-RFPREQ-PMW-740-0006,N00039-22-RFPREQ-PMW-740-0006,632,office,explicit,PMW-740,pmw:740,LRAE Annex 25!C632; organization_seed.json alias table,requirement-office code matched an alias
+N00039-22-RFPREQ-PMW-740-0012,N00039-22-RFPREQ-PMW-740-0012,633,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V633,secondary_poc has no contact observation for pmw:740
+N00039-22-RFPREQ-PMW-740-0012,N00039-22-RFPREQ-PMW-740-0012,633,contact,explicit,"White, Kristin",cobs:lrae:pmw-740:whitekristin,LRAE Annex 25!T633,contracting_poc on the row matches a contact observation for the same office
+N00039-22-RFPREQ-PMW-740-0012,N00039-22-RFPREQ-PMW-740-0012,633,notice,explicit,N00039-22-RFPREQ-PMW-740-0012,,,SAM.gov search not collected yet
+N00039-22-RFPREQ-PMW-740-0012,N00039-22-RFPREQ-PMW-740-0012,633,office,explicit,PMW-740,pmw:740,LRAE Annex 25!C633; organization_seed.json alias table,requirement-office code matched an alias
+N00039-24-RFPREQ-PMW-740-0002,N00039-24-RFPREQ-PMW-740-0002,634,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V634,secondary_poc has no contact observation for pmw:740
+N00039-24-RFPREQ-PMW-740-0002,N00039-24-RFPREQ-PMW-740-0002,634,contact,explicit,"White, Kristin",cobs:lrae:pmw-740:whitekristin,LRAE Annex 25!T634,contracting_poc on the row matches a contact observation for the same office
+N00039-24-RFPREQ-PMW-740-0002,N00039-24-RFPREQ-PMW-740-0002,634,notice,explicit,N00039-24-RFPREQ-PMW-740-0002,,,SAM.gov search not collected yet
+N00039-24-RFPREQ-PMW-740-0002,N00039-24-RFPREQ-PMW-740-0002,634,office,explicit,PMW-740,pmw:740,LRAE Annex 25!C634; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-740-0049,N00039-23-RFPREQ-PMW-740-0049,635,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V635,secondary_poc has no contact observation for pmw:740
+N00039-23-RFPREQ-PMW-740-0049,N00039-23-RFPREQ-PMW-740-0049,635,contact,explicit,"White, Kristin",cobs:lrae:pmw-740:whitekristin,LRAE Annex 25!T635,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-740-0049,N00039-23-RFPREQ-PMW-740-0049,635,notice,explicit,N00039-23-RFPREQ-PMW-740-0049,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-740-0049,N00039-23-RFPREQ-PMW-740-0049,635,office,explicit,PMW-740,pmw:740,LRAE Annex 25!C635; organization_seed.json alias table,requirement-office code matched an alias
+N00039-25-RFPREQ-PMW-740-0005,N00039-25-RFPREQ-PMW-740-0005,636,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V636,secondary_poc has no contact observation for pmw:740
+N00039-25-RFPREQ-PMW-740-0005,N00039-25-RFPREQ-PMW-740-0005,636,contact,explicit,"White, Kristin",cobs:lrae:pmw-740:whitekristin,LRAE Annex 25!T636,contracting_poc on the row matches a contact observation for the same office
+N00039-25-RFPREQ-PMW-740-0005,N00039-25-RFPREQ-PMW-740-0005,636,notice,explicit,N00039-25-RFPREQ-PMW-740-0005,,sha256:04cb2f3abd4b6bc05067c16d91e8e7e6f0d28e0211aceb2a6d7075d1f604a251; sha256:51e26b8eb50e5decfffb72d30896e24084b76e5d4906ca8bd36b065dc6cf092a,SAM.gov search returned no notice containing the key
+N00039-25-RFPREQ-PMW-740-0005,N00039-25-RFPREQ-PMW-740-0005,636,office,explicit,PMW-740,pmw:740,LRAE Annex 25!C636; organization_seed.json alias table,requirement-office code matched an alias
+N00039-25-RFPREQ-PMW-740-0006,N00039-25-RFPREQ-PMW-740-0006,637,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V637,secondary_poc has no contact observation for pmw:740
+N00039-25-RFPREQ-PMW-740-0006,N00039-25-RFPREQ-PMW-740-0006,637,contact,explicit,"White, Kristin",cobs:lrae:pmw-740:whitekristin,LRAE Annex 25!T637,contracting_poc on the row matches a contact observation for the same office
+N00039-25-RFPREQ-PMW-740-0006,N00039-25-RFPREQ-PMW-740-0006,637,notice,explicit,N00039-25-RFPREQ-PMW-740-0006,,sha256:79ec4bcedecf01978eca53f940f7f4c6c103dc8c67cbc1618835b4d6a93b0a2f; sha256:c9b6a50c06e4014187d49e1ca63dd095c1e1e02946f507ffffb2dfb1c2ff94b4,SAM.gov search returned no notice containing the key
+N00039-25-RFPREQ-PMW-740-0006,N00039-25-RFPREQ-PMW-740-0006,637,office,explicit,PMW-740,pmw:740,LRAE Annex 25!C637; organization_seed.json alias table,requirement-office code matched an alias
+N00039-25-RFPREQ-PMW-740-0004,N00039-25-RFPREQ-PMW-740-0004,638,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V638,secondary_poc has no contact observation for pmw:740
+N00039-25-RFPREQ-PMW-740-0004,N00039-25-RFPREQ-PMW-740-0004,638,contact,explicit,"White, Kristin",cobs:lrae:pmw-740:whitekristin,LRAE Annex 25!T638,contracting_poc on the row matches a contact observation for the same office
+N00039-25-RFPREQ-PMW-740-0004,N00039-25-RFPREQ-PMW-740-0004,638,notice,explicit,N00039-25-RFPREQ-PMW-740-0004,,,SAM.gov search not collected yet
+N00039-25-RFPREQ-PMW-740-0004,N00039-25-RFPREQ-PMW-740-0004,638,office,explicit,PMW-740,pmw:740,LRAE Annex 25!C638; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-740-0046,N00039-23-RFPREQ-PMW-740-0046,639,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V639,secondary_poc has no contact observation for pmw:740
+N00039-23-RFPREQ-PMW-740-0046,N00039-23-RFPREQ-PMW-740-0046,639,contact,explicit,"White, Kristin",cobs:lrae:pmw-740:whitekristin,LRAE Annex 25!T639,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-740-0046,N00039-23-RFPREQ-PMW-740-0046,639,existing_contract,explicit,N0003919D0026,fpds:N0003919D0026,sha256:2fe7aff4a48196ac5e3909f384517be3b04492af75e9859fe30d19d57fd1d906,"FPDS entries=2; contracting N00039; funding N00039; vendor DAV-FORCE, INC.; idv -; first signed 2019-05-10"
+N00039-23-RFPREQ-PMW-740-0046,N00039-23-RFPREQ-PMW-740-0046,639,existing_contract,explicit,N0003919D0027,,,FPDS lookup not collected yet
+N00039-23-RFPREQ-PMW-740-0046,N00039-23-RFPREQ-PMW-740-0046,639,existing_contract,explicit,N0003919D0028,,,FPDS lookup not collected yet
+N00039-23-RFPREQ-PMW-740-0046,N00039-23-RFPREQ-PMW-740-0046,639,existing_contract,explicit,N0003919D0029,,,FPDS lookup not collected yet
+N00039-23-RFPREQ-PMW-740-0046,N00039-23-RFPREQ-PMW-740-0046,639,notice,explicit,N00039-23-RFPREQ-PMW-740-0046,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-740-0046,N00039-23-RFPREQ-PMW-740-0046,639,notice,explicit,N0003919D0026,,sha256:c2c4c46177e7109fc4b9bc67ef858ffa830582499dd0e6fec7adfd9f0596b45a; sha256:82065f110be03a8146fe3758266e38f75b27652698c95145cc88269ad8b0c5b9,SAM.gov search returned no notice containing the key
+N00039-23-RFPREQ-PMW-740-0046,N00039-23-RFPREQ-PMW-740-0046,639,notice,explicit,N0003919D0027,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-740-0046,N00039-23-RFPREQ-PMW-740-0046,639,notice,explicit,N0003919D0028,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-740-0046,N00039-23-RFPREQ-PMW-740-0046,639,notice,explicit,N0003919D0029,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-740-0046,N00039-23-RFPREQ-PMW-740-0046,639,office,explicit,PMW-740,pmw:740,LRAE Annex 25!C639; organization_seed.json alias table,requirement-office code matched an alias
+N00039-26-RFPREQ-PMW-740-0003,N00039-26-RFPREQ-PMW-740-0003,640,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V640,secondary_poc has no contact observation for pmw:740
+N00039-26-RFPREQ-PMW-740-0003,N00039-26-RFPREQ-PMW-740-0003,640,contact,explicit,"White, Kristin",cobs:lrae:pmw-740:whitekristin,LRAE Annex 25!T640,contracting_poc on the row matches a contact observation for the same office
+N00039-26-RFPREQ-PMW-740-0003,N00039-26-RFPREQ-PMW-740-0003,640,notice,explicit,N00039-26-RFPREQ-PMW-740-0003,,sha256:1ca00f71c4090c99180f9bf64bfaf8ac1c8ff0113bed82c3b329d8577eda18e4; sha256:533e27c4dd96bc63c45c755da04863b4ba4baf75572ec070e468e7985ba4222a,SAM.gov search returned no notice containing the key
+N00039-26-RFPREQ-PMW-740-0003,N00039-26-RFPREQ-PMW-740-0003,640,office,explicit,PMW-740,pmw:740,LRAE Annex 25!C640; organization_seed.json alias table,requirement-office code matched an alias
+N00039-24-RFPREQ-PMW-740-0008,N00039-24-RFPREQ-PMW-740-0008,641,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V641,secondary_poc has no contact observation for pmw:740
+N00039-24-RFPREQ-PMW-740-0008,N00039-24-RFPREQ-PMW-740-0008,641,contact,explicit,"White, Kristin",cobs:lrae:pmw-740:whitekristin,LRAE Annex 25!T641,contracting_poc on the row matches a contact observation for the same office
+N00039-24-RFPREQ-PMW-740-0008,N00039-24-RFPREQ-PMW-740-0008,641,notice,explicit,N00039-24-RFPREQ-PMW-740-0008,,,SAM.gov search not collected yet
+N00039-24-RFPREQ-PMW-740-0008,N00039-24-RFPREQ-PMW-740-0008,641,office,explicit,PMW-740,pmw:740,LRAE Annex 25!C641; organization_seed.json alias table,requirement-office code matched an alias
+N00039-25-RFPREQ-PMW-740-0007,N00039-25-RFPREQ-PMW-740-0007,642,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V642,secondary_poc has no contact observation for pmw:740
+N00039-25-RFPREQ-PMW-740-0007,N00039-25-RFPREQ-PMW-740-0007,642,contact,explicit,"White, Kristin",cobs:lrae:pmw-740:whitekristin,LRAE Annex 25!T642,contracting_poc on the row matches a contact observation for the same office
+N00039-25-RFPREQ-PMW-740-0007,N00039-25-RFPREQ-PMW-740-0007,642,notice,explicit,N00039-25-RFPREQ-PMW-740-0007,,,SAM.gov search not collected yet
+N00039-25-RFPREQ-PMW-740-0007,N00039-25-RFPREQ-PMW-740-0007,642,office,explicit,PMW-740,pmw:740,LRAE Annex 25!C642; organization_seed.json alias table,requirement-office code matched an alias
+N00039-27-RFPREQ-PMW-740-0001,N00039-27-RFPREQ-PMW-740-0001,643,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V643,secondary_poc has no contact observation for pmw:740
+N00039-27-RFPREQ-PMW-740-0001,N00039-27-RFPREQ-PMW-740-0001,643,contact,explicit,"White, Kristin",cobs:lrae:pmw-740:whitekristin,LRAE Annex 25!T643,contracting_poc on the row matches a contact observation for the same office
+N00039-27-RFPREQ-PMW-740-0001,N00039-27-RFPREQ-PMW-740-0001,643,notice,explicit,N00039-27-RFPREQ-PMW-740-0001,,,SAM.gov search not collected yet
+N00039-27-RFPREQ-PMW-740-0001,N00039-27-RFPREQ-PMW-740-0001,643,office,explicit,PMW-740,pmw:740,LRAE Annex 25!C643; organization_seed.json alias table,requirement-office code matched an alias
+N00039-24-RFPREQ-PMW-740-0007,N00039-24-RFPREQ-PMW-740-0007,644,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V644,secondary_poc has no contact observation for pmw:740
+N00039-24-RFPREQ-PMW-740-0007,N00039-24-RFPREQ-PMW-740-0007,644,contact,explicit,"White, Kristin",cobs:lrae:pmw-740:whitekristin,LRAE Annex 25!T644,contracting_poc on the row matches a contact observation for the same office
+N00039-24-RFPREQ-PMW-740-0007,N00039-24-RFPREQ-PMW-740-0007,644,existing_contract,explicit,N0003920D0060,fpds:N0003920D0060,sha256:dd17d6705b12116766e78c11dfa400bac143491d2cdccfb7cd0c6039505e2bf3,"FPDS entries=2; contracting N00039; funding N00039; vendor ADVANCED TECHNOLOGY SYSTEMS COMPANY, INC. (OF VIRGINIA); idv -; first signed 2020-07-30"
+N00039-24-RFPREQ-PMW-740-0007,N00039-24-RFPREQ-PMW-740-0007,644,existing_contract,explicit,N0003920D0061,,,FPDS lookup not collected yet
+N00039-24-RFPREQ-PMW-740-0007,N00039-24-RFPREQ-PMW-740-0007,644,existing_contract,explicit,N0003920D0062,fpds:N0003920D0062,sha256:6025386a860ceb30fe8d968a6cae058bd8465f1656fafdfd2ce319940d010c07,FPDS entries=2; contracting N00039; funding N00039; vendor ITC DEFENSE CORP; idv -; first signed 2020-07-30
+N00039-24-RFPREQ-PMW-740-0007,N00039-24-RFPREQ-PMW-740-0007,644,existing_contract,explicit,N0003920D0063,,,FPDS lookup not collected yet
+N00039-24-RFPREQ-PMW-740-0007,N00039-24-RFPREQ-PMW-740-0007,644,existing_contract,explicit,N0003920D0064,,,FPDS lookup not collected yet
+N00039-24-RFPREQ-PMW-740-0007,N00039-24-RFPREQ-PMW-740-0007,644,notice,explicit,N00039-24-RFPREQ-PMW-740-0007,,sha256:0b2a287bc606d7e303613fad3c66b1bd26ef6fbe51c7e69759d44bf8461bd367; sha256:5d6cdb41ba4043fa9eb42693e0a878d9d80efbdcc82a5dc8abd5ab694c30f44d,SAM.gov search returned no notice containing the key
+N00039-24-RFPREQ-PMW-740-0007,N00039-24-RFPREQ-PMW-740-0007,644,notice,explicit,N0003920D0060,,sha256:a660c3eb4a2b058ab49d957a50581d6aa6096189b8ab411cfdc05beb559c83ef; sha256:9a4cf51449d9d2944f3ae70265d96fcd92abf2648ff0ccab175fad82e6572b06,SAM.gov search returned no notice containing the key
+N00039-24-RFPREQ-PMW-740-0007,N00039-24-RFPREQ-PMW-740-0007,644,notice,explicit,N0003920D0061,,,SAM.gov search not collected yet
+N00039-24-RFPREQ-PMW-740-0007,N00039-24-RFPREQ-PMW-740-0007,644,notice,explicit,N0003920D0062,,sha256:c29ef44c1723286f2adc58dceb6d0d86d9aecf9fb3096f8eb8e8fcad76413375; sha256:662f6db2c1cee2ba422ce8f8831d318934ec305a96345c9dc12af3167193363e,SAM.gov search returned no notice containing the key
+N00039-24-RFPREQ-PMW-740-0007,N00039-24-RFPREQ-PMW-740-0007,644,notice,explicit,N0003920D0063,,,SAM.gov search not collected yet
+N00039-24-RFPREQ-PMW-740-0007,N00039-24-RFPREQ-PMW-740-0007,644,notice,explicit,N0003920D0064,,,SAM.gov search not collected yet
+N00039-24-RFPREQ-PMW-740-0007,N00039-24-RFPREQ-PMW-740-0007,644,office,explicit,PMW-740,pmw:740,LRAE Annex 25!C644; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-740-0011,N00039-23-RFPREQ-PMW-740-0011,645,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V645,secondary_poc has no contact observation for pmw:740
+N00039-23-RFPREQ-PMW-740-0011,N00039-23-RFPREQ-PMW-740-0011,645,contact,explicit,"White, Kristin",cobs:lrae:pmw-740:whitekristin,LRAE Annex 25!T645,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-740-0011,N00039-23-RFPREQ-PMW-740-0011,645,notice,explicit,N00039-23-RFPREQ-PMW-740-0011,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-740-0011,N00039-23-RFPREQ-PMW-740-0011,645,office,explicit,PMW-740,pmw:740,LRAE Annex 25!C645; organization_seed.json alias table,requirement-office code matched an alias
+N00039-24-RFPREQ-PMW-160-0001,N00039-24-RFPREQ-PMW-160-0001,646,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V646,secondary_poc has no contact observation for pmw:160
+N00039-24-RFPREQ-PMW-160-0001,N00039-24-RFPREQ-PMW-160-0001,646,contact,explicit,"Wiker, Susana",cobs:lrae:pmw-160:wikersusana,LRAE Annex 25!T646,contracting_poc on the row matches a contact observation for the same office
+N00039-24-RFPREQ-PMW-160-0001,N00039-24-RFPREQ-PMW-160-0001,646,existing_contract,explicit,N0003919D0007,,,FPDS lookup not collected yet
+N00039-24-RFPREQ-PMW-160-0001,N00039-24-RFPREQ-PMW-160-0001,646,notice,explicit,N00039-24-RFPREQ-PMW-160-0001,,,SAM.gov search not collected yet
+N00039-24-RFPREQ-PMW-160-0001,N00039-24-RFPREQ-PMW-160-0001,646,notice,explicit,N0003919D0007,,,SAM.gov search not collected yet
+N00039-24-RFPREQ-PMW-160-0001,N00039-24-RFPREQ-PMW-160-0001,646,office,explicit,PMW-160,pmw:160,LRAE Annex 25!C646; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-160-0087,N00039-23-RFPREQ-PMW-160-0087,647,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V647,secondary_poc has no contact observation for pmw:160
+N00039-23-RFPREQ-PMW-160-0087,N00039-23-RFPREQ-PMW-160-0087,647,contact,explicit,"Wiker, Susana",cobs:lrae:pmw-160:wikersusana,LRAE Annex 25!T647,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-160-0087,N00039-23-RFPREQ-PMW-160-0087,647,notice,explicit,N00039-23-RFPREQ-PMW-160-0087,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-160-0087,N00039-23-RFPREQ-PMW-160-0087,647,office,explicit,PMW-160,pmw:160,LRAE Annex 25!C647; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-160-0088,N00039-23-RFPREQ-PMW-160-0088,648,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V648,secondary_poc has no contact observation for pmw:160
+N00039-23-RFPREQ-PMW-160-0088,N00039-23-RFPREQ-PMW-160-0088,648,contact,explicit,"Wiker, Susana",cobs:lrae:pmw-160:wikersusana,LRAE Annex 25!T648,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-160-0088,N00039-23-RFPREQ-PMW-160-0088,648,notice,explicit,N00039-23-RFPREQ-PMW-160-0088,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-160-0088,N00039-23-RFPREQ-PMW-160-0088,648,office,explicit,PMW-160,pmw:160,LRAE Annex 25!C648; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-160-0097,N00039-23-RFPREQ-PMW-160-0097,649,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V649,secondary_poc has no contact observation for pmw:160
+N00039-23-RFPREQ-PMW-160-0097,N00039-23-RFPREQ-PMW-160-0097,649,contact,explicit,"Wiker, Susana",cobs:lrae:pmw-160:wikersusana,LRAE Annex 25!T649,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-160-0097,N00039-23-RFPREQ-PMW-160-0097,649,notice,explicit,N00039-23-RFPREQ-PMW-160-0097,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-160-0097,N00039-23-RFPREQ-PMW-160-0097,649,office,explicit,PMW-160,pmw:160,LRAE Annex 25!C649; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-160-0106,N00039-23-RFPREQ-PMW-160-0106,650,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V650,secondary_poc has no contact observation for pmw:160
+N00039-23-RFPREQ-PMW-160-0106,N00039-23-RFPREQ-PMW-160-0106,650,contact,explicit,"Wiker, Susana",cobs:lrae:pmw-160:wikersusana,LRAE Annex 25!T650,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-160-0106,N00039-23-RFPREQ-PMW-160-0106,650,notice,explicit,N00039-23-RFPREQ-PMW-160-0106,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-160-0106,N00039-23-RFPREQ-PMW-160-0106,650,office,explicit,PMW-160,pmw:160,LRAE Annex 25!C650; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-160-0107,N00039-23-RFPREQ-PMW-160-0107,651,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V651,secondary_poc has no contact observation for pmw:160
+N00039-23-RFPREQ-PMW-160-0107,N00039-23-RFPREQ-PMW-160-0107,651,contact,explicit,"Wiker, Susana",cobs:lrae:pmw-160:wikersusana,LRAE Annex 25!T651,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-160-0107,N00039-23-RFPREQ-PMW-160-0107,651,notice,explicit,N00039-23-RFPREQ-PMW-160-0107,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-160-0107,N00039-23-RFPREQ-PMW-160-0107,651,office,explicit,PMW-160,pmw:160,LRAE Annex 25!C651; organization_seed.json alias table,requirement-office code matched an alias
+N00039-24-RFPREQ-PMW-160-0003,N00039-24-RFPREQ-PMW-160-0003,652,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V652,secondary_poc has no contact observation for pmw:160
+N00039-24-RFPREQ-PMW-160-0003,N00039-24-RFPREQ-PMW-160-0003,652,contact,explicit,"Wiker, Susana",cobs:lrae:pmw-160:wikersusana,LRAE Annex 25!T652,contracting_poc on the row matches a contact observation for the same office
+N00039-24-RFPREQ-PMW-160-0003,N00039-24-RFPREQ-PMW-160-0003,652,notice,explicit,N00039-24-RFPREQ-PMW-160-0003,,,SAM.gov search not collected yet
+N00039-24-RFPREQ-PMW-160-0003,N00039-24-RFPREQ-PMW-160-0003,652,office,explicit,PMW-160,pmw:160,LRAE Annex 25!C652; organization_seed.json alias table,requirement-office code matched an alias
+N00039-23-RFPREQ-PMW-160-0086,N00039-23-RFPREQ-PMW-160-0086,653,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V653,secondary_poc has no contact observation for pmw:160
+N00039-23-RFPREQ-PMW-160-0086,N00039-23-RFPREQ-PMW-160-0086,653,contact,explicit,"Wiker, Susana",cobs:lrae:pmw-160:wikersusana,LRAE Annex 25!T653,contracting_poc on the row matches a contact observation for the same office
+N00039-23-RFPREQ-PMW-160-0086,N00039-23-RFPREQ-PMW-160-0086,653,notice,explicit,N00039-23-RFPREQ-PMW-160-0086,,,SAM.gov search not collected yet
+N00039-23-RFPREQ-PMW-160-0086,N00039-23-RFPREQ-PMW-160-0086,653,office,explicit,PMW-160,pmw:160,LRAE Annex 25!C653; organization_seed.json alias table,requirement-office code matched an alias
+N00039-22-RFPREQ-PMW-750-0004,N00039-22-RFPREQ-PMW-750-0004,656,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V656,secondary_poc has no contact observation for pmw:750
+N00039-22-RFPREQ-PMW-750-0004,N00039-22-RFPREQ-PMW-750-0004,656,notice,explicit,N00039-22-RFPREQ-PMW-750-0004,,,SAM.gov search not collected yet
+N00039-22-RFPREQ-PMW-750-0004,N00039-22-RFPREQ-PMW-750-0004,656,office,explicit,PMW-750,pmw:750,LRAE Annex 25!C656; organization_seed.json alias table,requirement-office code matched an alias
+N00039-22-RFPREQ-PMW-130-0009,N00039-22-RFPREQ-PMW-130-0009,657,contact,explicit,NAVWAR OSBP,,LRAE Annex 25!V657,secondary_poc has no contact observation for pmw:130
+N00039-22-RFPREQ-PMW-130-0009,N00039-22-RFPREQ-PMW-130-0009,657,notice,explicit,N00039-22-RFPREQ-PMW-130-0009,,,SAM.gov search not collected yet
+N00039-22-RFPREQ-PMW-130-0009,N00039-22-RFPREQ-PMW-130-0009,657,office,explicit,PMW-130,pmw:130,LRAE Annex 25!C657; organization_seed.json alias table,requirement-office code matched an alias

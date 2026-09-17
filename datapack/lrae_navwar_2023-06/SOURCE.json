@@ -1,0 +1,32 @@
+{
+  "activity": "NAVWAR",
+  "fetched_from": "https://web.archive.org/web/20250224085344id_/https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR_LRAE_Report.xlsx",
+  "header_row": 8,
+  "joins_collected": false,
+  "method": "wayback",
+  "outputs": {
+    "joins.csv": "49bcb25c3b140b152330e7090ba247dd37ad5943654c653d9b7c03e87526507a",
+    "layers/evidence.csv": "18fc56f8ad66367079084cf6fa338ee361698e3d2dd7238968827db77f768769",
+    "layers/funding_observations.csv": "482e340acf2aa124023716301f174ced582a83f976142b5492fe7f1a596aff1a",
+    "layers/need_requirements.csv": "695feea1bd332a36198660337f501d0c511669dc92cd90f7b992eba83a0e2d6d",
+    "layers/needs.csv": "bc1c2ee567485f657100889f7c65115ed5f947ec8a63c9e952ff86fccebd3e1a",
+    "layers/procurement_refs.csv": "1e808eac9dc0196419f93a38690aa174bcf6427e3cbb94787db58a4da3466932",
+    "reconciliation.md": "2f28ec3d790a8e95fb79539ff42eaa8c238971a576d8d78aa3140566b7233096",
+    "rows_classified.csv": "ae0b4b5c4079893cce73fbda6b2b62c8d6ca7cb92c0abf7b8af65b171de14d3c",
+    "rows_raw.csv": "70be3999331e7b263abc09bfca1f4b3dacccd272b831d400307c7968ae90ae5d"
+  },
+  "raw_path": "data/raw/48ad6e27241a_NAVWAR_LRAE_Report.xlsx",
+  "record_key": "pid, or hash of title and office code when the release has no PID column",
+  "refetch": "python research/tools/fetch.py 'https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR_LRAE_Report.xlsx' --wayback 20250224085344",
+  "regenerate": "python research/tools/lrae_package.py build",
+  "release_date": "2023-06-20",
+  "release_date_as_written": "20 June 2023 / TDB",
+  "release_key": "lrae_navwar_2023-06",
+  "release_note": "sheet says '20 June 2023 / TDB'; the report was exported 2023-05-25 (Filters sheet)",
+  "retrieved_at": "2026-09-17T20:19:35Z",
+  "sha256": "48ad6e27241aa862ceb860678bb96dddb5ab83dfff6009481f7f58c86e091511",
+  "sheet": "LRAE Annex 25",
+  "size": 242542,
+  "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR_LRAE_Report.xlsx",
+  "wayback_timestamp": "20250224085344"
+}

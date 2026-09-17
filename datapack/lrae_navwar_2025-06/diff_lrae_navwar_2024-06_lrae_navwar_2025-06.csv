@@ -1,0 +1,1759 @@
+change,key,key_method,field,old_value,new_value,old_row,new_row,office
+added,k:0015d612b661,title+office,,,LIPTM00107 - Naval Tactical Command Support System - NTCSS Development Atlassian Support Renewal - Atlassian ESI - SEWP ,,548,LSUBP00095
+added,k:006a887b9769,title+office,,,LIPTM000250_Shore Sub C4I IPT_SOA_ Nutanix 2nd buy_DOD ESI (C),,547,LSUBP00035
+added,k:009a52c04f83,title+office,,,Logistics & Warehouse Services Follow-On Action (C),,219,NP-43100
+changed,k:00c513210a21,title+office,solicitation_quarter,Q3,Q2,729,228,NP-41100
+removed,k:00eaec5cedf9,title+office,,LIPTM00241 - USCG IPT - L-3  Communications Corp - NICHE Contract (N65236-23-R-0052),,139,,LSUBP00006
+added,k:010694163cdb,title+office,,,"LIPTM00183, INIS IPT, NEW Seaport - SBSA (C)",,814,LSUBP00023
+removed,k:013797079dc0,title+office,,LIPTM00116-UCVS IPT_Windows 11 Management Workstation Migration_SEWP (C),,394,,LSUBP00015
+added,k:016db1e0a050,title+office,,,Order to Contract N6600120D0044 RFP 0252,,291,NP-41100
+removed,k:0171a3f413ec,title+office,,0214 (ADNS) Post Installation Training (PIT),,845,,NP-41200
+added,k:0196fec2f400,title+office,,,SEAPORT-Sierra Hotel Aviation Readiness Program (SHARP) Follow-On (C),,225,NP-53400
+removed,k:01a4db68c230,title+office,,"LIPTM00119, IC IPT, VIDEO ESB-7 SITE 300 PROCUREMENT, SEWP (C)",,680,,LSUBP00034
+changed,k:01ebb50025bc,title+office,solicitation_fy,FY26,FY25,747,220,NP-43100
+changed,k:01ebb50025bc,title+office,solicitation_quarter,Q1,Q4,747,220,NP-43100
+removed,k:02073b243761,title+office,,NIAPS Task Order LCS 38 Support,,835,,NP-53400
+removed,k:0220a4bd8354,title+office,,NMT Camp Roberts and Fort Buckner - 5094 (C),,342,,LSUBP00057
+removed,k:0290f9cde779,title+office,,LIPTM00107 - Naval Tactical Command Support System - NTCSS Development Hardware Support Renewal - NASA SEWP (C),,659,,LSUBP00056
+unchanged,k:02e84fe2f3a7,title+office,,,,738,226,NP-53000
+added,k:0364eab1e15c,title+office,,,"GIC TORFP 5129: Shore TO, AV/VTC Installation at COMLOG WESTPAC, Singapore (C)",,273,NP-42100
+removed,k:036fd1bccd2a,title+office,,LIPTM00248 - AFLOAT SUB C4I IPT - FY24 KMI Kits and ADNS Kits - NEW SAC DO - CORPORATE PRODUCTION SAC N6523618D8014,,158,,LSUBP00035
+removed,k:0376f7105986,title+office,,Spanish (SP-B-WAZ) Conversion from LVT(2) to LVT(11),,427,,PMA/PMW-101
+added,k:037f1fca5d4a,title+office,,,"Common Data Link (CDL) and distributed Intelligence, Surveillance and Reconnaissance (ISR) In-Service Engineering Agent ",,487,NP-41100
+added,k:039a0bf4f3c3,title+office,,,LIPTM00439 Crypto KM IPT - Crypto and KM Systems Engineering and ISEA - Seaport NxGEN Task Order (60 Month POP (6 months,,637,LSUBP00024
+added,k:03b5840adc62,title+office,,,LSUBP00015 - Shore C4I Division - Tactical Shore Systems (TSS) Lifecycle Support – Seaport NxGEN (Base + 4OYS) (C),,186,LSUBP00015
+removed,k:03d6bf950608,title+office,,"LIPTM00455, TCIO, Forensics Equip 4 for USMC POR, GSA (C)",,353,,LSUBP00021
+added,k:03e7120f12b2,title+office,,,DEVELOPMENT INTEGRATION CERTIFICATION ENVIRONMENT (DICE) SERVICE CENTER (SC) SUPPORT (C),,279,NP-53500
+added,k:042873d4c947,title+office,,,EVERFOX PLA (STACC) (C),,169,PMW-790
+removed,k:0484c0c6b056,title+office,,"PMW/A 170 Cybersecurity, Engineering, and Technical Support (C)",,198,,PMW/A-170
+removed,k:04c0b9607b1c,title+office,,LIPTM00001_SWR System Support_SAC_Follow-On (CIR 22-027),,140,,LSUBP00001
+added,k:050be0ac49a2,title+office,,,"FY25 SB Forecast - LIPTM00074, DHA/HSI IPT, 25-018 Juniper for Beale AFB - FY25-SEWP (C)",,728,LSUBP00009
+added,k:0546a8498783,title+office,,,MIDS JTRS Lot 13C DO (C),,362,PMA/PMW-101
+removed,k:05492c02ce29,title+office,,TO 0096 - MESG1+SMWDC+DDF+CNATT (C),,757,,NP-56700
+removed,k:05617ddbfc2b,title+office,,HFM3 Production Systems & Engineering Services,,462,,PMS-485
+added,k:05c21fb51a59,title+office,,,LIPTM00229-IUSS IPT-300-25-921- CISCO Licenses (WISEMAN)- ESI/SEWP (C),,460,LSUBP00022
+removed,k:05d5b5dae4d9,title+office,,TL-29A-25 RFP,,461,,PMS-485
+added,k:05dc581171c7,title+office,,,MIDS JTRS - Lot 4 - DLS - F-22 Spares,,350,PMA/PMW-101
+removed,k:05f53cc33847,title+office,,"LIPTM00455, TCIO, TCS RADAR 2, SEWP (C)",,647,,LSUBP00021
+added,k:066e306a5a55,title+office,,,Cognitive Brain Fatigue,,747,LSUBP00049
+added,k:06d95adacc3c,title+office,,,"GIC TORFP 5162: Hardware Installation of C4ISR and Network related systems onboard USS William P. Lawrence (DDG 110), Pe",,298,NP-42100
+added,k:06f0ea9bf6af,title+office,,,"FY25 SB Forecast - LIPTM00074, DHA/HSI IPT, 25-017 CISCO for Ft Carson- FY25-SEWP (C)",,727,LSUBP00009
+changed,k:0774cfc14e06,title+office,solicitation_fy,TBD,FY25,64,105,PMW-750
+changed,k:0774cfc14e06,title+office,solicitation_quarter,TBD,Q3,64,105,PMW-750
+changed,k:0774cfc14e06,title+office,award_fy,FY25,FY26,64,105,PMW-750
+changed,k:0774cfc14e06,title+office,award_quarter,Q2,Q1,64,105,PMW-750
+removed,k:07e820492c10,title+office,,"LIPTM00107 - NAVAL-MAINTENANCE, REPAIR AND OVERHAUL - NMRO Development Dell Hardware Requirements - NASA SEWP (C)",,639,,LSUBP00056
+added,k:07eaad8d485a,title+office,,,LIPTM00129 - USMC Communications Systems - UCS Cisco Switch Requirement - Cisco ESI BPA - SEWP (C),,64,LSUBP00004
+added,k:082bdd94622f,title+office,,,PMW/A 170 Integrated Logistics Support Services - Follow-On (C),,326,PMW/A-170
+removed,k:08390854da8f,title+office,,"Maintenance Figure of Merit IPT, MFOM Test Operations and Support (C)",,589,,LSUBP00056
+removed,k:083962037213,title+office,,"LIPTM00074, DHA/HSI IPT, 24-019 CISCO BNO for WRNMMC, KUNSAN, and 25G MODULES FOR MULTIPLE SITES-SEWP (C)",,610,,LSUBP00009
+changed,k:084a19e74359,title+office,solicitation_fy,FY24,FY25,506,695,LSUBP00063
+changed,k:084a19e74359,title+office,award_fy,FY24,FY25,506,695,LSUBP00063
+changed,k:084a19e74359,title+office,existing_contract_number,NNG15SC82BN6523623F0568,NNG15SC82BN6523624F0502,506,695,LSUBP00063
+added,k:085f5171e85f,title+office,,,"0382 Consolidated Afloat Networks Enterprise Services (CANES), CASREP In-Service Engineering Agent (ISEA) Technical Supp",,497,NP-41200
+added,k:08a994f29af0,title+office,,,RCO Uncrewed Maritime System (UMV),,539,LSUBP00021
+removed,k:08c65449ae24,title+office,,"LIPTM00478, CSSP, HP SUPPORT RENEWAL, SEWP (C)",,664,,LSUBP00009
+removed,k:08f2af080626,title+office,,HEMPSS ISEA Contract (C),,698,,NP-41100
+added,k:0904dc05dd32,title+office,,,"LIPTM00074, DHA/HSI IPT, 25-011 BNO/BNOE MISC ELOM, UPS, ILOM MULTIPLE SITES-SEWP (C)",,721,LSUBP00009
+added,k:091b2f3b180c,title+office,,,LIPTM00119-INTERIOR COMMS: CVN-79 IC VIDEO ASSESSMENT- SAC TO X8009,,664,LSUBP00034
+added,k:09313f68fd25,title+office,,,"LIPTM00128, FY 25 SILENTDAGGER DEPLOYABLE VERSION 4 (SDDv4) SYSTEMS Fielding.",,632,LSUBP00004
+added,k:09348302fd8d,title+office,,,"LIPTM00250_Shore SUB IPT, CISCO MODELING RENEWAL W/OPTIONS, SEWP (C)",,650,LSUBP00035
+removed,k:096d56eeb928,title+office,,"LIPTM00321, NSIPT CND, CISCO MIGRATION RENEWALS, SEWP (NOT ON ESI) (C)",,241,,LSUBP00024
+added,k:09736a587726,title+office,,,CVN 74 ZI UCA Definitization,,352,PMW-750
+removed,k:097b838b79af,title+office,,LIPTM00106 - MAINTENANCE FIGURE OF MERIT - MFOM Software Support Renewals - NASA SEWP (C),,675,,LSUBP00056
+added,k:097fce6d4cb5,title+office,,,C2P 01 TR BPA Call 6 (C),,433,PMW-150
+removed,k:09eca8a356de,title+office,,TACAMO TORFP 0006 HEMPSS ISEA Training Support (C),,771,,NP-41100
+removed,k:09fed97a4e51,title+office,,"LIPTM00455, TCIO, IDOPS SOFTWARE, SEWP (C)",,483,,LSUBP00021
+removed,k:0a2e5d8dc095,title+office,,"LIPTM00128, New Order, SOCS SATCOM, FY24 SDN-L FoS",,294,,LSUBP00004
+removed,k:0a4166dff384,title+office,,LIPTM00248 - AFLOAT SUB C4I IPT  -VA SCN 812-813 and CLB 827 FY24 Procurements - NEW SAC DO - CORPORATE PRODUCTION,,149,,LSUBP00035
+removed,k:0a524a33a684,title+office,,"LIPTM00183, INIS IPT, OTP #4 MUOS",,306,,LSUBP00023
+added,k:0a7980486633,title+office,,,LIPTM00119-INTERIOR COMMS (IC) IPT- LC NICHE SAC - 8A ANC -  AIT Contract (substitute to GIC)(PPA N65236-24-RFPREQ-LSUBP,,813,LSUBP00034
+removed,k:0a84efc3f8c4,title+office,,COMMAND AND CONTROL PROCESSOR (C2P) SOFTWARE ENGINEERING SUPPORT (SES) (C),,743,,NP-53000
+added,k:0a97f1e9d718,title+office,,,C2P 03 TR BPA Call 7 (C),,437,PMW-150
+removed,k:0acf2f099fef,title+office,,USSPACECOM C2F AV Support,,813,,NP-53600
+removed,k:0ae6c01e80d8,title+office,,"LIPTM00119, IC IPT, LHD-8 ANN DIAS2 PROCUREMENT, SEWP (C)",,621,,LSUBP00034
+changed,k:0af1552ec40b,title+office,procurement_instrument,Single-Award Indefinite-Delivery,Delivery Order/Task Order (not under Federal Supply Schedule Contract),195,150,4.0
+changed,k:0af1552ec40b,title+office,award_fy,FY28,FY27,195,150,4.0
+changed,k:0af1552ec40b,title+office,award_quarter,Q2,Q4,195,150,4.0
+changed,k:0af1552ec40b,title+office,existing_contract_number,N0017819D7859,N0017819D7859N0003922F3017,195,150,4.0
+removed,k:0af834a6a1bf,title+office,,"LIPTM00119, IC IPT, CVN-75 ANN SCD 28113 COPTs PROCUREMENT, SEWP (C)",,231,,LSUBP00034
+removed,k:0af98daeb566,title+office,,LIPTM00149 - ASE IPT - ASE-24-020 - SSEE Azure Test Equipment Keysight - SEWP V (C),,514,,LSUBP00022
+added,k:0b5ae7e25bc2,title+office,,,"LIPTM00214-C4I FMS IPT_SAUDI ARABIA, SR-P-GBT,SEWP (C)",,634,LSUBP00006
+removed,k:0b6fef783a2b,title+office,,T-25 Class Active Array Amplifiers,,559,,PMS-485
+removed,k:0bbaa11932ab,title+office,,India COMSEC Task Order (2027) (C),,43,,PMW-740
+removed,k:0bd74645b47c,title+office,,0231 ADNS Testing Support,,850,,NP-41200
+removed,k:0be18f02b7db,title+office,,LIPTM00229 - IUSS IPT - 300-24-918- MISC Hardware (Pope)-SEWP (C),,521,,LSUBP00022
+changed,k:0c26bdf3b9f2,title+office,procurement_method,TBD,Full and Open Competition,587,182,LSUBP00009
+added,k:0c4a797d765c,title+office,,,"LIPTM00081, PJSA IPT, Child Youth Program (CYP) Closed Circuit Television (CCTV) Life Cycle Support Services (C)",,758,LSUBP00010
+removed,k:0c4da7d85282,title+office,,0247 CBISEA CAAS,,825,,NP-41200
+added,k:0c5246d40097,title+office,,,LIPTM00003_ATC Lab Follow-on_ATC MAC (C),,58,LSUBP00001
+added,k:0c5a0ce1ddbe,title+office,,,"Navy ERP, SLDCADA and ERP+ Support Services_Option Year 2",,334,Pf007NERP
+removed,k:0cce825ab842,title+office,,ESRP TO39 - Modernization Initiatives-2,,418,,PMW/A-170
+removed,k:0ce82780fcf5,title+office,,Personnel Accountability and Assessment (PAAS) Follow-On.,,111,,NP-53400
+removed,k:0cf1df6e9ad5,title+office,,Code 87 Security Support Service Follow-on (C),,764,,NP-87000
+removed,k:0d1d5ff5c41d,title+office,,LIPTM00229 - IUSS IPT - 300-24-915- Hardware (Lantiegne)-SEWP (C),,519,,LSUBP00022
+added,k:0d5fc9abde82,title+office,,,CDLS Sustainment Follow-On,,133,PMW/A-170
+removed,k:0d914690ec40,title+office,,"LIPTM00285 NAVALC2 IPT, TACTICAL DATA LINKS, LMMT TECH REFRESH, SEWP (C)",,216,,LSUBP00063
+removed,k:0e7d2f1f87d9,title+office,,"LIPTM00448-CONTROL DISPLAY UNIT (CDU), ENHANCED CONTROL DISPLAY UNIT (ECDU), AND SECONDARY CONTROL DISPLAY UNIT (SCDU) P",,151,,LSUBP00016
+removed,k:0eae623bd620,title+office,,"LIPTM00248, Afloat Submarine C4I IPT_ CSRR Forklift and associated EQUIPMENT, SEWP (C)",,682,,LSUBP00035
+removed,k:0ec63e023cdc,title+office,,"LIPTM00485, Electronic Warfare Systems IPT, Corporate Production",,126,,LSUBP00004
+removed,k:0ed86f4f9d0f,title+office,,"LIPTM00415: OA-9277A Coupler and Power Supply FY24 Procurement, RF Products (SAC) - N6523621D4805",,167,,LSUBP00016
+added,k:0f16b37c9a28,title+office,,,ADNS MAC RFP #5 (C),,368,PMW-160
+removed,k:0f311aed2025,title+office,,Dessault DOD ESI (C),,753,,NP-55300
+added,k:0f33dc50c9ca,title+office,,,CBSP TO 01 Generic Eng. Svcs.,,409,PMW/A-170
+added,k:0f4cdba2ebce,title+office,,,"LIPTM00120, SDRS IPT, SPIRENT HW RENEWAL FY25, SEWP (C)",,644,LSUBP00016
+added,k:0f4cdfc2a1ab,title+office,,,"LIPTM00447, Secure Voice Solutions IPT, NEW SAC Task Order N6523619D8002",,53,LSUBP00015
+added,k:0f77aebdeb31,title+office,,,LCM Procurement and Sustainment,,332,PMA/PMW-101
+changed,k:0f90c0ccf67b,title+office,solicitation_fy,TBD,FY25,63,104,PMW-750
+changed,k:0f90c0ccf67b,title+office,solicitation_quarter,TBD,Q1,63,104,PMW-750
+changed,k:0f90c0ccf67b,title+office,award_quarter,Q1,Q3,63,104,PMW-750
+added,k:0ff909ec8f9e,title+office,,,"LIPTM00448-ISEA, New Task Order Award under contract N6523620D8024-CharlesNwachukwu0012-(WR Systems-New)",,631,LSUBP00016
+added,k:1006163084ce,title+office,,,ADNS MAC RFP #6 (C),,369,PMW-160
+added,k:104324a798cd,title+office,,,SCORPION LRIP,,346,PMW-770
+removed,k:108e3b2b84ec,title+office,,Facilities Cable Plant (C),,673,,LSUBP00083
+removed,k:10d09d8a9b95,title+office,,"LIPTM00074, DHA/HSI IPT, 24-013 BNO for HPE/ARUBA OUTDOOR JIT & DHA GWLAN GATEWAY-SEWP (C)",,380,,LSUBP00009
+added,k:10dd99f61d05,title+office,,,"LIPTM00291, MC2SA IPT, MC2SA Integrated Product Team Support, Seaport (C)",,707,LSUBP00021
+added,k:10f859cebea6,title+office,,,GIC SE3 TORFP 5159 Hardware Installations onboard USS America (LHA 6) (C),,500,NP-42100
+removed,k:1133ce812a2d,title+office,,19574 LIPTM00257 USS MOUNT WHITNEY (LCC 20) INSTALLATIONS,,121,,LSUBP00057
+removed,k:11531badbcd2,title+office,,LIPTM00156 - DCGS-N IPT - INSYTE ICOP PoR & SRF INSYTE - SEWP (C),,545,,LSUBP00022
+removed,k:1186adb04031,title+office,,ML2 DO# 24F4010,,423,,PMA/PMW-101
+changed,k:118b164bfd1d,title+office,procurement_method,TBD,Small Business Set-Aside,49,110,8.0
+changed,k:118b164bfd1d,title+office,contract_type,TBD,Cost-Reimbursement,49,110,8.0
+changed,k:118b164bfd1d,title+office,procurement_instrument,TBD,Single-Award Indefinite-Delivery,49,110,8.0
+changed,k:118b164bfd1d,title+office,follow_on_or_new,,Follow-on,49,110,8.0
+changed,k:118b164bfd1d,title+office,existing_contract_number,,N0003922F3019,49,110,8.0
+removed,k:118dd15d1a15,title+office,,SRT IDIQ,,851,,NP-75600
+added,k:11b6ef707e81,title+office,,,NIS MarchQ2FY25 Procurement (C),,9,PAS
+removed,k:11ba0ed4d642,title+office,,50E CHENG Support Follow-On (C),,755,,NP-50E00
+removed,k:11bc0f12d27e,title+office,,Expeditionary Medical Unit (EMU)_New SeaPort TO (C),,766,,NP-53600
+added,k:11beda79fae1,title+office,,,LIPTM00149 - ASE - SSEE & Spectral Software Configuration Management Support - New SAC TO- Chugach - N6523623D8021,,815,LSUBP00022
+added,k:11ffc146deb2,title+office,,,LIPTM00121_ATS IPT _FY25 GLENAIR & HW 2ND_SEWP (C),,462,LSUBP00016
+removed,k:121484ae2371,title+office,,LIPTM00149 - ASE IPT - ASE-24-017 - SSEE Future Mission Module Sparing - SEWP V (C),,513,,LSUBP00022
+unchanged,k:123cea5b6253,title+office,,,,40,124,PMS-485
+removed,k:1245b5f5a068,title+office,,0176  CBISEA CAAS DEVELOPMENT AND TESTING SUPPORT*,,824,,NP-41200
+changed,k:125d4ac2714a,title+office,anticipated_total_value,$100M - $250M,$50M - $100M,726,218,NP-42100
+changed,k:125d4ac2714a,title+office,procurement_method,TBD,Full and Open Competition,726,218,NP-42100
+added,k:12984cea0e74,title+office,,,5181 LIPTM00257 NEW TASK ORDER (C),,457,LSUBP00057
+added,k:12d69a8769f7,title+office,,,WAMS TO Software Defects,,395,PMW/A-170
+added,k:12ebd4a263e2,title+office,,,"LIPTM00119, IC IPT, EPF 14-16 VIDEO SITE 300 PROCUREMENT, SEWP (C)",,73,LSUBP00034
+removed,k:12ededcd590f,title+office,,GPNTS FY24 Spares #2 Award and Fund (C),,75,,PMW/A-170
+added,k:1301f5dab755,title+office,,,LIPTM00116-UCVS-NEVVS Key West Phone HW Procurement-SEWP ESI (C),,451,LSUBP00015
+added,k:1307c54c8f1f,title+office,,,FY 25 SDN Maritime Communications on the Move (COTM) - SAC,,639,LSUBP00004
+removed,k:132799aba458,title+office,,NMT Bahrain - 5097 (C),,343,,LSUBP00057
+removed,k:13519d92ed03,title+office,,"Web App Transformation, Engineering and Refactoring Support (WATERS) (PPA 23-LSUBP00009-0012)",,141,,LSUBP00009
+added,k:1368e9bcba62,title+office,,,0330 TACNET CBISEA Testing and Evaluation support for Communication as a Service (CaaS),,280,NP-41200
+added,k:13f1feee1c7f,title+office,,,LIPTM00107 - Naval Tactical Command Support System - NTCSS Development OpenRMF Software - NASA SEWP (C),,465,LSUBP00095
+added,k:142cd879ff3f,title+office,,,NSC2I FFG 64-65 Procurement & C-SIF AWARD. (C),,165,PMW-760
+removed,k:1485722b5b28,title+office,,"LIPTM00455, TCIO USMC IDOPS FDS-MC DOOMEX Software, SEWP (C)",,349,,LSUBP00021
+added,k:14956ae2d25a,title+office,,,Bahamas MSS 8 (C),,379,PMW-740
+added,k:14bc5c1d9d6e,title+office,,,"LIPTM00125, SATCOM IPT SEWP (C)",,452,LSUBP00023
+added,k:14e5aad7eab7,title+office,,,SubHDR VA Block VI/CLB Block II/FMS procurement,,354,PMW-770
+removed,k:15c7ea472201,title+office,,PMW150-Ceiling increase + incremental funding (Fuse Task order 2),,424,,PMW-150
+added,k:15d92aff49a9,title+office,,,USCC Modular Buildings (PID 1 of 2) (C),,624,LSUBP00049
+removed,k:160b2f503cae,title+office,,MIDS-LVT Lot 25 Procurement Buy (C),,183,,PMA/PMW-101
+removed,k:162449ec01d6,title+office,,5084  LIPTM00426  C4ISR INSTALLATION & MODERNIZATION SUPPORT (C),,496,,LSUBP00057
+added,k:163d0a209aea,title+office,,,Modification to Contract #N0003919D0033,,417,PMW-750
+added,k:1649c578630f,title+office,,,PEO MLB Visual Program Office (VPO) (C),,426,Pf005NABS
+removed,k:16998c0a9797,title+office,,TDL 0208 - Tactical Data Link (TDL) Training and Support for Australia Navy under FMS Case AT-P-GSU,,856,,NP-41100
+added,k:169c20d51d8e,title+office,,,REBELLION SIBR Phase II,,344,DRPM-NOA
+changed,k:16f069649824,title+office,solicitation_fy,FY24,FY25,463,100,PMW/A-170
+changed,k:16f069649824,title+office,award_fy,FY25,FY26,463,100,PMW/A-170
+removed,k:16ff57e41edb,title+office,,Fire Extinguishers IDIQ (C),,769,,NP-83000
+removed,k:170d4ba56080,title+office,,"LIPTM00328, SWFTS & CWITT IPT, DIGITAL DATA,ELECTRONIC TEST ANALYZER, SEWP (C)",,525,,LSUBP00035
+removed,k:172759478fcc,title+office,,LIPTM00149 - ASE IPT - ASE-24-025 - SSEE USCG Intellian - SEWP (C),,384,,LSUBP00022
+unchanged,k:1728d70aa1bb,title+office,,,,692,243,NP-53400
+added,k:1730057ce8e4,title+office,,,CANES MAC RFP 9115 SCN 1 System (C),,421,PMW-160
+added,k:173a5c0bfa54,title+office,,,ETTS SBIR Phase III (C),,514,NP-55200
+added,k:174d11e3f255,title+office,,,0334 TACNET CANES Testing and Technical Support for AEGIS,,260,NP-41200
+added,k:175ec8a5422c,title+office,,,"LIPTM00080, NATFP IPT,  REA (NAVSUP Bahrain BLDG 1)",,530,LSUBP00010
+added,k:178ea2c4e2f9,title+office,,,"LIPTM00447, SVS - ADNS, PRECISION WORKSTATIONS AND RARITAN CONSOLE - SEWP (C)",,26,LSUBP00015
+removed,k:17928a4afe53,title+office,,LIPTM00003_OS Upgrade XCVR System ECP_CMS (C),,575,,LSUBP00001
+added,k:179da7e6915c,title+office,,,"FY25 SB Forecast - LIPTM00074, DHA/HSI IPT, 25-023 Ilom & Misc for Luke AFB- FY25-SEWP (C)",,733,LSUBP00009
+added,k:17ca13d57145,title+office,,,"LIPTM00214-C4I FMS IPT_MOROCCO, MO-P-LBL _SEWP (C)",,466,LSUBP00006
+removed,k:17d15b131c57,title+office,,"Handyman Follow-On, Tenant Improvement Support Services",,475,,8.0
+added,k:17e1d22890f7,title+office,,,Training Services Group (TSG) Training Support Follow-On (C),,249,NP-43100
+removed,k:18c6f20c39c8,title+office,,BrainGu SBIR Ph III,,420,,DRPM-NOA
+added,k:18de31265aac,title+office,,,LIPTM00002_Polar Ops Support_SAC_EXOY 2,,714,LSUBP00001
+removed,k:190f8e91784d,title+office,,"LIPTM00214, C4I FMSIPT, RO-P-LAY/STT/BATS-D COMMS EQUP,SEWP (C)",,375,,LSUBP00006
+removed,k:1930a2b8dc41,title+office,,LIPTM00003_NVS/ASUP Follow-On_ATC MAC (C),,524,,LSUBP00001
+removed,k:193a67c0cc45,title+office,,"LIPTM00128, SDN Satellite Y-Power Cable Spares, USSOCOM Support, SEWP (C)",,632,,LSUBP00004
+added,k:193ff48951a7,title+office,,,Learning Stack (LS) - LS Tools Production Contract,,701,Pf004MNHR
+removed,k:1963362b5cd6,title+office,,"LIPTM00468, NISE, LR-24-010 - C-ROC, WAM-V (PPA LSUBP00049-0299)",,283,,LSUBP00049
+removed,k:19993b460b7a,title+office,,TO #0117 FRN-48 ECP 001 Kit Installation and kit Fabrication,,855,,NP-41100
+removed,k:199cb2d78859,title+office,,xDMS RFP 002 SCN DDG 138 189,,775,,NP-55100
+changed,k:199ed5435c43,title+office,contract_type,Fixed-Price,Cost-Reimbursement,809,221,NP-41100
+changed,k:199ed5435c43,title+office,solicitation_quarter,Q3,Q2,809,221,NP-41100
+changed,k:199ed5435c43,title+office,award_quarter,Q4,Q3,809,221,NP-41100
+removed,k:199fd0551546,title+office,,Shierra Hotel Aviation Readiness Program (SHARP) Follow-On (C),,736,,NP-53400
+removed,k:19a4c329083d,title+office,,"LIPTM00448-DDG 130 - DDG 139, LHA/LPD/CVN SCN LOE-KrisLambert00XX-(WR Systems-NEW)",,277,,LSUBP00016
+added,k:19a7742d4199,title+office,,,0389 Tactical Networks Capabilities Based In-Service Engineering Agent (CBISEA) CANES,,498,NP-41200
+removed,k:19dab062f7c4,title+office,,"LIPTM00321, NSIPT, SENSOR 2 NCDOC CENTRAL SITE INDEXER/SUPPORT (HDD PROLIANT), SEWP (C)",,239,,LSUBP00024
+removed,k:19dcd0cdc10f,title+office,,WAN MAC (FY25) (C),,54,,PMW-160
+removed,k:19ef0e1db069,title+office,,"LIPTM00447, SECURE VOICE SOLUTIONS - ADNS, SPIRENT TESTCENTER GOLD AND C1 SUPPORT RENEWAL- SEWP (C)",,652,,LSUBP00015
+added,k:1ab6d68ee2dd,title+office,,,"PMW/A 170 Cybersecurity, Engineering, and Technical Support Follow-On Task Order",,322,PMW/A-170
+added,k:1abadfc412fc,title+office,,,NILE Link 22 Training Task Order 4B,,425,PMW-150
+removed,k:1b1ceb6888b8,title+office,,"LIPTM00116-UCVS IPT-UC SYSTEMS ENGINEERING, TECHNICAL, INTEGRATION AND INFRASTRUCTURE SUPPORT-SEAPORT NXGEN (Base +4OYS)",,573,,LSUBP00015
+removed,k:1b6ac38cd6c3,title+office,,Navy Enterprise Resource Planning Technical Support Services - 2 (C),,170,,Pf007NERP
+removed,k:1b8249e5045d,title+office,,"LIPTM00074, DHA/HSI IPT, 24-011 COMBO BNOE/BNO MISC for EGLIN, EISENHOWER, STEWART, HURLBURT, DC TRIANGLE, PATRICK, & MI",,379,,LSUBP00009
+added,k:1b8ece2c4bb8,title+office,,,MIDS JTRS Terminal Repair and Retrofits L3H,,430,PMA/PMW-101
+removed,k:1bc7f1a64dff,title+office,,"LIPTM00395, Multi-Media IPT, Large Contract, VTC/BDS/TELE/C5ISR (PPA XXX) (C)",,604,,LSUBP00002
+changed,k:1bdf6092743b,title+office,solicitation_fy,FY24,FY25,209,549,LSUBP00015
+changed,k:1bdf6092743b,title+office,award_fy,FY24,FY25,209,549,LSUBP00015
+added,k:1be0dd88ddb5,title+office,,,TACMOBILE SYSTEMS LOGISTICS ACQUISITIONS SUPPORT (CMS Task Order) Base +OY (C),,197,LSUBP00006
+removed,k:1c3d705401de,title+office,,LIPTM00149 - ASE IPT - ASE-24-021 - SSEE CDE SONARSOURCE/SONARQUBE - SEWP V (C),,515,,LSUBP00022
+removed,k:1c423c9fc153,title+office,,ADNS Production MAC RFP #39 (C),,23,,PMW-160
+removed,k:1c43491c51fd,title+office,,"LIPTM00321, NSIPT, CNDTS SPVU NEW(V3) CISCO, CISCO ESI SEWP (C)",,234,,LSUBP00024
+added,k:1c4dd46d31d6,title+office,,,8A for S&T Department,,749,LSUBP00049
+removed,k:1c6b797a7c0a,title+office,,GIC TORFP 5076: Electronic Security Sytem Upgrade at 9TH MSC SAIPAN (C),,695,,NP-42100
+added,k:1c7481850078,title+office,,,LIPTM00003_ASUP/NVS_23F0115_MOD 17_Scope,,678,LSUBP00001
+removed,k:1cd10045c972,title+office,,"LIPTM00118, TNSS COALITION IPT, COALITION SYSTEMS NON-CISCO MATERIAL, SEWP (C)",,364,,LSUBP00063
+added,k:1cddc260aa63,title+office,,,GIC SE3 TORFP 5164 Hardware Installation onboard USS Pearl Harbor (LSD 52) (C),,517,NP-42100
+removed,k:1cead615e7f5,title+office,,0252   - Tactical Networks In-Service Engineering Agent (ISEA) Configuration Management (CM,,830,,NP-41200
+added,k:1cef4fbd8065,title+office,,,FOLLOW ON TO N6523625F3003 (C),,612,LSUBP00022
+removed,k:1d3dd1acec22,title+office,,"LIPTM00328, CWITT/SWFTS IPT - USB Preamplifier, Hardware, SEWP (C)",,213,,LSUBP00035
+added,k:1d5e2b0f8c13,title+office,,,Oteemo SIBR,,388,DRPM-NOA
+removed,k:1da7d7b87065,title+office,,Engineering Services for MIDS_LVT(4) SN 3653 Chassis Spider Cable ERA,,479,,PMA/PMW-101
+removed,k:1dc2936324a7,title+office,,"LIPTM00455-TERRESTRIAL COLLECTIONS IDENTITY OPS, CIHEP EOCM, SEWP (C)",,564,,LSUBP00021
+added,k:1e02217a1459,title+office,,,0347 - DELL/EMC TECH SUPPORT,,508,NP-41200
+added,k:1e242b82991b,title+office,,,ESRP - Cost Overruns for TO 36 (N0003923F2010) (Modernization),,391,PMW/A-170
+added,k:1e329e3b6d97,title+office,,,LIPTM00415-RCIPT: Antenna Tilt Group refurbishment for DDG 61/78-New SAC DO (LC NICHE SAIC SAC),,560,LSUBP00016
+removed,k:1e755910056a,title+office,,CSSC Super 8A,,405,,PMW/A-170
+removed,k:1e88d1bee1a0,title+office,,"LIPTM00455-TERRESTRIAL COLLECTIONS IDENTITY OPS, MARITIME RADARS, SEWP (C)",,561,,LSUBP00021
+added,k:1f1b093a3271,title+office,,,JOC Bundle 16 -  Lab 239 Expansion,,800,LSUBP00083
+unchanged,k:1f481bfda8d2,title+office,,,,720,213,NP-82000
+added,k:1f830aed88f4,title+office,,,Link 16 04 MOS Mod BPA TTNT On Ramp (C),,432,PMW-150
+added,k:1fa7ae78075d,title+office,,,LIPTM000250_Shore Sub C4I IPT_FSBS_DUMMY LOAD_SEWP (C),,524,LSUBP00035
+added,k:1fa91453d32c,title+office,,,LIPTM00149 - ASE - ASE-25-013 - SSEE CDE SONARSOURCE/SONARQUBE - SEWP V (C),,810,LSUBP00022
+added,k:1ff76fc2c2da,title+office,,,"LIPTM00464, DC2HS, FY25 CITRIX RENEWAL (Managed Services), SEWP (C)",,576,LSUBP00066
+removed,k:200da91b064c,title+office,,"Common Data Link (CDL) and distributed Intelligence, Surveillance and Reconnaissance (ISR) In-Service Engineering Activi",,734,,NP-41100
+added,k:201e837712f9,title+office,,,Navy ERP+ CSO (C),,173,Pf007NERP
+removed,k:2021b1c74c80,title+office,,"LIPTM00358, JFMS IPT, OTP Base-2 NEW Task Order",,256,,LSUBP00023
+removed,k:2066ce9e4418,title+office,,LIPTM00248 - AFLOAT SUB C4I IPT - FY24 Columbia (CLB) Arbor Equipment and PLAR updates - NEW SAC DO - CORPORATE PRODUCTI,,156,,LSUBP00035
+removed,k:209eb759e6e8,title+office,,"LIPTM00464, DC2HS, FY24 COMMVAULT RENEWAL, SEWP (C)",,493,,LSUBP00066
+removed,k:20c53c23be91,title+office,,LIPTM00107 - Naval Tactical Command Support System - NTCSS Development NeoLoad Support Renewal- NASA SEWP (C),,223,,LSUBP00056
+removed,k:20d264003ad8,title+office,,"LIPTM00080, NATFP IPT, NATFP Engineering & Drafting Support",,259,,LSUBP00010
+added,k:2106ad06888f,title+office,,,"LIPTM00448-ISEA, New Task Order under contract N6523618D8001-Billy Jackson-(Northrop Grumman-New)",,641,LSUBP00016
+removed,k:213c0a8863f9,title+office,,"LIPTM00285-NAVAL C2 IPT, GCCS-M SAPNS2 SYBASE SW RNWL, ESI (C)",,500,,LSUBP00063
+added,k:2145ae51329b,title+office,,,LIPTM00085; MST MUL USMC ESS FY25 Period 2 (C),,743,LSUBP00010
+added,k:217be089ed6c,title+office,,,CONNECT PIA |  Tech Bridge CPO,,263,NP-20000
+added,k:219a3a4a792f,title+office,,,0370  Consolidated Afloat Networks Enterprise Services (CANES) Software and System Operational Verification Test (SOVT) ,,297,NP-41200
+removed,k:21b192f072ef,title+office,,MOS Mod UPS & Control (C),,188,,PMW-150
+added,k:21f82197d000,title+office,,,N00039D4001_Derisking_SW,,348,PMA/PMW-101
+removed,k:21f8eab17f26,title+office,,Personnel Pay Integration and Sustainment (NP2 and NSIPS) (C),,68,,Pf004MNHR
+added,k:21fc33850cc0,title+office,,,"LIPTM00321, C4I, NS IPT, CND DELL EXT SUPPORT HW SUPT RENEWALS, SEWP (C)",,689,LSUBP00024
+removed,k:2213db22343d,title+office,,"LIPTM00321, NSIPT, CNDTS BCA LAPTOP REPLACEMENT, SEWP (C)",,238,,LSUBP00024
+removed,k:22165e4c4775,title+office,,GIC TORFP 5074 Hardware Install C4ISR Network Related Systems Onboard USS Theodore Roosevelt (CVN 71) and USS Makin Isla,,762,,NP-42100
+changed,k:22859ac4a83d,title+office,award_quarter,Q3,Q2,76,19,PMW/A-170
+added,k:2295108cfab7,title+office,,,ESRP - New TO - OPN Sustainment (Hardware),,320,PMW/A-170
+removed,k:22a71933f036,title+office,,"LIPTM00119, IC IPT, CVN-75 IVN SYSTEM & ICTs PROCUREMENT, SEWP (C)",,356,,LSUBP00034
+changed,k:22c73d51ef09,title+office,procurement_method,TBD,Full and Open Competition,565,185,LSUBP00010
+changed,k:22c73d51ef09,title+office,solicitation_fy,FY24,FY25,565,185,LSUBP00010
+changed,k:22c73d51ef09,title+office,solicitation_quarter,Q4,Q3,565,185,LSUBP00010
+changed,k:22c73d51ef09,title+office,award_quarter,Q2,Q4,565,185,LSUBP00010
+added,k:2313845ada53,title+office,,,LIPTM00229 - IUSS IPT - 300-25-904- Software Renewal-(WISEMAN)-SEWP (C),,841,LSUBP00022
+removed,k:2353474cd38a,title+office,,GIC TORFP 5068 Hardware Install C4ISR Network Related Systems Onboard USS Jack H Lucas (DDG 125) San Diego CA (C),,772,,NP-42100
+changed,k:236683ccc5a5,title+office,procurement_method,TBD,8(a) Sole Source,135,203,LBUSP00030
+changed,k:236683ccc5a5,title+office,solicitation_fy,TBD,FY25,135,203,LBUSP00030
+changed,k:236683ccc5a5,title+office,solicitation_quarter,TBD,Q3,135,203,LBUSP00030
+added,k:23738e4ae6c7,title+office,,,"LIPTM00486, SSTD IPT, MICROFOCUS DOD ESI BPA (C)",,568,LSUBP00035
+added,k:238183a1d708,title+office,,,Navy ERP Testers (C),,278,NP-58400
+added,k:23a0f0af331f,title+office,,,"LIPTM00321, C4I, NS IPT, PBD CISCO FTDV SW LICENSE RENEWALS, SEWP (NOT ON CISCO ESI) (C)",,74,LSUBP00024
+added,k:23a9b4e61d23,title+office,,,LIPTM00107 - Naval Tactical Command Support System - NTCSS Development NeoLoad Support Renewal - NASA SEWP (C),,25,LSUBP00095
+added,k:241168240902,title+office,,,PEO Digital Strategic Communications (C),,396,Digital TD
+removed,k:246d3f0ecd3b,title+office,,5083 LIPTM00425 C4I Hardware/Software Installations and SOVT support for listed alterations onboard USS WASHINGTON (SSN-,,206,,LSUBP00057
+removed,k:2482a9e37ebc,title+office,,Time and Frequency Distribution System,,814,,NP-55300
+removed,k:24b551c24f7b,title+office,,"LIPTM00468, NISE LR-24-004, Dell Hardware, SEWP (C)",,501,,LSUBP00049
+added,k:24d1d69ba8e8,title+office,,,Omnissa DoD ESI (C),,252,NP-55300
+removed,k:2527a9911f96,title+office,,Code 536_R2I (Rapid Response & Integration) Development and Maintenance (C),,697,,NP-53600
+removed,k:25818e9da85e,title+office,,"LIPTM00120, SDRS IPT, DELL ORDER ONR FY24, SEWP (C)",,398,,LSUBP00016
+removed,k:25dafa4618ee,title+office,,0198 CANES ISEA GCCS-M,,778,,NP-41200
+removed,k:25e39fdd4dfa,title+office,,0207  CANES,,795,,NP-41200
+removed,k:2635cd692e49,title+office,,LIPTM00156 - DCGS-N IPT - IBM ASPERA & ANALYST NBKS -  SEWP (C),,546,,LSUBP00022
+added,k:26686819ca94,title+office,,,"LIPTM00425, SUBMARINE MODERNIZATION IPT, (NON-GIC), SSN-784 USS NORTH DAKOTA - SEWP (C)",,534,LSUBP00057
+unchanged,k:26a55c83b5ef,title+office,,,,724,216,NP-72100
+removed,k:26aac3de63f9,title+office,,0234  USNS LUCY STONE,,848,,NP-41200
+added,k:26bff1b77da0,title+office,,,"LIPTM00515, Tenable Software Renewal, SEWP (C)",,29,LSUBP00094
+removed,k:26f2cdf71ff0,title+office,,Senior Consultation Support Services-Future_OY1_2028 (C),,81,,Pf007NERP
+removed,k:26f9c362fa66,title+office,,LIPTM00149 - ASE IPT - ASE-24-022 - SSEE Dummy Loads  LHA 8- SEWP V (C),,516,,LSUBP00022
+removed,k:273473a53905,title+office,,"LBUSP00030, CORPORATE OPERATIONS, AMERICAN SIGN LANGUAGE (ASL) SUPPORT, GSA (C)",,678,,LBUSP00030
+removed,k:2749763caf38,title+office,,Phase III SBIR - AI2 - P24-04,,436,,LSUBP00064
+added,k:27938df8ad69,title+office,,,"LIPTM00447, Secure Voice Solutions IPT, NEW SAC Task Order N6523619D8002 - GDIT",,477,LSUBP00015
+removed,k:27cc6ce71e0e,title+office,,NAVWAR Acquisition Policy Support Services,,305,,2.0
+unchanged,k:27ce18c7c258,title+office,,,,301,826,LSUBP00049
+added,k:2837835e0ba5,title+office,,,"LIPTM00464, DC2HS, FY25 NETAPP HW RENEWAL, ELA - SEWP (C)",,573,LSUBP00066
+added,k:28837b4c10c3,title+office,,,"LIPTM00128, New Service Order, SOCS SATCOM, FY25 SDN-EDN Combined",,595,LSUBP00004
+added,k:28b0736d0eb6,title+office,,,"LIPTM00455, SIO, Sensing and Information Operations IPT Engineering and Technical Support to Terrestrial/HUMINT Programs",,660,LSUBP00021
+removed,k:28c7d13662d6,title+office,,N0003924FXXXX-RRT_Upgrade,,407,,PMA/PMW-101
+removed,k:28d240f10436,title+office,,"LIPTM00321, C4I, NS IPT DELL HW SUPPORT, SEWP (C)",,494,,LSUBP00024
+added,k:2906b8424fe4,title+office,,,"LIPTM000328, SWITT and CWIFTS IPT - C4I WEAPONS TEST, PALO ALTO, ESI-SEWP (C)",,767,LSUBP00035
+added,k:29168022904e,title+office,,,LIPTM00006_North American Aerospace Defense Command (NORAD) NORTHCOM_Audiovisual Material_SEWP (C),,751,LSUBP00002
+added,k:2917f27a52a2,title+office,,,Towed Array Integrated Product Team (TAIPT) Telemetry-29,,178,PMS-485
+removed,k:293b82c41387,title+office,,CVN 74 RCOH Multifunction Copier Installation,,458,,PMW-750
+removed,k:294c91a56a6f,title+office,,"LIPTM00468, NISE, LR-24-002 Expeditionary - Zone B, GSA (C)",,386,,LSUBP00049
+removed,k:296125450445,title+office,,C2P TR BPA Call 4 (C),,175,,PMW-150
+added,k:29aba58305ba,title+office,,,0342 TACNET CANES ISEA and GCCS-M Fleet Integration and Tech Support,,262,NP-41200
+removed,k:29b770205004,title+office,,0171 CANES SOVT,,791,,NP-41200
+added,k:29d0c2e0976b,title+office,,,"LIPTM00086 - FY25 MicroFocus Dimensions Renewal - PMW250, (MFGS) ESI-BPA (C)",,681,LSUBP00011
+added,k:2ab326fc60a2,title+office,,,ESRP - Cost Overruns for TO 34 (N0003922F2179) (CVN 78 Overhaul),,435,PMW/A-170
+removed,k:2abff81bab0c,title+office,,ATIP - Ceiling Increase (No cost action – Admin Only),,464,,PMW/A-170
+removed,k:2b08f3142c80,title+office,,MOS Mod with TTNT Production (C),,95,,PMW-150
+removed,k:2b1d69468cca,title+office,,LDS NNCompass (C),,655,,LSUBP00064
+removed,k:2b5585d9fdbb,title+office,,LIPTM00003_ATC Sys & Equip_23F0090_MOD07_PWS_INCR_RESCOPE,,258,,LSUBP00001
+removed,k:2b90964c471f,title+office,,GPNTS HW FY24 Spares #1 Award and Fund,,447,,PMW/A-170
+added,k:2ba9df02fc2e,title+office,,,"LIPTM00455,  SIO, IA2, V2, SEWP",,481,LSUBP00021
+added,k:2bb0864ea15f,title+office,,,ADNS MAC RFP #1 (C),,364,PMW-160
+removed,k:2be1c455a1d0,title+office,,ADNS Production MAC RFP #36 (C),,20,,PMW-160
+removed,k:2bff719af8b2,title+office,,"VTT IPT Systems Engineering, Integration, & Limited Production - SeaPort (C)",,577,,LSUBP00007
+removed,k:2c21f7fbe94d,title+office,,Red Hat DOD ESI V1 (C),,705,,NP-55300
+removed,k:2cfac2658cfa,title+office,,DMR - 500W Power Amplifier OTP,,465,,PMW/A-170
+added,k:2e2c00abddc1,title+office,,,Link 16 02 MOS Mod BPA Call 8 (C),,329,PMW-150
+unchanged,k:2e2c241295bc,title+office,,,,719,212,NP-71700
+added,k:2e76d34d52b3,title+office,,,LIPTM00241 - USCG IPT - USCG Sustainment - Seaport NxGEN TO (base + 4OYS) (C),,194,LSUBP00006
+removed,k:2ee14e0ecce0,title+office,,Financial Management Support Services  - Follow-on Action (C),,722,,NP-84000
+removed,k:2ef717afdaa2,title+office,,Security Support Services Follow-on (C),,750,,NP-87000
+added,k:2f67655bbb06,title+office,,,LIPTM00415-RCIPT: PRP TO ONSITE TECH SUPPORT,,620,LSUBP00016
+changed,k:2f847ef6ffa8,title+office,procurement_instrument,Single-Award Indefinite-Delivery,Delivery Order/Task Order (not under Federal Supply Schedule Contract),36,122,PMW-740
+changed,k:2f847ef6ffa8,title+office,solicitation_quarter,Q2,Q3,36,122,PMW-740
+changed,k:2f847ef6ffa8,title+office,existing_contract_number,N0003919D0026,N0003919D0026-N00039190D0029,36,122,PMW-740
+changed,k:2f847ef6ffa8,title+office,incumbent_contractor,"DAV-FORCE, INC.",,36,122,PMW-740
+added,k:2ffede383809,title+office,,,N0003925FXXX_German_PAI_Repair_SN0926_(L3),,445,PMA/PMW-101
+removed,k:301c9f14b431,title+office,,"LIPTM00120, SDRS IPT, PROPSIM F32 SW RENEWAL FY24, SEWP (C)",,527,,LSUBP00016
+changed,k:30242c71050f,title+office,anticipated_total_value,No Range Specified,$250M - $1B,488,812,LSUBP00009
+changed,k:30242c71050f,title+office,solicitation_fy,TBD,FY25,488,812,LSUBP00009
+changed,k:30242c71050f,title+office,solicitation_quarter,TBD,Q4,488,812,LSUBP00009
+changed,k:30242c71050f,title+office,follow_on_or_new,New,Follow-on,488,812,LSUBP00009
+changed,k:30242c71050f,title+office,existing_contract_number,,N0017819D8560N6523621F3025,488,812,LSUBP00009
+changed,k:30242c71050f,title+office,incumbent_contractor,,SPINVI CONSULTING LLC,488,812,LSUBP00009
+added,k:304030291915,title+office,,,LIPTM00003_DASR Sustainment_ATC MAC (C),,792,LSUBP00001
+added,k:306af60334bf,title+office,,,Order for Production of two CLTS Array Shipsets and CLTS/LTS Engineering Services,,174,PMS-485
+added,k:30b98fc4a0f0,title+office,,,Link 16 01 DRS TTNT Additional Units Mod #N0003923C0006,,401,PMW-150
+removed,k:31d9e84c8709,title+office,,NESD - Nautilus FOC,,321,,COO
+removed,k:31da5cb5a7ba,title+office,,"Order to Contract #N6523618D8014- LIPTM00347, NOTM FY24 Ground Combat Vehicle Kits",,281,,LSUBP00007
+removed,k:3215675040ae,title+office,,"Tactical Air Navigation (TACAN), Air Traffic Control and Landing Systems (ATCALS), Air Command & Control, and Joint Tact",,716,,NP-41100
+removed,k:323ab522d3af,title+office,,PEO MLB Organizational Change Management (C),,77,,PEO-MLB
+added,k:32a21b772f3d,title+office,,,"LIPTM00467, Unified Capability, UC BLDG CISCO,ESI SEWP (C)",,62,LSUBP00087
+removed,k:32c2012637eb,title+office,,ADNS Production MAC RFP #28 (C),,12,,PMW-160
+added,k:32f3e9872b64,title+office,,,Lot 14T Taiwan (DLS),,441,PMA/PMW-101
+removed,k:331367ecafb2,title+office,,"LIPTM00086/MyNavy Human Resources Solutions - Splunk User Behavior Analytics SW purchase, DOD ESI (C)",,657,,LSUBP00011
+added,k:33152c2c03a2,title+office,,,"GIC SE4 TORFP 5171 GCM P-305 ESS and AV System Installation at MCB CAMP BLAZ, Guam (C)",,502,NP-42100
+added,k:3317c113808a,title+office,,,LIPTM00241-USCG IPT-MUOS Renaissance Switches (T1031 JVA) - L3 Harris SAC N6523624D1014,,526,LSUBP00006
+added,k:3380f1cfd9b7,title+office,,,"LIPTM00119, IC IPT, DDG-75/78 SIWCS MOD PROCUREMENT, SEWP (C)",,762,LSUBP00034
+added,k:339cf6bda9d4,title+office,,,ESRP - TO 38 (N0003923F2063) Unfunded Ceiling De-Obligation,,446,PMW/A-170
+removed,k:33ab98f4b448,title+office,,Programmatic Support - TO (C),,685,,NP-55300
+added,k:33b5b9dab8d8,title+office,,,LIPTM00119- INTERIOR COMMS: IC VIDEO TV DTS SUPPORT- SAC Order- CITI- N6523621D8009,,628,LSUBP00034
+added,k:33f1999dbd07,title+office,,,X018 NBSD B-66 Electrical Upgrades,,261,NP-80000
+added,k:33f8a351adbc,title+office,,,LIPTM000250_Shore Sub C4I IPT_ZYFER M-CODE_SEWP (C),,635,LSUBP00035
+added,k:3408224e7f5c,title+office,,,Bahrain Coastal Surveillance System Upgrade and Expansion (FMS Case BA-P-LBG),,161,PMW-740
+removed,k:340f90804ed0,title+office,,"LIPTM00455, TCIO SCS EUD and TAK, SEWP (C)",,327,,LSUBP00021
+removed,k:3410de896c8b,title+office,,"LIPTM00119, IC IPT, LPD 27 ANN SCD PROCUREMENT, SEWP (C)",,333,,LSUBP00034
+added,k:341ebd937635,title+office,,,LIPTM00241 USCG IPT L-3 NEW TASK ORDER (OPC/CYBER),,702,LSUBP00006
+added,k:346e6f8baebc,title+office,,,ESI_Oracle_IDIQ_5_Year,,207,NP-55300
+removed,k:347f31cb8d1d,title+office,,"LIPTM00119, IC IPT, IVN UPS EQUIPMENT, SEWP (C)",,232,,LSUBP00034
+added,k:34abb8347a41,title+office,,,ADNS MAC RFP #9 (C),,372,PMW-160
+removed,k:34de2b39dd22,title+office,,CANES System Engineering Support (C),,703,,NP-55100
+removed,k:3565f8b871f9,title+office,,"LIPTM00328, CWITT, SYMANTEC HARDWARE SUPPORT, SEWP (C)",,390,,LSUBP00035
+removed,k:358137039130,title+office,,Digital Data Extraction Software for USMC POR PPS-22-218-0006 (C),,581,,LSUBP00021
+added,k:35a2a155bda2,title+office,,,5179 LIPTM00257 NEW TASK ORDER (C),,536,LSUBP00057
+removed,k:35bde6be82c7,title+office,,ADNS Production MAC RFP #37 (C),,21,,PMW-160
+removed,k:3602ba085aba,title+office,,Afloat Signals Exploitation (ASE) Engineering and Technical Support – Seaport New TO (60 months) (C),,572,,LSUBP00022
+added,k:3624fc311e21,title+office,,,MidS JTRS Terminal Repair and Retrofits DLS,,429,PMA/PMW-101
+added,k:3646830a5aff,title+office,,,LIPTM00248 - AFLOAT SUB C4I IPT - Common Submarine Radio Room (CSRR)  Procurement (SEWP) (C),,593,LSUBP00035
+added,k:36657011f1c5,title+office,,,CUE PSM Production Delivery Order - Contract #N0003923D9000,,374,PMW-130
+removed,k:366ee1d57143,title+office,,19802 LIPTM00425 C4I HARDWARE/SOFTWARE INSTALLATIONS AND SOVT SUPPORT FOR LISTED ALTERATIONS ONBOARD USS COLUMBUS (SSN-7,,299,,LSUBP00057
+added,k:3679c8808324,title+office,,,WAMS TO Technical Studies Follow-On,,394,PMW/A-170
+removed,k:36841c801597,title+office,,"LIPTM000410, ECI ESRI Software Renewal, SAP",,133,,LSUBP00064
+added,k:36b32dd4cd52,title+office,,,PEO Digital Engineering and Logistics Support (FY27) (C),,119,PCE
+added,k:36d2ca8c0315,title+office,,,"FY25 SB Forecast - LIPTM00074, DHA/HSI IPT, 25-019 Juniper for NMC San Diego - FY25-SEWP (C)",,729,LSUBP00009
+added,k:3750bdd7b35a,title+office,,,0378 Capability Based In-Service Engineering (CB-ISEA) Post Installation Training,,309,NP-41200
+removed,k:3788b1534fd8,title+office,,"ISR/IO, Integrated Logistics Support (ILS) and Configuration Management (CM) - Seaport New TO (60 months) (C)",,571,,LSUBP00022
+removed,k:37d62a781c13,title+office,,"LIPTM00500, NAVEUR/NAVAF Enterprise Solutions (NNES) IPT, NCTS Naples C2 Display Programming and Install, New SAC TO",,302,,LSUBP00002
+removed,k:37da48c94741,title+office,,"LIPTM00285 NAVALC2 IPT, TACTICAL DATA LINKS, LMMT TECH REFRESH, ESI - SEWP (CISCO) (C)",,203,,LSUBP00063
+removed,k:385689bc9703,title+office,,SEAPORT TO - COMMAND AND CONTROL PROCESSOR (C2P) MODERNIZATION (MOD) SOFTWARE ENGINEERING SERVICES (SES) (C),,742,,NP-53000
+removed,k:389203d145cc,title+office,,"LIPTM00174, Air and Space IPT, NEW OTP BASIC",,165,,LSUBP00023
+added,k:3893f8dff723,title+office,,,X022 B-27 Reconfigure Emergency Power,,490,NP-83000
+added,k:38bef23fb29c,title+office,,,"LIPTM00086/MyNavy Human Resources Solutions - IText Software renewal, SEWP (C)",,621,LSUBP00011
+removed,k:3904b7abe98c,title+office,,LIPTM00460 Telephony Akkadian SEWP (C),,362,,LSUBP00087
+added,k:3919b46701e1,title+office,,,NILE Link 22 Training Task Order 6,,360,PMW-150
+changed,k:3923b87b131f,title+office,anticipated_total_value,No Range Specified,$2M - $7.5M,451,17,PMW/A-170
+changed,k:3923b87b131f,title+office,award_fy,FY24,FY25,451,17,PMW/A-170
+changed,k:3923b87b131f,title+office,award_quarter,Q4,Q3,451,17,PMW/A-170
+removed,k:392c8d53b3a3,title+office,,LIPTM00464 - DC2HS and Enterprise Systems Department Information Technology Support (C),,599,,LSUBP00066
+removed,k:395570a0c00e,title+office,,LIPTM00107 - Naval Tactical Command Support System - NTCSS Development Embarcadero Support Renewal- NASA SEWP (C),,670,,LSUBP00056
+added,k:3975a95dd28d,title+office,,,"0372 Automated Digital Network System (ADNS) Integrated Logistics Support for USS WAHOO (SSN-806) Ship Construction, New",,308,NP-41200
+added,k:3a04401a5602,title+office,,,"LIPTM000250_Shore Sub C4I IPT_SOA_MOD KVM CISCO_DOD ESI, SEWP (C)",,694,LSUBP00035
+added,k:3a18908bde4a,title+office,,,LIPTM00214-C4I FMS IPT_UAE_FMS Case AE-P-GAO_FOE,,698,LSUBP00006
+changed,k:3a2a8914007e,title+office,solicitation_quarter,Q2,Q4,79,18,PMW-770
+changed,k:3a2a8914007e,title+office,award_quarter,Q2,Q4,79,18,PMW-770
+removed,k:3a399422f5dd,title+office,,LIPTM00002_TACAN,,279,,LSUBP00001
+added,k:3a4689aabbb8,title+office,,,"LIPTM00467, Unified Capability, UC Facilities CISCO,ESI SEWP (C)",,34,LSUBP00087
+removed,k:3a489acc8366,title+office,,Mod N6523623F0701 Ad Hoc Add,,310,,LSUBP00083
+removed,k:3ab5f2b3230d,title+office,,NSC2I.  FFG 64.  PHASES 2-5. (C),,181,,PMW-760
+removed,k:3b180eceea22,title+office,,"LIPTM00285 NAVALC2, RIMAGE HW MAINTENANCE RNWL, GSA (C)",,508,,LSUBP00063
+added,k:3b879438f604,title+office,,,NSC2I T-ATS 6 (Ph 5) and T-ATS 7 (Ph 4-5) (C),,351,PMW-760
+removed,k:3bed7024ad54,title+office,,0220 NMS ISES TAO SHIPS,,843,,NP-41200
+added,k:3c2f871a6f37,title+office,,,"LIPTM00460, RDT&E, Aruba SEWP (C)",,785,LSUBP00087
+removed,k:3c4f4fe097cd,title+office,,"LIPTM00455, TCIO VAM and CSCS COMPONENT REFRESH, SEWP (C)",,328,,LSUBP00021
+changed,k:3c7b4a80ece2,title+office,award_quarter,Q1,Q3,62,103,PMW-750
+removed,k:3c84066132e7,title+office,,Cloudera DOD ESI (C),,749,,NP-55300
+removed,k:3ca06a572cd0,title+office,,LIPTM00250-SUBMARINE SHORE C41-AUTO TUNE PA & SYSTEM UPGRADE - NEW SAC TO Contract N65236-23-D-8015 (Salient),,129,,LSUBP00035
+added,k:3cc26b52b221,title+office,,,LIPTM00214-C4I FMS IPT - Pakistan PK-P-GDF CENTRIXS Procurement - SEWP,,542,LSUBP00006
+removed,k:3cf70536b376,title+office,,"LIPTM00214 - C4I FMS, Saudi FMS CASE SRPLDA_CPN Hardware,SEWP (C)",,538,,LSUBP00006
+removed,k:3d07a4904c6f,title+office,,LIPTM00448-LCS Navigations Systems Sustainment & Modernization Support-RobRaper00XX-(Northrop Grumman-NEW),,271,,LSUBP00016
+removed,k:3d46fa5f36e5,title+office,,RADIAC Production (C),,748,,NP-56700
+changed,k:3d52d712f58a,title+office,solicitation_fy,FY24,FY25,341,588,LSUBP00011
+changed,k:3d52d712f58a,title+office,award_fy,FY24,FY25,341,588,LSUBP00011
+changed,k:3d52d712f58a,title+office,existing_contract_number,1104893416,N6523624F0613,341,588,LSUBP00011
+removed,k:3d56317e3cdb,title+office,,NAVWAR Acquisition Policy and Business Operations (APBO) Support Services,,319,,2.0
+added,k:3d644a5b96aa,title+office,,,"LIPTM00447, SVS IPT- ADNS, SPIRENT TESTCENTER GOLD AND C1 HW AND SW SUPPORT RENEWAL- SEWP (C)",,50,LSUBP00015
+added,k:3d7fe4fe2279,title+office,,,Bundle 15- Order #N6523623D1002,,820,LSUBP00083
+removed,k:3e27552dc8a5,title+office,,LIPTM00107 - Naval Tactical Command Support System - NTCSS Development Dell Hardware Requirements - NASA SEWP (C),,638,,LSUBP00056
+changed,k:3e294fb2b0b2,title+office,contract_type,TBD,Cost-Reimbursement,44,106,PMW-120
+changed,k:3e294fb2b0b2,title+office,procurement_instrument,TBD,Delivery Order/Task Order (not under Federal Supply Schedule Contract),44,106,PMW-120
+changed,k:3e294fb2b0b2,title+office,solicitation_quarter,Q2,Q4,44,106,PMW-120
+changed,k:3e294fb2b0b2,title+office,award_quarter,Q3,Q2,44,106,PMW-120
+changed,k:3e294fb2b0b2,title+office,follow_on_or_new,,Follow-on,44,106,PMW-120
+changed,k:3e294fb2b0b2,title+office,existing_contract_number,,N0017819D7264N0003921F3003,44,106,PMW-120
+changed,k:3e294fb2b0b2,title+office,incumbent_contractor,,BOOZ ALLEN HAMILTON INC.,44,106,PMW-120
+removed,k:3e7d6c8457cc,title+office,,"LIPTM00248, Afloat Submarine C4I IPT_ CSRR RITEC Printers and associated EQUIPMENT, SEWP (C)",,366,,LSUBP00035
+removed,k:3e9fa206ec9c,title+office,,NSC2I  FFG 63.  PHASE 2 & 3. (C),,69,,PMW-760
+added,k:4018c6c99993,title+office,,,ESRP Base Contract Ceiling Increase,,147,PMW/A-170
+removed,k:40490c68ad5e,title+office,,"LIPTM00118, ENTERPRISEDB ON PREM SUPPORT UNICORE, SEWP (C)",,613,,LSUBP00063
+added,k:406dc668978f,title+office,,,"LIPTM00079, HSSE IPT, NETWORK PROTECTION DESIGN, DEPLOYMENT, AND ENGINEERING SUPPORT II (C)",,605,LSUBP00009
+removed,k:40ae4400fe77,title+office,,"LIPTM00486, MICRO FOCUS, SSTD SUPPORT, ESI (C)",,221,,LSUBP00035
+changed,k:40aed31966e5,title+office,solicitation_fy,FY24,FY25,662,531,LSUBP00011
+changed,k:40aed31966e5,title+office,award_fy,FY24,FY25,662,531,LSUBP00011
+changed,k:40aed31966e5,title+office,existing_contract_number,NNG15SD60BN6523623F0708,N6523624F0726,662,531,LSUBP00011
+changed,k:40aed31966e5,title+office,incumbent_contractor,"ADVANCED COMPUTER CONCEPTS, INC.",,662,531,LSUBP00011
+removed,k:40b0403c890d,title+office,,"LIPTM00290, TSI IPT, OpenRMF Software, SEWP (C)",,628,,LSUBP00004
+added,k:40c48ae2fb59,title+office,,,LIPTM00458-Corporate Production Supply Contract (PPA N65236-24-RFPREQ LSUBP00077-0002) (C),,198,LBUSP00028
+added,k:4119d232e629,title+office,,,"LIPTM00164, SOIS, JTWS AIR, SeaPort (C)",,833,LSUBP00004
+removed,k:411e7e6cc90e,title+office,,Royal Moroccan Navy (RMN) Microwave Transmission Network (MTN) Phase 1 A,,454,,PMW-740
+changed,k:4120df48869c,title+office,solicitation_fy,FY26,FY25,694,240,NP-70000
+changed,k:4120df48869c,title+office,solicitation_quarter,Q1,Q2,694,240,NP-70000
+changed,k:4120df48869c,title+office,existing_contract_number,,"N6600119D3407, N6600119D3408, N6600119D3409, N6600",694,240,NP-70000
+removed,k:41407d54f1dd,title+office,,LIPTM00149 - ASE IPT - ASE-24-019 - SSEE Azure DIF SIM BOM - SEWP V (C),,498,,LSUBP00022
+removed,k:4156653f2b8f,title+office,,"ATCS - Solicit, Negotiate & Definitize Inc 1 Production (FFP)",,448,,PMW/A-170
+removed,k:41b84358d774,title+office,,0217  ADNS) Post Installation Training (PIT),,102,,NP-41200
+removed,k:41feafd0273a,title+office,,"LIPTM00466, 4.3, Material Handling Equipment, GSA (C)",,363,,LSUBP00084
+removed,k:420dbfadedfd,title+office,,Information Warfare Research Project 3 (IWRP 3) (C),,332,,LBUSP00032
+added,k:423414313c32,title+office,,,CANES MAC RFP 9114A CTU 3 Kits (C),,390,PMW-160
+removed,k:42775dec51f7,title+office,,"LIPTM00447,SECURE VOICE SOLUTIONS (SVS) IPT, New SAC TO, GDIT N6523619D8002, RDTE_ADNS ENG SPT",,262,,LSUBP00015
+added,k:428644ca2545,title+office,,,"LIPTM00214-C4I FMS, Mexico, FMS Case MX-P-LAP, SEWP (C)",,623,LSUBP00006
+changed,k:428c11ffe596,title+office,solicitation_fy,FY27,FY26,732,231,NP-43100
+changed,k:428c11ffe596,title+office,solicitation_quarter,Q3,Q1,732,231,NP-43100
+changed,k:428c11ffe596,title+office,award_fy,FY27,FY26,732,231,NP-43100
+changed,k:428c11ffe596,title+office,award_quarter,Q4,Q3,732,231,NP-43100
+removed,k:43212499131e,title+office,,PMW/A 170 Program Management Support Services (C),,199,,PMW/A-170
+added,k:433edeee1eef,title+office,,,LIPTM00002_Polar Ops Support_SAC_EXOY 4,,716,LSUBP00001
+added,k:43c8752f46f9,title+office,,,High–Altitude Electromagnetic Pulse Shielded Systems (HEMPSS) ISEA Support Contract (C),,319,NP-41100
+removed,k:43f5253278a8,title+office,,GPNTS FY24 Bulk Buy #2 Award and Fund,,452,,PMW/A-170
+removed,k:43f5253278a8,title+office,,GPNTS FY24 Bulk Buy #2 Award and Fund,,453,,PMW/A-170
+removed,k:440f162d5b2f,title+office,,LIPTM00250-SUBMARINE SHORE C41-VARIABLE TUNER ELEMENTS INTEGRATION- NEW SAC TO (Base +2OYS) (Salient) N65236-23-D-8015 (,,143,,LSUBP00035
+removed,k:442d390665f2,title+office,,"LIPTM00119, IC IPT, VIDEO FY24 OPN CISCO SPARES, ESI SEWP (C)",,661,,LSUBP00034
+added,k:442f6448d959,title+office,,,PAS - Follow on SBIR Phase III for Black Pearl,,377,PAS
+removed,k:4446f1ecbdcc,title+office,,0196 CBISEA WRBS,,802,,NP-41200
+added,k:4461e2262c86,title+office,,,LIPTM00116-UCVS-Naples Regional UC NODES-RVVB1-Non Cisco -SEWP (C),,528,LSUBP00015
+removed,k:446a17264f5a,title+office,,LIPTM00455-MARITIME PROTOTYPES (C),,568,,LSUBP00021
+added,k:448920f8e405,title+office,,,LIPTM00248 - AFLOAT SUB C4I IPT - Common Submarine Radio Room (CSRR) ISEA ProcurementT (SEWP) (C),,646,LSUBP00035
+removed,k:44b54f55c857,title+office,,Saudi Arabia/Oman CENTCOM Partner Network (C),,56,,PMW-740
+unchanged,k:45216f251c46,title+office,,,,721,214,NP-83000
+changed,k:459e9cb2a8e9,title+office,contract_type,TBD,Cost-Reimbursement,65,12,PMS-485
+changed,k:459e9cb2a8e9,title+office,procurement_instrument,TBD,"""C"" Type Contract",65,12,PMS-485
+changed,k:459e9cb2a8e9,title+office,solicitation_fy,TBD,FY26,65,12,PMS-485
+changed,k:459e9cb2a8e9,title+office,solicitation_quarter,TBD,Q2,65,12,PMS-485
+removed,k:45b751823f5c,title+office,,"LIPTM00128, SDN System Component Spares, USSOCOM Support, SEWP (C)",,350,,LSUBP00004
+unchanged,k:45bc6de6f277,title+office,,,,41,126,PMW-740
+added,k:460b098479a0,title+office,,,GASE for FMS,,438,PMA/PMW-101
+added,k:4619f2d07f08,title+office,,,LIPTM00480 - Business Applications In-Service Engineering Agent - BA-ISEA NTCSS Reflections Support Renewal - NASA SEWP ,,450,LSUBP00095
+removed,k:46757726ab64,title+office,,"LIPTM00290, TSI IPT, Blue Coat Software, SEWP (C)",,369,,LSUBP00004
+added,k:4697ed6eb656,title+office,,,Lockheed Martin 5G Support Services,,511,NP-55100
+removed,k:46d51c6e6a66,title+office,,"LIPTM00252, BASED LOGISTICS-ORGANIC (PBLO),VARIOUS ELECTRONIC COMPONENTS SEWP (C)",,541,,LSUBP00093
+added,k:46e529e52cac,title+office,,,"LIPTM00321, C4I, NS IPT, CND FORCEPOINT, B5.1 RENEWALS, ESI-BPA (MULTIPLE VENDORS) (C)",,691,LSUBP00024
+removed,k:4702c1ef33f7,title+office,,"Design Development Support for PEO C4I, NAVWAR, and Sub Organizations (C)",,46,,C4IEXEC
+removed,k:4707154c0dfe,title+office,,LIPTM00241 - USCG Sustainment - Seaport NxGEN TO (base + 4OYS) (C),,601,,LSUBP00006
+added,k:470726ff4821,title+office,,,"LIPTM00214-C4I FMS IPT - MO-P-LBL,ULTRA SAC, N6523618D1002",,469,LSUBP00006
+added,k:4712a2cbd8bc,title+office,,,0368 Automated Digital Network System (ADNS) In-Service Engineering Agent (ISEA) Technical Assistance Support listed shi,,316,NP-41200
+added,k:472938ad5168,title+office,,,"LIPTM00118 -TNSS-IPT, NON-CISCO SERVERS-SEWP (C)",,22,LSUBP00063
+removed,k:478915e47f2e,title+office,,"LIPTM00455-TERRESTRIAL COLLECTIONS IDENTITY OPS, IDOPS PROTOTYPE EQUIPMENT, SEWP (C)",,560,,LSUBP00021
+added,k:479a3c2bbd05,title+office,,,ADNS MAC RFP #7 (C),,370,PMW-160
+removed,k:47b8d1eb6904,title+office,,"LIPTM00481, Telephony, E911 Service, (SEWP) (C)",,395,,LSUBP00087
+removed,k:47cd7920648b,title+office,,"LIPTM00415-Radio Comms IPT, Antenna Tilt Group (ATG) repair-NEW LC NICHE (PPA)",,166,,LSUBP00016
+removed,k:47d680a3bd42,title+office,,LIPTM00229 - IUSS IPT - SURTASS -Pneumatic Hoists/Air Hoist tractor - SEWP (C),,242,,LSUBP00022
+removed,k:47f0a88465c0,title+office,,"LIPTM00174, Air & Space IPT, New Order",,132,,LSUBP00023
+removed,k:47f0a88465c0,title+office,,"LIPTM00174, Air & Space IPT, New Order",,286,,LSUBP00023
+removed,k:4813e44892df,title+office,,"LIPTM00461, Cyber Red Team Test, Operations, Development, and Cybersecurity Support, SeaPort NxG Small Business (C)",,485,,LSUBP00080
+removed,k:482151e6cf34,title+office,,"LIPTM00119, IC IPT, VIDEO FY24 OPN SPARES PROCUREMENT, SEWP (C)",,674,,LSUBP00034
+removed,k:4843430273ad,title+office,,"LIPTM00321, C4I, NSIPT, CND-TS AND SHARKCAGE JUNIPER RENEWALS, SEWP (C)",,247,,LSUBP00024
+removed,k:48bd7743c8ef,title+office,,NSC2I.  LSM 1 & 2 Phases 1-5 (C),,90,,PMW-760
+added,k:48feca133ee9,title+office,,,"LIPTM00285 NAVALC2 IPT, RIMAGE HW MAINTENANCE RNWL, GSA (C)",,696,LSUBP00063
+added,k:4900f24896bf,title+office,,,LIPTM00156 - DCGS-N IPT - FORGEROCK (DAS) - GSA (C),,795,LSUBP00022
+added,k:491237682dc5,title+office,,,Bundle 23 CRAC Unit Replacement,,626,LSUBP00083
+added,k:497e18d71e54,title+office,,,"LIPTM00328-SUB CWITT & SWFTS, New Task Order Award under contract N6523620D8024-RubenHolstrom0001-(WR SYSTEMS-NEW)",,90,LSUBP00016
+added,k:4985f1557f6f,title+office,,,"ERP, ERP+ and SLDCADA Engineering & Logistics Support Services_Option Exercise (C)",,342,Pf007NERP
+removed,k:49ebc32b4d48,title+office,,0201 ADNS ISEA,,799,,NP-41200
+removed,k:4a37978aaa5a,title+office,,CANES MAC- N0003924R9108 (C),,179,,PMW-160
+removed,k:4a60b334e433,title+office,,"LIPTM00074, DHA/HSI IPT, 24-018 BNO for JUNIPER LICENSES for NMC PORTSMOUTH & RAF LAKENHEATH DELTAS, FT LEONARD WOOD AMR",,616,,LSUBP00009
+removed,k:4a65a57736d1,title+office,,ADNS Production MAC RFP #30 (C),,14,,PMW-160
+changed,k:4a87f6d9dd02,title+office,solicitation_fy,FY24,FY25,556,184,LSUBP00010
+changed,k:4a87f6d9dd02,title+office,award_fy,FY25,FY26,556,184,LSUBP00010
+changed,k:4a87f6d9dd02,title+office,award_quarter,Q2,Q1,556,184,LSUBP00010
+removed,k:4a89bfc831b9,title+office,,ADNS Production MAC RFP #34 (C),,18,,PMW-160
+removed,k:4a92e99e6b2b,title+office,,"LIPTM00119, IC IPT, DDG MOD IVCS PSD SPARES PROCUREMENT, SEWP (C)",,629,,LSUBP00034
+added,k:4a950cffda0f,title+office,,,COMMAND AND CONTROL PROCESSOR (C2P) SOFTWARE ENGINEERING SUPPORT (SES),,227,NP-53000
+removed,k:4ae82843deed,title+office,,"TO 0093 - EXWC, MSRON, CPRW10 & HSM Upgrades (C)",,768,,NP-56700
+added,k:4b3e38a74f45,title+office,,,18989 LIPTM00463 PPR FOR FOE,,45,LSUBP00057
+added,k:4b58aba88563,title+office,,,NAVWAR 6.0 Programmatic Support Services,,400,6.0
+removed,k:4b6591ac8346,title+office,,"NSC2I LUSV 1, PHASES 1-5 (C)",,180,,PMW-760
+added,k:4ba123f15da9,title+office,,,LIPTM00454_CLOUD TRANSITION AND MODERNIZATION TECHNICAL SUPPORT _E2IS IPT_New Task Order_SeaPort-NxG (C),,798,LSUBP00064
+added,k:4bb470ae916e,title+office,,,LIPTM00149 - ASE - ASE-25-020 - SSEE Mission Module Spares (2) - SEWP V (C),,806,LSUBP00022
+removed,k:4bd35158a466,title+office,,"LIPTM00455, TCIO IDOPS APK. SEWP (C)",,654,,LSUBP00021
+removed,k:4be46b11823b,title+office,,LIPTM00229 - IUSS IPT - 300-24-917- CISCO Routers/Servers (Pope)-ESI/SEWP (C),,520,,LSUBP00022
+removed,k:4c119c3be347,title+office,,5091-LIPTM00256L-Installation of S127 OSP Fiber at Dam Neck (C),,354,,LSUBP00057
+removed,k:4c460a7adbf1,title+office,,xDMS RFP 005 JPN ASEV NMG,,107,,NP-55100
+added,k:4c50adccb5b3,title+office,,,NILE Link 22 Training Task Order 5,,359,PMW-150
+removed,k:4c7a76c95af9,title+office,,"LIPTM00252, BASED LOGISTICS-ORGANIC (PBLO), MATERIALS (EL1), NASA SEWP (C)",,529,,LSUBP00093
+added,k:4c90d2fc4e33,title+office,,,"LIPTM00439, C4I, PUBLIC KEY INFRASTRUCTURE, SERVERS AND HARDWARE, SEWP (C)",,648,LSUBP00024
+added,k:4ca489a0f6a9,title+office,,,"LIPTM00118, TNSS, RED HAT AGILE CORE SERVICES (DLT Solutions action)",,659,LSUBP00063
+added,k:4cfbfefb1673,title+office,,,Learning Stack (LS) - LS Tools System Integration (SI) Support,,328,Pf004MNHR
+unchanged,k:4dafe38dd3f8,title+office,,,,11,15,PMW-740
+added,k:4dc430efcb9a,title+office,,,"LIPTM00455, TCIO CIHEP, Scope, Adapter, SEWP (C)",,746,LSUBP00021
+added,k:4dced11b1462,title+office,,,LIPTM00001_METOC SWR Material_EEC_SAC DO,,717,LSUBP00001
+added,k:4de9d7ac365c,title+office,,,LHA 10 RCS/DS/SSES (C),,345,PMW-750
+removed,k:4df566bbe3ce,title+office,,Anduril,,118,,LSUBP00049
+added,k:4e16ca25ce9a,title+office,,,"LBUSP00030, EEO AMERICAN SIGN LANGUAGE SUPPORT, GSA (C)",,760,LBUSP00030
+changed,k:4e1be0d80412,title+office,solicitation_quarter,Q2,Q3,48,109,PMW/A-170
+changed,k:4e1be0d80412,title+office,award_quarter,Q1,Q2,48,109,PMW/A-170
+added,k:4e58a0f60ae7,title+office,,,LIPTM00250_Shore SUB C4I IPT - FSBS OPN-S Priority Spare Procurement_SEWP (C),,816,LSUBP00035
+added,k:4ebd821eed03,title+office,,,"LIPTM00448-PNT ISEA, New Task Order Award under contract N6523620D8024-CharlesNwachukwu0011-(WR Systems-New TO)",,630,LSUBP00016
+removed,k:4ec50a467cfc,title+office,,NILE End to End Test Station (C),,178,,PMW-150
+removed,k:4ed5ea46f404,title+office,,"LIPTM00128, FY 24 Silent Dagger Deployable Version 3A (SDD V3A)",,160,,LSUBP00004
+added,k:4edb59fc5e89,title+office,,,LIPTM00248 - VA BLK I/II TM Red Phone Procurement - NEW SAC DO - CORPORATE PRODUCTION - N6523618D8014,,584,LSUBP00035
+added,k:4f01c59ad656,title+office,,,LIPTM00333: NAVY ESS OCONUS SUSTAINMENT (C),,598,LSUBP00010
+added,k:4f3918bd0aff,title+office,,,DMR - Ancillary Definitization Mod for OP 3 - 5 - 24D2000,,422,PMW/A-170
+removed,k:4f4ff35c9a4d,title+office,,Philippines C4ISTAR Life Cycle Support,,481,,PMW-740
+added,k:4f698b9b0042,title+office,,,Delivery Order for the FFP Production of a CLTS Array Shipset,,175,PMS-485
+added,k:4f698b9b0042,title+office,,,Delivery Order for the FFP Production of a CLTS Array Shipset,,176,PMS-485
+added,k:4f698b9b0042,title+office,,,Delivery Order for the FFP Production of a CLTS Array Shipset,,177,PMS-485
+removed,k:4f6bd066e5c1,title+office,,LIPTM00241 - USCG IPT - Acquisition Support with Systems Engineering and Technical Services - Seaport NxGEN TO (base + 4,,603,,LSUBP00006
+added,k:4f80ae9b1ae0,title+office,,,LIPTM00248 - AFLOAT SUB C4I IPT - CSRR MRTS UNITY INDUSTRY SW SUPPORT (SEWP) FY26 (C),,606,LSUBP00035
+removed,k:4f9281a41302,title+office,,"LIPTM00081. PJSA IPT, NGA TAC SMS",,268,,LSUBP00010
+added,k:4f967dee784c,title+office,,,"LIPTM00252 BASED LOGISTICS-ORGANIC (PBLO), PANASONIC RUGGED TOUGHBOOKS (SEWP)",,44,LSUBP00093
+removed,k:4fa6a7033515,title+office,,"LIPTM00174, AIR & SPACE, Aircraft Procurement Navy 6, SEWP (C)",,502,,LSUBP00023
+removed,k:4fb18265cd20,title+office,,SEAPORT TO (Tactical Systems Integration (TSI) Testbed Systems Engineering) (C),,770,,NP-53500
+added,k:4fd3e846ebd5,title+office,,,"LIPTM00087, SCADA IPT, NAVCONBRIG ESCS Maintenance Technical Support",,711,LSUBP00010
+added,k:500ad2b78f66,title+office,,,Hull Penetrator 18 units,,399,PMW-770
+removed,k:505d85c1dc6a,title+office,,LIPTM00252/PBLO/SSEE INC F/SPARES/SEWP (C),,689,,LSUBP00093
+removed,k:50f06b196622,title+office,,"LIPTM00074, DHA/HSI IPT, 24-021 BNOE for FORT MOORE FY23 LAN FORKLIFT-SEWP (C)",,614,,LSUBP00009
+removed,k:512319888ba1,title+office,,0223 ADNS EPF-15,,782,,NP-41200
+added,k:512972a45262,title+office,,,Quantum convergence lab,,627,LSUBP00049
+added,k:513bfa638486,title+office,,,"Navy ERP, SLDCADA and ERP+ Support Services_Option Year 4",,336,Pf007NERP
+added,k:5141c5779721,title+office,,,"LIPTM000328, C4I WEAPONS TEST TEAM IPT, RSA, ESI",,768,LSUBP00035
+removed,k:51479fe3f96e,title+office,,EUHW OCONUS warranty support changes,,414,,PCE
+removed,k:517c3a0118b5,title+office,,"LIPTM00214-C4I FMS, Saudi Arabia, FMS Case SR-L-DA, ESI Cisco, SEWP (C)",,383,,LSUBP00006
+added,k:51ddecbb4812,title+office,,,FY25 NESD Follow-On IDIQ,,349,DCE
+added,k:51e707a822ec,title+office,,,"Order to contract # N6600121D0153: NIEF RFP E2568 - GAT, PITCO, and Delivery of ENCLAVE, AN/USQ-144M(V)2, ADNS, SP5 for ",,317,NP-42100
+added,k:52a1ead6e42e,title+office,,,LIPTM00241-USCG IPT - L3 Harris Radio Repairs (FY25-27),,686,LSUBP00006
+added,k:52aaf5b606f1,title+office,,,"LIPTM00304-ENGINEERING, New Task Order Award under contract N6523621D8008 -Levi Williams-(Bowhead-New)",,642,LSUBP00016
+added,k:52c4b31f9426,title+office,,,LIPTM00156 - DCGSN IPT - HORIZON SW-SEWP (C),,566,LSUBP00022
+removed,k:52de4535572b,title+office,,RTAB/SHARC 27,,477,,PMS-485
+removed,k:530b6bd2f641,title+office,,"LIPTM00455, TCIO, Forensics Equipment for USMC Program of Record (POR), LOGICUBE, GSA (C)",,586,,LSUBP00021
+added,k:5327612adde4,title+office,,,"ERP, ERP+ and SLDCADA  Engineering & Logistics Services_Option Exercise (C)",,343,Pf007NERP
+added,k:532dd163bae3,title+office,,,"LIPTM00415-Radio Comms IPT: OA-9277A COUPLER, PWR SUPPLY PROCUREMENT-NEW LC NICHE SAC (PPA LSUBP00016-0059)",,191,LSUBP00016
+added,k:5388d6e4fe5f,title+office,,,RPA BOT Development Single Award IDIQ (C),,310,NP-53000
+removed,k:53baaa66a242,title+office,,MPO Lot 13 HW Procurement (C),,200,,PMA/PMW-101
+removed,k:53c226d501da,title+office,,TDL 0195 - TAN/UYQ-120(V) Command and Control Processor System (C2PS),,780,,NP-41100
+removed,k:54168294eb8e,title+office,,"LIPTM00226, NAVAIR FMS, FOLLOW ON, SEAPORT (C)",,554,,LSUBP00006
+added,k:544d84a27339,title+office,,,"LIPTM00460, RDT&E Network Services IPT, RDT&E Network Services, Operations, and Engineering Support for NIWC Atlantic, S",,777,LSUBP00087
+removed,k:549263633f49,title+office,,"LIPTM00074, DHA/HSI IPT, 24-008 BNOE Fort Stewart FY23 LAN Forklift-SEWP (C)",,486,,LSUBP00009
+added,k:54b1634526f4,title+office,,,"LSUBP00022 - BA Division -ISR/IO, Integrated Logistics Support (ILS) and Configuration Management (CM) - Seaport New TO ",,189,LSUBP00022
+removed,k:54b6f51456a4,title+office,,Code 581 CSTA Follow On (C),,708,,NP-58100
+removed,k:5519ce2ac305,title+office,,Decision Advantage Battle Management Aids (DABMA)_New CYBER TO (C),,758,,NP-53600
+removed,k:5522c37aae59,title+office,,"LIPTM00119, IC IPT, DDG ANN DIAS PROCUREMENT, SEWP (C)",,224,,LSUBP00034
+removed,k:553d4536c5c3,title+office,,LIPTM00119-INTERIOR COMMS (IC) IPT- New (internal) Large Service Contract (PAA XXX),,162,,LSUBP00034
+added,k:553e76eae3e9,title+office,,,"LIPTM00455, SIO, TIC MATERIAL, SEWP (C)",,472,LSUBP00021
+removed,k:5545d3eb0958,title+office,,"LIPTM00248 - AFLOAT SUB C4I IPT - FY24 CB 22 and CB 23 KITTING -I1V4, RFDACS OK-700, GBS OK-700 and DMR PROCUREMENT, INT",,150,,LSUBP00035
+added,k:55653228403c,title+office,,,"LIPTM00119, IC IPT, LHD-8 ANN AMPLIFIER PROCUREMENT, SEWP (C)",,40,LSUBP00034
+removed,k:5598bac92eb9,title+office,,5069 LIPTM00426 USS RICHARD M MCCOOL (LPD 29) INSTALLS (C),,495,,LSUBP00057
+removed,k:56368ae0760b,title+office,,"LIPTM00415-RCIPT: OA-9277A COUPLER, PWR SUPPLY PROCUREMENT-NEW LC NICHE SAC (PPA LSUBP00016-0059)",,161,,LSUBP00016
+removed,k:565591707a1c,title+office,,LIPTM00229 - IUSS IPT - 300-24-920- CISCO Servers (Outlaw)-ESI/SEWP (C),,399,,LSUBP00022
+added,k:56628a259e80,title+office,,,NILE In-Service Support (ISS) 6 Contract (C),,139,PMW-150
+removed,k:56701d2778bf,title+office,,ADNS Production MAC RFP #29 (C),,13,,PMW-160
+removed,k:569038b5a2a2,title+office,,"LIPTM000245, LDNC IPT, MISC MATERIAL, SEWP (C)",,227,,LSUBP00034
+removed,k:56a17c524bf2,title+office,,LIPTM00241 USCG IPT L-3 NEW TASK ORDER (ACQUISITION),,164,,LSUBP00006
+added,k:56b1e40e3d5d,title+office,,,"LIPTM00250, Shore Sub C4I IPT, FSBS Auto Tuner Engineering and Design Procurement - Salient SAC - N6523623D8015",,772,LSUBP00035
+added,k:56b3942aada7,title+office,,,Modification to Contract # N6523624F0392,,55,LSUBP00007
+added,k:56b5d5dc62b3,title+office,,,Order to Contract # N6600123D0014 - Depot RFP 0029 - Calibration Lab-Direct/Fleet Support,,285,NP-43100
+removed,k:56bd0cdedb75,title+office,,LIPTM00214-C4I FMS IPT_JAPAN JA-P-NDL _ TACTICAL DATA LINK _SEWP (C),,214,,LSUBP00006
+removed,k:56be700a81bf,title+office,,"LIPTM00248 - Afloat SUB C4I IPT - COMMAND, CONTROL, COMMUNICATIONS, AND COMPUTERS (C4I) TRAINING, SYSTEMS ENGINEERING & ",,576,,LSUBP00035
+removed,k:56d8bd9afe86,title+office,,"LIPTM00347, VEHICULAR TECHNOLOGY TRANSITION, ANSYS SW, SEWP, MAC (C)",,627,,LSUBP00007
+removed,k:56dc68b1fb4e,title+office,,NSC2I.  T-AO 211-214. Phases 2-5 (C),,70,,PMW-760
+added,k:56fc221e1941,title+office,,,LIPTM00129 - USMC Communications Systems - UCS Vehicle Antenna Requirement - NASA SEWP (C),,563,LSUBP00004
+added,k:57500ed5e7ba,title+office,,,ADNS MAC RFP #2 (C),,365,PMW-160
+removed,k:57761cfed97f,title+office,,"LIPTM00086, MYNAVY HUMAN RESOURCES SOLUTIONS, MRRS JasperReports Professional renewal (C)",,640,,LSUBP00011
+removed,k:5786a67d8ef9,title+office,,MIDS WDL SF (C),,189,,C4IEXEC
+removed,k:57aa69d57b1b,title+office,,LIPTM00119-INTERIOR COMMS: IC VIDEO EAST COAST PHASE 2-FY24 - SAC CHUGACH Order-N6523621D8009,,125,,LSUBP00034
+added,k:57be1b83426d,title+office,,,"LIPTM00074, DHA/HSI IPT, 25-008 MIX OF BNOE & BNO FOR MULTIPLE SITES-SEWP (C)",,718,LSUBP00009
+changed,k:57c80df5d105,title+office,procurement_instrument,Single-Award Indefinite-Delivery,Delivery Order/Task Order (not under Federal Supply Schedule Contract),197,154,4.0
+changed,k:57c80df5d105,title+office,solicitation_fy,TBD,FY26,197,154,4.0
+changed,k:57c80df5d105,title+office,solicitation_quarter,TBD,Q3,197,154,4.0
+added,k:581281337d09,title+office,,,CABO VERDE_PFPS IDIQ 2N66001-1-D-0452_TO 24,,286,NP-56700
+removed,k:582fc67622a9,title+office,,NMT FOFD - RIP BCCP Phase IV (RFP),,433,,PMW/A-170
+removed,k:584a7904dade,title+office,,CDLS Refurbishment Follow-On,,478,,PMW/A-170
+removed,k:58cc10702616,title+office,,18989 - FOE MOD LIPTM00256L INTRUSION DETECTION SYS & CCTV AT NNSY PORTSMOUTH VA,,130,,LSUBP00057
+added,k:58ea749c1a7c,title+office,,,FY25 SB Forecast - LIPTM00478 Forcepoint Renewal (C),,712,LSUBP00009
+removed,k:591df5a087ec,title+office,,Microsoft Services,,422,,C4IEXEC
+removed,k:59354380c814,title+office,,LIPTM00107 - Naval Tactical Command Support System - NTCSS Development Atlassian Support Renewal- ATLASSIAN ESI BPA (C),,671,,LSUBP00056
+added,k:59374be8188a,title+office,,,Amplifiers - 27,,386,PMS-485
+removed,k:599a311a776d,title+office,,Relay Ground Station (RGS) (C),,704,,NP-55200
+added,k:59f06382943a,title+office,,,0384 Capabilities-Based ISEA (CB-ISEA) Integrated Logistics Support (ILS) - FY25,,315,NP-41200
+added,k:5ab48a670cba,title+office,,,LIPTM00248 - Afloat SUB IPT - FY25 CB23  - NEW SAC DO - CORPORATE PRODUCTION,,781,LSUBP00035
+removed,k:5ac1d2eb37dd,title+office,,LIPTM00304-Guam Missile Defense System Engineering Support -Lambert0015-Multi year PoP with no options (WR Systems-NEW S,,278,,LSUBP00016
+added,k:5ac294f1ad53,title+office,,,"LIPTM00460, Telephony,  AKKADIAN, SEWP (C)",,523,LSUBP00087
+added,k:5adbe30e04af,title+office,,,"LIPTM000328, C4I WEAPONS TEST TEAM IPT, JUNIPER, SEWP (C)",,765,LSUBP00035
+added,k:5b4e7a661299,title+office,,,GPNTS - Software Ceiling Increase,,363,PMW/A-170
+removed,k:5b958348fd20,title+office,,03 MOS TC CPU Repair,,468,,PMW-150
+added,k:5c1e3fcd8fd3,title+office,,,NSC2I. AS(X) Phase 1-3 AWARD (C),,153,PMW-760
+added,k:5c430acd5f41,title+office,,,"LIPTM00468, NISE, WD-25-010, M&S OBJECTIVES, SEWP (C)",,79,LSUBP00049
+added,k:5c4a1de3dc26,title+office,,,Order to Contract #N0003922D4001_Austria_Depot_Repair,,398,PMA/PMW-101
+added,k:5c4f6580ad7c,title+office,,,LIPTM00149 - ASE - ASE-25-018 - SSEE MISSION MODULE SPARES - SEWP V (C),,804,LSUBP00022
+added,k:5c6ab4db1f4e,title+office,,,"LIPTM00448-ISEA, New Construction Navigation SYS Support-New Task Order Award under contract N6523620D8024-KrisLambert00",,836,LSUBP00016
+removed,k:5c6d6f2a7e1c,title+office,,DMR - HFDAG Prototype (OTA) (C),,71,,PMW/A-170
+removed,k:5c8b58c6be6c,title+office,,Bahamas MSS Sustainment,,457,,PMW-740
+removed,k:5cb2fb6be3e2,title+office,,Phase III SBIR - Nearly Human - P24-01b,,432,,LSUBP00064
+removed,k:5cc5d31298b3,title+office,,FY25 OE-538 Production Re-compete (C),,37,,PMW-770
+removed,k:5cfbdfcab239,title+office,,LIPTM00395 - MULTI MEDIA  IPT - TPL 24-052 CMDIO SEWP (C),,207,,LSUBP00002
+added,k:5d15b69d96a3,title+office,,,"LIPTM00321, C4I, NS IPT SENSOR 2 GITLAB RENEWALS, ESI-SEWP (C)",,654,LSUBP00024
+removed,k:5d2d35a7e332,title+office,,"LIPTM00336, DCGS-MC, OPEN AM SW, SEWP (C)",,612,,LSUBP00021
+added,k:5d7e71ffe3ea,title+office,,,DIU/CNAFR Software Production OT,,89,LSUBP00049
+added,k:5dcd4e40ee7f,title+office,,,NILE Link 22 Training Base Contract Ceiling Realignment MOD & Update FFP,,424,PMW-150
+removed,k:5dd4d23905f3,title+office,,LSUBP00015 - Shore C4I Division - ShoreNet Capability-Based In-Service Engineering Activity (CB-ISEA) Support-SeaPort Nx,,578,,LSUBP00015
+removed,k:5ddcbc77358c,title+office,,LIPTM00346 Fielded Ground Systems (FGS) Mobile Command Vehicle (MCV) Modification to N6523624F0232,,291,,LSUBP00007
+removed,k:5ddf84420bd5,title+office,,"LIPTM00052 Counter Threat Platforms (CTP) Support, MADIS FRP Systems, Corporate Production",,303,,LSUBP00007
+removed,k:5de42e982b72,title+office,,LIPTM00119-INTERIOR COMMS: USS Makin Island (LHD-8) Video Information Display System (VIDS) 3.0 Upgrade - New SAC TO - N,,119,,LSUBP00034
+changed,k:5de9e61f8195,title+office,award_quarter,Q2,Q3,16,16,PMW-160
+changed,k:5de9e61f8195,title+office,follow_on_or_new,,New,16,16,PMW-160
+added,k:5dfee69bbb6f,title+office,,,Philippines Link-16 Phase 1 - CIIS Task Order (C),,385,PMW-740
+removed,k:5e67b129c9dd,title+office,,Tradewinds,,128,,LSUBP00049
+added,k:5e7978d11ee3,title+office,,,My Navy Assignment (MNA) Sustainment Tech Refresh,,164,Pf004MNHR
+changed,k:5e867534d271,title+office,anticipated_total_value,$2M - $7.5M,$100M - $250M,172,143,C4IEXEC
+changed,k:5e867534d271,title+office,solicitation_fy,FY25,FY26,172,143,C4IEXEC
+changed,k:5e867534d271,title+office,award_fy,FY25,FY26,172,143,C4IEXEC
+removed,k:5ed717fe88ce,title+office,,Visual strategy and collaboration tool for PMW 150 (C),,190,,PMW-150
+added,k:5ee314b2758e,title+office,,,Bundle 29 Paint and Carpet,,592,LSUBP00083
+changed,k:5eee0b3df3a0,title+office,contract_type,TBD,Cost-Reimbursement,31,118,PMS-485
+changed,k:5eee0b3df3a0,title+office,procurement_instrument,TBD,Single-Award Indefinite-Delivery,31,118,PMS-485
+changed,k:5eee0b3df3a0,title+office,solicitation_fy,TBD,FY25,31,118,PMS-485
+changed,k:5eee0b3df3a0,title+office,solicitation_quarter,TBD,Q4,31,118,PMS-485
+changed,k:5eee0b3df3a0,title+office,award_fy,FY27,FY26,31,118,PMS-485
+changed,k:5eee0b3df3a0,title+office,existing_contract_number,N0003922F3003,N0017819D8006N0003922F3003,31,118,PMS-485
+changed,k:5eee0b3df3a0,title+office,incumbent_contractor,,"LEIDOS, INC.",31,118,PMS-485
+added,k:5f4b44b71e84,title+office,,,"LIPTM00415-Radio Comms IPT, Tactical Variant Switch (TVS) 3rd order of FY25-MAC (C)",,567,LSUBP00016
+removed,k:5f4ecd08960e,title+office,,"LIPTM00336, DCGS-MC, SYBASE SW, SEWP (C)",,338,,LSUBP00021
+removed,k:5fb4e4f6e6ff,title+office,,LIPTM00304-Aircraft Inertail Alignment System (AIAS) Production Support CVN 80 SCN-Lambert0012-(WR Systems-NEW),,137,,LSUBP00016
+removed,k:5fbf7d10d3b5,title+office,,LIPTM00107 - Naval Tactical Command Support System - NTCSS Development Stunnel Support Renewal- NASA SEWP (C),,345,,LSUBP00056
+added,k:5fd0cbfcca7f,title+office,,,1.0/81/84 Financial & Corporate Services Follow-on (C),,253,NP-84000
+added,k:5fe3cb03869f,title+office,,,"LIPTM00183, INIS IPT, MUOS - New Task Order (#5)",,83,LSUBP00023
+unchanged,k:5fe40064a0ab,title+office,,,,690,241,NP-53400
+removed,k:5fe4404cd0ae,title+office,,TO 0094 - H0023 Network Engineer Support (C),,756,,NP-H4H00
+added,k:5ff9f2a3f3b5,title+office,,,LIPTM00468_NISE IPT_FY25 KYMETA TERMINAL_SEWP (C),,486,LSUBP00049
+changed,k:600e40920110,title+office,award_fy,FY26,FY27,222,827,LSUBP00035
+removed,k:6019c655351c,title+office,,"LIPTM00468, NISE, M & S Innovations, GSA (C)",,688,,LSUBP00049
+added,k:6064e04bd538,title+office,,,"LIPTM00321, C4I, NS IPT, CND VERITAS SW RENEWALS, ESI-BPA (MULTIPLE VENDORS) (C)",,690,LSUBP00024
+added,k:606f536a6f66,title+office,,,0366 Capabilities-Based ISEA (CB-ISEA) Integrated Logistics Support (ILS) - FY25,,293,NP-41200
+removed,k:608a453c1758,title+office,,"LIPTM00448-DHYSL, WSN-11, & CDU PRODUCTION-RichieMarsh00XX-(WR SYSTEMS-NEW)",,275,,LSUBP00016
+unchanged,k:608f442e5f34,title+office,,,,815,234,NP-55700
+added,k:60c6fb23bdb6,title+office,,,5166 LIPTM00425 NEW TASK ORDER (C),,57,LSUBP00057
+removed,k:60c7d82c8bc2,title+office,,"LIPTM00086, MYNAVY HUMAN RESOURCES SOLUTIONS, TFMMS IBM PAM License, SEWP (C)",,385,,LSUBP00011
+added,k:60e0e5099b60,title+office,,,"LIPTM00214-C4I FMS, ULTRA, FMS Case IS-P-LIC, TW-P-GPU SAC -N65236-18-D-1002",,594,LSUBP00006
+removed,k:61083b5f6ce2,title+office,,"LIPTM00120, SDRS IPT, VQUAD HW RENEWAL FY24, SEWP (C)",,608,,LSUBP00016
+removed,k:6183139dfe6e,title+office,,Marine Mammal Engineering Support,,811,,NP-56700
+added,k:61bbb6ad60d9,title+office,,,"LIPTM00455, Sensing and Information Operations (SIO) Classified Projects - NEW SERVICE TO SEAPORT (C)",,775,LSUBP00021
+removed,k:61c3a58bf355,title+office,,TO 0001 CAMMACK,,841,,NP-56700
+removed,k:620d5245f72c,title+office,,06 MOS Mod BPA Call 7 (DRS) (C),,186,,PMW-150
+removed,k:6216345781f6,title+office,,Integrated Common Processor (ICP) 28,,558,,PMS-485
+added,k:622b09bc4cc0,title+office,,,CSRR C&M DO#7,,356,PMW-770
+added,k:628b9939acd5,title+office,,,LIPTM00006_Naval Command and Operations Center_Naval Air Station (NAS) Key West Cisco Material_DOD Cisco ESI - SEWP Cata,,742,LSUBP00002
+removed,k:62ab51dce68c,title+office,,LIPTM00410_ECI IPT_MOTOROLA UPGRADE_SEWP (C),,360,,LSUBP00064
+added,k:62b003b6a9ba,title+office,,,Modeling & Simulation-28 Contract,,96,PMS-485
+removed,k:63114780ce00,title+office,,LIPTM00248 - AFLOAT SUB C4I IPT - FY24 CB 25 KITTING - NEW SAC DO - CORPORATE PRODUCTION - N6523618D8014,,313,,LSUBP00035
+removed,k:632477f91337,title+office,,"LIPTM00074, DHA/HSI IPT, 24-016 BNO for HPE/ARUBA FY24 SITES-1st ROUND-SEWP (C)",,653,,LSUBP00009
+removed,k:63bc4e134813,title+office,,"LIPTM00119, IC IPT, EPF-14-16 VIDEO SITE 300 PROCUREMENT, SEWP (C)",,645,,LSUBP00034
+removed,k:63c067aceb0b,title+office,,LIPTM00250_Shore SUB IPT - FSBS_Laptops for WIN 11 Upgrade_SEWP (C),,403,,LSUBP00035
+added,k:640ea336cc2b,title+office,,,evergreen FKNA Pure Storage (VSE) (C),,171,PMW-790
+added,k:6426fc97bdc4,title+office,,,"LIPTM00460, RDT&E, HORIZON JUNIPER  SEWP (C)",,71,LSUBP00087
+removed,k:649bfab3178c,title+office,,LIPTM00460 FY24 RDT&E DOCKER GSA (C),,370,,LSUBP00087
+changed,k:650df96d12c6,title+office,procurement_method,TBD,Full and Open Competition,606,202,LSUBP00006
+changed,k:650df96d12c6,title+office,procurement_instrument,Delivery Order/Task Order (not under Federal Supply Schedule Contract),Single-Award Indefinite-Delivery,606,202,LSUBP00006
+changed,k:650df96d12c6,title+office,solicitation_fy,FY24,FY25,606,202,LSUBP00006
+changed,k:650df96d12c6,title+office,solicitation_quarter,Q4,Q3,606,202,LSUBP00006
+changed,k:650df96d12c6,title+office,award_fy,FY25,FY26,606,202,LSUBP00006
+removed,k:659af004ef7f,title+office,,LIPTM00458-Corporate Production new Supply contract for Corporate Production (PPA XXX) (C),,553,,LSUBP00077
+added,k:65af4d93d743,title+office,,,"LIPTM00226, TACMOBILE, Common Data Link (CDL) AN/USQ-258(V)1 National Security Agency (NSA) Certification, Sustainment a",,793,LSUBP00006
+removed,k:65c4fb35a2b3,title+office,,LIPTM00121-ATS IPT: SATCOM CB-ISEA SPPT (SEAPORT-NxG - NEW TO - 60 MOS. POP) (C),,487,,LSUBP00016
+changed,k:6631d61304d4,title+office,procurement_method,TBD,Full and Open Competition,504,830,LSUBP00001
+changed,k:6631d61304d4,title+office,procurement_instrument,"""C"" Type Contract",Delivery Order/Task Order (not under Federal Supply Schedule Contract),504,830,LSUBP00001
+changed,k:6631d61304d4,title+office,solicitation_fy,FY24,FY25,504,830,LSUBP00001
+changed,k:6631d61304d4,title+office,solicitation_quarter,Q3,Q2,504,830,LSUBP00001
+changed,k:6631d61304d4,title+office,award_fy,FY24,FY25,504,830,LSUBP00001
+changed,k:6631d61304d4,title+office,award_quarter,Q4,Q3,504,830,LSUBP00001
+changed,k:6631d61304d4,title+office,follow_on_or_new,,New,504,830,LSUBP00001
+added,k:6641674ae7bf,title+office,,,8.0 1NAVWAR Cellular Contract - FOE Verizon,,440,8.0
+removed,k:6645935d1b4c,title+office,,"DATEM, TO 03",,434,,PMW-120
+removed,k:6672b2a3bf2b,title+office,,ESI_Oracle_IDIQ_5_Year (C),,709,,NP-55300
+removed,k:66a6ad2242b6,title+office,,"LIPTM00245, Large Deck New Con, Multifunction Copier Infrastructure Installation, SAC",,127,,LSUBP00034
+changed,k:66dce69a9f4e,title+office,award_fy,FY24,FY25,746,223,NP-55300
+changed,k:66dce69a9f4e,title+office,award_quarter,Q4,Q3,746,223,NP-55300
+added,k:66dd29bc3f1b,title+office,,,CANES ENG AND CANES TNSS/SeaPort TO (Base +4OYs) FY29 Follow On (C),,666,LSUBP00063
+added,k:670c80878d63,title+office,,,LIPTM000250_Shore Sub C4I IPT_THALES_w/options_SEWP,,615,LSUBP00035
+added,k:672fecbf3de3,title+office,,,LIPTM00002_TACAN_SoleSource,,837,LSUBP00001
+removed,k:6743e92f7131,title+office,,LIPTM00229 - IUSS IPT - 300-24-913- MISC Software (Wiseman)-SEWP * Small Business Action (C),,536,,LSUBP00022
+added,k:6745341fa5b7,title+office,,,PSS Re-Compete/21F3016 Follow-On (C),,384,PMW-150
+added,k:675868f55295,title+office,,,"GIC SE4 TORFP 5175 Shore TO, CENTRIXS-M Installation at COMUSNAVEUR-C6F, Naples, IT (C)",,283,NP-42100
+added,k:675add03f6d9,title+office,,,N0003923D9000 Ordering Period Extension,,407,PMW-130
+added,k:6766720e3e34,title+office,,,PMW 160 Engineering Support Services (ESS) Follow-on Contract Base Year (C),,128,PMW-160
+added,k:677c945bf06f,title+office,,,"LIPTM00321, C4I, NS IPT, SHARKCAGE SENSOR 2 FY25 SPARES, SEWP (C)",,75,LSUBP00024
+added,k:6795f905fc73,title+office,,,"LIPTM00081, PJSA IPT, NGA SMS, Polygraph, and CMS Sustainment New Order (C)",,474,LSUBP00010
+removed,k:6799de3f2ef7,title+office,,0229 CANES SOVT,,853,,NP-41200
+removed,k:67c039e62420,title+office,,"LIPTM00321, C4I, NSIPT, CND MOD ECRNOC 5.1 POWER AND CABINET, SEWP (C)",,346,,LSUBP00024
+added,k:680ab1560dda,title+office,,,"LIPTM00150, FAM OF INT TARGET & EXPLOITATION (FITE), TCAC OPTIA SERVER, NASA SEWPR, NASA (C)",,554,LSUBP00021
+removed,k:682004002d21,title+office,,0213 ADNS PIT ISEA,,844,,NP-41200
+removed,k:68d0ef530607,title+office,,NSC2I T-AGOS.  25 (Phase 1-5) and T-AGOS 26 (Phase 3-5) (C),,86,,PMW-760
+removed,k:68eb6c06dc55,title+office,,SATCOM CB-ISEA Support Follow-on (N66001-24-R-3500) (C),,702,,NP-41200
+added,k:69156b3903a6,title+office,,,"LIPTM00321, C4I, NS IPT CDMSS ANOMALI SW RENEWALS, SEWP (C)",,657,LSUBP00024
+changed,k:693146275953,title+office,solicitation_fy,TBD,FY25,634,822,LSUBP00049
+changed,k:693146275953,title+office,solicitation_quarter,TBD,Q1,634,822,LSUBP00049
+changed,k:693146275953,title+office,award_fy,FY25,FY26,634,822,LSUBP00049
+changed,k:693146275953,title+office,award_quarter,Q4,Q2,634,822,LSUBP00049
+removed,k:6961708ca25d,title+office,,0210 ADNS CANES  ISEA,,794,,NP-41200
+removed,k:6964e754ef85,title+office,,LIPTM00241 - USCG IPT - MILPOWER AMPS (T842 JG) - SEWP (C),,325,,LSUBP00006
+added,k:697c46b46aa0,title+office,,,5167 LIPTM00426 NEW TASK ORDER (C),,46,LSUBP00057
+changed,k:69cd6474df57,title+office,anticipated_total_value,$50M - $100M,No Range Specified,9,14,PMW-740
+changed,k:69cd6474df57,title+office,procurement_instrument,Delivery Order/Task Order (not under Federal Supply Schedule Contract),"""C"" Type Contract",9,14,PMW-740
+changed,k:69cd6474df57,title+office,solicitation_quarter,Q2,Q3,9,14,PMW-740
+changed,k:69cd6474df57,title+office,award_fy,FY25,FY26,9,14,PMW-740
+changed,k:69cd6474df57,title+office,award_quarter,Q4,Q1,9,14,PMW-740
+removed,k:69e09847e154,title+office,,"LIPTM00119, IC IPT, USCG 28TV CISCO PROCUREMENT, SEWP ESI (C)",,620,,LSUBP00034
+added,k:6a1648eea51d,title+office,,,"LIPTM00455, SIO, ARCHER FOLLOW ON (C)",,532,LSUBP00021
+added,k:6a39028f3f81,title+office,,,SYBASE (GCCS-J) (C),,172,PMW-790
+added,k:6a5afdac5384,title+office,,,"LIPTM00252 BASED LOGISTICS-ORGANIC (PBLO), POWER SUPPLIES SEWP (C)",,684,LSUBP00093
+added,k:6a7437d5bf77,title+office,,,DARPA CHUGACH SAC,,537,LSUBP00049
+removed,k:6a9a9baf8906,title+office,,Engineering Services for USAF Feasibility Study,,431,,PMA/PMW-101
+added,k:6aa6815efa88,title+office,,,"Navy ERP, SLDCADA and ERP+ Option Year 1",,130,Pf007NERP
+removed,k:6ab6eff4a430,title+office,,"LIPTM00455, TCIO, FDS-MC TRANSIT CASES, SEWP (C)",,387,,LSUBP00021
+added,k:6aff4b1eb7eb,title+office,,,CANES MAC RFP 9116 4 INCOs (C),,434,PMW-160
+removed,k:6b194c004bf2,title+office,,PRIORITY 4 IST 9TH,,100,,NP-H5600
+removed,k:6b78c994bd2c,title+office,,"LIPTM00074, DHA/HSI IPT, 24-009 BNOE for EGLIN AFB & HURLBURT FIELD LAN FORKLIFTS-SEWP (C)",,484,,LSUBP00009
+added,k:6ba1176a9c68,title+office,,,34 - OE538 9-30MHz MATCH NETWORK - LACOMB,,522,NPT-34
+removed,k:6be5c7dc317d,title+office,,"LIPTM00447, SECURE VOICE SOLUTIONS IPT -SECURE VOICE NEW SAC Order N6523619D8002 SECURE VOICE BASE + 2 OYs",,251,,LSUBP00015
+added,k:6bf04c9782ea,title+office,,,0374 Automated Digital Network System (ADNS) Post Installation Training (PIT) System In Support of Operational Turnover ,,492,NP-41200
+added,k:6c8b9e1dc8f4,title+office,,,Navy Enterprise Resource Planning (NERP) Technical Support Services (C),,138,Pf007NERP
+removed,k:6ca4b6d82e7b,title+office,,"LIPTM00164, SOIS, Maritime Combatant Craft, SeaPort (C)",,491,,LSUBP00021
+added,k:6cbd95f1d20d,title+office,,,LIPTM00149 - ASE - ASE-25-011 - SSEE CDE AccuRev - MicroFocus - ESI/BPA (C),,809,LSUBP00022
+added,k:6cc2aa26bd57,title+office,,,Re-negotiate TTTS OY1-OY4 CLINs due to Redesign under Contract #N0003924C9001,,420,PMS-485
+removed,k:6cd7421ba7d0,title+office,,"LIPTM00119, IC IPT, CVN-70_CVN-78 IVN UPS & 4IV ICTs PROCUREMENT, SEWP (C)",,334,,LSUBP00034
+removed,k:6d1a5225814b,title+office,,LIPTM00443_ATR_MORT_OPTIA_SEWP (C),,669,,LSUBP00049
+removed,k:6d1b9338e77b,title+office,,Commvault DOD ESI (C),,752,,NP-55300
+added,k:6d20f9d73912,title+office,,,"LIPTM00291, MC2SA, Eggplant Software License , SEWP",,459,LSUBP00004
+added,k:6d36dae3566a,title+office,,,"FY25 SB Forecast - LIPTM00074, DHA/HSI IPT, 25-027 Ilom & Misc for JALFHCC- FY25-SEWP (C)",,737,LSUBP00009
+added,k:6d372bf2bd4a,title+office,,,"COSMOS Engineering, Maintenance, Sustainment, and Enhancement Support (C)",,268,NP-53200
+removed,k:6d3749e45d60,title+office,,"LSUBP00024 Cybersecurity Division, PM/FM Support (New MBAS II SAC TO - BASE + 2 OYs - N6523622D8006)",,263,,LSUBP00024
+removed,k:6d751041f91b,title+office,,MIDS JTRS BASE IDIQ (C),,72,,PMA/PMW-101
+added,k:6db130c35215,title+office,,,LIPTM00214-C4I FMS IPT - Multiple FMS Cases - Ultra Base Follow-on - ADSI Engineering Services and Material (PM: Hopkins,,24,LSUBP00006
+added,k:6e048b0bcd11,title+office,,,NAVWAR HQ 1.0 Accounting Support Services (C),,389,1.0
+removed,k:6e4440a31c34,title+office,,"LIPTM00461, 5.9 Service Center, Forklift, GSA (C)",,623,,LSUBP00080
+added,k:6e4b5244d2d1,title+office,,,"LIPTM00252 BASED LOGISTICS-ORGANIC (PBLO), POWER SUPPLIES/SWITCHES, ESI-SEWP (CISCO) (C)",,671,LSUBP00093
+removed,k:6e53cffee4aa,title+office,,"LIPTM00449 - DEPOT - LPKF MILLING MACHINE, NASA SEWP (C)",,598,,LSUBP00093
+removed,k:6e625e2af5a0,title+office,,"LIPTM00458, CAEI Operational Support Task",,298,,LSUBP00077
+added,k:6e832d4b8d39,title+office,,,DO 0002 under SF1 Contract N0003923D4000_N0003925F4027,,358,PMA/PMW-101
+removed,k:6e8653409b13,title+office,,LIPTM00214-C4I FMS IPT - Saudi Arabia FMS Cases - Engineering Services - Seaport NxGEN Base +4OYs (C),,597,,LSUBP00006
+added,k:6e8d83e93f90,title+office,,,Bistatic LiDAR for Meteorological and Oceanographic (METOC) Modeling,,304,NP-55300
+changed,k:6ee8c6cd3920,title+office,follow_on_or_new,,Follow-on,641,823,LSUBP00049
+removed,k:6ef4234300f6,title+office,,Littoral Explosive Ordnance Neutralization (LEON) Production,,808,,NP-56400
+added,k:6f5ce4d4d302,title+office,,,"LIPMT00455, TCIO. IA2, CELLEBRITE, SEWP (C)",,543,LSUBP00021
+added,k:6f93765fee66,title+office,,,LIPTM00241-USCG IPT - Tiger Laptops and Materials (T963 JVA) - SEWP (C),,673,LSUBP00006
+added,k:6fa0facc067c,title+office,,,Navy ERP CSO (Data Migration Tools) Procurement (C),,152,Pf007NERP
+removed,k:6feed9c95119,title+office,,LIPTM00444-CANES TACTICAL NETWORKS (TACNET) TECHNICAL AND PRODUCTION SUPPORT/SeaPort TO (C),,585,,LSUBP00063
+added,k:6fefaaf6e3fe,title+office,,,"LIPTM00328 - CWITT & SWFTS IPT - AMENTUM 2YR TASK ORDER - N6523624D8014 - SUBMARINE C5I TEST AND EVALUATION, ENGINEERING",,819,LSUBP00035
+added,k:6ff7c9a2a6d5,title+office,,,My Navy Assignment (MNA) Sustainment Tech Refresh_Task Order,,397,Pf004MNHR
+removed,k:70878bf9c985,title+office,,"LIPTM00449, DEPOT, Power Supply, SEWP (C)",,522,,LSUBP00093
+added,k:709f8318a198,title+office,,,DACM MIS Option Exercise,,414,Pf005NABS
+added,k:70b36febea42,title+office,,,"Unmanned Aircraft Systems Intelligence, Surveillance and Reconnaissance (UASISR) FoS Sustainment SeaPort (C)",,811,LSUBP00021
+added,k:7102fcefa420,title+office,,,Standard Labor Data Collection and Distribution Application (SLDCADA) Sustainment (C),,20,Pf007NERP
+added,k:711b7a10c9f8,title+office,,,"GIC SE4 TORFP 5191 GCM J-034 Electronic Security System (ESS) Installation at MCB CAMP BLAZ, Guam (C)",,513,NP-42100
+added,k:7141acb70b51,title+office,,,"LIPTM00149 - ASE - ASE-25-015 - SYNCHRO- TRELLIX ESS SW - ESI,SEWP (C)",,802,LSUBP00022
+added,k:7142c8c3784c,title+office,,,"LIPTM00115, Chas Lab Move, SJD CISCO, SEWP",,449,LSUBP00015
+removed,k:719786be9026,title+office,,LIPTM00121-ATS IPT - WAMS Racks - SEWP (C),,331,,LSUBP00016
+removed,k:71a9031896eb,title+office,,GIC TORFP 5088 Hardware Installation NTCDL Onboard Carriers San Diego (C),,765,,NP-42100
+removed,k:71c873e29c51,title+office,,"LIPTM00458-Corporate Production, Initiate a new Supply contract for Corporate Production. (C)",,552,,LSUBP00077
+added,k:71dc595846e8,title+office,,,LIPTM00397 - CANES Engineering IPT - IWRP 25-LANT-2814 (C),,478,LSUBP00063
+removed,k:71ea4d7d04de,title+office,,PRIORITY 3 IST MAINT TECH,,99,,NP-H5600
+removed,k:7210c064b327,title+office,,"LIPTM00119, IC IPT, CVN-75 HYDRA BDA EQUIPMENT, SEWP (C)",,649,,LSUBP00034
+added,k:7275ae708386,title+office,,,PEO Digital TD - SBIR Phase III - Red Cell,,387,Digital TD
+removed,k:728ee3b20340,title+office,,"LIPTM00119, IC IPT, LPD-31 UVS SYSTEM PROCUREMENT, SEWP (C)",,371,,LSUBP00034
+added,k:72b553885e65,title+office,,,C4ISR - TO 0117 - ESG-3 AND NOSCC SUPPORT AND CNAP UPGRADES (DK) (C),,507,NP-H4H00
+added,k:72c84e6d9968,title+office,,,Romania MDA SCOMAR Upgrade,,148,PMW-740
+removed,k:72d9caf2cb5d,title+office,,"LIPTM00455, TCIO, Forensics Equip 2 for USMC POR, GSA (C)",,351,,LSUBP00021
+removed,k:7307cd53d498,title+office,,"LIPTM00214, C4I FMSIPT, RO-P-LBQ/STT/BATS-D COMMS EQUP,SEWP (C)",,228,,LSUBP00006
+removed,k:73fa3339d48b,title+office,,N0003923D1000 MOD,,426,,PMW-150
+removed,k:74b4223b2d4d,title+office,,0219 CANES TESTING,,849,,NP-41200
+changed,k:74b71a775556,title+office,procurement_method,TBD,Service-Disabled Veteran-Owned Small Business Set-Aside,714,209,NP-41100
+changed,k:74b71a775556,title+office,solicitation_fy,FY24,FY25,714,209,NP-41100
+changed,k:74b71a775556,title+office,solicitation_quarter,Q3,Q2,714,209,NP-41100
+added,k:74db812f6bd5,title+office,,,Program Management Support Services,,423,PMW-790
+added,k:74fbd6f29df1,title+office,,,"LIPTM00074, DHA/HSI IPT, 25-014 CISCO FOR JUST IN TIME & MULTIPLE SITES-ESI, SEWP (C)",,724,LSUBP00009
+added,k:74fcde4e1adb,title+office,,,PEO MLB Adaptive Acquisition Assurance Cell (C),,347,Pf008MLBFO
+added,k:75578faf8f81,title+office,,,"LIPTM00460,  RDT&E CODEX - ESI, SEWP (C)",,93,LSUBP00087
+removed,k:757e58824a0a,title+office,,X048 B-A40 Replace Air Handler on High Bay 2,,796,,NP-83000
+unchanged,k:758da1041e01,title+office,,,,28,115,PMA/PMW-101
+added,k:75aa675c4a48,title+office,,,0375- Automated Digital Network System (ADNS) In-Service Engineering Agent (ISEA) Technical Support and Engineering Supp,,306,NP-41200
+added,k:75b25a9e952d,title+office,,,"LIPTM00164, SOIS, Maritime FMS, Ceiling Increase, 12-Month POP Ext, Norway",,582,LSUBP00004
+changed,k:75bec4b0a9d0,title+office,award_quarter,Q1,Q4,415,149,PMW-740
+removed,k:75cc33793cc2,title+office,,"LIPTM00328, Toughbook, CWITT Support, SEWP (C)",,389,,LSUBP00035
+added,k:761da93a9146,title+office,,,Development of Miniaturized Power Source,,305,NP-71700
+added,k:765f3f23bb96,title+office,,,"LIPTM00464, DC2HS, FY25 CISCO ISE NEW PROCUREMENT, ESI - SEWP (C)",,603,LSUBP00066
+removed,k:76958f543fcf,title+office,,0238 CBISEA INSURVE AT,,106,,NP-41200
+removed,k:76c4fd3cd391,title+office,,0218 CANES TESTING,,784,,NP-41200
+removed,k:770b15abe21c,title+office,,CLTS Production & CLTS/LTS Services,,474,,PMS-485
+removed,k:7738d706d7f5,title+office,,Undersea Warfare (USW) Tactical Systems,,817,,NP-56700
+added,k:774343793b05,title+office,,,"LIPTM00447, Secure Voice Solutions IPT - HNF-2A Backplane Production - CAEI Order - N6523618D8014",,590,LSUBP00015
+added,k:77562b4df089,title+office,,,Navy ERP+ Commercial Solution Offering (CSO) Procurement (C),,151,Pf007NERP
+removed,k:775df17c86ad,title+office,,"LIPTM00303, DARPA IPT, I2O SETA NEW SEAPORT TO (C)",,642,,LSUBP00049
+added,k:77733fa6f8dc,title+office,,,"LIPTM00321, C4I, NS IPT, CND CISCO SPARES FY25 VU, ESI-SEWP (COMPETITIVE) (C)",,693,LSUBP00024
+added,k:7786d86a037b,title+office,,,IST,,259,NP-H5600
+added,k:778d2b1e4a56,title+office,,,"LIPTM00415-Radio Comms IPT, New Niche Contract for Antenna Tilt Group (ATG) repair (PPA LSUBP00016-0069)",,181,LSUBP00016
+added,k:77c77af620af,title+office,,,PEO Digital TD Pilot Scaling to the Enterprise,,393,Digital TD
+removed,k:77d104a1312a,title+office,,0142  (TACNET)  (PIT),,806,,NP-41200
+removed,k:77d55fc557dd,title+office,,"LIPTM00358, JOINT FORCE MISSION SYSTEM, WASSP FORTIFY",,116,,LSUBP00023
+removed,k:77d856d10768,title+office,,"19891 LIPTM00257 PLANNING PID USS CARNEY (DDG 64), USS MASON (DDG 87), USS WINSTON S. CHURCHILL (DDG 81) INSTALLATIONS",,114,,LSUBP00057
+changed,k:77fbc2c93a1e,title+office,anticipated_total_value,No Range Specified,$50M - $100M,184,144,DRPM-NOA
+changed,k:77fbc2c93a1e,title+office,procurement_method,TBD,Small Business Set-Aside,184,144,DRPM-NOA
+changed,k:77fbc2c93a1e,title+office,solicitation_quarter,Q1,Q2,184,144,DRPM-NOA
+changed,k:77fbc2c93a1e,title+office,award_quarter,Q3,Q4,184,144,DRPM-NOA
+removed,k:781770e4d1ce,title+office,,LIPTM00229 - IUSS IPT - 300-24-921-MISC Hardware (Outlaw)-SEWP (C),,400,,LSUBP00022
+added,k:7832c05f2a19,title+office,,,ATD Follow on (C),,557,LSUBP00049
+added,k:784a3454ab2c,title+office,,,TECRO Integration and Installation Support (C),,114,PMW-740
+added,k:78688d056d6c,title+office,,,"LIPTM00081, PJSA IPT, Project Diana Annex and Garage Install New Order (C)",,475,LSUBP00010
+removed,k:787f403a8dfe,title+office,,PMW 150 NILE next PSS contract (C),,174,,PMW-150
+added,k:78ec10970818,title+office,,,VLF TO 34 Cutler Helix House Roof Repair,,296,NP-75200
+added,k:78f714d60431,title+office,,,LIPTM00229-IUSS IPT-300-25-911- MISC Hardware (CLAY)- SEWP (C),,788,LSUBP00022
+removed,k:79097ea67dc2,title+office,,"LIPTMOO455, TCIO, IDOPS FDS-MC_S23 Phones (C)",,547,,LSUBP00021
+added,k:793c386cce8d,title+office,,,N0003925F4012_DLS FSE_Korean terminal_troubleshoot and repair,,382,PMA/PMW-101
+added,k:79450037b5c8,title+office,,,LIPTM00119- IC COMMS IPT USS Carl Vinson (CVN-70) and USS George Washington (CVN-73) IWCC Support Phase II-SAC- N6523621,,32,LSUBP00034
+added,k:79840c96a7b4,title+office,,,"LIPTM00046, TACMOBILE SYSTEMS LOGISTICS ACQUISITIONS SUPPORT, NICHE (C)",,35,LSUBP00006
+added,k:79b7a70a3d11,title+office,,,"LIPTM00468, NISE, RP-25-016, FUTURE G TACTICAL, SEWP (C)",,546,LSUBP00049
+added,k:79df3159b298,title+office,,,LIPTM00149 - ASE - ASE-25-017 - SSEE Mission Module Test Equipment - SEWP V (C),,805,LSUBP00022
+removed,k:79ea3d7c9d37,title+office,,"0242 - (CANES),  (ISEA) Technical Support",,104,,NP-41200
+added,k:79ff0d387cb3,title+office,,,Link 16 05 DLS MOS Mod BPA Spares CLIN Mod #N0003921A1001,,402,PMW-150
+removed,k:7a45cadc08f9,title+office,,N0003920D0020 ONE-Net Additional SOTS test unit,,443,,PCE
+removed,k:7af6c9dfe6a7,title+office,,"LIPTM00120, SDRS IPT, CHASSIS TRADE INS SPIRENT, SEWP (C)",,250,,LSUBP00016
+added,k:7b1ecbda1900,title+office,,,"LIPTM00321, C4I, NS IPT SENSOR 2 DELL HW SUPPORT RENEWAL, SEWP (C)",,653,LSUBP00024
+added,k:7b20f8600585,title+office,,,"CTP IPT, MADIS FY25-27 FRP Support",,81,LSUBP00007
+added,k:7b21cfdf6057,title+office,,,BRSE Production Follow On,,512,NP-55200
+added,k:7b7b9ec008dd,title+office,,,LIPTM00149 - ASE - ASE-26-002 - SSEE CDE Mattermost Enterprise Edition Support - SEWP (C),,453,LSUBP00022
+added,k:7b8729e98043,title+office,,,LIPTM00458 - CAEI Support Services (PPA N65236-24-RFPREQ-LSUBP00077-0009),,817,LSUBP00077
+removed,k:7bc991ea2fee,title+office,,"LIPTM00464, DC2HS, FY24 CISCO ACI ARCHITECTURE HW, ESI - SEWP (C)",,347,,LSUBP00066
+removed,k:7bdad870f0a8,title+office,,0224 ADNS DDG-130,,783,,NP-41200
+removed,k:7c19738893d0,title+office,,DMR - AHF AT - 24D2000,,455,,PMW/A-170
+added,k:7c27e1f27870,title+office,,,CDX Support Services,,353,Digital TD
+removed,k:7c28d0086237,title+office,,"LIPTM00321, NSIPT, SENSOR 2 GITLAB, ESI-SEWP (C)",,237,,LSUBP00024
+added,k:7c34e0558f3a,title+office,,,LIPTM00107 - Naval Tactical Command Support System - NTCSS Development Embarcadero Support Renewal - NASA SEWP (C),,552,LSUBP00095
+added,k:7d02f7593b55,title+office,,,"LIPTM00119, IC IPT, DDG-128/129 143/144 SPARES & SYSTEM PROCUREMENT, SEWP (C)",,705,LSUBP00034
+removed,k:7d5b57c8daf1,title+office,,TDL 0210 - TACTICAL COMMON DATA LINK (TCDL) AND MARITIME SURFACE TERMINAL (MST) MODERNIZATION SERVICES SUPPORT FOR U. S.,,857,,NP-41100
+added,k:7d94549be110,title+office,,,NC3 IT 8(a) Direct Award,,257,NP-53600
+added,k:7dbd23fd0b52,title+office,,,ESRP New TO SCN Ships,,324,PMW/A-170
+removed,k:7dbe9ecedabb,title+office,,"LIPTM00006, Naval Command & Ops Center IPT, DIAL, New Large Contract (PPA LSUBP00002-0092)",,131,,LSUBP00002
+removed,k:7e132fe6c017,title+office,,"CISCO FOR CND CDT DCOI, CISCO ESI-SEWP (C)",,393,,LSUBP00024
+removed,k:7e1d2c6deda1,title+office,,"GIC TORFP 5049: Hardware Installation of C4ISR and Network related systems onboard USS Shiloh (CG 67), Pearl Harbor HI (",,760,,NP-42100
+changed,k:7e42fdef8d59,title+office,solicitation_fy,TBD,FY25,594,183,LSUBP00004
+changed,k:7e42fdef8d59,title+office,solicitation_quarter,TBD,Q3,594,183,LSUBP00004
+changed,k:7e42fdef8d59,title+office,award_quarter,Q2,Q4,594,183,LSUBP00004
+removed,k:7e4fbeee2f6b,title+office,,"LIPTM00081, PJSA IPT, DIANA Perimeter Installation",,269,,LSUBP00010
+removed,k:7e6a39b1138f,title+office,,0065 POP P00001,,821,,NP-41200
+added,k:7e800f178c46,title+office,,,"LIPTM00468, NISE, WD-25-010 - M&S OBJECTIVES, SEWP (C)",,76,LSUBP00049
+removed,k:7ea8926d8fa7,title+office,,LIPTM00455-Surveillance Communication Set End User Device (EUD) (C),,569,,LSUBP00021
+removed,k:7ebadd964dfd,title+office,,0221 ADNS LPD-30,,785,,NP-41200
+removed,k:7ed087665ee3,title+office,,"LIPTM00086/MyNavy Human Resources Solutions - DBSign Data Security Software purchase, SEWP (C)",,637,,LSUBP00011
+unchanged,k:7f19ce981877,title+office,,,,816,236,NP-56700
+removed,k:7f358d49367b,title+office,,0215 (ADNS) Post Installation Training (PIT) System In Support of Operational Turnover,,846,,NP-41200
+removed,k:7f3b990bf19b,title+office,,"TO 0095 - CNRJ ATFP, ESS, AVVTC Sustainment new (C)",,763,,NP-56700
+added,k:7f78720a2508,title+office,,,PEO MLB Independent Verification & Validation Support Services Modification,,419,PEO-MLB
+added,k:7fad1f3f4429,title+office,,,WAMS Phase II - TO TBD,,168,PMW/A-170
+removed,k:801c29824222,title+office,,LBUCS Rx - TO,,837,,NP-55300
+removed,k:80549023c28b,title+office,,0251 ISEA CM SUPPORT,,826,,NP-41200
+added,k:8085b90858cd,title+office,,,"LIPTM00106, MAINTENANCE FIGURE OF MERIT, FY25 MFOM Machine Certs Support Renewal, NASA SEWP (C)",,585,LSUBP00095
+added,k:80a4abe94a8f,title+office,,,"LIPTM00150, FAM OF INT TARGET & EXPLOITATION (FITE),TSCS-CESAS  Ansys Technical Enhancements Software and Customer Suppo",,538,LSUBP00021
+removed,k:81176a1013d4,title+office,,LIPTM00388 - ALPS IPT SYSTEMS ENGINEERING SUPPORT-SeaPort (C),,588,,LSUBP00011
+added,k:819350b669bd,title+office,,,FY25 SB Forecast - LIPTM00478 HPE Renewal (C),,713,LSUBP00009
+added,k:81d8dbb9817b,title+office,,,LIPTM0086 - MYNAVYHR IT SOLUTIONS MANPOWER AND PERSONNEL SYSTEMS Services (FOLLOW-ON) - SEAPORT (C),,31,LSUBP00011
+removed,k:81dd71c5def2,title+office,,0250 ISEA CB-ISEA ILS CaaS,,829,,NP-41200
+removed,k:81e354edc942,title+office,,MEDEX Software for USMC POR  PPS-22-218-0008 (C),,583,,LSUBP00021
+removed,k:81f204736ee9,title+office,,Order to Contract #N0003922D4001,,406,,PMA/PMW-101
+removed,k:81f204736ee9,title+office,,Order to Contract #N0003922D4001,,408,,PMA/PMW-101
+removed,k:81f204736ee9,title+office,,Order to Contract #N0003922D4001,,409,,PMA/PMW-101
+removed,k:81f204736ee9,title+office,,Order to Contract #N0003922D4001,,410,,PMA/PMW-101
+removed,k:81f204736ee9,title+office,,Order to Contract #N0003922D4001,,411,,PMA/PMW-101
+added,k:820b9d6f7f2d,title+office,,,"LIPTM00321, C4I, NS IPT, CND CISCO 3750 MIGRATION (EXT) SUPPORT, ESI-SEWP (C)",,688,LSUBP00024
+added,k:823f73202f8f,title+office,,,PRP FY27 Follow-on Contract,,380,PMW/A-170
+removed,k:824356f352e5,title+office,,ADNS Production MAC RFP #38 (C),,22,,PMW-160
+removed,k:8252441c094f,title+office,,LIPTM00156 - DCGS-N IPT - OPENTEXT - SEWP (C),,542,,LSUBP00022
+removed,k:825340001c98,title+office,,xDMS RFP 001 DDGM NMG,,774,,NP-55100
+added,k:825a8625d822,title+office,,,"LIPTM00119, IC IPT, CVN-78 IVN BATTERY REFRESH, SEWP (C)",,555,LSUBP00034
+added,k:825e7375b285,title+office,,,ADE Licenses Procurement,,406,Pf004MNHR
+removed,k:82775737d399,title+office,,C2P TR Call 5 (C),,193,,PMW-150
+added,k:829bd43f4b01,title+office,,,"LIPTM00321, C4I, NS IPT SENSOR 2 CAE SPIRENT RENEWALS, SEWP (C)",,651,LSUBP00024
+added,k:82d953005155,title+office,,,"LIPTM00333, ESCA IPT, CNRMA INC FUNDING TO EMERGENT NEEDS TO",,739,LSUBP00010
+removed,k:82e242c2f4e4,title+office,,SLDCADA 2_FUTURE_ OY3_2027 (C),,94,,Pf007NERP
+removed,k:83012e7cced0,title+office,,LIPTM00480 - Business Applications In-Service Engineering Agent - BA-ISEA Reflection X Support Renewal - Micro Focus Gov,,636,,LSUBP00056
+added,k:830f0a58356b,title+office,,,"GIC SE3 TORFP 5151 Hardware Installation of C4ISR and Network related systems onboard USS Savannah (LCS 28), San Diego C",,287,NP-42100
+removed,k:8310fe8a3c64,title+office,,0206 Add sub P00001,,822,,NP-41200
+added,k:8312d32019a9,title+office,,,S&T MBAS Support Follow on (III),,750,LSUBP00049
+removed,k:83198de88dfb,title+office,,PRIORITY 1 IST MFP,,98,,NP-H5600
+removed,k:8369acd43c30,title+office,,"LIPTM00120, SDRS IPT, JFW ORDER NGTC FY24, SEWP (C)",,660,,LSUBP00016
+added,k:83901a57d7c1,title+office,,,TACNET Support Follow on task order (C),,647,LSUBP00063
+added,k:8411700dffd9,title+office,,,"LIPTM00321, C4I, NS IPT CDT DELL RENEWALS, SEWP (C)",,656,LSUBP00024
+removed,k:844c6105a5f9,title+office,,5.0 Niche Contract- Red Team Operations (PPA XXX) (C),,591,,LSUBP00080
+added,k:847e45112339,title+office,,,0385 Network Management System (NMS) Software and System Operational Verification Test (SOVT) support aboard MSC Ships,,314,NP-41200
+added,k:84ca2473428a,title+office,,,ADNS MAC RFP #3 (C),,366,PMW-160
+added,k:84f49a0d79e4,title+office,,,SLDCADA 2_Sustainment_Option Exercise (C),,340,Pf007NERP
+added,k:84f49a0d79e4,title+office,,,SLDCADA 2_Sustainment_Option Exercise (C),,341,Pf007NERP
+removed,k:857c19bcc790,title+office,,0200 ADN ISEA,,798,,NP-41200
+added,k:858824a26295,title+office,,,FY29 CLTS/LTS Spares Delivery Order,,416,PMS-485
+removed,k:85b8af71e495,title+office,,SETA Recompete/21F3000 Follow-On (C),,73,,PMW-150
+removed,k:85ef80ad99e4,title+office,,DLTT Support - Seaport Base Award (C),,712,,NP-53500
+added,k:85f5bc6f686e,title+office,,,LIPTM00248 - Afloat Sub IPT - 800-813 CANES Integration Support - NEW SAC DO - CORPORATE PRODUCTION - N6523618D8014,,784,LSUBP00035
+added,k:8646205409ce,title+office,,,Facilities A&E IDIQ (C),,674,LSUBP00083
+removed,k:86817e29910a,title+office,,"LIPTM00150, Expeditionary Signals Intelligence (SIGINT), TSCS-CESAS 3Q FY24 Procurement, NASA SEWP (C)",,382,,LSUBP00021
+removed,k:8692a43f175c,title+office,,"LIPTM00455, TCIO,IDOPS PROTOTYPE EQUIPMENT, SEWP (C)",,528,,LSUBP00021
+removed,k:869c13c830f0,title+office,,LIPTM00448-GFP disposition LCS and PC Class Navigation LCS Backfit Support-RobRaper0001-(WR Systems-NEW TO) N6523620D802,,144,,LSUBP00016
+removed,k:87578f2e4cbb,title+office,,"LBUSP00026, C2ISR Department, SHORE C2ISR AND INTEGRATION DEPARTMENT SYSTEMS ENGINEERING AND TECHNICAL ASSISTANCE (SETA)",,311,,LBUSP00026
+removed,k:875c0579e773,title+office,,LIPTM00395 - MULTI MEDIA  IPT - TPL 23-121 COMNAVMETO SEWP (C),,511,,LSUBP00002
+removed,k:876d23d60556,title+office,,"LIPTM00324 Navy Cyber IPT - Engineering, Architecture, and Software Development - SeaPort NxGEN TO (base + 4 options) (C",,590,,LSUBP00024
+added,k:8798d5f21af1,title+office,,,VLF TO 32 Tower Inspections Cutler S-Jim Creek,,266,NP-75200
+changed,k:87cbad31244f,title+office,anticipated_total_value,$50M - $100M,$250M - $1B,735,222,NP-42100
+changed,k:87cbad31244f,title+office,solicitation_fy,FY27,FY26,735,222,NP-42100
+changed,k:87cbad31244f,title+office,solicitation_quarter,Q2,Q1,735,222,NP-42100
+changed,k:87cbad31244f,title+office,award_fy,FY27,FY26,735,222,NP-42100
+changed,k:87cbad31244f,title+office,award_quarter,Q3,Q4,735,222,NP-42100
+added,k:8806d2d10457,title+office,,,Platform Integration and Modernization Support Services 2.0 (C),,404,C4IEXEC
+removed,k:881bebc80202,title+office,,LIPTM00241 - USCG IPT - ISM2 IRIDIUM EQUIP (T794/T795) - SEWP (C),,245,,LSUBP00006
+added,k:884123ac5f0a,title+office,,,"LIPTM00337, Ex ISR Sust, C4ISR Sustainment Follow on SeaPort (C)",,794,LSUBP00021
+removed,k:8847565e6ac7,title+office,,MARFORCYBER Training (C),,741,,NP-58400
+removed,k:88613f9b212b,title+office,,"LSUBP00057 - Division Order - 8A Incubator - New TO Sole Source for planning, execution, and closeout of C3 Shore Integr",,123,,LSUBP00057
+removed,k:886f8e7246ec,title+office,,LIPTM00229 - IUSS IPT - 300-24-908- Hardware (Morton)-SEWP (C),,532,,LSUBP00022
+added,k:88e3d88c114b,title+office,,,Link 16 99 MOS Mod BPA TTNT Scope DRS Mod #N0003921A1002,,428,PMW-150
+added,k:890afa43bdc6,title+office,,,LIPTM00116_UCVS IPT_ Naples Regional RVVB1-Cisco_SEWP ESI (C),,482,LSUBP00015
+added,k:8959cdb6be3a,title+office,,,0369 Automated Digital Network System (ADNS) Platform System Operational Verification Test (SOVT) Development Support,,299,NP-41200
+added,k:8992f055dd89,title+office,,,Shipboard Advanced Tactical Data Link (ATDL) Engineering Support (C),,274,NP-53500
+changed,k:89e2f25e7f41,title+office,solicitation_fy,FY24,FY25,208,565,LSUBP00015
+changed,k:89e2f25e7f41,title+office,award_fy,FY24,FY25,208,565,LSUBP00015
+added,k:89f870d9430b,title+office,,,Internal Communications Contract Follow-On (C),,488,NP-41200
+removed,k:8a2db2902198,title+office,,TUBE PROTECTION ASSEMBLY (TPA) FABRICATION AND INSTALLATION - NEW SAC TO (Salient) N6236523D8015,,264,,LSUBP00035
+removed,k:8a30ebfb6081,title+office,,LIPTM00229 - IUSS IPT - 300-24-925-MISC Hardware (Lantiegne)-SEWP (C),,402,,LSUBP00022
+removed,k:8a33d5901d33,title+office,,LIPTM00003_MSSR Parrot_SEWP (C),,357,,LSUBP00001
+removed,k:8aa8f8e85e48,title+office,,Modification to Contract # N6523622F0613,,122,,LSUBP00004
+added,k:8aba6e895839,title+office,,,"LBUSP00030, CORPORATE OPERATIONS, MOD 2 PWS, CEILING, INCREMENTAL FUNDING CHANGES, COFS",,484,LBUSP00030
+unchanged,k:8abbc68185f0,title+office,,,,693,244,NP-53400
+added,k:8acc85a69d85,title+office,,,"LIPTM00516, 4.3 Supply Chain Service Center, CMPRO CUSTOM SCREEN, GSA (C)",,533,LSUBP00105
+removed,k:8b657e5d0dfd,title+office,,"LIPTM00455, TCIO, Forensics Equip 3 for USMC POR, GSA (C)",,352,,LSUBP00021
+changed,k:8b67f23096cf,title+office,solicitation_fy,FY24,FY26,707,206,NP-20000
+changed,k:8b67f23096cf,title+office,solicitation_quarter,Q4,Q1,707,206,NP-20000
+changed,k:8b67f23096cf,title+office,award_fy,FY25,FY26,707,206,NP-20000
+changed,k:8b67f23096cf,title+office,award_quarter,Q1,Q2,707,206,NP-20000
+removed,k:8b74c7d40c72,title+office,,VLF/LF TO 022,,792,,NP-75200
+added,k:8b774005667f,title+office,,,LIPTM00248 - Afloat SUB C4I IPT - 804/805 DOCKSIDE Integration & 808/809/827 ECS & CANES Integration at COATS - NEW SAC ,,783,LSUBP00035
+unchanged,k:8bd1b8e6b61d,title+office,,,,97,137,PCE
+added,k:8c0308bef647,title+office,,,LIPTM00375 Multi Level Security Engineering (MLSE) - MLSE IPT Support - Seaport NxGEN - NEW Task Order (Base +4 OYS) <$2,,789,LSUBP00024
+removed,k:8c7561f8be7b,title+office,,"LIPTM00455, TCIO, NEW TO, NEW SERVICE CONTRACT (C)",,230,,LSUBP00021
+added,k:8c9af64db515,title+office,,,"LIPTM00455, TCIO, TCS, BRENTRONICS, SEWP (C)",,43,LSUBP00021
+removed,k:8ca825353720,title+office,,"LSUBP00002, Command & Ops Center Div, Seaport, New TO (C)",,550,,LSUBP00002
+added,k:8cae930c3ff9,title+office,,,MIDS JTRS - Lot 14 - Terminals & Spares,,381,PMA/PMW-101
+added,k:8ce889e10db8,title+office,,,"NERP, SLDCADA and ERP+ Services",,129,Pf007NERP
+removed,k:8cf33ad72896,title+office,,DLS FSE_Two (2) Korean terminals_troubleshoot,,428,,PMA/PMW-101
+removed,k:8cf729904adb,title+office,,0243 CANES PIT,,823,,NP-41200
+added,k:8d1fecc1885f,title+office,,,LIPTM00395 - MULTI-MEDIA IPT - TPL 24-067/068 - NASA SEWP (C),,752,LSUBP00002
+removed,k:8d2695813515,title+office,,Senior Consultation Support Services-Future_Base Year 2027 (C),,80,,Pf007NERP
+added,k:8d7e7cb1fdf9,title+office,,,0332 Automated Digital Network System (ADNS) Post Installation Training (PIT) System In Support of Operational Turnover ,,499,NP-41200
+removed,k:8d8422b19dc6,title+office,,LIPTM00304-IWRP-TFDS-R OTP 20LANT-0113-Production Follow-on Contract-(Brandywine-New Base),,289,,LSUBP00016
+added,k:8da8f8b292d3,title+office,,,LIPTM00214-C4I FMS IPT_TAIWAN TW-P-GOX _SEWP (C),,622,LSUBP00006
+removed,k:8dab12e2b10a,title+office,,"LIPTM00455, TCIO, TCS MS INC 1 COMPUTE BOXES, SEWP (C)",,633,,LSUBP00021
+removed,k:8e269733e3bf,title+office,,"LIPTM00119, IC IPT, VIDEO IPTV SYSTEMS, SEWP (C)",,244,,LSUBP00034
+added,k:8e3269f37c8f,title+office,,,"LIPTM00120,  SDRS IPT, NGTC LAB MATERIALS FY25, SEWP (C)",,527,LSUBP00016
+added,k:8e4d1bfc73da,title+office,,,LIPTM00229-IUSS IPT-300-25-907-UWS Hardware (LANTIEGNE)- SEWP (C),,790,LSUBP00022
+added,k:8e60cd5355b1,title+office,,,"LIPTM00081, PJSA IPT, FY25 SECURITY SYSTEM UPGRADES CAPITAL REGION (C)",,672,LSUBP00010
+removed,k:8eba47f9caf4,title+office,,0225 ISNS SOVT support,,842,,NP-41200
+removed,k:8ed23773fc1c,title+office,,ADNS Production MAC RFP #44 (C),,25,,PMW-160
+added,k:8ed587a71a13,title+office,,,"LIPTM00116-UCVS IPT, Naval Observatory Flagstaff Station (NOFS) VOIP Procurement -SEWP (C)",,535,LSUBP00015
+removed,k:8f368758bdd5,title+office,,VIASAT TRANSEC FMS ENGINEERING SERVICES (ENG VM300M CARD FOR RT-1829/1830) TASK ORDER,,459,,PMW-790
+removed,k:8f51e780f2e8,title+office,,0144 (ADNS)  (ISEA),,804,,NP-41200
+removed,k:8f657746565d,title+office,,Bundle 18 TO #N6523623D1002,,292,,LSUBP00083
+added,k:8f81e648feaf,title+office,,,"LIPTM00468, NISE, MORT (TT-25-001), SEWP (C)",,581,LSUBP00049
+added,k:8fa6096dce23,title+office,,,"LIPTM00149 - ASE - ASE-25-016- SSEE CDE TRELLIX -ESI, SEWP (C)",,808,LSUBP00022
+removed,k:8fc782e1984c,title+office,,ENGINEERING SUPPORT SERVICES. (C),,330,,PMW-760
+added,k:8fca7dbddee5,title+office,,,LIPTM00150 SIGNIT IPT ENG SPT SEAPORT (C),,708,LSUBP00021
+added,k:905924e3fbd6,title+office,,,"LIPTM00106, MAINTENANCE FIGURE OF MERIT, FY25 MFOM Software Support Renewals, NASA SEWP (C)",,580,LSUBP00095
+removed,k:9059ef15bae9,title+office,,Order to Contract #N6523618D8014,,120,,LSUBP00007
+removed,k:905bd788f57c,title+office,,"SHARKCAGE CENTRAL SITE EXADATA HW SUPT RENEWALS, SEWP (C)",,243,,LSUBP00024
+removed,k:9078e1765bb5,title+office,,Digital Forensics Triage Software for USMC POR 1301003856 PPS-22-218-0003 (C),,580,,LSUBP00021
+added,k:9085921b6736,title+office,,,"LIPTM00410, ECI, ESRI, GSA",,33,LSUBP00064
+removed,k:9094c7294b6b,title+office,,Project Overmatch Services (C),,57,,DRPM-NOA
+removed,k:90971a1572d2,title+office,,Romania MDA Amendment 2,,412,,PMW-740
+removed,k:90b1838be22e,title+office,,C4I Arsenal - New Procurement (C),,51,,PMW-790
+removed,k:90cdabf2a618,title+office,,Nites Next Follow-On Contract (C),,96,,PMW-120
+added,k:9113a5382ca6,title+office,,,S2ISR MAC Follow-on (C),,265,NP-56000
+removed,k:9113ee82b410,title+office,,0244 CANES Tech Training,,820,,NP-41200
+changed,k:91e6c399c8b6,title+office,solicitation_fy,FY24,FY25,767,237,NP-53500
+changed,k:91e6c399c8b6,title+office,solicitation_quarter,Q4,Q2,767,237,NP-53500
+changed,k:91e6c399c8b6,title+office,award_quarter,Q2,Q3,767,237,NP-53500
+added,k:91ff5f854a0c,title+office,,,"0394 Consolidated Afloat Networks Enterprise Services (CANES), CASREP In-Service Engineering Agent (ISEA) Technical Supp",,516,NP-41200
+changed,k:91fff5b686f8,title+office,procurement_instrument,"""C"" Type Contract",Single-Award Indefinite-Delivery,469,97,PMW/A-170
+changed,k:91fff5b686f8,title+office,solicitation_fy,FY24,FY25,469,97,PMW/A-170
+changed,k:91fff5b686f8,title+office,solicitation_quarter,Q3,Q2,469,97,PMW/A-170
+changed,k:91fff5b686f8,title+office,award_fy,FY24,FY25,469,97,PMW/A-170
+changed,k:91fff5b686f8,title+office,award_quarter,Q3,Q4,469,97,PMW/A-170
+removed,k:920a99a67887,title+office,,Program Management Support Services (C),,66,,PMW-790
+removed,k:924cbfce6345,title+office,,DMR - 200W/100W PA Production Contract (New) (C),,52,,PMW/A-170
+removed,k:925491910507,title+office,,"LIPTM00119, IC IPT, CVN-81/LHA-9 SATCC SYSTEMS & FRAME, SEWP (C)",,505,,LSUBP00034
+removed,k:926231e0bc6e,title+office,,"Marine Mammal Scientific, Veterinary, and Volunteer Support",,787,,NP-56700
+added,k:92a7ba682448,title+office,,,"LIPTM00321, C4I, NS IPT, CND SPARES FY25, SEWP (C)",,692,LSUBP00024
+added,k:92e623c46c3b,title+office,,,MMP ENCL MNT,,288,NP-56700
+added,k:92e672ca856b,title+office,,,"LIPTM00118, TNSS IPT, CLOUDERA SOFTWARE SUBSCRIPTIONS PROCUREMENT, SEWP (C)",,564,LSUBP00063
+removed,k:931e6bb63cdc,title+office,,0246 CANES ISEA Tech Support,,828,,NP-41200
+removed,k:933f4dbb890a,title+office,,Audit Liasion and Remediation IT General Control (ITGC) Future Procurement - OY1 2029 (C),,83,,Pf007NERP
+added,k:93644a1c10ce,title+office,,,"LIPTM00129, USMC Communication Systems, Cables, Corp Production",,87,LSUBP00004
+added,k:93644a1c10ce,title+office,,,"LIPTM00129, USMC Communication Systems, Cables, Corp Production",,544,LSUBP00004
+added,k:9365aef48973,title+office,,,OE-538B Re-compete Contract (C),,163,PMW-770
+removed,k:9387656d3db3,title+office,,"LIPTM00071, HAIMS Support - CISCO H/W and cabling - NASA SEWP (C)",,615,,LSUBP00009
+removed,k:93d05bbe5f55,title+office,,Cyber 5G Support CISA - TO (C),,684,,NP-55300
+added,k:93fddee6c696,title+office,,,90-Meter Licenses - Follow-On Contract,,373,PMW-130
+added,k:940527f38931,title+office,,,"FY25 SB Forecast - LIPTM00074, DHA/HSI IPT, 25-021 Ilom & Misc for Forest Glen- FY25-SEWP (C)",,731,LSUBP00009
+removed,k:941cbf222cde,title+office,,Audit Liasion and Remediation IT General Control (ITGC) Future Procurement - Base Yr 2028 (C),,82,,Pf007NERP
+added,k:944ca3cc2163,title+office,,,LIPTM00006_Naval Command and Operations Center_Naval Air Station (NAS) Key West Misc. Material_SEWP (C),,741,LSUBP00002
+removed,k:9488c7b54584,title+office,,"LIPTM00461, 5.9 Service Center, Camera equip, GSA (C)",,624,,LSUBP00080
+added,k:9499426d562b,title+office,,,TO#0019 Modernization of legacy SUBESM TSSC (C),,301,NP-41100
+added,k:94a1418a8f2c,title+office,,,LIPTM00120 - SDRS IPT Technical Support - SeaPort-NxG Base + 4 Option Years (C),,667,LSUBP00016
+added,k:94f025a9c0c3,title+office,,,"LIPTM00002, POLAR PGR, IT COMMM MATERIAL,  SEWP (C)",,561,LSUBP00001
+removed,k:95873e20b8f2,title+office,,"LIPTM000454, E2IS IPT ePS Mark Logic, SEWP (C)",,233,,LSUBP00064
+removed,k:96029f47d14b,title+office,,LIPTM00480 - Business Applications In-Service Engineering Agent - BA-ISEA Spares Laptop Requirement - NASA SEWP (C),,635,,LSUBP00056
+removed,k:9616ea28baf4,title+office,,"LBS-G Production TO 17, FY24 RDT&E",,480,,PMW-120
+removed,k:963c4a2b4e80,title+office,,"LIPTM00455, TCIO, TCS UGS INC SENSORS, SEWP (C)",,548,,LSUBP00021
+removed,k:9692368de935,title+office,,"LIPTM00464, DC2HS, FY24 TRELLIX ESS-DLP, ESI - SEWP (C)",,668,,LSUBP00066
+added,k:969352bbb47b,title+office,,,USCC Modular Buildings (PID 2 of 2) (C),,625,LSUBP00049
+added,k:96f17c5006e2,title+office,,,"LIPTM00464, DC2HS, FY25 CISCO ISE CEDC RENEWAL, ESI - SEWP (C)",,574,LSUBP00066
+added,k:96f99b333996,title+office,,,"LIPTM00464, DC2HS, FY25 CISCO RENEWAL, ESI-SEWP (C)",,575,LSUBP00066
+added,k:9746bdaa7fbe,title+office,,,"LIPTM00214-C4I FMS, Morocco VMware, FMS Case MO-P-LBF, SEWP (C)",,42,LSUBP00006
+added,k:9776c06da7e7,title+office,,,"LIPTM00321, NS IPT, SENSOR 2 LIGHT, SEWP (C)",,56,LSUBP00024
+added,k:9785657eb67c,title+office,,,5172 LIPTM00463 NEW TASK ORDER (C),,51,LSUBP00057
+removed,k:97a9c7ccb595,title+office,,ATIP DO #TBD - Long Lead Item Procurement,,438,,PMW/A-170
+added,k:97abcfa29ceb,title+office,,,0376 Consolidated Afloat Networks Enterprise Services (CANES) Tactical Networks (TACNET) Fleet Integration and Testing S,,510,NP-41200
+added,k:97d2e623e884,title+office,,,LIPTM00119- INTERIOR COMMS: IC VIDEO IWCC INSTALL SUPPORT- SAC-TO -N6253621D8009,,572,LSUBP00034
+added,k:97ee7e36a2f3,title+office,,,"LIPTM00252, PBL-O IPT, ELECTRONIC PARTS, SEWP (C)",,36,LSUBP00093
+added,k:97f70d14bd1f,title+office,,,"LIPTM00307, Defense Health Readiness Engineering, HIV Blood System, Fortify SW - SEWP (C)",,54,LSUBP00009
+added,k:980d873982ab,title+office,,,"LIPTM00120, SDRS IPT, DELL DESKTOPS FY25, SEWP (C)",,559,LSUBP00016
+removed,k:980e89d1b198,title+office,,LIPTM00480 - Business Applications In-Service Engineering Agent - BA-ISEA Spares Hardware Requirements - NASA SEWP (C),,372,,LSUBP00056
+added,k:9814153ec1cb,title+office,,,B- A-1,,519,NP-83000
+changed,k:984b5a06f4f0,title+office,solicitation_fy,FY24,FY25,50,111,PMA/PMW-101
+changed,k:984b5a06f4f0,title+office,solicitation_quarter,Q4,Q3,50,111,PMA/PMW-101
+added,k:986d6cb84ac1,title+office,,,"LIPTM00086, MYNAVY HUMAN RESOURCES SOLUTIONS, TFMMS IBM PAM License (Renewal), SEWP (C)",,609,LSUBP00011
+removed,k:987bcfd00cc0,title+office,,02 MOS Mod with TTNT Development,,445,,PMW-150
+removed,k:990a887481ce,title+office,,LIPTM00267; Information Warfare Research Project 2 (IWRP-2) OTA Project Number 24-LANT-2054,,113,,LSUBP00010
+added,k:991fbcf1a994,title+office,,,LIPTM00119-INTERIOR COMMS (IC) IPT- LC NICHE SAC - 8A ANC -  AIT Contract (substitute to GIC) Min Guarantee TASK ORDER,,619,LSUBP00034
+removed,k:992c2d41846d,title+office,,LCM Feasibility Study (Nations),,456,,PMA/PMW-101
+removed,k:992ea4cc1a8e,title+office,,"LIPTM00460, Telephony, NOLA, CATALYSTS/PHONES,ESI SEWP (CISCO) (C)",,348,,LSUBP00087
+removed,k:99fc7cb21b94,title+office,,"LIPTM0080, NATFP IPT, NAVCONBRIG Technical Support Sustainment, New TO 8(a) Incubator",,257,,LSUBP00010
+added,k:99fe7c38a634,title+office,,,"LIPTM00321J, C4I, NS IPT, CND FY25 SPARES, SEWP (C)",,614,LSUBP00024
+added,k:9a049b3a0de5,title+office,,,LIPTM00121_ATS IPT -FY25 GLENAIR & HW_SEWP (C),,84,LSUBP00016
+added,k:9a2519009ef2,title+office,,,LIPTM00395 - MULTI-MEDIA IPT - TPL 24-069/071A - NASA SEWP (C),,753,LSUBP00002
+added,k:9a2dd4f79a39,title+office,,,"FY25 SB Forecast - LIPTM00074, DHA/HSI IPT, 25-026 Ilom & Misc for USAFA- FY25-SEWP (C)",,736,LSUBP00009
+changed,k:9a61e05c7e83,title+office,anticipated_total_value,$50M - $100M,No Range Specified,713,208,NP-41100
+changed,k:9a61e05c7e83,title+office,procurement_instrument,Single-Award Indefinite-Delivery,Delivery Order/Task Order (not under Federal Supply Schedule Contract),713,208,NP-41100
+changed,k:9a61e05c7e83,title+office,solicitation_quarter,Q2,Q1,713,208,NP-41100
+removed,k:9a685854d7e7,title+office,,LIPTM00448-SSN 810 & SSN 811 RLGN Refurbishments-RobZickau00XX-(Northrop Grumman-NEW),,270,,LSUBP00016
+added,k:9a84903961c0,title+office,,,Link 16 06 DRS MOS Mod BPA Spares CLIN Mod #N0003921A1002,,403,PMW-150
+added,k:9a8d7808513f,title+office,,,LIPTM00003_NAVFIG_Follow-On_ATC MAC (C),,68,LSUBP00001
+added,k:9b01f06b2f45,title+office,,,0386 Consolidated Afloat Networks Enterprise Services (CANES) Technical Integration Support for SharkCage,,493,NP-41200
+removed,k:9b17341c0f72,title+office,,"LIPTM00086/MyNavy Human Resources Solutions - Forescout Comply-to-Connect (C2C) bundle software purchase, DOD ESI (C)",,625,,LSUBP00011
+added,k:9b8bd5ab44e9,title+office,,,PMW 760 Next Generation C4I Integration Requirement (FY26) (C),,156,PMW-760
+added,k:9b8cfebcd947,title+office,,,LIPTM00003_VIDS Integration_Follow-On_ATC MAC (C),,65,LSUBP00001
+added,k:9b9d8965df33,title+office,,,LIPTM00003_Shore ATC IPTM_Follow-on_ATC MAC (C),,791,LSUBP00001
+added,k:9b9f3b19ea9c,title+office,,,"LIPTM00515, DEFENCE CYBER OPERATIONS, SOFTWARE, SEWP (C)",,47,LSUBP00094
+added,k:9c2a2bc69d0c,title+office,,,LIPTM00150 SIGNIT TEST & EVALUATION SPT SEAPORT (C),,709,LSUBP00021
+removed,k:9c2f8a4cf6fc,title+office,,NTCDL – 3-Yr Contract Extension,,460,,PMW/A-170
+added,k:9ca619f20d36,title+office,,,"FY25 SB Forecast - LIPTM00074, DHA/HSI IPT, 25-016 NH Camp Pendleton- FY25-SEWP (C)",,726,LSUBP00009
+added,k:9cc189369de7,title+office,,,"LIPTM00086/MyNavy Human Resources Solutions - Smartbear ReadyAPI Software renewal, SEWP (C)",,602,LSUBP00011
+added,k:9d09ab0cd0c3,title+office,,,"LIPTM00461, 5.9 Service Center, Server and controllers, SEWP (C)",,569,LSUBP00080
+added,k:9d165c6adfd1,title+office,,,Cloudera Commvault DOD ESI (C),,238,NP-55300
+added,k:9d1d0cfee2bb,title+office,,,"LIPTM00214-C4I FMS IPT - SR-P-SBV - Virtual ADSI, ULTRA SAC, N6523618D1002",,72,LSUBP00006
+added,k:9d4135e8a86f,title+office,,,"EGYPTIAN Navy AINTS (EG-P-LGQ, A2) (C)",,10,PMW-740
+removed,k:9d82e601367e,title+office,,MPO Lot 13 HW Purchase (C),,202,,PMA/PMW-101
+added,k:9e153a06afd7,title+office,,,LIPTM00395 - MULTI MEDIA  IPT - TPL 25-042  NASA SEWP (C),,571,LSUBP00002
+removed,k:9e25c5b7afe9,title+office,,LIPTM00346 Fielded Ground Systems (FGS) Mobile Command Vehicle (MCV) Production Support,,261,,LSUBP00007
+added,k:9e3f87dd29ff,title+office,,,DoD Microsoft ESA II,,300,NP-55300
+removed,k:9e73ee80d540,title+office,,"LIPTM00120, SDRS IPT, SCEPTRE ONR FY24, SEWP (C)",,367,,LSUBP00016
+removed,k:9e8ef4d6403e,title+office,,GIC TOID 5103 - Hardware Install C4ISR Network Related Systems MSC Ships PAC AOR (C),,696,,NP-42100
+added,k:9ea33d533404,title+office,,,C2P MODERNIZATION SOFTWARE ENGINEERING SERVICES (C),,247,NP-53500
+removed,k:9ec6c74e4037,title+office,,"LIPTM00174, AIR & SPACE, Aircraft Procurement Navy 6, ESI Cisco (C)",,226,,LSUBP00023
+changed,k:9ef4e925a250,title+office,solicitation_quarter,Q3,Q2,731,230,NP-41200
+removed,k:9f085721101d,title+office,,Appian DOD ESI (C),,751,,NP-55300
+changed,k:9f435b2e3bfe,title+office,anticipated_total_value,No Range Specified,$7.5M - $50M,235,840,LSUBP00004
+changed,k:9f435b2e3bfe,title+office,procurement_instrument,Single-Award Indefinite-Delivery,Delivery Order/Task Order (not under Federal Supply Schedule Contract),235,840,LSUBP00004
+changed,k:9f435b2e3bfe,title+office,award_fy,FY25,FY26,235,840,LSUBP00004
+changed,k:9f435b2e3bfe,title+office,award_quarter,Q3,Q1,235,840,LSUBP00004
+added,k:9f49aa70065a,title+office,,,"LIPTM00386, S2 IPT, NIWC Atlantic Software Services Support, SeaPort (C)",,616,LBUSP00033
+added,k:9f572724b0d0,title+office,,,"LIPTM00119, IC IPT, LHA-9 SCHED C PROCUREMENT, SEWP (C)",,27,LSUBP00034
+removed,k:9fa020ac9af9,title+office,,"LIPTM00128, New Order Navy EDN Maritime SATCOM",,117,,LSUBP00004
+removed,k:9fbde00ad919,title+office,,0222 ADNS DDG-142,,786,,NP-41200
+added,k:9fe274b4fca4,title+office,,,"LIPTM000328, C4I WEAPONS TEAM IPT, EXTREME NETWORKS, SEWP (C)",,766,LSUBP00035
+removed,k:9ff1dde53835,title+office,,DMR OE-570 - DDG 125 OE-570 Antenna Repair - 18D0004,,442,,PMW/A-170
+removed,k:a03189d326e0,title+office,,Navy Personnel and Pay (NP2) Task Order 003 Award with Incremental Funding,,314,,Pf004MNHR
+added,k:a05223973a86,title+office,,,NILE LLC 7M Production Follow-on,,160,PMW-150
+removed,k:a0684dea4b00,title+office,,"LIPTM00086/MyNavy Human Resources Solutions - Smartbear Ready! API Software renewal, SEWP (C)",,378,,LSUBP00011
+added,k:a0829b001aae,title+office,,,Order to CYBERMAC TORFP CY-UR3-065 Follow on of PIERS ENTERPRISE PIERS ENGINEERING/INFORMATION ASSURANCE (IA) AND IN-SER,,289,NP-41200
+added,k:a0946a10f16b,title+office,,,LIPTM00107 - Naval Tactical Command Support System - NTCSS Development Dell R660 Hardware - NASA SEWP (C),,468,LSUBP00095
+added,k:a0a150f77f93,title+office,,,NIWC CSO for RCO Portfolio (C),,28,LSUBP00049
+removed,k:a0a2c510b26a,title+office,,"LIPTM00174, Air and Space IPT, New SWRi TO",,304,,LSUBP00023
+changed,k:a0c5682ddf2f,title+office,solicitation_fy,TBD,FY25,324,828,LSUBP00087
+changed,k:a0c5682ddf2f,title+office,solicitation_quarter,TBD,Q3,324,828,LSUBP00087
+changed,k:a0c5682ddf2f,title+office,award_quarter,Q2,Q3,324,828,LSUBP00087
+added,k:a0fcc9a8d44e,title+office,,,LIPTM00229-IUSS IPT-300-25-919- CISCO Hardware (LEESON)- ESI/SEWP (C),,787,LSUBP00022
+removed,k:a113302bba56,title+office,,ATIP DO # TBD- Non-Warranty Hardware Repairs,,437,,PMW/A-170
+added,k:a16673a63586,title+office,,,FUSE SBIR PH III,,447,DRPM-NOA
+removed,k:a17f36187fc9,title+office,,DMR OE-570 - 5 Year Extension -18D0004,,467,,PMW/A-170
+removed,k:a189d26e2ae1,title+office,,"LIPTM00448-OMN, DHYSL Tech, Training, Conventional Nav, WSN2/2A Screen & Repair, GFP Management-(WR Systems-NEW)",,148,,LSUBP00016
+changed,k:a18f7790630e,title+office,anticipated_total_value,$100M - $250M,$250M - $1B,530,193,LSUBP00009
+changed,k:a18f7790630e,title+office,procurement_instrument,Delivery Order/Task Order (not under Federal Supply Schedule Contract),Single-Award Indefinite-Delivery,530,193,LSUBP00009
+changed,k:a18f7790630e,title+office,solicitation_quarter,Q1,Q3,530,193,LSUBP00009
+changed,k:a18f7790630e,title+office,award_quarter,Q3,Q4,530,193,LSUBP00009
+removed,k:a1a687860793,title+office,,LIPTM00116-UCVS IPT - Dam Neck NSWC Dahlgren HW Procurement-SEWP (C),,374,,LSUBP00015
+changed,k:a1be893c133f,title+office,solicitation_quarter,Q1,Q2,30,117,PMW-770
+added,k:a1cb6113a64b,title+office,,,LIPTM00156 - DCGNS IPT - ICOP - ARCGIS - SEWP (C),,797,LSUBP00022
+removed,k:a1e15e4cb6ff,title+office,,LIPTM00395 - MULTI MEDIA  IPT - TPL 23-029/047 NON CISCO GEAR NECC BLDG 3504 SEWP/ESI (C),,499,,LSUBP00002
+added,k:a1e474851286,title+office,,,"LBUSP00027,  Naval Innovation Science and Engineering (NISE Program) STARLINK GSA (C)",,610,LSUBP00049
+removed,k:a1f142b2c051,title+office,,0240 TACNET CBISEA Carry-On Program (ICOP),,110,,NP-41200
+unchanged,k:a20c05664656,title+office,,,,718,211,NP-60000
+removed,k:a21db112fb0e,title+office,,"LIPTM00164, SOSI, Maritime FMS, New Production Order UK",,280,,LSUBP00021
+added,k:a21e266586d0,title+office,,,Unmanned Maritime Systems Support (UMSS) (C),,248,NP-56000
+added,k:a229c2c2262e,title+office,,,"LIPTM00304-PNT ENG IPT: PNT Systems S&T, Cyber Security, and SW IV&V Sppt (New TO, Seaport NxG, SBSA) (C)",,838,LSUBP00016
+added,k:a29e5e2b5be3,title+office,,,Hardware Management for ICP Devops (C),,331,PMS-485
+removed,k:a2b50bfe6e54,title+office,,SEAPORT TO - SHIPBOARD ADVANCED TACTICAL DATA LINK (ATDL) ENGINEERING SUPPORT (C),,744,,NP-53000
+added,k:a2be321b99e5,title+office,,,"LIPTM00119, IC IPT, CVN-76 HYDRA OBRP PROCUREMENT, SEWP (C)",,706,LSUBP00034
+added,k:a2ebb0ecdc3b,title+office,,,LIPTM00417__ENI IPT_NEW TO (FOE)_EXP ISR SUPT_N6523620F3023_SRC_CPFF,,38,LSUBP00064
+removed,k:a2f314c74fe4,title+office,,"LIPTM00120, SDRS IPT, ZONE B SERVER UBE ONR FY24 - SEWP (C)",,631,,LSUBP00016
+removed,k:a307df21de87,title+office,,NIEF: RFP E2038: AN/USQ-144 M(V)3 OH & VA Class First Article Builds,,819,,NP-42100
+added,k:a334b4259b66,title+office,,,LIPTM00001_METOC SASC_Follow-On_ATC MAC (C),,69,LSUBP00001
+removed,k:a3395814f3a6,title+office,,CANES MAC- RFP N0003924R9110 (C),,192,,PMW-160
+added,k:a3a4c38b0f42,title+office,,,N0003925R4015 DLS Voice Card Repair,,383,PMA/PMW-101
+removed,k:a3b5b0a343e7,title+office,,"LIPTM00304-PNT ENG IPT - WSN7A Proc/Prod (TI-22 builds, VA CLASS BUHR, iPNT, ECDU, SCDU, TFDS-R, COLUMBIA CLASS ECDU, SC",,276,,LSUBP00016
+added,k:a3ea157af9f4,title+office,,,"LIPTM00119. IC IPT, LPD-32 HYDRA P25 SYSTEM, SEWP (C)",,78,LSUBP00034
+removed,k:a3f8f1da20b3,title+office,,LIPTM000245 - LDNC IPT - USS JOHN F. KENNEDY (CVN-79) MISSION BAY 8 & 9 ENGINEERING SUPPORT - N65236-21-D-8009 Chugach (,,266,,LSUBP00034
+added,k:a4141b7ac8d6,title+office,,,LIPTM00463 - FLEET READINESS DIRECTORATE INSTALLATION OFFICE (FIO) SERVICE CENTER- VSE FLUKE HW Procurement-SEWP (C),,448,LBUSP00023
+added,k:a416addb65d0,title+office,,,Satellite Communication (SATCOM) Capability-Base (CB) In-Service Engineering Activity (ISEA) (C),,491,NP-41200
+added,k:a449ae5fc31b,title+office,,,LIPTM00107 - Naval Tactical Command Support System - NTCSS Development Stunnel and CNG Engine Support Renewal - NASA SEW,,578,LSUBP00095
+removed,k:a45bf89228c1,title+office,,"LIPTM00248, Afloat Submarine C4I IPT_ CSRR HEAT EXCHANGERS and associated EQUIPMENT, SEWP (C)",,336,,LSUBP00035
+added,k:a49246ec87c5,title+office,,,DMR Power Amplifiers (C),,520,NP-55200
+removed,k:a4a14cec0a56,title+office,,TECRO Installation Support Services (C),,27,,PMW-740
+removed,k:a4c4097d4803,title+office,,"LIPTM00464, DC2HS, FY24 CITRIX RENEWAL, SEWP (C)",,626,,LSUBP00066
+removed,k:a4d77c822a3a,title+office,,"LIPTM0081, PJSA IPT, NCE RIF Expansion SAC",,169,,LSUBP00010
+changed,k:a53a8ad22899,title+office,award_fy,FY24,FY26,26,113,PMW-740
+changed,k:a53a8ad22899,title+office,award_quarter,Q4,Q1,26,113,PMW-740
+added,k:a54747302f30,title+office,,,ADNS MAC RFP #8 (C),,371,PMW-160
+added,k:a57151579f94,title+office,,,"Cybersecurity Policy, Governance, Training, and Cyberlog Support (PPA N65236-24-RFPREQ-LSUBP00009-0270)",,799,LSUBP00009
+removed,k:a59a4f9e1175,title+office,,"LIPTM00119, IC IPT, CVN SATCC DISTRIBUTION FRAME PROCUREMENT, SEWP (C)",,686,,LSUBP00034
+added,k:a5e85d57bc05,title+office,,,"SIO, IA2, FABIS-BIOCORE, SEWP (C)",,589,LSUBP00021
+removed,k:a5fdd4a3336b,title+office,,Order to Contract #N0003922D4001 - RPS BU2,,416,,PMA/PMW-101
+removed,k:a60e18fe91e5,title+office,,GIC TORFP 5029: ESS Upgrade at EXTERNAL COOPERATION OFFICE SINGAPORE (C),,759,,NP-42100
+added,k:a61c48021f60,title+office,,,Order to Contract #N6600120D0044 - TDL 0247. Tactical Data Links 16 Engineering Support,,270,NP-41100
+added,k:a6261f77c737,title+office,,,LIPTM00119-INTERIOR COMMS: TV-DTS SUPPORT- SAC TO X8009,,662,LSUBP00034
+added,k:a65bbc381c28,title+office,,,"LIPTM00119 - Ready Room IAVA, VCR Cyber and CVN-74 SBS Logistic Support",,821,LSUBP00034
+added,k:a700bf3b25b9,title+office,,,STtNG Phase III - Production (Base IDIQ),,98,PMW/A-170
+added,k:a7186c0bb344,title+office,,,DMR OE-570 - Frontgrade Antenna Evaluation - 18D0004,,418,PMW/A-170
+added,k:a72361e098a1,title+office,,,GIC SE3 TORFP 5161 Hardware Installations onboard USS Curtis Wilbur (DDG 54) (C),,518,NP-42100
+removed,k:a7540e662c3e,title+office,,LBS-G Production N0003921D6001_Ceiling Increase Mod_FY26,,316,,PMW-120
+removed,k:a7731a7b8599,title+office,,25FSETA/AWARD 2025,,318,,JTNC
+removed,k:a797f4e21d7b,title+office,,LIPTM00229 - IUSS IPT - 300-24-922-Trainer/MISC Hardware (Moeller)-SEWP (C),,401,,LSUBP00022
+removed,k:a7e29feb1e3f,title+office,,"LIPTM00455, TCIO TCS RADAR 1, SEWP (C)",,646,,LSUBP00021
+removed,k:a7e69f3e97dd,title+office,,"LIPTM00415-Radio Comms IPT, Tactical Variant Switch (TVS)-New MAC (FFP)",,153,,LSUBP00016
+removed,k:a7fabe63280c,title+office,,NESD MSC On-Boarding,,413,,COO
+removed,k:a8064ee67fd1,title+office,,Automated Vechicle Barrier (AVB) Follow-On Action (C),,728,,NP-41100
+added,k:a820105a3851,title+office,,,"LIPTM99468, NISE, S2I2C, LR-25-007, SEWP (C)",,470,LSUBP00049
+removed,k:a8999e22a6aa,title+office,,FSET Follow on contract (C),,53,,FRD
+added,k:a8a2d3b3e28a,title+office,,,"LIPTM00448-ISEA, New Task Order Award under contract N6523620D8024-KrisLambert0018-(WR SYSTEMS-NEW)",,770,LSUBP00016
+added,k:a8a6c616dc3e,title+office,,,LIPTM00248 - FY25 770 TEMPALT  - NEW SAC DO - CORPORATE PRODUCTION - N6523618D8014,,782,LSUBP00035
+added,k:a8ba9ea66eca,title+office,,,"LIPTM00448, PNT ISEA IPT, New Task Order Award under contract N6523620D8024-RIchieMarsh0017-(WR SYSTEMS-NEW)",,835,LSUBP00016
+removed,k:a8dbb6125e70,title+office,,LIPTM00248 - FY24 Global Broadcast System (GBS) Procurement and Kitting - NEW SAC DO - CORPORATE PRODUCTION,,154,,LSUBP00035
+added,k:a91d2515701b,title+office,,,"LIPTM00119, IC IPT, LPD ISEA 27TV PROCUREMENT, SEWP (C)",,761,LSUBP00034
+added,k:a94886cd6ccd,title+office,,,Code H - FIO Installation Coordination (C),,250,NP-H4H00
+added,k:a9942668207f,title+office,,,Bundle 27 Antennae Platform,,596,LSUBP00083
+removed,k:a9959b46da44,title+office,,SLDCADA 2_FUTURE_ OY2_2026 (C),,93,,Pf007NERP
+added,k:a9cb9fe7e1af,title+office,,,LIPTM00149 - ASE - ASE-25-002 - SSEE - H - SEWP V (C),,803,LSUBP00022
+changed,k:aa2384a2ea6a,title+office,procurement_method,TBD,Sole Source,138,187,LSUBP00001
+changed,k:aa2384a2ea6a,title+office,solicitation_quarter,Q1,Q3,138,187,LSUBP00001
+changed,k:aa2384a2ea6a,title+office,award_quarter,Q2,Q4,138,187,LSUBP00001
+added,k:aa4058b5120c,title+office,,,Order to Contract N6600120D0044 RFP 0251,,290,NP-41100
+changed,k:aa6719ae6ed7,title+office,solicitation_quarter,Q1,Q2,177,142,PMW-160
+added,k:aa85721a8d29,title+office,,,"LIPTM00337, Ex ISR Sust, Technical Management Team (TMT) Follow on SeaPort (C)",,48,LSUBP00021
+added,k:aab6408a1919,title+office,,,ESRP - TO 30 (N0003921F2030) Unfunded Ceiling De-Obligation,,444,PMW/A-170
+removed,k:aad3e3a63be0,title+office,,LIPTM00241 USCG IPT L-3 NEW TASK ORDER (SUSTAINMENT),,253,,LSUBP00006
+removed,k:aade5e50247d,title+office,,Antenna Restoration RFP 7004 - Reflector Assembly Restoration,,779,,NP-41200
+removed,k:abaa86a486ae,title+office,,0236 CB ISEA ILS SUPPORT,,832,,NP-41200
+removed,k:ac2d549da906,title+office,,LIPTM00248 - AFLOAT SUB C4I IPT -799-811 CANES INT - NEW SAC DO - CORPORATE PRODUCTION N6523618D8014,,157,,LSUBP00035
+removed,k:ac60cd185fb3,title+office,,"LIPTM00156 - DCGS-N IPT   EDB, FORGEROCK, GRID - SEWP (C)",,540,,LSUBP00022
+removed,k:ac7772153742,title+office,,LIPTM00004_ATC SP_SEMS/METCAL_Follow-on (C),,537,,LSUBP00001
+removed,k:aca67a94ab6a,title+office,,Ceiling Increase and PoP extension,,419,,PMS-485
+added,k:acc629fe2670,title+office,,,Order to Contract #N6600121D0153: E2113: LA/SW/BN/GN HW1.2 AND HW2 TDP & ENGINEERING SUPPORT,,311,NP-42100
+added,k:acfd6de68486,title+office,,,LIPTM00248 - VA-Class Arbor Update and PLAR Procurement- NEW SAC DO - CORPORATE PRODUCTION,,779,LSUBP00035
+added,k:acfd7ff5ac72,title+office,,,DMR - SMRC OTP,,442,PMW/A-170
+added,k:acfde10370ef,title+office,,,LIPTM00248 - CSRR MRTS TRAINER PROCUREMENT  - NEW SAC DO - CORPORATE PRODUCTION,,80,LSUBP00035
+added,k:acfe2ff82ed3,title+office,,,LIPTM00248 - FY25 I1V4/CB22  - NEW SAC DO - CORPORATE PRODUCTION,,780,LSUBP00035
+added,k:ad047974ee7d,title+office,,,Bundle 26 Norfolk ATS UPS Installation,,685,LSUBP00083
+removed,k:ad33be5ca72b,title+office,,PEO MLB Organizational Change Management Front Office Call (C),,194,,Pf008MLBFO
+removed,k:ad517842235d,title+office,,EGI Lab Test Capability - R006,,805,,NP-55700
+changed,k:ad5c423feb3f,title+office,solicitation_fy,FY24,FY25,665,529,LSUBP00011
+changed,k:ad5c423feb3f,title+office,award_fy,FY24,FY25,665,529,LSUBP00011
+changed,k:ad5c423feb3f,title+office,existing_contract_number,NNG15SD60BN6523623F0592,N6523624F0764,665,529,LSUBP00011
+changed,k:ad5c423feb3f,title+office,incumbent_contractor,"ADVANCED COMPUTER CONCEPTS, INC.",,665,529,LSUBP00011
+removed,k:ad7ac0de592a,title+office,,0235 CB-ISEA ILS,,831,,NP-41200
+removed,k:ad85ac952d47,title+office,,"LIPTM00304-PNT ENG IPT-MARITIME POSITION, NAVIGATION AND TIMING (PNT) SYSTEMS Cybersecurity, Software Testing. Digital E",,365,,LSUBP00016
+removed,k:adbca678a78a,title+office,,"LIPTM00304-AN/WSN-9 DHYSL INSTALLATION, AN/WSN-9 DHYSL SYS ENG FOR SCN VIRGINIA CLASS SUB, SPEED SENSOR UPGRADE, AN/WSN-",,146,,LSUBP00016
+changed,k:ade451ead059,title+office,solicitation_quarter,Q2,Q3,551,201,LSUBP00016
+removed,k:ae23d023ad4b,title+office,,BLACK MARLIN,,840,,NP-56700
+added,k:ae31af6817fd,title+office,,,"LSUBP00063-TNSS IPT, Cisco Catalysts and Firepower- SEWP ESI (C)",,82,LSUBP00063
+removed,k:ae3ceb395033,title+office,,LIPTM00116_UCVS IPT_ Naples Regional UC NODES-RVVB1-Cisco_SEWP ESI (C),,523,,LSUBP00015
+removed,k:ae4de876641d,title+office,,"LIPTM00347, VEHICULAR TECHNOLOGY TRANSITION (VTT), HW, CABLE, SEWP (C)",,676,,LSUBP00007
+removed,k:ae7d4df568bb,title+office,,"Japan (JA-P-CSX) SN 2567 BU2 Repair, FPR",,430,,PMA/PMW-101
+added,k:ae9310cc3caa,title+office,,,LIPTM00415 - Radio COMMS IPT - PMW/A 170 BRSE Data management racks - CAEI Order (SAC)- N6523618D8014,,59,LSUBP00016
+removed,k:aea88b62f6e3,title+office,,WAMS TO #1 - Incremental Funding,,435,,PMW/A-170
+added,k:aea946bdfe2b,title+office,,,LIPTM00156 - DCGS-N IPT- POSTGRES ENTERPRISE DATABASE - GSA (C),,796,LSUBP00022
+removed,k:af11249136a7,title+office,,VLF/LF TO 021,,801,,NP-75200
+added,k:af1af09070b8,title+office,,,C4ISR - TO 0116 - WAREHOUSE AND LOGISTICAL SUPPORT (KH) (C),,506,NP-H4H00
+added,k:af6d07bb0905,title+office,,,LBS-G_N0003921D6001_TO 25 RDTE (Garmin GPS & Cannister Extended Bay),,333,PMW-120
+removed,k:afa7f2b105a4,title+office,,"LIPTM00336, DCGS-MC, CGW Refresh, SEWP (C)",,248,,LSUBP00021
+added,k:b01b00a70bb5,title+office,,,C3F War Room and OPT Space Modernization (C),,255,NP-53600
+removed,k:b02bc9348c31,title+office,,xDMS RFP 004,,854,,NP-55100
+removed,k:b0c7a4f0b6d9,title+office,,STtNG Phase II.5 - PoP Extension,,320,,PMW/A-170
+removed,k:b0f7215cdb4c,title+office,,xDMS RFP 003 SCN DDG 140 141 142 NMG,,852,,NP-55100
+added,k:b12caca05622,title+office,,,"LIPTM00321, C4I, NS IPT CDT PROOFPOINT RENEWALS, SEWP (C)",,697,LSUBP00024
+removed,k:b18e42485ffe,title+office,,"LIPTM00395 - MULTI MEDIA  IPT - TPL 23-122 & 24-033, HW, CISCO, ESI (C)",,658,,LSUBP00002
+added,k:b1b9664a1901,title+office,,,LIPTM00107 - Naval Tactical Command Support System - NTCSS Development Hardware Maint Renewal - NASA SEWP (C),,551,LSUBP00095
+added,k:b1c57486d7b2,title+office,,,"NSC2I EMS 2 & 3, Phases 2-5 Award (C)",,376,PMW-760
+removed,k:b1d34c0fa9f5,title+office,,Naval Physical Security System-Enterprise Architecture (PS2-EA) Follow-On Action (C),,730,,NP-41100
+removed,k:b234e9c09d8d,title+office,,WAMS TO #1 - IE Mod,,450,,PMW/A-170
+added,k:b248e8699da7,title+office,,,5146 LIPTM00463 NEW TASK ORDER (C),,599,LSUBP00057
+removed,k:b28d8316b14a,title+office,,5090 LIPTM00257  USS ARLEIGH BURKE (DDG 51) INSTALLATIONS (C),,344,,LSUBP00057
+added,k:b30d3ae97eec,title+office,,,"LBUSP00030, CORPORATE OPERATIONS, COMMAND STRATEGY & ANALYTICS SUPPORT, MBAS",,41,LBUSP00030
+added,k:b3836b30870e,title+office,,,"LIPTM00079, HSSE IPT, DEFENSE HEALTH INFRASTRUCTURE AND APPLICATION ENGINEERING II - Seaport (C)",,39,LSUBP00009
+added,k:b3afb9bf9334,title+office,,,CVN 75 RCOH Interior Communications (IC) Installation (C),,327,PMW-750
+added,k:b3ca67369e67,title+office,,,"LIPTM00120,  SDRS IPT, PMS 408 VERSAL KITS, FY25, SEWP (C)",,525,LSUBP00016
+removed,k:b3e2e6c114af,title+office,,LIPTM00464 - DC2HS Follow-on TO to AWS (ESL BPA Order),,159,,LSUBP00066
+added,k:b3f1864adce5,title+office,,,"LIPTM00164, SPEC OPS ISR SOLUTIONS, NETWORK SWITCHES, ESI, SEWP (C)",,91,LSUBP00004
+unchanged,k:b422d395f44a,title+office,,,,643,824,LSUBP00049
+removed,k:b43672625963,title+office,,"LIPTM00500, NAVEUR/NAVAF Enterprise Solutions (NNES) IPT, C6F OPT Space IT Fit Out Design and Installation, New SAC TO",,293,,LSUBP00002
+removed,k:b49d8f024369,title+office,,"LIPTM00290, TSI IPT, Edge to Enterprise Design Engineering Support - SeaPort TO-Base + 4 OYs (C)",,574,,LSUBP00004
+removed,k:b4c68b1893c7,title+office,,NIEF RFP E2077 - CANES Shock EQT White Paper,,803,,NP-42100
+removed,k:b502e0e534ef,title+office,,"LIPTM00119, IC IPT, LPD IVN SYSTEM & ICTs PROCUREMENT, SEWP (C)",,683,,LSUBP00034
+added,k:b50c47d96a07,title+office,,,0387 Tactical Networks In-Service Engineering Agent (ISEA) Configuration Management (CM) Support,,509,NP-41200
+added,k:b52137c66e4c,title+office,,,Electromagnetic Maneuver Warfare (EMW) (Formerly ICADS) Engineering and Technical Support - Seaport NxGEN New TO (60 mon,,825,LSUBP00022
+removed,k:b54a954e80cf,title+office,,"LIPTM00347 VEHICULAR TECHNOLOGY TRANSITION, HW, ANTENNA, SEWP (C)",,687,,LSUBP00007
+added,k:b5562dfe7571,title+office,,,"LIPTM00174, Air & Space IPT, ITI NEW ORDER, TO-2",,740,LSUBP00023
+added,k:b57605245003,title+office,,,LIPTM00128 SOCS IPT New Order FY25 Mv2 Hv2 PROC Upgrades,,49,LSUBP00004
+changed,k:b595d4037cfe,title+office,solicitation_fy,FY24,FY25,570,188,LSUBP00022
+changed,k:b595d4037cfe,title+office,solicitation_quarter,Q1,Q3,570,188,LSUBP00022
+changed,k:b595d4037cfe,title+office,award_quarter,Q1,Q4,570,188,LSUBP00022
+removed,k:b5a64d1effdc,title+office,,"TDL 0206 - AN/UYQ-120(V) 1 Command and Control Processor System (C2PS) Government Acceptance Test (GAT), Pack up and Shi",,858,,NP-41100
+changed,k:b619f0b4ee5f,title+office,solicitation_fy,FY24,FY25,176,170,PMW-750
+changed,k:b619f0b4ee5f,title+office,solicitation_quarter,Q4,Q1,176,170,PMW-750
+changed,k:b619f0b4ee5f,title+office,award_quarter,Q2,Q4,176,170,PMW-750
+added,k:b63463f0f5d3,title+office,,,MIDS WDL SF2 Production (C),,145,C4IEXEC
+removed,k:b63eaeed55a9,title+office,,EVTT Upgrade - Order to Contract #N0003922D4001,,317,,PMA/PMW-101
+removed,k:b6422e25f948,title+office,,TDL 0196 - Tactical Data Links (TDL) Capability Based In-Service Engineering Activity (CB-ISEA) Support Command and Cont,,788,,NP-41100
+added,k:b67447c493c8,title+office,,,"LIPTM00346 Fielded Ground Systems ARFF, FLIR System Prototype and Kitting",,77,LSUBP00007
+changed,k:b690048689bd,title+office,solicitation_quarter,Q2,Q1,727,232,NP-41200
+changed,k:b690048689bd,title+office,award_quarter,Q3,Q2,727,232,NP-41200
+removed,k:b6bb44dd3b39,title+office,,"LIPTM00119, IC IPT, USCG 28TV SYSTEM PROCUREMENT, SEWP (C)",,617,,LSUBP00034
+added,k:b6ebece9cac2,title+office,,,LIPTM00085; MST MUL USMC ESS FY25 Period 3 (C),,744,LSUBP00010
+removed,k:b72c1eecd2ae,title+office,,"LIPTM00119, IC IPT, CVN-75 SATCC RCOH SYSTEM PROCUREMENT, SEWP (C)",,381,,LSUBP00034
+added,k:b73cccd59493,title+office,,,"0371 Consolidated Afloat Networks Enterprise Services (CANES), In-Service Engineering Agent (ISEA) Technical Support onb",,495,NP-41200
+removed,k:b7ba1a663f24,title+office,,USSPACECOM Technical  Engineering Services (UTES) (C),,699,,NP-53600
+added,k:b7c5c98bebf3,title+office,,,UoH - HAWAII THRUST PROFESSIONAL SERVICES (P00010) - DEOBLIGATION,,503,NP-H5600
+added,k:b7dc26fe120e,title+office,,,LIPTM00119-INTERIOR COMMS: CVN75 Pre- RCOH Support- SAC TO X8009,,665,LSUBP00034
+removed,k:b80c0a477874,title+office,,"LIPTM00085, GEN MCESS PGM SUP",,836,,LSUBP00010
+removed,k:b80ef3598b7c,title+office,,DLS_United Kingdom (UK-P-LWZ) SN 2555 R/S Repair,,417,,PMA/PMW-101
+added,k:b864bcd328b4,title+office,,,Hazardous Weather Detection and Display Capability (HWDDC) systems SBIR Phase III,,303,NP-55200
+added,k:b891bfbc89b8,title+office,,,"LIPTM00478, Cybersecurity Service Provider, New OTP Production Order #2",,643,LSUBP00009
+added,k:b8cac35353a6,title+office,,,CANES MAC RFP 9114B CTU 3 Kits (C),,408,PMW-160
+changed,k:b8e3f6b7f870,title+office,anticipated_total_value,$100M - $250M,$50M - $100M,717,210,NP-58400
+changed,k:b8e3f6b7f870,title+office,solicitation_quarter,Q4,Q3,717,210,NP-58400
+changed,k:b8e3f6b7f870,title+office,award_quarter,Q1,Q2,717,210,NP-58400
+removed,k:b8f1df2b4f19,title+office,,0216 ADNS PIT support,,108,,NP-41200
+added,k:b9067297aa7b,title+office,,,0345 Tactical Networks Capabilties Based In-Service Engineering Agent (CB-ISEA) Development and Testing for Software Def,,277,NP-41200
+removed,k:b92980e26a85,title+office,,"LIPTM00478, MICROSOFT RENEWAL, SEWP (C)",,630,,LSUBP00009
+removed,k:b9412543b764,title+office,,Kros-Wise Follow on,,476,,8.0
+unchanged,k:b944ee7d2698,title+office,,,,33,120,PMA/PMW-101
+removed,k:b956a3ac4627,title+office,,"LIPTM00248, Afloat Submarine C4I IPT_ CSRR Computer Evaluations Equipment, SEWP (C)",,618,,LSUBP00035
+added,k:b977cbe2e37b,title+office,,,"LIPTM00446 , ITSL, UNITY SEWP (C)",,21,LSUBP00082
+removed,k:b9b66b258e18,title+office,,"04 JPI Reflash, Repair, and Reconfiguration",,449,,PMW-150
+added,k:b9b8e9c8fec9,title+office,,,LSUBP00015 - Shore C4I Division - Secure Voice Solutions (SVS) – Seaport NxGEN (Base + 4OYS) (C),,601,LSUBP00015
+added,k:b9cb547585d7,title+office,,,"ERP, ERP+ and SLDCADA Engineering & Logistics Services_Option Year 2 (C)",,136,Pf007NERP
+added,k:b9cfaa83c957,title+office,,,LIPTM00119-INTERIOR COMMS: IWCC EAST COAST DESIGN SUPPORT- SAC TO X8009,,663,LSUBP00034
+removed,k:b9dec07ae5a4,title+office,,C4I TVE CANES TO N0003924F9008 ODC Mod,,322,,PMW-160
+added,k:b9e15b33f07c,title+office,,,"LIPTM00118, TNSS IPT, HCL DOMINO SECURITY BUNDLE, ESI-BPA (C)",,562,LSUBP00063
+changed,k:b9ec2de1ecaa,title+office,award_fy,FY25,FY26,472,99,PMW/A-170
+changed,k:b9ec2de1ecaa,title+office,award_quarter,Q2,Q1,472,99,PMW/A-170
+added,k:ba426e4e5c49,title+office,,,A3 Task order,,501,NP-75600
+added,k:ba553df1a5a1,title+office,,,"LIPTM00455, TCIO, CIHEP, System Refresh IOT Equipment, SEWP (C)",,85,LSUBP00021
+changed,k:ba71f4523265,title+office,procurement_instrument,Blanket Purchase Agreement,Single-Award Indefinite-Delivery,810,224,NP-55300
+changed,k:ba71f4523265,title+office,solicitation_fy,FY24,FY25,810,224,NP-55300
+changed,k:ba71f4523265,title+office,solicitation_quarter,Q1,Q3,810,224,NP-55300
+changed,k:ba71f4523265,title+office,award_fy,FY24,FY25,810,224,NP-55300
+changed,k:ba71f4523265,title+office,award_quarter,Q3,Q4,810,224,NP-55300
+removed,k:ba94d2276a41,title+office,,LIPTM000250_Shore Sub C4I IPT- SOA_CMRS_MONITORING_SEWP (C),,397,,LSUBP00035
+removed,k:bad1508698b8,title+office,,"LIPTM00120, SDRS IPT, MOCKINGBIRD SW ONR FY24, GSA (C)",,677,,LSUBP00016
+added,k:bae3aeff1edb,title+office,,,Bundle 19 Security Perimeter Enhancement,,668,LSUBP00083
+added,k:bae9ec5d0108,title+office,,,"0350 Consolidated Afloat Networks Enterprise Services (CANES), In-Service Engineering Agent (ISEA) Technical Support onb",,494,NP-41200
+removed,k:baeb55e05ebf,title+office,,"LBUSP00026, C2ISR Department, CONUS SHORE C2ISR AND INTEGRATION DEPARTMENT SYSTEMS ENGINEERING AND TECHNICAL ASSISTANCE ",,312,,LBUSP00026
+added,k:bb5ad1b87dfd,title+office,,,"ERP, ERP+ and SLDCADA Engineering & Support Services_Option Year 1 (C)",,135,Pf007NERP
+added,k:bb6111ad1a31,title+office,,,Engineering Support and Systems Development (ES2D) (C),,239,NP-40000
+changed,k:bbbbdadb912e,title+office,anticipated_total_value,$250M - $1B,$50M - $100M,39,123,PMW-740
+changed,k:bbbbdadb912e,title+office,solicitation_quarter,Q1,Q2,39,123,PMW-740
+changed,k:bbbbdadb912e,title+office,award_quarter,Q3,Q4,39,123,PMW-740
+removed,k:bbe92f176241,title+office,,Malaysia COMSEC Task Order (2026) (C),,42,,PMW-740
+added,k:bc560cc5b78d,title+office,,,Navy Enterprise Resource Planning Plus (Navy ERP+) Proof of Concept for DoN’s Budget to Report (B2R) and Procure to Pay ,,179,Pf007NERP
+added,k:bc560cc5b78d,title+office,,,Navy Enterprise Resource Planning Plus (Navy ERP+) Proof of Concept for DoN’s Budget to Report (B2R) and Procure to Pay ,,458,Pf007NERP
+removed,k:bca93e85e420,title+office,,"LIPTM00321, C4I, NS IPT, CND IBM RENEWALS, BASE PLUS OPTION, SEWP (C)",,526,,LSUBP00024
+removed,k:bcab4ed4eaad,title+office,,Global Positioning Sytem (GPS) User Equipment & Test Engineering (UET&E) (C),,739,,NP-55700
+removed,k:bcf495305982,title+office,,"LIPTM00321, C4I, NS IPT, CND VTE SPARES, SEWP (C)",,518,,LSUBP00024
+added,k:bcf8b87834c1,title+office,,,LIPTM00485- Electronic Warfare Systems (EWS) Integrated Product Team (IPT) Marine Corps Variant (MCV) Fly Away Broadcast,,687,LSUBP00004
+removed,k:bcfe0d37e0e1,title+office,,PMW 150 NILE In-Service Support 6 contract (C),,173,,PMW-150
+added,k:bd0dd4c13ccd,title+office,,,LIPTM00248 - Afloat SUB C4I IPT - FY25 ADNS and KMI KITTING - NEW SAC DO - CORPORATE PRODUCTION,,629,LSUBP00035
+added,k:bd71536e7697,title+office,,,"LIPTM00226, NAVAIR FMS, FMS ENGINEERING, LOGISTICS, AND P-3 SUPPORT - New SEAPORT NXGEN Task Order - Base +4OYS (C)",,199,LSUBP00006
+changed,k:bd9b7116ea63,title+office,procurement_method,Full and Open Competition,TBD,602,195,LSUBP00006
+changed,k:bd9b7116ea63,title+office,procurement_instrument,TBD,Single-Award Indefinite-Delivery,602,195,LSUBP00006
+changed,k:bd9b7116ea63,title+office,solicitation_fy,TBD,FY25,602,195,LSUBP00006
+changed,k:bd9b7116ea63,title+office,solicitation_quarter,TBD,Q3,602,195,LSUBP00006
+changed,k:bd9b7116ea63,title+office,award_quarter,Q3,Q4,602,195,LSUBP00006
+changed,k:bd9b7116ea63,title+office,existing_contract_number,N6523621F3003,N0017819D7193N6523621F3003,602,195,LSUBP00006
+changed,k:bd9b7116ea63,title+office,incumbent_contractor,,"ATLAS TECHNOLOGIES, INC.",602,195,LSUBP00006
+added,k:bd9cdeac3214,title+office,,,"LIPTM00460, Telephony, CISCO,ESI SEWP (C)",,86,LSUBP00087
+added,k:bda0b1e6a46b,title+office,,,"LIPTM00256, SHORE MODERNIZATION IPT, JMINI CONTROL SYSTEM, SEWP (C)",,61,LSUBP00057
+removed,k:bdcf1f975de6,title+office,,Integrated Voice Networks (Code 41270) Follow-On (C),,701,,NP-41200
+changed,k:bdda5b01b0c0,title+office,procurement_method,TBD,Full and Open Competition,489,832,LSUBP00064
+changed,k:bdda5b01b0c0,title+office,solicitation_quarter,Q1,Q3,489,832,LSUBP00064
+changed,k:bdda5b01b0c0,title+office,award_quarter,Q3,Q4,489,832,LSUBP00064
+changed,k:be39a8cc41f3,title+office,solicitation_fy,FY24,FY25,359,485,LSUBP00007
+changed,k:be39a8cc41f3,title+office,solicitation_quarter,Q3,Q4,359,485,LSUBP00007
+changed,k:be39a8cc41f3,title+office,award_fy,FY24,FY25,359,485,LSUBP00007
+added,k:be91650170a7,title+office,,,WAMS OTB - TO#1,,167,PMW/A-170
+removed,k:bec3c019780f,title+office,,LIPTM00500 NAVEUR/AF-C6F - CISCO CODEC _SEWP DOD ESI Catalog,,839,,LSUBP00002
+added,k:beee7c024e30,title+office,,,FOLLOW ON TO N6523625F3001 (C),,608,LSUBP00022
+added,k:befe3e3f12e2,title+office,,,"LIPTM00120, SDRS IPT, VQUAD HW RENEWAL, FY25, SEWP (C)",,645,LSUBP00016
+added,k:bf41d8069df4,title+office,,,DMR - Antenna Spares Mod (Ramp Encoder Kit & Nameplate) - 18D0004,,166,PMW/A-170
+added,k:bf7f470683e2,title+office,,,"LIPTM00415, RCIPT, FY25024-09, NECC PRP/FSR SPPT, NICHE SAC",,88,LSUBP00016
+removed,k:bf8e1da8d73a,title+office,,JIGSAW Enhancement & Support (JES) - SeaPort (C),,593,,LSUBP00010
+removed,k:bf8fe1471f57,title+office,,NSC2I. AS(X) Phase 1-3 (C),,196,,PMW-760
+added,k:bfbe47edcefb,title+office,,,Navy Enterprise Networks (NEN) Engineering Support Services (C),,272,NP-55300
+added,k:bfe30d7322a4,title+office,,,"LIPTM00455, TCIO, TCS GRCS, SEWP (C)",,30,LSUBP00021
+added,k:c013c40f75c2,title+office,,,LIPTM00119-INTERIOR COMMS: CVN73 Camera Repair & LHD8 Wardroom Video Repair SAC (Chugach Technical Services) N6523621D80,,661,LSUBP00034
+added,k:c04a8d38890e,title+office,,,Naval Physical Security System-Enterprise Architecture (PS2-EA) Follow-On (C),,229,NP-41100
+added,k:c0665dbd26c8,title+office,,,SLDCADA 2_Sustainment (C),,339,Pf007NERP
+added,k:c090106a1cfa,title+office,,,"LIPTM00164, SOIS, GROUND SIGNALS INTELLIGENCE KIT (GSK) STATIC, RFP (C)",,545,LSUBP00004
+added,k:c0e0b272dc43,title+office,,,"LIPTM00074, DHA/HSI IPT, 25-012 RUCKUS FOR JUST IN TIME FY25 LAN & MULTIPLE SITES- SEWP (C)",,722,LSUBP00009
+removed,k:c11cd6f07747,title+office,,"LIPTM00074, DHA/HSI IPT, 24-017 MILCON Ruckus LANs-SEWP (C)",,656,,LSUBP00009
+removed,k:c16932880f2d,title+office,,Comprehensive Cyber Support Services (CCSS III) (C),,710,,NP-58400
+added,k:c16f55295075,title+office,,,ESRP - Cost Overruns for TO 35 (N0003923F2008) (Sustainment Initiatives),,436,PMW/A-170
+removed,k:c204f20947d9,title+office,,LIPTM00003_DASR PGR_Sunhillo Longports_NASA SEWP (C),,355,,LSUBP00001
+removed,k:c20cdebdcea5,title+office,,LIPTM00468 NISE DATA AI WORKSHOP SUPPORT (C),,619,,LSUBP00049
+added,k:c270a8f3e346,title+office,,,"FY25 SB Forecast - LIPTM00074, DHA/HSI IPT, 25-024 Ilom & Misc for Minot AFB- FY25-SEWP (C)",,734,LSUBP00009
+removed,k:c29e08e815ed,title+office,,LIPTM00107 - Naval Tactical Command Support System - NTCSS Development ALM and UFT Support Renewal - Micro Focus Governm,,672,,LSUBP00056
+added,k:c2a7ca83b752,title+office,,,Radiant Mercury Follow-On,,251,NP-75600
+added,k:c2b03fd61a18,title+office,,,C4ISR - TO 0113 - KNOWLEDGE MANAGEMENT SUPPORT (KH) (C),,284,NP-H4H00
+added,k:c2b36462857d,title+office,,,IT Management Support Services - Seaport NxG (C),,267,NP-82000
+removed,k:c30800f85bb3,title+office,,300-24-912- Hardware (Wiseman)-SEWP (C),,534,,LSUBP00022
+added,k:c30c7d56da54,title+office,,,LIPTM000250_Shore Sub C4I IPT_SOA_CROSS DOMAIN SOLUTIONS_SEWP (C),,670,LSUBP00035
+added,k:c32b4178075b,title+office,,,NASA SEWP Crypto Order,,415,PMW/A-170
+added,k:c33d1670ca12,title+office,,,Airborne Advanced Tactical Data Link (ATDL) Engineering Support (C),,275,NP-53500
+removed,k:c3646538a8ca,title+office,,LIPTM00119-INTERIOR COMMS IPT-NG-IVCS ENGINEERING & LOGISTICS SUPPORT,,272,,LSUBP00034
+removed,k:c3c3084cfaff,title+office,,"LIPTM00285 NAVALC2 IPT, TACTICAL DATA LINKS, SESEF, SEWP (C)",,220,,LSUBP00063
+removed,k:c41d43819eb9,title+office,,"LIPTM00447,SECURE VOICE SOLUTIONS (SVS) IPT, NEW SAC TO, RDTE, BASE + 2OY, OMMC, (GDIT N6523619D8002) MCSC/ADNS Voice En",,152,,LSUBP00015
+removed,k:c437d88f53e3,title+office,,LIPTM00119-INTERIOR COMMS: INFORMATION WARFARE COMMAND CELL (IWCC) SUPPORT AND WEST COAST IC VIDEO SUPPORT- New SAC TO -,,115,,LSUBP00034
+added,k:c4525d7dc753,title+office,,,"ERP, ERP+, and SLDCADA Audit and Remediation IT General Control (ITGC) Sustainment_Option Exercise (C)",,338,Pf007NERP
+added,k:c4578d2457e7,title+office,,,"LIPTM00447, SECURE VOICE SOLUTIONS IPT, WANRAPTOR AND RDS PLUS, SEWP (C)",,92,LSUBP00015
+added,k:c48612f90c60,title+office,,,Order to Contract N6600120D0044 RFP 0253,,292,NP-41100
+removed,k:c50e18b8014b,title+office,,LIPTM00454_IBR CONTRACT# 47QTCA19D00BD_NEW ORDER_OTA_23-LANT-1814-004,,296,,LSUBP00064
+added,k:c515e4a987d5,title+office,,,NAVWAR 4.0 Engineering and Lifecycle Support Services (FY28) (C),,155,4.0
+added,k:c51d6b198c5e,title+office,,,"LIPTM00106, MAINTENANCE FIGURE OF MERIT, FY25 MFOM SAP Secure Product Support Renewal, SAP Public Services, Inc ESI BPA ",,579,LSUBP00095
+added,k:c53513a4551d,title+office,,,GIC TORFP 5157: Hardware Installation of C4ISR and Network related systems onboard ships in San Diego CA (C),,294,NP-42100
+added,k:c54b8d6947f3,title+office,,,"FY25 SB Forecast - LIPTM00074, DHA/HSI IPT, 25-028 Ilom & Misc for NHC Lemoore- FY25-SEWP (C)",,738,LSUBP00009
+removed,k:c56a4246cc84,title+office,,"LIPTM00128, SOCS IPT, NEW Order, FY24 PROC SDN Mv2 Hv2",,254,,LSUBP00004
+added,k:c56cb9b092b3,title+office,,,TO_SSA III (C),,271,NP-55200
+removed,k:c57e680a758d,title+office,,LIPTM00304-PNT IPT - UK AIAS Support -Lambert0014-(WR Systems-NEW TO),,274,,LSUBP00016
+removed,k:c5a347790c4f,title+office,,LIPTM00085; MST MUL USMC ESS FY24 PERIOD 2,,309,,LSUBP00010
+removed,k:c5b1e560642b,title+office,,WAMS TO # 4 - P00001,,482,,PMW/A-170
+removed,k:c5efe4365c25,title+office,,LIPTM00002_POLAR PGR_NPP LIFE CYCLE SUPPLIES_SEWP (C),,229,,LSUBP00001
+removed,k:c63708cd7e02,title+office,,"LIPTM00055, Advanced Reconnaissance (AR), SW, ANSYS, GSA",,112,,LSUBP00007
+removed,k:c63971d7e838,title+office,,"LIPTM00439, C4I, KEY MANAGEMENT (KMI) iAPP System Laptop Procurement and Integration, CMS MAC (C)",,539,,LSUBP00024
+added,k:c63f3b3b5387,title+office,,,LIPTM00107 - Naval Tactical Command Support System - NTCSS Development Cisco Firewall - Cisco ESI BPA - SEWP (C),,454,LSUBP00095
+added,k:c63f3b3b5387,title+office,,,LIPTM00107 - Naval Tactical Command Support System - NTCSS Development Cisco Firewall - Cisco ESI BPA - SEWP (C),,455,LSUBP00095
+added,k:c6654769d79b,title+office,,,Order to Contract #N0003922D4001_EVTT Upgrade,,159,PMA/PMW-101
+added,k:c6664d264e1a,title+office,,,Areté C Type,,258,NP-56700
+added,k:c69b8dd71a1b,title+office,,,N0003924FXXXX_FR_MIS_V2,,405,PMA/PMW-101
+removed,k:c69cc8696554,title+office,,"LIPTM00248 - AFLOAT SUB C4I IPT -806-807 ECS and CANES/COATS Integration, 804 and 805 CANES Dockside Integration - NEW D",,155,,LSUBP00035
+added,k:c6c4023b77c8,title+office,,,LIPTM00395 - MULTI MEDIA  IPT - TPL 25-042  DoD ESI (C),,570,LSUBP00002
+removed,k:c6dd67138baa,title+office,,LIPTM00156 - DCGS-N IPT - ICOP & SRF ASPERA -  GSA (C),,543,,LSUBP00022
+added,k:c6f3983d19fb,title+office,,,LIPTM00003_FOCIS/ETVS_Follow-On_ATC MAC (C),,67,LSUBP00001
+removed,k:c6f5b46368b7,title+office,,"LIPTM00004, TSI IPT, Knox Software, SEWP (C)",,651,,LSUBP00004
+added,k:c6f7b077bc48,title+office,,,"0383 Tactical Networks CBISEA Total Ship Readiness Assessment (TSRA) and Combat Systems, Command, Control, Communication",,312,NP-41200
+removed,k:c705e9318385,title+office,,Bundle 14 - Parking Lots and Storm Drain,,273,,LSUBP00083
+added,k:c73720eb5e05,title+office,,,"GIC TORFP 5173: GCM J-038 ESS and AV System Installation at MCB CAMP BLAZ, Guam (C)",,281,NP-42100
+added,k:c75587945971,title+office,,,"LIPTM000328, C4I WEAPONS TEST TEAM IPT, VARIOUS CONNECTORS, SEWP (C)",,769,LSUBP00035
+added,k:c77e363fbf9a,title+office,,,Modular Buildings (Up to 8 total) (PPA N65236-25-RFPREQ-LSUBP00049-0096) (C),,682,LSUBP00049
+added,k:c7e930430e81,title+office,,,"LIPTM00086/MyNavy Human Resources Solutions - DBSign Data Security Software renewal, SEWP (C)",,597,LSUBP00011
+added,k:c80121b0d0b1,title+office,,,LIPTM00480 - Business Applications In-Service Engineering Agent - BA-ISEA 7780 FA-18 Fame Laptops - NASA SEWP (C),,677,LSUBP00056
+added,k:c851c75ebc0c,title+office,,,LIPTM00149 - ASE - ASE-25-021 - SSEE REDWOOD Peregrine - SEWP V (C),,807,LSUBP00022
+removed,k:c869443d6b1d,title+office,,06 MOS Mod BPA Call 7 (DLS) (C),,185,,PMW-150
+removed,k:c8b2015dcfda,title+office,,DMDV Production OT Task Order #1,,797,,NP-71700
+removed,k:c8b590e4e7ad,title+office,,ADNS Production MAC RFP #40 (C),,24,,PMW-160
+added,k:c8ca1e0f22a8,title+office,,,LIPTM00229-IUSS IPT-300-25-923- ArcGIS Licenses (LEESON)- SEWP (C),,461,LSUBP00022
+added,k:c8e9fa2162a5,title+office,,,NP2 and NSIPS Integration and Sustainment Efforts (C),,13,Pf004MNHR
+removed,k:c988f36792e9,title+office,,"LIPTM00239, SURFACE NEW CONSTRUCTION, FORKLIFT, GSA (C)",,376,,LSUBP00034
+added,k:c9c8ebb03b2f,title+office,,,Clemson University,,748,LSUBP00049
+removed,k:c9e29d0f9ae9,title+office,,"LIPTM00149 - ASE IPT - ASE-24-014 - 24 SSEE Production, SCN, FMS UK Peregrine - SEWP V (C)",,555,,LSUBP00022
+removed,k:ca00f4ffa926,title+office,,NGA LMR Headend Refresh,,136,,LSUBP00010
+unchanged,k:ca012b55b9bc,title+office,,,,740,235,NP-55300
+added,k:ca072ceda043,title+office,,,LIPTM00085 USMC Electronic Security Systems (ESS) InfraLink Software License/Support Renewal-SEWP (C),,550,LSUBP00010
+removed,k:ca1578554aff,title+office,,WAMS Mission Planning System SBIR Phase III,,421,,PMW/A-170
+added,k:ca15e7d8e906,title+office,,,NIS Follow On Contract (C),,412,PCE
+removed,k:ca57643c0fce,title+office,,ESI.mil Website Development - TO (C),,711,,NP-55300
+added,k:ca63e507a483,title+office,,,LIPTM00002_Polar Ops Support_SAC_EXOY 3,,715,LSUBP00001
+removed,k:ca660f0b7d0e,title+office,,"LIPTM00455, TCIO,FDS-MC PHOTOGRAPHY EQUIPMENT, SEWP (C)",,557,,LSUBP00021
+removed,k:ca8f012b84c8,title+office,,"LIPTM00081, PJSA IPT, Executive CCTV and IDS Upgrades",,265,,LSUBP00010
+added,k:cad1e45ca924,title+office,,,"SIO, CIHEP, Prototypes, SEWP (C)",,591,LSUBP00021
+changed,k:cb1f8a1bfe11,title+office,contract_type,TBD,Cost-Reimbursement,182,146,1.0
+changed,k:cb1f8a1bfe11,title+office,procurement_instrument,TBD,"""C"" Type Contract",182,146,1.0
+changed,k:cb1f8a1bfe11,title+office,solicitation_fy,TBD,FY25,182,146,1.0
+changed,k:cb1f8a1bfe11,title+office,solicitation_quarter,TBD,Q1,182,146,1.0
+removed,k:cb7a7ecead4f,title+office,,Program Office Support Next (C),,10,,PMS-485
+removed,k:cb874d835ed3,title+office,,0199 CANES AEGIS,,777,,NP-41200
+removed,k:cb9d21ee4b18,title+office,,NAVWAR 5.0 SoS Engineering and CS Engineering Support Services (C),,89,,5.0
+added,k:cc072d7eb3de,title+office,,,"LIPTM00304-ENGINEERING, New Task Order Award under contract N6523620D8024-KevinSmith-(WR SYSTEMS-New)",,763,LSUBP00016
+removed,k:cc26e3c1140c,title+office,,LIPTM00002_Polar Ops Support_SAC_Follow-On (PPA LSUBP00001-0020),,142,,LSUBP00001
+added,k:cc5cf4ddfd1f,title+office,,,LIPTM00116- UCVS IPT - NAVIFOR_SOUDA BAY HW Procurement-SEWP (C),,480,LSUBP00015
+added,k:cc705b3e84f3,title+office,,,Modification to Task Order # N6523625F0010 Bundle 12 LIETM00492,,600,LSUBP00083
+added,k:cc8cddd41968,title+office,,,WAMS - SW 101/Test Event Task Order,,443,PMW/A-170
+removed,k:cce565d8c288,title+office,,CYP CCTV Installation Expansion (C),,596,,LSUBP00010
+removed,k:cd326697c32d,title+office,,LBUCS Tx - TO,,838,,NP-55300
+changed,k:cd508004477b,title+office,solicitation_fy,FY24,FY25,368,37,LSUBP00011
+changed,k:cd508004477b,title+office,award_fy,FY24,FY25,368,37,LSUBP00011
+changed,k:cd508004477b,title+office,existing_contract_number,N6523623F0452,N6523624F0439,368,37,LSUBP00011
+unchanged,k:cdbe14abf11a,title+office,,,,723,215,NP-58400
+removed,k:cdcf6aecc4cd,title+office,,"LIPTM00081, PJSA IPT, Executive Complex Operational Expansion NEW MAC (C)",,391,,LSUBP00010
+removed,k:ce23a55df722,title+office,,"LIPTM00336, DCGS-MC, CDS, SEWP (C)",,215,,LSUBP00021
+removed,k:ce4ef9fbe303,title+office,,NSLC-A Communications System - Follow On Contract (C),,61,,PMW/A-170
+removed,k:ce6601a9cd68,title+office,,LIPTM00448-MMSC NAVCERT/FMS CASES_CRUSE0006-WR Systems-NEW SAC TO N6523620D8024,,145,,LSUBP00016
+removed,k:ce67a3fb8770,title+office,,0228  (ADNS)  (PIT)  (ISEA),,101,,NP-41200
+added,k:cf3dd9f0a846,title+office,,,ESRP TO40 (24F2207) Mod - FY25 TeraScan Annual License Renewal,,321,PMW/A-170
+added,k:cf572d890fa0,title+office,,,LIPTM00447- SECURE VOICE SOLUTIONS IPT: NEW SAC DRSN COMPACFLT O&M - GDIT N6523619D8002 BASE YR,,23,LSUBP00015
+removed,k:cf749c29c787,title+office,,SEAPORT TO - AIRBORNE ADVANCED TACTICAL DATA LINK (ATDL) ENGINEERING AND TEST AND EVALUATION SUPPORT (C),,745,,NP-53000
+removed,k:cfb027ce845d,title+office,,LIPTM00460 FY24 RDT&E PALO ALTO RENEWAL SW ESI SEWP (C),,396,,LSUBP00087
+removed,k:cfec7ed7b939,title+office,,"LIPTM00328, CWITT IPT, DELL LAPTOPS, SEWP (C)",,219,,LSUBP00035
+removed,k:d024f999897d,title+office,,"LIPTM00285 NAVALC2 IPT, TACTICAL DATA LINKS, LMMT TECH REFRESH COMPUTERS, SEWP (C)",,509,,LSUBP00063
+added,k:d039cd67dc62,title+office,,,"LIPTM00116-UCVS IPT, Centrix VG450 Naples Procurement -SEWP ESI (C)",,60,LSUBP00015
+removed,k:d071f9f55da5,title+office,,"LIPTM00164, SOIS, JTWS AIR, SeaPort (C)",,490,,LSUBP00021
+removed,k:d092ea3f708f,title+office,,LBS-G Maintenance TO 09 (G2 Repairs),,425,,PMW-120
+added,k:d09ec8bf0ae0,title+office,,,"LIPTM00256, SURFACE MODERNIZATION IPT, DDG-94 USS NITZE - GSA (C)",,483,LSUBP00057
+added,k:d0a169105207,title+office,,,LIPTM00003_NASMOD System & Equip_Follow-On_ATC MAC (C),,66,LSUBP00001
+removed,k:d0ec8b9e47a5,title+office,,"LIPTM00118, TNSS COALITION IPT, COALITION SYSTEMS CISCO MATERIAL, ESI/SEWP (C)",,373,,LSUBP00063
+removed,k:d1839caf93ec,title+office,,0197 CBISEA DGSIT,,773,,NP-41200
+removed,k:d1db2d8fcffa,title+office,,LIPTM00500 NAVEUR/AF-C6F - EVANS FURNITURE,,134,,LSUBP00002
+unchanged,k:d1f7e455df79,title+office,,,,171,141,PMW-740
+added,k:d22486de1263,title+office,,,LIPTM00248 - AFLOAT SUB C4I IPT - Common Submarine Radio Room (CSRR) Multi-purpose Reconfigurable Training System (MRTS),,63,LSUBP00035
+added,k:d257a7b994ea,title+office,,,LIPTM00480 - Business Applications In-Service Engineering Agent - BA-ISEA 7780 Laptop Upgrade - NASA SEWP (C),,553,LSUBP00095
+added,k:d2774dec0a4a,title+office,,,"LIPTM00074, DHA/HSI IPT, 25-010 BNOE SITE SPECIFIC LAN FORKLIFT - FY25-SEWP (C)",,720,LSUBP00009
+added,k:d27b85959633,title+office,,,C4ISR - TO 0115 - NEPMU5C & OMTACGRU1 (CK) (C),,505,NP-56700
+removed,k:d2a941cae680,title+office,,"LIPTM00321, C4I, NSIPT SENSOR 2 SERVER REFRESH AND INSTALL, SEWP (C)",,217,,LSUBP00024
+added,k:d2b1a3cab14f,title+office,,,"LIPTM00119, IC IPT, SSBN-826 SITE 200 PROCUREMENT, SEWP (C)",,778,LSUBP00034
+removed,k:d2b413153956,title+office,,LIPTM00116-UCVS IPT -CISCO procurement for 790 Lab (SSD)-Equipment_SEWP ESI (C),,212,,LSUBP00015
+removed,k:d2c268d861d3,title+office,,PMW 150 ILS Services (C),,60,,PMW-150
+removed,k:d2c8f477df14,title+office,,New task order on N66001-21-D-0089,,793,,NP-75200
+removed,k:d2d5e382006b,title+office,,SLDCADA 2_FUTURE_ BASE YR_2024 (C),,91,,Pf007NERP
+removed,k:d2e96d1efa16,title+office,,"LIPTM00119, IC IPT, LHD-3_LPD-17 VIDEO TVDTS PROCUREMENT, SEWP (C)",,358,,LSUBP00034
+added,k:d2f6ff9f9843,title+office,,,"LIPTM00455, TCIO,CIHEP, Fabis, Biocore, Secure Planet, SEWP (C)",,745,LSUBP00021
+unchanged,k:d319a323324a,title+office,,,,74,101,PMW/A-170
+added,k:d380c6e0ad2e,title+office,,,"LIPTM00460, Telephony, REPEATER UPGRADER SEWP (C)",,683,LSUBP00087
+removed,k:d39dbee7ffcc,title+office,,"LIPTM00183, INIS IPT, NEW OTP TO #3 MUOS",,255,,LSUBP00023
+added,k:d39ebbe7b23d,title+office,,,"LIPTM00081, PJSA IPT, CNIC N9 CYP CCTV SYSTEM INSTALLATION EXPANSION (NEW ORDER) (C)",,473,LSUBP00010
+removed,k:d3bb43ef2306,title+office,,Modeling and Simulation 28,,444,,PMS-485
+removed,k:d3d4754f4bfd,title+office,,0233 ADNS INCO KIT mng,,847,,NP-41200
+removed,k:d46182320d99,title+office,,PMW/A 170 Integrated Logistics Support Services (C),,201,,PMW/A-170
+added,k:d47403c76475,title+office,,,"LIPTM00321, C4I, NS IPT, CND PRNOC CISCO E44-E45 BUY, CISCO ESI-SEWP (C)",,633,LSUBP00024
+added,k:d4878987ef6d,title+office,,,"Navy ERP, SLDCADA and ERP+ Support Services_Option Year 3",,335,Pf007NERP
+removed,k:d59fcfb227ac,title+office,,"LIPTM00006, NCOC IPT, NELLER CENTER C4I SYSTEMS TECHNICAL SUPPORT, New SAC Task Order",,284,,LSUBP00002
+added,k:d5b6615b7738,title+office,,,LIPTM000250_Shore Sub C4I IPT_SOA_IP TUBES_SEWP (C),,679,LSUBP00035
+removed,k:d60c860376e0,title+office,,"LIPTM00328, CWITT/SWFTS IPT - JUNIPER (NETS), SUPPORT, SEWP (C)",,492,,LSUBP00035
+removed,k:d61ed36f7e3b,title+office,,"LIPTM00120, SDRS IPT, PROPSIM F64 SW RENEWAL FY24, SEWP (C)",,531,,LSUBP00016
+added,k:d62445011c87,title+office,,,"LIPTM00086 - FY25 MicroFocus Dimensions Renewal - PMW240, (MFGS) ESI-BPA (C)",,680,LSUBP00011
+added,k:d6363ad18508,title+office,,,N0003922D4001_GE_TATS,,162,PMA/PMW-101
+removed,k:d6378270aeed,title+office,,LIPTM00106 - MAINTENANCE FIGURE OF MERIT - MFOM Machine Certs Support Renewal - NASA SEWP (C),,218,,LSUBP00056
+removed,k:d6524a55cb02,title+office,,PMW-130 A&A Service RECOMPETE (C),,78,,PMW-130
+removed,k:d6ba4152bc69,title+office,,ADNS Production MAC RFP #33 (C),,17,,PMW-160
+added,k:d6c78edb911b,title+office,,,ESRP New TO Final SMT Phase/Completion,,323,PMW/A-170
+removed,k:d6cc9e4f6fa3,title+office,,SD Marine Mammal Training (C),,733,,NP-56700
+removed,k:d791989d5f11,title+office,,RGS-A TO 3 (C),,700,,NP-55200
+added,k:d79f8b5dc153,title+office,,,NEW Order_LIPTM00003_DASR SUSTAINMENT_MAC (C),,52,LSUBP00001
+added,k:d7d615968012,title+office,,,LIPTM00229 - IUSS IPT - 300-25-903- Hardware Servers -SEWP (C),,190,LSUBP00022
+removed,k:d7f204e187d0,title+office,,"LIPTM00214-C4I FMS, FMS Case JO-P-LBU, ESI Cisco, SEWP (C)",,679,,LSUBP00006
+added,k:d7f581cab5f4,title+office,,,"ERP, ERP+, and SLDCADA Audit and Remediation IT General Control (ITGC) Sustainment (C)",,337,Pf007NERP
+removed,k:d84fcbb9d123,title+office,,"LIPTM00455-TERRESTRIAL COLLECTIONS IDENTITY OPS, MARITIME SENSING DEVICES, SEWP (C)",,563,,LSUBP00021
+removed,k:d892eab19a4b,title+office,,"LIPTM00074, DHA/HSI IPT, 24-015 BNO for JUNIPER for NMC PORTSMOUTH DELTAS-SEWP (C)",,225,,LSUBP00009
+added,k:d9a55ad0b1bd,title+office,,,LIPTM00241 USCG IPT L-3 NEW TASK ORDER (SUSTAINMENT) - L3 NICHE SAC - N6523624D1014,,831,LSUBP00006
+removed,k:d9a5f20284c4,title+office,,"LIPTM00214, C4I FMSIPT, JO-P-LBU/CENTRIXS, SEWP (C)",,681,,LSUBP00006
+added,k:d9ab18ed3a3f,title+office,,,"LIPTM0119, IC IPT, SSN 801-802 SITE 200 PROCUREMENT, SEWP (C)",,70,LSUBP00034
+added,k:d9b331b0f4b2,title+office,,,"LIPTM00119, IC IPT, CVN-77 IVN UPS REFRESH KIT, SEWP (C)",,456,LSUBP00034
+added,k:d9be2db70dfe,title+office,,,CLTS-25 Production & CLTS/LTS Services IDIQ Contract,,11,PMS-485
+removed,k:d9c1222e8d26,title+office,,0194 ADNS OPC-1 US COAST GUARD,,781,,NP-41200
+added,k:d9fa08f20b1c,title+office,,,ADNS MAC RFP #4 (C),,367,PMW-160
+added,k:da0991faf3da,title+office,,,"LIPTM00333, ESCA IPT, US Navy Integrated Electronic Security System (IESS) Sustainment MAC (C)",,818,LSUBP00010
+removed,k:da329b8a658c,title+office,,"LIPTM00285 - NAVAL C2 IPT, GCCS-M ORACLE HARDWARE MAINT RNWL, SEWP (C)",,507,,LSUBP00063
+added,k:dab1bc31dfb8,title+office,,,LIPTM00107 - Naval Tactical Command Support System - NTCSS Development Cisco VSAN Switches Requirement - Cisco ESI BPA -,,476,LSUBP00095
+changed,k:dab3df033d12,title+office,award_fy,FY25,FY26,35,121,PMW-740
+changed,k:dab3df033d12,title+office,award_quarter,Q2,Q1,35,121,PMW-740
+removed,k:db4d9f0d67e2,title+office,,"LIPTM00174, Air & Space IPT, NEW OTA",,295,,LSUBP00023
+removed,k:dbadb9742816,title+office,,"LIPTM00006_Naval Command and Operations Center_SMWDC, Tech Refresh, SEWP (C)",,388,,LSUBP00002
+removed,k:dbbcc66cb779,title+office,,LIPTM00156 - DCGS-N IPT - POSTGRES ENTERPRISE DATABASE - GSA (C),,544,,LSUBP00022
+removed,k:dbd754c16e26,title+office,,"LIPTM00464, DC2HS, FY24 CISCO ISE CEDC, ESI - SEWP (C)",,666,,LSUBP00066
+added,k:dc00e8db5f65,title+office,,,"LIPTM00120, SDRS IPT, 3DB MAINTENANCE RENEWAL FY25, SEWP (C)",,471,LSUBP00016
+added,k:dc294ef708ad,title+office,,,LIPTM00248 - FY25 CSRR BOISE UPGRADE  - NEW SAC DO - CORPORATE PRODUCTION - N6523618D8014,,617,LSUBP00035
+added,k:dc2cb88f65b3,title+office,,,RTAB/SHARC-27 Contract,,125,PMS-485
+removed,k:dc37f08cd576,title+office,,CELLEX Software for USMC POR  PPS-22-218-0007 (C),,582,,LSUBP00021
+added,k:dc7fc66faecc,title+office,,,"ERP, ERP+, and SLDCADA Auditability Sustainment Effort (C)",,131,Pf007NERP
+changed,k:dcab4340714f,title+office,anticipated_total_value,$50M - $100M,$2M - $7.5M,605,205,LSUBP00010
+changed,k:dcab4340714f,title+office,procurement_method,TBD,Full and Open Competition,605,205,LSUBP00010
+changed,k:dcab4340714f,title+office,solicitation_fy,FY24,FY25,605,205,LSUBP00010
+changed,k:dcab4340714f,title+office,solicitation_quarter,Q4,Q1,605,205,LSUBP00010
+changed,k:dcab4340714f,title+office,award_quarter,Q2,Q3,605,205,LSUBP00010
+added,k:dcc8858147a3,title+office,,,"ERP, ERP+, and SLDCADA Auditability Sustainment_Option Year 1 (C)",,132,Pf007NERP
+removed,k:dcd098b54b3b,title+office,,PMW 160 Engineering Support Services (ESS) Follow-on Contract (C),,55,,PMW-160
+added,k:dcdc4203681c,title+office,,,LIPTM00003_SHORE ATC_FOCIS (V)3 TDM TO IP_NASASEWP (C),,829,LSUBP00001
+removed,k:dd0d44562f12,title+office,,"LIPTM00303, DARPA IPT, SEAPORT NEW TASK ORDER, ACO PROGRAM SUPPORT (C)",,592,,LSUBP00049
+added,k:dd2146444311,title+office,,,GIC TORFP 5095: C4I Hardware Installations and SOVT support onboard USS KENTUCKY (SSBN-737) (C),,269,NP-42100
+changed,k:dd499a96e532,title+office,contract_type,TBD,Cost-Reimbursement,211,158,8.0
+changed,k:dd499a96e532,title+office,procurement_instrument,TBD,Single-Award Indefinite-Delivery,211,158,8.0
+changed,k:dd499a96e532,title+office,solicitation_fy,TBD,FY25,211,158,8.0
+changed,k:dd499a96e532,title+office,solicitation_quarter,TBD,Q2,211,158,8.0
+added,k:dd803d5e676a,title+office,,,"LIPTM00375, C4I, MLSE IPT, MLSE HARDWARE, SEWP (C)",,675,LSUBP00024
+added,k:dd97ecade4dc,title+office,,,8.0 FY26 UiPath Annual Maintenance Renewal Order (C),,392,8.0
+removed,k:ddc2126d4293,title+office,,"LIPTM00119, IC IPT, CVN-70/71/76 NAVAIR SATCC SPARES KIT, SEWP (C)",,663,,LSUBP00034
+removed,k:de0519917b10,title+office,,eCRM DOS,,441,,Pf004MNHR
+removed,k:de674f4a2904,title+office,,"LIPTM00321, C4I, NSIPT, CNDTS SPVU NEW(V3) DELL, SEWP (C)",,236,,LSUBP00024
+removed,k:deacdb03fd6a,title+office,,0150 deob expiring funds P00001,,834,,NP-41200
+added,k:df3894681495,title+office,,,LIPTM00150 LOGISTICS SUPPORT FOR FITE IPT (C),,710,LSUBP00021
+removed,k:df3bfb334874,title+office,,USSPACECOM AV TO 01,,790,,NP-53600
+removed,k:df447b0d8e74,title+office,,LIPTM00229 - IUSS IPT - 300-24-911- Hardware (Wiseman)-SEWP (C),,533,,LSUBP00022
+added,k:df5507961cb8,title+office,,,N00039FXXXX_FR_ML2,,357,PMA/PMW-101
+added,k:df5da7303488,title+office,,,CVN 79 USS JOHN F KENNEDY MOD 08,,413,PMW-750
+removed,k:df6f1adbeec1,title+office,,AVENING TECH (GSA MAS),,439,,DRPM-NOA
+removed,k:dfa904d4f2a1,title+office,,"LIPTM00119, IC IPT, CVN-74/LHA-8 IVN BATTERY REFRESH, SEWP (C)",,337,,LSUBP00034
+added,k:dfb558a6d095,title+office,,,"FY25 SB Forecast - LIPTM00074, DHA/HSI IPT, 25-022 Ilom & Misc for Ft Carson- FY25-SEWP (C)",,732,LSUBP00009
+added,k:dfd24ca9abfc,title+office,,,"0381 Consolidated Afloat Networks Enterprise Services (CANES), CASREP In-Service Engineering Agent (ISEA) Technical Supp",,313,NP-41200
+removed,k:dfdb0070fac1,title+office,,STtNG - Phase III Production,,470,,PMW/A-170
+removed,k:dff8e9f32e84,title+office,,PEO Digital Strategic Communications (C),,210,,CSO
+added,k:e0318b5eed37,title+office,,,LIPTM00128-SOCS IPT-FPA-SOCS SCAMPI C4I SoS & LCS SPT,,200,LSUBP00004
+added,k:e0627fa470a4,title+office,,,AP MLIU Software and System Engineering Support for the C2P Systems,,276,NP-53500
+added,k:e06b7c585117,title+office,,,N0003925FXXXX_Certificate of Compliance (CoC) for FMS United Kingdom,,431,PMA/PMW-101
+added,k:e06c1721de0e,title+office,,,"LIPTM00285 NAVALC2, GCCS-M, SAPNS2 SYBASE, SW RNWL, ESI - BPA (C)",,556,LSUBP00063
+removed,k:e0fb4d01f631,title+office,,0249 CANE ISEA,,827,,NP-41200
+removed,k:e108fd0dcf6f,title+office,,"LIPTM00395, Multi-Media IPT, Ashore Collaboration Systems Integration and Installation Support, New SAC Task Order",,285,,LSUBP00002
+added,k:e1439027895f,title+office,,,UMSS MAC Follow on (C),,295,NIWCPAC
+removed,k:e15065145916,title+office,,Bundle 12,,267,,LSUBP00083
+removed,k:e16000511608,title+office,,LIPTM00086 - MYNAVY HR SOLUTIONS IPT - MPT&E NEW SAC UNDER MBAS II CONTRACT,,308,,LSUBP00011
+removed,k:e173ad38e4dc,title+office,,"LIPTM0003, SHORE ATC FOCIS (V)3 TDM TO IP, NASA SEWP (C)",,249,,LSUBP00001
+removed,k:e223f2b8aeb3,title+office,,"LIPTM00455, TCIO, CIHEP IT EQUIPMENT, SEWP (C)",,512,,LSUBP00021
+changed,k:e280f87d65ff,title+office,procurement_method,TBD,Small Business Set-Aside,45,107,C4IEXEC
+changed,k:e280f87d65ff,title+office,solicitation_fy,FY24,FY25,45,107,C4IEXEC
+changed,k:e280f87d65ff,title+office,solicitation_quarter,Q4,Q1,45,107,C4IEXEC
+changed,k:e280f87d65ff,title+office,award_quarter,Q2,Q3,45,107,C4IEXEC
+removed,k:e28266f92855,title+office,,"LIPTM00455, TCIO, TCS RADAR 3, SEWP (C)",,648,,LSUBP00021
+added,k:e2afaccb8e40,title+office,,,LIPTM00464 - DC2HS - AWS IL6 CLOUD CONSUMPTION (JWCC MAC),,613,LSUBP00066
+added,k:e2afd675f7ba,title+office,,,"LIPTM00119, IC IPT, CVN 75 C4I EMERGENT RESPONSE SUPPORT, SAC-CHUGACH - N6523623D8021 (New TO)",,94,LSUBP00034
+removed,k:e2d961ac0a03,title+office,,"LIPTM00118 SOFTWARE, TNSS IPT, CANES ACTIVID ACTIVCLIENT RENEWAL, MAC (C)",,503,,LSUBP00063
+removed,k:e2e39f5fe2e2,title+office,,Eng/Log Support Services_Future_OY2_2029 (C),,88,,Pf007NERP
+removed,k:e2ea4b132fc0,title+office,,"Prototyping and Test and Evaluation Services for Emerging Positioning, Navigation and Timing (PNT) Technologies (C)",,706,,NP-55700
+removed,k:e302fe2412df,title+office,,VideoRay MESR Engineering Services and Support,,807,,NP-56400
+changed,k:e33f009336bd,title+office,contract_type,TBD,Fixed-Price,47,108,PMW/A-170
+changed,k:e33f009336bd,title+office,procurement_instrument,TBD,Single-Award Indefinite-Delivery,47,108,PMW/A-170
+changed,k:e33f009336bd,title+office,solicitation_fy,TBD,FY26,47,108,PMW/A-170
+changed,k:e33f009336bd,title+office,solicitation_quarter,TBD,Q2,47,108,PMW/A-170
+changed,k:e33f009336bd,title+office,award_fy,FY25,FY27,47,108,PMW/A-170
+changed,k:e33f009336bd,title+office,award_quarter,Q3,Q2,47,108,PMW/A-170
+changed,k:e33f009336bd,title+office,follow_on_or_new,,Follow-on,47,108,PMW/A-170
+changed,k:e33f009336bd,title+office,existing_contract_number,,N0003916C0087,47,108,PMW/A-170
+changed,k:e33f009336bd,title+office,incumbent_contractor,,BAE SYSTEMS INFORMATION AND ELECTRONIC SYSTEMS INTEGRATION INC.,47,108,PMW/A-170
+added,k:e36a51dd69ea,title+office,,,CVN 74 IC De-obligation,,375,PMW-750
+removed,k:e37c56bc4503,title+office,,Eng/Log Support Services_Future_Base Yr_2027 (C),,85,,Pf007NERP
+removed,k:e3c30f3d890c,title+office,,LIPTM00448-NAV ISEA SUPPORT-CharlesNwachukwu00XX *22F0212 POP end 8/30/2024,,147,,LSUBP00016
+added,k:e4094f6ffa13,title+office,,,LIPTM00116-UCVS IPT - NAVIFOR_SOUDA BAY CISCO HW Procurement-SEWP (C),,479,LSUBP00015
+added,k:e464e5e2ed83,title+office,,,LIPTM000250_Shore Sub C4I IPT_SOA_CSD KVM_EVERFOX_SEWP_CISCO (C),,700,LSUBP00035
+removed,k:e4cb1e08c824,title+office,,NSC2I LPD 32-33 Phases 2-5. Updated (C),,191,,PMW-760
+added,k:e4dba8981491,title+office,,,34 - OE538 VHF/UHF SWITCH - LACOMB,,521,NPT-34
+added,k:e524555bde84,title+office,,,LIPTM00003_ASUP/NVS Follow-On_ATC MAC (C),,180,LSUBP00001
+removed,k:e598ce44903b,title+office,,"ISR/IO, and ICADs Engineering and Technical - Seaport New TO (60 months) (C)",,667,,LSUBP00022
+added,k:e5b74040ba13,title+office,,,"DCGS-MC, LIPTM00336, ANSYS SW, GSA",,577,LSUBP00021
+removed,k:e5fafdfd5b9b,title+office,,"LIPTM00455-TERRESTRIAL COLLECTIONS IDENTITY OPS, MARITIME USV, SEWP (C)",,562,,LSUBP00021
+added,k:e63198bb41d8,title+office,,,LIPTM00448-New Task Order Award under contract N6523618D8001-RobZickau-(Northrop Grumman-New),,771,LSUBP00016
+added,k:e6460b3a6117,title+office,,,LIPTM00149 - ASE - ASE-25-___ - SSEE Intellian Spares - SEWP (C),,801,LSUBP00022
+added,k:e67a50554c5a,title+office,,,Order to Contract N6600120D0044 RFP 0255,,496,NP-41100
+added,k:e67d868d274f,title+office,,,"LIPTM00250, Shore Sub C4I IPT, FSBS TCC/ACC Procurement and Engineering (Awase, Iceland & Dixon)",,773,LSUBP00035
+added,k:e68be28572d0,title+office,,,"LIPTM000328, C4I WEAPONS TEST TEAM IPT, KITCO BUY, SEWP (C)",,764,LSUBP00035
+removed,k:e6f68e0a77d3,title+office,,C4ISR Training Products Follow-On (C),,715,,NP-43100
+removed,k:e71c142a46f6,title+office,,5104 LIPTM00426 USS DWIGHT D. EISENHOWER (CVN 69) INSTALLATIONS (C),,609,,LSUBP00057
+removed,k:e71e1b39cd30,title+office,,"Performance Based Logistics - Organic, Depot, and Integrated Logistics Support (C)",,567,,LSUBP00093
+added,k:e73491855c7e,title+office,,,LIPTM00107 - Naval Tactical Command Support System - NTCSS Development ALM & UFT Support Renewal - Micro Focus Governmen,,467,LSUBP00095
+removed,k:e741c8691ab3,title+office,,LIPTM00415 - Radio Communications task Command and Control System Rack Production - N6523618D8014 (New Corporate Product,,124,,LSUBP00016
+added,k:e7556411e802,title+office,,,X076 B-111 Wet Lab Upgrades,,302,NP-83000
+removed,k:e758442e1482,title+office,,"LIPTM00468, NISE, LR-24-002 - Expeditionary Zone-B, SEWP (C)",,339,,LSUBP00049
+removed,k:e798af93dc26,title+office,,"LIPTM00119, IC IPT, LHD-8 HYDRA P25 SYSTEM PROCUREMENT, SEWP (C)",,644,,LSUBP00034
+removed,k:e7ea87770207,title+office,,PEO Digital Research & Advisory Services Follow On (C),,34,,PCE
+added,k:e7f8b895e0f2,title+office,,,5178 LIPTM00463 PPR FOR NEW TASK ORDER (C),,463,LSUBP00057
+removed,k:e8575fea6c22,title+office,,LBS-G Production N0003921D6001_TO20_T&M Follow on_FY25,,315,,PMW-120
+added,k:e894655a0f64,title+office,,,336 Capability Based In-Service Engineering (CB-ISEA) Training Management Support,,489,NP-41200
+added,k:e898601422f1,title+office,,,LIPTM00119-INTERIOR COMMS (IC) IPT- New (internal) Large Service Contract (8A ANC sole source Akima) (PPA N65236-24-RFPR,,192,LSUBP00034
+removed,k:e8d3c65995c1,title+office,,0148 Caas ISEA,,776,,NP-41200
+changed,k:e8f0f54def21,title+office,solicitation_fy,TBD,FY26,29,116,PMW-770
+changed,k:e8f0f54def21,title+office,solicitation_quarter,TBD,Q1,29,116,PMW-770
+changed,k:e8f0f54def21,title+office,award_quarter,Q2,Q4,29,116,PMW-770
+added,k:e8f945d166f0,title+office,,,LIPTM00107 - Naval Tactical Command Support System - NTCSS Development Dell R660 and R360 Server Hardware - NASA SEWP (C,,464,LSUBP00095
+removed,k:e95f3489e143,title+office,,X049 B-106 Replace Windows,,800,,NP-83000
+removed,k:e9d43714eb88,title+office,,0248 CANES ISEA,,109,,NP-41200
+removed,k:e9e82fdb9a1e,title+office,,GPNTS FY25 Bulk Buy #1 Award and Fund,,323,,PMW/A-170
+removed,k:e9e82fdb9a1e,title+office,,GPNTS FY25 Bulk Buy #1 Award and Fund,,404,,PMW/A-170
+removed,k:e9faf06ea579,title+office,,NMT FOFD - TDL: 24-21F CBIT Development,,440,,PMW/A-170
+added,k:ea0f7bfbcc4a,title+office,,,LIPTM000250_Shore Sub C4I IPT_SOA_SOAPHE Nutanix ESI w/4options_DOD ESI (C),,774,LSUBP00035
+added,k:ea2e8123f0d3,title+office,,,"LIPTM00183, INIS IPT, PADOVATECH (C)",,540,LSUBP00023
+removed,k:ea614874d4e5,title+office,,LIPTM00121-ATS IPT: PMW/A-170 CBSP SECURE INTEGRATED GLOBAL HYBRID TRANSPORT (SIGHT) SERVICES (CHUGACH 23D8021-NEW TO-BA,,290,,LSUBP00016
+removed,k:ea93ef2bf493,title+office,,TDL 0204 - AN/UYQ-120(V) 1 Command and Control Processor System (C2PS) Government Acceptance Test (GAT),,789,,NP-41100
+added,k:eaa62379c698,title+office,,,University of Rochester,,757,LSUBP00049
+added,k:eaa78038f0e3,title+office,,,Link 16 99 MOS Mod BPA TTNT Scope DLS Mod #N0003921A1001,,427,PMW-150
+added,k:eac8962080ba,title+office,,,UCF Contract,,755,LSUBP00049
+added,k:eb91cc7d6a6f,title+office,,,C4ISR - TO 0114 - MILCON SCHEDULER SUPPORT (JR) (C),,504,NP-H4H00
+added,k:ebf45baab106,title+office,,,"LIPTM00460, Telephony, RIBBON REDSKY, SEWP (C)",,649,LSUBP00087
+removed,k:eca856a76657,title+office,,LIPTM00229 - IUSS IPT - 300-24-914- VMWARE-(WISEMAN) ESI/SEWP (C),,535,,LSUBP00022
+added,k:ecbf88a4aa3f,title+office,,,"LIPTM00164, SOIS, Maritime Combatant Craft, Seaport (C)",,834,LSUBP00004
+added,k:ece5f3f52e6a,title+office,,,LIPTM00321 NS IPT - FOLLOW-ON TASK ORDER (C),,776,LSUBP00024
+removed,k:ed6249ca630b,title+office,,LIPTM00156 - DCGS-N IPT - MOVEIT - GSA (C),,361,,LSUBP00022
+added,k:ed83032996e7,title+office,,,FOLLOW-ON FOR AIS & JTT TECHNICAL SUPPORT (C),,699,LSUBP00022
+removed,k:ede782b4922c,title+office,,MIDS Recompete/21F3011 Follow-On (C),,58,,PMA/PMW-101
+removed,k:ee080ea1ff23,title+office,,01 JPI FR (A3 Card),,466,,PMW-150
+removed,k:ee1ee735642a,title+office,,"LIPTM00080, NATFP IPT, NAVSEA",,260,,LSUBP00010
+added,k:eec001a610d8,title+office,,,"ERP, ERP+ and SLDCADA Engineering and Logistics Support Services (C)",,134,Pf007NERP
+added,k:eefd50a3602f,title+office,,,Follow-on to task order N66001-20-F-1199 (C),,256,NP-75200
+added,k:ef02e6eeab4e,title+office,,,534-xKA Follow-On,,318,NP-53400
+changed,k:eff6703bf6c1,title+office,solicitation_quarter,Q3,Q2,725,217,NP-41200
+changed,k:eff6703bf6c1,title+office,award_fy,FY28,FY27,725,217,NP-41200
+changed,k:eff6703bf6c1,title+office,award_quarter,Q1,Q4,725,217,NP-41200
+added,k:eff8b4c0df11,title+office,,,CCOP Engineering and Technical Support - Seaport NxGEN New TO (60 months) (C),,607,LSUBP00022
+added,k:f01f5f790f11,title+office,,,NTCDL - Stand Alone Bridge Contract,,378,PMW/A-170
+removed,k:f062ffc3ba7c,title+office,,LIPTM00128-SOCS IPT-FPA-SOCS SCAMPI SATCOM (C),,549,,LSUBP00004
+added,k:f06f01029b00,title+office,,,"Code 58111 - CM, INE & CES (C)",,254,NP-58100
+added,k:f0a0fa6f92cd,title+office,,,"LIPTM00074, DHA/HSI IPT, 25-013 JUNIPER FOR MULTIPLE SITES-SEWP (C)",,723,LSUBP00009
+removed,k:f0c82446f2b6,title+office,,PEO Digital Engineering and Logistics Support follow on (C),,32,,PCE
+added,k:f0cf8664001a,title+office,,,"LBUSP00027,  Advanced Technology Research (ATR) STARLINK GSA (C)",,611,LSUBP00049
+added,k:f0d561063d49,title+office,,,"FY25 SB Forecast - LIPTM00074, DHA/HSI IPT, 25-025 Ilom & Misc for Travis AFB- FY25-SEWP (C)",,735,LSUBP00009
+removed,k:f0d74eab7edf,title+office,,Key Management Architecture & Engineering (KMA&E) and Cyber Security Engineering Support Services in support of NIWC Pac,,754,,NP-58100
+added,k:f0d9e3b41f25,title+office,,,LIPTM00248 - FY25 GBS Procurement and Kitting - NEW SAC DO - CORPORATE PRODUCTION - N6523618D8014,,703,LSUBP00035
+added,k:f1097ada6e78,title+office,,,"LIPTM00321, C4I, NS IPT CDMSS VIRUS TOTAL RENEWALS, SEWP (C)",,655,LSUBP00024
+removed,k:f116d8a90945,title+office,,LIPTM00447-SECURE VOICE SOLUTIONS IPT-NEW SAC Order N6523619D8002 SECURE VOICE BASE  (HNF SHELVING),,282,,LSUBP00015
+unchanged,k:f12d5623e6ef,title+office,,,,691,242,NP-53400
+added,k:f13c56862608,title+office,,,NILE ISS 5 Task Order 5,,361,PMW-150
+removed,k:f15a62fca111,title+office,,Furniture BPA Follow-on (C),,67,,8.0
+added,k:f17a71ad7e9d,title+office,,,ADNS MAC N0003925R9510 (New Award FY25) (C),,127,PMW-160
+removed,k:f1a7e85d188d,title+office,,OE-315 AIS Amplifier Procurement (C),,59,,PMW-770
+added,k:f1c3c6ef3305,title+office,,,TL-29A-26 Production Contract,,102,PMS-485
+removed,k:f20acd979b4b,title+office,,19722 LIPTM00256L ESS DLA Minor Construction,,300,,LSUBP00057
+added,k:f2138a5419cf,title+office,,,"LIPTM00086/MyNavy Human Resources Solutions - Omnissa (previously Vmware) Horizon View 8 Enterprise Software renewal, SE",,586,LSUBP00011
+added,k:f226b9b9b6ef,title+office,,,Automated Vehicle Barrier (AVB) Follow-On Action (C),,233,NP-41100
+added,k:f269edac8dff,title+office,,,LIPTM00250_Shore Sub C4I IPT_SOA_ISDS_Win Server Std 2012 R2 2(October 2025-2026)_SEWP,,652,LSUBP00035
+added,k:f2aedc07684d,title+office,,,LIPTM00395 - MULTI-MEDIA IPT - TPL 24-079/080 - NASA SEWP (C),,756,LSUBP00002
+removed,k:f37f60f6c639,title+office,,IT Tools (C),,329,,4.0
+added,k:f399122c5a13,title+office,,,LIPTM000250_Shore Sub C4I IPT_MISC SOAPHE MATERIAL & NON ESI SOFTWARE_SEWP (C),,636,LSUBP00035
+removed,k:f3c6ec89315a,title+office,,NSC2I.  TARC.  PHASE 1-5 (C),,187,,PMW-760
+removed,k:f40de302a32d,title+office,,Automatic Identification Systems/Joint Tactical Terminal In-Service Engineering Activity (AIS/JTT ISEA) Support - Seapor,,584,,LSUBP00022
+removed,k:f40e0ee0a50d,title+office,,"LIPTM00074, DHA/HSI IPT, 24-012 MESOC-SATX FY23 and MESOC-AUCO-ESI SEWP (C)",,377,,LSUBP00009
+removed,k:f421fcea7fd8,title+office,,ERP+ Prototyping (C),,84,,Pf007NERP
+removed,k:f42f6231a16a,title+office,,Afloat Global C4ISR Installations Services (GIC) (C),,737,,NP-42100
+added,k:f4634ecbe74c,title+office,,,Seaport PSS Base Contract Follow On (C),,140,PMW-150
+removed,k:f47e370469ff,title+office,,N0003923F4063_P00001 RTI Update Effort B-2 RRT Upgrade S/N 0071,,429,,PMA/PMW-101
+added,k:f4823a81eda5,title+office,,,LIPTM00248 - AFLOAT SUB C4I IPT - Common Submarine Radio Room (CSRR) MOTHERBOARDS FOR CRYSTAL SERVERS (SEWP),,558,LSUBP00035
+removed,k:f48bba77abce,title+office,,LIPTM00121_AFLOAT TRANSPORT IPT -FY24 KVM HW_SEWP (C),,246,,LSUBP00016
+removed,k:f4a1c862de21,title+office,,LIPTM00149 - ASE IPT - ASE-24-023 - SSEE Azure Test Equipment - Misc - SEWP V (C),,517,,LSUBP00022
+added,k:f4cd4b419b8b,title+office,,,LIPTM00156 - DCGS-N - NETAPP - SEWP (C),,786,LSUBP00022
+removed,k:f4e3ab605b6e,title+office,,"TACMOBILE ENGINEERING, INTEGRATION & INSTALLATION SUPPORT (CMS Task Order) Base +2OYS (C)",,595,,LSUBP00006
+removed,k:f509c1a66ad6,title+office,,SCORPION Trailer,,446,,PMW-770
+removed,k:f518697eacb4,title+office,,SLDCADA 2_FUTURE_ OY1_2025 (C),,92,,Pf007NERP
+added,k:f520e5220c57,title+office,,,LIPTM00395 - MULTI-MEDIA IPT - TPL 24-069/071A - DoD ESI (C),,754,LSUBP00002
+removed,k:f550da182535,title+office,,Sri Lanka Navy (SLN) Multi-Spectral Maritime Surveillance System (MSMSS) (C),,38,,PMW-740
+added,k:f5a02e24fd1b,title+office,,,BFTN/BRSE TO (C),,307,NP-55100
+removed,k:f5b51d0e11d9,title+office,,LIPTM00214-PMW740 FMS-CPN/CENTRIXS Multi-Country (C),,600,,LSUBP00006
+changed,k:f5c44416056c,title+office,solicitation_fy,FY24,FY25,473,112,PMW/A-170
+changed,k:f5c44416056c,title+office,solicitation_quarter,Q3,Q2,473,112,PMW/A-170
+changed,k:f5c44416056c,title+office,award_fy,FY24,FY25,473,112,PMW/A-170
+added,k:f5ee12d7379a,title+office,,,TFDS (Brandywine Follow-on),,245,NP-55300
+added,k:f5f6e4f27726,title+office,,,JTNC Professional Support Services (FY26) (C),,157,JTNC
+removed,k:f6d0582f2520,title+office,,ADNS Production MAC RFP #31 (C),,15,,PMW-160
+removed,k:f6e3dcaa3f18,title+office,,"LIPTM00464, DC2HS, FY24 CISCO RENEWAL, ESI-SEWP (C)",,650,,LSUBP00066
+removed,k:f706a5bc3957,title+office,,"LIPTM00347 VEHICULAR TECHNOLOGY TRANSITION (VTT),HW MAINTENANCE,SEWP",,307,,LSUBP00007
+added,k:f75244af1496,title+office,,,CSRR C&M DO #6,,355,PMW-770
+removed,k:f78e7cf8e87e,title+office,,LIPTM00454_DELOITTE CONTRACT #47QTCK18D0029_OTA23-LANT-1814-015_NEW TO,,297,,LSUBP00064
+added,k:f7a18728f5c5,title+office,,,"LIPTM00439, C4I, KEY MANAGEMENT (KMI) iAPP System Laptop Procurement and Integration (C)",,618,LSUBP00024
+removed,k:f7fb3c2fc10d,title+office,,"LIPTM00115, Tactical Shore Systems (TSS) IPT, Ashore Navy Network Operation Center Support - Seaport (new TO) Base + 4 O",,497,,LSUBP00015
+removed,k:f80e8b5885b4,title+office,,"LIPTM00252, BASED LOGISTICS-ORGANIC (PBLO), COMPUTER RELATED MATERIALS, SEWP (C)",,335,,LSUBP00093
+added,k:f8335faa4fa3,title+office,,,"LIPTM00304-ENGINEERING, New Task Order Award under contract N6523620D8024-KrisLambert0019-(WR Systems-NEW TO)",,196,LSUBP00016
+removed,k:f836f6694a6c,title+office,,"LIPTM00085, GEN MCESS PGM SUP (PPA LSUBP00010-0015)",,163,,LSUBP00010
+added,k:f844cc736dea,title+office,,,SLDCADA 2 Support Services_Option Exercise (C),,95,Pf007NERP
+removed,k:f890e3f127c9,title+office,,"LIPTM00080, NATFP IPT, NSA Naples Building 440 Rooms 321 & 374 ESS FUNDED SAC",,287,,LSUBP00010
+added,k:f8a73429b796,title+office,,,"0393 Consolidated Afloat Networks Enterprise Services (CANES), CASREP In-Service Engineering Agent (ISEA) Technical Supp",,515,NP-41200
+removed,k:f8b88c88e88e,title+office,,Marine Mammal Systems Support - Offsite,,812,,NP-56700
+removed,k:f8e21cc72141,title+office,,LIPTM00149 - ASE IPT - ASE-24-016 - SSEE MISSION MODULE SPARES FY24 - SEWP V (C),,510,,LSUBP00022
+added,k:f8e8321f1526,title+office,,,"LIPTM00183, INIS IPT, Sole-Source SETA, Large Contract",,604,LSUBP00023
+removed,k:f91f226a6cb4,title+office,,"GIC TORFP 5042 - GCM J-023 ESS Installation at MCB CAMP BLAZ, Guam (C)",,761,,NP-42100
+removed,k:f9689c2d858e,title+office,,Defense Health Information Technology Program Management (PM)/Financial Management (FM) Support II,,168,,LSUBP00009
+added,k:f9923b9ccd16,title+office,,,Palo Alto ESI (C),,246,NP-55300
+added,k:f9947689d3b9,title+office,,,GIC SE3 TORFP 5147 Hardware Installation of C4ISR and Network related systems onboard USS Somerset (LPD 25) (C),,282,NP-42100
+added,k:f9bc898ccee0,title+office,,,MNHR Software Procurement,,439,Pf004MNHR
+added,k:f9c0994827ea,title+office,,,"LIPTM00321, C4I, NS IPT PBD FFG64 HARDWARE, SEWP (C)",,658,LSUBP00024
+added,k:f9eb1717863f,title+office,,,Philippines Mobile Command Center Project (C),,411,PMW-740
+removed,k:fa005b3cb302,title+office,,Eng/Log Support Services_Future_OY1_2028 (C),,87,,Pf007NERP
+added,k:fa486778f000,title+office,,,"FY25 SB Forecast - LIPTM00074, DHA/HSI IPT, 25-020 Ruckus for JB Lewis-McChord- FY25-SEWP (C)",,730,LSUBP00009
+removed,k:fa6c4de945b0,title+office,,"DCGS-N Systems Engineering, ISEA, and Training - Seaport New TO (60 Month) (C)",,566,,LSUBP00022
+removed,k:fa6db0605038,title+office,,"LIPTM00120, SDRS IPT, SPIRENT HW RENEWAL FY24, SEWP (C)",,607,,LSUBP00016
+removed,k:fab312ec3611,title+office,,LIPTM00116-UCVS IPT-Yokosuka Maintenance (Far East License Renewal)-SEWP (C),,205,,LSUBP00015
+removed,k:fb173613d2a7,title+office,,LIPTM00004_FAA_LMATCT_SEWP (C),,579,,LSUBP00001
+added,k:fb54f78883a8,title+office,,,"LIPTM00395, Multi-Media IPT, Large Contract, Ashore Collaboration Systems Integration and Installation Support (PPA LSUB",,204,LSUBP00002
+added,k:fb8a1e5099d2,title+office,,,Iraqi Navy MSS Upgrade and Sustainment (IQ-P-GAI) (C),,325,PMW-740
+added,k:fbabe1feb07f,title+office,,,"LIPTM00074, DHA/HSI IPT, 25-009 HPE FY25 FIRST HALF-SEWP (C)",,719,LSUBP00009
+added,k:fbc6b0b1b2b9,title+office,,,"LIPTM00460, RDT&E, DOCKER ANNUAL RENEWAL SEWP (C)",,704,LSUBP00087
+removed,k:fbd64c1cb3e4,title+office,,"LIPTM00074, DHA/HSI IPT, 24-020 BNOE/BNO for NMC PORTSMOUTH, RAF LAKENHEATH, FT MOORE, FT MEADE & MULTIPLE OTHER SITES-S",,611,,LSUBP00009
+added,k:fc1e93253f6b,title+office,,,"NESD USFFC, CNIC and OCF Simple Onboarding",,410,DCE
+added,k:fc1f156cbfe7,title+office,,,LIPTM00395 - MULTI-MEDIA IPT - TPL 24-070 - NASA SEWP (C),,759,LSUBP00002
+removed,k:fc2b9e5d276c,title+office,,Centerwide Logistics & Warehouse Services Follow-On Action,,818,,NP-43100
+added,k:fcd077e2c02d,title+office,,,"LIPTM00055, AR IPT - Fielding and Production Support of LAV LCS (C)",,541,LSUBP00007
+removed,k:fce6863c115e,title+office,,"LIPTM00478, CSSP TENABLE RENEWAL SEWP (C)",,622,,LSUBP00009
+removed,k:fd087d18fd74,title+office,,"LIPTM00464, DC2HS, FY24 NETAPP HW RENEWAL, ELA - SEWP (C)",,340,,LSUBP00066
+added,k:fd19041b35ad,title+office,,,"LSUBP00025, ExW System Production and Kitting Contract (C)",,676,LBUSP00025
+removed,k:fd2a763f25f9,title+office,,"LIPTM00455, TCIO, EOCM THIN CLIENT, SEWP (C)",,326,,LSUBP00021
+removed,k:fdb3b21a422f,title+office,,LIPTM00214-C4I FMS IPT_PORTUGAL PT-P-LDL _COMMUNICATIONS EQUIPMENT_SEWP (C),,204,,LSUBP00006
+added,k:fdbe2bf224e3,title+office,,,"SIO, IA2, SAMSUNG PHONES, SEWP (C)",,587,LSUBP00021
+added,k:fdbef81b80fa,title+office,,,8(a) Sole Source B-609 Replace Chiller,,264,NP-80000
+added,k:fdd6aa464d11,title+office,,,LIPTM00245 FSO - UNCLASS VIDEO TECH SUPPORT- SAC- CITI x8009,,640,LSUBP00034
+added,k:fe42a4a5fcc1,title+office,,,"LIPTM00120, SDRS IPT, FORTIFY SW RENEWAL FY25, SEWP (C)",,583,LSUBP00016
+removed,k:fe7de2ef5d76,title+office,,0204 Tactical Network Operations Management (TNOM) Engineering Support,,103,,NP-41200
+changed,k:fe9d735e9d77,title+office,solicitation_quarter,Q2,Q1,288,839,LSUBP00049
+changed,k:fe9d735e9d77,title+office,award_quarter,Q1,Q3,288,839,LSUBP00049
+removed,k:febf78cf9802,title+office,,0239 INSURV Acceptance Trial (AT),,105,,NP-41200
+added,k:fec18bb514af,title+office,,,"LBUSP00026, Shore C2ISR Dept., 8A ANC LC NICHE SAC, PM/FM/BA",,638,LBUSP00026
+removed,k:fed1004fce03,title+office,,ADNS Production MAC RFP #35 (C),,19,,PMW-160
+removed,k:feda1b8f1168,title+office,,"LIPTM00478, CYBER SECURITY SERVICE PROVIDER, CSSP, ENCASE SEWP (C)",,240,,LSUBP00009
+added,k:ff0c366cd6c1,title+office,,,"LIPTM00074, DHA/HSI IPT, 25-015 HPE FOR MULTIPLE SITES-SEWP (C)",,725,LSUBP00009
+removed,k:ff1eef0b45bb,title+office,,CBSP AC2 Modem Follow On,,471,,PMW/A-170
+removed,k:ff4fc47b335b,title+office,,"LIPTM00128, New Order SOCS SATCOM, SDN-L FoS for 12 SMB Systems",,252,,LSUBP00004
+removed,k:ff7c370d9229,title+office,,"LIPTM00241 - USCG IPT - WebEx Desk Pros (T819) - ESI, SEWP (C)",,392,,LSUBP00006
+added,k:ffdb7b1fedfb,title+office,,,"LIPTM00252 BASED LOGISTICS-ORGANIC (PBLO), MATERIALS SEWP (C)",,669,LSUBP00093
+added,k:ffef3d3b2927,title+office,,,Learning Stack (LS) Rating Career Domain Continuum (RCDC) Sustainment,,330,Pf004MNHR
+removed,k:fffdb4f44354,title+office,,0195 USNS LUCY STONE ADNS,,833,,NP-41200

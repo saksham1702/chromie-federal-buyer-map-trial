@@ -1,0 +1,155 @@
+id,record_key,pid,title,office_id,office_code_string,contracting_office_uic,follow_on_or_new,predecessor_refs,valid_from,evidence_id
+need:lrae_navwar_2024-06:k:69cd6474df57,k:69cd6474df57,,RSNF inKSA Support Services (C4ISR) Upgrade and Refurbishment (C),pmw:740,PMW-740 - PMW-740 - NAVWAR,N00039,Follow-on,N0017819D8470 N0003920F3015,2024-06-20,ev:lrae_navwar_2024-06:row9
+need:lrae_navwar_2024-06:k:4dafe38dd3f8,k:4dafe38dd3f8,,RSNF C4ISR Training Services III (C),pmw:740,PMW-740 - PMW-740 - NAVWAR,N00039,Follow-on,N0017819D8453 N0003921F3001,2024-06-20,ev:lrae_navwar_2024-06:row11
+need:lrae_navwar_2024-06:k:32c2012637eb,k:32c2012637eb,,ADNS Production MAC RFP #28 (C),pmw:160,PMW-160 - PMW-160 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row12
+need:lrae_navwar_2024-06:k:56701d2778bf,k:56701d2778bf,,ADNS Production MAC RFP #29 (C),pmw:160,PMW-160 - PMW-160 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row13
+need:lrae_navwar_2024-06:k:4a65a57736d1,k:4a65a57736d1,,ADNS Production MAC RFP #30 (C),pmw:160,PMW-160 - PMW-160 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row14
+need:lrae_navwar_2024-06:k:f6d0582f2520,k:f6d0582f2520,,ADNS Production MAC RFP #31 (C),pmw:160,PMW-160 - PMW-160 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row15
+need:lrae_navwar_2024-06:k:5de9e61f8195,k:5de9e61f8195,,ADNS Production MAC RFP #32 (C),pmw:160,PMW-160 - PMW-160 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row16
+need:lrae_navwar_2024-06:k:d6ba4152bc69,k:d6ba4152bc69,,ADNS Production MAC RFP #33 (C),pmw:160,PMW-160 - PMW-160 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row17
+need:lrae_navwar_2024-06:k:4a89bfc831b9,k:4a89bfc831b9,,ADNS Production MAC RFP #34 (C),pmw:160,PMW-160 - PMW-160 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row18
+need:lrae_navwar_2024-06:k:fed1004fce03,k:fed1004fce03,,ADNS Production MAC RFP #35 (C),pmw:160,PMW-160 - PMW-160 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row19
+need:lrae_navwar_2024-06:k:2be1c455a1d0,k:2be1c455a1d0,,ADNS Production MAC RFP #36 (C),pmw:160,PMW-160 - PMW-160 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row20
+need:lrae_navwar_2024-06:k:35bde6be82c7,k:35bde6be82c7,,ADNS Production MAC RFP #37 (C),pmw:160,PMW-160 - PMW-160 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row21
+need:lrae_navwar_2024-06:k:824356f352e5,k:824356f352e5,,ADNS Production MAC RFP #38 (C),pmw:160,PMW-160 - PMW-160 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row22
+need:lrae_navwar_2024-06:k:1c423c9fc153,k:1c423c9fc153,,ADNS Production MAC RFP #39 (C),pmw:160,PMW-160 - PMW-160 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row23
+need:lrae_navwar_2024-06:k:c8b590e4e7ad,k:c8b590e4e7ad,,ADNS Production MAC RFP #40 (C),pmw:160,PMW-160 - PMW-160 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row24
+need:lrae_navwar_2024-06:k:8ed23773fc1c,k:8ed23773fc1c,,ADNS Production MAC RFP #44 (C),pmw:160,PMW-160 - PMW-160 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row25
+need:lrae_navwar_2024-06:k:a53a8ad22899,k:a53a8ad22899,,Taiwan Engineering Support (2024) (C),pmw:740,PMW-740 - PMW-740 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row26
+need:lrae_navwar_2024-06:k:a4a14cec0a56,k:a4a14cec0a56,,TECRO Installation Support Services (C),pmw:740,PMW-740 - PMW-740 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row27
+need:lrae_navwar_2024-06:k:758da1041e01,k:758da1041e01,,MIDS FMS Program Support Services (C),pmw:101,PMA/PMW-101 - PMA/PMW-101 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row28
+need:lrae_navwar_2024-06:k:e8f0f54def21,k:e8f0f54def21,,LBUCS Receive Version 2 Development and Production (C),pmw:770,PMW-770 - PMW-770 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row29
+need:lrae_navwar_2024-06:k:a1be893c133f,k:a1be893c133f,,"Engineering Systems, Security, and MBSE Services (C)",pmw:770,PMW-770 - PMW-770 - NAVWAR,N00039,Follow-on,N0017819D7674,2024-06-20,ev:lrae_navwar_2024-06:row30
+need:lrae_navwar_2024-06:k:b944ee7d2698,k:b944ee7d2698,,Front Office Contract Re-compete (C),pmw:101,PMA/PMW-101 - PMA/PMW-101 - NAVWAR,N00039,Follow-on,N0017819D7675,2024-06-20,ev:lrae_navwar_2024-06:row33
+need:lrae_navwar_2024-06:k:dab3df033d12,k:dab3df033d12,,Taiwan Training (2025) (C),pmw:740,PMW-740 - PMW-740 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row35
+need:lrae_navwar_2024-06:k:2f847ef6ffa8,k:2f847ef6ffa8,,COMSEC Custodian / IM Support Services (Seaport NxG TO) (C),pmw:740,PMW-740 - PMW-740 - NAVWAR,N00039,New,N0003919D0026,2024-06-20,ev:lrae_navwar_2024-06:row36
+need:lrae_navwar_2024-06:k:5cc5d31298b3,k:5cc5d31298b3,,FY25 OE-538 Production Re-compete (C),pmw:770,PMW-770 - PMW-770 - NAVWAR,N00039,Follow-on,N0003920C0013,2024-06-20,ev:lrae_navwar_2024-06:row37
+need:lrae_navwar_2024-06:k:f550da182535,k:f550da182535,,Sri Lanka Navy (SLN) Multi-Spectral Maritime Surveillance System (MSMSS) (C),pmw:740,PMW-740 - PMW-740 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row38
+need:lrae_navwar_2024-06:k:bbbbdadb912e,k:bbbbdadb912e,,C4I Integrated International Solutions (CIIS) - II (C),pmw:740,PMW-740 - PMW-740 - NAVWAR,N00039,Follow-on,N0003920D0060,2024-06-20,ev:lrae_navwar_2024-06:row39
+need:lrae_navwar_2024-06:k:45bc6de6f277,k:45bc6de6f277,,Taiwan LCS (2025) (C),pmw:740,PMW-740 - PMW-740 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row41
+need:lrae_navwar_2024-06:k:bbe92f176241,k:bbe92f176241,,Malaysia COMSEC Task Order (2026) (C),pmw:740,PMW-740 - PMW-740 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row42
+need:lrae_navwar_2024-06:k:0bbaa11932ab,k:0bbaa11932ab,,India COMSEC Task Order (2027) (C),pmw:740,PMW-740 - PMW-740 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row43
+need:lrae_navwar_2024-06:k:3e294fb2b0b2,k:3e294fb2b0b2,,PMW 120 Professional Support Services (C),pmw:120,PMW-120 - PMW-120 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row44
+need:lrae_navwar_2024-06:k:e280f87d65ff,k:e280f87d65ff,,PEO C4I Executive Office Support Services (C),peo:c4i,C4IEXEC - PEO C4I Front Office - NAVWAR,N00039,Follow-on,N0003920F3502,2024-06-20,ev:lrae_navwar_2024-06:row45
+need:lrae_navwar_2024-06:k:4702c1ef33f7,k:4702c1ef33f7,,"Design Development Support for PEO C4I, NAVWAR, and Sub Organizations (C)",peo:c4i,C4IEXEC - PEO C4I Front Office - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row46
+need:lrae_navwar_2024-06:k:e33f009336bd,k:e33f009336bd,,NTCDL – Follow-On Production and ESS Contract (C),pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row47
+need:lrae_navwar_2024-06:k:4e1be0d80412,k:4e1be0d80412,,BRSE Long-Term Production Contract (C),pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row48
+need:lrae_navwar_2024-06:k:984b5a06f4f0,k:984b5a06f4f0,,MIDS-LVT IDIQ - New Contracts (C),pmw:101,PMA/PMW-101 - PMA/PMW-101 - NAVWAR,N00039,Follow-on,N0003915D0042 N0003915D0043,2024-06-20,ev:lrae_navwar_2024-06:row50
+need:lrae_navwar_2024-06:k:90b1838be22e,k:90b1838be22e,,C4I Arsenal - New Procurement (C),pmw:790,PMW-790 - PMW-790 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row51
+need:lrae_navwar_2024-06:k:924cbfce6345,k:924cbfce6345,,DMR - 200W/100W PA Production Contract (New) (C),pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row52
+need:lrae_navwar_2024-06:k:19dcd0cdc10f,k:19dcd0cdc10f,,WAN MAC (FY25) (C),pmw:160,PMW-160 - PMW-160 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row54
+need:lrae_navwar_2024-06:k:dcd098b54b3b,k:dcd098b54b3b,,PMW 160 Engineering Support Services (ESS) Follow-on Contract (C),pmw:160,PMW-160 - PMW-160 - NAVWAR,N00039,Follow-on,N0017819D7264,2024-06-20,ev:lrae_navwar_2024-06:row55
+need:lrae_navwar_2024-06:k:44b54f55c857,k:44b54f55c857,,Saudi Arabia/Oman CENTCOM Partner Network (C),pmw:740,PMW-740 - PMW-740 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row56
+need:lrae_navwar_2024-06:k:ede782b4922c,k:ede782b4922c,,MIDS Recompete/21F3011 Follow-On (C),pmw:101,PMA/PMW-101 - PMA/PMW-101 - NAVWAR,N00039,Follow-on,N0003921F3011,2024-06-20,ev:lrae_navwar_2024-06:row58
+need:lrae_navwar_2024-06:k:f1a7e85d188d,k:f1a7e85d188d,,OE-315 AIS Amplifier Procurement (C),pmw:770,PMW-770 - PMW-770 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row59
+need:lrae_navwar_2024-06:k:d2c268d861d3,k:d2c268d861d3,,PMW 150 ILS Services (C),pmw:150,PMW-150 - PMW-150 - NAVWAR,N00039,Follow-on,N0003919F3501,2024-06-20,ev:lrae_navwar_2024-06:row60
+need:lrae_navwar_2024-06:k:ce4ef9fbe303,k:ce4ef9fbe303,,NSLC-A Communications System - Follow On Contract (C),pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row61
+need:lrae_navwar_2024-06:k:3c7b4a80ece2,k:3c7b4a80ece2,,CVN 75 RCOH RCS CSIF and Shipboard Integration (C),pmw:750,PMW-750 - PMW-750 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row62
+need:lrae_navwar_2024-06:k:0f90c0ccf67b,k:0f90c0ccf67b,,CVN 75 RCOH SSES CSIF and Shipboard Integration (C),pmw:750,PMW-750 - PMW-750 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row63
+need:lrae_navwar_2024-06:k:0774cfc14e06,k:0774cfc14e06,,CVN 75 RCOH DS Shipboard Integration (C),pmw:750,PMW-750 - PMW-750 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row64
+need:lrae_navwar_2024-06:k:920a99a67887,k:920a99a67887,,Program Management Support Services (C),pmw:790,PMW-790 - PMW-790 - NAVWAR,N00039,Follow-on,N0003917F3006,2024-06-20,ev:lrae_navwar_2024-06:row66
+need:lrae_navwar_2024-06:k:3e9fa206ec9c,k:3e9fa206ec9c,,NSC2I  FFG 63.  PHASE 2 & 3. (C),pmw:760,PMW-760 - PMW-760 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row69
+need:lrae_navwar_2024-06:k:56dc68b1fb4e,k:56dc68b1fb4e,,NSC2I.  T-AO 211-214. Phases 2-5 (C),pmw:760,PMW-760 - PMW-760 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row70
+need:lrae_navwar_2024-06:k:5c6d6f2a7e1c,k:5c6d6f2a7e1c,,DMR - HFDAG Prototype (OTA) (C),pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row71
+need:lrae_navwar_2024-06:k:6d751041f91b,k:6d751041f91b,,MIDS JTRS BASE IDIQ (C),pmw:101,PMA/PMW-101 - PMA/PMW-101 - NAVWAR,N00039,Follow-on,N0003920D0057,2024-06-20,ev:lrae_navwar_2024-06:row72
+need:lrae_navwar_2024-06:k:85b8af71e495,k:85b8af71e495,,SETA Recompete/21F3000 Follow-On (C),pmw:150,PMW-150 - PMW-150 - NAVWAR,N00039,Follow-on,N0003921F3000,2024-06-20,ev:lrae_navwar_2024-06:row73
+need:lrae_navwar_2024-06:k:d319a323324a,k:d319a323324a,,All SATCOM Multi Award Contract (C),pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row74
+need:lrae_navwar_2024-06:k:12ededcd590f,k:12ededcd590f,,GPNTS FY24 Spares #2 Award and Fund (C),pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row75
+need:lrae_navwar_2024-06:k:22859ac4a83d,k:22859ac4a83d,,UHF Antenna Alternative (CSO) (C),pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row76
+need:lrae_navwar_2024-06:k:d6524a55cb02,k:d6524a55cb02,,PMW-130 A&A Service RECOMPETE (C),pmw:130,PMW-130 - PMW-130 - NAVWAR,N00039,Follow-on,N0017819D7933 N0003920F3501,2024-06-20,ev:lrae_navwar_2024-06:row78
+need:lrae_navwar_2024-06:k:3a2a8914007e,k:3a2a8914007e,,FSBS HPTE TT to SS Conversion (C),pmw:770,PMW-770 - PMW-770 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row79
+need:lrae_navwar_2024-06:k:68d0ef530607,k:68d0ef530607,,NSC2I T-AGOS.  25 (Phase 1-5) and T-AGOS 26 (Phase 3-5) (C),pmw:760,PMW-760 - PMW-760 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row86
+need:lrae_navwar_2024-06:k:48bd7743c8ef,k:48bd7743c8ef,,NSC2I.  LSM 1 & 2 Phases 1-5 (C),pmw:760,PMW-760 - PMW-760 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row90
+need:lrae_navwar_2024-06:k:2b08f3142c80,k:2b08f3142c80,,MOS Mod with TTNT Production (C),pmw:150,PMW-150 - PMW-150 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row95
+need:lrae_navwar_2024-06:k:90cdabf2a618,k:90cdabf2a618,,Nites Next Follow-On Contract (C),pmw:120,PMW-120 - PMW-120 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row96
+need:lrae_navwar_2024-06:k:d1f7e455df79,k:d1f7e455df79,,Integrated International Support Services (follow-on) (C),pmw:740,PMW-740 - PMW-740 - NAVWAR,N00039,Follow-on,,2024-06-20,ev:lrae_navwar_2024-06:row171
+need:lrae_navwar_2024-06:k:5e867534d271,k:5e867534d271,,C-SEA (C),peo:c4i,C4IEXEC - PEO C4I Front Office - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row172
+need:lrae_navwar_2024-06:k:bcfe0d37e0e1,k:bcfe0d37e0e1,,PMW 150 NILE In-Service Support 6 contract (C),pmw:150,PMW-150 - PMW-150 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row173
+need:lrae_navwar_2024-06:k:787f403a8dfe,k:787f403a8dfe,,PMW 150 NILE next PSS contract (C),pmw:150,PMW-150 - PMW-150 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row174
+need:lrae_navwar_2024-06:k:296125450445,k:296125450445,,C2P TR BPA Call 4 (C),pmw:150,PMW-150 - PMW-150 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row175
+need:lrae_navwar_2024-06:k:b619f0b4ee5f,k:b619f0b4ee5f,,CVN 81 RCS/DS/SSES (C),pmw:750,PMW-750 - PMW-750 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row176
+need:lrae_navwar_2024-06:k:aa6719ae6ed7,k:aa6719ae6ed7,,PSS Recompete/20F3016 Follow-On (C),pmw:160,PMW-160 - PMW-160 - NAVWAR,N00039,Follow-on,N0003920F3016,2024-06-20,ev:lrae_navwar_2024-06:row177
+need:lrae_navwar_2024-06:k:4ec50a467cfc,k:4ec50a467cfc,,NILE End to End Test Station (C),pmw:150,PMW-150 - PMW-150 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row178
+need:lrae_navwar_2024-06:k:4a37978aaa5a,k:4a37978aaa5a,,CANES MAC- N0003924R9108 (C),pmw:160,PMW-160 - PMW-160 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row179
+need:lrae_navwar_2024-06:k:4b6591ac8346,k:4b6591ac8346,,"NSC2I LUSV 1, PHASES 1-5 (C)",pmw:760,PMW-760 - PMW-760 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row180
+need:lrae_navwar_2024-06:k:3ab5f2b3230d,k:3ab5f2b3230d,,NSC2I.  FFG 64.  PHASES 2-5. (C),pmw:760,PMW-760 - PMW-760 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row181
+need:lrae_navwar_2024-06:k:160b2f503cae,k:160b2f503cae,,MIDS-LVT Lot 25 Procurement Buy (C),pmw:101,PMA/PMW-101 - PMA/PMW-101 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row183
+need:lrae_navwar_2024-06:k:c869443d6b1d,k:c869443d6b1d,,06 MOS Mod BPA Call 7 (DLS) (C),pmw:150,PMW-150 - PMW-150 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row185
+need:lrae_navwar_2024-06:k:620d5245f72c,k:620d5245f72c,,06 MOS Mod BPA Call 7 (DRS) (C),pmw:150,PMW-150 - PMW-150 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row186
+need:lrae_navwar_2024-06:k:f3c6ec89315a,k:f3c6ec89315a,,NSC2I.  TARC.  PHASE 1-5 (C),pmw:760,PMW-760 - PMW-760 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row187
+need:lrae_navwar_2024-06:k:21b192f072ef,k:21b192f072ef,,MOS Mod UPS & Control (C),pmw:150,PMW-150 - PMW-150 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row188
+need:lrae_navwar_2024-06:k:5786a67d8ef9,k:5786a67d8ef9,,MIDS WDL SF (C),peo:c4i,C4IEXEC - PEO C4I Front Office - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row189
+need:lrae_navwar_2024-06:k:5ed717fe88ce,k:5ed717fe88ce,,Visual strategy and collaboration tool for PMW 150 (C),pmw:150,PMW-150 - PMW-150 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row190
+need:lrae_navwar_2024-06:k:e4cb1e08c824,k:e4cb1e08c824,,NSC2I LPD 32-33 Phases 2-5. Updated (C),pmw:760,PMW-760 - PMW-760 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row191
+need:lrae_navwar_2024-06:k:a3395814f3a6,k:a3395814f3a6,,CANES MAC- RFP N0003924R9110 (C),pmw:160,PMW-160 - PMW-160 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row192
+need:lrae_navwar_2024-06:k:82775737d399,k:82775737d399,,C2P TR Call 5 (C),pmw:150,PMW-150 - PMW-150 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row193
+need:lrae_navwar_2024-06:k:bf8fe1471f57,k:bf8fe1471f57,,NSC2I. AS(X) Phase 1-3 (C),pmw:760,PMW-760 - PMW-760 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row196
+need:lrae_navwar_2024-06:k:0484c0c6b056,k:0484c0c6b056,,"PMW/A 170 Cybersecurity, Engineering, and Technical Support (C)",pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row198
+need:lrae_navwar_2024-06:k:43212499131e,k:43212499131e,,PMW/A 170 Program Management Support Services (C),pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row199
+need:lrae_navwar_2024-06:k:53baaa66a242,k:53baaa66a242,,MPO Lot 13 HW Procurement (C),pmw:101,PMA/PMW-101 - PMA/PMW-101 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row200
+need:lrae_navwar_2024-06:k:d46182320d99,k:d46182320d99,,PMW/A 170 Integrated Logistics Support Services (C),pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row201
+need:lrae_navwar_2024-06:k:9d82e601367e,k:9d82e601367e,,MPO Lot 13 HW Purchase (C),pmw:101,PMA/PMW-101 - PMA/PMW-101 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row202
+need:lrae_navwar_2024-06:k:e8575fea6c22,k:e8575fea6c22,,LBS-G Production N0003921D6001_TO20_T&M Follow on_FY25,pmw:120,PMW-120 - PMW-120 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row315
+need:lrae_navwar_2024-06:k:a7540e662c3e,k:a7540e662c3e,,LBS-G Production N0003921D6001_Ceiling Increase Mod_FY26,pmw:120,PMW-120 - PMW-120 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row316
+need:lrae_navwar_2024-06:k:b63eaeed55a9,k:b63eaeed55a9,,EVTT Upgrade - Order to Contract #N0003922D4001,pmw:101,PMA/PMW-101 - PMA/PMW-101 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row317
+need:lrae_navwar_2024-06:k:b0c7a4f0b6d9,k:b0c7a4f0b6d9,,STtNG Phase II.5 - PoP Extension,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row320
+need:lrae_navwar_2024-06:k:b9dec07ae5a4,k:b9dec07ae5a4,,C4I TVE CANES TO N0003924F9008 ODC Mod,pmw:160,PMW-160 - PMW-160 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row322
+need:lrae_navwar_2024-06:k:e9e82fdb9a1e,k:e9e82fdb9a1e,,GPNTS FY25 Bulk Buy #1 Award and Fund,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row323
+need:lrae_navwar_2024-06:k:8fc782e1984c,k:8fc782e1984c,,ENGINEERING SUPPORT SERVICES. (C),pmw:760,PMW-760 - PMW-760 - NAVWAR,N00039,Follow-on,N0017819D7983 N0003921F3008,2024-06-20,ev:lrae_navwar_2024-06:row330
+need:lrae_navwar_2024-06:k:1e755910056a,k:1e755910056a,,CSSC Super 8A,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row405
+need:lrae_navwar_2024-06:k:81f204736ee9,k:81f204736ee9,,Order to Contract #N0003922D4001,pmw:101,PMA/PMW-101 - PMA/PMW-101 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row406
+need:lrae_navwar_2024-06:k:28c7d13662d6,k:28c7d13662d6,,N0003924FXXXX-RRT_Upgrade,pmw:101,PMA/PMW-101 - PMA/PMW-101 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row407
+need:lrae_navwar_2024-06:k:90971a1572d2,k:90971a1572d2,,Romania MDA Amendment 2,pmw:740,PMW-740 - PMW-740 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row412
+need:lrae_navwar_2024-06:k:75bec4b0a9d0,k:75bec4b0a9d0,,Bahamas MSS 3/4 (New),pmw:740,PMW-740 - PMW-740 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row415
+need:lrae_navwar_2024-06:k:a5fdd4a3336b,k:a5fdd4a3336b,,Order to Contract #N0003922D4001 - RPS BU2,pmw:101,PMA/PMW-101 - PMA/PMW-101 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row416
+need:lrae_navwar_2024-06:k:b80ef3598b7c,k:b80ef3598b7c,,DLS_United Kingdom (UK-P-LWZ) SN 2555 R/S Repair,pmw:101,PMA/PMW-101 - PMA/PMW-101 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row417
+need:lrae_navwar_2024-06:k:0cce825ab842,k:0cce825ab842,,ESRP TO39 - Modernization Initiatives-2,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row418
+need:lrae_navwar_2024-06:k:ca1578554aff,k:ca1578554aff,,WAMS Mission Planning System SBIR Phase III,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row421
+need:lrae_navwar_2024-06:k:591df5a087ec,k:591df5a087ec,,Microsoft Services,peo:c4i,C4IEXEC - PEO C4I Front Office - NAVWAR,N00039,Follow-on,N6600119D0019 N0003923F9009,2024-06-20,ev:lrae_navwar_2024-06:row422
+need:lrae_navwar_2024-06:k:1186adb04031,k:1186adb04031,,ML2 DO# 24F4010,pmw:101,PMA/PMW-101 - PMA/PMW-101 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row423
+need:lrae_navwar_2024-06:k:15c7ea472201,k:15c7ea472201,,PMW150-Ceiling increase + incremental funding (Fuse Task order 2),pmw:150,PMW-150 - PMW-150 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row424
+need:lrae_navwar_2024-06:k:d092ea3f708f,k:d092ea3f708f,,LBS-G Maintenance TO 09 (G2 Repairs),pmw:120,PMW-120 - PMW-120 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row425
+need:lrae_navwar_2024-06:k:73fa3339d48b,k:73fa3339d48b,,N0003923D1000 MOD,pmw:150,PMW-150 - PMW-150 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row426
+need:lrae_navwar_2024-06:k:0376f7105986,k:0376f7105986,,Spanish (SP-B-WAZ) Conversion from LVT(2) to LVT(11),pmw:101,PMA/PMW-101 - PMA/PMW-101 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row427
+need:lrae_navwar_2024-06:k:8cf33ad72896,k:8cf33ad72896,,DLS FSE_Two (2) Korean terminals_troubleshoot,pmw:101,PMA/PMW-101 - PMA/PMW-101 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row428
+need:lrae_navwar_2024-06:k:f47e370469ff,k:f47e370469ff,,N0003923F4063_P00001 RTI Update Effort B-2 RRT Upgrade S/N 0071,pmw:101,PMA/PMW-101 - PMA/PMW-101 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row429
+need:lrae_navwar_2024-06:k:ae7d4df568bb,k:ae7d4df568bb,,"Japan (JA-P-CSX) SN 2567 BU2 Repair, FPR",pmw:101,PMA/PMW-101 - PMA/PMW-101 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row430
+need:lrae_navwar_2024-06:k:6a9a9baf8906,k:6a9a9baf8906,,Engineering Services for USAF Feasibility Study,pmw:101,PMA/PMW-101 - PMA/PMW-101 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row431
+need:lrae_navwar_2024-06:k:582fc67622a9,k:582fc67622a9,,NMT FOFD - RIP BCCP Phase IV (RFP),pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row433
+need:lrae_navwar_2024-06:k:6645935d1b4c,k:6645935d1b4c,,"DATEM, TO 03",pmw:120,PMW-120 - PMW-120 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row434
+need:lrae_navwar_2024-06:k:aea88b62f6e3,k:aea88b62f6e3,,WAMS TO #1 - Incremental Funding,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row435
+need:lrae_navwar_2024-06:k:a113302bba56,k:a113302bba56,,ATIP DO # TBD- Non-Warranty Hardware Repairs,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row437
+need:lrae_navwar_2024-06:k:97a9c7ccb595,k:97a9c7ccb595,,ATIP DO #TBD - Long Lead Item Procurement,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row438
+need:lrae_navwar_2024-06:k:e9faf06ea579,k:e9faf06ea579,,NMT FOFD - TDL: 24-21F CBIT Development,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row440
+need:lrae_navwar_2024-06:k:9ff1dde53835,k:9ff1dde53835,,DMR OE-570 - DDG 125 OE-570 Antenna Repair - 18D0004,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row442
+need:lrae_navwar_2024-06:k:987bcfd00cc0,k:987bcfd00cc0,,02 MOS Mod with TTNT Development,pmw:150,PMW-150 - PMW-150 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row445
+need:lrae_navwar_2024-06:k:f509c1a66ad6,k:f509c1a66ad6,,SCORPION Trailer,pmw:770,PMW-770 - PMW-770 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row446
+need:lrae_navwar_2024-06:k:2b90964c471f,k:2b90964c471f,,GPNTS HW FY24 Spares #1 Award and Fund,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row447
+need:lrae_navwar_2024-06:k:4156653f2b8f,k:4156653f2b8f,,"ATCS - Solicit, Negotiate & Definitize Inc 1 Production (FFP)",pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row448
+need:lrae_navwar_2024-06:k:b9b66b258e18,k:b9b66b258e18,,"04 JPI Reflash, Repair, and Reconfiguration",pmw:150,PMW-150 - PMW-150 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row449
+need:lrae_navwar_2024-06:k:b234e9c09d8d,k:b234e9c09d8d,,WAMS TO #1 - IE Mod,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row450
+need:lrae_navwar_2024-06:k:3923b87b131f,k:3923b87b131f,,WAMS TO # 7 - MEO Development,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row451
+need:lrae_navwar_2024-06:k:43f5253278a8,k:43f5253278a8,,GPNTS FY24 Bulk Buy #2 Award and Fund,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row452
+need:lrae_navwar_2024-06:k:411e7e6cc90e,k:411e7e6cc90e,,Royal Moroccan Navy (RMN) Microwave Transmission Network (MTN) Phase 1 A,pmw:740,PMW-740 - PMW-740 - NAVWAR,N00039,Follow-on,N0003920D0060,2024-06-20,ev:lrae_navwar_2024-06:row454
+need:lrae_navwar_2024-06:k:7c19738893d0,k:7c19738893d0,,DMR - AHF AT - 24D2000,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row455
+need:lrae_navwar_2024-06:k:992c2d41846d,k:992c2d41846d,,LCM Feasibility Study (Nations),pmw:101,PMA/PMW-101 - PMA/PMW-101 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row456
+need:lrae_navwar_2024-06:k:5c8b58c6be6c,k:5c8b58c6be6c,,Bahamas MSS Sustainment,pmw:740,PMW-740 - PMW-740 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row457
+need:lrae_navwar_2024-06:k:293b82c41387,k:293b82c41387,,CVN 74 RCOH Multifunction Copier Installation,pmw:750,PMW-750 - PMW-750 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row458
+need:lrae_navwar_2024-06:k:8f368758bdd5,k:8f368758bdd5,,VIASAT TRANSEC FMS ENGINEERING SERVICES (ENG VM300M CARD FOR RT-1829/1830) TASK ORDER,pmw:790,PMW-790 - PMW-790 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row459
+need:lrae_navwar_2024-06:k:9c2f8a4cf6fc,k:9c2f8a4cf6fc,,NTCDL – 3-Yr Contract Extension,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row460
+need:lrae_navwar_2024-06:k:16f069649824,k:16f069649824,,MAT Production and Sustainment,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row463
+need:lrae_navwar_2024-06:k:2abff81bab0c,k:2abff81bab0c,,ATIP - Ceiling Increase (No cost action – Admin Only),pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row464
+need:lrae_navwar_2024-06:k:2cfac2658cfa,k:2cfac2658cfa,,DMR - 500W Power Amplifier OTP,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row465
+need:lrae_navwar_2024-06:k:ee080ea1ff23,k:ee080ea1ff23,,01 JPI FR (A3 Card),pmw:150,PMW-150 - PMW-150 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row466
+need:lrae_navwar_2024-06:k:a17f36187fc9,k:a17f36187fc9,,DMR OE-570 - 5 Year Extension -18D0004,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row467
+need:lrae_navwar_2024-06:k:5b958348fd20,k:5b958348fd20,,03 MOS TC CPU Repair,pmw:150,PMW-150 - PMW-150 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row468
+need:lrae_navwar_2024-06:k:91fff5b686f8,k:91fff5b686f8,,CBSP Engineering Services Sustainment,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,Follow-on,,2024-06-20,ev:lrae_navwar_2024-06:row469
+need:lrae_navwar_2024-06:k:dfdb0070fac1,k:dfdb0070fac1,,STtNG - Phase III Production,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row470
+need:lrae_navwar_2024-06:k:ff1eef0b45bb,k:ff1eef0b45bb,,CBSP AC2 Modem Follow On,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,Follow-on,N0003918D0007,2024-06-20,ev:lrae_navwar_2024-06:row471
+need:lrae_navwar_2024-06:k:b9ec2de1ecaa,k:b9ec2de1ecaa,,NMT-X - Follow-on,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,Follow-on,N0003916C0050,2024-06-20,ev:lrae_navwar_2024-06:row472
+need:lrae_navwar_2024-06:k:f5c44416056c,k:f5c44416056c,,WAMS - TO # 6 EDM Buy,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row473
+need:lrae_navwar_2024-06:k:584a7904dade,k:584a7904dade,,CDLS Refurbishment Follow-On,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,Follow-on,N0003920D0025,2024-06-20,ev:lrae_navwar_2024-06:row478
+need:lrae_navwar_2024-06:k:1da7d7b87065,k:1da7d7b87065,,Engineering Services for MIDS_LVT(4) SN 3653 Chassis Spider Cable ERA,pmw:101,PMA/PMW-101 - PMA/PMW-101 - NAVWAR,N00039,,,2024-06-20,ev:lrae_navwar_2024-06:row479
+need:lrae_navwar_2024-06:k:9616ea28baf4,k:9616ea28baf4,,"LBS-G Production TO 17, FY24 RDT&E",pmw:120,PMW-120 - PMW-120 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row480
+need:lrae_navwar_2024-06:k:4f4ff35c9a4d,k:4f4ff35c9a4d,,Philippines C4ISTAR Life Cycle Support,pmw:740,PMW-740 - PMW-740 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row481
+need:lrae_navwar_2024-06:k:c5b1e560642b,k:c5b1e560642b,,WAMS TO # 4 - P00001,pmw:170,PMW/A-170 - PMW/A-170 - NAVWAR,N00039,New,,2024-06-20,ev:lrae_navwar_2024-06:row482

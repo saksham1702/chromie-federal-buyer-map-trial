@@ -56,9 +56,13 @@
     "counterevidence": "none found; the LRAE lists the vehicle (IDV) rather than this order as the existing contract",
     "notes": "Recorded at order level. The IDV serves many Navy customers and is not attributed. Period of performance ends 2026-10-26 with the follow-on forecast for FY26: a recompete signal. SAM.gov search for the order's solicitation number returned no notice (SeaPort-NxG task-order competitions are not posted on SAM.gov).",
     "review": {
-      "status": "reviewed",
-      "by": "assistant draft for Saksham's review",
-      "date": "2026-09-16"
+      "status": "draft",
+      "drafted_by": {
+        "actor": "assistant",
+        "on": "2026-09-16"
+      },
+      "reviewed_by": null,
+      "reviewed_on": null
     }
   },
   {
@@ -107,9 +111,13 @@
     "counterevidence": "none",
     "notes": "Awarded in 2016 under SPAWAR, yet the current description says 'NAVWAR': descriptions are re-authored at modification time, so the organization name in a description must not be used to date the award's ancestry.",
     "review": {
-      "status": "reviewed",
-      "by": "assistant draft for Saksham's review",
-      "date": "2026-09-16"
+      "status": "draft",
+      "drafted_by": {
+        "actor": "assistant",
+        "on": "2026-09-16"
+      },
+      "reviewed_by": null,
+      "reviewed_on": null
     }
   },
   {
@@ -158,9 +166,13 @@
     "counterevidence": "none",
     "notes": "Recurring purchase: the same requirement recompeted to the same vendor; a template for recompete alerts. SAM.gov search for the order's solicitation number returned no notice (SeaPort-NxG task-order competitions are not posted on SAM.gov).",
     "review": {
-      "status": "reviewed",
-      "by": "assistant draft for Saksham's review",
-      "date": "2026-09-16"
+      "status": "draft",
+      "drafted_by": {
+        "actor": "assistant",
+        "on": "2026-09-16"
+      },
+      "reviewed_by": null,
+      "reviewed_on": null
     }
   },
   {
@@ -206,9 +218,13 @@
     "counterevidence": "none",
     "notes": "Same vendor, same vehicle and same contracting office as EX01 and EX05, three different program offices: vendor, vehicle and contracting office cannot determine the owner. SAM.gov search for the order's solicitation number returned no notice (SeaPort-NxG task-order competitions are not posted on SAM.gov).",
     "review": {
-      "status": "reviewed",
-      "by": "assistant draft for Saksham's review",
-      "date": "2026-09-16"
+      "status": "draft",
+      "drafted_by": {
+        "actor": "assistant",
+        "on": "2026-09-16"
+      },
+      "reviewed_by": null,
+      "reviewed_on": null
     }
   },
   {
@@ -250,9 +266,13 @@
     "counterevidence": "none",
     "notes": "Program manager changed on 2025-08-19 (Castillejo relieved Jolie); office ownership unchanged. SAM.gov search for the order's solicitation number returned no notice (SeaPort-NxG task-order competitions are not posted on SAM.gov).",
     "review": {
-      "status": "reviewed",
-      "by": "assistant draft for Saksham's review",
-      "date": "2026-09-16"
+      "status": "draft",
+      "drafted_by": {
+        "actor": "assistant",
+        "on": "2026-09-16"
+      },
+      "reviewed_by": null,
+      "reviewed_on": null
     }
   },
   {
@@ -287,9 +307,13 @@
     ],
     "counterevidence": "none",
     "review": {
-      "status": "reviewed",
-      "by": "assistant draft for Saksham's review",
-      "date": "2026-09-16"
+      "status": "draft",
+      "drafted_by": {
+        "actor": "assistant",
+        "on": "2026-09-16"
+      },
+      "reviewed_by": null,
+      "reviewed_on": null
     },
     "notes": "SAM.gov search for the order's solicitation number returned no notice (SeaPort-NxG task-order competitions are not posted on SAM.gov)."
   },
@@ -335,9 +359,13 @@
     "counterevidence": "'FRD' is not an office in the alias table",
     "notes": "Multi-program case. It must not collapse to PMW 760 alone, and the unresolved 'FRD' component is recorded rather than guessed. SAM.gov search for the order's solicitation number returned no notice (SeaPort-NxG task-order competitions are not posted on SAM.gov).",
     "review": {
-      "status": "reviewed",
-      "by": "assistant draft for Saksham's review",
-      "date": "2026-09-16"
+      "status": "draft",
+      "drafted_by": {
+        "actor": "assistant",
+        "on": "2026-09-16"
+      },
+      "reviewed_by": null,
+      "reviewed_on": null
     }
   },
   {
@@ -394,9 +422,13 @@
     "counterevidence": "the award text itself never names an office",
     "notes": "Inferred, not directly documented: the office comes from the forecast row for the follow-on and from the office's mission statement, not from the award record. Two official documents agree, so confidence is high, but the class stays 'inferred' by rule. SAM.gov search for the order's solicitation number returned no notice (SeaPort-NxG task-order competitions are not posted on SAM.gov). The 2025 presolicitation for the follow-on names PMW 740 outright; the class stays inferred because that notice is about the successor requirement, not this order.",
     "review": {
-      "status": "reviewed",
-      "by": "assistant draft for Saksham's review",
-      "date": "2026-09-16"
+      "status": "draft",
+      "drafted_by": {
+        "actor": "assistant",
+        "on": "2026-09-16"
+      },
+      "reviewed_by": null,
+      "reviewed_on": null
     },
     "candidate_confidence": "high"
   },
@@ -454,9 +486,13 @@
     "counterevidence": "none against PMS 485; funding office NAVSEA HQ agrees",
     "notes": "Hard negative for the pilot portfolio: a NAVWAR HQ contract whose requirement belongs to a NAVSEA program office. The funding office separates systems commands even when the contracting office does not. Upgraded 2026-09-16: the J&A notice for solicitation N00039-19-R-0002 names the owning office and its PEO outright.",
     "review": {
-      "status": "reviewed",
-      "by": "assistant draft for Saksham's review",
-      "date": "2026-09-16"
+      "status": "draft",
+      "drafted_by": {
+        "actor": "assistant",
+        "on": "2026-09-16"
+      },
+      "reviewed_by": null,
+      "reviewed_on": null
     }
   },
   {
@@ -492,9 +528,13 @@
     "counterevidence": "none",
     "notes": "Hard negative for PEO C4I: the same contracting office serves a PEO MLB office.",
     "review": {
-      "status": "reviewed",
-      "by": "assistant draft for Saksham's review",
-      "date": "2026-09-16"
+      "status": "draft",
+      "drafted_by": {
+        "actor": "assistant",
+        "on": "2026-09-16"
+      },
+      "reviewed_by": null,
+      "reviewed_on": null
     }
   },
   {
@@ -530,9 +570,13 @@
     "counterevidence": "none",
     "notes": "The same vendor holds N0003922F3001, which the LRAE (code PCE, 'PEO Digital Engineering and Logistics Support') places with PEO Digital: one vendor, two PEOs.",
     "review": {
-      "status": "reviewed",
-      "by": "assistant draft for Saksham's review",
-      "date": "2026-09-16"
+      "status": "draft",
+      "drafted_by": {
+        "actor": "assistant",
+        "on": "2026-09-16"
+      },
+      "reviewed_by": null,
+      "reviewed_on": null
     }
   },
   {
@@ -587,9 +631,13 @@
     "counterevidence": "none",
     "notes": "Program-name case resolved through an official article that names the awarding office. Ownership changed parent twice (PEO EIS to PEO Digital in 2020; PAE Mission Systems in 2026) while the office stayed the same. Upgraded 2026-09-16: the presolicitation for N00039-18-R-0005 names PEO EIS, PMW 205 (NEN) and the Marine Corps as the requiring parties.",
     "review": {
-      "status": "reviewed",
-      "by": "assistant draft for Saksham's review",
-      "date": "2026-09-16"
+      "status": "draft",
+      "drafted_by": {
+        "actor": "assistant",
+        "on": "2026-09-16"
+      },
+      "reviewed_by": null,
+      "reviewed_on": null
     }
   },
   {
@@ -654,9 +702,13 @@
     "counterevidence": "none",
     "notes": "Attribution at vehicle level is acceptable here because the IDV is single-purpose (MIDS-LVT), unlike SeaPort-NxG. Modification P00029 (2026-05-14) falls after the PAE consolidation: the same office, a different ancestry by date. Upgraded 2026-09-16: the presolicitation for N00039-15-R-0222 names the MIDS IPO as the requiring office; the PMA/PMW 101 tear sheet places the IPO inside PMA/PMW 101.",
     "review": {
-      "status": "reviewed",
-      "by": "assistant draft for Saksham's review",
-      "date": "2026-09-16"
+      "status": "draft",
+      "drafted_by": {
+        "actor": "assistant",
+        "on": "2026-09-16"
+      },
+      "reviewed_by": null,
+      "reviewed_on": null
     }
   },
   {
@@ -707,9 +759,13 @@
     "counterevidence": "NIWC Pacific competency NP-41200 holds ADNS in-service engineering and installation requirements in the LRAE (PIDs N66001-25-RFPREQ-NP-41200-0221 and following), so 'ADNS' alone does not always mean PMW 160",
     "notes": "Program-name inference with recorded counterevidence: production buys of ADNS enclaves through NAVWAR HQ fit the program office of record; in-service engineering tasks through NIWC Pacific belong to a technical-center division. Upgraded 2026-09-16: the draft-RFP notice for the vehicle's solicitation names PMW 160; the NIWC Pacific in-service rows remain a caution for ADNS sustainment tasks.",
     "review": {
-      "status": "reviewed",
-      "by": "assistant draft for Saksham's review",
-      "date": "2026-09-16"
+      "status": "draft",
+      "drafted_by": {
+        "actor": "assistant",
+        "on": "2026-09-16"
+      },
+      "reviewed_by": null,
+      "reviewed_on": null
     }
   },
   {
@@ -757,9 +813,13 @@
     "counterevidence": "none",
     "notes": "Process point: a modification is attributed through its base award, never from the modification text alone. Upgraded 2026-09-16: the 2014 presolicitation for N00039-14-R-0021 names the MIDS Program Office and PEO(T); the joint PMA/PMW designation reflects that dual sponsorship.",
     "review": {
-      "status": "reviewed",
-      "by": "assistant draft for Saksham's review",
-      "date": "2026-09-16"
+      "status": "draft",
+      "drafted_by": {
+        "actor": "assistant",
+        "on": "2026-09-16"
+      },
+      "reviewed_by": null,
+      "reviewed_on": null
     }
   },
   {
@@ -819,9 +879,13 @@
     "counterevidence": "none",
     "notes": "Ambiguous by rule: a functional match between a program name and an office mission is candidate generation, not ownership evidence. Resolution path: the PMW/A 170 program list on the official site (blocked host) or a SAM notice naming the office. Resolved 2026-09-16: both the RFP notice (2019-01-08) and the award notice (2019-12-03) for N00039-19-R-0005 name PMW/A 170. This was the ambiguous case; the solicitation notice resolved it exactly as the process predicted.",
     "review": {
-      "status": "reviewed",
-      "by": "assistant draft for Saksham's review",
-      "date": "2026-09-16"
+      "status": "draft",
+      "drafted_by": {
+        "actor": "assistant",
+        "on": "2026-09-16"
+      },
+      "reviewed_by": null,
+      "reviewed_on": null
     }
   },
   {
@@ -866,9 +930,13 @@
     "counterevidence": "none",
     "notes": "Portfolio-level owner. The resolver must stop at PEO C4I here rather than pick PMW 750 or PMW 760 because the work is integration for the portfolio; the LRAE names the front office explicitly. SAM.gov search for the order's solicitation number returned no notice (SeaPort-NxG task-order competitions are not posted on SAM.gov).",
     "review": {
-      "status": "reviewed",
-      "by": "assistant draft for Saksham's review",
-      "date": "2026-09-16"
+      "status": "draft",
+      "drafted_by": {
+        "actor": "assistant",
+        "on": "2026-09-16"
+      },
+      "reviewed_by": null,
+      "reviewed_on": null
     }
   },
   {
@@ -903,9 +971,13 @@
     ],
     "counterevidence": "none",
     "review": {
-      "status": "reviewed",
-      "by": "assistant draft for Saksham's review",
-      "date": "2026-09-16"
+      "status": "draft",
+      "drafted_by": {
+        "actor": "assistant",
+        "on": "2026-09-16"
+      },
+      "reviewed_by": null,
+      "reviewed_on": null
     },
     "notes": "SAM.gov search for the order's solicitation number returned no notice (SeaPort-NxG task-order competitions are not posted on SAM.gov)."
   },
@@ -948,9 +1020,13 @@
     "counterevidence": "n/a",
     "notes": "Explicit unknown. A large ceiling increase is a meaningful signal even without an owner, so the monitor should still raise it and route it to review.",
     "review": {
-      "status": "reviewed",
-      "by": "assistant draft for Saksham's review",
-      "date": "2026-09-16"
+      "status": "draft",
+      "drafted_by": {
+        "actor": "assistant",
+        "on": "2026-09-16"
+      },
+      "reviewed_by": null,
+      "reviewed_on": null
     },
     "candidates": [
       "center:niwc-atlantic (divisions that hold C5ISR integration requirements in the LRAE: LSUBP00015 Shore C4I Integration, LSUBP00004 Expeditionary C3 Solutions, LSUBP00034 Surface Ship Integration)",

@@ -64,7 +64,7 @@ in a fixed order and records how strong the result is, including when it is "we 
 
 Likely contacts per office, from published sources only (tear sheets, change-of-command releases,
 the LRAE's published contracting points of contact, official small-business and industry pages),
-are in `contact_candidates.json` with a confidence label and the reason for it.
+are in `contact_observations.json` and `contact_recommendations.json` with a confidence label and the reason for it.
 
 ## 2. Evidence classes
 

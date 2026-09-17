@@ -58,7 +58,7 @@ SHARKCAGE -> PMW 130; force-level platform integration -> PMW 750/760.
 | 2020-05-13 | DASN(IW&ET) directs the disestablishment of PEO EIS and the realignment of its programs into PEO Digital and PEO MLB; NEN awarded the SMIT contract the same year | DON CIO CHIPS article (April-June 2020, retrieved live 2026-09-16); PEO Digital legacy article |
 | 2023-05-23 | PEO C4I marks 20 years; 11 program offices listed; PEO Rear Adm. Kurt Rothenhaus | NAVWAR article (Wayback 2025-12-31) |
 | 2023-05 | Dr. William Luebke acting PEO C4I | PEO C4I leadership page (Wayback 2026-04-12) |
-| by 2025-05-13 | PMS 485 (Maritime Surveillance Systems) appears under "PEO Undersea Warfare Systems" in a NAVWAR presolicitation; the 2019 J&A had placed it under PEO Submarines. Two dated edges in the seed graph; the realignment date itself is not published | SAM.gov notices N0003925R1006 (2025-05-13) and N00039-19-R-0002 (2019-07-03) |
+| by 2025-05-13 | PMS 485 (Maritime Surveillance Systems) appears under "PEO Undersea Warfare Systems" in a NAVWAR presolicitation; the 2019 J&A had placed it under PEO Submarines. Two relationships in the seed graph with effective dates unknown (the earlier day-before dates were retracted, see 08 section 6); the realignment date itself is not published | SAM.gov notices N0003925R1006 (2025-05-13) and N00039-19-R-0002 (2019-07-03) |
 | 2025-08-19 | PMW 150 and PMW 760 change program managers | DVIDS release |
 | 2026-03-15 | Five PAEs established (Industrial Operations, Marine Corps, Maritime, Strategic Systems Programs, Undersea) | paemaritime.navy.mil release |
 | 2026-05-11 | PAE Mission Systems established; PEO C4I among the consolidated organizations | DVIDS release |

@@ -61,21 +61,64 @@ def test_source_registry_rows_are_complete_and_inspected() -> None:
             assert example.get("method") in FETCH_METHODS, row["source_key"]
 
 
-def test_organization_seed_nodes_and_edges_carry_evidence() -> None:
+RELATIONSHIP_TYPES = {"child_of", "contracts_for", "leads", "consolidated_into", "part_of", "listed_with"}
+DATE_STATUSES = {"documented", "inferred", "unknown"}
+CURRENT_STATES = {"last_confirmed", "ended", "superseded", "conflicting"}
+REVIEW_STATUSES = {"draft", "reviewed", "retracted"}
+
+
+def _reviewer_ok(value) -> bool:
+    return value is None or (isinstance(value, dict) and value.get("name") and _dated(value.get("on")))
+
+
+def test_organization_seed_is_an_auditable_claims_graph() -> None:
     graph = _load("organization_seed.json")
     ids = [node["id"] for node in graph["nodes"]]
     assert len(ids) == len(set(ids)), "duplicate node id"
+    obs = {o["id"]: o for o in graph["observations"]}
+    assert len(obs) == len(graph["observations"]), "duplicate observation id"
+    for o in obs.values():
+        assert o["source_url"] and _dated(o["observed_at"]) and o["source_revision"], o["id"]
+        assert o["subject_ids"] and all(s in ids for s in o["subject_ids"]), o["id"]
     for node in graph["nodes"]:
         assert node.get("type") and node.get("name"), node["id"]
-        assert _has_evidence(node.get("evidence")), f"{node['id']} lacks dated evidence"
-        if node.get("valid_from") and node.get("valid_to"):
-            assert node["valid_from"] <= node["valid_to"], node["id"]
-    for edge in graph["edges"]:
-        assert edge["from"] in ids and edge["to"] in ids, f"dangling edge {edge}"
-        assert edge.get("type"), edge
-        assert _has_evidence(edge.get("evidence")), f"edge {edge['from']}->{edge['to']} lacks evidence"
-        if edge.get("valid_from") and edge.get("valid_to"):
-            assert edge["valid_from"] <= edge["valid_to"], edge
+        assert node["observation_ids"] and all(x in obs for x in node["observation_ids"]), f"{node['id']} lacks observations"
+        assert all(a["text"] and a["observation_ids"] for a in node.get("aliases", [])), node["id"]
+        assert _reviewer_ok(node.get("reviewed_by")), node["id"]
+    rel_ids = set()
+    for rel in graph["relationships"]:
+        assert rel["id"] not in rel_ids, rel["id"]
+        rel_ids.add(rel["id"])
+        assert rel["from"] in ids and rel["to"] in ids, f"dangling relationship {rel['id']}"
+        assert rel["type"] in RELATIONSHIP_TYPES, rel["id"]
+        assert rel["observation_ids"] and all(x in obs for x in rel["observation_ids"]), f"{rel['id']} has no observation"
+        assert rel["effective_dates_status"] in DATE_STATUSES, rel["id"]
+        if rel["effective_dates_status"] == "unknown":
+            assert rel["effective_from"] is None and rel["effective_to"] is None, f"{rel['id']} carries a date it calls unknown"
+        else:
+            assert rel["effective_from"] or rel["effective_to"], f"{rel['id']} claims dated status without a date"
+        if rel["effective_dates_status"] == "inferred":
+            assert rel.get("effective_dates_note"), rel["id"]
+        if rel["effective_from"] and rel["effective_to"]:
+            assert rel["effective_from"] <= rel["effective_to"], rel["id"]
+        assert rel["current_status"]["state"] in CURRENT_STATES and _dated(rel["current_status"]["as_of"]), rel["id"]
+        if rel["type"] == "consolidated_into":
+            assert rel["scope_as_stated"], f"{rel['id']} consolidation without the source's scope"
+        assert rel["review_status"] in REVIEW_STATUSES, rel["id"]
+        assert rel["drafted_by"]["actor"] and _dated(rel["drafted_by"]["on"]), rel["id"]
+        assert _reviewer_ok(rel["reviewed_by"]), rel["id"]
+        if rel["review_status"] == "retracted":
+            assert rel["retraction"] and rel["retraction"]["reason"] and rel["retraction"]["superseded_by"], rel["id"]
+        else:
+            assert rel["retraction"] is None, rel["id"]
+    all_ids = rel_ids | {i["id"] for i in graph["interpretations"]}
+    for rel in graph["relationships"]:
+        if rel["retraction"]:
+            assert all(x in all_ids for x in rel["retraction"]["superseded_by"]), rel["id"]
+    for it in graph["interpretations"]:
+        assert it["statement"] and it["confidence"] in {"high", "medium", "low"}, it["id"]
+        assert it["observation_ids"] and all(x in obs for x in it["observation_ids"]), it["id"]
+        assert all(s in ids for s in it["subject_ids"]) and it.get("what_would_resolve"), it["id"]
 
 
 def test_attribution_examples_are_classified_and_evidenced() -> None:
@@ -95,6 +138,9 @@ def test_attribution_examples_are_classified_and_evidenced() -> None:
             assert ex.get("counterevidence") is not None, f"{ex['id']} must state counterevidence or 'none'"
         if ex["evidence_class"] == "unresolved":
             assert ex.get("why_unresolved"), ex["id"]
+        review = ex["review"]
+        assert review["status"] in REVIEW_STATUSES and review["drafted_by"]["actor"], ex["id"]
+        assert _reviewer_ok(review["reviewed_by"]), ex["id"]
 
 
 def test_backtests_never_use_evidence_after_the_cutoff() -> None:
@@ -144,13 +190,15 @@ def test_every_cited_evidence_url_has_a_fetched_manifest_row() -> None:
         if row.get("status") == 200 and row.get("sha256") and row.get("content_status") != "rejected_stub":
             fetched.add(row["url"].replace("%5B", "[").replace("%5D", "]"))
     cited = set()
-    for name in ("attribution_examples.json", "backtests.json", "organization_seed.json"):
+    for name in ("attribution_examples.json", "backtests.json", "organization_seed.json", "contact_observations.json"):
         p = RESEARCH / name
         if not p.exists():
             continue
         data = json.loads(p.read_text(encoding="utf-8"))
-        items = data["nodes"] + data["edges"] if isinstance(data, dict) else data
+        items = data["observations"] if isinstance(data, dict) else data
         for item in items:
+            if "source_url" in item:
+                cited.add(item["source_url"])
             for e in item.get("evidence", []):
                 cited.add(e["source_url"])
             for key in ("actual_event", "post_cutoff_check"):
@@ -173,11 +221,64 @@ def test_code_families_compile_and_carry_examples() -> None:
             assert re.search(family["pattern"], example), f"{family['family']}: example {example!r} does not match its own pattern"
 
 
-def test_contact_candidates_are_public_sourced_and_dated() -> None:
-    rows = _load("contact_candidates.json")
-    for row in rows:
-        assert row.get("office") and row.get("role_type"), row
-        assert row.get("name") or row.get("channel"), row
-        assert row.get("source_url") and _dated(row.get("observed_at")), f"contact without a dated public source: {row.get('name') or row.get('channel')}"
-        assert row.get("confidence") in {"high", "medium", "low"}, row
-        assert row.get("basis"), row
+ROLE_TYPES = {"requirement_owner", "program_manager", "executive", "contracting_poc", "technical_support_office", "industry_intake_channel", "office_channel"}
+CONFIDENCES = {"high", "medium", "low"}
+
+
+def test_contact_observations_trace_to_a_document_location() -> None:
+    rows = _load("contact_observations.json")
+    ids = [r["id"] for r in rows]
+    assert len(ids) == len(set(ids)), "duplicate observation id"
+    for r in rows:
+        assert r["kind"] in {"person", "channel"} and (r.get("name") or r.get("channel_as_written")), r["id"]
+        assert r["role_as_written"] and r["role_type"] in ROLE_TYPES, r["id"]
+        assert r["source_url"] and r["source_revision"] and _dated(r["observed_at"]), r["id"]
+        assert r["locators"] and r["passage"], f"{r['id']} lacks a locator or passage"
+        assert r["source_statement_confidence"] in CONFIDENCES and r["independent_sources"] == 1, r["id"]
+        if r["role_type"] == "contracting_poc":
+            assert r["member_of_office"] is False, f"{r['id']}: a contracting POC is not a program-office member"
+            assert all(l.get("pid") and l.get("row_number") and l.get("column") for l in r["locators"]), r["id"]
+
+
+def test_contact_recommendations_rest_on_observations_with_two_confidences() -> None:
+    obs = {r["id"] for r in _load("contact_observations.json")}
+    for rec in _load("contact_recommendations.json"):
+        assert rec["office_id"] and rec["route_type"] and rec["recommendation"], rec["id"]
+        assert rec["contact_observation_ids"] and all(x in obs for x in rec["contact_observation_ids"]), rec["id"]
+        assert rec["source_confidence"] in CONFIDENCES, rec["id"]
+        assert rec["currency_confidence"] in CONFIDENCES | {"unknown"} and rec["currency_basis"], rec["id"]
+        for key in ("competing_candidates", "contradictions", "caveats"):
+            assert isinstance(rec[key], list), rec["id"]
+        assert rec["review_status"] in REVIEW_STATUSES and _reviewer_ok(rec["reviewed_by"]), rec["id"]
+
+
+def test_review_log_records_checker_and_outcome() -> None:
+    log = _load("review_log.json")
+    obs = {r["id"] for r in _load("contact_observations.json")}
+    checked = set()
+    for e in log:
+        assert e["target"] and e["check"] and e["outcome"] in {"confirmed", "not_found", "unchecked", "corrected", "retracted"}, e["id"]
+        assert e["checked_by"]["actor"] and _dated(e["checked_by"]["on"]), e["id"]
+        assert _reviewer_ok(e["reviewed_by"]), e["id"]
+        if e["target_kind"] == "contact_observation" and e["target"] in obs:
+            checked.add(e["target"])
+    assert checked == obs, "every contact observation must have a check entry"
+
+
+def test_code_classifier_uses_the_alias_table_before_the_uic_family() -> None:
+    import sys
+    sys.path.insert(0, str(RESEARCH / "tools"))
+    from lrae_package import classify_code  # noqa: E402
+
+    expect = {"PEOC4I": ("peo:c4i", ""), "NAVWAR": ("command:navwar", ""), "N00039 - NAVWAR": ("contracting:n00039", "contracting_office_uic"),
+              "PMW-160": ("pmw:160", "peo_program_office"), "LSUBP00035": ("", "niwc_atlantic_division"), "PMS-485": ("pms:485", "navsea_program_office")}
+    for token, (office, family) in expect.items():
+        hit = classify_code(token)
+        assert hit["office_id"] == office, (token, hit)
+        if family:
+            assert hit["family"] == family, (token, hit)
+        assert not (hit["family"] == "contracting_office_uic" and not hit["office_id"].startswith("contracting:")), (token, hit)
+    data = _load("org_code_families.json")
+    uic = next(f for f in data["families"] if f["family"] == "contracting_office_uic")
+    for token in uic["non_examples"]:
+        assert classify_code(token)["family"] != "contracting_office_uic", token

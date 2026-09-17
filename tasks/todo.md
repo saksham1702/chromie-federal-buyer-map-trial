@@ -63,7 +63,8 @@ Plan: ~/.claude/plans/eager-hopping-rivest.md (approved 2026-09-16). Branch: tri
 
 ## Phase two: reviewer comments of 2026-09-17 (data accuracy first)
 - [x] LRAE reproducible package: `research/tools/lrae_package.py`, `datapack/lrae_navwar_2025-06/`, `tests/test_lrae_datapack.py`
-- [ ] contacts: sourced facts separated from recommendations; role types; historical vs current confidence
-- [ ] organization memory: observations / relationships / interpretations; retractions instead of `valid_to`; PMS 485 dates unknown
-- [ ] second LRAE release for the diff (Wayback index still offline for older captures)
+- [x] contacts: `contact_observations.json`, `contact_recommendations.json`, `review_log.json` (all observations checked against saved bytes)
+- [x] organization memory: `organization_seed.json` v2 (observations / relationships / interpretations, retractions, reviewer fields); 08 rewritten; PMS 485 dates unknown
+- [x] review-bot findings: UIC family tightened and alias-first classifier; budget line wording; PMS 485
+- [x] second and third LRAE releases (June 2024, 2023 export) recovered via the Wayback index and packaged with diffs
 - [ ] independent reproduction of a sample with reviewer identity and date recorded

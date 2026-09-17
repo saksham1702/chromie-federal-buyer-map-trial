@@ -165,3 +165,25 @@ the output hashes are recorded so a second run proves idempotence. Network looku
 `collect` step so the build never depends on what a host answers today. Rows are also written in
 the layers of the proposed production model (needs, requirements, funding observations,
 procurement references, evidence) so nothing is reshaped later.
+
+## 2026-09-18 - Observations, relationships and interpretations are stored apart; corrections are retractions
+
+After review, `organization_seed.json` separates what a source states (observations with the exact
+words, revision and date) from the dated claims resting on them (relationships) and from our own
+readings (interpretations). Effective dates exist only when a source gives them; otherwise they are
+`unknown`, and currency is a separate field, so an open end date never reads as "confirmed
+current". A wrong claim is retracted with a reason and a pointer to its replacement; only a
+real-world change documented by a source gets an end date. The reviewer's identity and date are
+recorded apart from the assistant's draft. Contacts follow the same split: `contact_observations.json`
+holds what a source says about a person or channel (with sheet, row and PID for the forecast),
+`contact_recommendations.json` holds routes with a source confidence and a currency confidence, and
+`review_log.json` records every check against saved bytes.
+
+## 2026-09-18 - Every LRAE release is its own package; diffs never merge rows
+
+Three NAVWAR releases are now saved (2023 export, June 2024, June 2025). Each is packaged
+separately from its own bytes, and a diff between releases is written into the newer package. The
+diff keys on the PID where both rows have one and on title plus office code otherwise, because
+the June 2024 release has no PID column and PIDs turned out to be only partly stable. Weak matches
+are reported as such rather than forced; a record that cannot be followed across releases reads as
+removed and added, and the reviewer sees it.

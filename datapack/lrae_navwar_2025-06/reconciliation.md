@@ -1,6 +1,7 @@
 # Reconciliation - lrae_navwar_2025-06
 
 Sheet `LRAE Annex 25`, header on Excel row 8, data rows 9-841.
+Record key: PID.
 
 ## Rows
 
@@ -86,10 +87,10 @@ Every PID is unique in this release, so no row is marked `duplicate`. Rows that 
 | office | 148 | 148 | 0 | 0 |
 | existing_contract | 46 | 43 | 3 | 0 |
 | notice | 197 | 10 | 187 | 0 |
-| contact | 279 | 143 | 136 | 0 |
+| contact | 279 | 279 | 0 | 0 |
 
-Explicit joins: office code through the alias table, contract number found in FPDS, notice text containing the PID or contract number, POC name matching a contact candidate for the same office. Inferred joins: forecast row tied to an award through an attribution example. A shared vehicle (SeaPort-NxG IDV) alone is never a join.
+Explicit joins: office code through the alias table, contract number found in FPDS, notice text containing the PID or contract number, POC name matching a contact observation for the same office. Inferred joins: forecast row tied to an award through an attribution example, or a notice that only cites a shared vehicle. A shared vehicle (SeaPort-NxG IDV, SEWP, GSA schedule) alone is never a join.
 
 ## Releases
 
-Only the 2025-06-19 release is saved. The NAVWAR page linked one file at capture time and the Wayback index was offline when older captures were searched, so no release-to-release diff exists yet; `diff_<old>_<new>.csv` is produced by this script once a second file is in the manifest.
+Compared with `lrae_navwar_2023-06` (key: pid where present, else title+office): 31 records matched (166 field changes on 31 of them), 802 added, 702 removed, 0 keys matching several rows. Detail in `diff_lrae_navwar_2023-06_lrae_navwar_2025-06.csv`. Compared with `lrae_navwar_2024-06` (key: title+office): 105 records matched (261 field changes on 81 of them), 728 added, 745 removed, 0 keys matching several rows. Detail in `diff_lrae_navwar_2024-06_lrae_navwar_2025-06.csv`. Every release is kept as its own package.

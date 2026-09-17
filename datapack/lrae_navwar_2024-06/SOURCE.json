@@ -1,0 +1,33 @@
+{
+  "activity": "NAVWAR",
+  "fetched_from": "https://web.archive.org/web/20250226034633id_/https://www.navwar.navy.mil/Portals/93/Images/Documents/Command_NAVWAR_LRAE_Report_6-13-2024_NAVWAR%20HQCA-2024-A-094.xlsx",
+  "header_row": 8,
+  "joins_collected": false,
+  "method": "wayback",
+  "outputs": {
+    "diff_lrae_navwar_2023-06_lrae_navwar_2024-06.csv": "c6088d81aa130beae95e412cef28cfe134c53eb2b61ab5580f397bd92e8816e1",
+    "joins.csv": "77e74b1f29eddf8216b603523746d7e372d5c8aab29c215bd83bc632847848a3",
+    "layers/evidence.csv": "d54eee1d5b0605d48e3512d19f9812493153e81da390aa51e77a8673db3071bd",
+    "layers/funding_observations.csv": "8f86ade846f1367bb1919a17a8e1998e0294954b1e754a2d7fa77d1ed4f69baf",
+    "layers/need_requirements.csv": "bfaa62ec56da5ece37ecfee85febafcd031e1c11518a916ea369b27887371500",
+    "layers/needs.csv": "5981bff1489e5af66a8e7f965867ff685491c7d48c2001b48cf8889111a79dbe",
+    "layers/procurement_refs.csv": "df34e275a8a04671dde2de06021c7b2c3c1edde4e409427a85b8a17f3ba93bb6",
+    "reconciliation.md": "411f4a031c876157e2f1ce449b543247e04f8325b2e2607271a3ea5ed23ded16",
+    "rows_classified.csv": "cbe4aaca0a6d15335a46c72f1242bf7568105cb578e709536e2eb3a025608c11",
+    "rows_raw.csv": "88fd5c37817049505f75e4ac0681fd5cefbe9e17512861e9d31ee1da9fab8a26"
+  },
+  "raw_path": "data/raw/c327bcd3a34a_Command_NAVWAR_LRAE_Report_6-13-2024_NAVWAR_HQCA-2024-A-094.xlsx",
+  "record_key": "pid, or hash of title and office code when the release has no PID column",
+  "refetch": "python research/tools/fetch.py 'https://www.navwar.navy.mil/Portals/93/Images/Documents/Command_NAVWAR_LRAE_Report_6-13-2024_NAVWAR%20HQCA-2024-A-094.xlsx' --wayback 20250226034633",
+  "regenerate": "python research/tools/lrae_package.py build",
+  "release_date": "2024-06-20",
+  "release_date_as_written": "2024-06-20 00:00:00",
+  "release_key": "lrae_navwar_2024-06",
+  "release_note": "",
+  "retrieved_at": "2026-09-17T20:19:32Z",
+  "sha256": "c327bcd3a34a642fe28df969a2a57ba97e3c92406500494894157f9a30133635",
+  "sheet": "LRAE Annex 25",
+  "size": 196888,
+  "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/Command_NAVWAR_LRAE_Report_6-13-2024_NAVWAR%20HQCA-2024-A-094.xlsx",
+  "wayback_timestamp": "20250226034633"
+}

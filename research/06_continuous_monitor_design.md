@@ -207,7 +207,7 @@ Format: what changed; affected office and ancestry; evidence; uncertainty; why i
   and timing for CANES production and installation buys in FY2027.
 
 **B2. Funding change, congressional variant (House mark differs from request)**
-- What changed: H. Rept. 119-715 (2026-06-26) recommends 543,046 for OPN line 64 CANES against a
+- What changed: H. Rept. 119-715 (2026-06-26) recommends 543,046 for OPN line item 2915 CANES (P-1 line 64) against a
   request of 493,046 ($ thousands), a $50.0M program increase labeled "maritime containerized
   secure units"; RADIAC (line 65) is cut by $14.95M for contract award delays.
 - Office: PMW 160 (CANES) by program inference; PEO C4I -> PAE Mission Systems.
@@ -217,7 +217,7 @@ Format: what changed; affected office and ancestry; evidence; uncertainty; why i
   a year or more before any notice.
 
 **C. Forecast revision (LRAE row changes between releases)**
-- What changed (illustrative until a second LRAE release is captured): row PID
+- What changed (the 2024-to-2025 release diff in `datapack/lrae_navwar_2025-06/` shows quarters and fiscal years move most often on matched PEO C4I rows): row PID
   `N00039-24-RFPREQ-PMW-160-0002` "PMW 160 Engineering Support Services (ESS) Follow-on" moves
   anticipated solicitation from FY25 Q4 to a later quarter, or its value range changes.
 - Office: PMW 160 -> PEO C4I -> PAE Mission Systems.

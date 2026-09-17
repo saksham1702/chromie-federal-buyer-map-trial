@@ -51,7 +51,7 @@ Browserbase path; hashes `4b0544bb7d42` and `d6c325bf6565`). The office column i
 by program name through the tear sheets; the tables themselves name no office. Amounts are the
 "total" columns (FY2026 includes the PL 119-21 spend plan).
 
-| OPN line | Title | Likely office (inference by program) | FY25 actual | FY26 enacted | FY27 request |
+| OPN line item (P-1 line) | Title | Likely office (inference by program) | FY25 actual | FY26 enacted | FY27 request |
 | --- | --- | --- | ---: | ---: | ---: |
 | 2237 (P-1 line 45) | SURTASS | PMS 485 (SURTASS; NAVSEA) | 46.0 | 31.2 | 72.2 |
 | 2614 (P-1 line 51) | ATDLS | PMA/PMW 101 (ATDLS / Link 16) | 68.5 | 58.7 | 52.8 |
@@ -195,3 +195,10 @@ SAM.gov archive file for BT05's solicitation (the FY2025 file is retrieved and u
 daily "Full" file holds only the current dataset); FY2026 enacted budget lines for the
 request-versus-enacted signal; and a complete FY2026 FPDS scan once the host stops resetting
 connections.
+
+Update 2026-09-18: the June 2024 release and a 2023 export were recovered through the Wayback
+index and packaged next to the June 2025 release (`datapack/lrae_navwar_*/`, with diffs in the
+newer packages). Two findings for the backtests: PIDs are only partly stable across releases, so a
+requirement has to be followed by title and office when its PID changes; and on the PEO C4I rows
+that do match, the fields that move between releases are mostly the solicitation and award
+quarters and fiscal years, which is the forecast-revision signal the monitor design assumed.

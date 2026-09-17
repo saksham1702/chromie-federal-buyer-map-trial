@@ -1,7 +1,7 @@
 {
-  "generated": "2026-09-17",
+  "generated": "2026-09-18",
   "source": "code values observed in the NAVWAR LRAE (June 2025 release), NAVSEA Enterprise LRAE (December 2025), FPDS feeds and the PAE Mission Systems site",
-  "rule": "a parser classifies any observed code by the first matching family, then resolves it through the alias table in organization_seed.json; unknown codes are stored as unverified nodes and queued for review",
+  "rule": "normalize first (upper-case, strip a ' - NAME' suffix, collapse spaces and hyphens), look the token up in the alias table of organization_seed.json, and only then classify by the first matching family; unknown codes stay unresolved with the code kept verbatim and are queued for review",
   "families": [
     {
       "family": "peo_program_office",
@@ -109,7 +109,7 @@
     },
     {
       "family": "peo_front_office_or_hq_code",
-      "pattern": "^(C4IEXEC|PEO-C4I|PEO-MLB|Digital TD|PCE|PAS|DCE|JTNC|DRPM-NOA)$",
+      "pattern": "^(C4IEXEC|PEO-?\\s?C4I|PEO-?\\s?MLB|PEO-?\\s?DIGITAL|NAVWAR(SYSCOM)?|Digital TD|PCE|PAS|DCE|JTNC|DRPM-NOA)$",
       "org_type": "portfolio_or_front_office",
       "era": "PEO (still used in the June 2025 LRAE)",
       "parent_hint": "C4IEXEC / PEO-C4I = PEO C4I front office; PEO-MLB and Pf008MLBFO = PEO MLB; Digital TD and PCE = PEO Digital; DRPM-NOA = DRPM Overmatch; PAS, DCE, JTNC = NAVWAR HQ functions (unverified)",
@@ -118,12 +118,16 @@
       ],
       "normalize": "keep; resolve through the alias table",
       "examples": [
-        "PAS",
         "C4IEXEC",
-        "PCE",
+        "DCE",
         "DRPM-NOA",
         "JTNC",
-        "DCE"
+        "NAVWAR",
+        "PAS",
+        "PCE",
+        "PEO C4I",
+        "PEO-MLB",
+        "PEOC4I"
       ]
     },
     {
@@ -157,7 +161,7 @@
     },
     {
       "family": "contracting_office_uic",
-      "pattern": "^[A-Z0-9]{6}$",
+      "pattern": "^[A-Z][A-Z0-9]{5}$",
       "org_type": "contracting_office",
       "era": "all",
       "parent_hint": "N00039 NAVWAR HQ, N66001 NIWC Pacific, N65236 NIWC Atlantic, N00024 NAVSEA HQ, N00178 NSWC Dahlgren (SeaPort-NxG)",
@@ -167,8 +171,20 @@
         "first six characters of PIIDs and solicitation numbers",
         "SAM AAC Code"
       ],
-      "normalize": "upper-case; strip ' - NAME' suffix",
-      "examples": []
+      "normalize": "upper-case; strip ' - NAME' suffix; a token that resolves through the alias table (PEOC4I, NAVWAR) is never a UIC",
+      "examples": [
+        "N00039",
+        "N66001",
+        "N65236",
+        "N00024",
+        "N00178"
+      ],
+      "non_examples": [
+        "PEOC4I",
+        "NAVWAR",
+        "C4IEXEC",
+        "000039"
+      ]
     }
   ],
   "unmatched_examples": [

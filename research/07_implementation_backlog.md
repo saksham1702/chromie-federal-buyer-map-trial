@@ -35,7 +35,7 @@ SAM API key, a network path to the Navy web hosts, and two documents that need a
 | 18 | DoD contracts RSS + article fallback fetch; Federal Register weekly query | P2 | S | 1 | low yield for program-office attribution, useful for large awards |
 | 19 | Browserbase transport for Akamai-blocked hosts (test one page; keep if it passes) | P2 | S | Browserbase key | SLED trial's `BrowserFetcher(remote=True)` is reusable |
 | 20 | Hosted change monitor (context.dev or similar) for organization pages and download links, feeding the review queue; compare with running the fetch helper on a schedule | P1 | S | 1 | pages that need the US browser go through Browserbase |
-| 21 | Contact candidates as data: load `contact_candidates.json` into `gov_contacts` / `gov_contact_positions` with observation dates and confidence; refresh from tear sheets, releases and LRAE POC columns | P1 | S | 2 | public sources only; recall-first posture |
+| 21 | Contact candidates as data: load `contact_observations.json` and `contact_recommendations.json` into `gov_contacts` / `gov_contact_positions` with observation dates and confidence; refresh from tear sheets, releases and LRAE POC columns | P1 | S | 2 | public sources only; recall-first posture |
 | 22 | Expansion: PEO Digital, PEO MLB, PEO IWS offices and their LRAE codes; NAVSEA and NAVAIR LRAEs; Army PAEs; civilian agencies through the existing per-agency ingest | P3 | L | 1-14 | same adapters, new alias tables and organization URLs |
 
 ## Blockers and what unblocks them
@@ -47,7 +47,7 @@ SAM API key, a network path to the Navy web hosts, and two documents that need a
 | secnav.navy.mil firewall resets (budget library, OSBP LRAE index), also through Browserbase | DoN exhibit narratives (RDT&E BA7-8, FY2026 books) and the Navy-wide LRAE index still missing; line amounts are covered by the Comptroller P-1/R-1 tables | manual queue in `manual_pdf_requests.json`; a US residential or government network |
 | PIEE and SeaPort-NxG require accounts | solicitation packages and task-order competitions invisible | accept the gap; rely on SAM synopses and FPDS awards; record as `restricted` |
 | DoD FPDS publication delay (~90 days) | award and recompete signals arrive late | forecast (LRAE) and period-of-performance signals carry the early warning |
-| Wayback CDX index intermittently offline | historical LRAE versions cannot be enumerated | retry; keep the raw-capture path that works |
+| Wayback CDX index intermittently offline | historical LRAE versions cannot be enumerated | retried 2026-09-18 and it answered: the June 2024 release and a 2023 export were recovered and packaged; keep retrying for other hosts |
 | PEO Digital and PEO MLB office inventories not retrieved | sibling offices only partly modeled (hard negatives incomplete) | manual queue; organization pages once a fetch path exists |
 
 ## Expansion plan

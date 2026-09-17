@@ -1,0 +1,3940 @@
+[
+  {
+    "id": "cobs:lrae:peo-c4i:ashleymegan",
+    "kind": "person",
+    "name": "Ashley, Megan",
+    "channel_as_written": "megan.a.ashley.civ@navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "peo:c4i",
+    "office_code_as_written": "C4IEXEC - PEO C4I Front Office - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PEO-C4I-0001",
+        "sheet": "LRAE Annex 25",
+        "row_number": 107,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-C4IEXEC-0014",
+        "sheet": "LRAE Annex 25",
+        "row_number": 404,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 2,
+    "independent_sources": 1,
+    "passage": "Ashley, Megan | megan.a.ashley.civ@navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:peo-c4i:griffindamon",
+    "kind": "person",
+    "name": "GRIFFIN, DAMON",
+    "channel_as_written": "damon.r.griffin.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "peo:c4i",
+    "office_code_as_written": "C4IEXEC - PEO C4I Front Office - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PEO-C4I-0012",
+        "sheet": "LRAE Annex 25",
+        "row_number": 145,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "GRIFFIN, DAMON | damon.r.griffin.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:peo-c4i:khaliferema",
+    "kind": "person",
+    "name": "Khalife, Rema",
+    "channel_as_written": "rema.n.khalife.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "peo:c4i",
+    "office_code_as_written": "C4IEXEC - PEO C4I Front Office - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-C4IEXEC-0002",
+        "sheet": "LRAE Annex 25",
+        "row_number": 143,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "Khalife, Rema | rema.n.khalife.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:peo-c4i:nickellindsay",
+    "kind": "person",
+    "name": "Nickel, Lindsay",
+    "channel_as_written": "lindsay.t.nickel.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "peo:c4i",
+    "office_code_as_written": "C4IEXEC - PEO C4I Front Office - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PEO-C4I-0012",
+        "sheet": "LRAE Annex 25",
+        "row_number": 145,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "Nickel, Lindsay | lindsay.t.nickel.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:peo-c4i:odonnellbrian",
+    "kind": "person",
+    "name": "Odonnell, Brian",
+    "channel_as_written": "brian.w.odonnell.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "peo:c4i",
+    "office_code_as_written": "C4IEXEC - PEO C4I Front Office - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PEO-C4I-0001",
+        "sheet": "LRAE Annex 25",
+        "row_number": 107,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-C4IEXEC-0014",
+        "sheet": "LRAE Annex 25",
+        "row_number": 404,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 2,
+    "independent_sources": 1,
+    "passage": "Odonnell, Brian | brian.w.odonnell.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:peo-c4i:tsuiyvette",
+    "kind": "person",
+    "name": "Tsui, Yvette",
+    "channel_as_written": "yvette.tsui@navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "peo:c4i",
+    "office_code_as_written": "C4IEXEC - PEO C4I Front Office - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-C4IEXEC-0002",
+        "sheet": "LRAE Annex 25",
+        "row_number": 143,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "Tsui, Yvette | yvette.tsui@navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-101:bredesenedithay",
+    "kind": "person",
+    "name": "Bredesen, Editha Y.",
+    "channel_as_written": "editha.y.bredesen.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4)) / Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:101",
+    "office_code_as_written": "PMA/PMW-101 - PMA/PMW-101 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-23-RFPREQ-PMA/PMW-101-0017",
+        "sheet": "LRAE Annex 25",
+        "row_number": 111,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0022",
+        "sheet": "LRAE Annex 25",
+        "row_number": 332,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0077",
+        "sheet": "LRAE Annex 25",
+        "row_number": 382,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0078",
+        "sheet": "LRAE Annex 25",
+        "row_number": 383,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0133",
+        "sheet": "LRAE Annex 25",
+        "row_number": 431,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0133",
+        "sheet": "LRAE Annex 25",
+        "row_number": 431,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0158",
+        "sheet": "LRAE Annex 25",
+        "row_number": 445,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 7,
+    "independent_sources": 1,
+    "passage": "Bredesen, Editha Y. | editha.y.bredesen.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-101:feliumaiac",
+    "kind": "person",
+    "name": "Feliu, Maia C.",
+    "channel_as_written": "maia.c.feliu.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:101",
+    "office_code_as_written": "PMA/PMW-101 - PMA/PMW-101 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-26-RFPREQ-PMA/PMW-101-0005",
+        "sheet": "LRAE Annex 25",
+        "row_number": 120,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "Feliu, Maia C. | maia.c.feliu.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-101:griffindamon",
+    "kind": "person",
+    "name": "GRIFFIN, DAMON",
+    "channel_as_written": "damon.r.griffin.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:101",
+    "office_code_as_written": "PMA/PMW-101 - PMA/PMW-101 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0046",
+        "sheet": "LRAE Annex 25",
+        "row_number": 358,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "GRIFFIN, DAMON | damon.r.griffin.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-101:gonzalesjoseph",
+    "kind": "person",
+    "name": "Gonzales, Joseph",
+    "channel_as_written": "joseph.a.gonzales50.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4)) / Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:101",
+    "office_code_as_written": "PMA/PMW-101 - PMA/PMW-101 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-26-RFPREQ-PMA/PMW-101-0003",
+        "sheet": "LRAE Annex 25",
+        "row_number": 115,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMA/PMW-101-0115",
+        "sheet": "LRAE Annex 25",
+        "row_number": 159,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0039",
+        "sheet": "LRAE Annex 25",
+        "row_number": 348,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0045",
+        "sheet": "LRAE Annex 25",
+        "row_number": 357,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0096",
+        "sheet": "LRAE Annex 25",
+        "row_number": 398,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0103",
+        "sheet": "LRAE Annex 25",
+        "row_number": 405,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 6,
+    "independent_sources": 1,
+    "passage": "Gonzales, Joseph | joseph.a.gonzales50.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-101:jameschalond",
+    "kind": "person",
+    "name": "James, Chalon D.",
+    "channel_as_written": "chalon.james@navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:101",
+    "office_code_as_written": "PMA/PMW-101 - PMA/PMW-101 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMA/PMW-101-0278",
+        "sheet": "LRAE Annex 25",
+        "row_number": 362,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0130",
+        "sheet": "LRAE Annex 25",
+        "row_number": 430,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 2,
+    "independent_sources": 1,
+    "passage": "James, Chalon D. | chalon.james@navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-101:nickellindsay",
+    "kind": "person",
+    "name": "Nickel, Lindsay",
+    "channel_as_written": "lindsay.t.nickel.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:101",
+    "office_code_as_written": "PMA/PMW-101 - PMA/PMW-101 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMA/PMW-101-0276",
+        "sheet": "LRAE Annex 25",
+        "row_number": 350,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0046",
+        "sheet": "LRAE Annex 25",
+        "row_number": 358,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMA/PMW-101-0278",
+        "sheet": "LRAE Annex 25",
+        "row_number": 362,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0075",
+        "sheet": "LRAE Annex 25",
+        "row_number": 381,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0129",
+        "sheet": "LRAE Annex 25",
+        "row_number": 429,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0130",
+        "sheet": "LRAE Annex 25",
+        "row_number": 430,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0155",
+        "sheet": "LRAE Annex 25",
+        "row_number": 438,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0154",
+        "sheet": "LRAE Annex 25",
+        "row_number": 441,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 8,
+    "independent_sources": 1,
+    "passage": "Nickel, Lindsay | lindsay.t.nickel.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-101:perazarodrigo",
+    "kind": "person",
+    "name": "PERAZA, RODRIGO",
+    "channel_as_written": "rodrigo.peraza.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:101",
+    "office_code_as_written": "PMA/PMW-101 - PMA/PMW-101 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-23-RFPREQ-PMA/PMW-101-0017",
+        "sheet": "LRAE Annex 25",
+        "row_number": 111,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0022",
+        "sheet": "LRAE Annex 25",
+        "row_number": 332,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0077",
+        "sheet": "LRAE Annex 25",
+        "row_number": 382,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0078",
+        "sheet": "LRAE Annex 25",
+        "row_number": 383,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0158",
+        "sheet": "LRAE Annex 25",
+        "row_number": 445,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 5,
+    "independent_sources": 1,
+    "passage": "PERAZA, RODRIGO | rodrigo.peraza.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-101:poncefeliupatricia",
+    "kind": "person",
+    "name": "Poncefeliu, Patricia",
+    "channel_as_written": "patricia.poncefeliu.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4)) / Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:101",
+    "office_code_as_written": "PMA/PMW-101 - PMA/PMW-101 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMA/PMW-101-0115",
+        "sheet": "LRAE Annex 25",
+        "row_number": 159,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMA/PMW-101-0267",
+        "sheet": "LRAE Annex 25",
+        "row_number": 162,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMA/PMW-101-0267",
+        "sheet": "LRAE Annex 25",
+        "row_number": 162,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0039",
+        "sheet": "LRAE Annex 25",
+        "row_number": 348,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0045",
+        "sheet": "LRAE Annex 25",
+        "row_number": 357,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0096",
+        "sheet": "LRAE Annex 25",
+        "row_number": 398,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0103",
+        "sheet": "LRAE Annex 25",
+        "row_number": 405,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 7,
+    "independent_sources": 1,
+    "passage": "Poncefeliu, Patricia | patricia.poncefeliu.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-101:raigozadominic",
+    "kind": "person",
+    "name": "Raigoza, Dominic",
+    "channel_as_written": "dominic.m.raigoza.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:101",
+    "office_code_as_written": "PMA/PMW-101 - PMA/PMW-101 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMA/PMW-101-0276",
+        "sheet": "LRAE Annex 25",
+        "row_number": 350,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0075",
+        "sheet": "LRAE Annex 25",
+        "row_number": 381,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0129",
+        "sheet": "LRAE Annex 25",
+        "row_number": 429,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMA/PMW-101-0154",
+        "sheet": "LRAE Annex 25",
+        "row_number": 441,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 4,
+    "independent_sources": 1,
+    "passage": "Raigoza, Dominic | dominic.m.raigoza.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-120:ashleymegan",
+    "kind": "person",
+    "name": "Ashley, Megan",
+    "channel_as_written": "megan.a.ashley.civ@navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:120",
+    "office_code_as_written": "PMW-120 - PMW-120 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW-120-0001",
+        "sheet": "LRAE Annex 25",
+        "row_number": 106,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "Ashley, Megan | megan.a.ashley.civ@navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-120:bagnanianthony",
+    "kind": "person",
+    "name": "Bagnani, Anthony",
+    "channel_as_written": "anthony.bagnani@navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:120",
+    "office_code_as_written": "PMW-120 - PMW-120 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-120-0013",
+        "sheet": "LRAE Annex 25",
+        "row_number": 333,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "Bagnani, Anthony | anthony.bagnani@navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-120:jimenezrachel",
+    "kind": "person",
+    "name": "Jimenez, Rachel",
+    "channel_as_written": "rachel.r.jimenez5.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:120",
+    "office_code_as_written": "PMW-120 - PMW-120 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-120-0013",
+        "sheet": "LRAE Annex 25",
+        "row_number": 333,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "Jimenez, Rachel | rachel.r.jimenez5.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-120:odonnellbrian",
+    "kind": "person",
+    "name": "Odonnell, Brian",
+    "channel_as_written": "brian.w.odonnell.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:120",
+    "office_code_as_written": "PMW-120 - PMW-120 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW-120-0001",
+        "sheet": "LRAE Annex 25",
+        "row_number": 106,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "Odonnell, Brian | brian.w.odonnell.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-130:khaliferema",
+    "kind": "person",
+    "name": "Khalife, Rema",
+    "channel_as_written": "rema.n.khalife.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:130",
+    "office_code_as_written": "PMW-130 - PMW-130 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-130-0015",
+        "sheet": "LRAE Annex 25",
+        "row_number": 373,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-130-0030",
+        "sheet": "LRAE Annex 25",
+        "row_number": 374,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-130-0026",
+        "sheet": "LRAE Annex 25",
+        "row_number": 407,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 3,
+    "independent_sources": 1,
+    "passage": "Khalife, Rema | rema.n.khalife.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-130:tsuiyvette",
+    "kind": "person",
+    "name": "Tsui, Yvette",
+    "channel_as_written": "yvette.tsui@navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:130",
+    "office_code_as_written": "PMW-130 - PMW-130 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-130-0015",
+        "sheet": "LRAE Annex 25",
+        "row_number": 373,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-130-0030",
+        "sheet": "LRAE Annex 25",
+        "row_number": 374,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-130-0026",
+        "sheet": "LRAE Annex 25",
+        "row_number": 407,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 3,
+    "independent_sources": 1,
+    "passage": "Tsui, Yvette | yvette.tsui@navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-150:brewerlynette",
+    "kind": "person",
+    "name": "Brewer, Lynette",
+    "channel_as_written": "lynette.m.brewer.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:150",
+    "office_code_as_written": "PMW-150 - PMW-150 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0132",
+        "sheet": "LRAE Annex 25",
+        "row_number": 433,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0138",
+        "sheet": "LRAE Annex 25",
+        "row_number": 437,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 2,
+    "independent_sources": 1,
+    "passage": "Brewer, Lynette | lynette.m.brewer.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-150:conradryans",
+    "kind": "person",
+    "name": "CONRAD, RYAN S.",
+    "channel_as_written": "ryan.s.conrad3.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4)) / Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:150",
+    "office_code_as_written": "PMW-150 - PMW-150 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW-150-0157",
+        "sheet": "LRAE Annex 25",
+        "row_number": 160,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0050",
+        "sheet": "LRAE Annex 25",
+        "row_number": 361,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0102",
+        "sheet": "LRAE Annex 25",
+        "row_number": 401,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0128",
+        "sheet": "LRAE Annex 25",
+        "row_number": 402,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0129",
+        "sheet": "LRAE Annex 25",
+        "row_number": 403,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0120",
+        "sheet": "LRAE Annex 25",
+        "row_number": 424,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0119",
+        "sheet": "LRAE Annex 25",
+        "row_number": 425,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0133",
+        "sheet": "LRAE Annex 25",
+        "row_number": 427,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0134",
+        "sheet": "LRAE Annex 25",
+        "row_number": 428,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0130",
+        "sheet": "LRAE Annex 25",
+        "row_number": 432,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 10,
+    "independent_sources": 1,
+    "passage": "CONRAD, RYAN S. | ryan.s.conrad3.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-150:feliumaiac",
+    "kind": "person",
+    "name": "Feliu, Maia C.",
+    "channel_as_written": "maia.c.feliu.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:150",
+    "office_code_as_written": "PMW-150 - PMW-150 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0072",
+        "sheet": "LRAE Annex 25",
+        "row_number": 384,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "Feliu, Maia C. | maia.c.feliu.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-150:gonzalesalan",
+    "kind": "person",
+    "name": "GONZALES, ALAN",
+    "channel_as_written": "alan.m.gonzales3.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:150",
+    "office_code_as_written": "PMW-150 - PMW-150 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0002",
+        "sheet": "LRAE Annex 25",
+        "row_number": 140,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "GONZALES, ALAN | alan.m.gonzales3.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-150:griffinbrian",
+    "kind": "person",
+    "name": "Griffin, Brian",
+    "channel_as_written": "brian.d.griffin.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:150",
+    "office_code_as_written": "PMW-150 - PMW-150 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0132",
+        "sheet": "LRAE Annex 25",
+        "row_number": 433,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0138",
+        "sheet": "LRAE Annex 25",
+        "row_number": 437,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 2,
+    "independent_sources": 1,
+    "passage": "Griffin, Brian | brian.d.griffin.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-150:murrsarah",
+    "kind": "person",
+    "name": "Murr, Sarah",
+    "channel_as_written": "sarah.m.murr.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:150",
+    "office_code_as_written": "PMW-150 - PMW-150 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0067",
+        "sheet": "LRAE Annex 25",
+        "row_number": 139,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW-150-0157",
+        "sheet": "LRAE Annex 25",
+        "row_number": 160,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0027",
+        "sheet": "LRAE Annex 25",
+        "row_number": 329,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-26-RFPREQ-PMW-150-0003",
+        "sheet": "LRAE Annex 25",
+        "row_number": 359,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-27-RFPREQ-PMW-150-0001",
+        "sheet": "LRAE Annex 25",
+        "row_number": 360,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0102",
+        "sheet": "LRAE Annex 25",
+        "row_number": 401,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0128",
+        "sheet": "LRAE Annex 25",
+        "row_number": 402,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0129",
+        "sheet": "LRAE Annex 25",
+        "row_number": 403,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0133",
+        "sheet": "LRAE Annex 25",
+        "row_number": 427,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0134",
+        "sheet": "LRAE Annex 25",
+        "row_number": 428,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0130",
+        "sheet": "LRAE Annex 25",
+        "row_number": 432,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 11,
+    "independent_sources": 1,
+    "passage": "Murr, Sarah | sarah.m.murr.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-150:odonnellbrian",
+    "kind": "person",
+    "name": "Odonnell, Brian",
+    "channel_as_written": "brian.w.odonnell.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:150",
+    "office_code_as_written": "PMW-150 - PMW-150 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0002",
+        "sheet": "LRAE Annex 25",
+        "row_number": 140,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "Odonnell, Brian | brian.w.odonnell.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-150:papetmarissa",
+    "kind": "person",
+    "name": "Papet, Marissa",
+    "channel_as_written": "marissa.papet@navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:150",
+    "office_code_as_written": "PMW-150 - PMW-150 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0067",
+        "sheet": "LRAE Annex 25",
+        "row_number": 139,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-26-RFPREQ-PMW-150-0003",
+        "sheet": "LRAE Annex 25",
+        "row_number": 359,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-27-RFPREQ-PMW-150-0001",
+        "sheet": "LRAE Annex 25",
+        "row_number": 360,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0120",
+        "sheet": "LRAE Annex 25",
+        "row_number": 424,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0119",
+        "sheet": "LRAE Annex 25",
+        "row_number": 425,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 5,
+    "independent_sources": 1,
+    "passage": "Papet, Marissa | marissa.papet@navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-150:pentzakoffanastasia",
+    "kind": "person",
+    "name": "Pentzakoff, Anastasia",
+    "channel_as_written": "anastasia.pentzakoff.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:150",
+    "office_code_as_written": "PMW-150 - PMW-150 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0072",
+        "sheet": "LRAE Annex 25",
+        "row_number": 384,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "Pentzakoff, Anastasia | anastasia.pentzakoff.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-150:smithabigail",
+    "kind": "person",
+    "name": "SMITH, ABIGAIL",
+    "channel_as_written": "abigail.l.smith65.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:150",
+    "office_code_as_written": "PMW-150 - PMW-150 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0027",
+        "sheet": "LRAE Annex 25",
+        "row_number": 329,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-150-0050",
+        "sheet": "LRAE Annex 25",
+        "row_number": 361,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 2,
+    "independent_sources": 1,
+    "passage": "SMITH, ABIGAIL | abigail.l.smith65.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-160:cruzrobertp",
+    "kind": "person",
+    "name": "CRUZ, ROBERT P.",
+    "channel_as_written": "robert.p.cruz4.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:160",
+    "office_code_as_written": "PMW-160 - PMW-160 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW-160-0002",
+        "sheet": "LRAE Annex 25",
+        "row_number": 128,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "CRUZ, ROBERT P. | robert.p.cruz4.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-160:cohnandream",
+    "kind": "person",
+    "name": "Cohn, Andrea M.",
+    "channel_as_written": "andrea.m.cohn.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:160",
+    "office_code_as_written": "PMW-160 - PMW-160 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-160-0001",
+        "sheet": "LRAE Annex 25",
+        "row_number": 16,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-23-RFPREQ-PMW-160-0108",
+        "sheet": "LRAE Annex 25",
+        "row_number": 127,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-160-0035",
+        "sheet": "LRAE Annex 25",
+        "row_number": 364,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-26-RFPREQ-PMW-160-0006",
+        "sheet": "LRAE Annex 25",
+        "row_number": 365,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-26-RFPREQ-PMW-160-0007",
+        "sheet": "LRAE Annex 25",
+        "row_number": 366,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-26-RFPREQ-PMW-160-0008",
+        "sheet": "LRAE Annex 25",
+        "row_number": 367,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-26-RFPREQ-PMW-160-0009",
+        "sheet": "LRAE Annex 25",
+        "row_number": 368,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-26-RFPREQ-PMW-160-0010",
+        "sheet": "LRAE Annex 25",
+        "row_number": 369,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-27-RFPREQ-PMW-160-0005",
+        "sheet": "LRAE Annex 25",
+        "row_number": 370,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-27-RFPREQ-PMW-160-0006",
+        "sheet": "LRAE Annex 25",
+        "row_number": 371,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-27-RFPREQ-PMW-160-0007",
+        "sheet": "LRAE Annex 25",
+        "row_number": 372,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 11,
+    "independent_sources": 1,
+    "passage": "Cohn, Andrea M. | andrea.m.cohn.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-160:krokeejohn",
+    "kind": "person",
+    "name": "KROKEE, JOHN",
+    "channel_as_written": "john.l.krokee.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:160",
+    "office_code_as_written": "PMW-160 - PMW-160 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-160-0110",
+        "sheet": "LRAE Annex 25",
+        "row_number": 421,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "KROKEE, JOHN | john.l.krokee.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-160:mirandabryanj",
+    "kind": "person",
+    "name": "MIRANDA, BRYAN J.",
+    "channel_as_written": "bryan.j.miranda2.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:160",
+    "office_code_as_written": "PMW-160 - PMW-160 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW-160-0068",
+        "sheet": "LRAE Annex 25",
+        "row_number": 142,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "MIRANDA, BRYAN J. | bryan.j.miranda2.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-160:pentzakoffanastasia",
+    "kind": "person",
+    "name": "Pentzakoff, Anastasia",
+    "channel_as_written": "anastasia.pentzakoff.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:160",
+    "office_code_as_written": "PMW-160 - PMW-160 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW-160-0002",
+        "sheet": "LRAE Annex 25",
+        "row_number": 128,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW-160-0068",
+        "sheet": "LRAE Annex 25",
+        "row_number": 142,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 2,
+    "independent_sources": 1,
+    "passage": "Pentzakoff, Anastasia | anastasia.pentzakoff.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-160:rochepeterj",
+    "kind": "person",
+    "name": "ROCHE, PETER J.",
+    "channel_as_written": "peter.j.roche.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:160",
+    "office_code_as_written": "PMW-160 - PMW-160 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-160-0068",
+        "sheet": "LRAE Annex 25",
+        "row_number": 390,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-160-0103",
+        "sheet": "LRAE Annex 25",
+        "row_number": 408,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-160-0110",
+        "sheet": "LRAE Annex 25",
+        "row_number": 421,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-160-0111",
+        "sheet": "LRAE Annex 25",
+        "row_number": 434,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 4,
+    "independent_sources": 1,
+    "passage": "ROCHE, PETER J. | peter.j.roche.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-160:wikersusana",
+    "kind": "person",
+    "name": "Wiker, Susana",
+    "channel_as_written": "Susana.L.Wiker.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:160",
+    "office_code_as_written": "PMW-160 - PMW-160 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-160-0001",
+        "sheet": "LRAE Annex 25",
+        "row_number": 16,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-23-RFPREQ-PMW-160-0108",
+        "sheet": "LRAE Annex 25",
+        "row_number": 127,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-160-0035",
+        "sheet": "LRAE Annex 25",
+        "row_number": 364,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-26-RFPREQ-PMW-160-0006",
+        "sheet": "LRAE Annex 25",
+        "row_number": 365,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-26-RFPREQ-PMW-160-0007",
+        "sheet": "LRAE Annex 25",
+        "row_number": 366,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-26-RFPREQ-PMW-160-0008",
+        "sheet": "LRAE Annex 25",
+        "row_number": 367,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-26-RFPREQ-PMW-160-0009",
+        "sheet": "LRAE Annex 25",
+        "row_number": 368,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-26-RFPREQ-PMW-160-0010",
+        "sheet": "LRAE Annex 25",
+        "row_number": 369,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-27-RFPREQ-PMW-160-0005",
+        "sheet": "LRAE Annex 25",
+        "row_number": 370,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-27-RFPREQ-PMW-160-0006",
+        "sheet": "LRAE Annex 25",
+        "row_number": 371,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-27-RFPREQ-PMW-160-0007",
+        "sheet": "LRAE Annex 25",
+        "row_number": 372,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-160-0068",
+        "sheet": "LRAE Annex 25",
+        "row_number": 390,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-160-0103",
+        "sheet": "LRAE Annex 25",
+        "row_number": 408,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-160-0111",
+        "sheet": "LRAE Annex 25",
+        "row_number": 434,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 14,
+    "independent_sources": 1,
+    "passage": "Wiker, Susana | Susana.L.Wiker.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-170:beckersteffanya",
+    "kind": "person",
+    "name": "BECKER, STEFFANY A.",
+    "channel_as_written": "steffany.a.becker.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:170",
+    "office_code_as_written": "PMW/A-170 - PMW/A-170 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-22-RFPREQ-PMW/A-170-0002",
+        "sheet": "LRAE Annex 25",
+        "row_number": 97,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0334",
+        "sheet": "LRAE Annex 25",
+        "row_number": 409,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 2,
+    "independent_sources": 1,
+    "passage": "BECKER, STEFFANY A. | steffany.a.becker.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-170:burtaaronj",
+    "kind": "person",
+    "name": "BURT, AARON J.",
+    "channel_as_written": "aaron.j.burt.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:170",
+    "office_code_as_written": "PMW/A-170 - PMW/A-170 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0240",
+        "sheet": "LRAE Annex 25",
+        "row_number": 322,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0239",
+        "sheet": "LRAE Annex 25",
+        "row_number": 326,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 2,
+    "independent_sources": 1,
+    "passage": "BURT, AARON J. | aaron.j.burt.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-170:barkeradam",
+    "kind": "person",
+    "name": "Barker, Adam",
+    "channel_as_written": "adam.barker2.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:170",
+    "office_code_as_written": "PMW/A-170 - PMW/A-170 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW/A-170-0170",
+        "sheet": "LRAE Annex 25",
+        "row_number": 19,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-22-RFPREQ-PMW/A-170-0021",
+        "sheet": "LRAE Annex 25",
+        "row_number": 99,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 2,
+    "independent_sources": 1,
+    "passage": "Barker, Adam | adam.barker2.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-170:cruzrobertp",
+    "kind": "person",
+    "name": "CRUZ, ROBERT P.",
+    "channel_as_written": "robert.p.cruz4.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:170",
+    "office_code_as_written": "PMW/A-170 - PMW/A-170 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0240",
+        "sheet": "LRAE Annex 25",
+        "row_number": 322,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0239",
+        "sheet": "LRAE Annex 25",
+        "row_number": 326,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 2,
+    "independent_sources": 1,
+    "passage": "CRUZ, ROBERT P. | robert.p.cruz4.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-170:danielsjessica",
+    "kind": "person",
+    "name": "DANIELS, JESSICA",
+    "channel_as_written": "jessica.a.daniels6.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:170",
+    "office_code_as_written": "PMW/A-170 - PMW/A-170 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0342",
+        "sheet": "LRAE Annex 25",
+        "row_number": 415,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "DANIELS, JESSICA | jessica.a.daniels6.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-170:deverajennifer",
+    "kind": "person",
+    "name": "De Vera, Jennifer",
+    "channel_as_written": "jennifer.v.devera.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:170",
+    "office_code_as_written": "PMW/A-170 - PMW/A-170 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0001",
+        "sheet": "LRAE Annex 25",
+        "row_number": 108,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW/A-170-0015",
+        "sheet": "LRAE Annex 25",
+        "row_number": 133,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0276",
+        "sheet": "LRAE Annex 25",
+        "row_number": 378,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 3,
+    "independent_sources": 1,
+    "passage": "De Vera, Jennifer | jennifer.v.devera.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-170:ericksondayna",
+    "kind": "person",
+    "name": "ERICKSON, DAYNA",
+    "channel_as_written": "dayna.m.erickson.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:170",
+    "office_code_as_written": "PMW/A-170 - PMW/A-170 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW/A-170-0543",
+        "sheet": "LRAE Annex 25",
+        "row_number": 166,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0343",
+        "sheet": "LRAE Annex 25",
+        "row_number": 418,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0346",
+        "sheet": "LRAE Annex 25",
+        "row_number": 422,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-26-RFPREQ-PMW/A-170-0005",
+        "sheet": "LRAE Annex 25",
+        "row_number": 442,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 4,
+    "independent_sources": 1,
+    "passage": "ERICKSON, DAYNA | dayna.m.erickson.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-170:ericksonblake",
+    "kind": "person",
+    "name": "Erickson, Blake",
+    "channel_as_written": "blake.a.erickson3.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:170",
+    "office_code_as_written": "PMW/A-170 - PMW/A-170 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW/A-170-0061",
+        "sheet": "LRAE Annex 25",
+        "row_number": 17,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW/A-170-0004",
+        "sheet": "LRAE Annex 25",
+        "row_number": 109,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW/A-170-0014",
+        "sheet": "LRAE Annex 25",
+        "row_number": 112,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW/A-170-0559",
+        "sheet": "LRAE Annex 25",
+        "row_number": 167,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0258",
+        "sheet": "LRAE Annex 25",
+        "row_number": 363,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0277",
+        "sheet": "LRAE Annex 25",
+        "row_number": 380,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0302",
+        "sheet": "LRAE Annex 25",
+        "row_number": 394,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0304",
+        "sheet": "LRAE Annex 25",
+        "row_number": 395,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0372",
+        "sheet": "LRAE Annex 25",
+        "row_number": 443,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 9,
+    "independent_sources": 1,
+    "passage": "Erickson, Blake | blake.a.erickson3.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-170:holtetalexander",
+    "kind": "person",
+    "name": "Holtet, Alexander",
+    "channel_as_written": "alexander.holtet@navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:170",
+    "office_code_as_written": "PMW/A-170 - PMW/A-170 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW/A-170-0170",
+        "sheet": "LRAE Annex 25",
+        "row_number": 19,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW/A-170-0013",
+        "sheet": "LRAE Annex 25",
+        "row_number": 98,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW/A-170-0543",
+        "sheet": "LRAE Annex 25",
+        "row_number": 166,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0343",
+        "sheet": "LRAE Annex 25",
+        "row_number": 418,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0346",
+        "sheet": "LRAE Annex 25",
+        "row_number": 422,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-26-RFPREQ-PMW/A-170-0005",
+        "sheet": "LRAE Annex 25",
+        "row_number": 442,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 6,
+    "independent_sources": 1,
+    "passage": "Holtet, Alexander | alexander.holtet@navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-170:joworskityler",
+    "kind": "person",
+    "name": "Joworski, Tyler",
+    "channel_as_written": "tyler.joworski@navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4)) / Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:170",
+    "office_code_as_written": "PMW/A-170 - PMW/A-170 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW/A-170-0013",
+        "sheet": "LRAE Annex 25",
+        "row_number": 98,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW/A-170-0413",
+        "sheet": "LRAE Annex 25",
+        "row_number": 147,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0202",
+        "sheet": "LRAE Annex 25",
+        "row_number": 320,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0204",
+        "sheet": "LRAE Annex 25",
+        "row_number": 321,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0222",
+        "sheet": "LRAE Annex 25",
+        "row_number": 323,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0223",
+        "sheet": "LRAE Annex 25",
+        "row_number": 324,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 6,
+    "independent_sources": 1,
+    "passage": "Joworski, Tyler | tyler.joworski@navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-170:munizbenjamin",
+    "kind": "person",
+    "name": "MUNIZ, BENJAMIN",
+    "channel_as_written": "benjamin.g.muniz.mil@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:170",
+    "office_code_as_written": "PMW/A-170 - PMW/A-170 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-23-RFPREQ-PMW/A-170-0155",
+        "sheet": "LRAE Annex 25",
+        "row_number": 100,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "MUNIZ, BENJAMIN | benjamin.g.muniz.mil@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-170:murrchristopher",
+    "kind": "person",
+    "name": "Murr, Christopher",
+    "channel_as_written": "christopher.murr@navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:170",
+    "office_code_as_written": "PMW/A-170 - PMW/A-170 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW/A-170-0061",
+        "sheet": "LRAE Annex 25",
+        "row_number": 17,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-23-RFPREQ-PMW/A-170-0173",
+        "sheet": "LRAE Annex 25",
+        "row_number": 101,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW/A-170-0014",
+        "sheet": "LRAE Annex 25",
+        "row_number": 112,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW/A-170-0559",
+        "sheet": "LRAE Annex 25",
+        "row_number": 167,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0030",
+        "sheet": "LRAE Annex 25",
+        "row_number": 168,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0302",
+        "sheet": "LRAE Annex 25",
+        "row_number": 394,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0304",
+        "sheet": "LRAE Annex 25",
+        "row_number": 395,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0372",
+        "sheet": "LRAE Annex 25",
+        "row_number": 443,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 8,
+    "independent_sources": 1,
+    "passage": "Murr, Christopher | christopher.murr@navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-170:nickelkenneth",
+    "kind": "person",
+    "name": "Nickel, Kenneth",
+    "channel_as_written": "kenneth.b.nickel2.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:170",
+    "office_code_as_written": "PMW/A-170 - PMW/A-170 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-22-RFPREQ-PMW/A-170-0021",
+        "sheet": "LRAE Annex 25",
+        "row_number": 99,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0001",
+        "sheet": "LRAE Annex 25",
+        "row_number": 108,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW/A-170-0004",
+        "sheet": "LRAE Annex 25",
+        "row_number": 109,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW/A-170-0015",
+        "sheet": "LRAE Annex 25",
+        "row_number": 133,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0258",
+        "sheet": "LRAE Annex 25",
+        "row_number": 363,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0276",
+        "sheet": "LRAE Annex 25",
+        "row_number": 378,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0277",
+        "sheet": "LRAE Annex 25",
+        "row_number": 380,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 7,
+    "independent_sources": 1,
+    "passage": "Nickel, Kenneth | kenneth.b.nickel2.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-170:reyesmarc",
+    "kind": "person",
+    "name": "REYES, MARC",
+    "channel_as_written": "marc.a.reyes11.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:170",
+    "office_code_as_written": "PMW/A-170 - PMW/A-170 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-23-RFPREQ-PMW/A-170-0173",
+        "sheet": "LRAE Annex 25",
+        "row_number": 101,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0204",
+        "sheet": "LRAE Annex 25",
+        "row_number": 321,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0222",
+        "sheet": "LRAE Annex 25",
+        "row_number": 323,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0223",
+        "sheet": "LRAE Annex 25",
+        "row_number": 324,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0307",
+        "sheet": "LRAE Annex 25",
+        "row_number": 391,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0342",
+        "sheet": "LRAE Annex 25",
+        "row_number": 415,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 6,
+    "independent_sources": 1,
+    "passage": "REYES, MARC | marc.a.reyes11.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-170:wardjulie",
+    "kind": "person",
+    "name": "Ward, Julie",
+    "channel_as_written": "julie.ward@navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:170",
+    "office_code_as_written": "PMW/A-170 - PMW/A-170 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-22-RFPREQ-PMW/A-170-0002",
+        "sheet": "LRAE Annex 25",
+        "row_number": 97,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-23-RFPREQ-PMW/A-170-0155",
+        "sheet": "LRAE Annex 25",
+        "row_number": 100,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW/A-170-0413",
+        "sheet": "LRAE Annex 25",
+        "row_number": 147,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0202",
+        "sheet": "LRAE Annex 25",
+        "row_number": 320,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0307",
+        "sheet": "LRAE Annex 25",
+        "row_number": 391,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0334",
+        "sheet": "LRAE Annex 25",
+        "row_number": 409,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0357",
+        "sheet": "LRAE Annex 25",
+        "row_number": 435,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0358",
+        "sheet": "LRAE Annex 25",
+        "row_number": 436,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0374",
+        "sheet": "LRAE Annex 25",
+        "row_number": 444,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW/A-170-0375",
+        "sheet": "LRAE Annex 25",
+        "row_number": 446,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 10,
+    "independent_sources": 1,
+    "passage": "Ward, Julie | julie.ward@navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-740:elliskimberly",
+    "kind": "person",
+    "name": "Ellis, Kimberly",
+    "channel_as_written": "kimberly.ellis3@navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:740",
+    "office_code_as_written": "PMW-740 - PMW-740 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-23-RFPREQ-PMW-740-0070",
+        "sheet": "LRAE Annex 25",
+        "row_number": 10,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW-740-0055",
+        "sheet": "LRAE Annex 25",
+        "row_number": 122,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW-740-0059",
+        "sheet": "LRAE Annex 25",
+        "row_number": 148,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-740-0029",
+        "sheet": "LRAE Annex 25",
+        "row_number": 385,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 4,
+    "independent_sources": 1,
+    "passage": "Ellis, Kimberly | kimberly.ellis3@navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-740:lawsonkylel",
+    "kind": "person",
+    "name": "Lawson, Kyle L.",
+    "channel_as_written": "kyle.l.lawson@navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:740",
+    "office_code_as_written": "PMW-740 - PMW-740 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW-740-0053",
+        "sheet": "LRAE Annex 25",
+        "row_number": 15,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "Lawson, Kyle L. | kyle.l.lawson@navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-740:raigozadominic",
+    "kind": "person",
+    "name": "Raigoza, Dominic",
+    "channel_as_written": "dominic.m.raigoza.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:740",
+    "office_code_as_written": "PMW-740 - PMW-740 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW-740-0078",
+        "sheet": "LRAE Annex 25",
+        "row_number": 161,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-740-0028",
+        "sheet": "LRAE Annex 25",
+        "row_number": 379,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 2,
+    "independent_sources": 1,
+    "passage": "Raigoza, Dominic | dominic.m.raigoza.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-740:uriostiguemagdalena",
+    "kind": "person",
+    "name": "Uriostigue, Magdalena",
+    "channel_as_written": "magdalena.uriostigue.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:740",
+    "office_code_as_written": "PMW-740 - PMW-740 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW-740-0052",
+        "sheet": "LRAE Annex 25",
+        "row_number": 14,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW-740-0005",
+        "sheet": "LRAE Annex 25",
+        "row_number": 114,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 2,
+    "independent_sources": 1,
+    "passage": "Uriostigue, Magdalena | magdalena.uriostigue.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-740:whitekristin",
+    "kind": "person",
+    "name": "White, Kristin",
+    "channel_as_written": "kristin.white@navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4)) / Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:740",
+    "office_code_as_written": "PMW-740 - PMW-740 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-23-RFPREQ-PMW-740-0070",
+        "sheet": "LRAE Annex 25",
+        "row_number": 10,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW-740-0052",
+        "sheet": "LRAE Annex 25",
+        "row_number": 14,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW-740-0053",
+        "sheet": "LRAE Annex 25",
+        "row_number": 15,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-740-0006",
+        "sheet": "LRAE Annex 25",
+        "row_number": 113,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW-740-0005",
+        "sheet": "LRAE Annex 25",
+        "row_number": 114,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-740-0005",
+        "sheet": "LRAE Annex 25",
+        "row_number": 121,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW-740-0055",
+        "sheet": "LRAE Annex 25",
+        "row_number": 122,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW-740-0007",
+        "sheet": "LRAE Annex 25",
+        "row_number": 123,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW-740-0007",
+        "sheet": "LRAE Annex 25",
+        "row_number": 123,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-26-RFPREQ-PMW-740-0003",
+        "sheet": "LRAE Annex 25",
+        "row_number": 126,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-26-RFPREQ-PMW-740-0005",
+        "sheet": "LRAE Annex 25",
+        "row_number": 141,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW-740-0059",
+        "sheet": "LRAE Annex 25",
+        "row_number": 148,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-740-0061",
+        "sheet": "LRAE Annex 25",
+        "row_number": 149,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW-740-0078",
+        "sheet": "LRAE Annex 25",
+        "row_number": 161,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-740-0013",
+        "sheet": "LRAE Annex 25",
+        "row_number": 325,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-740-0028",
+        "sheet": "LRAE Annex 25",
+        "row_number": 379,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-740-0029",
+        "sheet": "LRAE Annex 25",
+        "row_number": 385,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-740-0040",
+        "sheet": "LRAE Annex 25",
+        "row_number": 411,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 18,
+    "independent_sources": 1,
+    "passage": "White, Kristin | kristin.white@navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-750:brewerlynette",
+    "kind": "person",
+    "name": "Brewer, Lynette",
+    "channel_as_written": "lynette.m.brewer.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:750",
+    "office_code_as_written": "PMW-750 - PMW-750 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW-750-0003",
+        "sheet": "LRAE Annex 25",
+        "row_number": 105,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW-750-0032",
+        "sheet": "LRAE Annex 25",
+        "row_number": 170,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 2,
+    "independent_sources": 1,
+    "passage": "Brewer, Lynette | lynette.m.brewer.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-750:griffinbrian",
+    "kind": "person",
+    "name": "Griffin, Brian",
+    "channel_as_written": "brian.d.griffin.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4)) / Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:750",
+    "office_code_as_written": "PMW-750 - PMW-750 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW-750-0001",
+        "sheet": "LRAE Annex 25",
+        "row_number": 103,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW-750-0002",
+        "sheet": "LRAE Annex 25",
+        "row_number": 104,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW-750-0003",
+        "sheet": "LRAE Annex 25",
+        "row_number": 105,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW-750-0032",
+        "sheet": "LRAE Annex 25",
+        "row_number": 170,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW-750-0036",
+        "sheet": "LRAE Annex 25",
+        "row_number": 327,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-750-0013",
+        "sheet": "LRAE Annex 25",
+        "row_number": 345,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-750-0010",
+        "sheet": "LRAE Annex 25",
+        "row_number": 352,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-750-0037",
+        "sheet": "LRAE Annex 25",
+        "row_number": 413,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-750-0034",
+        "sheet": "LRAE Annex 25",
+        "row_number": 417,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-750-0034",
+        "sheet": "LRAE Annex 25",
+        "row_number": 417,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 10,
+    "independent_sources": 1,
+    "passage": "Griffin, Brian | brian.d.griffin.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-750:jimenezrachel",
+    "kind": "person",
+    "name": "Jimenez, Rachel",
+    "channel_as_written": "rachel.r.jimenez5.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:750",
+    "office_code_as_written": "PMW-750 - PMW-750 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-750-0010",
+        "sheet": "LRAE Annex 25",
+        "row_number": 352,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "Jimenez, Rachel | rachel.r.jimenez5.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-750:quarlesbrittanys",
+    "kind": "person",
+    "name": "QUARLES, BRITTANY S.",
+    "channel_as_written": "brittany.s.quarles.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:750",
+    "office_code_as_written": "PMW-750 - PMW-750 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-750-0016",
+        "sheet": "LRAE Annex 25",
+        "row_number": 375,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "QUARLES, BRITTANY S. | brittany.s.quarles.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-750:terrellkamilaha",
+    "kind": "person",
+    "name": "Terrell, Kamilah A.",
+    "channel_as_written": "kamilah.terrell@navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4)) / Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:750",
+    "office_code_as_written": "PMW-750 - PMW-750 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW-750-0001",
+        "sheet": "LRAE Annex 25",
+        "row_number": 103,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW-750-0002",
+        "sheet": "LRAE Annex 25",
+        "row_number": 104,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW-750-0036",
+        "sheet": "LRAE Annex 25",
+        "row_number": 327,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-750-0016",
+        "sheet": "LRAE Annex 25",
+        "row_number": 375,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 4,
+    "independent_sources": 1,
+    "passage": "Terrell, Kamilah A. | kamilah.terrell@navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-760:babbittstaffordm",
+    "kind": "person",
+    "name": "BABBITT, STAFFORD M.",
+    "channel_as_written": "stafford.m.babbitt@navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:760",
+    "office_code_as_written": "PMW-760 - PMW-760 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-760-0010",
+        "sheet": "LRAE Annex 25",
+        "row_number": 351,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-760-0014",
+        "sheet": "LRAE Annex 25",
+        "row_number": 376,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 2,
+    "independent_sources": 1,
+    "passage": "BABBITT, STAFFORD M. | stafford.m.babbitt@navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-760:burtaaronj",
+    "kind": "person",
+    "name": "BURT, AARON J.",
+    "channel_as_written": "aaron.j.burt.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:760",
+    "office_code_as_written": "PMW-760 - PMW-760 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW-760-0055",
+        "sheet": "LRAE Annex 25",
+        "row_number": 156,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "BURT, AARON J. | aaron.j.burt.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-760:doughtykristinaa",
+    "kind": "person",
+    "name": "Doughty, Kristina A.",
+    "channel_as_written": "kristina.a.doughty.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:760",
+    "office_code_as_written": "PMW-760 - PMW-760 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW-760-0055",
+        "sheet": "LRAE Annex 25",
+        "row_number": 156,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "Doughty, Kristina A. | kristina.a.doughty.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-760:griffinbrian",
+    "kind": "person",
+    "name": "Griffin, Brian",
+    "channel_as_written": "brian.d.griffin.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:760",
+    "office_code_as_written": "PMW-760 - PMW-760 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW-760-0052",
+        "sheet": "LRAE Annex 25",
+        "row_number": 153,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW-760-0068",
+        "sheet": "LRAE Annex 25",
+        "row_number": 165,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-760-0010",
+        "sheet": "LRAE Annex 25",
+        "row_number": 351,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-760-0014",
+        "sheet": "LRAE Annex 25",
+        "row_number": 376,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 4,
+    "independent_sources": 1,
+    "passage": "Griffin, Brian | brian.d.griffin.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-760:terrellkamilaha",
+    "kind": "person",
+    "name": "Terrell, Kamilah A.",
+    "channel_as_written": "kamilah.terrell@navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:760",
+    "office_code_as_written": "PMW-760 - PMW-760 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW-760-0052",
+        "sheet": "LRAE Annex 25",
+        "row_number": 153,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW-760-0068",
+        "sheet": "LRAE Annex 25",
+        "row_number": 165,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 2,
+    "independent_sources": 1,
+    "passage": "Terrell, Kamilah A. | kamilah.terrell@navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-770:ashleymegan",
+    "kind": "person",
+    "name": "Ashley, Megan",
+    "channel_as_written": "megan.a.ashley.civ@navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:770",
+    "office_code_as_written": "PMW-770 - PMW-770 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW-770-0009",
+        "sheet": "LRAE Annex 25",
+        "row_number": 117,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "Ashley, Megan | megan.a.ashley.civ@navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-770:beckersteffanya",
+    "kind": "person",
+    "name": "BECKER, STEFFANY A.",
+    "channel_as_written": "steffany.a.becker.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:770",
+    "office_code_as_written": "PMW-770 - PMW-770 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-770-0022",
+        "sheet": "LRAE Annex 25",
+        "row_number": 346,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "BECKER, STEFFANY A. | steffany.a.becker.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-770:danielsjessica",
+    "kind": "person",
+    "name": "DANIELS, JESSICA",
+    "channel_as_written": "jessica.a.daniels6.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:770",
+    "office_code_as_written": "PMW-770 - PMW-770 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-770-0019",
+        "sheet": "LRAE Annex 25",
+        "row_number": 354,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "DANIELS, JESSICA | jessica.a.daniels6.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-770:ferlomichael",
+    "kind": "person",
+    "name": "Ferlo, Michael",
+    "channel_as_written": "michael.ferlo@navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:770",
+    "office_code_as_written": "PMW-770 - PMW-770 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW-770-0011",
+        "sheet": "LRAE Annex 25",
+        "row_number": 18,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-24-RFPREQ-PMW-770-0044",
+        "sheet": "LRAE Annex 25",
+        "row_number": 163,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-770-0034",
+        "sheet": "LRAE Annex 25",
+        "row_number": 399,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 3,
+    "independent_sources": 1,
+    "passage": "Ferlo, Michael | michael.ferlo@navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-770:holtetalexander",
+    "kind": "person",
+    "name": "Holtet, Alexander",
+    "channel_as_written": "alexander.holtet@navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:770",
+    "office_code_as_written": "PMW-770 - PMW-770 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW-770-0008",
+        "sheet": "LRAE Annex 25",
+        "row_number": 116,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "Holtet, Alexander | alexander.holtet@navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-770:joworskityler",
+    "kind": "person",
+    "name": "Joworski, Tyler",
+    "channel_as_written": "tyler.joworski@navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:770",
+    "office_code_as_written": "PMW-770 - PMW-770 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-770-0022",
+        "sheet": "LRAE Annex 25",
+        "row_number": 346,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-770-0048",
+        "sheet": "LRAE Annex 25",
+        "row_number": 355,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-26-RFPREQ-PMW-770-0005",
+        "sheet": "LRAE Annex 25",
+        "row_number": 356,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 3,
+    "independent_sources": 1,
+    "passage": "Joworski, Tyler | tyler.joworski@navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-770:kaiserkimmerly",
+    "kind": "person",
+    "name": "Kaiser, Kimmerly",
+    "channel_as_written": "KIM.KAISER@NAVY.MIL",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:770",
+    "office_code_as_written": "PMW-770 - PMW-770 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-770-0048",
+        "sheet": "LRAE Annex 25",
+        "row_number": 355,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-26-RFPREQ-PMW-770-0005",
+        "sheet": "LRAE Annex 25",
+        "row_number": 356,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 2,
+    "independent_sources": 1,
+    "passage": "Kaiser, Kimmerly | KIM.KAISER@NAVY.MIL",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-770:munizbenjamin",
+    "kind": "person",
+    "name": "MUNIZ, BENJAMIN",
+    "channel_as_written": "benjamin.g.muniz.mil@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:770",
+    "office_code_as_written": "PMW-770 - PMW-770 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW-770-0008",
+        "sheet": "LRAE Annex 25",
+        "row_number": 116,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "MUNIZ, BENJAMIN | benjamin.g.muniz.mil@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-770:murrchristopher",
+    "kind": "person",
+    "name": "Murr, Christopher",
+    "channel_as_written": "christopher.murr@navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:770",
+    "office_code_as_written": "PMW-770 - PMW-770 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW-770-0011",
+        "sheet": "LRAE Annex 25",
+        "row_number": 18,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "Murr, Christopher | christopher.murr@navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-770:nickelkenneth",
+    "kind": "person",
+    "name": "Nickel, Kenneth",
+    "channel_as_written": "kenneth.b.nickel2.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:770",
+    "office_code_as_written": "PMW-770 - PMW-770 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW-770-0044",
+        "sheet": "LRAE Annex 25",
+        "row_number": 163,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-770-0034",
+        "sheet": "LRAE Annex 25",
+        "row_number": 399,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 2,
+    "independent_sources": 1,
+    "passage": "Nickel, Kenneth | kenneth.b.nickel2.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-770:odonnellbrian",
+    "kind": "person",
+    "name": "Odonnell, Brian",
+    "channel_as_written": "brian.w.odonnell.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:770",
+    "office_code_as_written": "PMW-770 - PMW-770 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-24-RFPREQ-PMW-770-0009",
+        "sheet": "LRAE Annex 25",
+        "row_number": 117,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "Odonnell, Brian | brian.w.odonnell.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-770:wardjulie",
+    "kind": "person",
+    "name": "Ward, Julie",
+    "channel_as_written": "julie.ward@navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:770",
+    "office_code_as_written": "PMW-770 - PMW-770 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-770-0019",
+        "sheet": "LRAE Annex 25",
+        "row_number": 354,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "Ward, Julie | julie.ward@navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-790:babowicezoe",
+    "kind": "person",
+    "name": "BABOWICE, ZOE",
+    "channel_as_written": "zoe.r.babowice.mil@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:790",
+    "office_code_as_written": "PMW-790 - PMW-790 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-790-0153",
+        "sheet": "LRAE Annex 25",
+        "row_number": 172,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "BABOWICE, ZOE | zoe.r.babowice.mil@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-790:danielsjessica",
+    "kind": "person",
+    "name": "DANIELS, JESSICA",
+    "channel_as_written": "jessica.a.daniels6.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4)) / Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:790",
+    "office_code_as_written": "PMW-790 - PMW-790 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-790-0124",
+        "sheet": "LRAE Annex 25",
+        "row_number": 169,
+        "column": "Secondary POC Name"
+      },
+      {
+        "pid": "N00039-25-RFPREQ-PMW-790-0157",
+        "sheet": "LRAE Annex 25",
+        "row_number": 171,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 2,
+    "independent_sources": 1,
+    "passage": "DANIELS, JESSICA | jessica.a.daniels6.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-790:gonzalesalan",
+    "kind": "person",
+    "name": "GONZALES, ALAN",
+    "channel_as_written": "alan.m.gonzales3.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:790",
+    "office_code_as_written": "PMW-790 - PMW-790 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-26-RFPREQ-PMW-790-0022",
+        "sheet": "LRAE Annex 25",
+        "row_number": 423,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "GONZALES, ALAN | alan.m.gonzales3.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-790:murrchristopher",
+    "kind": "person",
+    "name": "Murr, Christopher",
+    "channel_as_written": "christopher.murr@navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:790",
+    "office_code_as_written": "PMW-790 - PMW-790 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-790-0124",
+        "sheet": "LRAE Annex 25",
+        "row_number": 169,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "Murr, Christopher | christopher.murr@navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-790:odonnellbrian",
+    "kind": "person",
+    "name": "Odonnell, Brian",
+    "channel_as_written": "brian.w.odonnell.civ@us.navy.mil",
+    "role_as_written": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:790",
+    "office_code_as_written": "PMW-790 - PMW-790 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-26-RFPREQ-PMW-790-0022",
+        "sheet": "LRAE Annex 25",
+        "row_number": 423,
+        "column": "Contracting POC Name (To satisfy the requirement in FAR 5.404-1(b)(4))"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "Odonnell, Brian | brian.w.odonnell.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-790:quarlesbrittanys",
+    "kind": "person",
+    "name": "QUARLES, BRITTANY S.",
+    "channel_as_written": "brittany.s.quarles.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:790",
+    "office_code_as_written": "PMW-790 - PMW-790 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-790-0153",
+        "sheet": "LRAE Annex 25",
+        "row_number": 172,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "QUARLES, BRITTANY S. | brittany.s.quarles.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:lrae:pmw-790:reyesmarc",
+    "kind": "person",
+    "name": "REYES, MARC",
+    "channel_as_written": "marc.a.reyes11.civ@us.navy.mil",
+    "role_as_written": "Secondary POC Name",
+    "role_type": "contracting_poc",
+    "office_id_as_resolved": "pmw:790",
+    "office_code_as_written": "PMW-790 - PMW-790 - NAVWAR",
+    "member_of_office": false,
+    "member_of_office_note": "a contracting POC on a forecast row works for NAVWAR HQ contracting (UIC N00039); the row's requirement office is who the row is for, not who the person belongs to",
+    "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+    "source_revision": "release 2025-06-19; wayback capture 20260108121536; sha256 697ec8c004d2",
+    "observed_at": "2025-06-19",
+    "locators": [
+      {
+        "pid": "N00039-25-RFPREQ-PMW-790-0157",
+        "sheet": "LRAE Annex 25",
+        "row_number": 171,
+        "column": "Secondary POC Name"
+      }
+    ],
+    "row_count": 1,
+    "independent_sources": 1,
+    "passage": "REYES, MARC | marc.a.reyes11.civ@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named verbatim on the official forecast; repetition across rows of one spreadsheet is one source"
+  },
+  {
+    "id": "cobs:release:pae-ms:day",
+    "kind": "person",
+    "name": "Jim Day",
+    "channel_as_written": null,
+    "role_as_written": "interim portfolio acquisition executive for Mission Systems",
+    "role_type": "executive",
+    "office_id_as_resolved": "pae:mission-systems",
+    "office_code_as_written": null,
+    "member_of_office": true,
+    "member_of_office_note": null,
+    "source_url": "https://www.dvidshub.net/news/564916/department-navy-launches-pae-mission-systems-accelerate-warfighting-capability-speed",
+    "source_revision": "direct retrieval 2026-09-16; sha256 967d7526e041",
+    "observed_at": "2026-05-11",
+    "locators": [
+      {
+        "locator": "release body, quotation attribution"
+      }
+    ],
+    "row_count": null,
+    "independent_sources": 1,
+    "passage": "said Jim Day, interim portfolio acquisition executive for Mission Systems",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named in an official release, page or tear sheet; wording quoted"
+  },
+  {
+    "id": "cobs:page:peo-c4i:luebke",
+    "kind": "person",
+    "name": "William H. Luebke, Ph.D.",
+    "channel_as_written": null,
+    "role_as_written": "Program Executive Officer, Command, Control, Communications, Computers and Intelligence",
+    "role_type": "executive",
+    "office_id_as_resolved": "peo:c4i",
+    "office_code_as_written": null,
+    "member_of_office": true,
+    "member_of_office_note": null,
+    "source_url": "https://www.peoc4i.navy.mil/Leadership/",
+    "source_revision": "wayback capture 20260412054538; sha256 9facac44957b",
+    "observed_at": "2026-04-12",
+    "locators": [
+      {
+        "locator": "Leadership page, first entry"
+      }
+    ],
+    "row_count": null,
+    "independent_sources": 1,
+    "passage": "William H. Luebke, Ph.D. Program Executive Officer, Command, Control, Communications, Computers and Intelligence",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named in an official release, page or tear sheet; wording quoted"
+  },
+  {
+    "id": "cobs:release:pmw-150:castillejo",
+    "kind": "person",
+    "name": "CAPT Raphael R. Castillejo",
+    "channel_as_written": null,
+    "role_as_written": "program manager for the Naval Command and Control Systems Program Office (PMW 150)",
+    "role_type": "program_manager",
+    "office_id_as_resolved": "pmw:150",
+    "office_code_as_written": null,
+    "member_of_office": true,
+    "member_of_office_note": null,
+    "source_url": "https://www.dvidshub.net/news/546147/program-executive-office-command-control-communications-computers-and-intelligence-peo-c4i-welcomes-new-program-managers",
+    "source_revision": "direct retrieval 2026-09-16; sha256 6ba21425c5c1",
+    "observed_at": "2025-08-19",
+    "locators": [
+      {
+        "locator": "release body"
+      }
+    ],
+    "row_count": null,
+    "independent_sources": 1,
+    "passage": "Capt. Raphael R. Castillejo relieved Mr. Baron Jolie as the program manager for the ... Naval Command and Control Systems Program Office (PMW 150)",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named in an official release, page or tear sheet; wording quoted"
+  },
+  {
+    "id": "cobs:release:pmw-760:andalis",
+    "kind": "person",
+    "name": "Eric Andalis",
+    "channel_as_written": null,
+    "role_as_written": "relieved Capt. Castillejo at the Ship Integration Program Office (PMW 760)",
+    "role_type": "program_manager",
+    "office_id_as_resolved": "pmw:760",
+    "office_code_as_written": null,
+    "member_of_office": true,
+    "member_of_office_note": null,
+    "source_url": "https://www.dvidshub.net/news/546147/program-executive-office-command-control-communications-computers-and-intelligence-peo-c4i-welcomes-new-program-managers",
+    "source_revision": "direct retrieval 2026-09-16; sha256 6ba21425c5c1",
+    "observed_at": "2025-08-19",
+    "locators": [
+      {
+        "locator": "release body"
+      }
+    ],
+    "row_count": null,
+    "independent_sources": 1,
+    "passage": "Mr. Eric Andalis relieved Capt. Castillejo at the Ship Integration Program Office (PMW 760)",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named in an official release, page or tear sheet; wording quoted"
+  },
+  {
+    "id": "cobs:tearsheet:pmw-760:andalis-deputy",
+    "kind": "person",
+    "name": "Eric Andalis",
+    "channel_as_written": null,
+    "role_as_written": "Deputy Program Manager",
+    "role_type": "program_manager",
+    "office_id_as_resolved": "pmw:760",
+    "office_code_as_written": null,
+    "member_of_office": true,
+    "member_of_office_note": null,
+    "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMW%20760_Tear%20Sheet_v01312025.pdf",
+    "source_revision": "wayback capture 20260121123735; sha256 c0a13af26e4c",
+    "observed_at": "2025-01-01",
+    "locators": [
+      {
+        "locator": "page 1, LEADERSHIP TEAM block"
+      }
+    ],
+    "row_count": null,
+    "independent_sources": 1,
+    "passage": "Eric Andalis Deputy Program Manager",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named in an official release, page or tear sheet; wording quoted"
+  },
+  {
+    "id": "cobs:tearsheet:pmw-160:nigro",
+    "kind": "person",
+    "name": "CAPT Nicole Nigro",
+    "channel_as_written": "Nicole.k.nigro.mil@us.navy.mil",
+    "role_as_written": "Program Manager",
+    "role_type": "program_manager",
+    "office_id_as_resolved": "pmw:160",
+    "office_code_as_written": null,
+    "member_of_office": true,
+    "member_of_office_note": null,
+    "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMW%20160_Tear%20Sheet_v01312025.pdf",
+    "source_revision": "wayback capture 20260121131840; sha256 480faf1f0f8a",
+    "observed_at": "2025-01-01",
+    "locators": [
+      {
+        "locator": "page 1, Contact Information"
+      }
+    ],
+    "row_count": null,
+    "independent_sources": 1,
+    "passage": "CAPT Nicole Nigro, Program Manager, 619-524-7909, Nicole.k.nigro.mil@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named in an official release, page or tear sheet; wording quoted"
+  },
+  {
+    "id": "cobs:tearsheet:pmw-160:boehme",
+    "kind": "person",
+    "name": "CAPT Katy Boehme",
+    "channel_as_written": "Catherine.w.boehme.mil@us.navy.mil",
+    "role_as_written": "Program Manager",
+    "role_type": "program_manager",
+    "office_id_as_resolved": "pmw:160",
+    "office_code_as_written": null,
+    "member_of_office": true,
+    "member_of_office_note": null,
+    "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2023_PMW%20160_Tear%20Sheet.pdf",
+    "source_revision": "wayback capture 20240517224851; sha256 097c6905fd42",
+    "observed_at": "2023-05-01",
+    "locators": [
+      {
+        "locator": "page 1, Contact Information"
+      }
+    ],
+    "row_count": null,
+    "independent_sources": 1,
+    "passage": "CAPT Katy Boehme, Program Manager, 619-524-7909",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named in an official release, page or tear sheet; wording quoted"
+  },
+  {
+    "id": "cobs:tearsheet:pmw-170:desoto",
+    "kind": "person",
+    "name": "CAPT Kris De Soto",
+    "channel_as_written": null,
+    "role_as_written": "Program Manager",
+    "role_type": "program_manager",
+    "office_id_as_resolved": "pmw:170",
+    "office_code_as_written": null,
+    "member_of_office": true,
+    "member_of_office_note": null,
+    "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMW%20170%20Tear%20Sheet_v01312025.pdf",
+    "source_revision": "wayback capture 20260121123040; sha256 856c15fc4c46",
+    "observed_at": "2025-01-31",
+    "locators": [
+      {
+        "locator": "page 1, Contact Information"
+      }
+    ],
+    "row_count": null,
+    "independent_sources": 1,
+    "passage": "Program Manager, CAPT Kris De Soto, 619-524-7930",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named in an official release, page or tear sheet; wording quoted"
+  },
+  {
+    "id": "cobs:tearsheet:pmw-790:miller",
+    "kind": "person",
+    "name": "Brian Miller",
+    "channel_as_written": null,
+    "role_as_written": "Program Manager",
+    "role_type": "program_manager",
+    "office_id_as_resolved": "pmw:790",
+    "office_code_as_written": null,
+    "member_of_office": true,
+    "member_of_office_note": null,
+    "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMW%20790_Tear%20Sheet_FINAL.pdf",
+    "source_revision": "wayback capture 20251113181900; sha256 606a844eca01",
+    "observed_at": "2025-01-01",
+    "locators": [
+      {
+        "locator": "pages 1-4, footer"
+      }
+    ],
+    "row_count": null,
+    "independent_sources": 1,
+    "passage": "Mr. Brian Miller, Program Manager",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named in an official release, page or tear sheet; wording quoted"
+  },
+  {
+    "id": "cobs:tearsheet:pmw-750:hallock",
+    "kind": "person",
+    "name": "CAPT Sam Hallock",
+    "channel_as_written": "peoc4ipmw750dirops@us.navy.mil",
+    "role_as_written": "Program Manager",
+    "role_type": "program_manager",
+    "office_id_as_resolved": "pmw:750",
+    "office_code_as_written": null,
+    "member_of_office": true,
+    "member_of_office_note": null,
+    "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMW%20750_Tear%20Sheet_v01312025.pdf",
+    "source_revision": "wayback capture 20260121122154; sha256 f66bbb6d1bd7",
+    "observed_at": "2025-01-31",
+    "locators": [
+      {
+        "locator": "page 1, Contact Information"
+      }
+    ],
+    "row_count": null,
+    "independent_sources": 1,
+    "passage": "Program Manager, CAPT Sam “Hershey” Hallock, peoc4ipmw750dirops@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named in an official release, page or tear sheet; wording quoted"
+  },
+  {
+    "id": "cobs:tearsheet:pmw-750:dirops-mailbox",
+    "kind": "channel",
+    "name": null,
+    "channel_as_written": "peoc4ipmw750dirops@us.navy.mil",
+    "role_as_written": "office contact mailbox on the tear sheet",
+    "role_type": "office_channel",
+    "office_id_as_resolved": "pmw:750",
+    "office_code_as_written": null,
+    "member_of_office": true,
+    "member_of_office_note": null,
+    "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2025_PMW%20750_Tear%20Sheet_v01312025.pdf",
+    "source_revision": "wayback capture 20260121122154; sha256 f66bbb6d1bd7",
+    "observed_at": "2025-01-31",
+    "locators": [
+      {
+        "locator": "page 1, Contact Information"
+      }
+    ],
+    "row_count": null,
+    "independent_sources": 1,
+    "passage": "peoc4ipmw750dirops@us.navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named in an official release, page or tear sheet; wording quoted"
+  },
+  {
+    "id": "cobs:tearsheet:pmw-130:phone",
+    "kind": "channel",
+    "name": null,
+    "channel_as_written": "(619) 221-7602",
+    "role_as_written": "front office phone on the 2023 tear sheet",
+    "role_type": "office_channel",
+    "office_id_as_resolved": "pmw:130",
+    "office_code_as_written": null,
+    "member_of_office": true,
+    "member_of_office_note": null,
+    "source_url": "https://www.peoc4i.navy.mil/Portals/98/Documents/Tear-Sheets/2023_PMW%20130_Tear%20Sheet.pdf",
+    "source_revision": "wayback capture 20241217195241; sha256 b31c3d79b1b8",
+    "observed_at": "2023-05-01",
+    "locators": [
+      {
+        "locator": "page 1, footer"
+      }
+    ],
+    "row_count": null,
+    "independent_sources": 1,
+    "passage": "4301 Pacific Highway, Building OT1 | San Diego, CA 92110 | (619) 221-7602",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named in an official release, page or tear sheet; wording quoted"
+  },
+  {
+    "id": "cobs:page:navwar:osbp",
+    "kind": "channel",
+    "name": null,
+    "channel_as_written": "navwarsbo.fct@navy.mil",
+    "role_as_written": "Contact NAVWAR OSBP",
+    "role_type": "industry_intake_channel",
+    "office_id_as_resolved": "command:navwar",
+    "office_code_as_written": null,
+    "member_of_office": true,
+    "member_of_office_note": null,
+    "source_url": "https://www.navwar.navy.mil/About/Small-Business-Programs/",
+    "source_revision": "browserbase retrieval 2026-09-16; sha256 d7f570be103b",
+    "observed_at": "2026-09-16",
+    "locators": [
+      {
+        "locator": "page body, Contact NAVWAR OSBP"
+      }
+    ],
+    "row_count": null,
+    "independent_sources": 1,
+    "passage": "Contact NAVWAR OSBP : navwarsbo.fct@navy.mil",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named in an official release, page or tear sheet; wording quoted"
+  },
+  {
+    "id": "cobs:page:pae-ms:intake",
+    "kind": "channel",
+    "name": null,
+    "channel_as_written": "Industry Pilot Intake Portal (Learn, Introduce, Propose)",
+    "role_as_written": "industry engagement process: complete the intake form, then the pilot submission form",
+    "role_type": "industry_intake_channel",
+    "office_id_as_resolved": "pae:mission-systems",
+    "office_code_as_written": null,
+    "member_of_office": true,
+    "member_of_office_note": null,
+    "source_url": "https://www.missionsystems.navy.mil/Industry/",
+    "source_revision": "browserbase retrieval 2026-09-16; sha256 e0222161b887",
+    "observed_at": "2026-09-16",
+    "locators": [
+      {
+        "locator": "page body, steps 1-3"
+      }
+    ],
+    "row_count": null,
+    "independent_sources": 1,
+    "passage": "Complete Intake Form Step 3 PROPOSE Your Pilot Once you've completed the intake form, you will receive a link to the pilot submission form",
+    "source_statement_confidence": "high",
+    "statement_confidence_basis": "named in an official release, page or tear sheet; wording quoted"
+  }
+]

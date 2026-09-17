@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
-"""Turn one saved NAVWAR LRAE release into a reproducible data package.
+"""Turn the saved NAVWAR LRAE releases into reproducible data packages.
 
-    python research/tools/lrae_package.py build              # regenerate from saved bytes only
+    python research/tools/lrae_package.py build              # regenerate every package from saved bytes only
     python research/tools/lrae_package.py collect [--limit N]  # fetch the FPDS and SAM.gov lookups the joins need
 
 `build` reads the spreadsheet bytes recorded in research/documents_manifest.jsonl plus the saved
-FPDS ATOM and SAM.gov search responses, and writes datapack/lrae_navwar_<release>/. It never
-touches the network, so a reviewer with the same data/raw/ gets byte-identical files. `collect`
-performs the lookups that are not yet in the manifest (one FPDS PIID search per contract token,
-one SAM.gov search per PID and per token) through fetch.py so every request is recorded.
+FPDS ATOM and SAM.gov search responses, and writes one datapack/lrae_navwar_<release>/ per saved
+release, plus a diff between consecutive releases in the newer package. It never touches the
+network, so a reviewer with the same data/raw/ gets byte-identical files. `collect` performs the
+lookups that are not yet in the manifest (one FPDS PIID search per contract token, one SAM.gov
+search per PID and per token) through fetch.py so every request is recorded.
 """
 
 from __future__ import annotations
@@ -22,6 +23,7 @@ import re
 import sys
 import time
 import urllib.parse
+from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -29,10 +31,16 @@ from fetch import MANIFEST, ROOT, fetch  # noqa: E402
 
 RESEARCH = ROOT / "research"
 SHEET = "LRAE Annex 25"
-HEADER_ROW = 8  # Excel row number of the column headers; data rows follow to the end
-SOURCE_MATCH = "HQCA-2025-A-037"
-RELEASE_KEY = "lrae_navwar_2025-06"
-PACK = Path(os.environ.get("LRAE_PACK_DIR") or ROOT / "datapack" / RELEASE_KEY)  # override lets the test rebuild elsewhere
+HEADER_ROW = 8  # Excel row number of the column headers in every release seen so far
+PACK_BASE = Path(os.environ.get("LRAE_PACK_DIR") or ROOT / "datapack")  # override lets the test rebuild elsewhere
+# Oldest first. `match` identifies the manifest row; `release_date` is the fallback when the sheet gives none.
+RELEASES = [
+    {"key": "lrae_navwar_2023-06", "match": "NAVWAR_LRAE_Report.xlsx", "release_date": "2023-06-20",
+     "release_note": "sheet says '20 June 2023 / TDB'; the report was exported 2023-05-25 (Filters sheet)"},
+    {"key": "lrae_navwar_2024-06", "match": "HQCA-2024-A-094", "release_date": "2024-06-20", "release_note": ""},
+    {"key": "lrae_navwar_2025-06", "match": "HQCA-2025-A-037", "release_date": "2025-06-19", "release_note": ""},
+]
+JOINS_COLLECTED_FOR = "lrae_navwar_2025-06"  # the only release whose FPDS and SAM.gov lookups were collected
 FPDS = "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:{piid}&start=0"
 SGS = "https://sam.gov/api/prod/sgs/v1/search/?"
 PIID_RE = re.compile(r"N\d{5}\d{2}[A-Z]\d{4}(?!\d)|NNG\d{2}S[A-Z]\d{2}B|GS-?\d{2}F-?\d{3,4}[A-Z]{1,2}")
@@ -41,19 +49,33 @@ INCLUDED_PARENT = "peo:c4i"
 # Division and competency codes resolve to the organization that owns them, which is enough to exclude them.
 FAMILY_PARENT = {"niwc_atlantic_division": "center:niwc-atlantic", "niwc_pacific_competency": "center:niwc-pacific",
                  "navwar_hq_competency": "command:navwar"}
-COLUMNS = [
-    "requirement_title", "requirement_description", "office_code_string", "anticipated_total_value",
-    "procurement_method", "contract_type", "procurement_instrument", "contracting_office_uic",
-    "solicitation_fy", "solicitation_quarter", "award_fy", "award_quarter", "period_of_performance_months",
-    "follow_on_or_new", "existing_contract_number", "incumbent_contractor", "place_of_performance",
-    "naics", "psc", "contracting_poc_name", "contracting_poc_contact", "secondary_poc_name",
-    "secondary_poc_contact", "facility_clearance", "personnel_clearance", "palt_code", "sub_palt_code",
-    "comments", "pid",
-]
+# Header text (first line, lower-cased prefix) -> field name. Releases differ in column count and order.
+HEADERS = {
+    "requirement title": "requirement_title", "requirement description": "requirement_description",
+    "associated program or requirement office": "office_code_string", "anticipated total value": "anticipated_total_value",
+    "anticipated procurement method": "procurement_method", "anticipated contract type": "contract_type",
+    "anticipated procurement instrument": "procurement_instrument", "contracting office uic": "contracting_office_uic",
+    "anticipated solicitation - fiscal year": "solicitation_fy", "anticipated solicitation - quarter": "solicitation_quarter",
+    "anticipated award - fiscal year": "award_fy", "anticipated award - quarter": "award_quarter",
+    "anticipated period of performance": "period_of_performance_months", "follow-on or new": "follow_on_or_new",
+    "existing contract number": "existing_contract_number", "incumbent contractor": "incumbent_contractor",
+    "anticipated place of performance": "place_of_performance", "anticipated naics code": "naics", "anticipated psc": "psc",
+    "contracting poc name": "contracting_poc_name", "contracting poc e-mail or phone": "contracting_poc_contact",
+    "secondary poc name": "secondary_poc_name", "secondary poc e-mail or phone": "secondary_poc_contact",
+    "anticipated facilities clearance": "facility_clearance", "anticipated personnel clearance": "personnel_clearance",
+    "palt code": "palt_code", "sub palt code": "sub_palt_code", "comments or special requirements": "comments",
+    "pid number": "pid", "url": "url",
+}
+COLUMNS = list(dict.fromkeys(HEADERS.values()))
+TRACKED = ["office_code_string", "anticipated_total_value", "procurement_method", "contract_type", "procurement_instrument",
+           "contracting_office_uic", "solicitation_fy", "solicitation_quarter", "award_fy", "award_quarter", "follow_on_or_new",
+           "existing_contract_number", "incumbent_contractor"]
 VALUE_RANGES = {
-    "< $2M": (0, 2_000_000), "$2M - $7.5M": (2_000_000, 7_500_000), "$7.5M - $50M": (7_500_000, 50_000_000),
-    "$50M - $100M": (50_000_000, 100_000_000), "$100M - $250M": (100_000_000, 250_000_000),
-    "$250M - $1B": (250_000_000, 1_000_000_000), "> $1B+": (1_000_000_000, ""), "No Range Specified": ("", ""),
+    "< $2M": (0, 2_000_000), "<$2M": (0, 2_000_000), "$2M - $7.5M": (2_000_000, 7_500_000), "> $2M - < $7.5M": (2_000_000, 7_500_000),
+    "$7.5M - $50M": (7_500_000, 50_000_000), "> $7.5M - < $50M": (7_500_000, 50_000_000), "$50M - $100M": (50_000_000, 100_000_000),
+    "> $50M - < $100M": (50_000_000, 100_000_000), "$100M - $250M": (100_000_000, 250_000_000), "> $100M - < $250M": (100_000_000, 250_000_000),
+    "$250M - $1B": (250_000_000, 1_000_000_000), "> $250M - < $1B": (250_000_000, 1_000_000_000), "> $1B+": (1_000_000_000, ""),
+    "> $1B": (1_000_000_000, ""), "No Range Specified": ("", ""),
 }
 
 
@@ -85,15 +107,31 @@ def read_sheet(path: Path) -> tuple[dict, list[dict]]:
     meta = {}
     for row in sheet.iter_rows(min_row=1, max_row=HEADER_ROW - 1, values_only=True):
         if row and row[0] and str(row[0]).endswith(":") and len(row) > 1:
-            meta[str(row[0]).rstrip(":").strip()] = cell(row[1])[:10]
+            meta[str(row[0]).rstrip(":").strip()] = cell(row[1])
+    header = next(sheet.iter_rows(min_row=HEADER_ROW, max_row=HEADER_ROW, values_only=True))
+    fields = []
+    for text in header:
+        first = (str(text or "").split("\n")[0]).strip().lower()
+        fields.append(next((name for prefix, name in HEADERS.items() if first.startswith(prefix)), None))
     rows = []
     for number, values in enumerate(sheet.iter_rows(min_row=HEADER_ROW + 1, values_only=True), start=HEADER_ROW + 1):
         if all(v is None or str(v).strip() == "" for v in values):
             continue
         record = {"sheet": SHEET, "row_number": number}
-        record.update({name: cell(values[i]) if i < len(values) else "" for i, name in enumerate(COLUMNS)})
+        record.update({name: "" for name in COLUMNS})
+        for i, name in enumerate(fields):
+            if name and i < len(values):
+                record[name] = cell(values[i])
         rows.append(record)
     return meta, rows
+
+
+def record_key(r: dict) -> str:
+    """PID when the release has one; otherwise a stable hash of title and office code (2024 release has no PID column)."""
+    if r["pid"]:
+        return r["pid"]
+    basis = re.sub(r"\s+", " ", r["requirement_title"].strip().lower()) + "|" + r["office_code_string"].split(" - ")[0].strip()
+    return "k:" + hashlib.sha1(basis.encode("utf-8")).hexdigest()[:12]
 
 
 # ---------------------------------------------------------------- classification
@@ -108,34 +146,48 @@ def alias_map() -> dict[str, str]:
     for node in seed["nodes"]:
         if node["type"] == "person":
             continue
-        names = [node["name"], *(node.get("aliases") or []), *(node.get("codes") or {}).values()]
-        for name in names:
-            aliases.setdefault(norm_code(str(name)), node["id"])
+        texts = [node["name"]] + [a["text"] if isinstance(a, dict) else a for a in node.get("aliases") or []]
+        texts += list((node.get("codes") or {}).values())
+        for text in texts:
+            aliases.setdefault(norm_code(str(text)), node["id"])
     return aliases
 
 
 def included_offices() -> set[str]:
     seed = json.loads((RESEARCH / "organization_seed.json").read_text(encoding="utf-8"))
-    offices = {e["from"] for e in seed["edges"] if e["type"] == "child_of" and e["to"] == INCLUDED_PARENT and e["from"].startswith("pmw:")}
+    offices = {r["from"] for r in seed["relationships"] if r["type"] == "child_of" and r["to"] == INCLUDED_PARENT
+               and r["from"].startswith("pmw:") and r["review_status"] != "retracted"}
     return offices | {INCLUDED_PARENT}
 
 
 def families() -> list[tuple[str, re.Pattern, str]]:
     data = json.loads((RESEARCH / "org_code_families.json").read_text(encoding="utf-8"))
-    return [(f["family"], re.compile(f["pattern"]), f.get("org_type", "")) for f in data["families"] if f["family"] != "contracting_office_uic"]
+    return [(f["family"], re.compile(f["pattern"]), f.get("org_type", "")) for f in data["families"]]
+
+
+def classify_code(token: str, aliases: dict[str, str] | None = None, fams: list | None = None) -> dict:
+    """Alias table first, then the first matching code family. `token` may carry a ' - NAME' suffix."""
+    aliases = aliases if aliases is not None else alias_map()
+    fams = fams if fams is not None else families()
+    code = token.split(" - ")[0].strip()
+    office_id = aliases.get(norm_code(code), "")
+    family = next((name for name, pattern, _ in fams if pattern.match(code)), "")
+    if office_id and family == "contracting_office_uic" and not office_id.startswith("contracting:"):
+        family = ""  # an alias-resolved organization name is never a UIC, whatever its length
+    org_type = next((t for name, _, t in fams if name == family), "")
+    return {"code": code, "office_id": office_id, "family": family, "org_type": org_type}
 
 
 def classify(rows: list[dict]) -> list[dict]:
     aliases, included, fams = alias_map(), included_offices(), families()
-    seen_pids: dict[str, int] = {}
+    seen: dict[str, int] = {}
     out = []
     for r in rows:
-        code = r["office_code_string"].split(" - ")[0].strip()
-        family = next((name for name, pattern, _ in fams if pattern.match(code)), "")
-        org_type = next((t for name, _, t in fams if name == family), "")
-        office_id = aliases.get(norm_code(code), "")
-        if r["pid"] in seen_pids:
-            decision, reason = "duplicate", f"pid already seen on row {seen_pids[r['pid']]}"
+        hit = classify_code(r["office_code_string"], aliases, fams)
+        code, family, org_type, office_id = hit["code"], hit["family"], hit["org_type"], hit["office_id"]
+        key = record_key(r)
+        if key in seen:
+            decision, reason = "duplicate", f"record key already seen on row {seen[key]}"
         elif office_id in included:
             decision, reason = "included", f"code resolves to {office_id}, a PEO C4I office (alias table)"
         elif office_id:
@@ -147,9 +199,10 @@ def classify(rows: list[dict]) -> list[dict]:
             decision, reason = "unresolved", f"family {family} recognised but code {code} has no alias-table entry"
         else:
             decision, reason = "unresolved", f"code {code} matches no code family"
-        seen_pids.setdefault(r["pid"], r["row_number"])
-        out.append({"sheet": r["sheet"], "row_number": r["row_number"], "pid": r["pid"], "office_code_string": r["office_code_string"],
-                    "office_code": code, "code_family": family, "office_id": office_id, "include_decision": decision, "reason": reason})
+        seen.setdefault(key, r["row_number"])
+        out.append({"sheet": r["sheet"], "row_number": r["row_number"], "record_key": key, "pid": r["pid"],
+                    "office_code_string": r["office_code_string"], "office_code": code, "code_family": family,
+                    "office_id": office_id, "include_decision": decision, "reason": reason})
     return out
 
 
@@ -199,14 +252,8 @@ def sgs_hits(body: bytes, needle: str) -> list[dict]:
 
 
 def contacts() -> dict[tuple[str, str], str]:
-    rows = json.loads((RESEARCH / "contact_candidates.json").read_text(encoding="utf-8"))
-    table = {}
-    for c in rows:
-        if not c.get("name"):
-            continue  # channel-only rows (industry intake mailboxes) have no person to match
-        key = (norm_code(c["name"]), c["office"])
-        table[key] = f"contact:{c['office']}:{re.sub(r'[^a-z]', '', c['name'].lower())}"
-    return table
+    rows = json.loads((RESEARCH / "contact_observations.json").read_text(encoding="utf-8"))
+    return {(norm_code(c["name"]), c["office_id_as_resolved"]): c["id"] for c in rows if c.get("name")}
 
 
 def attribution_by_pid() -> dict[str, dict]:
@@ -225,7 +272,7 @@ def build_joins(rows: list[dict], classified: list[dict], manifest: list[dict]) 
     joins = []
 
     def add(r, join_type, method, key, target, evidence, note):
-        joins.append({"pid": r["pid"], "row_number": r["row_number"], "join_type": join_type, "method": method,
+        joins.append({"record_key": record_key(r), "pid": r["pid"], "row_number": r["row_number"], "join_type": join_type, "method": method,
                       "key_used": key, "target_id": target, "evidence_ref": evidence, "note": note})
 
     for r in rows:
@@ -252,7 +299,7 @@ def build_joins(rows: list[dict], classified: list[dict], manifest: list[dict]) 
                     f"vendor {e['vendor']}; idv {e['idv'] or '-'}; first signed {e['signed']}")
             else:
                 add(r, "existing_contract", "explicit", token, "", f"sha256:{capture['sha256']}", "FPDS PIID search returned no entry")
-        needles = [r["pid"], *tokens]
+        needles = [n for n in [r["pid"], *tokens] if n]
         for needle in needles:
             found, refs, hits = False, [], []
             for active in ("false", "true"):
@@ -272,7 +319,7 @@ def build_joins(rows: list[dict], classified: list[dict], manifest: list[dict]) 
                          if vehicle else "notice text contains the key; ") + f"title {str(h.get('title', ''))[:80]}")
             else:
                 add(r, "notice", "explicit", needle, "", "; ".join(refs), "SAM.gov search returned no notice containing the key")
-        example = examples.get(r["pid"])
+        example = examples.get(r["pid"]) if r["pid"] else None
         if example:
             sam_refs = [e["source_url"] for e in example["evidence"] if "sam.gov" in e.get("source_url", "")]
             add(r, "notice", "inferred", r["pid"], f"attribution:{example['id']}", "attribution_examples.json " + example["id"],
@@ -284,8 +331,8 @@ def build_joins(rows: list[dict], classified: list[dict], manifest: list[dict]) 
                 continue
             target = contact_table.get((norm_code(name), c["office_id"]), "")
             elsewhere = [v for (n, o), v in contact_table.items() if n == norm_code(name) and o != c["office_id"]]
-            note = f"{role} on the row matches a contact_candidates row for the same office" if target else (
-                f"{role} not in contact_candidates for {c['office_id']}" + (f"; listed for {', '.join(sorted(set(elsewhere)))}" if elsewhere else ""))
+            note = f"{role} on the row matches a contact observation for the same office" if target else (
+                f"{role} has no contact observation for {c['office_id']}" + (f"; observed for {', '.join(sorted(set(elsewhere)))}" if elsewhere else ""))
             add(r, "contact", "explicit", name, target, f"{SHEET}!{'T' if role == 'contracting_poc' else 'V'}{r['row_number']}", note)
     joins.sort(key=lambda j: (j["row_number"], j["join_type"], j["method"], j["key_used"], j["target_id"]))
     return joins
@@ -293,30 +340,32 @@ def build_joins(rows: list[dict], classified: list[dict], manifest: list[dict]) 
 
 # ---------------------------------------------------------------- layers (target schema)
 
-def layers(rows: list[dict], classified: list[dict], joins: list[dict], source_sha: str) -> dict[str, list[dict]]:
+def layers(rows: list[dict], classified: list[dict], joins: list[dict], source_sha: str, release: dict, release_date: str) -> dict[str, list[dict]]:
     decision = {c["row_number"]: c for c in classified}
-    evidence_id = lambda r: f"ev:{RELEASE_KEY}:row{r['row_number']}"  # noqa: E731
+    key = release["key"]
+    evidence_id = lambda r: f"ev:{key}:row{r['row_number']}"  # noqa: E731
     needs, reqs, funding, refs, evidence = [], [], [], [], []
     contract_targets = {(j["row_number"], j["key_used"]): j for j in joins if j["join_type"] == "existing_contract"}
     for r in rows:
         c = decision[r["row_number"]]
         if c["include_decision"] != "included":
             continue
-        need_id = f"need:{RELEASE_KEY}:{r['pid']}"
+        rk = record_key(r)
+        need_id = f"need:{key}:{rk}"
         evidence.append({"id": evidence_id(r), "source_sha256": source_sha, "locator": f"{SHEET}!row {r['row_number']}",
-                         "release_date": "2025-06-19", "kind": "spreadsheet_row"})
-        needs.append({"id": need_id, "pid": r["pid"], "title": r["requirement_title"], "office_id": c["office_id"],
+                         "release_date": release_date, "kind": "spreadsheet_row"})
+        needs.append({"id": need_id, "record_key": rk, "pid": r["pid"], "title": r["requirement_title"], "office_id": c["office_id"],
                       "office_code_string": r["office_code_string"], "contracting_office_uic": r["contracting_office_uic"].split(" - ")[0],
                       "follow_on_or_new": r["follow_on_or_new"], "predecessor_refs": " ".join(contract_tokens(r["existing_contract_number"])),
-                      "valid_from": "2025-06-19", "evidence_id": evidence_id(r)})
-        reqs.append({"id": f"req:{RELEASE_KEY}:{r['pid']}", "need_id": need_id, "revision": RELEASE_KEY,
+                      "valid_from": release_date, "evidence_id": evidence_id(r)})
+        reqs.append({"id": f"req:{key}:{rk}", "need_id": need_id, "revision": key,
                      "description": r["requirement_description"], "procurement_method": r["procurement_method"],
                      "contract_type": r["contract_type"], "instrument": r["procurement_instrument"],
                      "solicitation_fy": r["solicitation_fy"], "solicitation_quarter": r["solicitation_quarter"],
                      "award_fy": r["award_fy"], "award_quarter": r["award_quarter"], "pop_months": r["period_of_performance_months"],
                      "naics": r["naics"], "psc": r["psc"], "place": r["place_of_performance"], "evidence_id": evidence_id(r)})
         low, high = VALUE_RANGES.get(r["anticipated_total_value"], ("", ""))
-        funding.append({"id": f"fund:{RELEASE_KEY}:{r['pid']}", "need_id": need_id, "observation_type": "procurement_estimate",
+        funding.append({"id": f"fund:{key}:{rk}", "need_id": need_id, "observation_type": "procurement_estimate",
                         "as_stated": r["anticipated_total_value"], "amount_low_usd": low, "amount_high_usd": high,
                         "fiscal_year": r["award_fy"], "period": r["award_quarter"], "evidence_id": evidence_id(r)})
         for token in contract_tokens(r["existing_contract_number"]):
@@ -326,6 +375,51 @@ def layers(rows: list[dict], classified: list[dict], joins: list[dict], source_s
                          "evidence_ref": j["evidence_ref"] if j else ""})
     refs.sort(key=lambda x: (x["need_id"], x["identifier"]))
     return {"needs": needs, "need_requirements": reqs, "funding_observations": funding, "procurement_refs": refs, "evidence": evidence}
+
+
+# ---------------------------------------------------------------- release diff
+
+def diff_releases(old_rows: list[dict], new_rows: list[dict]) -> tuple[list[dict], str]:
+    """Added, removed and changed records between two releases. A record is keyed by PID when it has one and by a
+    hash of title plus office code otherwise (the June 2024 release has no PID column; the 2023 export lacks PIDs on
+    some rows). PIDs are only partly stable across releases, so many rows read as added or removed."""
+    any_pid = any(r["pid"] for r in old_rows) and any(r["pid"] for r in new_rows)
+    method = "pid where present, else title+office" if any_pid else "title+office"
+
+    def key(r):
+        return record_key(r) if any_pid else "k:" + hashlib.sha1((re.sub(r"\s+", " ", r["requirement_title"].strip().lower()) + "|" + r["office_code_string"].split(" - ")[0].strip()).encode()).hexdigest()[:12]
+
+    old_map, new_map = {}, {}
+    for r in old_rows:
+        old_map.setdefault(key(r), []).append(r)
+    for r in new_rows:
+        new_map.setdefault(key(r), []).append(r)
+    out = []
+    for k in sorted(set(old_map) | set(new_map)):
+        olds, news = old_map.get(k, []), new_map.get(k, [])
+        km = "pid" if k and not k.startswith("k:") else "title+office"
+        if not olds:
+            for r in news:
+                out.append({"change": "added", "key": k, "key_method": km, "field": "", "old_value": "", "new_value": r["requirement_title"][:120],
+                            "old_row": "", "new_row": r["row_number"], "office": r["office_code_string"].split(" - ")[0]})
+        elif not news:
+            for r in olds:
+                out.append({"change": "removed", "key": k, "key_method": km, "field": "", "old_value": r["requirement_title"][:120], "new_value": "",
+                            "old_row": r["row_number"], "new_row": "", "office": r["office_code_string"].split(" - ")[0]})
+        elif len(olds) > 1 or len(news) > 1:
+            out.append({"change": "ambiguous", "key": k, "key_method": km, "field": "", "old_value": f"{len(olds)} rows", "new_value": f"{len(news)} rows",
+                        "old_row": ";".join(str(r["row_number"]) for r in olds), "new_row": ";".join(str(r["row_number"]) for r in news),
+                        "office": news[0]["office_code_string"].split(" - ")[0]})
+        else:
+            o, n = olds[0], news[0]
+            changed = [f for f in TRACKED if o[f] != n[f]]
+            if not changed:
+                out.append({"change": "unchanged", "key": k, "key_method": km, "field": "", "old_value": "", "new_value": "",
+                            "old_row": o["row_number"], "new_row": n["row_number"], "office": n["office_code_string"].split(" - ")[0]})
+            for field in changed:
+                out.append({"change": "changed", "key": k, "key_method": km, "field": field, "old_value": o[field][:120], "new_value": n[field][:120],
+                            "old_row": o["row_number"], "new_row": n["row_number"], "office": n["office_code_string"].split(" - ")[0]})
+    return out, method
 
 
 # ---------------------------------------------------------------- outputs
@@ -338,19 +432,16 @@ def write_csv(path: Path, rows: list[dict]) -> None:
     path.write_text(buffer.getvalue(), encoding="utf-8")
 
 
-def reconciliation(rows, classified, joins) -> str:
-    from collections import Counter
-
+def reconciliation(release: dict, rows, classified, joins, diff_note: str) -> str:
     decisions = Counter(c["include_decision"] for c in classified)
-    reasons = Counter((c["include_decision"], c["reason"] if c["include_decision"] != "duplicate" else "pid already seen") for c in classified)
+    reasons = Counter((c["include_decision"], c["reason"] if c["include_decision"] != "duplicate" else "record key already seen") for c in classified)
     unresolved = sorted({c["office_code"] for c in classified if c["include_decision"] == "unresolved"})
     per_office = Counter(c["office_id"] for c in classified if c["include_decision"] == "included")
-    same_title = Counter((r["requirement_title"].lower(), r["office_code_string"], r["anticipated_total_value"], r["existing_contract_number"]) for r in rows)
-    candidates = sorted(k for k, v in same_title.items() if v > 1)
-    contract_joins = [j for j in joins if j["join_type"] == "existing_contract"]
-    notice_joins = [j for j in joins if j["join_type"] == "notice"]
-    contact_joins = [j for j in joins if j["join_type"] == "contact"]
-    lines = [f"# Reconciliation - {RELEASE_KEY}", "", f"Sheet `{SHEET}`, header on Excel row {HEADER_ROW}, data rows {rows[0]['row_number']}-{rows[-1]['row_number']}.",
+    same = Counter((r["requirement_title"].lower(), r["office_code_string"], r["anticipated_total_value"], r["existing_contract_number"]) for r in rows)
+    candidates = sorted(k for k, v in same.items() if v > 1)
+    has_pid = all(r["pid"] for r in rows)
+    lines = [f"# Reconciliation - {release['key']}", "", f"Sheet `{SHEET}`, header on Excel row {HEADER_ROW}, data rows {rows[0]['row_number']}-{rows[-1]['row_number']}.",
+             f"Record key: {'PID' if has_pid else 'hash of title and office code (this release has no PID column)'}.",
              "", "## Rows", "", "| Decision | Rows |", "| --- | --- |", f"| raw | {len(rows)} |"]
     lines += [f"| {d} | {decisions.get(d, 0)} |" for d in ("included", "excluded", "duplicate", "unresolved")]
     lines += ["", f"Sum of decisions: {sum(decisions.values())} (equals raw: {'yes' if sum(decisions.values()) == len(rows) else 'NO'}).", "",
@@ -358,61 +449,92 @@ def reconciliation(rows, classified, joins) -> str:
     lines += [f"| {d} | {reason} | {n} |" for (d, reason), n in sorted(reasons.items(), key=lambda kv: (kv[0][0], -kv[1], kv[0][1]))]
     lines += ["", "## Included rows per office", "", "| Office | Rows |", "| --- | --- |"]
     lines += [f"| {o} | {n} |" for o, n in sorted(per_office.items())]
-    lines += ["", "## Unresolved codes", "", ", ".join(f"`{u}`" for u in unresolved) or "none", "",
-              "## Duplicates", "", "Every PID is unique in this release, so no row is marked `duplicate`. Rows that repeat title, office, value range "
-              "and existing contract under different PIDs are listed for the reviewer; they read as separate planned actions (option years, "
-              "additional lots) rather than duplicates and stay as they are:", ""]
+    lines += ["", "## Unresolved codes", "", ", ".join(f"`{u}`" for u in unresolved) or "none", "", "## Duplicates", ""]
+    if has_pid:
+        lines += ["Every PID is unique in this release, so no row is marked `duplicate`. Rows that repeat title, office, value range "
+                  "and existing contract under different PIDs are listed for the reviewer; they read as separate planned actions (option years, "
+                  "additional lots) rather than duplicates and stay as they are:", ""]
+    else:
+        lines += ["This release has no PID column, so the record key is title plus office code; rows sharing that key are marked "
+                  "`duplicate` above and listed here for the reviewer:", ""]
     for title, office, value, contract in candidates:
         numbers = [r["row_number"] for r in rows if (r["requirement_title"].lower(), r["office_code_string"], r["anticipated_total_value"], r["existing_contract_number"]) == (title, office, value, contract)]
         lines.append(f"- rows {', '.join(map(str, numbers))}: {title[:70]} ({office.split(' - ')[0]})")
     lines += ["", "## Joins (included rows only)", "", "| Join | Lines | Matched | Unmatched | Not collected |", "| --- | --- | --- | --- | --- |"]
-    for name, group in (("office", [j for j in joins if j["join_type"] == "office"]), ("existing_contract", contract_joins), ("notice", notice_joins), ("contact", contact_joins)):
+    for name in ("office", "existing_contract", "notice", "contact"):
+        group = [j for j in joins if j["join_type"] == name]
         matched = sum(1 for j in group if j["target_id"])
         pending = sum(1 for j in group if "not collected" in j["note"])
         lines.append(f"| {name} | {len(group)} | {matched} | {len(group) - matched - pending} | {pending} |")
     lines += ["", "Explicit joins: office code through the alias table, contract number found in FPDS, notice text containing the PID or contract "
-              "number, POC name matching a contact candidate for the same office. Inferred joins: forecast row tied to an award through an "
-              "attribution example. A shared vehicle (SeaPort-NxG IDV) alone is never a join.", "",
-              "## Releases", "", "Only the 2025-06-19 release is saved. The NAVWAR page linked one file at capture time and the Wayback index was "
-              "offline when older captures were searched, so no release-to-release diff exists yet; `diff_<old>_<new>.csv` is produced by this "
-              "script once a second file is in the manifest.", ""]
+              "number, POC name matching a contact observation for the same office. Inferred joins: forecast row tied to an award through an "
+              "attribution example, or a notice that only cites a shared vehicle. A shared vehicle (SeaPort-NxG IDV, SEWP, GSA schedule) alone is never a join."]
+    if release["key"] != JOINS_COLLECTED_FOR:
+        lines += ["", f"FPDS and SAM.gov lookups were collected for {JOINS_COLLECTED_FOR} only; lines marked 'not collected' here are honest gaps, "
+                  "not misses. Contact observations were built from the 2025 release, so older rows show no contact match."]
+    lines += ["", "## Releases", "", diff_note, ""]
     return "\n".join(lines)
 
 
 def build() -> int:
     manifest = manifest_rows()
-    source = saved(manifest, lambda m: SOURCE_MATCH in m.get("url", "") and m.get("url", "").endswith(".xlsx"))
-    if source is None:
-        print("LRAE spreadsheet bytes not found under data/raw; re-fetch with fetch.py --wayback", file=sys.stderr)
+    packages = []
+    for release in RELEASES:
+        source = saved(manifest, lambda m, rel=release: rel["match"] in m.get("url", "") and m.get("mime", "").endswith("sheet"))
+        if source is None:
+            print(f"{release['key']}: spreadsheet bytes not found under data/raw; skipped", file=sys.stderr)
+            continue
+        meta, rows = read_sheet(ROOT / source["path"])
+        release_date = meta.get("Release Date", "")[:10] if re.match(r"\d{4}-\d{2}-\d{2}", meta.get("Release Date", "")) else release["release_date"]
+        packages.append((release, source, meta, rows, release_date))
+    if not packages:
         return 1
-    meta, rows = read_sheet(ROOT / source["path"])
-    classified = classify(rows)
-    joins = build_joins(rows, classified, manifest)
-    PACK.mkdir(parents=True, exist_ok=True)
-    (PACK / "layers").mkdir(exist_ok=True)
-    write_csv(PACK / "rows_raw.csv", rows)
-    write_csv(PACK / "rows_classified.csv", classified)
-    write_csv(PACK / "joins.csv", joins)
-    for name, table in layers(rows, classified, joins, source["sha256"]).items():
-        if table:
-            write_csv(PACK / "layers" / f"{name}.csv", table)
-    (PACK / "reconciliation.md").write_text(reconciliation(rows, classified, joins), encoding="utf-8")
-    outputs = {p.relative_to(PACK).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
-               for p in sorted(PACK.rglob("*")) if p.is_file() and p.name != "SOURCE.json" and not p.name.startswith("._")}
-    info = {"release_key": RELEASE_KEY, "activity": meta.get("Activity Name", ""), "release_date": meta.get("Release Date", ""),
-            "source_url": source["url"], "fetched_from": source.get("fetched_from", ""), "method": source["method"],
-            "wayback_timestamp": source.get("wayback_timestamp", ""), "retrieved_at": source["retrieved_at"],
-            "sha256": source["sha256"], "size": source["size"], "raw_path": source["path"], "sheet": SHEET, "header_row": HEADER_ROW,
-            "refetch": f"python research/tools/fetch.py '{source['url']}' --wayback {source.get('wayback_timestamp', '')}",
-            "regenerate": "python research/tools/lrae_package.py build", "record_key": "pid + release_key", "outputs": outputs}
-    (PACK / "SOURCE.json").write_text(json.dumps(info, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    print(json.dumps({k: v for k, v in info.items() if k != "outputs"}, indent=2))
+    earlier: list[tuple[dict, list[dict]]] = []
+    for release, source, meta, rows, release_date in packages:
+        pack = PACK_BASE / release["key"]
+        pack.mkdir(parents=True, exist_ok=True)
+        (pack / "layers").mkdir(exist_ok=True)
+        classified = classify(rows)
+        joins = build_joins(rows, classified, manifest)
+        write_csv(pack / "rows_raw.csv", rows)
+        write_csv(pack / "rows_classified.csv", classified)
+        write_csv(pack / "joins.csv", joins)
+        for name, table in layers(rows, classified, joins, source["sha256"], release, release_date).items():
+            if table:
+                write_csv(pack / "layers" / f"{name}.csv", table)
+        notes = []
+        for prev_release, prev_rows in earlier:
+            changes, method = diff_releases(prev_rows, rows)
+            name = f"diff_{prev_release['key']}_{release['key']}.csv"
+            if changes:
+                write_csv(pack / name, changes)
+            counts = Counter(ch["change"] for ch in changes)
+            matched = counts.get("unchanged", 0) + len({ch["key"] for ch in changes if ch["change"] == "changed"})
+            notes.append(f"Compared with `{prev_release['key']}` (key: {method}): {matched} records matched ({counts.get('changed', 0)} field changes on "
+                         f"{len({ch['key'] for ch in changes if ch['change'] == 'changed'})} of them), {counts.get('added', 0)} added, {counts.get('removed', 0)} removed, "
+                         f"{counts.get('ambiguous', 0)} keys matching several rows. Detail in `{name}`.")
+        diff_note = " ".join(notes) + " Every release is kept as its own package." if notes else "Earliest saved release; nothing to diff against."
+        (pack / "reconciliation.md").write_text(reconciliation(release, rows, classified, joins, diff_note), encoding="utf-8")
+        outputs = {p.relative_to(pack).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+                   for p in sorted(pack.rglob("*")) if p.is_file() and p.name != "SOURCE.json" and not p.name.startswith("._")}
+        info = {"release_key": release["key"], "activity": meta.get("Activity Name", ""), "release_date": release_date,
+                "release_date_as_written": meta.get("Release Date", ""), "release_note": release["release_note"],
+                "source_url": source["url"], "fetched_from": source.get("fetched_from", ""), "method": source["method"],
+                "wayback_timestamp": source.get("wayback_timestamp", ""), "retrieved_at": source["retrieved_at"],
+                "sha256": source["sha256"], "size": source["size"], "raw_path": source["path"], "sheet": SHEET, "header_row": HEADER_ROW,
+                "refetch": f"python research/tools/fetch.py '{source['url']}' --wayback {source.get('wayback_timestamp', '')}",
+                "regenerate": "python research/tools/lrae_package.py build", "record_key": "pid, or hash of title and office code when the release has no PID column",
+                "joins_collected": release["key"] == JOINS_COLLECTED_FOR, "outputs": outputs}
+        (pack / "SOURCE.json").write_text(json.dumps(info, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        print(release["key"], release_date, len(rows), "rows;", Counter(c["include_decision"] for c in classified))
+        earlier.append((release, rows))
     return 0
 
 
 def collect(limit: int) -> int:
     manifest = manifest_rows()
-    source = saved(manifest, lambda m: SOURCE_MATCH in m.get("url", "") and m.get("url", "").endswith(".xlsx"))
+    release = next(r for r in RELEASES if r["key"] == JOINS_COLLECTED_FOR)
+    source = saved(manifest, lambda m: release["match"] in m.get("url", "") and m.get("mime", "").endswith("sheet"))
     _, rows = read_sheet(ROOT / source["path"])
     included = {c["row_number"] for c in classify(rows) if c["include_decision"] == "included"}
     wanted: list[tuple[str, str]] = []
@@ -421,7 +543,7 @@ def collect(limit: int) -> int:
             continue
         tokens = contract_tokens(r["existing_contract_number"])
         wanted += [(FPDS.format(piid=t), f"LRAE join: FPDS search for existing contract {t} (row {r['row_number']})") for t in tokens]
-        wanted += [(sgs_url(n, a), f"LRAE join: SAM.gov search for {n} (row {r['row_number']})") for n in (r["pid"], *tokens) for a in ("false", "true")]
+        wanted += [(sgs_url(n, a), f"LRAE join: SAM.gov search for {n} (row {r['row_number']})") for n in (r["pid"], *tokens) if n for a in ("false", "true")]
     have = {m["url"] for m in manifest if m.get("status") == 200 and m.get("path")}
     todo = []
     for url, note in wanted:

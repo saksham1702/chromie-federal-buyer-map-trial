@@ -46,7 +46,10 @@ quarters, method, existing contract or incumbent.
 
 Reproducible package: this cycle is now scripted. `python research/tools/lrae_package.py build`
 reads the saved spreadsheet bytes (hash in `documents_manifest.jsonl`) plus the saved FPDS and
-SAM.gov lookups and regenerates `datapack/lrae_navwar_2025-06/` without touching the network:
+SAM.gov lookups and regenerates one `datapack/lrae_navwar_<release>/` per saved release (2023
+export, June 2024, June 2025) without touching the network, plus a `diff_<old>_<new>.csv` in each
+newer package (added, removed, changed, unchanged, ambiguous; keyed by PID where both rows have
+one, otherwise by title and office code, since the 2024 release has no PID column). Per package:
 `rows_raw.csv` (every row, original strings, sheet and Excel row number), `rows_classified.csv`
 (one decision per row: included, excluded, duplicate, unresolved, with the reason and the
 normalized office next to the original code), `joins.csv` (one line per join attempt from a
