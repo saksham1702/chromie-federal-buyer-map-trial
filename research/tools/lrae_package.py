@@ -43,7 +43,7 @@ RELEASES = [
 JOINS_COLLECTED_FOR = "lrae_navwar_2025-06"  # the only release whose FPDS and SAM.gov lookups were collected
 FPDS = "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:{piid}&start=0"
 SGS = "https://sam.gov/api/prod/sgs/v1/search/?"
-PIID_RE = re.compile(r"N\d{5}\d{2}[A-Z]\d{4}(?!\d)|NNG\d{2}S[A-Z]\d{2}B|GS-?\d{2}F-?\d{3,4}[A-Z]{1,2}")
+PIID_RE = re.compile(r"N\d{5}\d{2}[A-Z]\d{4,5}(?!\d)|NNG\d{2}S[A-Z]\d{2}B|GS-?\d{2}F-?\d{3,4}[A-Z]{1,2}")
 FORECAST_PID_RE = re.compile(r"[A-Z0-9]{6}-\d{2}-RFPREQ-[A-Za-z0-9/\-]+?-\d{4}")
 INCLUDED_PARENT = "peo:c4i"
 # Division and competency codes resolve to the organization that owns them, which is enough to exclude them.
@@ -222,7 +222,7 @@ def contract_tokens(text: str) -> list[str]:
 
 def is_vehicle(token: str) -> bool:
     """IDVs (type letter D), SEWP and GSA schedule numbers are shared vehicles, never a requirement identity."""
-    return token.startswith(("NNG", "GS")) or (len(token) == 13 and token[8] == "D")
+    return token.startswith(("NNG", "GS")) or (len(token) in (13, 14) and token[8] == "D")
 
 
 def fpds_entries(body: bytes) -> list[dict]:
@@ -370,7 +370,7 @@ def layers(rows: list[dict], classified: list[dict], joins: list[dict], source_s
                         "fiscal_year": r["award_fy"], "period": r["award_quarter"], "evidence_id": evidence_id(r)})
         for token in contract_tokens(r["existing_contract_number"]):
             j = contract_targets.get((r["row_number"], token))
-            refs.append({"id": f"pref:{token}", "need_id": need_id, "identifier": token, "identifier_type": "piid",
+            refs.append({"id": f"pref:{key}:{rk}:{token}", "need_id": need_id, "identifier": token, "identifier_type": "piid",
                          "as_stated": r["existing_contract_number"], "resolved_in_fpds": "yes" if j and j["target_id"] else "no",
                          "evidence_ref": j["evidence_ref"] if j else ""})
     refs.sort(key=lambda x: (x["need_id"], x["identifier"]))

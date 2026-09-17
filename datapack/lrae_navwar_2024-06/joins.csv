@@ -451,7 +451,8 @@ k:5b958348fd20,,468,contact,explicit,"Papet, Marissa",cobs:lrae:pmw-150:papetmar
 k:5b958348fd20,,468,office,explicit,PMW-150,pmw:150,LRAE Annex 25!C468; organization_seed.json alias table,requirement-office code matched an alias
 k:91fff5b686f8,,469,contact,explicit,"DANIELS, JESSICA",cobs:lrae:pmw-170:danielsjessica,LRAE Annex 25!V469,secondary_poc on the row matches a contact observation for the same office
 k:91fff5b686f8,,469,contact,explicit,"Murr, Christopher",cobs:lrae:pmw-170:murrchristopher,LRAE Annex 25!T469,contracting_poc on the row matches a contact observation for the same office
-k:91fff5b686f8,,469,existing_contract,explicit,N0003914C00041,,LRAE Annex 25!O469,no contract identifier pattern recognised in the cell
+k:91fff5b686f8,,469,existing_contract,explicit,N0003914C00041,,sha256:64617734074f13033de065fe3497045f8aacfc1baccbe093bd1addf7769aa22a,FPDS PIID search returned no entry
+k:91fff5b686f8,,469,notice,explicit,N0003914C00041,,sha256:f8e389b80935621a8217b0d0833a4ebf6c480bd10eb29f9d7beaab4d8e067014; sha256:7d1dd0401eff551f98ec836849f1bd4cf3366387e6aca1a279fdbb7429524d4a,SAM.gov search returned no notice containing the key
 k:91fff5b686f8,,469,office,explicit,PMW/A-170,pmw:170,LRAE Annex 25!C469; organization_seed.json alias table,requirement-office code matched an alias
 k:dfdb0070fac1,,470,contact,explicit,"Holtet, Alexander",cobs:lrae:pmw-170:holtetalexander,LRAE Annex 25!T470,contracting_poc on the row matches a contact observation for the same office
 k:dfdb0070fac1,,470,contact,explicit,"Joworski, Tyler",cobs:lrae:pmw-170:joworskityler,LRAE Annex 25!V470,secondary_poc on the row matches a contact observation for the same office

@@ -86,7 +86,7 @@ Every PID is unique in this release, so no row is marked `duplicate`. Rows that 
 | --- | --- | --- | --- | --- |
 | office | 148 | 148 | 0 | 0 |
 | existing_contract | 46 | 43 | 3 | 0 |
-| notice | 197 | 10 | 187 | 0 |
+| notice | 199 | 10 | 189 | 0 |
 | contact | 279 | 279 | 0 | 0 |
 
 Explicit joins: office code through the alias table, contract number found in FPDS, notice text containing the PID or contract number, POC name matching a contact observation for the same office. Inferred joins: forecast row tied to an award through an attribution example, or a notice that only cites a shared vehicle. A shared vehicle (SeaPort-NxG IDV, SEWP, GSA schedule) alone is never a join.

@@ -83,7 +83,7 @@ This release has no PID column, so the record key is title plus office code; row
 | --- | --- | --- | --- | --- |
 | office | 154 | 154 | 0 | 0 |
 | existing_contract | 31 | 18 | 2 | 11 |
-| notice | 29 | 1 | 16 | 12 |
+| notice | 30 | 1 | 17 | 12 |
 | contact | 272 | 179 | 93 | 0 |
 
 Explicit joins: office code through the alias table, contract number found in FPDS, notice text containing the PID or contract number, POC name matching a contact observation for the same office. Inferred joins: forecast row tied to an award through an attribution example, or a notice that only cites a shared vehicle. A shared vehicle (SeaPort-NxG IDV, SEWP, GSA schedule) alone is never a join.
