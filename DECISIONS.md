@@ -155,3 +155,13 @@ step with a scheduled diff.
 Because PEO and PAE ownership is ambiguous and a wrong first contact only costs a redirect, weak
 attributions still list ranked candidate offices and public contacts with a confidence label
 (`contact_candidates.json`); alerts surface uncertainty rather than suppress it.
+
+## 2026-09-18 - A manual cycle becomes a package only when it regenerates from saved bytes
+
+The reviewer's request for accurate, traceable data is met by `datapack/`: the source hash is the
+contract, the build reads only bytes recorded in the manifest, every row of the sheet gets one
+decision with a reason, every join is labelled explicit or inferred with unmatched rows kept, and
+the output hashes are recorded so a second run proves idempotence. Network lookups are a separate
+`collect` step so the build never depends on what a host answers today. Rows are also written in
+the layers of the proposed production model (needs, requirements, funding observations,
+procurement references, evidence) so nothing is reshaped later.

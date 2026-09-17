@@ -251,6 +251,11 @@ Format: what changed; affected office and ancestry; evidence; uncertainty; why i
 - Attribution edges (`gov_procurement_organizations`) have a relationship type and confidence but
   no evidence-class field; the class can live in `source_ref` or `match_basis` until a column exists.
 
+Update 2026-09-18: a layered production model was proposed that adds exactly these entities
+(programs, needs, need requirements, procurement references, funding observations, evidence
+references) on top of `gov_organizations`. The LRAE package under `datapack/` already writes its
+rows in those layers (`layers/`), so the pilot data loads without reshaping once the tables exist.
+
 ## 11. Reusable versus Navy-specific, and expansion
 
 Reusable without change: fetch-and-record, document versioning, FPDS/USAspending/SAM/govinfo/

@@ -1,0 +1,29 @@
+{
+  "activity": "NAVWAR",
+  "fetched_from": "https://web.archive.org/web/2026id_/https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+  "header_row": 8,
+  "method": "wayback",
+  "outputs": {
+    "joins.csv": "4f702a12977ccd3cbd3b7a45a7ee62d07465b0d31b57f6443b5e6222b2585dae",
+    "layers/evidence.csv": "bdb7b014227ef73416e92d8f59b8753edc3f7beadf2326eba7f2ba29ae3e8844",
+    "layers/funding_observations.csv": "d179d3b5e0a0041f101eb4437041afbe7053c6f364cc1745881d5b2dd1e237f6",
+    "layers/need_requirements.csv": "57ab20d0a1e38ecb7e3df0315ffa8d0e357915d54f9c957183ff597db56dc64b",
+    "layers/needs.csv": "7b7fccd688ba3163eafe0b72129ed67a79056e7b0406dc94a213f16f52091e79",
+    "layers/procurement_refs.csv": "9a2e53377f3f289b81ea94262ff6a6d3a47ac7c4db1ae83a91574352799e6534",
+    "reconciliation.md": "86b1a96d971c12f15ceecd9e8ec85c3af4f542174ff58a6f9347e0795937ea3d",
+    "rows_classified.csv": "8ce9a31afd9fd301c078f9a1ed6db4010dc41393ae9e7b36371fdcb51d8b7879",
+    "rows_raw.csv": "b29fc36b7f271263c1e7339c852a3593656b9d673ec9802aad3e52f12dc9f411"
+  },
+  "raw_path": "data/raw/697ec8c004d2_NAVWAR_HQCA-2025-A-037_Long_Range_Acquisition_Estimate_JUN_2025.xlsx",
+  "record_key": "pid + release_key",
+  "refetch": "python research/tools/fetch.py 'https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx' --wayback 20260108121536",
+  "regenerate": "python research/tools/lrae_package.py build",
+  "release_date": "2025-06-19",
+  "release_key": "lrae_navwar_2025-06",
+  "retrieved_at": "2026-09-16T15:12:53Z",
+  "sha256": "697ec8c004d239aeffab654a35f3a46101d227435a6929e64fc9b57cc75b6b7e",
+  "sheet": "LRAE Annex 25",
+  "size": 186572,
+  "source_url": "https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx",
+  "wayback_timestamp": "20260108121536"
+}

@@ -29,7 +29,8 @@ Manual steps performed:
 1. Open the NAVWAR Small Business Programs page (live page needs the US browser; the archived
    copy of 2026-01-08 was used) and download the LRAE file. June 2025 release:
    `NAVWAR HQCA-2025-A-037 Long Range Acquisition Estimate JUN 2025.xlsx` (about 186 KB).
-2. Open the single sheet `LRAE Annex 25`. Header is on row 6; data starts row 7 (833 rows).
+2. Open the single sheet `LRAE Annex 25`. Header is on Excel row 8; data rows run from row 9 to
+   the end of the sheet.
 3. Filter `Associated Program or Requirement Office` on the office codes of interest
    (`PMW-160`, `PMW/A-170`, `PMA/PMW-101`, ... ; 144 rows for PEO C4I offices).
 4. For each row record: title, value range, method, contract type, `Contracting Office UIC`,
@@ -42,6 +43,21 @@ elsewhere; some rows list an IDV and an order concatenated; many quarters are `T
 What the monitor does: monthly check of the download link (weekly in May-July and December);
 parse rows by `PID Number`; alert on new rows, removed rows, or changes in office, value range,
 quarters, method, existing contract or incumbent.
+
+Reproducible package: this cycle is now scripted. `python research/tools/lrae_package.py build`
+reads the saved spreadsheet bytes (hash in `documents_manifest.jsonl`) plus the saved FPDS and
+SAM.gov lookups and regenerates `datapack/lrae_navwar_2025-06/` without touching the network:
+`rows_raw.csv` (every row, original strings, sheet and Excel row number), `rows_classified.csv`
+(one decision per row: included, excluded, duplicate, unresolved, with the reason and the
+normalized office next to the original code), `joins.csv` (one line per join attempt from a
+forecast row to office, existing contract, notice and contact, each labelled explicit or
+inferred, unmatched rows kept), `reconciliation.md` (counts that add up to the raw count, the
+unresolved codes, the possible duplicates, the release gap) and `layers/` (the same rows shaped
+as needs, requirements, funding observations, procurement references and evidence).
+`SOURCE.json` holds the source hash and the hash of every output; running the build twice gives
+identical files. `collect` fetches any lookup the joins still need and records it in the
+manifest first, so the build stays offline. `tests/test_lrae_datapack.py` checks the counts,
+the office joins and the regeneration.
 
 ### B. Budget tables (what the Department asked for)
 

@@ -17,10 +17,12 @@ Research and planning only: no production writes, no outreach.
 9. `08_org_memory_format.md` + `org_code_families.json` - the dated PEO-plus-PAE organization memory and the code registry a parser uses
 10. `09_manual_collection_runbook.md` - each source worked by hand once, with what a monitor replaces
 11. `contact_candidates.json` - likely public contacts per office with confidence labels
+12. `../datapack/lrae_navwar_2025-06/` - the June 2025 NAVWAR LRAE as a regenerable package: every row accounted for, joins labelled, reconciliation, target-schema layers
 
 Supporting files: `documents_manifest.jsonl` (every document fetched: URL, hash, retrieval
 method and time), `manual_pdf_requests.json` (documents that still need a human to fetch),
-`tools/fetch.py` (the fetch-and-record helper).
+`tools/fetch.py` (the fetch-and-record helper), `tools/lrae_package.py` (rebuilds the LRAE
+data package from saved bytes; `collect` records the lookups it needs).
 
 ## Status
 
@@ -37,6 +39,7 @@ method and time), `manual_pdf_requests.json` (documents that still need a human 
 | 08 organization memory format + code families | done (2026-09-17) |
 | 09 manual collection runbook | done (2026-09-17) |
 | contact candidates | done (2026-09-17); recall-first, public sources only |
+| LRAE data package (reviewer request 2026-09-17) | done (2026-09-18); one release, whole sheet reconciled, joins labelled; second release still to capture |
 
 ## Evidence rules
 
@@ -50,5 +53,5 @@ method and time), `manual_pdf_requests.json` (documents that still need a human 
 ## Check
 
 ```bash
-python -m pytest tests/test_research_artifacts.py
+python -m pytest tests/
 ```

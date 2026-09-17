@@ -60,3 +60,10 @@ Plan: ~/.claude/plans/eager-hopping-rivest.md (approved 2026-09-16). Branch: tri
 ## Needs from Saksham
 - [x] api.data.gov key received and stored in .env; SAM itself is served by the keyless site API (api.sam.gov host dead), so the key is only for other api.data.gov services
 - [x] WARP-off tested 2026-09-16: block is geographic (Indian egress also 403); Browserbase (US egress) works and fetched 70+ live pages and files
+
+## Phase two: reviewer comments of 2026-09-17 (data accuracy first)
+- [x] LRAE reproducible package: `research/tools/lrae_package.py`, `datapack/lrae_navwar_2025-06/`, `tests/test_lrae_datapack.py`
+- [ ] contacts: sourced facts separated from recommendations; role types; historical vs current confidence
+- [ ] organization memory: observations / relationships / interpretations; retractions instead of `valid_to`; PMS 485 dates unknown
+- [ ] second LRAE release for the diff (Wayback index still offline for older captures)
+- [ ] independent reproduction of a sample with reviewer identity and date recorded
