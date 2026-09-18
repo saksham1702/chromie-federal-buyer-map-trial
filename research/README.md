@@ -17,7 +17,7 @@ Research and planning only: no production writes, no outreach.
 9. `08_org_memory_format.md` + `org_code_families.json` - the dated PEO-plus-PAE organization memory and the code registry a parser uses
 10. `09_manual_collection_runbook.md` - each source worked by hand once, with what a monitor replaces
 11. `contact_observations.json` and `contact_recommendations.json` - likely public contacts per office with confidence labels
-12. `../datapack/lrae_navwar_*/` - the NAVWAR LRAE releases (2023 export, June 2024, June 2025) as regenerable packages: every row accounted for, joins labelled, reconciliation, target-schema layers, diffs between releases
+12. `../datapack/lrae_navwar_*/` - the NAVWAR LRAE releases (2023 export, June 2024, June 2025) as regenerable packages. Committed: `SOURCE.json` (source hash, output hashes) and `reconciliation.md`. The CSV tables (rows, decisions, joins, layers, diffs) are regenerated locally with `python research/tools/lrae_package.py build` and shared out of band; their hashes are in `SOURCE.json`
 13. `navy-sources-map.md` - prose companion to the registry: every source once, what it can and cannot establish, how they join, evidence-strength rules (contributed; the registry and manifest stay the authorities)
 
 Supporting files: `documents_manifest.jsonl` (every document fetched: URL, hash, retrieval
