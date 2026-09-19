@@ -146,3 +146,46 @@ Each record here is a gold candidate: `directly_documented` rows as positives, E
 hard negatives for the PEO C4I portfolio, EX07 as a multi-program case, EX12 and EX13 as
 reorganization cases, EX16 and EX19 as abstentions. Replaying them is a one-hour task once the
 seed graph is loaded as organization rows; it is not done in this phase.
+
+## Replay against the production resolver
+
+Run `python research/tools/replay_attributions.py` with the offices and edges loaded
+in a local database. It feeds each example's own passages to
+`resolve_program_office()` and compares the answer with the office recorded here.
+Offline, no network.
+
+| Outcome | Examples |
+| --- | --- |
+| Match | 13 |
+| Correctly unresolved (EX19, no office named anywhere) | 1 |
+| Right office surfaced but not asserted (EX12) | 1 |
+| Partial (EX07, two of three offices) | 1 |
+| Out of scope (EX17 owner is a PEO; the resolver only asserts program offices) | 1 |
+| Declined (EX03, EX06) | 2 |
+
+Fourteen of nineteen agree outright and one more is a correct abstention, which is the
+result the evidence gating is meant to produce.
+
+Three things the replay established that reading the resolver would not have:
+
+**An office with no confidence value is invisible to it.** `_organization_has_provenance`
+requires `source`, `source_ref`, `observed_at` *and* `confidence`. Loaded with a null
+confidence - which is what this research holds, since no source states a number -
+every office was skipped and all nineteen examples declined. A confidence is part of
+the interface, not a source value. The loader now sets 1.0 where a source states the
+claim outright and 0.5 where it was derived; 0.5 sits below the resolver's
+`MIN_HIERARCHY_CONFIDENCE` of 0.8, so a derived edge cannot drive an ancestry walk.
+
+**EX03 and EX06 decline on the same shape.** Both rest on a requirement title that
+leads with the office code and says nothing else - "PMW 160 PROFESSIONAL SUPPORT
+SERVICES", "PMW/A 170 CYBERSECURITY, ENGINEERING, AND TECHNICAL SUPPORT SERVICES."
+The resolver wants an ownership clause around the alias and a bare title has none. It
+declines identically whether the text arrives as an attachment fragment or as the
+record's own `award_description`, so this is the rule and not an artefact of how the
+replay passes evidence. Whether a code-prefixed requirement title on a NAVWAR task
+order should count as ownership is a judgement for the resolver's owner; this package
+reads it as directly documented and the resolver does not.
+
+**EX17 is not a miss.** `PROGRAM_OFFICE_TYPES` is `{"program_office"}`, so a PEO can
+never be a candidate. An example whose owner is a PEO is outside what the resolver
+asserts, and the replay reports it separately from a disagreement.

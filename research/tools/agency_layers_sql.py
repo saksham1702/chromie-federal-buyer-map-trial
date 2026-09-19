@@ -147,6 +147,18 @@ def role_type(role_as_written: str | None) -> str:
     return "other"
 
 
+# The production resolver treats a row with no confidence as having no provenance
+# and will not consider it at all, so a number is part of the interface rather than
+# something the sources supply. The mapping is deliberate and narrow: a claim a source
+# states outright scores 1.0, one we derived scores 0.5, and 0.5 sits below the
+# resolver's MIN_HIERARCHY_CONFIDENCE so a derived edge cannot drive an ancestry walk.
+DOCUMENTED, DERIVED = "1.0", "0.5"
+
+
+def confidence_for(evidence_class: str) -> str:
+    return DOCUMENTED if evidence_class == "directly_documented" else DERIVED
+
+
 def former_names(node: dict) -> list[str]:
     """A former name is an alias. name_history is otherwise dropped on the floor."""
     out = []
@@ -195,6 +207,7 @@ def emit_offices(seed: dict, out: list[str]) -> dict[str, str]:
             jsonb(codes),
             lit(node.get("valid_from")), lit(node.get("valid_to")),
             lit("US"), arr(["US"]), lit("federal"),
+            DOCUMENTED if node.get("observation_ids") else DERIVED,
             lit(SEED_SOURCE), lit(node["id"]),
         ])
         for unmapped in ("location", "notes", "capability_portfolios"):
@@ -205,7 +218,7 @@ def emit_offices(seed: dict, out: list[str]) -> dict[str, str]:
            ["id", "agency_id", "existing_agency_id", "parent_organization_id", "name",
             "normalized_name", "acronym", "org_type", "aliases", "normalized_aliases",
             "external_ids", "valid_from", "valid_to", "jurisdiction_code",
-            "jurisdiction_path", "government_level", "source", "source_ref"],
+            "jurisdiction_path", "government_level", "confidence", "source", "source_ref"],
            rows, out)
 
     # parent_organization_id holds one edge. Where the sources give exactly one live
@@ -299,11 +312,11 @@ def emit_relationships(seed: dict, org_ids: dict[str, str], out: list[str]) -> N
         rows.append([
             lit(uid("orgrel", rel["id"])), lit(org_ids[source_org]), lit(org_ids[target_org]),
             lit(REL_TYPE[rel["type"]]), lit(rel.get("effective_from")), lit(rel.get("effective_to")),
-            lit(SEED_SOURCE), lit(rel["id"]),
+            confidence_for(rel["evidence_class"]), lit(SEED_SOURCE), lit(rel["id"]),
         ])
     insert("public.gov_organization_relationships",
            ["id", "source_organization_id", "target_organization_id", "relationship_type",
-            "valid_from", "valid_to", "source", "source_ref"], rows, out)
+            "valid_from", "valid_to", "confidence", "source", "source_ref"], rows, out)
 
 
 # -------------------------------------------------------------------- evidence
@@ -643,6 +656,10 @@ def selfcheck() -> int:
     emit_people(seed, m_ids, lines)
     body = "\n".join(lines)
     assert body.count("'Program Manager'") == 1, "superseded leader must not load as current"
+
+    assert confidence_for("directly_documented") == "1.0"
+    assert confidence_for("inferred") == "0.5" and float(DERIVED) < 0.8, \
+        "a derived edge must stay under the resolver's hierarchy threshold"
 
     print("selfcheck ok")
     return 0

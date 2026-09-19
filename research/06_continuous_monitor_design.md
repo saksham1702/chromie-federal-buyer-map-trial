@@ -267,3 +267,32 @@ and the host fallback rules. Expansion order: other PAE Mission Systems componen
 PEO MLB, PEO IWS) using the same LRAE and FPDS adapters; NAVSEA and NAVAIR portfolios using their
 LRAEs; other military departments by swapping the budget-book parser's exhibit conventions;
 civilian agencies through the existing Agency Brain per-agency ingest pattern.
+
+## 10. Alert C, implemented
+
+`python research/tools/monitor_forecast_revision.py` produces alert C from the loaded
+agency-intelligence tables. One `psql` read, no network, no file diffing: the
+supersession chain already records which revision replaced which, so a line that never
+moved produces nothing.
+
+Against the three NAVWAR releases it reports **14 forecast revisions, 13 of them
+slips**. Each alert carries the five parts section 9 specifies. One example, abridged:
+
+> **N00039-23-RFPREQ-PMW/A-170-0173** - All SATCOM Multi Award Contract (C)
+> - What changed: anticipated award slips FY24 Q2 -> FY27 Q2 between the 2023-06-20
+>   and 2025-06-19 releases.
+> - Office: PMW/A 170 Communications and GPS Navigation Program Office. Ancestry:
+>   PMW/A 170 -> PEO C4I; succeeded by Portfolio Acquisition Executive Mission Systems
+>   (from 2026-05-11).
+> - Evidence: the two spreadsheet rows, each with its release and source hash.
+> - Uncertainty: the LRAE is an estimate; a move may be strategy or a clerical
+>   correction and the release does not say which.
+> - Why it matters: the award window is what a capture timeline is built on.
+
+Two details worth keeping when the other alerts are built. The ancestry walk has to
+climb `parent_organization_id` **and** then look for a documented successor of each
+office on that path: the 2026-05-11 reorganisation is a `successor_to` edge, not a
+parent, so a parent-only walk reports the pre-reorganisation chain as though nothing
+had happened. And a fiscal quarter has to be read back from the calendar date rather
+than the calendar quarter, or every October-to-December award window is reported a
+year early.
