@@ -62,6 +62,71 @@ OFFICE_REFS = {
     "gov_contact_positions": ("organization_id",),
 }
 
+# Insert order is foreign-key order, and the list is the dependency closure: evidence
+# cannot be written without the Brain items it points at, and positions cannot be
+# written without their contacts. `created_at` and `recorded_at` are left to
+# production defaults; `observed_at` is data and is carried.
+PROMOTION = (
+    ("gov_contacts", "id, identity_key, name, agency, role, source"),
+    ("agency_brain_items", "id, agency_id, section, kind, claim_key, title, body, source, as_of"),
+    ("gov_intelligence_evidence",
+     "id, brain_item_id, excerpt, source_url, published_at, provider, source_key"),
+    ("gov_needs", "id, agency_id, title, description, lifecycle, source, source_key"),
+    ("gov_need_requirements", "id, need_id, requirement_key, kind"),
+    ("gov_intelligence_assertions",
+     "id, assertion_kind, lineage_key, basis, rationale, producer, producer_version, "
+     "source_key, observed_at, supersedes_id, valid_from, valid_to"),
+    ("gov_requirement_revisions",
+     "assertion_id, requirement_id, statement, expected_from, expected_to"),
+    ("gov_funding_observations",
+     "assertion_id, need_id, measure, amount, amount_low, amount_high, currency_code, "
+     "unit_multiplier, fiscal_year, period_start, period_end, scope_description"),
+    ("gov_need_organizations", "assertion_id, need_id, organization_id, role"),
+    ("gov_assertion_evidence", "assertion_id, evidence_id, relationship, is_direct"),
+    ("gov_contact_positions",
+     "id, contact_id, organization_id, role_type, raw_title, valid_from, valid_to, "
+     "source, source_ref"),
+    ("gov_organization_relationships",
+     "id, source_organization_id, target_organization_id, relationship_type, "
+     "valid_from, valid_to, confidence, source, source_ref"),
+)
+REMAP_OFFICE = {"organization_id", "source_organization_id", "target_organization_id"}
+REMAP_AGENCY = {"agency_id"}
+
+
+def lit(value) -> str:
+    """Quote for Postgres. standard_conforming_strings is on, so doubling ' is enough."""
+    if value is None:
+        return "null"
+    if isinstance(value, bool):
+        return "true" if value else "false"
+    if isinstance(value, (int, float)):
+        return str(value)
+    if isinstance(value, (dict, list)):
+        return "'" + json.dumps(value, sort_keys=True).replace("'", "''") + "'::jsonb"
+    return "'" + str(value).replace("'", "''") + "'"
+
+
+def order_assertions(rows: list[dict]) -> list[dict]:
+    """A superseding assertion cannot be inserted before the one it supersedes.
+
+    The guard looks the prior row up at insert time, so ordering is not optional and
+    a chain of any depth has to come out parent-first.
+    """
+    remaining = {r["id"]: r for r in rows}
+    placed, out = set(), []
+    while remaining:
+        ready = [r for r in remaining.values()
+                 if not r.get("supersedes_id") or r["supersedes_id"] in placed
+                 or r["supersedes_id"] not in remaining]
+        if not ready:
+            raise SystemExit("supersession cycle; cannot order assertions")
+        for row in ready:
+            out.append(row)
+            placed.add(row["id"])
+            del remaining[row["id"]]
+    return out
+
 
 def local(sql: str):
     out = subprocess.run(["psql", LOCAL_DSN, "-At", "-c", sql], capture_output=True, text=True)
@@ -197,11 +262,10 @@ def main(argv: list[str]) -> int:
 
     # A table is promotable when every office its rows point at resolves. Blocking the
     # whole load on an edge nobody needs would hold back the part that is ready.
-    tables = ("gov_needs", "gov_need_requirements", "gov_requirement_revisions",
-              "gov_funding_observations", "gov_need_organizations",
-              "gov_intelligence_assertions", "gov_intelligence_evidence",
-              "gov_assertion_evidence", "gov_organization_relationships",
-              "gov_contact_positions")
+    # The whole dependency closure, not just the interesting tables: evidence needs
+    # its Brain items and positions need their contacts, and leaving either out emits
+    # SQL that fails on a foreign key at the far end of a long transaction.
+    tables = tuple(table for table, _ in PROMOTION)
     ready, held = [], []
     for table in tables:
         count = len(rows_of(table, "1"))
@@ -228,13 +292,82 @@ def main(argv: list[str]) -> int:
     if not ready:
         print("\nNothing is promotable. No SQL written.")
         return 1
-    if args.emit_sql:
-        print(f"\nSQL generation is not implemented yet; nothing written to {args.emit_sql}.")
-        print("The next step is to rewrite the loader's office ids through this mapping.")
-    else:
-        print("\nRe-run with --emit-sql FILE once the rewrite step exists. "
+    if not args.emit_sql:
+        print("\nRe-run with --emit-sql FILE to write the statements for review. "
               "Nothing is ever written to production by this tool.")
+        return 0
+
+    office_map = {local_id: entry["prod"]["id"] for local_id, entry in resolved.items()}
+    agency_map = map_agencies()
+    promotable = {table for table, _, _ in ready}
+    written = emit_sql(args.emit_sql, promotable, office_map, agency_map,
+                       held=[(t, c, b) for t, c, b in held])
+    print(f"\nwrote {args.emit_sql}")
+    for table, count in written:
+        print(f"  {count:>6}  {table}")
+    print("\nRead it, then run it yourself against production. This tool will not.")
     return 0
+
+
+def map_agencies() -> dict[str, str]:
+    """Production already has the agencies; a promotion points at them, never inserts."""
+    local_rows = rows_of("agencies", "id, level, toptier_code, subtier_code, canonical_name")
+    prod_rows = prod_get("agencies", "id,level,toptier_code,subtier_code,canonical_name")
+    index = {(r["level"], r["toptier_code"], r["subtier_code"]): r for r in prod_rows}
+    mapping = {}
+    for row in local_rows:
+        key = (row["level"], row["toptier_code"], row["subtier_code"])
+        target = index.get(key)
+        if not target:
+            raise SystemExit(f"no production agency for {key}; refusing to guess")
+        mapping[row["id"]] = target["id"]
+    return mapping
+
+
+def emit_sql(path: Path, promotable: set[str], office_map: dict[str, str],
+             agency_map: dict[str, str], held: list) -> list[tuple[str, int]]:
+    lines = [
+        "-- Navy pilot promotion, generated by research/tools/promote_plan.py.",
+        "-- Read before running. These tables are append-only: UPDATE and DELETE raise,",
+        "-- and an assertion allows one retraction and nothing else. Inserted rows stay.",
+        f"-- Offices are rewritten to {len(office_map)} existing production rows; none are created.",
+        "",
+        "begin;",
+        "set constraints all deferred;",
+        "",
+    ]
+    written = []
+    for table, columns in PROMOTION:
+        if table not in promotable:
+            continue
+        names = [c.strip() for c in columns.split(",")]
+        rows = rows_of(table, columns)
+        if table == "gov_intelligence_assertions":
+            rows = order_assertions(rows)
+        if not rows:
+            continue
+        values = []
+        for row in rows:
+            cells = []
+            for name in names:
+                value = row[name]
+                if name in REMAP_OFFICE and value is not None:
+                    value = office_map[value]
+                elif name in REMAP_AGENCY and value is not None:
+                    value = agency_map[value]
+                cells.append(lit(value))
+            values.append("  (" + ", ".join(cells) + ")")
+        lines.append(f"insert into public.{table} ({', '.join(names)}) values")
+        lines.append(",\n".join(values))
+        lines.append("on conflict do nothing;")
+        lines.append("")
+        written.append((table, len(rows)))
+    for table, count, blocked_by in held:
+        lines.append(f"-- held back: {count} rows of {table}, "
+                     f"pending production offices for {', '.join(blocked_by)}")
+    lines += ["", "commit;"]
+    path.write_text("\n".join(lines) + "\n")
+    return written
 
 
 def selfcheck() -> int:
@@ -270,6 +403,35 @@ def selfcheck() -> int:
     assert resolved["L1"]["prod"]["id"] == "P1" and resolved["L1"]["how"] == "office code"
     assert [r["id"] for r in unmatched] == ["L2"]
     assert "L3" in ambiguous and len(ambiguous["L3"]["candidates"]) == 2
+    assert lit(None) == "null" and lit(True) == "true" and lit(3) == "3"
+    assert lit("O'Brien") == "'O''Brien'"
+    assert lit({"b": 1, "a": 2}) == """'{"a": 2, "b": 1}'::jsonb"""
+    # No text[] column is in PROMOTION, so a list can only be jsonb here. If an array
+    # column is ever added, this renders it wrong and the assertion has to change too.
+    assert lit(["x"]) == """'["x"]'::jsonb"""
+    assert not any(c.strip() in {"aliases", "normalized_aliases", "jurisdiction_path"}
+                   for _, cols in PROMOTION for c in cols.split(",")), \
+        "an array column reached PROMOTION; lit() would emit jsonb for it"
+
+    # A superseding assertion cannot be inserted before the one it supersedes: the
+    # guard looks the prior row up at insert time.
+    chain = [{"id": "c", "supersedes_id": "b"}, {"id": "a", "supersedes_id": None},
+             {"id": "b", "supersedes_id": "a"}]
+    order = [r["id"] for r in order_assertions(chain)]
+    assert order.index("a") < order.index("b") < order.index("c"), order
+    # A row superseding something outside this batch is already safe to insert.
+    assert [r["id"] for r in order_assertions([{"id": "z", "supersedes_id": "elsewhere"}])] == ["z"]
+
+    # Every table that is referenced must itself be promoted, or the emitted SQL
+    # fails on a foreign key at the far end of a long transaction.
+    promoted = [t for t, _ in PROMOTION]
+    for parent, child in (("gov_contacts", "gov_contact_positions"),
+                          ("agency_brain_items", "gov_intelligence_evidence"),
+                          ("gov_needs", "gov_need_requirements"),
+                          ("gov_intelligence_assertions", "gov_requirement_revisions"),
+                          ("gov_intelligence_evidence", "gov_assertion_evidence")):
+        assert promoted.index(parent) < promoted.index(child), f"{parent} must precede {child}"
+
     print("selfcheck ok")
     return 0
 

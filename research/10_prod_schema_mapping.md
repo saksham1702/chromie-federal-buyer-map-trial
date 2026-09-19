@@ -146,11 +146,26 @@ Systems Command" typed `other`. Creating them is a decision about the organizati
 registry, not part of this load, so the tool holds that one table back and promotes
 the rest rather than blocking everything on edges nobody is waiting for.
 
-What is still missing before a promotion can run: the step that rewrites the loader's
-office ids through this mapping, and a person reading the resulting diff. The layer
+`--emit-sql FILE` writes the statements. It rewrites every office reference to its
+production id, maps the two agencies onto the rows production already has rather than
+inserting them, and emits the full dependency closure in foreign-key order - the Brain
+items before the evidence that cites them, the contacts before their positions, and
+the assertions ordered so a superseding row never precedes the row it supersedes.
+
+**Rehearsed, not merely generated.** The emitted SQL was run against a local database
+seeded with the 314 real production offices under DoD and Navy and the two real
+agency rows, at their production ids. It commits: 11 contacts, 508 Brain items, 508
+evidence, 410 needs, 410 requirements, 1613 assertions, 429 revisions, 364 funding
+observations, 820 need-organization links, 1613 citations, 12 positions. Every foreign
+key resolved, every deferred completeness trigger passed, and the needs attach to the
+`official_navwar` office rows rather than to anything this package minted. The
+FY24 Q2 to FY27 Q2 supersession still resolves through
+`gov_current_intelligence_assertions` afterwards.
+
+What remains is a person reading the file and running it. The tool will not: the layer
 tables are append-only - both UPDATE and DELETE raise, and an assertion allows one
 retraction and nothing else - so a row written against the wrong office cannot be
-removed. That is the whole reason this is a plan and not a push.
+removed. Nothing here has been written to production.
 
 ## Two notes on the schema itself
 
