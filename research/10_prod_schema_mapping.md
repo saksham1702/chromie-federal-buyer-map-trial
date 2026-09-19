@@ -66,12 +66,18 @@ with PMW office names dressed as programs, which would make an office look like 
 program everywhere the two join. Filling it needs a budget exhibit or a PEO program
 inventory.
 
-**Procurement references.** `gov_procurement_refs` keys on a row that already exists
-in `sam_opportunities`, `usa_awards`, `usa_award_children` or
-`gov_procurement_records`. 65 distinct incumbent contract PIIDs read off the LRAE are
-none of those until ingested, so the whole layer stays empty and the 96 need-to-contract
-links with it. This is the one place the pilot data hits a wall rather than a gap in
-the sources.
+**Procurement references, locally only.** `gov_procurement_refs` keys on a row that
+already exists in `sam_opportunities`, `usa_awards`, `usa_award_children` or
+`gov_procurement_records`. The local database has no awards at all, so the layer and
+the 96 need-to-contract links stay empty there.
+
+That is a property of the local database, not of the data. Checked against the
+production database on 2026-09-19: it holds 1,207,239 awards, and **42 of the 65
+incumbent contract numbers read off the LRAE are already in it**, with recipient and
+end date - Viasat on N0003916D0010 to 2026-06-29, Lockheed Martin on N0003918C0033,
+Raytheon on N0003921C5002, and so on. Loaded there, layer 5 resolves for those 42 and
+each planned buy gains its incumbent, that vendor, and the date their contract runs
+out. The remaining 23 are the ones to chase.
 
 **Retractions on office edges.** `gov_organization_relationships` has `valid_from` and
 `valid_to` and no way to say a claim was withdrawn as wrong rather than ended as true.
@@ -94,6 +100,23 @@ rather than stored as zero. `gov_organizations` has no column for a node's `loca
 `aliases`, which is what former names are. `direct_reporting_program_manager` is not in
 the type vocabulary, so a DRPM is loaded as `program_office` - defensible, since what
 makes it direct-reporting is who it reports to, which is a relationship.
+
+## State of the production database
+
+Read-only check, 2026-09-19. The schema is deployed and **every one of its tables is
+empty**: `gov_programs`, `gov_needs`, `gov_need_requirements`,
+`gov_requirement_revisions`, `gov_funding_observations`, `gov_intelligence_assertions`,
+`gov_intelligence_evidence`, `gov_assertion_evidence` and `gov_procurement_refs` all
+hold zero rows. Nothing has been written into the agency-intelligence layers yet.
+
+What is already there matters for how this would be promoted. `gov_organizations`
+holds 1,488 rows including all eleven PEO C4I program offices, sourced
+`official_navwar` and `sam_gov`; `gov_organization_relationships` holds 194;
+`agency_brain_items` holds 23,128. A promotion must therefore **match** the Navy
+offices to the rows that exist rather than insert its own, or it creates eleven
+duplicate PMWs. The loader currently mints its own identities, which is correct for an
+empty local database and wrong for production; matching on office code through
+`external_ids` is the obvious join and is not written yet.
 
 ## Two notes on the schema itself
 
