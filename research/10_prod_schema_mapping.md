@@ -95,15 +95,17 @@ rather than stored as zero. `gov_organizations` has no column for a node's `loca
 the type vocabulary, so a DRPM is loaded as `program_office` - defensible, since what
 makes it direct-reporting is who it reports to, which is a relationship.
 
-## Note for the schema owner
+## Two notes on the schema itself
 
 `gov_intelligence_assertions` is `UNIQUE (producer, source_key)`, which makes
-`source_key` the real idempotency key. Worth saying so in a comment: the first load
-here used one `source_key` per need for both its requirement-owner and its
-contracting-office claim, and 410 assertions were silently dropped by an
-`ON CONFLICT DO NOTHING` before the detail-kind trigger caught the mismatch.
+`source_key` the real idempotency key rather than the row id. A first load here used
+one `source_key` per need for both its requirement-owner and its contracting-office
+claim; 410 assertions were silently dropped by `ON CONFLICT DO NOTHING` and only the
+detail-kind trigger caught it. Worth a comment on the constraint.
 
-Separately, the type axis for funding is split elsewhere in the corpus: VA agency
-awards are typed through `funding_instrument`, SBIR and STTR through `program_tags`,
-which is `CHECK`-locked to those two values. Consolidating means backfilling 204,345
-SBIR rows.
+Supersession may not change the measurement scope, and for funding that includes the
+fiscal year and period. A re-estimate of the same need for the same period chains
+correctly and only the latest stays current. A move to a different fiscal year cannot
+chain, and both estimates remain current - correctly, since they are different
+measurements, but a caller summing forecast value has to group by fiscal year rather
+than trust the current view to hold one row per need.

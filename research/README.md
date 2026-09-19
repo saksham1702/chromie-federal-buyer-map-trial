@@ -18,7 +18,8 @@ Research and planning only: no production writes, no outreach.
 10. `09_manual_collection_runbook.md` - each source worked by hand once, with what a monitor replaces
 11. `contact_observations.json` and `contact_recommendations.json` - likely public contacts per office with confidence labels
 12. `../datapack/lrae_navwar_*/` - the NAVWAR LRAE releases (2023 export, June 2024, June 2025) as regenerable packages. Committed: `SOURCE.json` (source hash, output hashes) and `reconciliation.md`. The CSV tables (rows, decisions, joins, layers, diffs) are regenerated locally with `python research/tools/lrae_package.py build` and shared out of band; their hashes are in `SOURCE.json`
-13. `navy-sources-map.md` - prose companion to the registry: every source once, what it can and cannot establish, how they join, evidence-strength rules (contributed; the registry and manifest stay the authorities)
+13. `10_prod_schema_mapping.md` - what this research fills in the production agency-intelligence tables, what it cannot, and what the attempt found out about the design
+14. `navy-sources-map.md` - prose companion to the registry: every source once, what it can and cannot establish, how they join, evidence-strength rules (contributed; the registry and manifest stay the authorities)
 
 Supporting files: `documents_manifest.jsonl` (every document fetched: URL, hash, retrieval
 method and time), `manual_pdf_requests.json` (documents that still need a human to fetch),

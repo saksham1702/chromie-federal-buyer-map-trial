@@ -57,7 +57,7 @@ Plan: ~/.claude/plans/eager-hopping-rivest.md (approved 2026-09-16). Branch: tri
 - [x] complete FY2026 FPDS scan for N00039 (2026-09-18, through June 2026): BT06 timing miss, no Platform Integration 2.0 award, NMT sustainment orders only
 - [ ] optional 1h: replay the 19 examples through prod `resolve_program_office()` offline
 
-## Needs from Saksham
+## Needs from the operator
 - [x] api.data.gov key received and stored in .env; SAM itself is served by the keyless site API (api.sam.gov host dead), so the key is only for other api.data.gov services
 - [x] WARP-off tested 2026-09-16: block is geographic (Indian egress also 403); Browserbase (US egress) works and fetched 70+ live pages and files
 

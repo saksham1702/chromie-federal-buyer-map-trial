@@ -235,6 +235,16 @@ def emit_people(seed: dict, org_ids: dict[str, str], out: list[str]) -> None:
         if rel["from"] not in people or rel["to"] not in org_ids:
             note_skip("leads relationship without a person and an office at its ends")
             continue
+        if rel["review_status"] == "retracted":
+            note_skip("retracted leadership claim not loaded")
+            continue
+        # valid_to is the only way to say a position is over. A leadership claim a
+        # source ended or superseded without giving a date would land as an open
+        # current position beside the successor, so it is left out.
+        state = rel["current_status"]["state"]
+        if state in ("ended", "superseded") and not rel.get("effective_to"):
+            note_skip(f"leadership claim is {state} with no end date; no column can say so")
+            continue
         rows.append([
             lit(uid("position", rel["id"])), lit(uid("contact", rel["from"])), lit(org_ids[rel["to"]]),
             lit(role_type(rel.get("role_as_written"))), lit(rel.get("role_as_written")),
@@ -421,6 +431,9 @@ def emit_lrae(org_ids: dict[str, str], out: list[str]) -> None:
     # keyed on it alone and each release becomes a revision of its requirement rather
     # than a second need describing the same thing.
     needs, need_releases, first_seen = {}, {}, {}
+    # Each release states its own date. Merging the need records must not let a 2025
+    # release date attach to the 2023 revision of a line that appears in both.
+    stated_on: dict[tuple[str, str], str | None] = {}
     for release in RELEASES:
         for row in read_layer(release, "needs"):
             key = row["record_key"]
@@ -428,6 +441,7 @@ def emit_lrae(org_ids: dict[str, str], out: list[str]) -> None:
             needs[key] = {**needs[key], **{k: v for k, v in row.items() if v}}
             need_releases.setdefault(key, []).append(release)
             seen = row["valid_from"] or None
+            stated_on[(release, key)] = seen
             if seen and (first_seen.get(key) is None or seen < first_seen[key]):
                 first_seen[key] = seen
 
@@ -467,7 +481,7 @@ def emit_lrae(org_ids: dict[str, str], out: list[str]) -> None:
     # One requirement per need, one revision assertion per release it appeared in.
     # A later release supersedes the earlier assertion, which is how a slipping
     # award date stays visible instead of being overwritten.
-    requirements, revisions_by_need = [], {}
+    requirements, revisions_by_need, funding_scope = [], {}, {}
     for release in RELEASES:
         for row in read_layer(release, "need_requirements"):
             key = row["need_id"].split(":", 2)[2]
@@ -487,7 +501,7 @@ def emit_lrae(org_ids: dict[str, str], out: list[str]) -> None:
             assertion(assertions, ident, "requirement", f"requirement:{key}", "documented",
                       f"{release} states the scope, method ({row['procurement_method'] or 'unstated'}) "
                       f"and award timing ({row['award_fy'] or 'unstated'} {row['award_quarter']}).".strip(),
-                      f"{LRAE_SOURCE}:{release}:{row['id']}", needs[key]["valid_from"] or None, prior)
+                      f"{LRAE_SOURCE}:{release}:{row['id']}", stated_on.get((release, key)), prior)
             details["requirement"].append(
                 [lit(ident), lit(req_id), lit(statement), lit(expected_from), lit(expected_to)])
 
@@ -507,9 +521,18 @@ def emit_lrae(org_ids: dict[str, str], out: list[str]) -> None:
             start, end = quarter_bounds(fy, row["period"])
             low, high = row["amount_low_usd"] or None, row["amount_high_usd"] or None
             single = low if high is None else (high if low is None else None)
-            assertion(assertions, ident, "funding", f"funding:{key}", "documented",
+            # Supersession may not change the measurement scope, so a re-estimate of
+            # the same need for the same fiscal period chains and only the latest
+            # stays current. A move to a different fiscal year is a different
+            # measurement, not a correction, and both remain on the record.
+            scope = (key, "procurement_estimate", fy, start, end)
+            prior = funding_scope.get(scope)
+            funding_scope[scope] = ident
+            assertion(assertions, ident, "funding",
+                      f"funding:{key}:{row['fiscal_year'] or 'unstated'}:{row['period'] or 'unstated'}",
+                      "documented",
                       f"{release} states an anticipated total value of {row['as_stated'] or 'an unstated range'}.",
-                      f"{LRAE_SOURCE}:{release}:{row['id']}", needs[key]["valid_from"] or None)
+                      f"{LRAE_SOURCE}:{release}:{row['id']}", stated_on.get((release, key)), prior)
             details["funding"].append([
                 lit(ident), lit(uid("need", key)), lit("procurement_estimate"),
                 lit(single), lit(None if single else low), lit(None if single else high),
@@ -606,6 +629,20 @@ def selfcheck() -> int:
     assert successor.index(ids["o:0"]) < successor.index(ids["o:3"])
     # r1 is already the parent column; r6 ended with no date; r7 is retracted.
     assert body.count("'functionally_aligned_to'") == 2, body.count("'functionally_aligned_to'")
+
+    # A leadership claim a source superseded without a date must not load as a
+    # current position beside the person who replaced them.
+    seed["nodes"].append({"id": "person:a", "type": "person", "name": "A", "aliases": [], "codes": {}})
+    seed["nodes"].append({"id": "person:b", "type": "person", "name": "B", "aliases": [], "codes": {}})
+    seed["relationships"] += [
+        {**rel("r8", "leads", "person:a", "o:0", state="superseded"), "role_as_written": "Program Manager"},
+        {**rel("r9", "leads", "person:b", "o:0"), "role_as_written": "Program Manager"}]
+    lines = []
+    m_ids = dict(ids)
+    m_ids.pop("person:a", None)
+    emit_people(seed, m_ids, lines)
+    body = "\n".join(lines)
+    assert body.count("'Program Manager'") == 1, "superseded leader must not load as current"
 
     print("selfcheck ok")
     return 0
