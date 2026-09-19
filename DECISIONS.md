@@ -187,3 +187,31 @@ diff keys on the PID where both rows have one and on title plus office code othe
 the June 2024 release has no PID column and PIDs turned out to be only partly stable. Weak matches
 are reported as such rather than forced; a record that cannot be followed across releases reads as
 removed and added, and the reviewer sees it.
+
+## 2026-09-20 - An office's former parents stay in the relationship table
+
+`parent_organization_id` holds one edge, so the loader skipped `child_of` rows for any office
+that had a single live parent. That dropped the office's history with its present: NEN under
+PEO EIS until 2020-05-13 disappeared behind NEN under PEO Digital. The skip now applies only
+to the one live claim the column actually carries; every ended or superseded parent loads with
+its dates. The PEO/PAE migration depends on this, since every office it moves will have both.
+
+## 2026-09-20 - Following a requirement across releases is staged, and a weak match is a candidate
+
+No single key follows an LRAE line between releases. The June 2024 release has no PID column,
+31 of the 2023 export's 643 PIDs survive to June 2025, and titles get rewritten on rows whose
+PID did hold. `pair_releases()` therefore runs PID, then exact title under the same office,
+then incumbent contract number under the same office, and each stage claims a pair only when
+it is 1:1. What survives gets one greedy pass of title similarity within the office at 0.85 or
+better, and those are labelled `candidate`, never `match`: the score and the earlier wording
+travel with the row for a reviewer. A key that hits several rows on either side and is never
+resolved is reported as `ambiguous` with the counts. Every diff row now carries `key_method`,
+`confidence` and `reason`.
+
+## 2026-09-20 - An alert names every office still claimed, and never one per release
+
+Office observations are per release, so joining them straight into an alert produced one copy
+of the alert per release the requirement appeared in. The monitors now take the office from
+the newest observation nothing has superseded, and count the live ones: where two releases
+name different offices both stay live by design, and the alert says the owner is contested and
+lists them with their dates rather than picking the one that sorted last.

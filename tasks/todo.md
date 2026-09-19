@@ -68,3 +68,25 @@ Plan: ~/.claude/plans/eager-hopping-rivest.md (approved 2026-09-16). Branch: tri
 - [x] review-bot findings: UIC family tightened and alias-first classifier; budget line wording; PMS 485
 - [x] second and third LRAE releases (June 2024, 2023 export) recovered via the Wayback index and packaged with diffs
 - [ ] independent reproduction of a sample with reviewer identity and date recorded
+
+## Phase three: reviewer comments of 2026-09-20 (data accuracy as it lands)
+
+- [x] "over $1B" is not $1B: open-ended ranges refused rather than flattened, `as_stated` kept
+      on every row that loads, 4 rows and 65 "No Range Specified" skipped out loud
+- [x] historical org relationships survive the import: NEN under PEO EIS to 2020-05-13 loads
+      beside the current parent. PMS 485 still blocked - its dated claim is retracted and the
+      surviving one has no end date
+- [x] follow a requirement across releases with or without a PID: staged matcher plus
+      similarity candidates. Followed records 105 -> 178 (2024-25), 31 -> 66 (2023-25),
+      59 -> 138 (2023-24); ambiguous keys kept with their reasoning
+- [x] office assignments are per-release observations; a release naming a different office
+      branches instead of overwriting. Self-checked, since no release pair exercises it
+- [x] `research/11_worked_examples_end_to_end.md`: org change, forecast revision, ambiguous
+      match, each traced from the spreadsheet row to the alert
+- [x] found while walking it: per-release office rows fanned every alert out once per release
+      (28 rows for 14 revisions). Alerts now collapse to one and name a contested owner
+- [ ] reviewer to verify the three examples against the sources
+- [ ] decide: a requirement that slips a fiscal year and changes value is reported as a slip
+      only, because value chains are scoped to one fiscal period (0 value revisions, 14 timing)
+- [ ] deferred at the reviewer's request: shipping raw files and generated CSVs as one package
+- not doing now: AI-client change measurement

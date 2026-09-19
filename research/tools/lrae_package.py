@@ -23,7 +23,8 @@ import re
 import sys
 import time
 import urllib.parse
-from collections import Counter
+from collections import Counter, defaultdict
+from difflib import SequenceMatcher
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -377,48 +378,140 @@ def layers(rows: list[dict], classified: list[dict], joins: list[dict], source_s
     return {"needs": needs, "need_requirements": reqs, "funding_observations": funding, "procurement_refs": refs, "evidence": evidence}
 
 
+# ---------------------------------------------------------------- release matching
+
+MATCH_MIN_RATIO = 0.85  # below this the two titles are different requirements, not a reword
+
+
+def norm_title(text: str) -> str:
+    return re.sub(r"\s+", " ", (text or "").strip().lower())
+
+
+def office_code(r: dict) -> str:
+    return (r["office_code_string"] or "").split(" - ")[0].strip().upper()
+
+
+# Strongest signal first. Each entry is (basis, confidence, why, key function). A stage
+# claims a pair only when the key hits exactly one row on each side; anything else is
+# left for the next stage and, if nothing later resolves it, reported as ambiguous.
+MATCH_STAGES = [
+    ("pid", "confirmed", "same PID number in both releases",
+     lambda r: [r["pid"]] if r["pid"] else []),
+    ("title+office", "confirmed", "same requirement title under the same office code",
+     lambda r: [norm_title(r["requirement_title"]) + "|" + office_code(r)] if norm_title(r["requirement_title"]) else []),
+    ("office+incumbent", "confirmed", "same incumbent contract number under the same office code",
+     lambda r: [office_code(r) + "|" + t for t in contract_tokens(r["existing_contract_number"])]),
+]
+
+
+def pair_releases(old_rows: list[dict], new_rows: list[dict]) -> tuple[list[dict], list[dict], list[dict], list[dict]]:
+    """Follow the same requirement from one release to the next.
+
+    No single key does this. The June 2024 release has no PID column at all, and PIDs are
+    not stable where they exist: 31 of the 2023 export's 643 PIDs reappear in June 2025.
+    So the stages run strongest first - PID, then exact title under the same office, then
+    the incumbent contract number under the same office - and each one only claims a pair
+    it can make 1:1. What survives all three gets one greedy pass of title similarity
+    within the office, which produces candidates rather than matches: a reworded title is
+    a judgement, so the score and the earlier wording travel with the row for a reviewer
+    to accept or reject. A key that matched several rows and was never resolved is
+    reported as `ambiguous` with the counts that made it so, not silently dropped.
+    """
+    pairs: list[dict] = []
+    contested: list[dict] = []
+    left_old, left_new = list(old_rows), list(new_rows)
+    for basis, confidence, why, key_of in MATCH_STAGES:
+        index_old: dict[str, list[dict]] = defaultdict(list)
+        index_new: dict[str, list[dict]] = defaultdict(list)
+        for r in left_old:
+            for k in key_of(r):
+                index_old[k].append(r)
+        for r in left_new:
+            for k in key_of(r):
+                index_new[k].append(r)
+        taken_old, taken_new = set(), set()
+        for k in sorted(set(index_old) & set(index_new)):
+            olds, news = index_old[k], index_new[k]
+            if len(olds) == 1 and len(news) == 1:
+                pairs.append({"old": olds[0], "new": news[0], "basis": basis, "confidence": confidence, "reason": why})
+                taken_old.add(olds[0]["row_number"])
+                taken_new.add(news[0]["row_number"])
+            else:
+                contested.append({"key": k, "basis": basis, "olds": olds, "news": news,
+                                  "reason": f"{why}, but the key matches {len(olds)} earlier and {len(news)} later rows"})
+        left_old = [r for r in left_old if r["row_number"] not in taken_old]
+        left_new = [r for r in left_new if r["row_number"] not in taken_new]
+
+    by_office: dict[str, list[dict]] = defaultdict(list)
+    for r in left_new:
+        by_office[office_code(r)].append(r)
+    scored = []
+    for r in left_old:
+        for s in by_office.get(office_code(r), ()):
+            ratio = SequenceMatcher(None, norm_title(r["requirement_title"]), norm_title(s["requirement_title"])).ratio()
+            if ratio >= MATCH_MIN_RATIO:
+                scored.append((round(ratio, 4), r, s))
+    # Best score first, then row order, so the pass is greedy but deterministic.
+    scored.sort(key=lambda x: (-x[0], x[1]["row_number"], x[2]["row_number"]))
+    taken_old, taken_new = set(), set()
+    for ratio, r, s in scored:
+        if r["row_number"] in taken_old or s["row_number"] in taken_new:
+            continue
+        pairs.append({"old": r, "new": s, "basis": "title~office", "confidence": "candidate",
+                      "reason": f'titles {ratio:.2f} alike under office {office_code(r)}; earlier row read "{r["requirement_title"][:70]}"'})
+        taken_old.add(r["row_number"])
+        taken_new.add(s["row_number"])
+    left_old = [r for r in left_old if r["row_number"] not in taken_old]
+    left_new = [r for r in left_new if r["row_number"] not in taken_new]
+    return pairs, contested, left_old, left_new
+
+
 # ---------------------------------------------------------------- release diff
 
 def diff_releases(old_rows: list[dict], new_rows: list[dict]) -> tuple[list[dict], str]:
-    """Added, removed and changed records between two releases. A record is keyed by PID when it has one and by a
-    hash of title plus office code otherwise (the June 2024 release has no PID column; the 2023 export lacks PIDs on
-    some rows). PIDs are only partly stable across releases, so many rows read as added or removed."""
-    any_pid = any(r["pid"] for r in old_rows) and any(r["pid"] for r in new_rows)
-    method = "pid where present, else title+office" if any_pid else "title+office"
+    """Added, removed, changed and candidate records between two releases, from `pair_releases`."""
+    pairs, contested, only_old, only_new = pair_releases(old_rows, new_rows)
+    matched_old = {p["old"]["row_number"] for p in pairs}
+    matched_new = {p["new"]["row_number"] for p in pairs}
 
-    def key(r):
-        return record_key(r) if any_pid else "k:" + hashlib.sha1((re.sub(r"\s+", " ", r["requirement_title"].strip().lower()) + "|" + r["office_code_string"].split(" - ")[0].strip()).encode()).hexdigest()[:12]
+    def row(change, key, basis, confidence, reason, field="", old_value="", new_value="", old_row="", new_row="", office=""):
+        return {"change": change, "key": key, "key_method": basis, "confidence": confidence, "field": field,
+                "old_value": old_value, "new_value": new_value, "old_row": old_row, "new_row": new_row,
+                "office": office, "reason": reason}
 
-    old_map, new_map = {}, {}
-    for r in old_rows:
-        old_map.setdefault(key(r), []).append(r)
-    for r in new_rows:
-        new_map.setdefault(key(r), []).append(r)
     out = []
-    for k in sorted(set(old_map) | set(new_map)):
-        olds, news = old_map.get(k, []), new_map.get(k, [])
-        km = "pid" if k and not k.startswith("k:") else "title+office"
-        if not olds:
-            for r in news:
-                out.append({"change": "added", "key": k, "key_method": km, "field": "", "old_value": "", "new_value": r["requirement_title"][:120],
-                            "old_row": "", "new_row": r["row_number"], "office": r["office_code_string"].split(" - ")[0]})
-        elif not news:
-            for r in olds:
-                out.append({"change": "removed", "key": k, "key_method": km, "field": "", "old_value": r["requirement_title"][:120], "new_value": "",
-                            "old_row": r["row_number"], "new_row": "", "office": r["office_code_string"].split(" - ")[0]})
-        elif len(olds) > 1 or len(news) > 1:
-            out.append({"change": "ambiguous", "key": k, "key_method": km, "field": "", "old_value": f"{len(olds)} rows", "new_value": f"{len(news)} rows",
-                        "old_row": ";".join(str(r["row_number"]) for r in olds), "new_row": ";".join(str(r["row_number"]) for r in news),
-                        "office": news[0]["office_code_string"].split(" - ")[0]})
-        else:
-            o, n = olds[0], news[0]
-            changed = [f for f in TRACKED if o[f] != n[f]]
-            if not changed:
-                out.append({"change": "unchanged", "key": k, "key_method": km, "field": "", "old_value": "", "new_value": "",
-                            "old_row": o["row_number"], "new_row": n["row_number"], "office": n["office_code_string"].split(" - ")[0]})
-            for field in changed:
-                out.append({"change": "changed", "key": k, "key_method": km, "field": field, "old_value": o[field][:120], "new_value": n[field][:120],
-                            "old_row": o["row_number"], "new_row": n["row_number"], "office": n["office_code_string"].split(" - ")[0]})
+    for c in contested:
+        live_old = [r for r in c["olds"] if r["row_number"] not in matched_old]
+        live_new = [r for r in c["news"] if r["row_number"] not in matched_new]
+        if not live_old and not live_new:
+            continue  # a later stage resolved every row this key touched
+        out.append(row("ambiguous", c["key"], c["basis"], "candidate", c["reason"],
+                       old_value=f"{len(c['olds'])} rows", new_value=f"{len(c['news'])} rows",
+                       old_row=";".join(str(r["row_number"]) for r in c["olds"]),
+                       new_row=";".join(str(r["row_number"]) for r in c["news"]),
+                       office=office_code(c["news"][0] if c["news"] else c["olds"][0])))
+    for p in pairs:
+        o, n = p["old"], p["new"]
+        key = n["pid"] or o["pid"] or f"row {o['row_number']}->{n['row_number']}"
+        changed = [f for f in TRACKED if o[f] != n[f]]
+        common = dict(key=key, basis=p["basis"], confidence=p["confidence"], reason=p["reason"],
+                      old_row=o["row_number"], new_row=n["row_number"], office=office_code(n))
+        if not changed:
+            out.append(row("unchanged", **common))
+        for field in changed:
+            out.append(row("changed", field=field, old_value=o[field][:120], new_value=n[field][:120], **common))
+    for r in only_old:
+        out.append(row("removed", r["pid"] or f"row {r['row_number']}", "", "confirmed",
+                       "no PID, title, incumbent contract or similar title in the later release",
+                       old_value=r["requirement_title"][:120], old_row=r["row_number"], office=office_code(r)))
+    for r in only_new:
+        out.append(row("added", r["pid"] or f"row {r['row_number']}", "", "confirmed",
+                       "no PID, title, incumbent contract or similar title in the earlier release",
+                       new_value=r["requirement_title"][:120], new_row=r["row_number"], office=office_code(r)))
+    out.sort(key=lambda x: (x["change"], str(x["old_row"]).zfill(6), str(x["new_row"]).zfill(6), x["field"]))
+    confirmed = sum(1 for p in pairs if p["confidence"] == "confirmed")
+    method = (f"staged: {', '.join(s[0] for s in MATCH_STAGES)}, then title similarity >= {MATCH_MIN_RATIO} "
+              f"within the office ({confirmed} matched, {len(pairs) - confirmed} candidates)")
     return out, method
 
 
@@ -516,10 +609,12 @@ def build() -> int:
             if changes:
                 write_csv(pack / name, changes)
             counts = Counter(ch["change"] for ch in changes)
-            matched = counts.get("unchanged", 0) + len({ch["key"] for ch in changes if ch["change"] == "changed"})
-            notes.append(f"Compared with `{prev_release['key']}` (key: {method}): {matched} records matched ({counts.get('changed', 0)} field changes on "
-                         f"{len({ch['key'] for ch in changes if ch['change'] == 'changed'})} of them), {counts.get('added', 0)} added, {counts.get('removed', 0)} removed, "
-                         f"{counts.get('ambiguous', 0)} keys matching several rows. Detail in `{name}`.")
+            paired = {ch["key"] for ch in changes if ch["change"] in ("unchanged", "changed")}
+            candidates = {ch["key"] for ch in changes if ch["change"] in ("unchanged", "changed") and ch["confidence"] == "candidate"}
+            notes.append(f"Compared with `{prev_release['key']}` ({method}): {len(paired)} records followed across the releases, "
+                         f"{len(candidates)} of them candidates a reviewer still has to accept; {counts.get('changed', 0)} field changes on "
+                         f"{len({ch['key'] for ch in changes if ch['change'] == 'changed'})} of them; {counts.get('added', 0)} added, {counts.get('removed', 0)} removed, "
+                         f"{counts.get('ambiguous', 0)} key{'' if counts.get('ambiguous', 0) == 1 else 's'} left ambiguous. Every row carries its match basis and the reasoning in `{name}`.")
         diff_note = " ".join(notes) + " Every release is kept as its own package." if notes else "Earliest saved release; nothing to diff against."
         (pack / "reconciliation.md").write_text(reconciliation(release, rows, classified, joins, diff_note), encoding="utf-8")
         outputs = {p.relative_to(pack).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
@@ -570,8 +665,68 @@ def collect(limit: int) -> int:
     return 0
 
 
+def selfcheck() -> int:
+    blank = {c: "" for c in COLUMNS}
+
+    def r(number, title, office, pid="", contract="", value="No Range Specified"):
+        return {**blank, "row_number": number, "requirement_title": title, "pid": pid,
+                "office_code_string": f"{office} - {office} - NAVWAR", "existing_contract_number": contract,
+                "anticipated_total_value": value}
+
+    # A PID carries a row when both releases have one.
+    pairs, _, _, _ = pair_releases([r(1, "Alpha", "PMW-160", pid="N00039-23-RFPREQ-PMW-160-0001")],
+                                   [r(9, "Alpha renamed", "PMW-160", pid="N00039-23-RFPREQ-PMW-160-0001")])
+    assert [(p["basis"], p["confidence"]) for p in pairs] == [("pid", "confirmed")]
+
+    # The release with no PID column still follows on title, then on the incumbent contract.
+    pairs, _, _, _ = pair_releases([r(1, "Alpha", "PMW-160"), r(2, "Beta", "PMW-770", contract="N0003920D0061")],
+                                   [r(9, "Alpha", "PMW-160"), r(8, "Beta, restructured buy", "PMW-770", contract="N0003920D0061")])
+    assert sorted(p["basis"] for p in pairs) == ["office+incumbent", "title+office"]
+    assert all(p["confidence"] == "confirmed" for p in pairs)
+
+    # A reworded title is a candidate, not a match, and the reasoning travels with it.
+    pairs, _, _, _ = pair_releases([r(1, "Shore Network Modernisation Support Services", "PMW-205")],
+                                   [r(9, "Shore Network Modernization Support Services", "PMW-205")])
+    assert len(pairs) == 1 and pairs[0]["basis"] == "title~office"
+    assert pairs[0]["confidence"] == "candidate" and "alike under office PMW-205" in pairs[0]["reason"]
+
+    # Different offices are never guessed at, however close the titles read.
+    pairs, _, only_old, only_new = pair_releases([r(1, "Network Support Services", "PMW-205")],
+                                                 [r(9, "Network Support Services", "PMW-160")])
+    assert not pairs and len(only_old) == 1 and len(only_new) == 1
+
+    # One key, several rows: kept as a candidate with the counts, never silently dropped.
+    changes, _ = diff_releases([r(1, "Alpha", "PMW-160", contract="N0003920D0061"),
+                                r(2, "Alpha II", "PMW-160", contract="N0003920D0061")],
+                               [r(9, "Gamma", "PMW-160", contract="N0003920D0061")])
+    ambiguous = [c for c in changes if c["change"] == "ambiguous"]
+    assert len(ambiguous) == 1, ambiguous
+    assert ambiguous[0]["confidence"] == "candidate"
+    assert "2 earlier and 1 later rows" in ambiguous[0]["reason"]
+
+    # A later stage that resolves every contested row withdraws the ambiguity.
+    changes, _ = diff_releases([r(1, "Alpha", "PMW-160", contract="N0003920D0061"),
+                                r(2, "Beta", "PMW-160", contract="N0003920D0061")],
+                               [r(9, "Alpha", "PMW-160", contract="N0003920D0061"),
+                                r(8, "Beta", "PMW-160", contract="N0003920D0061")])
+    assert not [c for c in changes if c["change"] == "ambiguous"]
+    assert {c["change"] for c in changes} == {"unchanged"}
+
+    # A tracked field that moved is reported once per field, against the pair.
+    changes, _ = diff_releases([r(1, "Alpha", "PMW-160", pid="P1", value="$250M - $1B")],
+                               [r(9, "Alpha", "PMW-160", pid="P1", value="> $1B+")])
+    moved = [c for c in changes if c["change"] == "changed"]
+    assert len(moved) == 1 and moved[0]["field"] == "anticipated_total_value"
+    assert moved[0]["old_value"] == "$250M - $1B" and moved[0]["new_value"] == "> $1B+"
+
+    print("selfcheck ok")
+    return 0
+
+
 if __name__ == "__main__":
     command = sys.argv[1] if len(sys.argv) > 1 else "build"
+    if command in ("--selfcheck", "selfcheck"):
+        sys.exit(selfcheck())
     if command == "collect":
         n = int(sys.argv[sys.argv.index("--limit") + 1]) if "--limit" in sys.argv else 10_000
         sys.exit(collect(n))

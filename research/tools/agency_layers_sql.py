@@ -155,6 +155,21 @@ def role_type(role_as_written: str | None) -> str:
 DOCUMENTED, DERIVED = "1.0", "0.5"
 
 
+def chain_or_branch(previous: tuple[str, str] | None, office_id: str) -> str | None:
+    """The assertion a new office observation supersedes, or None to start its own chain.
+
+    Supersession may not change the subject. A later release naming the same office is a
+    re-statement and chains; one naming a different office is a different claim, so it
+    branches and both observations stay current for a reviewer to resolve.
+    """
+    return previous[1] if previous and previous[0] == office_id else None
+
+
+def loadable_value(low: str, high: str) -> bool:
+    """Both bounds or nothing: the column has no shape for an open-ended range."""
+    return bool(low) and bool(high)
+
+
 def confidence_for(evidence_class: str) -> str:
     return DOCUMENTED if evidence_class == "directly_documented" else DERIVED
 
@@ -283,7 +298,8 @@ REVERSED = {"consolidated_into"}  # A consolidated into B means B is the success
 
 
 def emit_relationships(seed: dict, org_ids: dict[str, str], out: list[str]) -> None:
-    parented = {child for child, parents in live_parent_claims(seed, org_ids).items() if len(parents) == 1}
+    parent_column = {child: next(iter(parents))
+                     for child, parents in live_parent_claims(seed, org_ids).items() if len(parents) == 1}
     rows = []
     for rel in seed["relationships"]:
         if rel["type"] == "leads":
@@ -297,9 +313,15 @@ def emit_relationships(seed: dict, org_ids: dict[str, str], out: list[str]) -> N
         if rel["from"] not in org_ids or rel["to"] not in org_ids:
             note_skip("relationship endpoint missing from the office table")
             continue
-        if rel["type"] == "child_of" and rel["from"] in parented:
-            continue  # already expressed as parent_organization_id
         state = rel["current_status"]["state"]
+        # The parent column holds the one live `child_of` claim, so that row would be a
+        # duplicate. Every other `child_of` row is the office's history - a parent it has
+        # since left - and dropping those was flattening the record: NEN under PEO EIS
+        # until 2020-05-13 vanished behind NEN under PEO Digital, and the same would
+        # happen to every office the PEO/PAE migration moves.
+        if (rel["type"] == "child_of" and state == "last_confirmed"
+                and parent_column.get(rel["from"]) == rel["to"]):
+            continue
         # valid_to is the only way to say a claim is over. A claim a source ended or
         # superseded without giving a date would read as current, so it is left out
         # rather than published as live.
@@ -447,12 +469,14 @@ def emit_lrae(org_ids: dict[str, str], out: list[str]) -> None:
     # Each release states its own date. Merging the need records must not let a 2025
     # release date attach to the 2023 revision of a line that appears in both.
     stated_on: dict[tuple[str, str], str | None] = {}
+    per_release: dict[tuple[str, str], dict] = {}
     for release in RELEASES:
         for row in read_layer(release, "needs"):
             key = row["record_key"]
             needs.setdefault(key, row)
             needs[key] = {**needs[key], **{k: v for k, v in row.items() if v}}
             need_releases.setdefault(key, []).append(release)
+            per_release[(release, key)] = row
             seen = row["valid_from"] or None
             stated_on[(release, key)] = seen
             if seen and (first_seen.get(key) is None or seen < first_seen[key]):
@@ -474,22 +498,41 @@ def emit_lrae(org_ids: dict[str, str], out: list[str]) -> None:
         links.append([lit(assertion_id), lit(evidence_id), lit("supports"), "true" if direct else "false"])
         return True
 
-    # Which office owns the requirement and which one contracts for it.
-    for key, row in needs.items():
-        ev_id = ev_by_id.get(row["evidence_id"])
-        for local_id, role in ((row["office_id"], "requirement_owner"),
-                               ("contracting:" + row["contracting_office_uic"].lower(), "contracting")):
-            if local_id not in org_ids:
-                note_skip(f"LRAE office {local_id} has no node in the org memory")
-                continue
-            ident = uid("assert", f"needorg:{key}:{local_id}:{role}")
-            if not cite(ident, ev_id, True):
-                continue
-            assertion(assertions, ident, "need_organization", f"need_organization:{key}:{role}",
-                      "documented", f"The LRAE row names this office as the {role.replace('_', ' ')}.",
-                      f"{LRAE_SOURCE}:{key}:{role}", first_seen.get(key))
-            details["need_organization"].append(
-                [lit(ident), lit(uid("need", key)), lit(org_ids[local_id]), lit(NEED_ROLE[role])])
+    # Which office owns the requirement and which one contracts for it, per release.
+    #
+    # Merging the need records and reading one office off the result applies the
+    # newest release's office to every earlier year. Each release is its own dated
+    # observation instead. Where consecutive releases name the same office the later
+    # assertion supersedes the earlier, so the current view holds one row; where they
+    # name different offices supersession is refused by design (it may not change the
+    # subject), both observations stay live, and the disagreement is visible rather
+    # than resolved by whichever row was read last.
+    last_office: dict[tuple[str, str], tuple[str, str]] = {}
+    for release in RELEASES:
+        for key in sorted(k for r, k in per_release if r == release):
+            row = per_release[(release, key)]
+            ev_id = ev_by_id.get(row["evidence_id"])
+            for local_id, role in ((row["office_id"], "requirement_owner"),
+                                   ("contracting:" + row["contracting_office_uic"].lower(), "contracting")):
+                if local_id not in org_ids:
+                    note_skip(f"LRAE office {local_id} has no node in the org memory")
+                    continue
+                ident = uid("assert", f"needorg:{release}:{key}:{local_id}:{role}")
+                if not cite(ident, ev_id, True):
+                    continue
+                previous = last_office.get((key, role))
+                prior = chain_or_branch(previous, local_id)
+                if previous and prior is None:
+                    note_skip(f"office for a {role.replace('_', ' ')} changed between releases; "
+                              f"both observations kept")
+                last_office[(key, role)] = (local_id, ident)
+                assertion(assertions, ident, "need_organization",
+                          f"need_organization:{key}:{role}", "documented",
+                          f"{release} names this office as the {role.replace('_', ' ')}.",
+                          f"{LRAE_SOURCE}:{release}:{key}:{role}",
+                          stated_on.get((release, key)), prior)
+                details["need_organization"].append(
+                    [lit(ident), lit(uid("need", key)), lit(org_ids[local_id]), lit(NEED_ROLE[role])])
 
     # One requirement per need, one revision assertion per release it appeared in.
     # A later release supersedes the earlier assertion, which is how a slipping
@@ -519,11 +562,22 @@ def emit_lrae(org_ids: dict[str, str], out: list[str]) -> None:
                 [lit(ident), lit(req_id), lit(statement), lit(expected_from), lit(expected_to)])
 
     # An LRAE value range is an estimate, not an obligation, and `measure` says so.
-    # Rows with neither bound carry no claim about money and are left out.
+    #
+    # The table accepts a flat amount or a closed range and nothing else. The LRAE
+    # never states a flat amount, so a row is loadable only when the source gives
+    # both bounds. "> $1B+" gives a floor and no ceiling; writing the floor as the
+    # amount would publish "exactly $1B" for a buy the Navy only said exceeds $1B,
+    # and writing the floor as both bounds would be the same lie twice. Those rows
+    # and the "No Range Specified" ones stay out until the column can hold an open
+    # range, and the wording the source used travels with every row that does load.
     for release in RELEASES:
         for row in read_layer(release, "funding_observations"):
+            stated = (row["as_stated"] or "").strip()
             if not row["amount_low_usd"] and not row["amount_high_usd"]:
-                note_skip("LRAE funding row with no stated value range")
+                note_skip(f"no value stated ({stated or 'blank'})")
+                continue
+            if not row["amount_low_usd"] or not row["amount_high_usd"]:
+                note_skip(f"open-ended value the schema cannot hold ({stated})")
                 continue
             key = row["need_id"].split(":", 2)[2]
             ident = uid("assert", f"funding:{key}:{release}")
@@ -532,8 +586,7 @@ def emit_lrae(org_ids: dict[str, str], out: list[str]) -> None:
                 continue
             fy = fiscal_year(row["fiscal_year"])
             start, end = quarter_bounds(fy, row["period"])
-            low, high = row["amount_low_usd"] or None, row["amount_high_usd"] or None
-            single = low if high is None else (high if low is None else None)
+            low, high = row["amount_low_usd"], row["amount_high_usd"]
             # Supersession may not change the measurement scope, so a re-estimate of
             # the same need for the same fiscal period chains and only the latest
             # stays current. A move to a different fiscal year is a different
@@ -548,9 +601,10 @@ def emit_lrae(org_ids: dict[str, str], out: list[str]) -> None:
                       f"{LRAE_SOURCE}:{release}:{row['id']}", stated_on.get((release, key)), prior)
             details["funding"].append([
                 lit(ident), lit(uid("need", key)), lit("procurement_estimate"),
-                lit(single), lit(None if single else low), lit(None if single else high),
+                "null", lit(low), lit(high),
                 str(fy) if fy else "null", lit(start), lit(end),
-                lit(f"NAVWAR LRAE {release} anticipated total contract value"),
+                lit(f"NAVWAR LRAE {release} anticipated total contract value, "
+                    f"stated as {stated}"),
             ])
 
     insert("public.gov_intelligence_assertions", ASSERTION_COLUMNS, assertions, out)
@@ -626,7 +680,10 @@ def selfcheck() -> int:
                               rel("r4", "contracts_for", "o:3", "o:1"),
                               rel("r5", "consolidated_into", "o:3", "o:0"),
                               rel("r6", "child_of", "o:3", "o:1", state="ended"),
-                              rel("r7", "child_of", "o:3", "o:2", review="retracted")]}
+                              rel("r7", "child_of", "o:3", "o:2", review="retracted"),
+                              # o:0 sits under o:1 now and sat under o:2 until 2020-05-13.
+                              # This is the NEN case: PEO EIS then PEO Digital.
+                              rel("r10", "child_of", "o:0", "o:2", state="ended", to="2020-05-13")]}
     lines: list[str] = []
     ids = emit_offices(seed, lines)
     updates = [l for l in lines if l.startswith("update")]
@@ -641,7 +698,12 @@ def selfcheck() -> int:
     successor = [l for l in body.splitlines() if "'successor_to'" in l][0]
     assert successor.index(ids["o:0"]) < successor.index(ids["o:3"])
     # r1 is already the parent column; r6 ended with no date; r7 is retracted.
-    assert body.count("'functionally_aligned_to'") == 2, body.count("'functionally_aligned_to'")
+    # r2, r3 and r10 load. r10 is the office's former parent, and an office keeping its
+    # current parent in the column must not cost it the parent it used to have.
+    assert body.count("'functionally_aligned_to'") == 3, body.count("'functionally_aligned_to'")
+    former = [l for l in body.splitlines() if "'r10'" in l]
+    assert len(former) == 1 and "'2020-05-13'" in former[0], former
+    assert former[0].index(ids["o:0"]) < former[0].index(ids["o:2"]), "the child is the source of a child_of edge"
 
     # A leadership claim a source superseded without a date must not load as a
     # current position beside the person who replaced them.
@@ -656,6 +718,18 @@ def selfcheck() -> int:
     emit_people(seed, m_ids, lines)
     body = "\n".join(lines)
     assert body.count("'Program Manager'") == 1, "superseded leader must not load as current"
+
+    # "> $1B+" states a floor and no ceiling. Reading the floor as the amount
+    # publishes "exactly $1B" for a buy the source only said exceeds it.
+    # A release that re-states the same office chains; one that names a different office
+    # branches, so the older observation is not overwritten by the newer office.
+    assert chain_or_branch(("office:nen", "assert:1"), "office:nen") == "assert:1"
+    assert chain_or_branch(("office:nen", "assert:1"), "office:other") is None
+    assert chain_or_branch(None, "office:nen") is None
+
+    assert loadable_value("1000000000", "") is False
+    assert loadable_value("", "") is False
+    assert loadable_value("100000000", "250000000") is True
 
     assert confidence_for("directly_documented") == "1.0"
     assert confidence_for("inferred") == "0.5" and float(DERIVED) < 0.8, \

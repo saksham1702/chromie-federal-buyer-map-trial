@@ -19,9 +19,10 @@ database, and the promotion statements are written to a file for a person to run
 8. `07_implementation_backlog.md`
 9. `08_org_memory_format.md` + `org_code_families.json` - the dated PEO-plus-PAE organization memory and the code registry a parser uses
 10. `09_manual_collection_runbook.md` - each source worked by hand once, with what a monitor replaces
-11. `contact_observations.json` and `contact_recommendations.json` - likely public contacts per office with confidence labels
-12. `../datapack/lrae_navwar_*/` - the NAVWAR LRAE releases (2023 export, June 2024, June 2025) as regenerable packages. Committed: `SOURCE.json` (source hash, output hashes) and `reconciliation.md`. The CSV tables (rows, decisions, joins, layers, diffs) are regenerated locally with `python research/tools/lrae_package.py build` and shared out of band; their hashes are in `SOURCE.json`
-13. `navy-sources-map.md` - prose companion to the registry: every source once, what it can and cannot establish, how they join, evidence-strength rules (contributed; the registry and manifest stay the authorities)
+11. `11_worked_examples_end_to_end.md` - one organization change, one forecast revision and one ambiguous match followed from the spreadsheet row to the alert, with what is deliberately left incomplete
+12. `contact_observations.json` and `contact_recommendations.json` - likely public contacts per office with confidence labels
+13. `../datapack/lrae_navwar_*/` - the NAVWAR LRAE releases (2023 export, June 2024, June 2025) as regenerable packages. Committed: `SOURCE.json` (source hash, output hashes) and `reconciliation.md`. The CSV tables (rows, decisions, joins, layers, diffs) are regenerated locally with `python research/tools/lrae_package.py build` and shared out of band; their hashes are in `SOURCE.json`
+14. `navy-sources-map.md` - prose companion to the registry: every source once, what it can and cannot establish, how they join, evidence-strength rules (contributed; the registry and manifest stay the authorities)
 
 Supporting files: `documents_manifest.jsonl` (every document fetched: URL, hash, retrieval
 method and time), `manual_pdf_requests.json` (documents that still need a human to fetch),
@@ -53,6 +54,7 @@ all carrying a `--selfcheck`:
 | 08 organization memory format + code families | restructured 2026-09-18: observations, relationships, interpretations; retractions instead of end dates; reviewer fields |
 | 09 manual collection runbook | done (2026-09-17) |
 | contacts | split 2026-09-18 into observations (what a source says) and recommendations (routes with two confidences); every observation checked against saved bytes in `review_log.json` |
+| 11 worked examples end to end (reviewer request 2026-09-20) | done (2026-09-20); organization change, forecast revision and ambiguous match traced source row to alert |
 | LRAE data packages (reviewer request 2026-09-17) | done (2026-09-18); three releases packaged (2023 export, June 2024, June 2025), every sheet reconciled, joins labelled for 2025, release diffs in the newer packages |
 
 ## Evidence rules
