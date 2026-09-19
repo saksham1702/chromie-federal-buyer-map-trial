@@ -1,7 +1,7 @@
 # Reconciliation - lrae_navwar_2025-06
 
 Sheet `LRAE Annex 25`, header on Excel row 8, data rows 9-841.
-Record key: PID.
+Record key: PID, where present (833 of 833 raw rows); rows without one fall back to a hash of title and office code.
 
 ## Rows
 

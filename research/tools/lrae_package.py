@@ -439,9 +439,16 @@ def reconciliation(release: dict, rows, classified, joins, diff_note: str) -> st
     per_office = Counter(c["office_id"] for c in classified if c["include_decision"] == "included")
     same = Counter((r["requirement_title"].lower(), r["office_code_string"], r["anticipated_total_value"], r["existing_contract_number"]) for r in rows)
     candidates = sorted(k for k, v in same.items() if v > 1)
-    has_pid = all(r["pid"] for r in rows)
+    # Whether the release *has* a PID column, not whether every raw row filled one.
+    # Section headers and blank continuation rows leave it empty, so `all` reported
+    # the 2023 release as having no PID column while all 127 of its included rows
+    # carry one. `diff` below already asks the question this way.
+    pid_rows = sum(1 for r in rows if r["pid"])
+    has_pid = pid_rows > 0
+    key_note = (f"PID, where present ({pid_rows} of {len(rows)} raw rows); rows without one fall back to a hash of title and office code"
+                if has_pid else "hash of title and office code (this release has no PID column)")
     lines = [f"# Reconciliation - {release['key']}", "", f"Sheet `{SHEET}`, header on Excel row {HEADER_ROW}, data rows {rows[0]['row_number']}-{rows[-1]['row_number']}.",
-             f"Record key: {'PID' if has_pid else 'hash of title and office code (this release has no PID column)'}.",
+             f"Record key: {key_note}.",
              "", "## Rows", "", "| Decision | Rows |", "| --- | --- |", f"| raw | {len(rows)} |"]
     lines += [f"| {d} | {decisions.get(d, 0)} |" for d in ("included", "excluded", "duplicate", "unresolved")]
     lines += ["", f"Sum of decisions: {sum(decisions.values())} (equals raw: {'yes' if sum(decisions.values()) == len(rows) else 'NO'}).", "",

@@ -1,7 +1,7 @@
 # Reconciliation - lrae_navwar_2023-06
 
 Sheet `LRAE Annex 25`, header on Excel row 8, data rows 9-741.
-Record key: hash of title and office code (this release has no PID column).
+Record key: PID, where present (643 of 733 raw rows); rows without one fall back to a hash of title and office code.
 
 ## Rows
 
@@ -74,7 +74,7 @@ Sum of decisions: 733 (equals raw: yes).
 
 ## Duplicates
 
-This release has no PID column, so the record key is title plus office code; rows sharing that key are marked `duplicate` above and listed here for the reviewer:
+Every PID is unique in this release, so no row is marked `duplicate`. Rows that repeat title, office, value range and existing contract under different PIDs are listed for the reviewer; they read as separate planned actions (option years, additional lots) rather than duplicates and stay as they are:
 
 - rows 291, 294: liptm00455-maritime prototypes (c) (LSUBP00021)
 
