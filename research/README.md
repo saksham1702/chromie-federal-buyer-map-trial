@@ -1,8 +1,11 @@
 # Research package: Navy (NAVWAR / PEO C4I) acquisition source map
 
-Phase-one deliverables for the Federal Program Office Intelligence Trial: source discovery, data
+Deliverables for the Federal Program Office Intelligence Trial: source discovery, data
 understanding, worked examples, and an implementation plan for the NAVWAR / PEO C4I pilot.
-Research and planning only: no production writes, no outreach.
+The package also loads into the production agency-intelligence tables, replays its own
+attributions through the production resolver, and produces one of the designed alerts from
+the loaded rows. No production writes and no outreach: everything runs against a local
+database, and the promotion statements are written to a file for a person to run.
 
 ## Review order
 
@@ -25,6 +28,16 @@ Supporting files: `documents_manifest.jsonl` (every document fetched: URL, hash,
 method and time), `manual_pdf_requests.json` (documents that still need a human to fetch),
 `tools/fetch.py` (the fetch-and-record helper), `tools/lrae_package.py` (rebuilds the LRAE
 data package from saved bytes; `collect` records the lookups it needs).
+
+Tools that run against the production schema, all offline apart from read-only lookups and
+all carrying a `--selfcheck`:
+
+| Tool | What it does |
+| --- | --- |
+| `tools/agency_layers_sql.py` | turns the organization memory and the LRAE packages into one transaction of SQL for the agency-intelligence tables |
+| `tools/replay_attributions.py` | feeds each reviewed attribution's own passages to the production `resolve_program_office()` and reports where it agrees |
+| `tools/monitor_forecast_revision.py` | alert C from `06`: LRAE lines whose forecast award window moved between releases |
+| `tools/promote_plan.py` | matches the loaded offices against production, and writes the promotion statements to a file for review |
 
 ## Status
 
