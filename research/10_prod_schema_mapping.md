@@ -118,6 +118,40 @@ duplicate PMWs. The loader currently mints its own identities, which is correct 
 empty local database and wrong for production; matching on office code through
 `external_ids` is the obvious join and is not written yet.
 
+## Promotion path
+
+`python research/tools/promote_plan.py` matches every loaded office against the
+production registry and prints what a promotion would insert. It reads production
+over GET only and contains no write path.
+
+Matching is narrow on purpose: an office code carries the identity, an exact name or
+alias is accepted only when the organization types agree, and anything matching two
+production rows is refused rather than guessed. The type guard is not decoration - a
+program office and a contracting office can share a code, and crossing that line
+would file a planned buy under the desk that signs the paperwork instead of the one
+that wants the thing.
+
+Result against production on 2026-09-19: **21 of 29 offices resolve**, none
+ambiguously - eleven by office code, ten by exact name. Nothing new is created.
+
+| | rows | |
+| --- | --- | --- |
+| Ready | 410 needs, 410 requirements, 429 revisions, 364 funding observations, 820 need-organization links, 1613 assertions, 508 evidence, 1613 citations, 12 positions | every office reference resolves |
+| Held | 29 organization relationships | six offices have no production row |
+
+The six are NIWC Pacific, NIWC Atlantic, NAVWAR as a command, PEO EIS, PMW 205 and
+PMW 220. Production holds the eleven PEO C4I program offices but none of these, under
+any name or code; the only NAVWAR-command row is the pre-2019 "Naval Space and Warfare
+Systems Command" typed `other`. Creating them is a decision about the organization
+registry, not part of this load, so the tool holds that one table back and promotes
+the rest rather than blocking everything on edges nobody is waiting for.
+
+What is still missing before a promotion can run: the step that rewrites the loader's
+office ids through this mapping, and a person reading the resulting diff. The layer
+tables are append-only - both UPDATE and DELETE raise, and an assertion allows one
+retraction and nothing else - so a row written against the wrong office cannot be
+removed. That is the whole reason this is a plan and not a push.
+
 ## Two notes on the schema itself
 
 `gov_intelligence_assertions` is `UNIQUE (producer, source_key)`, which makes
