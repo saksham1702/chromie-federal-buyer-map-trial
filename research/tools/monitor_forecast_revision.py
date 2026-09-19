@@ -5,9 +5,10 @@
     python research/tools/monitor_forecast_revision.py --json
     python research/tools/monitor_forecast_revision.py --selfcheck
 
-Reads the loaded agency-intelligence tables and reports every requirement whose
-current revision supersedes an earlier one with a different anticipated award
-window, or whose estimate for the same fiscal period changed. Output follows the
+Reads the loaded agency-intelligence tables and reports two things: every requirement
+whose current revision supersedes an earlier one with a different anticipated award
+window, and every funding estimate superseded by a different value for the same
+fiscal period. Output follows the
 format section 9 of `06_continuous_monitor_design.md` sets: what changed, the office
 and its ancestry, the evidence, the uncertainty, and why it matters.
 
@@ -86,6 +87,33 @@ select json_agg(row_to_json(t)) from (
 """
 
 
+# Alert C fires on a moved award window *or* a changed value range. A re-estimate for
+# the same fiscal period supersedes its predecessor, so the chain finds it the same way
+# the requirement chain does; a move to a different fiscal year is a different
+# measurement and is not a revision of this one.
+VALUE_SQL = """
+select json_agg(row_to_json(t)) from (
+  select n.source_key as pid, n.title, o.name as office,
+         prior.amount_low as was_low, prior.amount_high as was_high, prior.amount as was_flat,
+         cur.amount_low as now_low, cur.amount_high as now_high, cur.amount as now_flat,
+         cur.fiscal_year, cur.scope_description,
+         prior_a.observed_at::date as prior_release,
+         cur_a.observed_at::date as current_release
+    from public.gov_funding_observations cur
+    join public.gov_intelligence_assertions cur_a on cur_a.id = cur.assertion_id
+    join public.gov_intelligence_assertions prior_a on prior_a.id = cur_a.supersedes_id
+    join public.gov_funding_observations prior on prior.assertion_id = prior_a.id
+    join public.gov_needs n on n.id = cur.need_id
+    left join public.gov_need_organizations no2
+      on no2.need_id = n.id and no2.role = 'originating_requirement_owner'
+    left join public.gov_organizations o on o.id = no2.organization_id
+   where (cur.amount_low, cur.amount_high, cur.amount)
+         is distinct from (prior.amount_low, prior.amount_high, prior.amount)
+   order by n.source_key
+) t
+"""
+
+
 def query(dsn: str, sql: str) -> list[dict]:
     out = subprocess.run(["psql", dsn, "-At", "-c", sql], capture_output=True, text=True)
     if out.returncode != 0:
@@ -106,6 +134,33 @@ def direction(was: str | None, now: str | None) -> str:
     if not was or not now:
         return "changed"
     return "slips" if now > was else "pulls forward"
+
+
+def money(low, high, flat) -> str:
+    if flat is not None:
+        return f"${float(flat)/1e6:,.1f}M"
+    if low is None and high is None:
+        return "unstated"
+    if low is None or high is None:
+        return f"${float(low if low is not None else high)/1e6:,.1f}M"
+    return f"${float(low)/1e6:,.1f}M-${float(high)/1e6:,.1f}M"
+
+
+def render_value(row: dict) -> str:
+    was = money(row["was_low"], row["was_high"], row["was_flat"])
+    now = money(row["now_low"], row["now_high"], row["now_flat"])
+    return "\n".join([
+        f"**{row['pid']}** - {row['title']}",
+        f"- What changed: anticipated total value {was} -> {now} for "
+        f"FY{str(row.get('fiscal_year'))[-2:]} between the {row['prior_release']} and "
+        f"{row['current_release']} releases.",
+        f"- Office: {row.get('office') or 'not resolved'}.",
+        f"- Evidence: {row['scope_description']}, both releases.",
+        "- Uncertainty: the LRAE is an estimate and the range is wide by design; a "
+        "change may be scope, quantity or a better estimate of the same work.",
+        "- Why it matters: the value range sets whether a bid is worth pursuing and "
+        "who else will show up for it.",
+    ])
 
 
 def ancestry_line(row: dict) -> str:
@@ -140,17 +195,23 @@ def main(argv: list[str]) -> int:
     args = parser.parse_args(argv)
 
     rows = query(args.dsn, REVISIONS_SQL)
+    values = query(args.dsn, VALUE_SQL)
     if args.json:
-        print(json.dumps(rows, indent=1, default=str))
+        print(json.dumps({"timing": rows, "value": values}, indent=1, default=str))
         return 0
-    if not rows:
+    if not rows and not values:
         print("no forecast revisions")
         return 0
     for row in rows:
         print(render(row))
         print()
+    for row in values:
+        print(render_value(row))
+        print()
     slipped = sum(1 for r in rows if direction(r["was_from"], r["now_from"]) == "slips")
-    print(f"{len(rows)} forecast revisions: {slipped} slip, {len(rows) - slipped} pull forward or unstated")
+    print(f"{len(rows)} award-window revisions: {slipped} slip, "
+          f"{len(rows) - slipped} pull forward or unstated")
+    print(f"{len(values)} value-range revisions")
     return 0
 
 
@@ -176,6 +237,16 @@ def selfcheck() -> int:
     assert "FY24 Q2 -> FY27 Q2" in text, text
     assert "PMW 160 -> PEO C4I" in text and "succeeded by PAE Mission Systems" in text
     assert ancestry_line({"ancestry": [], "successors": []}) == "office not resolved"
+    assert money(None, None, 5_000_000) == "$5.0M"
+    assert money(1e8, 2.5e8, None) == "$100.0M-$250.0M"
+    assert money(None, 2.5e8, None) == "$250.0M"
+    assert money(None, None, None) == "unstated"
+    value_row = {"pid": "P2", "title": "T", "office": "PMW 170", "was_low": 1e8,
+                 "was_high": 2.5e8, "was_flat": None, "now_low": 2.5e8, "now_high": 5e8,
+                 "now_flat": None, "fiscal_year": 2026, "scope_description": "LRAE value",
+                 "prior_release": "2023-06-20", "current_release": "2025-06-19"}
+    assert "$100.0M-$250.0M -> $250.0M-$500.0M" in render_value(value_row)
+
     print("selfcheck ok")
     return 0
 

@@ -53,7 +53,12 @@ TYPE_FAMILY = {
     "department": "agency",
     "other": "other",
 }
-CODE_RE = re.compile(r"\b(PMW|PMA|PMS|PEO)\s*/?\s*[A-Z]?\s*-?\s*(\d{3})\b")
+FAMILIES = ("PMW", "PMA", "PMS", "PEO")
+# `PMW/A 170` is one office with a service letter. `PMA/PMW 101` is one office written
+# under two code families, and collapsing it to the second loses the designation a
+# production row might be stored under.
+CODE_RE = re.compile(
+    r"\b(?P<first>PMW|PMA|PMS|PEO)\s*(?:/\s*(?P<second>PMW|PMA|PMS|PEO|[A-Z])\s*)?-?\s*(?P<number>\d{3})\b")
 
 # Tables whose rows carry a reference to an office and therefore have to be rewritten.
 OFFICE_REFS = {
@@ -92,6 +97,22 @@ PROMOTION = (
 )
 REMAP_OFFICE = {"organization_id", "source_organization_id", "target_organization_id"}
 REMAP_AGENCY = {"agency_id"}
+
+# An assertion will not commit without its typed detail row: the completeness check is
+# a constraint trigger deferred to commit, so holding a detail table back while still
+# writing its assertions rolls the whole transaction back at the very end, and the
+# tables that were ready never land either.
+DETAIL_OF_KIND = {
+    "requirement": "gov_requirement_revisions",
+    "funding": "gov_funding_observations",
+    "need_organization": "gov_need_organizations",
+    "program_organization": "gov_program_organizations",
+    "program_need": "gov_program_needs",
+    "procurement_attribution": "gov_procurement_attributions",
+    "program_procurement": "gov_program_procurements",
+    "need_procurement": "gov_need_procurements",
+    "procurement_lineage": "gov_procurement_lineage",
+}
 
 
 def lit(value) -> str:
@@ -180,7 +201,14 @@ def prod_get(table: str, select: str) -> list[dict]:
 def office_codes(row: dict) -> set[str]:
     text = [row.get("acronym") or "", row.get("name") or "", *(row.get("aliases") or [])]
     text += [str(v) for v in (row.get("external_ids") or {}).values()]
-    return {m.group(1) + m.group(2) for value in text for m in CODE_RE.finditer(value.upper())}
+    out = set()
+    for value in text:
+        for m in CODE_RE.finditer(value.upper()):
+            number, second = m.group("number"), m.group("second")
+            out.add(m.group("first") + number)
+            if second in FAMILIES:
+                out.add(second + number)
+    return out
 
 
 def office_names(row: dict) -> set[str]:
@@ -217,6 +245,24 @@ def match_offices(local_rows: list[dict], prod_rows: list[dict]) -> tuple[dict, 
             ambiguous[row["id"]] = {"local": row, "candidates": list(hits.values())}
         else:
             unmatched.append(row)
+
+    # One local office hitting two production rows is refused above. The reverse is
+    # just as wrong and easier to miss: two distinct offices resolving to the same
+    # production row silently merges them, and the layer tables are append-only, so
+    # the merge cannot be undone afterwards. Refuse both sides of the collision.
+    claimed: dict[str, list[str]] = {}
+    for local_id, entry in resolved.items():
+        claimed.setdefault(entry["prod"]["id"], []).append(local_id)
+    for local_ids in claimed.values():
+        if len(local_ids) < 2:
+            continue
+        refs = {i: resolved[i]["local"]["source_ref"] for i in local_ids}
+        for local_id in local_ids:
+            entry = resolved.pop(local_id)
+            ambiguous[local_id] = {
+                "local": entry["local"], "candidates": [entry["prod"]],
+                "note": "shares this production row with "
+                        + ", ".join(refs[i] for i in local_ids if i != local_id)}
     return resolved, ambiguous, unmatched
 
 
@@ -249,7 +295,8 @@ def main(argv: list[str]) -> int:
         print(f" {mark} {entry['local']['source_ref']:<22} by {entry['how']:<11} -> {entry['prod']['name'][:60]}")
     for entry in sorted(ambiguous.values(), key=lambda e: e["local"]["source_ref"]):
         mark = "*" if entry["local"]["id"] in used else " "
-        print(f" {mark} {entry['local']['source_ref']:<22} AMBIGUOUS, {len(entry['candidates'])} production rows:")
+        reason = entry.get("note") or f"{len(entry['candidates'])} production rows"
+        print(f" {mark} {entry['local']['source_ref']:<22} AMBIGUOUS, {reason}:")
         for candidate in entry["candidates"]:
             print(f"     - {candidate['org_type']:<26} {candidate['name'][:56]}")
     for row in sorted(unmatched, key=lambda r: r["source_ref"]):
@@ -280,9 +327,14 @@ def main(argv: list[str]) -> int:
           f"0 offices created.")
 
     if held:
+        held_detail_kinds = {kind for kind, detail in DETAIL_OF_KIND.items()
+                             if detail in {t for t, _, _ in held}}
         print("\nheld back:")
         for table, count, blocked_by in held:
             print(f"  {count:>6}  {table}   needs {', '.join(blocked_by)}")
+        if held_detail_kinds:
+            print(f"  ...and every assertion of kind {', '.join(sorted(held_detail_kinds))}, "
+                  f"which cannot commit without its detail row")
         print("\nThese offices do not exist in production under any name or code:")
         for oid in sorted(unresolved, key=lambda o: by_id[o]["source_ref"]):
             row = by_id[oid]
@@ -336,6 +388,9 @@ def emit_sql(path: Path, promotable: set[str], office_map: dict[str, str],
         "set constraints all deferred;",
         "",
     ]
+    held_kinds = {kind for kind, detail in DETAIL_OF_KIND.items()
+                  if detail not in promotable}
+    dropped: set[str] = set()
     written = []
     for table, columns in PROMOTION:
         if table not in promotable:
@@ -343,7 +398,11 @@ def emit_sql(path: Path, promotable: set[str], office_map: dict[str, str],
         names = [c.strip() for c in columns.split(",")]
         rows = rows_of(table, columns)
         if table == "gov_intelligence_assertions":
-            rows = order_assertions(rows)
+            keep = [r for r in rows if r["assertion_kind"] not in held_kinds]
+            dropped = {r["id"] for r in rows if r["assertion_kind"] in held_kinds}
+            rows = order_assertions(keep)
+        if table == "gov_assertion_evidence" and dropped:
+            rows = [r for r in rows if r["assertion_id"] not in dropped]
         if not rows:
             continue
         values = []
@@ -365,6 +424,10 @@ def emit_sql(path: Path, promotable: set[str], office_map: dict[str, str],
     for table, count, blocked_by in held:
         lines.append(f"-- held back: {count} rows of {table}, "
                      f"pending production offices for {', '.join(blocked_by)}")
+    if dropped:
+        lines.append(f"-- held back with them: {len(dropped)} assertions of kind "
+                     f"{', '.join(sorted(held_kinds))}, which cannot commit without "
+                     f"their detail rows")
     lines += ["", "commit;"]
     path.write_text("\n".join(lines) + "\n")
     return written
@@ -372,8 +435,11 @@ def emit_sql(path: Path, promotable: set[str], office_map: dict[str, str],
 
 def selfcheck() -> int:
     assert office_codes({"name": "Tactical Networks (PMW 160)"}) == {"PMW160"}
-    # The service letter varies between sources and must not split the identity.
+    # A single letter after the slash is a service variant of one office.
     assert office_codes({"name": "Communications and GPS Navigation (PMW/A 170)"}) == {"PMW170"}
+    # Two families after the slash are two designations of one office, and a
+    # production row may be filed under either, so both have to be searchable.
+    assert office_codes({"name": "PMA/PMW 101 MIDS"}) == {"PMA101", "PMW101"}
     assert office_codes({"acronym": "PMS 485"}) == {"PMS485"}
     assert office_codes({"external_ids": {"office_code": "PMW 740"}}) == {"PMW740"}
     assert office_codes({"name": "NAVWAR HQ contracts directorate"}) == set()
@@ -403,6 +469,25 @@ def selfcheck() -> int:
     assert resolved["L1"]["prod"]["id"] == "P1" and resolved["L1"]["how"] == "office code"
     assert [r["id"] for r in unmatched] == ["L2"]
     assert "L3" in ambiguous and len(ambiguous["L3"]["candidates"]) == 2
+
+    # Two local offices resolving onto one production row merges them permanently,
+    # so both sides of the collision are refused rather than either being picked.
+    twins = [{"id": "A", "source_ref": "a", "name": "PMW 300 One", "org_type": "program_office",
+              "aliases": [], "external_ids": {}},
+             {"id": "B", "source_ref": "b", "name": "PMW 300 Two", "org_type": "program_office",
+              "aliases": [], "external_ids": {}}]
+    one = [{"id": "P9", "name": "Something (PMW 300)", "org_type": "program_office",
+            "aliases": [], "external_ids": {}}]
+    r2, a2, u2 = match_offices(twins, one)
+    assert r2 == {}, "a shared production row must not resolve for either office"
+    assert set(a2) == {"A", "B"} and "shares this production row with b" in a2["A"]["note"]
+
+    # Every assertion kind must know the detail table it cannot commit without.
+    detail_tables = {t for t, _ in PROMOTION}
+    assert set(DETAIL_OF_KIND.values()) >= {"gov_requirement_revisions",
+                                            "gov_funding_observations",
+                                            "gov_need_organizations"}
+    assert detail_tables & set(DETAIL_OF_KIND.values())
     assert lit(None) == "null" and lit(True) == "true" and lit(3) == "3"
     assert lit("O'Brien") == "'O''Brien'"
     assert lit({"b": 1, "a": 2}) == """'{"a": 2, "b": 1}'::jsonb"""

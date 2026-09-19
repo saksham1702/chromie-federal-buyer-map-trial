@@ -289,6 +289,11 @@ slips**. Each alert carries the five parts section 9 specifies. One example, abr
 >   correction and the release does not say which.
 > - Why it matters: the award window is what a capture timeline is built on.
 
+It also checks the other half of alert C, a value range that changed for the same
+fiscal period. Across these three releases that count is zero: five estimates are
+restated in a later release and every one restates the identical range, so the alert
+stays quiet rather than reporting a re-publication as news.
+
 Two details worth keeping when the other alerts are built. The ancestry walk has to
 climb `parent_organization_id` **and** then look for a documented successor of each
 office on that path: the 2026-05-11 reorganisation is a `successor_to` edge, not a
