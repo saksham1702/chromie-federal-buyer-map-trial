@@ -1,0 +1,22 @@
+# N0003922F3000
+DELIVERY ORDER to BOOZ ALLEN HAMILTON INC; THIS PROCUREMENT PROVIDES PROGRAM EXECUTIVE OFFICE (PEO), COMMAND, CONTROL, COMMUNICATIONS, COMPUTERS AND INTELLIGENCE (C4I) ENGINEERING SUPPORT SERVICES (ESS) IN SUPPORT OF PROGRAM MANAGER, WARFARE T
+signed 2021-10-26; PoP 2021-10-27 -> 2026-10-26; last modified 2026-06-10; awarding office NAVAL INFORMATION WARFARE SYSTEMS; solicitation N0003921R3015; FULL AND OPEN COMPETITION, offers 3; parent N0017819D7264
+USAspending retrieved 2026-09-16 (sha 3a8cb2ba9ffa)
+FPDS actions saved: 10 on one page; first 2021-10-26 last 2022-09-30
+
+## Forecast lines that cite this contract as the incumbent
+- none
+
+## Reviewed attributions naming this contract
+- EX01: pmw:160; directly_documented; PMW 160 Tactical Networks: PEO C4I engineering support services in support of the PMW 160 program ma; related {"predecessor": "N0003917F3000 (EX02)", "forecast_pid": "N00039-24-RFPREQ-PMW-160-0002", "budget_line": "OPN 1810N BA2 LI 2915 CANES (P-1 line 64), related PE 0
+
+## Notices whose saved search hit cites this contract number
+
+## Predecessor and successor candidates among saved awards (same parent vehicle and recipient, overlapping description)
+- predecessor candidate N0003921F3003: signed 2021-01-25, PoP 2021-02-01 -> 2026-07-31, ceiling $140,683,284, obligated $135,262,998; shared words pmw, this
+- successor candidate N0003926FG001: signed 2026-05-06, PoP 2026-08-03 -> 2027-08-02, ceiling $339,456,211, obligated $21,545,079; shared words 160, networks, pmw, tactical
+
+## Money, kept apart
+  estimate (LRAE anticipated total value, as stated): none
+  ceiling (base and all options, USAspending/FPDS):  N0003922F3000 $193,354,383
+  obligated to date (USAspending total_obligation):   N0003922F3000 $188,936,333

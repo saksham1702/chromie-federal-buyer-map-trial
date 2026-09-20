@@ -1,0 +1,10 @@
+skipped: claim is superseded with no end date; no column can say so x1
+skipped: gov_organizations has no column for node.capability_portfolios x1
+skipped: gov_organizations has no column for node.location x2
+skipped: gov_organizations has no column for node.notes x16
+skipped: incumbent PIID has no procurement record to reference x65
+skipped: leadership claim is superseded with no end date; no column can say so x1
+skipped: no production relationship_type for `listed_with` x1
+skipped: no value stated (No Range Specified) x67
+skipped: open-ended value the schema cannot hold (> $1B+) x4
+skipped: retracted claim not loaded (the production table has no retraction) x3

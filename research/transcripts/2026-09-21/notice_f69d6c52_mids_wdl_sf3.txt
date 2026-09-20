@@ -1,0 +1,57 @@
+# Multifunctional Information Distribution System (MIDS) Weapons Data Link (WDL) Small Form Factor Weapons Attritable Radio Multi-Mode (SWARMM) Family 3 (SF3) Radio
+presolicitation posted 2026-08-12; solicitation N00039PRESOL_SF3; notice f69d6c525c9f494fa08ea8fd852f5cdd
+source https://sam.gov/opp/f69d6c525c9f494fa08ea8fd852f5cdd/view; record https://sam.gov/api/prod/opps/v2/opportunities/f69d6c525c9f494fa08ea8fd852f5cdd?api_key=null retrieved 2026-09-20 sha fb655c13499e; saved data/raw/sam_notices/f69d6c525c9f494fa08ea8fd852f5cdd.json
+
+## Offices named in the notice text
+- command:navwar (Naval Information Warfare Systems Command) via alias 'Naval Information Warfare Systems Command'
+    ...the naval information warfare systems command (navwar) in support of the tactical data link (tdl) program...
+- contracting:n00039 (NAVWAR HQ contracts directorate) via alias 'NAVAL INFORMATION WARFARE SYSTEMS'
+    ...the naval information warfare systems command (navwar) in support of the tactical data link (tdl)...
+- pmw:101 (PMA/PMW 101 Multifunctional Information Distribution Systems (MIDS) Pr) via alias 'Tactical Data Link (TDL) Program Office'
+    ...ormation warfare systems command (navwar) in support of the tactical data link (tdl) program office (formerly multifunctional information distribution (mids) p...
+
+## PMA/PMW 101 Multifunctional Information Distribution Systems (MIDS) Program Office (loaded as program_office, source_ref pmw:101, row 2c94fd2e-fb13-5f8b-89b6-1fdc2224b7ca)
+  names over time (11 in the organization memory; a name is only as current as its latest observation):
+    'PMA/PMW 101 Multifunctional Information Distribution Systems (MIDS) Program Office': observed 2014-01-21 .. 2026-08-27 (12; latest obs:082 https://sam.gov/api/prod/opps/v2/opportunities/0467d03d99e74abfa85a315d4d6d2403?api_key=null)
+    'PMA/PMW-101': observed 2014-01-21 .. 2026-04-12 (9; latest obs:045 https://www.peoc4i.navy.mil/Program-Offices/)
+    'PMW 101': observed 2014-01-21 .. 2026-04-12 (9; latest obs:045 https://www.peoc4i.navy.mil/Program-Offices/)
+    'PMA 101': observed 2014-01-21 .. 2026-04-12 (9; latest obs:045 https://www.peoc4i.navy.mil/Program-Offices/)
+    'MIDS International Program Office (IPO)': observed 2014-01-21 .. 2026-04-12 (9; latest obs:045 https://www.peoc4i.navy.mil/Program-Offices/)
+    'MIDS Program Office (MPO)': observed 2014-01-21 .. 2026-04-12 (9; latest obs:045 https://www.peoc4i.navy.mil/Program-Offices/)
+    'Tactical Data Link (TDL) Program Office': observed 2026-08-12 .. 2026-08-27 (3; latest obs:082 https://sam.gov/api/prod/opps/v2/opportunities/0467d03d99e74abfa85a315d4d6d2403?api_key=null)
+    'PMW-530': observed 2026-08-19 .. 2026-08-27 (2; latest obs:082 https://sam.gov/api/prod/opps/v2/opportunities/0467d03d99e74abfa85a315d4d6d2403?api_key=null)
+    'PMW 530': observed 2026-08-19 .. 2026-08-27 (2; latest obs:082 https://sam.gov/api/prod/opps/v2/opportunities/0467d03d99e74abfa85a315d4d6d2403?api_key=null)
+    'PMA/W-101': observed 2026-08-19 .. 2026-08-27 (2; latest obs:082 https://sam.gov/api/prod/opps/v2/opportunities/0467d03d99e74abfa85a315d4d6d2403?api_key=null)
+    'Multifunctional Information Distribution System (MIDS) International Program Office (IPO)': observed 2014-01-21 .. 2026-04-12 (9; latest obs:045 https://www.peoc4i.navy.mil/Program-Offices/)
+    codes: office_code PMA/PMW 101
+  ancestry today: PMA/PMW 101 Multifunctional Information Distribution Systems (MIDS) Program Office -> Program Executive Office Command, Control, Communications, Computers and Intelligence
+    pmw:101 under peo:c4i: rel:001, from start unstated (unknown dates), last_confirmed as of 2026-04-12; evidence obs:045 2026-04-12 https://www.peoc4i.navy.mil/Program-Offices/; obs:041 2026-04-12 https://www.peoc4i.navy.mil/Contact/
+  succession documented for an ancestor (peo:c4i): Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems from 2026-05-11 (rel:045; evidence obs:046 2026-05-11 https://www.dvidshub.net/news/564916/department-navy-launches-pae-mission-systems-accelerate-warfighting-capability-speed)
+    scope as the source states it: mission systems elements of the following organizations (release wording): PEO C4I, PEO Digital, PEO IWS, PEO MLB, DRPM Overmatch, DRPM LRNFO, DRPM MILE, the Minotaur program from PMA 290, NAVWAR, NAVSEA, NAVAIR, MCSC; offices and functions that moved are not itemized
+    this office under Portfolio Acquisition Executive Mission Systems: not established by any loaded source; its parent claim rel:001 is last_confirmed as of 2026-04-12: confirmed by the latest cited observation; not re-verified since
+  history: NAVWAR HQ contracts directorate contracting_supports PMA/PMW 101 Multifunctional Information Distribution Systems (MIDS) Program Office [start unstated .. open] (rel:002; evidence obs:035 2025-06-19 https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx)
+
+## Forecast lines owned by this office that may be the same requirement (an explicit tie, or a candidate a reviewer accepts or rejects)
+- none of the 50 loaded lines owned by this office shares a program name with the notice or cites a contract it names
+
+## Related procurements in the same program owned by this office (a different lot, family or generation: context for this buy, not the same requirement)
+- none
+
+## Forecast lines under OTHER offices sharing the notice's program names (the office differs, so each carries that question)
+- none
+
+## Related procurements under OTHER offices (a different lot, family or generation of the program; not this buy)
+- N00039-24-RFPREQ-PEO-C4I-0012 MIDS WDL SF2 Production (C) (sol FY24 Q4, award FY25 Q4, $250M - $1B) under peo:c4i (C4IEXEC) - related: shared program tokens mids, wdl; different generation (line 2, notice 3), so a distinct buy in the same program; record lrae_navwar_2025-06 LRAE Annex 25!row 145 (sha 697ec8c004d2)
+  forecast source lrae_navwar_2025-06: https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx (retrieved 2026-09-16 via https://web.archive.org/web/2026id_/https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx; sha256 697ec8c004d2; saved data/raw/697ec8c004d2_NAVWAR_HQCA-2025-A-037_Long_Range_Acquisition_Estimate_JUN_2025.xlsx)
+
+## Related notices (saved searches sharing the solicitation number or title stem, or a saved notice whose text carries a rare program name from this title)
+- 2024-05-01 Special Notice: Multifunctional Information Distribution System (MIDS) Weapons Data Link (WDL) S [N00039_SNOTE_04AD57EF] https://sam.gov/opp/42a0ad02f87249449a163d3b5c178f35/view (different generation: 2; a related buy)
+- 2024-07-30 Presolicitation: Multifunctional Information Distribution System (MIDS) Weapons Data Link (WDL) S [N0003924R4100] https://sam.gov/opp/90bbcbf8d0de45e1906c79e010922ef6/view (different generation: 2; a related buy)
+- 2024-08-30 Solicitation: Multifunctional Information Distribution System (MIDS) Weapons Data Link (WDL) S [N0003924R4100] https://sam.gov/opp/5820bdc44b794946a767218aac10a278/view (different generation: 2; a related buy)
+- 2025-04-09 Presolicitation: Multifunctional Information Distribution System (MIDS) Low Volume Terminals (LVT [N00039-24-R-4019] https://sam.gov/opp/4ea95161c231462babc5a86d0a4bf8c0/view
+- 2026-02-05 Sources Sought: Multifunctional Information Distribution System (MIDS) Weapons Data Link (WDL) S [N0003925RFPREQPMAPMW1010223] https://sam.gov/opp/882c56a3bec649ff8afe3116730f8585/view (different generation: 1; a related buy)
+- 2026-03-02 Special Notice: Multifunctional Information Distribution System (MIDS) Weapons Data Link (WDL) S [no number] https://sam.gov/opp/99b4234b55284724a2941414568ef08a/view (different generation: 1; a related buy)
+- 2026-08-19 Special Notice: Multifunctional Information Distribution System (MIDS) Weapons Data Link (WDL) S [MIDS_WDL_SF1_CONTRACT_CEILING_INCREASE] https://sam.gov/opp/6ff72bcf109949fab682acfa4202a147/view (different generation: 1; a related buy)
+
+## Awards under this solicitation number (saved FPDS lookup by solicitation)
+- not collected (python research/tools/fetch.py 'https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=SOLICITATION_ID:N00039PRESOL_SF3&start=0')
