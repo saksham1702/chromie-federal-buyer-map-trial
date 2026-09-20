@@ -215,3 +215,28 @@ of the alert per release the requirement appeared in. The monitors now take the 
 the newest observation nothing has superseded, and count the live ones: where two releases
 name different offices both stay live by design, and the alert says the owner is contested and
 lists them with their dates rather than picking the one that sorted last.
+
+## 2026-09-20 - A spreadsheet row is a source record; nothing is marked duplicate at import
+
+The June 2024 LRAE release has no PID column, and the package keyed those rows on a hash of title
+and office code. Rows 406 and 408-411 all read "Order to Contract #N0003922D4001" under PMA/PMW-101
+and describe different work (a Lot 7 order, terminal destruction, terminal shipment, a French MIS
+buy, a feasibility study); four were marked `duplicate` and never reached the layers. A row without
+a PID is now keyed as its release and row number, the `duplicate` decision is gone, a PID that
+repeats within one release stops the build rather than merging, and the reconciliation lists rows
+that share a title under one office with what tells them apart. Identity across releases stays
+with the staged matcher, which reports a shared key as a candidate for a reviewer.
+
+
+## 2026-09-20 - A notice or an award reaches a forecast line explicitly or as a labelled candidate
+
+`research/tools/trace.py` ties SAM.gov notices and FPDS awards to LRAE lines two ways. Explicit: the
+notice text contains the line's PID or its incumbent contract number, or the line's own title
+carries the solicitation number. Candidate: a solicitation-stage notice shares a program name or
+code the source wrote in capitals or with a digit, either one that three or fewer lines carry or
+two of them, posted within three fiscal years of the line's window, and the notice names the same
+office, its parent, or no office the memory knows; a notice naming an unrelated current office is
+dropped. Generic procurement words and bare numbers never count. A candidate is printed with the
+shared tokens and the office comparison and never read as "solicited" or "awarded"; the reading
+says a reviewer decides. Estimates, ceilings and obligations print in separate columns and are
+never added.
