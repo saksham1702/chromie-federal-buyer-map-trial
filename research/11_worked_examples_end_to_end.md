@@ -114,13 +114,23 @@ by a self-check, because no release pair in this data exercises it.
 **N00039-23-RFPREQ-PMW/A-170-0155** - MAT Production and Sustainment
 - What changed: anticipated award slips FY25 Q3 -> FY26 Q4 between the 2023-06-20 and 2025-06-19 releases.
 - Office: PMW/A 170 Communications and GPS Navigation Program Office. Ancestry: PMW/A 170 ...
-  -> Program Executive Office Command, Control, Communications, Computers and Intelligence;
-  succeeded by Portfolio Acquisition Executive Mission Systems (from 2026-05-11).
+  -> PAE Mission Systems Capability Portfolio Executive: Comms, Sensor, Electronic Warfare (EW),
+  and Positioning, Navigation, and Timing (PNT) -> Portfolio Acquisition Executive Mission Systems
+  -> Department of the Navy.
 - Evidence: LRAE lrae_navwar_2023-06 LRAE Annex 25!row 383 (sha256 48ad6e27241a);
   LRAE lrae_navwar_2025-06 LRAE Annex 25!row 100 (sha256 697ec8c004d2).
 - Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a
   clerical correction, and the release does not say which.
 ```
+
+PMW/A 170 sits under a PAE portfolio because its own notice of 2026-05-22 says so (`rel:066`).
+For an office no source has moved, the alert keeps the PEO chain and adds the consolidation at
+the level it is documented, as the PMW 120 alerts read on 2026-09-21: "Ancestry: PMW 120 ... ->
+Program Executive Office Command, Control, Communications, Computers and Intelligence; succession
+documented at the ancestor's level and scoped to what that source lists: Program Executive Office
+Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive
+Mission Systems (from 2026-05-11); this office's own placement under the successor is not
+established in the loaded data." The release itemized no offices, so the office keeps its parent.
 
 **What the alert does not say, and why.** The value also moved, from `$100M - $250M` to
 `$250M - $1B`, and the alert reports only the slip. A funding re-estimate chains to its

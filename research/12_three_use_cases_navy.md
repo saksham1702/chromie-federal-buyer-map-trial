@@ -10,7 +10,9 @@ ceilings and obligations stay in separate columns throughout.
 
 Everything below is reproducible offline from the saved bytes. The tool is
 `research/tools/trace.py`; every lookup made for this document is a row in
-`research/documents_manifest.jsonl` with the note `use-case walkthrough`.
+`research/documents_manifest.jsonl` with the note `use-case walkthrough`. Transcripts of the
+commands below against a database built from scratch on 2026-09-21 are in
+`research/transcripts/2026-09-21/`, with the schema and load steps in its README.
 
 ```
 python research/tools/lrae_package.py build                 # datapack/ from the saved spreadsheets
@@ -41,6 +43,26 @@ Two corrections were made first, because the examples depend on them:
   aliases and dated relationships (`rel:065`, `rel:066`; `rel:011` ended), and one interpretation
   (`int:006`). Neither redesignation date is stated by a source; the PAE stand-up date is used as
   a convention and marked inferred.
+
+Four rules, from the review of 2026-09-20, hold in the tool and in this document:
+
+- **A negative names the records searched and their date.** "No award found in the saved FPDS
+  lookup as of 2026-09-20" is what the saved bytes support; "nothing awarded" is not, and the
+  tool never prints it. `trace.py status` prints the retrieval range of the searches it read.
+- **Every connection carries its source.** The SAM.gov link and the saved record (URL, retrieval
+  date, hash) for a notice; the spreadsheet row and the release's URL for a forecast line; the
+  FPDS or USAspending record behind every ceiling and obligation; the observation ids, dates and
+  URLs behind every office name, parent and reorganization. The loader now writes the source
+  URL onto every office, edge and spreadsheet-row evidence it inserts.
+- **The same requirement is kept apart from a related buy in the same program.** Two titles
+  stating different lots, families or generations (SF2 and SF3; Services II and III) are
+  reported as *related procurements*, never as candidates for one another. SF2 is context for
+  SF3 and stays a distinct buy.
+- **A reorganization is reported at the level its source documents.** The May 2026 release
+  consolidated PEO C4I's "mission systems elements" into PAE Mission Systems and itemized no
+  offices. An office is placed under a PAE portfolio only when its own source says so (PMW/A 170,
+  notice of 2026-05-22); otherwise the tool prints the PEO-level succession, the scope wording
+  and the office's own parent claim with the date it was last confirmed.
 
 ---
 
@@ -89,7 +111,7 @@ ceiling above; it is not a new award.
 | 2023-05-10 -> 2024-11-05 | intent, then award, of the sole-source extension | PEO C4I | N00039-23-R-2005 |
 | 2026-02-10 | Sources Sought "NTCDL Engineering Support Services - RFI" (ESS and spares) | PEO C4I, PMW/A 170 | NAVWAR_HQCA_2026_A_005 |
 | 2026-05-22 | Presolicitation: sole-source five-year single-award IDIQ for NTCDL ESS and spares to BAE | PAE MS CPE Comms/Sensor/EW/PNT, "previously PEO C4I, PMW/A 170" | N0003926RB002 |
-| through 2026-09-20 | no award under N0003926RB002 in FPDS; incumbent actions P00098 (2025-11-12, $65,000) and P00099 (2025-12-08, $0) | | FPDS |
+| through 2026-09-20 | no award found under N0003926RB002 in the saved FPDS lookup (retrieved 2026-09-20); incumbent actions P00098 (2025-11-12, $65,000) and P00099 (2025-12-08, $0) | | FPDS |
 
 No full-and-open production solicitation appears in the saved SAM.gov searches for "NTCDL" or
 "Network Tactical Common Data Link" as of 2026-09-20. What appeared in the forecast window was an
@@ -100,11 +122,25 @@ presolicitation better than the follow-on line does. The tool reports the presol
 **candidate** for both lines (shared program token `ntcdl`, same office) and does not pick one;
 that is a reviewer's call, and the bridge line is the natural first reading.
 
-**Reading.** The production follow-on has not been solicited. The incumbent runs to September
-2028 with $6.8M of ceiling headroom, the engineering support is being placed sole-source, and the
-award window has already moved twice. Budget line: OPN line item 2950, Network Tactical Common
-Data Link (see `05`, table 1a). Earliest signals came five years (2021 RFI) and three years (2013
-RFI -> 2016 award) ahead of the buys they preceded.
+**Reading.** No solicitation of the production follow-on appears in the searched records (the
+saved SAM.gov searches, retrieved through 2026-09-20). The incumbent runs to September 2028 with
+$6.8M of ceiling headroom (its own ceiling less its own obligations), the engineering support is
+being placed sole-source, and the award window has already moved twice. Budget line: OPN line
+item 2950, Network Tactical Common Data Link (see `05`, table 1a). Earliest signals came five
+years (2021 RFI) and three years (2013 RFI -> 2016 award) ahead of the buys they preceded.
+
+**Watch.** This is the forward-looking example: a requirement to follow now, before its RFP.
+`trace.py need N00039-25-RFPREQ-PMW/A-170-0001` ends with a `Watch` block read from the rows
+above; the tool asserts nothing new there.
+
+| | |
+| --- | --- |
+| where it stands | solicitation window FY26 Q2 (January to March 2026) closed 174 days before 2026-09-21 with no solicitation of the line in the saved searches; award window FY27 Q2 |
+| why it matters | $250M - $1B as stated, full and open, single-award IDIQ, follow-on to N0003916C0087 (BAE); the incumbent ends 2028-09-29 with $6.8M of headroom, so a production vehicle has to exist before then or the incumbent has to be extended again |
+| what is on the record | the ESS sole-source presolicitation N0003926RB002 (2026-05-22) as a candidate; the sibling bridge line `-0276` (sol FY26 Q1) sharing the program name |
+| would confirm | a solicitation-stage notice carrying the PID or N0003916C0087; a solicitation-stage notice whose title carries `NTCDL` and names PMW/A 170 or its portfolio; an FPDS or USAspending action under a new solicitation number naming N0003916C0087 as predecessor; the next LRAE release keeping the line with an unchanged or nearer window |
+| would invalidate | a J&A, extension or modification carrying N0003916C0087 past 2028-09-29; the next LRAE release dropping the line or folding it into `-0276`; an award under N0003926RB002 whose description covers production |
+| how to re-check | `sam_notices.py ntcdl`; `fetch.py` on the USAspending award and the FPDS PIID feed for N0003916C0087 (the block prints the three commands) |
 
 ---
 
@@ -122,8 +158,12 @@ the JTRS ceiling-increase notice (2026-08-27, contract N0003924D4004 with Data L
 both read "Tactical Data Link (TDL) Program Office (PMW-530) (formerly ... (PMA/W-101))". The
 organization memory now carries the new name and code as aliases of `pmw:101` resting on those
 three observations; the redesignation date is not stated and is recorded as unknown. Resolved
-ancestry: PMA/PMW 101 -> PEO C4I, succeeded by PAE Mission Systems from 2026-05-11 (`rel:045`).
-Contracting office N00039 (`rel:002`).
+ancestry: PMA/PMW 101 -> PEO C4I (`rel:001`, last confirmed 2026-04-12 by the PEO C4I site).
+PEO C4I's mission-systems elements were consolidated into PAE Mission Systems from 2026-05-11
+(`rel:045`); the release does not itemize which offices moved, and no source places PMW-530
+under a PAE portfolio, so the office's placement after the consolidation is not established and
+the tool says so rather than drawing the PEO's successor onto the office. Contracting office
+N00039 (`rel:002`).
 
 **The surrounding history, from the saved notices and awards.**
 
@@ -131,17 +171,20 @@ Contracting office N00039 (`rel:002`).
 | --- | --- | --- | --- | --- |
 | SF1 | award 2023-05-05, ceiling increase noticed 2026-08-19 | N0003923D4000, L3, single award, not competed | $84,950,000 | $0 at the vehicle |
 | SF2 | RFI 2024-01-17; presol N0003924R4100 2024-07-30; RFP 2024-08-30 | N0003925D4006 (Rockwell Collins) and N0003925D4007 (L3), signed 2025-09-29, full and open, 2 offers each | $939,600,000 each | $0 at the vehicles; first orders 2025-09-29 F4056 $57,152,766 and F4057 $42,123,914; FY26 orders F4006 (ceiling $82,061,677, obligated $3,083,496) and F4007 (ceiling $87,575,256, obligated $233,428) |
-| SF3 | RFI 2025-08-28; presolicitation 2026-08-12 (this notice) | none yet | | |
-| SF4 | RFIs 2025-05-14 and 2026-07-29 | none | | |
+| SF3 | RFI 2025-08-28; presolicitation 2026-08-12 (this notice) | no solicitation number issued yet (the presolicitation carries a placeholder), so no FPDS lookup exists; no award found in the searched records as of 2026-09-20 | | |
+| SF4 | RFIs 2025-05-14 and 2026-07-29 | no solicitation yet; no award found in the searched records as of 2026-09-20 | | |
 
 **The forecast.** No LRAE line for SF3 exists in the June 2025 release; the forecast is behind
 the notice stream here, and the next LRAE release is where it should appear. The SF2 line does
 exist: `N00039-24-RFPREQ-PEO-C4I-0012`, "MIDS WDL SF2 Production", solicitation FY24 Q4, award
 FY25 Q4, $250M - $1B, filed under `C4IEXEC`, the PEO C4I front-office code, not PMA/PMW-101. The
-SF2 award landed 2025-09-29, in the forecast quarter. The tool reports the SF3 notice against the
-SF2 line as a **candidate** with two questions attached: the notices name PMW-530 while the LRAE
-files the family under the front office (line filed under the notice office's parent code), and
-SF3 is a later lot, not the same buy. Neither is resolved by the tool.
+SF2 award landed 2025-09-29, in the forecast quarter. The tool lists the SF2 line against the SF3
+notice as a **related procurement in the same program**, not as a candidate for the same
+requirement: the titles state different generations (SF2 against SF3), so they are distinct buys,
+and SF2 is context for SF3 (what the family's last competition looked like) rather than its
+forecast. The office question travels with it: the notices name PMW-530 while the LRAE files the
+family under the front office. The SF2 line's own candidates are the SF2 presolicitation and RFP
+of 2024 under N0003924R4100, with the two awards of 2025-09-29 under that number.
 
 **Reading.** The office is documented, not inferred. The value the notice implies is a ceiling
 to be set at award; the SF2 vehicles show what that looked like a year earlier ($939.6M ceiling
@@ -160,8 +203,10 @@ June 2027 - June 2030". The SOW is CUI behind an NDA, so nothing of the requirem
 beyond that paragraph. The presolicitation of 2026-07-31 (`64f0d3726ec2`) carried the same text.
 
 **The office, explicitly.** The text names PMW 740 and the memory resolves it on the alias `PMW 740`:
-PMW 740 International C4I Integration Program Office -> PEO C4I, PEO C4I succeeded by PAE Mission Systems
-from 2026-05-11 (`rel:045`); contracting office N00039 (`rel:014`). Both notices are recorded as
+PMW 740 International C4I Integration Program Office -> PEO C4I (`rel:013`). PEO C4I's mission-systems
+elements were consolidated into PAE Mission Systems from 2026-05-11 (`rel:045`), a PEO-level fact the tool
+prints with the release's scope wording and without placing PMW 740 under any PAE portfolio; contracting
+office N00039 (`rel:014`). Both notices are recorded as
 observations (`obs:086`, `obs:087`) and they say something the memory did not have: in July and
 September 2026, four months after PAE Mission Systems stood up, NAVWAR still writes PEO C4I as PMW 740's
 parent. `rel:013` (PMW 740 under PEO C4I) is therefore last confirmed 2026-09-17, no source yet places
@@ -175,7 +220,7 @@ whose May 2026 notice did move it under a CPE (section 1).
 | 2025-02-27 | Sources Sought "N0003925R4011 - Egypt A2": RFI for Egyptian Navy AINTS Platform Integration, full-and-open RFP intended, SOW CUI under NDA, responses due 2025-04-01 | NAVWAR, no office | SAM.gov b4459cf9c745 |
 | 2026-07-31 | Presolicitation N0003926RE014 | PEO C4I, PMW 740 | SAM.gov 64f0d3726ec2 |
 | 2026-09-17 | Solicitation N0003926RE014, proposals due 2026-10-20 | PEO C4I, PMW 740 | SAM.gov e24dd802a17a |
-| through 2026-09-20 | no award under N0003926RE014 or N0003925R4011 in FPDS | | FPDS |
+| through 2026-09-20 | no award found under N0003926RE014 or N0003925R4011 in the saved FPDS lookups (retrieved 2026-09-20) | | FPDS |
 
 The RFI's title is a number and "Egypt A2"; the program name is only in its body. The tool now also
 reads a saved notice's text for a rare program name from the traced title (`aints` occurs in one
@@ -196,7 +241,7 @@ in the notice text ties them explicitly. The reading is the reviewer's; it is th
 | | forecast (June 2025) | record |
 | --- | --- | --- |
 | solicitation | FY25 Q3 (Apr-Jun 2025) | RFI 2025-02-27; presolicitation 2026-07-31; RFP 2026-09-17, five quarters late |
-| award | FY26 Q2 (Jan-Mar 2026) | notice says June 2027 - June 2030, FY27 Q3 at the earliest; nothing awarded |
+| award | FY26 Q2 (Jan-Mar 2026) | notice says June 2027 - June 2030, FY27 Q3 at the earliest; no award found in the searched FPDS records as of 2026-09-20 |
 | value | estimate $100M - $250M | no ceiling yet (set at award); no obligations |
 
 **Reading.** An RFP that is open today, traced to a named office, with the RFI nineteen months ahead of
@@ -270,17 +315,19 @@ The candidate rows, with the basis the tool attaches to each:
 
 | line | forecast | candidate notice | basis | awards under it |
 | --- | --- | --- | --- | --- |
-| MIDS WDL SF2 Production (peo:c4i) | sol FY24 Q4, award FY25 Q4 | RFP N0003924R4100 2024-08-30; presol SF3 2026-08-12 | `mids`, `wdl`; line filed under the notice office's parent code | N0003925D4006/D4007 2025-09-29 |
+| MIDS WDL SF2 Production (peo:c4i) | sol FY24 Q4, award FY25 Q4 | presol 2024-07-30 and RFP 2024-08-30 under N0003924R4100 (the SF3 presolicitation of 2026-08-12 is listed as a related buy, not a candidate) | `mids`, `sf2`, `wdl`; the RFP's detail is not saved, so its office is not read | N0003925D4006/D4007 2025-09-29 |
 | MIDS-LVT IDIQ - New Contracts (pmw:101) | sol FY25 Q3, award FY25 Q3 | presol N00039-24-R-4019 2025-04-09 | `lvt`, `mids`; same office | N0003926DE001/DE002 2026-04-13 |
-| NTCDL - Stand Alone Bridge Contract (pmw:170) | sol FY26 Q1, award FY26 Q3 | presol N0003926RB002 2026-05-22 | `ntcdl`; same office | none yet |
-| NTCDL - Follow-On Production and ESS (pmw:170) | sol FY26 Q2, award FY27 Q2 | the same presolicitation | `ntcdl`; same office; meanwhile the incumbent was extended (award notice 2024-11-05) | none |
+| NTCDL - Stand Alone Bridge Contract (pmw:170) | sol FY26 Q1, award FY26 Q3 | presol N0003926RB002 2026-05-22 | `ntcdl`; same office | no award found in the saved FPDS lookup as of 2026-09-20 |
+| NTCDL - Follow-On Production and ESS (pmw:170) | sol FY26 Q2, award FY27 Q2 | the same presolicitation | `ntcdl`; same office; meanwhile the incumbent was extended (award notice 2024-11-05) | the same lookup: no award found as of 2026-09-20 |
 | RSNF C4ISR Training Services III (pmw:740) | sol FY25 Q1, award FY25 Q4 | presol N0003925R4014 2025-04-30 | `rsnf`; notice detail not saved | not collected |
 | RSNF inKSA Support Services (pmw:740) | sol FY25 Q3, award FY26 Q1 | the same presolicitation | `rsnf`; notice detail not saved | not collected |
-| EGYPTIAN Navy AINTS (pmw:740) | sol FY25 Q3, award FY26 Q2 | RFI 2025-02-27; presol 2026-07-31; RFP N0003926RE014 2026-09-17 | `aints`; same office (section 2b) | none as of 2026-09-20 |
+| EGYPTIAN Navy AINTS (pmw:740) | sol FY25 Q3, award FY26 Q2 | RFI 2025-02-27; presol 2026-07-31; RFP N0003926RE014 2026-09-17 | `aints`; same office (section 2b) | no award found in the saved FPDS lookup as of 2026-09-20 |
 
 A candidate is reported, never asserted: the reading names the shared token and the office
 comparison so a reviewer can accept or reject it in one look. Two RSNF lines share one notice and
-cannot both be it; that ambiguity is left standing.
+cannot both be it; that ambiguity is left standing. A notice for a different lot, family or
+generation of the line's program is printed as `related:` in the notice column and never drives
+the reading: the SF3 presolicitation is context for the SF2 line, not its solicitation.
 
 **Coverage, stated plainly.** FPDS PIID lookups hold the first page of actions only, so the
 "incumbent last action" column trusts USAspending's last-modified date and marks first-page-only

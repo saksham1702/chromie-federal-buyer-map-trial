@@ -253,3 +253,21 @@ row-level security, the migration history, the other tables and any production i
 emitted. The kit handed over on 2026-09-21 pairs it with the generated INSERT transaction, the
 datapack inputs and CSV exports of the loaded tables ordered by every column, so two loads from the
 same inputs diff empty. Promotion onto production identities stays owner-side.
+
+## 2026-09-21 - A negative is scoped, a connection is sourced, a related buy is not a candidate, a reorganization stays at its level
+
+Four rules from the review of 2026-09-20, applied to `trace.py`, the monitor and `research/12`.
+A negative names the records searched and their retrieval date ("no award found in the saved FPDS
+lookup as of 2026-09-20"); "nothing awarded" and "none yet" are gone, because the saved bytes
+support only the first. Every connection prints its source: the SAM.gov link and the manifest
+record (URL, retrieval date, hash) for a notice; the release URL, sheet, row and hash for a
+forecast line; the FPDS or USAspending record behind every ceiling and obligation; the observation
+ids, dates and URLs behind every office name, parent hop and reorganization; and the loaded row
+ids. The loader now writes `source_url` on offices, edges and spreadsheet-row evidence (producer
+version 3). Two titles stating different lots, families or generations are related procurements in
+one program and never candidates for the same requirement: SF2 is context for SF3, not its
+forecast, and the status reading ignores a related notice. A successor edge is reported for the
+organization it is documented against, with the source's scope wording; an office is placed under
+the successor only when its own source says so, otherwise its parent claim prints with the date it
+was last confirmed. The "succeeded by" line, which drew the PEO's consolidation onto every office
+beneath it, is removed from both tools.

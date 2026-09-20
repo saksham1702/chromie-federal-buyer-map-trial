@@ -50,7 +50,8 @@ flowchart LR
   A -- fundingRequestingOfficeID --> FO[Funding organization<br/>e.g. N00024 NAVSEA HQ]
   C[Congressional mark<br/>explanatory statement line] -- PE / line item --> B
   D[DVIDS / tear sheets] -- name + role + date --> P[Person] -- leads --> PO
-  PO -- child_of (dated) --> PEO[PEO C4I] -- consolidated_into 2026-05-11 --> PAE[PAE Mission Systems]
+  PO -- child_of (dated) --> PEO[PEO C4I] -- consolidated_into 2026-05-11<br/>mission-systems elements; offices not itemized --> PAE[PAE Mission Systems]
+  PO -. child_of only where the office's own source says so<br/>e.g. PMW/A 170, notice of 2026-05-22 .-> CPE[PAE MS capability portfolio] --> PAE
 ```
 
 Solid joins (an identifier shared by both sides): LRAE row -> award (existing contract number);
@@ -86,5 +87,5 @@ as such.
 | Forecast row -> notice | PIDs are not published in SAM; some solicitations are issued through PIEE or inside SeaPort-NxG | match on title, office, NAICS and timing; `unresolved` when no notice can be found |
 | Notice -> award for vehicle orders | SeaPort-NxG task-order RFPs are not on SAM | award-only lineage through the referenced IDV |
 | Award -> office | descriptions such as "DE-OBLIGATION" or "CEILING REALIGNMENT" carry no owner | `unresolved`, with the base award's evidence checked instead |
-| Office -> current parent | PEO C4I is under PAE Mission Systems from 2026-05-11 while NAVWAR pages still list it | both edges kept with dates and a review flag |
+| Office -> current parent | PEO C4I's mission-systems elements moved to PAE Mission Systems from 2026-05-11; the release itemizes no offices, and NAVWAR pages still list the PEO | the consolidation is kept at the PEO level with the release's scope wording; an office moves under a PAE portfolio only when its own source says so (PMW/A 170, 2026-05-22), otherwise its parent claim stands with its last-confirmed date |
 | Any source -> classified or CUI requirement | not public | absent by construction |
