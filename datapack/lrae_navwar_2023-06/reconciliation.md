@@ -1,7 +1,7 @@
 # Reconciliation - lrae_navwar_2023-06
 
 Sheet `LRAE Annex 25`, header on Excel row 8, data rows 9-741.
-Record key: PID, where present (643 of 733 raw rows); rows without one fall back to a hash of title and office code.
+Record key: PID, where present (643 of 733 raw rows); a row without one is its own record (release and row number).
 
 ## Rows
 
@@ -10,7 +10,6 @@ Record key: PID, where present (643 of 733 raw rows); rows without one fall back
 | raw | 733 |
 | included | 127 |
 | excluded | 507 |
-| duplicate | 0 |
 | unresolved | 99 |
 
 Sum of decisions: 733 (equals raw: yes).
@@ -72,11 +71,16 @@ Sum of decisions: 733 (equals raw: yes).
 
 `532`, `534`, `535`, `536`, `CSBO`, `Cyber Defense`, `FRD`, `HPCMP`, `MCPNT Directorate`, `None`, `Pf004MNHR`, `Pf005NABS`, `Pf007NERP`, `Pf1-PAS`
 
-## Duplicates
+## Rows sharing a title and an office
 
-Every PID is unique in this release, so no row is marked `duplicate`. Rows that repeat title, office, value range and existing contract under different PIDs are listed for the reviewer; they read as separate planned actions (option years, additional lots) rather than duplicates and stay as they are:
+Nothing is marked duplicate at import: a row is a source record until a reviewer resolves its identity. Rows that repeat a title under one office code are listed with what tells them apart (description, value, award window), so the reviewer sees what the spreadsheet actually says. Across releases the matcher reports such a key as a candidate rather than choosing a row.
 
-- rows 291, 294: liptm00455-maritime prototypes (c) (LSUBP00021)
+- LIPTM00252, BASED LOGISTICS-ORGANIC (PBLO), MATERIALS, SEWP (C) (LSUBP00093), 2 rows:
+  - row 337: THERE WILL BE BATTERY ASSEMBLIES, MODULES, MONITORS, INTERFACE UNITS, POWER SUPPLIES, CONT | < $2M | award FY23 Q3
+  - row 338: THERE WILL BE LAPTOPS, KEYBOARDS, COMPUTER SYSTEMS MEMORY, HDD, SERVERS AND HARDDRIVES.  N | $2M - $7.5M | award FY23 Q3
+- LIPTM00455-MARITIME PROTOTYPES (C) (LSUBP00021), 2 rows:
+  - row 291: MARITIME PROTOTYPES | < $2M | award FY23 Q4
+  - row 294: MARITIME PROTOTYPES - UNDERWATER SENSORS | < $2M | award FY23 Q4
 
 ## Joins (included rows only)
 

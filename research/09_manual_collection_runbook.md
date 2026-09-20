@@ -51,11 +51,11 @@ export, June 2024, June 2025) without touching the network, plus a `diff_<old>_<
 newer package (added, removed, changed, unchanged, ambiguous; keyed by PID where both rows have
 one, otherwise by title and office code, since the 2024 release has no PID column). Per package:
 `rows_raw.csv` (every row, original strings, sheet and Excel row number), `rows_classified.csv`
-(one decision per row: included, excluded, duplicate, unresolved, with the reason and the
+(one decision per row: included, excluded, unresolved, with the reason and the
 normalized office next to the original code), `joins.csv` (one line per join attempt from a
 forecast row to office, existing contract, notice and contact, each labelled explicit or
 inferred, unmatched rows kept), `reconciliation.md` (counts that add up to the raw count, the
-unresolved codes, the possible duplicates, the release gap) and `layers/` (the same rows shaped
+unresolved codes, rows sharing a title and an office and kept separate, the release gap) and `layers/` (the same rows shaped
 as needs, requirements, funding observations, procurement references and evidence).
 `SOURCE.json` holds the source hash and the hash of every output; running the build twice gives
 identical files. `collect` fetches any lookup the joins still need and records it in the

@@ -1,7 +1,7 @@
 # Reconciliation - lrae_navwar_2025-06
 
 Sheet `LRAE Annex 25`, header on Excel row 8, data rows 9-841.
-Record key: PID, where present (833 of 833 raw rows); rows without one fall back to a hash of title and office code.
+Record key: PID, where present (833 of 833 raw rows); a row without one is its own record (release and row number).
 
 ## Rows
 
@@ -10,7 +10,6 @@ Record key: PID, where present (833 of 833 raw rows); rows without one fall back
 | raw | 833 |
 | included | 148 |
 | excluded | 636 |
-| duplicate | 0 |
 | unresolved | 49 |
 
 Sum of decisions: 833 (equals raw: yes).
@@ -70,15 +69,26 @@ Sum of decisions: 833 (equals raw: yes).
 
 `DCE`, `Digital TD`, `JTNC`, `NPT-34`, `PAS`, `PCE`, `Pf004MNHR`, `Pf005NABS`, `Pf007NERP`
 
-## Duplicates
+## Rows sharing a title and an office
 
-Every PID is unique in this release, so no row is marked `duplicate`. Rows that repeat title, office, value range and existing contract under different PIDs are listed for the reviewer; they read as separate planned actions (option years, additional lots) rather than duplicates and stay as they are:
+Nothing is marked duplicate at import: a row is a source record until a reviewer resolves its identity. Rows that repeat a title under one office code are listed with what tells them apart (description, value, award window), so the reviewer sees what the spreadsheet actually says. Across releases the matcher reports such a key as a candidate rather than choosing a row.
 
-- rows 176, 177: delivery order for the ffp production of a clts array shipset (PMS-485)
-- rows 454, 455: liptm00107 - naval tactical command support system - ntcss development (LSUBP00095)
-- rows 87, 544: liptm00129, usmc communication systems, cables, corp production (LSUBP00004)
-- rows 179, 458: navy enterprise resource planning plus (navy erp+) proof of concept fo (Pf007NERP)
-- rows 340, 341: sldcada 2_sustainment_option exercise (c) (Pf007NERP)
+- Delivery Order for the FFP Production of a CLTS Array Shipset (PMS-485), 3 rows:
+  - row 175: no description beyond the title | $7.5M - $50M | award FY28 Q1
+  - row 176: Procure FFP CLTS Array Shipset Production via sole source IDIQ Delivery Order | $7.5M - $50M | award FY29 Q1
+  - row 177: Procure FFP CLTS Array Shipset Production via sole source IDIQ Delivery Order | $7.5M - $50M | award FY30 Q1
+- LIPTM00107 - Naval Tactical Command Support System - NTCSS Development (LSUBP00095), 2 rows:
+  - row 454: Program Support. | < $2M | award FY25 Q4
+  - row 455: Program Support | < $2M | award FY25 Q4
+- LIPTM00129, USMC Communication Systems, Cables, Corp Production (LSUBP00004), 2 rows:
+  - row 87: Fabricated Metal Cables | < $2M | award FY25 Q3
+  - row 544: Fabricated metal cables | < $2M | award FY25 Q4
+- Navy Enterprise Resource Planning Plus (Navy ERP+) Proof of Concept fo (PF007NERP), 2 rows:
+  - row 179: Navy Enterprise Resource Planning Plus (Navy ERP+) Proof of Concept for DoN’s Budget to Re | $7.5M - $50M | award FY25 Q4
+  - row 458: Navy Enterprise Resource Planning Plus (Navy ERP+) Proof of Concept for DoN’s Budget to Re | $7.5M - $50M | award FY25 Q4
+- SLDCADA 2_Sustainment_Option Exercise (C) (PF007NERP), 2 rows:
+  - row 340: SLDCADA 2_Sustainment_Option Exercise | $7.5M - $50M | award FY29 Q2
+  - row 341: SLDCADA 2_Sustainment_Option Exercise | $7.5M - $50M | award FY30 Q2
 
 ## Joins (included rows only)
 

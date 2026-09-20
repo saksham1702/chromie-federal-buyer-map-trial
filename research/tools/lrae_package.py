@@ -100,7 +100,7 @@ def cell(value) -> str:
     return str(value).strip()
 
 
-def read_sheet(path: Path) -> tuple[dict, list[dict]]:
+def read_sheet(path: Path, release_key: str = "") -> tuple[dict, list[dict]]:
     import openpyxl  # optional dependency, only needed here
 
     book = openpyxl.load_workbook(path, read_only=True, data_only=True)
@@ -118,7 +118,7 @@ def read_sheet(path: Path) -> tuple[dict, list[dict]]:
     for number, values in enumerate(sheet.iter_rows(min_row=HEADER_ROW + 1, values_only=True), start=HEADER_ROW + 1):
         if all(v is None or str(v).strip() == "" for v in values):
             continue
-        record = {"sheet": SHEET, "row_number": number}
+        record = {"sheet": SHEET, "row_number": number, "release": release_key}
         record.update({name: "" for name in COLUMNS})
         for i, name in enumerate(fields):
             if name and i < len(values):
@@ -128,11 +128,20 @@ def read_sheet(path: Path) -> tuple[dict, list[dict]]:
 
 
 def record_key(r: dict) -> str:
-    """PID when the release has one; otherwise a stable hash of title and office code (2024 release has no PID column)."""
+    """PID when the row has one; otherwise the row itself, scoped to its release.
+
+    A row is a source record. Two rows that share a title and an office code are
+    distinct planned actions until a reviewer says otherwise: in the June 2024
+    release (no PID column) rows 406 and 408-411 all read "Order to Contract
+    #N0003922D4001" under PMA/PMW-101 and describe a Lot 7 order, terminal
+    destruction, terminal shipment, a French MIS buy and a feasibility study.
+    Hashing title and office collapsed them into one record. Identity across
+    releases is the matcher's job (`pair_releases`), which reports a shared key as
+    a candidate rather than resolving it.
+    """
     if r["pid"]:
         return r["pid"]
-    basis = re.sub(r"\s+", " ", r["requirement_title"].strip().lower()) + "|" + r["office_code_string"].split(" - ")[0].strip()
-    return "k:" + hashlib.sha1(basis.encode("utf-8")).hexdigest()[:12]
+    return f"row:{r.get('release', '')}:{r['row_number']}"
 
 
 # ---------------------------------------------------------------- classification
@@ -181,15 +190,12 @@ def classify_code(token: str, aliases: dict[str, str] | None = None, fams: list 
 
 def classify(rows: list[dict]) -> list[dict]:
     aliases, included, fams = alias_map(), included_offices(), families()
-    seen: dict[str, int] = {}
     out = []
     for r in rows:
         hit = classify_code(r["office_code_string"], aliases, fams)
         code, family, org_type, office_id = hit["code"], hit["family"], hit["org_type"], hit["office_id"]
         key = record_key(r)
-        if key in seen:
-            decision, reason = "duplicate", f"record key already seen on row {seen[key]}"
-        elif office_id in included:
+        if office_id in included:
             decision, reason = "included", f"code resolves to {office_id}, a PEO C4I office (alias table)"
         elif office_id:
             decision, reason = "excluded", f"code resolves to {office_id} ({org_type or 'other organization'}), outside the PEO C4I portfolio"
@@ -200,10 +206,14 @@ def classify(rows: list[dict]) -> list[dict]:
             decision, reason = "unresolved", f"family {family} recognised but code {code} has no alias-table entry"
         else:
             decision, reason = "unresolved", f"code {code} matches no code family"
-        seen.setdefault(key, r["row_number"])
         out.append({"sheet": r["sheet"], "row_number": r["row_number"], "record_key": key, "pid": r["pid"],
                     "office_code_string": r["office_code_string"], "office_code": code, "code_family": family,
                     "office_id": office_id, "include_decision": decision, "reason": reason})
+    repeated = {k: n for k, n in Counter(c["record_key"] for c in out).items() if n > 1}
+    if repeated:
+        # A PID printed on two rows is a question for a person. Merging them would
+        # discard one planned action; marking one a duplicate did exactly that.
+        raise ValueError(f"record key repeats within one release: {repeated}")
     return out
 
 
@@ -527,39 +537,44 @@ def write_csv(path: Path, rows: list[dict]) -> None:
 
 def reconciliation(release: dict, rows, classified, joins, diff_note: str) -> str:
     decisions = Counter(c["include_decision"] for c in classified)
-    reasons = Counter((c["include_decision"], c["reason"] if c["include_decision"] != "duplicate" else "record key already seen") for c in classified)
+    reasons = Counter((c["include_decision"], c["reason"]) for c in classified)
     unresolved = sorted({c["office_code"] for c in classified if c["include_decision"] == "unresolved"})
     per_office = Counter(c["office_id"] for c in classified if c["include_decision"] == "included")
-    same = Counter((r["requirement_title"].lower(), r["office_code_string"], r["anticipated_total_value"], r["existing_contract_number"]) for r in rows)
-    candidates = sorted(k for k, v in same.items() if v > 1)
+    same = Counter((norm_title(r["requirement_title"]), office_code(r)) for r in rows if norm_title(r["requirement_title"]))
+    shared = sorted(k for k, v in same.items() if v > 1)
     # Whether the release *has* a PID column, not whether every raw row filled one.
     # Section headers and blank continuation rows leave it empty, so `all` reported
     # the 2023 release as having no PID column while all 127 of its included rows
     # carry one. `diff` below already asks the question this way.
     pid_rows = sum(1 for r in rows if r["pid"])
     has_pid = pid_rows > 0
-    key_note = (f"PID, where present ({pid_rows} of {len(rows)} raw rows); rows without one fall back to a hash of title and office code"
-                if has_pid else "hash of title and office code (this release has no PID column)")
+    key_note = (f"PID, where present ({pid_rows} of {len(rows)} raw rows); a row without one is its own record (release and row number)"
+                if has_pid else "the row itself, as release and row number (this release has no PID column). No two rows are merged at import")
     lines = [f"# Reconciliation - {release['key']}", "", f"Sheet `{SHEET}`, header on Excel row {HEADER_ROW}, data rows {rows[0]['row_number']}-{rows[-1]['row_number']}.",
              f"Record key: {key_note}.",
              "", "## Rows", "", "| Decision | Rows |", "| --- | --- |", f"| raw | {len(rows)} |"]
-    lines += [f"| {d} | {decisions.get(d, 0)} |" for d in ("included", "excluded", "duplicate", "unresolved")]
+    lines += [f"| {d} | {decisions.get(d, 0)} |" for d in ("included", "excluded", "unresolved")]
     lines += ["", f"Sum of decisions: {sum(decisions.values())} (equals raw: {'yes' if sum(decisions.values()) == len(rows) else 'NO'}).", "",
               "## Reasons", "", "| Decision | Reason | Rows |", "| --- | --- | --- |"]
     lines += [f"| {d} | {reason} | {n} |" for (d, reason), n in sorted(reasons.items(), key=lambda kv: (kv[0][0], -kv[1], kv[0][1]))]
     lines += ["", "## Included rows per office", "", "| Office | Rows |", "| --- | --- |"]
     lines += [f"| {o} | {n} |" for o, n in sorted(per_office.items())]
-    lines += ["", "## Unresolved codes", "", ", ".join(f"`{u}`" for u in unresolved) or "none", "", "## Duplicates", ""]
-    if has_pid:
-        lines += ["Every PID is unique in this release, so no row is marked `duplicate`. Rows that repeat title, office, value range "
-                  "and existing contract under different PIDs are listed for the reviewer; they read as separate planned actions (option years, "
-                  "additional lots) rather than duplicates and stay as they are:", ""]
-    else:
-        lines += ["This release has no PID column, so the record key is title plus office code; rows sharing that key are marked "
-                  "`duplicate` above and listed here for the reviewer:", ""]
-    for title, office, value, contract in candidates:
-        numbers = [r["row_number"] for r in rows if (r["requirement_title"].lower(), r["office_code_string"], r["anticipated_total_value"], r["existing_contract_number"]) == (title, office, value, contract)]
-        lines.append(f"- rows {', '.join(map(str, numbers))}: {title[:70]} ({office.split(' - ')[0]})")
+    lines += ["", "## Unresolved codes", "", ", ".join(f"`{u}`" for u in unresolved) or "none", "",
+              "## Rows sharing a title and an office", "",
+              "Nothing is marked duplicate at import: a row is a source record until a reviewer resolves its identity. "
+              "Rows that repeat a title under one office code are listed with what tells them apart (description, value, "
+              "award window), so the reviewer sees what the spreadsheet actually says. Across releases the matcher reports "
+              "such a key as a candidate rather than choosing a row.", ""]
+    if not shared:
+        lines.append("No two rows share a title under one office code in this release.")
+    for title, office in shared:
+        group = [r for r in rows if (norm_title(r["requirement_title"]), office_code(r)) == (title, office)]
+        lines.append(f"- {group[0]['requirement_title'][:70]} ({office}), {len(group)} rows:")
+        for r in group:
+            detail = " / ".join(line.strip() for line in r["requirement_description"].splitlines()
+                                if line.strip() and norm_title(line) != norm_title(r["requirement_title"]))
+            lines.append(f"  - row {r['row_number']}: {detail[:90] or 'no description beyond the title'} | {r['anticipated_total_value'] or 'no value'} | "
+                         f"award {r['award_fy']} {r['award_quarter']}".rstrip())
     lines += ["", "## Joins (included rows only)", "", "| Join | Lines | Matched | Unmatched | Not collected |", "| --- | --- | --- | --- | --- |"]
     for name in ("office", "existing_contract", "notice", "contact"):
         group = [j for j in joins if j["join_type"] == name]
@@ -584,7 +599,7 @@ def build() -> int:
         if source is None:
             print(f"{release['key']}: spreadsheet bytes not found under data/raw; skipped", file=sys.stderr)
             continue
-        meta, rows = read_sheet(ROOT / source["path"])
+        meta, rows = read_sheet(ROOT / source["path"], release["key"])
         release_date = meta.get("Release Date", "")[:10] if re.match(r"\d{4}-\d{2}-\d{2}", meta.get("Release Date", "")) else release["release_date"]
         packages.append((release, source, meta, rows, release_date))
     if not packages:
@@ -625,7 +640,7 @@ def build() -> int:
                 "wayback_timestamp": source.get("wayback_timestamp", ""), "retrieved_at": source["retrieved_at"],
                 "sha256": source["sha256"], "size": source["size"], "raw_path": source["path"], "sheet": SHEET, "header_row": HEADER_ROW,
                 "refetch": f"python research/tools/fetch.py '{source['url']}' --wayback {source.get('wayback_timestamp', '')}",
-                "regenerate": "python research/tools/lrae_package.py build", "record_key": "pid, or hash of title and office code when the release has no PID column",
+                "regenerate": "python research/tools/lrae_package.py build", "record_key": "pid, or the row itself (release key and row number) when the row has none; nothing is merged at import",
                 "joins_collected": release["key"] == JOINS_COLLECTED_FOR, "outputs": outputs}
         (pack / "SOURCE.json").write_text(json.dumps(info, indent=2, sort_keys=True) + "\n", encoding="utf-8")
         print(release["key"], release_date, len(rows), "rows;", Counter(c["include_decision"] for c in classified))
@@ -637,7 +652,7 @@ def collect(limit: int) -> int:
     manifest = manifest_rows()
     release = next(r for r in RELEASES if r["key"] == JOINS_COLLECTED_FOR)
     source = saved(manifest, lambda m: release["match"] in m.get("url", "") and m.get("mime", "").endswith("sheet"))
-    _, rows = read_sheet(ROOT / source["path"])
+    _, rows = read_sheet(ROOT / source["path"], release["key"])
     included = {c["row_number"] for c in classify(rows) if c["include_decision"] == "included"}
     wanted: list[tuple[str, str]] = []
     for r in rows:
@@ -669,7 +684,7 @@ def selfcheck() -> int:
     blank = {c: "" for c in COLUMNS}
 
     def r(number, title, office, pid="", contract="", value="No Range Specified"):
-        return {**blank, "row_number": number, "requirement_title": title, "pid": pid,
+        return {**blank, "sheet": SHEET, "row_number": number, "requirement_title": title, "pid": pid,
                 "office_code_string": f"{office} - {office} - NAVWAR", "existing_contract_number": contract,
                 "anticipated_total_value": value}
 
@@ -711,6 +726,23 @@ def selfcheck() -> int:
                                 r(8, "Beta", "PMW-160", contract="N0003920D0061")])
     assert not [c for c in changes if c["change"] == "ambiguous"]
     assert {c["change"] for c in changes} == {"unchanged"}
+
+    # Two rows with one title under one office are two records. The June 2024 release
+    # lists five "Order to Contract #N0003922D4001" rows at PMA/PMW-101 describing
+    # different work; neither is a duplicate of the other.
+    twins = [dict(r(406, "Order to Contract #N0003922D4001", "PMA/PMW-101"), release="lrae_navwar_2024-06", requirement_description="Lot 7 DO#24F4014"),
+             dict(r(408, "Order to Contract #N0003922D4001", "PMA/PMW-101"), release="lrae_navwar_2024-06", requirement_description="BU1 SRU Destruction")]
+    assert len({record_key(t) for t in twins}) == 2
+    assert [c["include_decision"] for c in classify(twins)] == ["included", "included"]
+    # The same row number in another release is another record.
+    assert record_key(dict(twins[0], release="lrae_navwar_2023-06")) != record_key(twins[0])
+    # A PID on two rows is refused, not merged.
+    try:
+        classify([r(1, "Alpha", "PMW-160", pid="P1"), r(2, "Alpha, second lot", "PMW-160", pid="P1")])
+    except ValueError as exc:
+        assert "P1" in str(exc)
+    else:
+        raise AssertionError("a repeated PID must raise")
 
     # A tracked field that moved is reported once per field, against the pair.
     changes, _ = diff_releases([r(1, "Alpha", "PMW-160", pid="P1", value="$250M - $1B")],

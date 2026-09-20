@@ -18,7 +18,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 PACKS = sorted(p for p in (ROOT / "datapack").glob("lrae_navwar_*") if p.is_dir()) if (ROOT / "datapack").exists() else []
-DECISIONS = {"included", "excluded", "duplicate", "unresolved"}
+DECISIONS = {"included", "excluded", "unresolved"}
 JOIN_TYPES = {"office", "existing_contract", "notice", "contact"}
 METHODS = {"explicit", "inferred"}
 
@@ -73,13 +73,28 @@ def test_every_raw_row_has_one_decision_and_counts_reconcile(pack):
 
 
 @packs
-def test_pids_are_unique_unless_marked_duplicate(pack):
+def test_every_row_is_its_own_record(pack):
+    """A row is a source record until a reviewer resolves its identity.
+
+    The June 2024 release has no PID column; rows 406 and 408-411 share the title
+    "Order to Contract #N0003922D4001" under PMA/PMW-101 and describe different work.
+    Keying on title and office marked four of them duplicates and dropped them from
+    the layers. Keys are now the row, nothing is marked duplicate, and the
+    reconciliation lists the shared titles for the reviewer instead.
+    """
     classified = _csv(pack, "rows_classified.csv")
-    seen = set()
-    for c in classified:
-        if c["record_key"] in seen:
-            assert c["include_decision"] == "duplicate", c["row_number"]
-        seen.add(c["record_key"])
+    keys = [c["record_key"] for c in classified]
+    assert len(keys) == len(set(keys)), "two rows share a record key"
+    assert not [c for c in classified if c["include_decision"] == "duplicate"]
+    raw = _csv(pack, "rows_raw.csv")
+    for c, r in zip(classified, raw):
+        assert c["record_key"] == (r["pid"] or f"row:{r['release']}:{r['row_number']}"), c
+    text = (pack / "reconciliation.md").read_text(encoding="utf-8")
+    assert "## Rows sharing a title and an office" in text
+    if pack.name == "lrae_navwar_2024-06":
+        assert "Order to Contract #N0003922D4001" in text
+        included = {c["row_number"] for c in classified if c["include_decision"] == "included"}
+        assert {"406", "408", "409", "410", "411"} <= included
 
 
 @packs

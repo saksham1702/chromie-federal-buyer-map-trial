@@ -1,16 +1,15 @@
 # Reconciliation - lrae_navwar_2024-06
 
 Sheet `LRAE Annex 25`, header on Excel row 8, data rows 9-858.
-Record key: hash of title and office code (this release has no PID column).
+Record key: the row itself, as release and row number (this release has no PID column). No two rows are merged at import.
 
 ## Rows
 
 | Decision | Rows |
 | --- | --- |
 | raw | 850 |
-| included | 154 |
-| excluded | 663 |
-| duplicate | 7 |
+| included | 160 |
+| excluded | 664 |
 | unresolved | 26 |
 
 Sum of decisions: 850 (equals raw: yes).
@@ -19,16 +18,15 @@ Sum of decisions: 850 (equals raw: yes).
 
 | Decision | Reason | Rows |
 | --- | --- | --- |
-| duplicate | record key already seen | 7 |
-| excluded | technical_center_division code of center:niwc-atlantic, outside the PEO C4I portfolio (division itself not in alias table) | 450 |
+| excluded | technical_center_division code of center:niwc-atlantic, outside the PEO C4I portfolio (division itself not in alias table) | 451 |
 | excluded | technical_center_division code of center:niwc-pacific, outside the PEO C4I portfolio (division itself not in alias table) | 183 |
 | excluded | code resolves to pms:485 (program_office), outside the PEO C4I portfolio | 12 |
 | excluded | headquarters_competency code of command:navwar, outside the PEO C4I portfolio (division itself not in alias table) | 12 |
 | excluded | code resolves to drpm:overmatch (portfolio_or_front_office), outside the PEO C4I portfolio | 4 |
 | excluded | code resolves to peo:mlb (portfolio_code), outside the PEO C4I portfolio | 1 |
 | excluded | code resolves to peo:mlb (portfolio_or_front_office), outside the PEO C4I portfolio | 1 |
-| included | code resolves to pmw:170, a PEO C4I office (alias table) | 40 |
-| included | code resolves to pmw:101, a PEO C4I office (alias table) | 21 |
+| included | code resolves to pmw:170, a PEO C4I office (alias table) | 42 |
+| included | code resolves to pmw:101, a PEO C4I office (alias table) | 25 |
 | included | code resolves to pmw:160, a PEO C4I office (alias table) | 20 |
 | included | code resolves to pmw:150, a PEO C4I office (alias table) | 18 |
 | included | code resolves to pmw:740, a PEO C4I office (alias table) | 18 |
@@ -52,12 +50,12 @@ Sum of decisions: 850 (equals raw: yes).
 | Office | Rows |
 | --- | --- |
 | peo:c4i | 5 |
-| pmw:101 | 21 |
+| pmw:101 | 25 |
 | pmw:120 | 7 |
 | pmw:130 | 1 |
 | pmw:150 | 18 |
 | pmw:160 | 20 |
-| pmw:170 | 40 |
+| pmw:170 | 42 |
 | pmw:740 | 18 |
 | pmw:750 | 5 |
 | pmw:760 | 10 |
@@ -68,23 +66,34 @@ Sum of decisions: 850 (equals raw: yes).
 
 `COO`, `CSO`, `FRD`, `JTNC`, `PCE`, `Pf004MNHR`, `Pf007NERP`
 
-## Duplicates
+## Rows sharing a title and an office
 
-This release has no PID column, so the record key is title plus office code; rows sharing that key are marked `duplicate` above and listed here for the reviewer:
+Nothing is marked duplicate at import: a row is a source record until a reviewer resolves its identity. Rows that repeat a title under one office code are listed with what tells them apart (description, value, award window), so the reviewer sees what the spreadsheet actually says. Across releases the matcher reports such a key as a candidate rather than choosing a row.
 
-- rows 452, 453: gpnts fy24 bulk buy #2 award and fund (PMW/A-170)
-- rows 323, 404: gpnts fy25 bulk buy #1 award and fund (PMW/A-170)
-- rows 410, 411: order to contract #n0003922d4001 (PMA/PMW-101)
-- rows 408, 409: order to contract #n0003922d4001 (PMA/PMW-101)
+- GPNTS FY24 Bulk Buy #2 Award and Fund (PMW/A-170), 2 rows:
+  - row 452: Award DO 5 and fully fund | No Range Specified | award FY24 Q4
+  - row 453: Award DO 10 and fully fund. | No Range Specified | award FY24 Q4
+- GPNTS FY25 Bulk Buy #1 Award and Fund (PMW/A-170), 2 rows:
+  - row 323: Award DO and fully fund | No Range Specified | award FY25 Q1
+  - row 404: Award DO and fully fund | No Range Specified | award FY25 Q1
+- LIPTM00174, Air & Space IPT, New Order (LSUBP00023), 2 rows:
+  - row 132: N652362490006 / NEW ORDER / XSYSCOM PR and NIWC PR package | $50M - $100M | award FY24 Q3
+  - row 286: N652362190001 / New Order / Task Order 13 | $2M - $7.5M | award FY24 Q3
+- Order to Contract #N0003922D4001 (PMA/PMW-101), 5 rows:
+  - row 406: Lot 7 DO#24F4014 | $50M - $100M | award FY25 Q1
+  - row 408: BU1 SRU Destruction | < $2M | award FY25 Q1
+  - row 409: Collect and Ship EMD terminals | < $2M | award FY25 Q1
+  - row 410: French MIS | $2M - $7.5M | award FY25 Q2
+  - row 411: IR-358 feasibility study | $2M - $7.5M | award FY25 Q1
 
 ## Joins (included rows only)
 
 | Join | Lines | Matched | Unmatched | Not collected |
 | --- | --- | --- | --- | --- |
-| office | 154 | 154 | 0 | 0 |
+| office | 160 | 160 | 0 | 0 |
 | existing_contract | 31 | 18 | 2 | 11 |
 | notice | 30 | 1 | 17 | 12 |
-| contact | 272 | 179 | 93 | 0 |
+| contact | 282 | 189 | 93 | 0 |
 
 Explicit joins: office code through the alias table, contract number found in FPDS, notice text containing the PID or contract number, POC name matching a contact observation for the same office. Inferred joins: forecast row tied to an award through an attribution example, or a notice that only cites a shared vehicle. A shared vehicle (SeaPort-NxG IDV, SEWP, GSA schedule) alone is never a join.
 
