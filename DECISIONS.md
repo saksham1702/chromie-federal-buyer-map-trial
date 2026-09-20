@@ -240,3 +240,16 @@ dropped. Generic procurement words and bare numbers never count. A candidate is 
 shared tokens and the office comparison and never read as "solicited" or "awarded"; the reading
 says a reviewer decides. Estimates, ceilings and obligations print in separate columns and are
 never added.
+
+## 2026-09-21 - The loaded-table schema subset goes to the contributor; production identities do not
+
+Until now the platform's schema stayed company-side and every load was owner-side, which left a
+contributor unable to run `trace.py notice` or `need` or to test an importer change against the
+same constraints we test against. `research/tools/sandbox_schema.py` now emits the subset the loader
+fills: those tables with their constraints, indexes, trigger functions and triggers (so a row
+production rejects is rejected locally too), every table a trigger function names, and the
+foreign-key targets outside that set as stubs carrying only the referenced columns. Owners, grants,
+row-level security, the migration history, the other tables and any production identity are not
+emitted. The kit handed over on 2026-09-21 pairs it with the generated INSERT transaction, the
+datapack inputs and CSV exports of the loaded tables ordered by every column, so two loads from the
+same inputs diff empty. Promotion onto production identities stays owner-side.

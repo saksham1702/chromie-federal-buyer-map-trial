@@ -40,6 +40,7 @@ all carrying a `--selfcheck`:
 | `tools/monitor_forecast_revision.py` | alert C from `06`: LRAE lines whose forecast award window moved between releases |
 | `tools/promote_plan.py` | matches the loaded offices against production, and writes the promotion statements to a file for review |
 | `tools/trace.py` | the three questions from one data set: `status` (which forecast lines whose window has arrived show a notice or an award), `need` (one requirement across releases, offices, contracts, notices and awards), `notice` (an active notice traced to its office, history and candidate lines), `award` (a contract read back to the forecast and forward to what followed); estimates, ceilings and obligations always in separate columns |
+| `tools/sandbox_schema.py` | the schema subset the loader fills (tables, constraints, indexes, trigger functions, triggers; FK-only targets as stubs), dumped from the local database with owners, grants and RLS dropped, so a contributor builds the database locally and runs `trace.py notice` / `need` against it |
 
 ## Status
 

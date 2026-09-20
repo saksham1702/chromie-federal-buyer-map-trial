@@ -120,3 +120,9 @@ Deadline: reviewer's call 2026-09-21 11:40 PST. Commit locally only.
 - [ ] reviewer: accept/reject the seven candidate rows in research/12 section 4; decide the bridge-vs-follow-on
       home of the NTCDL ESS presolicitation; confirm int:006 and the PMW-530 aliases
 
+## Phase six: reviewer comments of 2026-09-20 23:29 (handed to the contributor)
+
+- [x] database kit for the contributor: `sandbox_schema.py`, `~/Downloads/navy-db-kit-2026-09-21` (+ zip), verified by two independent loads
+- [ ] asks 1-5 (negatives wording; notice -> office -> names -> forecasts -> awards with source + record id; same vs related; PEO/PAE scoped; one watch example): contributor, in the sandbox
+- [ ] ask 6 (push importer fixes to PR #1, fresh load with main's migrations, transcripts): owner, after the contributor's changes land
+- [ ] sandbox re-sync so the generator and DECISIONS entry reach him; issues filed from the `ask` template
