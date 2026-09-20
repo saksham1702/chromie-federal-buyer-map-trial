@@ -29,7 +29,10 @@ DEFAULT_DSN = "postgresql://postgres:postgres@127.0.0.1:54322/postgres"
 # The ancestry walk climbs parent_organization_id, then adds any successor that a
 # source documents for an office on that path. The reorganisation is a successor
 # edge, not a parent, so a walk that only climbs parents would report the old chain
-# as though nothing had happened.
+# as though nothing had happened. The successor is reported for the ancestor it is
+# documented against (PEO C4I -> PAE Mission Systems), never pushed down onto the
+# office: the release scoped the move to "mission systems elements" and itemized no
+# offices, so an office's own placement is established only by its own source.
 REVISIONS_SQL = """
 with recursive ancestry as (
   select o.id as office_id, 1 as depth, o.id as ancestor_id, o.name, o.parent_organization_id
@@ -44,7 +47,7 @@ chain as (
 ),
 succession as (
   select a.office_id,
-         json_agg(distinct s.name || ' (from ' || coalesce(r.valid_from::text, 'an undated release') || ')') as successors
+         json_agg(distinct a.name || ' -> ' || s.name || ' (from ' || coalesce(r.valid_from::text, 'an undated release') || ')') as successors
     from ancestry a
     join public.gov_organization_relationships r on r.target_organization_id = a.ancestor_id
      and r.relationship_type = 'successor_to'
@@ -127,7 +130,7 @@ chain as (
 ),
 succession as (
   select a.office_id,
-         json_agg(distinct s.name || ' (from ' || coalesce(r.valid_from::text, 'an undated release') || ')') as successors
+         json_agg(distinct a.name || ' -> ' || s.name || ' (from ' || coalesce(r.valid_from::text, 'an undated release') || ')') as successors
     from ancestry a
     join public.gov_organization_relationships r on r.target_organization_id = a.ancestor_id
      and r.relationship_type = 'successor_to'
@@ -252,7 +255,8 @@ def ancestry_line(row: dict) -> str:
     path = " -> ".join(row.get("ancestry") or []) or "office not resolved"
     successors = row.get("successors") or []
     if successors:
-        path += "; succeeded by " + ", ".join(successors)
+        path += ("; succession documented at the ancestor's level and scoped to what that source lists: "
+                 + ", ".join(successors) + "; this office's own placement under the successor is not established in the loaded data")
     return path
 
 
@@ -327,13 +331,15 @@ def selfcheck() -> int:
     assert direction(None, "2024-01-01") == "changed"
 
     row = {"pid": "P1", "title": "T", "office": "PMW 160", "ancestry": ["PMW 160", "PEO C4I"],
-           "successors": ["PAE Mission Systems (from 2026-05-11)"],
+           "successors": ["PEO C4I -> PAE Mission Systems (from 2026-05-11)"],
            "was_from": "2024-01-01", "now_from": "2027-01-01",
            "prior_release": "2023-06-20", "current_release": "2025-06-19",
            "prior_evidence": "a", "current_evidence": "b", "prior_sha": "ab", "current_sha": "cd"}
     text = render(row)
     assert "FY24 Q2 -> FY27 Q2" in text, text
-    assert "PMW 160 -> PEO C4I" in text and "succeeded by PAE Mission Systems" in text
+    assert "PMW 160 -> PEO C4I" in text and "succeeded by" not in text, "a PEO-level consolidation is never printed as the office's own succession"
+    assert "succession documented at the ancestor's level" in text and "PEO C4I -> PAE Mission Systems (from 2026-05-11)" in text
+    assert "not established in the loaded data" in text
     assert ancestry_line({"ancestry": [], "successors": []}) == "office not resolved"
     assert money(None, None, 5_000_000) == "$5.0M"
     assert money(1e8, 2.5e8, None) == "$100.0M-$250.0M"

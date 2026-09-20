@@ -41,7 +41,7 @@ NS = uuid.UUID("7c3d1f5a-9b24-4f8e-8c61-2a0d5e7b41c3")
 SEED_SOURCE = "chromie-federal-buyer-map-trial/research/organization_seed.json"
 LRAE_SOURCE = "chromie-federal-buyer-map-trial/datapack"
 PRODUCER = "chromie-federal-buyer-map-trial/agency_layers_sql.py"
-PRODUCER_VERSION = "2"
+PRODUCER_VERSION = "3"
 
 skipped: dict[str, int] = {}
 
@@ -184,6 +184,24 @@ def former_names(node: dict) -> list[str]:
     return out
 
 
+def observation_urls(seed: dict) -> dict[str, str]:
+    return {o["id"]: o.get("source_url") or "" for o in seed.get("observations") or []}
+
+
+def first_url(observation_ids, urls: dict[str, str]) -> str | None:
+    """The source behind a node or an edge: the first cited observation that has a fetchable URL."""
+    for obs_id in observation_ids or []:
+        url = urls.get(obs_id, "")
+        if url.startswith("http"):
+            return url
+    return None
+
+
+def release_source_url(release: str) -> str | None:
+    path = ROOT / "datapack" / release / "SOURCE.json"
+    return json.loads(path.read_text(encoding="utf-8")).get("source_url") if path.exists() else None
+
+
 def live_parent_claims(seed: dict, org_ids: dict[str, str]) -> dict[str, set[str]]:
     claims: dict[str, set[str]] = {}
     for rel in seed["relationships"]:
@@ -199,6 +217,7 @@ def live_parent_claims(seed: dict, org_ids: dict[str, str]) -> dict[str, set[str
 def emit_offices(seed: dict, out: list[str]) -> dict[str, str]:
     org_ids: dict[str, str] = {}
     rows = []
+    urls = observation_urls(seed)
     for node in seed["nodes"]:
         if node["type"] == "person":
             continue
@@ -223,7 +242,7 @@ def emit_offices(seed: dict, out: list[str]) -> dict[str, str]:
             lit(node.get("valid_from")), lit(node.get("valid_to")),
             lit("US"), arr(["US"]), lit("federal"),
             DOCUMENTED if node.get("observation_ids") else DERIVED,
-            lit(SEED_SOURCE), lit(node["id"]),
+            lit(SEED_SOURCE), lit(node["id"]), lit(first_url(node.get("observation_ids"), urls)),
         ])
         for unmapped in ("location", "notes", "capability_portfolios"):
             if node.get(unmapped):
@@ -233,7 +252,7 @@ def emit_offices(seed: dict, out: list[str]) -> dict[str, str]:
            ["id", "agency_id", "existing_agency_id", "parent_organization_id", "name",
             "normalized_name", "acronym", "org_type", "aliases", "normalized_aliases",
             "external_ids", "valid_from", "valid_to", "jurisdiction_code",
-            "jurisdiction_path", "government_level", "confidence", "source", "source_ref"],
+            "jurisdiction_path", "government_level", "confidence", "source", "source_ref", "source_url"],
            rows, out)
 
     # parent_organization_id holds one edge. Where the sources give exactly one live
@@ -300,6 +319,7 @@ REVERSED = {"consolidated_into"}  # A consolidated into B means B is the success
 def emit_relationships(seed: dict, org_ids: dict[str, str], out: list[str]) -> None:
     parent_column = {child: next(iter(parents))
                      for child, parents in live_parent_claims(seed, org_ids).items() if len(parents) == 1}
+    urls = observation_urls(seed)
     rows = []
     for rel in seed["relationships"]:
         if rel["type"] == "leads":
@@ -335,10 +355,11 @@ def emit_relationships(seed: dict, org_ids: dict[str, str], out: list[str]) -> N
             lit(uid("orgrel", rel["id"])), lit(org_ids[source_org]), lit(org_ids[target_org]),
             lit(REL_TYPE[rel["type"]]), lit(rel.get("effective_from")), lit(rel.get("effective_to")),
             confidence_for(rel["evidence_class"]), lit(SEED_SOURCE), lit(rel["id"]),
+            lit(first_url(rel.get("observation_ids"), urls)),
         ])
     insert("public.gov_organization_relationships",
            ["id", "source_organization_id", "target_organization_id", "relationship_type",
-            "valid_from", "valid_to", "confidence", "source", "source_ref"], rows, out)
+            "valid_from", "valid_to", "confidence", "source", "source_ref", "source_url"], rows, out)
 
 
 # -------------------------------------------------------------------- evidence
@@ -441,6 +462,8 @@ def emit_lrae(org_ids: dict[str, str], out: list[str]) -> None:
     # Evidence first: every LRAE claim cites one spreadsheet row.
     items, evidence, ev_by_id = [], [], {}
     for release in RELEASES:
+        # The spreadsheet the row was read from, so a claim can be followed to its bytes.
+        url = release_source_url(release)
         for row in read_layer(release, "evidence"):
             claim_key = f"navwar-lrae:{row['id']}"
             item_id, ev_id = uid("brainitem", claim_key), uid("evidence", claim_key)
@@ -453,7 +476,7 @@ def emit_lrae(org_ids: dict[str, str], out: list[str]) -> None:
                        "sha256": row["source_sha256"], "release_date": row["release_date"]}),
                 lit(row["release_date"]),
             ])
-            evidence.append([lit(ev_id), lit(item_id), lit(body), "null",
+            evidence.append([lit(ev_id), lit(item_id), lit(body), lit(url),
                              lit(row["release_date"]), lit("navwar-lrae"), lit(claim_key)])
     insert("public.agency_brain_items",
            ["id", "agency_id", "section", "kind", "claim_key", "title", "body", "source", "as_of"],
@@ -673,7 +696,8 @@ def selfcheck() -> int:
                 "effective_dates_status": "unknown", "evidence_class": "directly_documented"}
 
     seed = {"nodes": [{"id": f"o:{n}", "type": "program_office", "name": f"Office {n}",
-                       "aliases": [], "codes": {}} for n in range(4)],
+                       "aliases": [], "codes": {}, "observation_ids": ["ob:1"] if n == 0 else []} for n in range(4)],
+            "observations": [{"id": "ob:1", "source_url": "https://example.mil/page"}],
             "relationships": [rel("r1", "child_of", "o:0", "o:1"),
                               rel("r2", "child_of", "o:2", "o:0"),
                               rel("r3", "child_of", "o:2", "o:1"),
@@ -686,6 +710,10 @@ def selfcheck() -> int:
                               rel("r10", "child_of", "o:0", "o:2", state="ended", to="2020-05-13")]}
     lines: list[str] = []
     ids = emit_offices(seed, lines)
+    office_rows = "\n".join(lines)
+    assert "source_url)" in office_rows.split("values")[0] and office_rows.count("'https://example.mil/page'") == 1, \
+        "the first cited observation's URL is the office row's source_url; a node without one gets null"
+    assert first_url(["ob:9", "ob:1"], observation_urls(seed)) == "https://example.mil/page" and first_url([], {}) is None
     updates = [l for l in lines if l.startswith("update")]
     assert len(updates) == 1 and ids["o:0"] in updates[0] and ids["o:1"] in updates[0]
     assert ids["o:2"] not in updates[0], "office with two live parents must stay unparented"
@@ -709,6 +737,17 @@ def selfcheck() -> int:
     # current position beside the person who replaced them.
     seed["nodes"].append({"id": "person:a", "type": "person", "name": "A", "aliases": [], "codes": {}})
     seed["nodes"].append({"id": "person:b", "type": "person", "name": "B", "aliases": [], "codes": {}})
+    seed["relationships"][0]["observation_ids"] = ["ob:1"]
+    edge_lines: list[str] = []
+    emit_relationships(seed, ids, edge_lines)
+    edges = "\n".join(edge_lines)
+    assert edges.split("values")[0].rstrip().endswith("source_url)") and edges.count("'https://example.mil/page'") == 0, \
+        "r1 is the parent column, so its URL rides on no edge row; the column still exists"
+    seed["relationships"][1]["observation_ids"] = ["ob:1"]
+    edge_lines = []
+    emit_relationships(seed, ids, edge_lines)
+    r2 = [l for l in "\n".join(edge_lines).splitlines() if "'r2'" in l][0]
+    assert r2.rstrip(",").endswith("'https://example.mil/page')"), "an edge cites its observation's URL"
     seed["relationships"] += [
         {**rel("r8", "leads", "person:a", "o:0", state="superseded"), "role_as_written": "Program Manager"},
         {**rel("r9", "leads", "person:b", "o:0"), "role_as_written": "Program Manager"}]
