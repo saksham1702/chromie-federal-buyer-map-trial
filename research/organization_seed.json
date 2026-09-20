@@ -1090,7 +1090,9 @@
     "obs:041",
     "obs:044",
     "obs:045",
-    "obs:052"
+    "obs:052",
+    "obs:086",
+    "obs:087"
    ],
    "review_status": "draft",
    "reviewed_by": null
@@ -2816,6 +2818,34 @@
     "contracting:n00039"
    ],
    "access": "direct retrieval 2026-09-20 through the keyless SAM.gov site API; the notice is in data/raw/sam_notices/"
+  },
+  {
+   "id": "obs:086",
+   "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/64f0d3726ec24750811dfb0658da5d44?api_key=null",
+   "source_revision": "direct retrieval 2026-09-20 (SAM.gov site API, api_key=null); sha256 99310fd7c91d",
+   "observed_at": "2026-07-31",
+   "statement_type": "parentage",
+   "passage": "The Naval Information Warfare Systems Command (NAVWAR) HQ, in support of the Program Executive Office (PEO) Command, Control, Communications, Computers, and Intelligence (C41) International Integration Program Office (PMW 740) intends to issue Request for Proposal (RFP) N0003926RE014 to procure Autonomous INTelligence System (AINTS) platforms and capabilities to enhance the operational system and mission for the Egyptian Navy (EN) per Foreign Military Sales (FMS) case EG-P-LGQ",
+   "subject_ids": [
+    "pmw:740",
+    "peo:c4i",
+    "contracting:n00039"
+   ],
+   "access": "direct retrieval 2026-09-20 through the keyless SAM.gov site API; the notice is in data/raw/sam_notices/"
+  },
+  {
+   "id": "obs:087",
+   "source_url": "https://sam.gov/api/prod/opps/v2/opportunities/e24dd802a17a40f3ba9192ebf4af7fd3?api_key=null",
+   "source_revision": "direct retrieval 2026-09-20 (SAM.gov site API, api_key=null); sha256 8da9754df337",
+   "observed_at": "2026-09-17",
+   "statement_type": "parentage",
+   "passage": "The Naval Information Warfare Systems Command (NAVWAR) HQ, in support of the Program Executive Office (PEO) Command, Control, Communications, Computers, and Intelligence (C41) International Integration Program Office (PMW 740) is issuing this Request for Proposal (RFP) N0003926RE014 to procure Autonomous INTelligence System (AINTS) platforms and capabilities to enhance the operational system and mission for the Egyptian Navy (EN) per Foreign Military Sales (FMS) case EG-P-LGQ",
+   "subject_ids": [
+    "pmw:740",
+    "peo:c4i",
+    "contracting:n00039"
+   ],
+   "access": "direct retrieval 2026-09-20 through the keyless SAM.gov site API; the notice is in data/raw/sam_notices/"
   }
  ],
  "relationships": [
@@ -3169,13 +3199,15 @@
    "scope_as_stated": null,
    "observation_ids": [
     "obs:045",
-    "obs:041"
+    "obs:041",
+    "obs:086",
+    "obs:087"
    ],
    "evidence_class": "directly_documented",
    "current_status": {
     "state": "last_confirmed",
-    "as_of": "2026-04-12",
-    "note": "confirmed by the latest cited observation; not re-verified since"
+    "as_of": "2026-09-17",
+    "note": "the AINTS presolicitation (2026-07-31, obs:086) and RFP (2026-09-17, obs:087) still name PEO C4I as the parent, four months after PAE Mission Systems stood up (obs:046); no source yet places PMW 740 under a PAE portfolio, so the PEO C4I parentage stands and the PAE succession is read at the PEO level only"
    },
    "review_status": "draft",
    "drafted_by": {

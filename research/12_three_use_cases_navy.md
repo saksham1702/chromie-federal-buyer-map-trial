@@ -4,7 +4,7 @@ The reviewer asked for the agency intelligence to answer three questions from on
 with evidence on every connection and a candidate, not a guess, wherever a connection is
 ambiguous: find a requirement before it is solicited; start from an active notice and reach
 the office that owns it; read what was solicited, awarded and funded in the past. This document
-walks one Navy example through each as far as the evidence allows, then checks every June 2025
+walks one Navy example through each as far as the evidence allows (two through the second), then checks every June 2025
 forecast line whose solicitation window has arrived for a notice or an award. Estimates,
 ceilings and obligations stay in separate columns throughout.
 
@@ -19,6 +19,7 @@ psql "$DSN" -f /tmp/layers.sql                              # an empty database 
 python research/tools/trace.py --dsn "$DSN" status          # every FY26-or-earlier line: solicited? awarded?
 python research/tools/trace.py --dsn "$DSN" need   N00039-25-RFPREQ-PMW/A-170-0001
 python research/tools/trace.py --dsn "$DSN" notice f69d6c525c9f494fa08ea8fd852f5cdd
+python research/tools/trace.py --dsn "$DSN" notice e24dd802a17a40f3ba9192ebf4af7fd3
 python research/tools/trace.py --dsn "$DSN" award  N0003922F3000
 ```
 
@@ -148,6 +149,64 @@ each, $99M placed on day one). The LRAE's estimate for SF2 was $250M - $1B.
 
 ---
 
+## 2b. A second notice, this one an RFP already out: Egyptian Navy AINTS (PMW 740)
+
+**The notice.** Solicitation `N0003926RE014`, posted 2026-09-17, proposals due 2026-10-20: NAVWAR HQ
+"in support of the Program Executive Office (PEO) Command, Control, Communications, Computers, and
+Intelligence (C4I) International Integration Program Office (PMW 740)" issues the RFP for Autonomous
+INTelligence System (AINTS) platform integration for the Egyptian Navy under FMS case EG-P-LGQ: a new
+requirement, full and open, three-year period, CPFF labour with FFP material, award "estimated between
+June 2027 - June 2030". The SOW is CUI behind an NDA, so nothing of the requirement's content is public
+beyond that paragraph. The presolicitation of 2026-07-31 (`64f0d3726ec2`) carried the same text.
+
+**The office, explicitly.** The text names PMW 740 and the memory resolves it on the alias `PMW 740`:
+PMW 740 International C4I Integration Program Office -> PEO C4I, PEO C4I succeeded by PAE Mission Systems
+from 2026-05-11 (`rel:045`); contracting office N00039 (`rel:014`). Both notices are recorded as
+observations (`obs:086`, `obs:087`) and they say something the memory did not have: in July and
+September 2026, four months after PAE Mission Systems stood up, NAVWAR still writes PEO C4I as PMW 740's
+parent. `rel:013` (PMW 740 under PEO C4I) is therefore last confirmed 2026-09-17, no source yet places
+PMW 740 under a PAE portfolio, and the PAE succession is read at the PEO level only. Compare PMW/A 170,
+whose May 2026 notice did move it under a CPE (section 1).
+
+**The trail, from the saved notices.**
+
+| date | what | office named | source |
+| --- | --- | --- | --- |
+| 2025-02-27 | Sources Sought "N0003925R4011 - Egypt A2": RFI for Egyptian Navy AINTS Platform Integration, full-and-open RFP intended, SOW CUI under NDA, responses due 2025-04-01 | NAVWAR, no office | SAM.gov b4459cf9c745 |
+| 2026-07-31 | Presolicitation N0003926RE014 | PEO C4I, PMW 740 | SAM.gov 64f0d3726ec2 |
+| 2026-09-17 | Solicitation N0003926RE014, proposals due 2026-10-20 | PEO C4I, PMW 740 | SAM.gov e24dd802a17a |
+| through 2026-09-20 | no award under N0003926RE014 or N0003925R4011 in FPDS | | FPDS |
+
+The RFI's title is a number and "Egypt A2"; the program name is only in its body. The tool now also
+reads a saved notice's text for a rare program name from the traced title (`aints` occurs in one
+forecast line), which is how the RFI joins the trail; a notice whose detail was never harvested would
+still be missed.
+
+**The forecast.** `N00039-23-RFPREQ-PMW-740-0070`, "EGYPTIAN Navy AINTS (EG-P-LGQ, A2) (C)": PMW-740,
+full and open, "C" type, cost-reimbursement, $100M - $250M, solicitation FY25 Q3, award FY26 Q2, 36
+months, San Diego, NAICS 334511. Its PID says the record was opened in the FY23 cycle, but neither the
+June 2023 nor the June 2024 release carries the title, the PID or an incumbent; its first public
+appearance is the June 2025 release (row 10), four months after the RFI. The tool reports the notice
+against this line as a **candidate** (shared program token `aints`, same office) and stops there: same
+office, same case letters in the title, same NAICS, same three-year term, but no PID or contract number
+in the notice text ties them explicitly. The reading is the reviewer's; it is the natural one.
+
+**Forecast against record, if the match is accepted.**
+
+| | forecast (June 2025) | record |
+| --- | --- | --- |
+| solicitation | FY25 Q3 (Apr-Jun 2025) | RFI 2025-02-27; presolicitation 2026-07-31; RFP 2026-09-17, five quarters late |
+| award | FY26 Q2 (Jan-Mar 2026) | notice says June 2027 - June 2030, FY27 Q3 at the earliest; nothing awarded |
+| value | estimate $100M - $250M | no ceiling yet (set at award); no obligations |
+
+**Reading.** An RFP that is open today, traced to a named office, with the RFI nineteen months ahead of
+it. Here the notice stream led the forecast: the RFI was public before the line was. Money: one number
+exists (the estimate) and it sits alone in its column. The Egypt maritime surveillance award of
+2025-02-21 that the same search surfaced (NMSS, N00024-25-C-5310, $96.5M to Forward Slope) is a NAVSEA
+action, not PMW 740's, and the tool does not attach it.
+
+---
+
 ## 3. What was solicited, awarded and funded: PMW 160 engineering support services
 
 Three generations of one requirement, each a task order on a SeaPort vehicle, each attributed to
@@ -217,7 +276,7 @@ The candidate rows, with the basis the tool attaches to each:
 | NTCDL - Follow-On Production and ESS (pmw:170) | sol FY26 Q2, award FY27 Q2 | the same presolicitation | `ntcdl`; same office; meanwhile the incumbent was extended (award notice 2024-11-05) | none |
 | RSNF C4ISR Training Services III (pmw:740) | sol FY25 Q1, award FY25 Q4 | presol N0003925R4014 2025-04-30 | `rsnf`; notice detail not saved | not collected |
 | RSNF inKSA Support Services (pmw:740) | sol FY25 Q3, award FY26 Q1 | the same presolicitation | `rsnf`; notice detail not saved | not collected |
-| EGYPTIAN Navy AINTS (pmw:740) | sol FY25 Q3, award FY26 Q2 | presol N0003926RE014 2026-07-31 | `aints`; same office | not collected |
+| EGYPTIAN Navy AINTS (pmw:740) | sol FY25 Q3, award FY26 Q2 | RFI 2025-02-27; presol 2026-07-31; RFP N0003926RE014 2026-09-17 | `aints`; same office (section 2b) | none as of 2026-09-20 |
 
 A candidate is reported, never asserted: the reading names the shared token and the office
 comparison so a reviewer can accept or reject it in one look. Two RSNF lines share one notice and
@@ -244,5 +303,7 @@ were run on PIDs and incumbent contract numbers on 2026-09-16/17 and on the exam
    "Sensors, PNT, EW, & Communications Systems". High confidence, still an interpretation.
 5. The seven candidate rows in section 4, and whether the RSNF notice detail should be harvested
    to settle which of the two lines it is.
-6. Still open from `11`: a requirement that slips a fiscal year and changes value is reported as a
+6. The AINTS RFP against `N00039-23-RFPREQ-PMW-740-0070` (section 2b), and whether PMW 740 stays
+   under PEO C4I while its own notices keep saying so.
+7. Still open from `11`: a requirement that slips a fiscal year and changes value is reported as a
    slip only, because value chains are scoped to one fiscal period.

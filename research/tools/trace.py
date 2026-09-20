@@ -785,10 +785,20 @@ def cmd_notice(args) -> int:
                 break
     if not others:
         print("- none")
-    print("\n## Related notices (saved searches sharing the solicitation number or title stem)")
+    print("\n## Related notices (saved searches sharing the solicitation number or title stem, or a saved notice whose text carries a rare program name from this title)")
     stem = re.sub(r"\s+", " ", re.sub(r"[^a-z0-9 ]", " ", detail["title"].lower()))[:45]
-    related = [h for h in hits.values() if h["id"] != detail["id"] and ((detail["solicitation"] and compact(h["solicitation"]) == compact(detail["solicitation"]))
-                                                                        or (stem and re.sub(r"[^a-z0-9 ]", " ", h["title"].lower()).startswith(stem)))]
+    rare = {t for t in distinctive_tokens(detail["title"]) if ctx["rarity"].get(t, 0) <= 3}
+
+    def kin(h: dict) -> bool:
+        if detail["solicitation"] and compact(h["solicitation"]) == compact(detail["solicitation"]):
+            return True
+        if stem and re.sub(r"[^a-z0-9 ]", " ", h["title"].lower()).startswith(stem):
+            return True
+        # An RFI often carries only a number in its title ("N0003925R4011 - Egypt A2"); the program name is in the body.
+        d = notice_detail(h["id"]) if rare else None
+        return bool(d and rare & distinctive_tokens(d["title"] + " " + d["text"]))
+
+    related = [h for h in hits.values() if h["id"] != detail["id"] and kin(h)]
     for h in sorted(related, key=lambda h: h["posted"]):
         print(f"- {h['posted']} {h['type']}: {h['title'][:80]} [{h['solicitation'] or 'no number'}] id {h['id'][:12]}")
     if not related:
