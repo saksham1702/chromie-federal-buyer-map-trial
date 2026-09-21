@@ -1,0 +1,43 @@
+# Egyptian Navy Autonomous INTelligence System (AINTS) Platform Integration
+solicitation posted 2026-09-17; solicitation N0003926RE014; notice e24dd802a17a40f3ba9192ebf4af7fd3
+source https://sam.gov/opp/e24dd802a17a40f3ba9192ebf4af7fd3/view; record https://sam.gov/api/prod/opps/v2/opportunities/e24dd802a17a40f3ba9192ebf4af7fd3?api_key=null retrieved 2026-09-20 sha 8da9754df337; saved data/raw/sam_notices/e24dd802a17a40f3ba9192ebf4af7fd3.json
+
+## Offices named in the notice text
+- command:navwar (Naval Information Warfare Systems Command) via alias 'Naval Information Warfare Systems Command'
+    ...the naval information warfare systems command (navwar) hq, in support of the program executive office (pe...
+- contracting:n00039 (NAVWAR HQ contracts directorate) via alias 'NAVAL INFORMATION WARFARE SYSTEMS'
+    ...the naval information warfare systems command (navwar) hq, in support of the program executive of...
+- pmw:740 (PMW 740 International C4I Integration Program Office) via alias 'PMW 740'
+    ...ntelligence (c41) international integration program office (pmw 740) is issuing this request for proposal (rfp) n0003926re014 t...
+
+## PMW 740 International C4I Integration Program Office (loaded as program_office, source_ref pmw:740, row 4acf6684-bffd-59ba-ac64-8cd53c4b5842)
+  names over time (2 in the organization memory; a name is only as current as its latest observation):
+    'PMW 740 International C4I Integration Program Office': observed 2025-01-01 .. 2026-09-17 (10; latest obs:087 https://sam.gov/api/prod/opps/v2/opportunities/e24dd802a17a40f3ba9192ebf4af7fd3?api_key=null)
+    'PMW-740': observed 2025-01-01 .. 2026-07-31 (8; latest obs:052 https://sam.gov/api/prod/opps/v2/opportunities/64f0d3726ec24750811dfb0658da5d44?api_key=null)
+    codes: office_code PMW 740
+  ancestry today: PMW 740 International C4I Integration Program Office -> Program Executive Office Command, Control, Communications, Computers and Intelligence
+    pmw:740 under peo:c4i: rel:013, from start unstated (unknown dates), last_confirmed as of 2026-09-17; evidence +2 earlier; obs:086 2026-07-31 https://sam.gov/api/prod/opps/v2/opportunities/64f0d3726ec24750811dfb0658da5d44?api_key=null; obs:087 2026-09-17 https://sam.gov/api/prod/opps/v2/opportunities/e24dd802a17a40f3ba9192ebf4af7fd3?api_key=null
+  succession documented for an ancestor (peo:c4i): Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems from 2026-05-11 (rel:045; evidence obs:046 2026-05-11 https://www.dvidshub.net/news/564916/department-navy-launches-pae-mission-systems-accelerate-warfighting-capability-speed)
+    scope as the source states it: mission systems elements of the following organizations (release wording): PEO C4I, PEO Digital, PEO IWS, PEO MLB, DRPM Overmatch, DRPM LRNFO, DRPM MILE, the Minotaur program from PMA 290, NAVWAR, NAVSEA, NAVAIR, MCSC; offices and functions that moved are not itemized
+    this office under Portfolio Acquisition Executive Mission Systems: not established by any loaded source; its parent claim rel:013 is last_confirmed as of 2026-09-17: the AINTS presolicitation (2026-07-31, obs:086) and RFP (2026-09-17, obs:087) still name PEO C4I as the parent, four months after PAE Mission Systems stood up (obs:046); no source yet places PMW 740 under a PAE portfolio, so the PEO C4I parentage stands and the PAE succession is read at the PEO level only
+  history: NAVWAR HQ contracts directorate contracting_supports PMW 740 International C4I Integration Program Office [start unstated .. open] (rel:014; evidence obs:035 2025-06-19 https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx)
+
+## Forecast lines owned by this office that may be the same requirement (an explicit tie, or a candidate a reviewer accepts or rejects)
+- N00039-23-RFPREQ-PMW-740-0070 EGYPTIAN Navy AINTS (EG-P-LGQ, A2) (C) (sol FY25 Q3, award FY26 Q2, $100M - $250M) - candidate: shared program tokens aints; record lrae_navwar_2025-06 LRAE Annex 25!row 10 (sha 697ec8c004d2)
+
+## Related procurements in the same program owned by this office (a different lot, family or generation: context for this buy, not the same requirement)
+- none
+
+## Forecast lines under OTHER offices sharing the notice's program names (the office differs, so each carries that question)
+- none
+
+## Related procurements under OTHER offices (a different lot, family or generation of the program; not this buy)
+- none
+  forecast source lrae_navwar_2025-06: https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx (retrieved 2026-09-16 via https://web.archive.org/web/2026id_/https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx; sha256 697ec8c004d2; saved data/raw/697ec8c004d2_NAVWAR_HQCA-2025-A-037_Long_Range_Acquisition_Estimate_JUN_2025.xlsx)
+
+## Related notices (saved searches sharing the solicitation number or title stem, or a saved notice whose text carries a rare program name from this title)
+- 2025-02-27 Sources Sought: N0003925R4011 - Egypt A2 [NAVWAR_Headquarters_MKTSVY_19F256] https://sam.gov/opp/b4459cf9c7454b7096fd20e8e28adaad/view
+- 2026-07-31 Presolicitation: Egyptian Navy Autonomous INTelligence System (AINTS) Platform Integration [N0003926RE014] https://sam.gov/opp/64f0d3726ec24750811dfb0658da5d44/view
+
+## Awards under this solicitation number (saved FPDS lookup by solicitation)
+- no award found in the saved FPDS lookup by solicitation number as of 2026-09-20; source FPDS https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=SOLICITATION_ID:N0003926RE014&start=0 retrieved 2026-09-20 sha 823d922bf5c4

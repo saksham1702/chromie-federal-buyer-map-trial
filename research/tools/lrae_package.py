@@ -281,6 +281,13 @@ def build_joins(rows: list[dict], classified: list[dict], manifest: list[dict]) 
     decision = {c["row_number"]: c for c in classified}
     contact_table, examples = contacts(), attribution_by_pid()
     joins = []
+    # Rows in this release citing each incumbent contract. A notice that cites a contract two
+    # forecast rows share (a follow-on and a bridge, say) is joined to both as a candidate only.
+    citers: dict[str, list[str]] = defaultdict(list)
+    for r in rows:
+        if decision[r["row_number"]]["include_decision"] == "included":
+            for token in contract_tokens(r["existing_contract_number"]):
+                citers[token].append(str(r["row_number"]))
 
     def add(r, join_type, method, key, target, evidence, note):
         joins.append({"record_key": record_key(r), "pid": r["pid"], "row_number": r["row_number"], "join_type": join_type, "method": method,
@@ -323,11 +330,17 @@ def build_joins(rows: list[dict], classified: list[dict], manifest: list[dict]) 
             if not found:
                 add(r, "notice", "explicit", needle, "", "", "SAM.gov search not collected yet")
             elif hits:
-                vehicle = is_vehicle(needle)
+                vehicle, shared_by = is_vehicle(needle), citers.get(needle, [])
+                if vehicle:
+                    why = "key is a shared vehicle (IDV or schedule); the notice cites the vehicle, which does not establish the same requirement; "
+                elif len(shared_by) > 1:
+                    why = (f"key is an incumbent contract that {len(shared_by)} forecast rows in this release cite (rows {', '.join(shared_by)}); "
+                           "the notice cites the contract, which does not tell the rows apart; ")
+                else:
+                    why = "notice text contains the key; "
                 for h in hits:
-                    add(r, "notice", "inferred" if vehicle else "explicit", needle, f"sam:{h.get('_id', '')}", "; ".join(refs),
-                        ("key is a shared vehicle (IDV or schedule); the notice cites the vehicle, which does not establish the same requirement; "
-                         if vehicle else "notice text contains the key; ") + f"title {str(h.get('title', ''))[:80]}")
+                    add(r, "notice", "explicit" if why.startswith("notice text") else "inferred", needle, f"sam:{h.get('_id', '')}", "; ".join(refs),
+                        why + f"title {str(h.get('title', ''))[:80]}")
             else:
                 add(r, "notice", "explicit", needle, "", "; ".join(refs), "SAM.gov search returned no notice containing the key")
         example = examples.get(r["pid"]) if r["pid"] else None
@@ -409,7 +422,9 @@ MATCH_STAGES = [
      lambda r: [r["pid"]] if r["pid"] else []),
     ("title+office", "confirmed", "same requirement title under the same office code",
      lambda r: [norm_title(r["requirement_title"]) + "|" + office_code(r)] if norm_title(r["requirement_title"]) else []),
-    ("office+incumbent", "confirmed", "same incumbent contract number under the same office code",
+    # A production follow-on and an engineering-support bridge share an office and an incumbent,
+    # so this stage still claims a 1:1 pair but hands it to a reviewer.
+    ("office+incumbent", "candidate", "same incumbent contract number under the same office code; a follow-on and a bridge can share both, so a reviewer decides",
      lambda r: [office_code(r) + "|" + t for t in contract_tokens(r["existing_contract_number"])]),
 ]
 
@@ -421,10 +436,12 @@ def pair_releases(old_rows: list[dict], new_rows: list[dict]) -> tuple[list[dict
     not stable where they exist: 31 of the 2023 export's 643 PIDs reappear in June 2025.
     So the stages run strongest first - PID, then exact title under the same office, then
     the incumbent contract number under the same office - and each one only claims a pair
-    it can make 1:1. What survives all three gets one greedy pass of title similarity
-    within the office, which produces candidates rather than matches: a reworded title is
-    a judgement, so the score and the earlier wording travel with the row for a reviewer
-    to accept or reject. A key that matched several rows and was never resolved is
+    it can make 1:1. The first two confirm a pair; the third only nominates one, because a
+    production follow-on and an engineering-support bridge can share an office and an
+    incumbent. What survives all three gets one greedy pass of title similarity within the
+    office, which also produces candidates rather than matches: a reworded title is a
+    judgement, so the score and the earlier wording travel with the row for a reviewer to
+    accept or reject. A key that matched several rows and was never resolved is
     reported as `ambiguous` with the counts that made it so, not silently dropped.
     """
     pairs: list[dict] = []
@@ -523,6 +540,78 @@ def diff_releases(old_rows: list[dict], new_rows: list[dict]) -> tuple[list[dict
     method = (f"staged: {', '.join(s[0] for s in MATCH_STAGES)}, then title similarity >= {MATCH_MIN_RATIO} "
               f"within the office ({confirmed} matched, {len(pairs) - confirmed} candidates)")
     return out, method
+
+
+# ---------------------------------------------------------------- accepted connections
+
+DIFF_NAME = re.compile(r"diff_(lrae_navwar_[\d-]+)_(lrae_navwar_[\d-]+)\.csv")
+
+
+def fold_map(pack_base: Path = PACK_BASE) -> tuple[dict[tuple[str, str], dict], list[str]]:
+    """(release, record key) -> the key its chain loads under, for rows the release diffs tie with `confirmed`.
+
+    A chain is the rows one requirement occupies across releases, joined by PID or by exact title
+    under the same office code. A candidate pair (a similar title, a shared incumbent) never joins
+    one. The chain loads under its PID, or under its earliest row key when no release gave it one,
+    and every folded row carries its tie: the basis, the two rows and the diff that paired them.
+    The loader writes that tie into the assertion it emits for the row, so a tool reading the
+    database alone sees the full history. A chain that would join two different PIDs, or two rows
+    of one release, is left unfolded and named in the second value: those are a reviewer's call.
+    """
+    packs = sorted(p for p in pack_base.glob("lrae_navwar_*") if p.is_dir() and (p / "rows_classified.csv").exists())
+    keys: dict[tuple[str, str], str] = {}  # (release, row number) -> record key, included rows only
+    for pack in packs:
+        with (pack / "rows_classified.csv").open(newline="") as handle:
+            for c in csv.DictReader(handle):
+                if c["include_decision"] == "included":
+                    keys[(pack.name, c["row_number"])] = c["record_key"]
+    parent: dict[tuple[str, str], tuple[str, str]] = {}
+
+    def find(node):
+        while parent.setdefault(node, node) != node:
+            node = parent[node]
+        return node
+
+    ties: dict[tuple[str, str], dict] = {}
+    for pack in packs:
+        for path in sorted(pack.glob("diff_*.csv")):
+            m = DIFF_NAME.match(path.name)
+            if not m:
+                continue
+            older, newer = m.groups()
+            with path.open(newline="") as handle:
+                for ch in csv.DictReader(handle):
+                    if ch["change"] not in ("unchanged", "changed") or ch["confidence"] != "confirmed":
+                        continue
+                    a, b = (older, ch["old_row"]), (newer, ch["new_row"])
+                    if a not in keys or b not in keys:
+                        continue
+                    parent[find(a)] = find(b)
+                    tie = {"basis": ch["key_method"], "reason": ch["reason"],
+                           "via": f"{older} row {ch['old_row']} -> {newer} row {ch['new_row']}, {path.name}"}
+                    ties.setdefault(a, tie)
+                    ties.setdefault(b, tie)
+    chains: dict[tuple[str, str], list[tuple[str, str]]] = defaultdict(list)
+    for node in parent:
+        chains[find(node)].append(node)
+    folded, refused = {}, []
+    for members in chains.values():
+        if len(members) < 2:
+            continue
+        members.sort()
+        pids = sorted({keys[m] for m in members if not keys[m].startswith("row:")})
+        rows_of = ", ".join(f"{r} row {n}" for r, n in members)
+        if len(pids) > 1:
+            refused.append(f"{' | '.join(pids)}: one chain, two PIDs ({rows_of}); each row loads as its own record")
+            continue
+        if len({r for r, _ in members}) < len(members):
+            refused.append(f"{pids[0] if pids else keys[members[0]]}: one chain, two rows of one release ({rows_of}); each row loads as its own record")
+            continue
+        canonical = pids[0] if pids else keys[members[0]]
+        for m in members:
+            if keys[m] != canonical:
+                folded[(m[0], keys[m])] = {"key": canonical, **ties[m]}
+    return folded, refused
 
 
 # ---------------------------------------------------------------- outputs
@@ -697,7 +786,41 @@ def selfcheck() -> int:
     pairs, _, _, _ = pair_releases([r(1, "Alpha", "PMW-160"), r(2, "Beta", "PMW-770", contract="N0003920D0061")],
                                    [r(9, "Alpha", "PMW-160"), r(8, "Beta, restructured buy", "PMW-770", contract="N0003920D0061")])
     assert sorted(p["basis"] for p in pairs) == ["office+incumbent", "title+office"]
-    assert all(p["confidence"] == "confirmed" for p in pairs)
+    by_basis = {p["basis"]: p["confidence"] for p in pairs}
+    assert by_basis["title+office"] == "confirmed"
+    assert by_basis["office+incumbent"] == "candidate", "a follow-on and a bridge share office and incumbent; a reviewer decides"
+
+    # Confirmed pairs fold into one chain under its PID; a candidate never joins one; two PIDs never fold.
+    import tempfile
+    with tempfile.TemporaryDirectory() as tmp:
+        base = Path(tmp)
+
+        def pack(name, entries):
+            (base / name).mkdir()
+            write_csv(base / name / "rows_classified.csv",
+                      [{"row_number": n, "record_key": k, "include_decision": d} for n, k, d in entries])
+
+        pack("lrae_navwar_2023-06", [("409", "P1", "included"), ("5", "P7", "included")])
+        pack("lrae_navwar_2024-06", [("47", "row:lrae_navwar_2024-06:47", "included"), ("48", "row:lrae_navwar_2024-06:48", "included"),
+                                     ("9", "row:lrae_navwar_2024-06:9", "excluded")])
+        pack("lrae_navwar_2025-06", [("108", "P1", "included"), ("6", "P8", "included")])
+        cols = ["change", "key", "key_method", "confidence", "field", "old_value", "new_value", "old_row", "new_row", "office", "reason"]
+
+        def ch(change, method, confidence, old, new):
+            return {**{c: "" for c in cols}, "change": change, "key_method": method, "confidence": confidence,
+                    "old_row": old, "new_row": new, "reason": "why"}
+
+        write_csv(base / "lrae_navwar_2024-06" / "diff_lrae_navwar_2023-06_lrae_navwar_2024-06.csv",
+                  [ch("changed", "title+office", "confirmed", "409", "47"), ch("unchanged", "office+incumbent", "candidate", "409", "48"),
+                   ch("unchanged", "title+office", "confirmed", "5", "48")])
+        write_csv(base / "lrae_navwar_2025-06" / "diff_lrae_navwar_2024-06_lrae_navwar_2025-06.csv",
+                  [ch("unchanged", "title+office", "confirmed", "47", "108"), ch("unchanged", "title+office", "confirmed", "48", "6")])
+        folded, refused = fold_map(base)
+        tie = folded[("lrae_navwar_2024-06", "row:lrae_navwar_2024-06:47")]
+        assert tie["key"] == "P1" and tie["basis"] == "title+office" and tie["via"].startswith("lrae_navwar_2023-06 row 409 -> lrae_navwar_2024-06 row 47")
+        assert ("lrae_navwar_2023-06", "P1") not in folded, "the rows carrying the PID need no tie"
+        assert ("lrae_navwar_2024-06", "row:lrae_navwar_2024-06:48") not in folded, "P7 -> row 48 -> P8 would join two PIDs"
+        assert len(refused) == 1 and "P7 | P8" in refused[0], refused
 
     # A reworded title is a candidate, not a match, and the reasoning travels with it.
     pairs, _, _, _ = pair_releases([r(1, "Shore Network Modernisation Support Services", "PMW-205")],

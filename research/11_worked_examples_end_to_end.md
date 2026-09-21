@@ -159,8 +159,9 @@ Matching 2024 against 2025 by incumbent contract number under the same office co
 key      PMS-485|N0003919C0002
 basis    office+incumbent
 rows     earlier 474  ->  later 11;174;175;176;177;416
-reason   same incumbent contract number under the same office code, but the key matches
-         1 earlier and 6 later rows
+reason   same incumbent contract number under the same office code; a follow-on and a
+         bridge can share both, so a reviewer decides, but the key matches 1 earlier and
+         6 later rows
 ```
 
 One 2024 line became six 2025 lines under the same contract — task orders broken out of an
@@ -203,14 +204,17 @@ No single key follows a requirement across releases:
 
 So `pair_releases()` runs strongest-first — PID, then exact title under the same office, then
 incumbent contract number under the same office — and each stage claims a pair only when it is
-1:1. Whatever survives gets the similarity pass as candidates. Coverage, records followed
-across two releases:
+1:1. The first two confirm a pair; the third only nominates one, since 2026-09-21, because a
+production follow-on and an engineering-support bridge share an office and an incumbent. Whatever
+survives gets the similarity pass as candidates. The confirmed pairs are what the loader folds:
+every row of such a chain loads under one need, with the tie on the assertion. Coverage, records
+followed across two releases:
 
 | comparison | was | now | of which candidates |
 | --- | --- | --- | --- |
-| 2024-06 -> 2025-06 | 105 | 178 | 51 |
-| 2023-06 -> 2025-06 | 31 | 66 | 26 |
-| 2023-06 -> 2024-06 | 59 | 138 | 62 |
+| 2024-06 -> 2025-06 | 105 | 178 | 73 (22 of them by incumbent) |
+| 2023-06 -> 2025-06 | 31 | 66 | 31 (5 by incumbent) |
+| 2023-06 -> 2024-06 | 59 | 138 | 79 (17 by incumbent) |
 
 Most rows still read as added or removed. That is the forecast churning, not a matcher giving
 up quietly: every diff row now carries `key_method`, `confidence` and `reason`.

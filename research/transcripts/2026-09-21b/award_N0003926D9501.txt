@@ -1,0 +1,20 @@
+# N0003926D9501
+INDEFINITE DELIVERY / INDEFINITE QUANTITY to MANAGEMENT SERVICES GROUP, INC.; AUTOMATED DIGITAL NETWORK SYSTEM (ADNS) MAC
+signed 2026-05-22; PoP 2026-05-21 -> 2034-05-19; last modified 2026-05-28; awarding office NAVAL INFORMATION WARFARE SYSTEMS; solicitation N0003925R9510; FULL AND OPEN COMPETITION, offers 6; parent -
+USAspending retrieved 2026-09-20 (sha 5a11550f6da2)
+FPDS PIID lookup not collected
+
+## Forecast lines that cite this contract as the incumbent
+- none
+
+## Reviewed attributions naming this contract
+
+## Notices whose saved search hit cites this contract number
+
+## Predecessor and successor candidates among saved awards (same parent vehicle and recipient, overlapping description)
+- none among the saved awards
+
+## Money, kept apart
+  estimate (LRAE anticipated total value, as stated): none
+  ceiling (base and all options, USAspending/FPDS):  N0003926D9501 $452,925,000
+  obligated to date (USAspending total_obligation):   N0003926D9501 $0

@@ -1,0 +1,53 @@
+# N00039-24-RFPREQ-PMW-150-0157 - NILE LLC 7M Production Follow-on
+Office (live claim, 2025-06-19): PMW 150 Naval Command and Control Systems Program Office
+  ancestry today: PMW 150 Naval Command and Control Systems Program Office -> Program Executive Office Command, Control, Communications, Computers and Intelligence
+    pmw:150 under peo:c4i: rel:007, from start unstated (unknown dates), last_confirmed as of 2026-04-12; evidence obs:045 2026-04-12 https://www.peoc4i.navy.mil/Program-Offices/; obs:041 2026-04-12 https://www.peoc4i.navy.mil/Contact/
+  succession documented for an ancestor (peo:c4i): Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems from 2026-05-11 (rel:045; evidence obs:046 2026-05-11 https://www.dvidshub.net/news/564916/department-navy-launches-pae-mission-systems-accelerate-warfighting-capability-speed)
+    scope as the source states it: mission systems elements of the following organizations (release wording): PEO C4I, PEO Digital, PEO IWS, PEO MLB, DRPM Overmatch, DRPM LRNFO, DRPM MILE, the Minotaur program from PMA 290, NAVWAR, NAVSEA, NAVAIR, MCSC; offices and functions that moved are not itemized
+    this office under Portfolio Acquisition Executive Mission Systems: not established by any loaded source; its parent claim rel:007 is last_confirmed as of 2026-04-12: confirmed by the latest cited observation; not re-verified since
+  history: NAVWAR HQ contracts directorate contracting_supports PMW 150 Naval Command and Control Systems Program Office [start unstated .. open] (rel:008; evidence obs:035 2025-06-19 https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx)
+
+## Forecast history (one row per release that carried the line, with how the row was tied to this key)
+| release | row | matched by | sol | award window | value as stated | office named | method | instrument |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| lrae_navwar_2025-06 (2025-06-19) | LRAE Annex 25!row 160 (sha 697ec8c004d2) | PID on the row | FY26 Q1 | FY26 Q4 | $50M - $100M | PMW-150 -> pmw:150 | Sole Source | Single-Award Indefinite-Delivery |
+  source lrae_navwar_2025-06: https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx (retrieved 2026-09-16 via https://web.archive.org/web/2026id_/https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx; sha256 697ec8c004d2; saved data/raw/697ec8c004d2_NAVWAR_HQCA-2025-A-037_Long_Range_Acquisition_Estimate_JUN_2025.xlsx)
+
+Loaded revisions (gov_requirement_revisions, one per release; basis inferred = the row was tied to this key without carrying its PID, and the assertion's rationale says how):
+  2025-06-19: award 2026-07-01..2026-09-30 (live); basis documented
+
+## Reading (outcome word first: awarded, solicited, cancelled, review, restructured, delayed, open, not yet due; a candidate is a reviewer's call)
+- delayed: solicitation window FY26 Q1 closed 264 days ago; no public notice found in the saved SAM.gov searches as of 2026-09-20; incumbent last acted 2020-06-24; the incumbent's own presolicitation 2020-09-28, justification 2022-11-10 predate the line's first forecast appearance (2025-06-19): the incumbent's history, not this line's solicitation
+
+## Incumbent and related contracts (saved USAspending / FPDS)
+- N0003916D0075: USAspending not collected (python research/tools/fetch.py 'https://api.usaspending.gov/api/v2/awards/CONT_AWD_N0003916D0075_9700_-NONE-_-NONE-/')
+  FPDS: first page of actions saved (10; later pages were not collected, so USAspending's last-modified date is the recency to trust); P00007 2018-03-06 obligated $0; P00008 2018-05-25 obligated $0; ARZ995 2020-06-24 obligated $0
+    source FPDS https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003916D0075&start=0 retrieved 2026-09-17 sha 3a7591cd3a13
+
+## Notices (saved SAM.gov searches joined to this line; ~ marks a candidate by shared program name, a reviewer's call)
+- 2022-11-10 Justification: NATO Improved Link Eleven (NILE) Link Level Communication (LLC) Procurment [N0003916D0075] via inferred key N0003916D0075
+    source https://sam.gov/opp/6f8a07183b664522ada1647bf0f717eb/view; found by https://sam.gov/api/prod/sgs/v1/search/?index=opp&page=0&size=25&q=N0003916D0075&mode=search&is_active=false (sha 8dc5f4248141)
+- 2020-09-28 Presolicitation: Intent to Sole Source: Link 22 Modernized Link Level COMSEC (LLC 7M) devices [N00039-16-D-0075] via inferred key N0003916D0075
+    source https://sam.gov/opp/b3a52e0dce074bdd9fe6ceb858e0501a/view; found by https://sam.gov/api/prod/sgs/v1/search/?index=opp&page=0&size=25&q=N0003916D0075&mode=search&is_active=false (sha 8dc5f4248141)
+
+## Awards under solicitations tied to this line (saved FPDS SOLICITATION_ID lookups; ~ = reached through a candidate notice)
+- N0003916D0075: not collected (python research/tools/fetch.py 'https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=SOLICITATION_ID:N0003916D0075&start=0')
+
+## Money, kept apart
+  estimate (LRAE anticipated total value, as stated): 2025-06-19: $50M - $100M
+  ceiling (base and all options, USAspending/FPDS):  none collected
+  obligated to date (USAspending total_obligation):   none collected
+
+## Loaded records (the database rows the claims above rest on)
+- need 3bb3fb2a-9f98-5f98-bf75-e87d85b0c558 source_key N00039-24-RFPREQ-PMW-150-0157
+- revision assertion chromie-federal-buyer-map-trial/datapack:lrae_navwar_2025-06:req:lrae_navwar_2025-06:N00039-24-RFPREQ-PMW-150-0157 observed 2025-06-19 (live), basis documented
+- evidence navwar-lrae:ev:lrae_navwar_2025-06:row160: lrae_navwar_2025-06 LRAE Annex 25!row 160, source sha256 697ec8c004d239aeffab654; source https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx
+
+## Watch: a requirement to follow before its RFP (read from the rows above; the tool asserts nothing new)
+- reads today as: delayed: solicitation window FY26 Q1 closed 264 days ago; no public notice found in the saved SAM.gov searches as of 2026-09-20; incumbent last acted 2020-06-24; the incumbent's own presolicitation 2020-09-28, justification 2022-11-10 predate the line's first forecast appearance (2025-06-19): the incumbent's history, not this line's solicitation
+- forecast: solicitation FY26 Q1 (2025-10-01 to 2025-12-31) closed 264 days ago; no solicitation of this line found in the saved SAM.gov searches as of 2026-09-20; award FY26 Q4; lrae_navwar_2025-06 row 160
+- why it matters, as the forecast states it: $50M - $100M; Sole Source; Single-Award Indefinite-Delivery; Follow-on; incumbent N0003916D0075 (RAYTHEON COMPANY)
+- incumbent N0003916D0075: USAspending not collected, so its end date and headroom are unknown here
+- would confirm (the reading becomes solicited, then awarded): a solicitation-stage SAM.gov notice carrying the PID N00039-24-RFPREQ-PMW-150-0157 or the incumbent contract N0003916D0075; a solicitation-stage notice whose title carries llc, nile and names pmw:150 or its parent; an FPDS or USAspending action under a new solicitation number naming N0003916D0075 as the predecessor; the next LRAE release keeping the line with an unchanged or nearer window
+- would invalidate (the reading becomes cancelled, restructured or review): a J&A, extension or modification carrying N0003916D0075 past its current end date; the next LRAE release dropping the line
+- to re-check: python research/tools/sam_notices.py llc; python research/tools/sam_notices.py nile; python research/tools/fetch.py 'https://api.usaspending.gov/api/v2/awards/CONT_AWD_N0003916D0075_9700_-NONE-_-NONE-/'; python research/tools/fetch.py 'https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003916D0075&start=0'

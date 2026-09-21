@@ -1,0 +1,16 @@
+agencies 2
+agency_brain_items 522
+brain_jobs 1
+gov_assertion_evidence 1669
+gov_contact_positions 12
+gov_contacts 11
+gov_funding_observations 364
+gov_intelligence_assertions 1669
+gov_intelligence_evidence 522
+gov_need_lifecycle_history 371
+gov_need_organizations 870
+gov_need_requirements 371
+gov_needs 371
+gov_organization_relationships 31
+gov_organizations 30
+gov_requirement_revisions 435

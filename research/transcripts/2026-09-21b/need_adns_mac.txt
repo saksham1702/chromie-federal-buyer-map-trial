@@ -1,0 +1,52 @@
+# N00039-23-RFPREQ-PMW-160-0108 - ADNS MAC N0003925R9510 (New Award FY25) (C)
+Office (live claim, 2025-06-19): PMW 160 Tactical Networks Program Office
+  ancestry today: PMW 160 Tactical Networks Program Office -> Program Executive Office Command, Control, Communications, Computers and Intelligence
+    pmw:160 under peo:c4i: rel:009, from start unstated (unknown dates), last_confirmed as of 2026-04-12; evidence obs:045 2026-04-12 https://www.peoc4i.navy.mil/Program-Offices/; obs:041 2026-04-12 https://www.peoc4i.navy.mil/Contact/
+  succession documented for an ancestor (peo:c4i): Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems from 2026-05-11 (rel:045; evidence obs:046 2026-05-11 https://www.dvidshub.net/news/564916/department-navy-launches-pae-mission-systems-accelerate-warfighting-capability-speed)
+    scope as the source states it: mission systems elements of the following organizations (release wording): PEO C4I, PEO Digital, PEO IWS, PEO MLB, DRPM Overmatch, DRPM LRNFO, DRPM MILE, the Minotaur program from PMA 290, NAVWAR, NAVSEA, NAVAIR, MCSC; offices and functions that moved are not itemized
+    this office under Portfolio Acquisition Executive Mission Systems: not established by any loaded source; its parent claim rel:009 is last_confirmed as of 2026-04-12: confirmed by the latest cited observation; not re-verified since
+  history: NAVWAR HQ contracts directorate contracting_supports PMW 160 Tactical Networks Program Office [start unstated .. open] (rel:010; evidence obs:035 2025-06-19 https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx)
+
+## Forecast history (one row per release that carried the line, with how the row was tied to this key)
+| release | row | matched by | sol | award window | value as stated | office named | method | instrument |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| lrae_navwar_2025-06 (2025-06-19) | LRAE Annex 25!row 127 (sha 697ec8c004d2) | PID on the row | FY25 Q4 | FY26 Q1 | $250M - $1B | PMW-160 -> pmw:160 | Full and Open Competition | Single-Award Indefinite-Delivery |
+  source lrae_navwar_2025-06: https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx (retrieved 2026-09-16 via https://web.archive.org/web/2026id_/https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx; sha256 697ec8c004d2; saved data/raw/697ec8c004d2_NAVWAR_HQCA-2025-A-037_Long_Range_Acquisition_Estimate_JUN_2025.xlsx)
+
+Loaded revisions (gov_requirement_revisions, one per release; basis inferred = the row was tied to this key without carrying its PID, and the assertion's rationale says how):
+  2025-06-19: award 2025-10-01..2025-12-31 (live); basis documented
+
+## Reading (outcome word first: awarded, solicited, cancelled, review, restructured, delayed, open, not yet due; a candidate is a reviewer's call)
+- awarded: 5 action(s) under the line's solicitation, first signed 2026-05-21
+
+## Incumbent and related contracts (saved USAspending / FPDS)
+
+## Notices (saved SAM.gov searches joined to this line; ~ marks a candidate by shared program name, a reviewer's call)
+- no notice joined to this line found in the saved SAM.gov searches as of 2026-09-20; no saved search hit contains the PID or the incumbent contract
+
+## Awards under solicitations tied to this line (saved FPDS SOLICITATION_ID lookups; ~ = reached through a candidate notice)
+- N0003925R9510: N0003926D9501 signed 2026-05-22 to MANAGEMENT SERVICES GROUP, INC.; base and all options $452,925,000; obligated at award $0; AUTOMATED DIGITAL NETWORK SYSTEM (ADNS) MAC
+    source FPDS https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=SOLICITATION_ID:N0003925R9510&start=0 retrieved 2026-09-20 sha a6d34973c5ab
+- N0003925R9510: N0003926D9502 signed 2026-05-21 to LEIDOS, INC.; base and all options $452,925,000; obligated at award $0; AUTOMATED DIGITAL NETWORK SYSTEM (ADNS) MAC
+    source FPDS https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=SOLICITATION_ID:N0003925R9510&start=0 retrieved 2026-09-20 sha a6d34973c5ab
+- N0003925R9510: N0003926D9503 signed 2026-05-21 to SERCO INC; base and all options $452,925,000; obligated at award $0; AUTOMATED DIGITAL NETWORK SYSTEM (ADNS) MAC
+    source FPDS https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=SOLICITATION_ID:N0003925R9510&start=0 retrieved 2026-09-20 sha a6d34973c5ab
+- N0003925R9510: N0003926D9504 signed 2026-05-21 to SYSTEMS ENGINEERING SUPPORT CO.; base and all options $452,925,000; obligated at award $0; AUTOMATED DIGITAL NETWORK SYSTEM (ADNS) MAC
+    source FPDS https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=SOLICITATION_ID:N0003925R9510&start=0 retrieved 2026-09-20 sha a6d34973c5ab
+- N0003925R9510: N0003926D9505 signed 2026-05-22 to VT MILCOM INC.; base and all options $452,925,000; obligated at award $0; AUTOMATED DIGITAL NETWORK SYSTEM (ADNS) MAC
+    source FPDS https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=SOLICITATION_ID:N0003925R9510&start=0 retrieved 2026-09-20 sha a6d34973c5ab
+
+## Money, kept apart
+  estimate (LRAE anticipated total value, as stated): 2025-06-19: $250M - $1B
+  ceiling (base and all options, USAspending/FPDS):  N0003926D9501 $452,925,000; N0003926D9502 $452,925,000; N0003926D9503 $452,925,000; N0003926D9504 $452,925,000; N0003926D9505 $452,925,000
+  obligated to date (USAspending total_obligation):   N0003926D9501 $0; N0003926D9502 at award $0; N0003926D9503 at award $0; N0003926D9504 at award $0; N0003926D9505 at award $0
+  source for N0003926D9501: FPDS https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=SOLICITATION_ID:N0003925R9510&start=0 retrieved 2026-09-20 sha a6d34973c5ab; USAspending https://api.usaspending.gov/api/v2/awards/CONT_IDV_N0003926D9501_9700/ retrieved 2026-09-20 sha 5a11550f6da2
+  source for N0003926D9502: FPDS https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=SOLICITATION_ID:N0003925R9510&start=0 retrieved 2026-09-20 sha a6d34973c5ab
+  source for N0003926D9503: FPDS https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=SOLICITATION_ID:N0003925R9510&start=0 retrieved 2026-09-20 sha a6d34973c5ab
+  source for N0003926D9504: FPDS https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=SOLICITATION_ID:N0003925R9510&start=0 retrieved 2026-09-20 sha a6d34973c5ab
+  source for N0003926D9505: FPDS https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=SOLICITATION_ID:N0003925R9510&start=0 retrieved 2026-09-20 sha a6d34973c5ab
+
+## Loaded records (the database rows the claims above rest on)
+- need 23fdd754-f50b-52ed-8fcf-2ab0b6f5a3c4 source_key N00039-23-RFPREQ-PMW-160-0108
+- revision assertion chromie-federal-buyer-map-trial/datapack:lrae_navwar_2025-06:req:lrae_navwar_2025-06:N00039-23-RFPREQ-PMW-160-0108 observed 2025-06-19 (live), basis documented
+- evidence navwar-lrae:ev:lrae_navwar_2025-06:row127: lrae_navwar_2025-06 LRAE Annex 25!row 127, source sha256 697ec8c004d239aeffab654; source https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx

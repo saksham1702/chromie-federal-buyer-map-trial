@@ -22,6 +22,14 @@ with its detail and its citation in the same transaction.
 Every id is a uuid5 of a fixed namespace and the record's own key, so re-running
 inserts nothing. Nothing invents a value a source does not carry: rows the schema
 cannot accept are counted and reported on stderr rather than padded.
+
+One requirement, one need, every release a revision of it. Rows the release diffs tie
+with `confirmed` (the same PID, or the same title under the same office code; see
+`lrae_package.fold_map`) load under one key, so a tool reading the database alone sees
+the full history. A row tied without carrying the PID itself writes its assertions with
+basis `inferred` and the tie (basis, the two rows, the diff) in the rationale; the need's
+description names it too. A chain the fold refuses (two PIDs, or two rows of one release)
+loads as separate records and is reported on stderr.
 """
 
 from __future__ import annotations
@@ -33,6 +41,9 @@ import sys
 import uuid
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from lrae_package import fold_map  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[2]
 SEED = ROOT / "research" / "organization_seed.json"
 RELEASES = ["lrae_navwar_2023-06", "lrae_navwar_2024-06", "lrae_navwar_2025-06"]
@@ -41,7 +52,7 @@ NS = uuid.UUID("7c3d1f5a-9b24-4f8e-8c61-2a0d5e7b41c3")
 SEED_SOURCE = "chromie-federal-buyer-map-trial/research/organization_seed.json"
 LRAE_SOURCE = "chromie-federal-buyer-map-trial/datapack"
 PRODUCER = "chromie-federal-buyer-map-trial/agency_layers_sql.py"
-PRODUCER_VERSION = "3"
+PRODUCER_VERSION = "4"
 
 skipped: dict[str, int] = {}
 
@@ -488,18 +499,36 @@ def emit_lrae(org_ids: dict[str, str], out: list[str]) -> None:
     # A record key identifies the same planned action across releases, so the need is
     # keyed on it alone and each release becomes a revision of its requirement rather
     # than a second need describing the same thing.
-    needs, need_releases, first_seen = {}, {}, {}
+    # The accepted connections between releases (lrae_package.fold_map): a row the diffs
+    # tie with `confirmed` loads under its chain's key, and carries how it was tied.
+    folded, refused = fold_map(ROOT / "datapack")
+    for line in refused:
+        note_skip(f"chain not folded, rows load as their own records: {line}")
+
+    def canon(release: str, key: str) -> tuple[str, dict | None]:
+        tie = folded.get((release, key))
+        return (tie["key"], tie) if tie else (key, None)
+
+    def tie_note(tie: dict | None) -> str:
+        return f"Row tied to this requirement by {tie['reason']} ({tie['via']}). " if tie else ""
+
+    def basis_of(tie: dict | None) -> str:
+        return "inferred" if tie else "documented"
+
+    needs, need_releases, first_seen, tied_rows = {}, {}, {}, {}
     # Each release states its own date. Merging the need records must not let a 2025
     # release date attach to the 2023 revision of a line that appears in both.
     stated_on: dict[tuple[str, str], str | None] = {}
     per_release: dict[tuple[str, str], dict] = {}
     for release in RELEASES:
         for row in read_layer(release, "needs"):
-            key = row["record_key"]
+            key, tie = canon(release, row["record_key"])
             needs.setdefault(key, row)
             needs[key] = {**needs[key], **{k: v for k, v in row.items() if v}}
             need_releases.setdefault(key, []).append(release)
             per_release[(release, key)] = row
+            if tie:
+                tied_rows.setdefault(key, []).append(f"{release} {row['evidence_id'].split(':')[-1]} tied by {tie['basis']}")
             seen = row["valid_from"] or None
             stated_on[(release, key)] = seen
             if seen and (first_seen.get(key) is None or seen < first_seen[key]):
@@ -508,7 +537,8 @@ def emit_lrae(org_ids: dict[str, str], out: list[str]) -> None:
     insert("public.gov_needs", ["id", "agency_id", "title", "description", "lifecycle", "source", "source_key"],
            [[lit(uid("need", key)), lit(AGENCY_NAVY), lit(row["title"]),
              lit(f"NAVWAR Long Range Acquisition Estimate line {key}, first seen {first_seen.get(key) or 'undated'}, "
-                 f"released in {', '.join(need_releases[key])}"),
+                 f"released in {', '.join(need_releases[key])}"
+                 + (f"; {'; '.join(tied_rows[key])}" if key in tied_rows else "")),
              lit("identified"), lit(LRAE_SOURCE), lit(key)]
             for key, row in needs.items()], out)
 
@@ -534,6 +564,7 @@ def emit_lrae(org_ids: dict[str, str], out: list[str]) -> None:
     for release in RELEASES:
         for key in sorted(k for r, k in per_release if r == release):
             row = per_release[(release, key)]
+            tie = folded.get((release, row["record_key"]))
             ev_id = ev_by_id.get(row["evidence_id"])
             for local_id, role in ((row["office_id"], "requirement_owner"),
                                    ("contracting:" + row["contracting_office_uic"].lower(), "contracting")):
@@ -550,8 +581,8 @@ def emit_lrae(org_ids: dict[str, str], out: list[str]) -> None:
                               f"both observations kept")
                 last_office[(key, role)] = (local_id, ident)
                 assertion(assertions, ident, "need_organization",
-                          f"need_organization:{key}:{role}", "documented",
-                          f"{release} names this office as the {role.replace('_', ' ')}.",
+                          f"need_organization:{key}:{role}", basis_of(tie),
+                          tie_note(tie) + f"{release} names this office as the {role.replace('_', ' ')}.",
                           f"{LRAE_SOURCE}:{release}:{key}:{role}",
                           stated_on.get((release, key)), prior)
                 details["need_organization"].append(
@@ -563,7 +594,7 @@ def emit_lrae(org_ids: dict[str, str], out: list[str]) -> None:
     requirements, revisions_by_need, funding_scope = [], {}, {}
     for release in RELEASES:
         for row in read_layer(release, "need_requirements"):
-            key = row["need_id"].split(":", 2)[2]
+            key, tie = canon(release, row["need_id"].split(":", 2)[2])
             req_id = uid("requirement", key)
             if key not in revisions_by_need:
                 requirements.append([lit(req_id), lit(uid("need", key)), lit("lrae-line"), lit("scope")])
@@ -577,8 +608,8 @@ def emit_lrae(org_ids: dict[str, str], out: list[str]) -> None:
             award_fy = fiscal_year(row["award_fy"])
             expected_from, expected_to = quarter_bounds(award_fy, row["award_quarter"])
             statement = row["description"] or needs[key]["title"]
-            assertion(assertions, ident, "requirement", f"requirement:{key}", "documented",
-                      f"{release} states the scope, method ({row['procurement_method'] or 'unstated'}) "
+            assertion(assertions, ident, "requirement", f"requirement:{key}", basis_of(tie),
+                      tie_note(tie) + f"{release} states the scope, method ({row['procurement_method'] or 'unstated'}) "
                       f"and award timing ({row['award_fy'] or 'unstated'} {row['award_quarter']}).".strip(),
                       f"{LRAE_SOURCE}:{release}:{row['id']}", stated_on.get((release, key)), prior)
             details["requirement"].append(
@@ -602,7 +633,7 @@ def emit_lrae(org_ids: dict[str, str], out: list[str]) -> None:
             if not row["amount_low_usd"] or not row["amount_high_usd"]:
                 note_skip(f"open-ended value the schema cannot hold ({stated})")
                 continue
-            key = row["need_id"].split(":", 2)[2]
+            key, tie = canon(release, row["need_id"].split(":", 2)[2])
             ident = uid("assert", f"funding:{key}:{release}")
             ev_id = ev_by_id.get(row["evidence_id"])
             if not cite(ident, ev_id, True):
@@ -619,8 +650,8 @@ def emit_lrae(org_ids: dict[str, str], out: list[str]) -> None:
             funding_scope[scope] = ident
             assertion(assertions, ident, "funding",
                       f"funding:{key}:{row['fiscal_year'] or 'unstated'}:{row['period'] or 'unstated'}",
-                      "documented",
-                      f"{release} states an anticipated total value of {row['as_stated'] or 'an unstated range'}.",
+                      basis_of(tie),
+                      tie_note(tie) + f"{release} states an anticipated total value of {row['as_stated'] or 'an unstated range'}.",
                       f"{LRAE_SOURCE}:{release}:{row['id']}", stated_on.get((release, key)), prior)
             details["funding"].append([
                 lit(ident), lit(uid("need", key)), lit("procurement_estimate"),

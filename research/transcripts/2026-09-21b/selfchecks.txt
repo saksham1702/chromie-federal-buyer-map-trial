@@ -1,0 +1,3 @@
+trace selfcheck ok
+selfcheck ok
+selfcheck ok

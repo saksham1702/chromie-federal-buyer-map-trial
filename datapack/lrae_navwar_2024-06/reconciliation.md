@@ -101,4 +101,4 @@ FPDS and SAM.gov lookups were collected for lrae_navwar_2025-06 only; lines mark
 
 ## Releases
 
-Compared with `lrae_navwar_2023-06` (staged: pid, title+office, office+incumbent, then title similarity >= 0.85 within the office (76 matched, 62 candidates)): 138 records followed across the releases, 62 of them candidates a reviewer still has to accept; 669 field changes on 138 of them; 712 added, 595 removed, 3 keys left ambiguous. Every row carries its match basis and the reasoning in `diff_lrae_navwar_2023-06_lrae_navwar_2024-06.csv`. Every release is kept as its own package.
+Compared with `lrae_navwar_2023-06` (staged: pid, title+office, office+incumbent, then title similarity >= 0.85 within the office (59 matched, 79 candidates)): 138 records followed across the releases, 79 of them candidates a reviewer still has to accept; 669 field changes on 138 of them; 712 added, 595 removed, 3 keys left ambiguous. Every row carries its match basis and the reasoning in `diff_lrae_navwar_2023-06_lrae_navwar_2024-06.csv`. Every release is kept as its own package.

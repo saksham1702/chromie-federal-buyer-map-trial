@@ -1,0 +1,71 @@
+# N00039-25-RFPREQ-PMW/A-170-0001 - NTCDL – Follow-On Production and ESS Contract (C)
+Office (live claim, 2025-06-19): PMW/A 170 Communications and GPS Navigation Program Office
+  ancestry today: PMW/A 170 Communications and GPS Navigation Program Office -> PAE Mission Systems Capability Portfolio Executive: Comms, Sensor, Electronic Warfare (EW), and Positioning, Navigation, and Timing (PNT) -> Portfolio Acquisition Executive Mission Systems -> Department of the Navy
+    pmw:170 under cpe:comms-sensor-ew-pnt: rel:066, from 2026-05-11 (inferred dates), last_confirmed as of 2026-05-22; evidence obs:083 2026-05-22 https://sam.gov/api/prod/opps/v2/opportunities/3975e44ad9f649e29d0b8abd50a6952d?api_key=null
+    cpe:comms-sensor-ew-pnt under pae:mission-systems: rel:065, from 2026-05-11 (inferred dates), last_confirmed as of 2026-05-22; evidence obs:083 2026-05-22 https://sam.gov/api/prod/opps/v2/opportunities/3975e44ad9f649e29d0b8abd50a6952d?api_key=null
+    pae:mission-systems under agency:don: rel:034, from 2026-05-11 (documented dates), last_confirmed as of 2026-05-11; evidence obs:049 2026-05-11 https://www.dvidshub.net/news/564916/department-navy-launches-pae-mission-systems-accelerate-warfighting-capability-speed
+  history: PMW/A 170 Communications and GPS Navigation Program Office functionally_aligned_to Program Executive Office Command, Control, Communications, Computers and Intelligence [start unstated .. 2026-05-10] (rel:011; evidence +2 earlier; obs:045 2026-04-12 https://www.peoc4i.navy.mil/Program-Offices/; obs:041 2026-04-12 https://www.peoc4i.navy.mil/Contact/)
+  history: NAVWAR HQ contracts directorate contracting_supports PMW/A 170 Communications and GPS Navigation Program Office [start unstated .. open] (rel:012; evidence obs:035 2025-06-19 https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx)
+
+## Forecast history (one row per release that carried the line, with how the row was tied to this key)
+| release | row | matched by | sol | award window | value as stated | office named | method | instrument |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| lrae_navwar_2023-06 (2023-06-20) | LRAE Annex 25!row 409 (sha 48ad6e27241a) | PID on the row | TBD | FY27 Q1 | $250M - $1B | PMW/A-170 -> pmw:170 | - | TBD |
+| lrae_navwar_2024-06 (2024-06-20) | LRAE Annex 25!row 47 (sha c327bcd3a34a) | title+office (confirmed, loaded under this key: lrae_navwar_2023-06 row 409 -> lrae_navwar_2024-06 row 47) | TBD | FY25 Q3 | $250M - $1B | PMW/A-170 -> pmw:170 | Full and Open Competition | TBD |
+| lrae_navwar_2025-06 (2025-06-19) | LRAE Annex 25!row 108 (sha 697ec8c004d2) | PID on the row | FY26 Q2 | FY27 Q2 | $250M - $1B | PMW/A-170 -> pmw:170 | Full and Open Competition | Single-Award Indefinite-Delivery |
+  source lrae_navwar_2023-06: https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR_LRAE_Report.xlsx (retrieved 2026-09-17 via https://web.archive.org/web/20250224085344id_/https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR_LRAE_Report.xlsx; sha256 48ad6e27241a; saved data/raw/48ad6e27241a_NAVWAR_LRAE_Report.xlsx)
+  source lrae_navwar_2024-06: https://www.navwar.navy.mil/Portals/93/Images/Documents/Command_NAVWAR_LRAE_Report_6-13-2024_NAVWAR%20HQCA-2024-A-094.xlsx (retrieved 2026-09-17 via https://web.archive.org/web/20250226034633id_/https://www.navwar.navy.mil/Portals/93/Images/Documents/Command_NAVWAR_LRAE_Report_6-13-2024_NAVWAR%20HQCA-2024-A-094.xlsx; sha256 c327bcd3a34a; saved data/raw/c327bcd3a34a_Command_NAVWAR_LRAE_Report_6-13-2024_NAVWAR_HQCA-2024-A-094.xlsx)
+  source lrae_navwar_2025-06: https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx (retrieved 2026-09-16 via https://web.archive.org/web/2026id_/https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx; sha256 697ec8c004d2; saved data/raw/697ec8c004d2_NAVWAR_HQCA-2025-A-037_Long_Range_Acquisition_Estimate_JUN_2025.xlsx)
+
+Loaded revisions (gov_requirement_revisions, one per release; basis inferred = the row was tied to this key without carrying its PID, and the assertion's rationale says how):
+  2023-06-20: award 2026-10-01..2026-12-31; basis documented
+  2024-06-20: award 2025-04-01..2025-06-30; basis inferred; Row tied to this requirement by same requirement title under the same office code (lrae_navwar_2023-06 row 409 -> lrae_navwar_2024-06 row 47, diff_lrae_navwar_2023-06_lrae_navwar_2024-06.csv)
+  2025-06-19: award 2027-01-01..2027-03-31 (live); basis documented
+
+## Reading (outcome word first: awarded, solicited, cancelled, review, restructured, delayed, open, not yet due; a candidate is a reviewer's call)
+- review: award notice posted 2024-11-05 on incumbent N0003916C0087 (an action on the incumbent: a modification, extension or sole-source continuation; does the follow-on still stand?); no follow-on solicitation found in the saved SAM.gov searches as of 2026-09-20; also restructured: sibling line N00039-25-RFPREQ-PMW/A-170-0276 (NTCDL - Stand Alone Bridge Contract) first appears in lrae_navwar_2025-06 under the same office sharing a program name, and its title says 'Stand Alone': a split, or a new line beside this one; also delayed: solicitation window FY26 Q2 closed 174 days ago; award window moved FY27 Q1 -> FY25 Q3 -> FY27 Q2 across releases; candidate: presolicitation posted 2026-05-22 [N0003926RB002] (shared program tokens ntcdl; same office); a reviewer decides whether it is this line
+
+## Incumbent and related contracts (saved USAspending / FPDS)
+- N0003916C0087 (DEFINITIVE CONTRACT, BAE SYSTEMS INFORMATION AND ELECTRONIC SYSTEMS INTEGRATION INC.): signed 2016-09-21, PoP 2017-09-29 -> 2028-09-29, last modified 2026-05-20; solicitation N0003914R0001; FULL AND OPEN COMPETITION, offers 3
+    source USAspending https://api.usaspending.gov/api/v2/awards/CONT_AWD_N0003916C0087_9700_-NONE-_-NONE-/ retrieved 2026-09-20 sha 22b17bac280d
+  FPDS: first page of actions saved (10; later pages were not collected, so USAspending's last-modified date is the recency to trust); P00007 2018-08-21 obligated $794,770; P00008 2018-09-12 obligated $992,736; ARZ999 2024-01-29 obligated $0
+    source FPDS https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003916C0087&start=0 retrieved 2026-09-17 sha e3b01f63b002
+
+## Notices (saved SAM.gov searches joined to this line; ~ marks a candidate by shared program name, a reviewer's call)
+- 2024-11-05 Award Notice: Sole Source Modification Award for the Network Tactical Common Data Link (NTCDL) Program [N00039-23-R-2005] via explicit key N0003916C0087
+    source https://sam.gov/opp/b37673f4bfdf481c8ecbfef82dd6ca6f/view; found by https://sam.gov/api/prod/sgs/v1/search/?index=opp&page=0&size=25&q=N0003916C0087&mode=search&is_active=false (sha 73f9f74876f2)
+    award block on the notice: N0003916C0087-P00078 on 2024-10-31 for $84,971,820 to BAE Systems Information and Electronic Systems Integration Inc. (a modification, so it sits under the incumbent's ceiling above, not a new award)
+- ~2026-05-22 Presolicitation: NTCDL Engineering Support Services - Sole Source [N0003926RB002] candidate, shared program tokens ntcdl; same office
+    source https://sam.gov/opp/3975e44ad9f649e29d0b8abd50a6952d/view
+- ~2023-05-10 Presolicitation: Notice of Intent to Award a Sole Source Modification for Network Tactical Common Data Link [N00039-23-R-2005] candidate, shared program tokens ntcdl; notice office not read (detail not saved)
+    source https://sam.gov/opp/6f96a4fb10eb4e41b380b0b44a213c19/view
+
+## Awards under solicitations tied to this line (saved FPDS SOLICITATION_ID lookups; ~ = reached through a candidate notice)
+- ~N0003923R2005: not collected (python research/tools/fetch.py 'https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=SOLICITATION_ID:N0003923R2005&start=0')
+- ~N0003926RB002: no award found in the saved FPDS lookup by solicitation number as of 2026-09-20; source FPDS https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=SOLICITATION_ID:N0003926RB002&start=0 retrieved 2026-09-20 sha c4a075f556d0
+
+## Money, kept apart
+  estimate (LRAE anticipated total value, as stated): 2023-06-20: $250M - $1B; 2024-06-20: $250M - $1B; 2025-06-19: $250M - $1B
+  ceiling (base and all options, USAspending/FPDS):  N0003916C0087 $309,287,636
+  obligated to date (USAspending total_obligation):   N0003916C0087 $302,467,639
+  source for N0003916C0087: USAspending https://api.usaspending.gov/api/v2/awards/CONT_AWD_N0003916C0087_9700_-NONE-_-NONE-/ retrieved 2026-09-20 sha 22b17bac280d
+
+## Loaded records (the database rows the claims above rest on)
+- need c28fe7f3-5676-5e4d-94a7-80896ae40e88 source_key N00039-25-RFPREQ-PMW/A-170-0001
+- revision assertion chromie-federal-buyer-map-trial/datapack:lrae_navwar_2023-06:req:lrae_navwar_2023-06:N00039-25-RFPREQ-PMW/A-170-0001 observed 2023-06-20 (superseded), basis documented
+- revision assertion chromie-federal-buyer-map-trial/datapack:lrae_navwar_2024-06:req:lrae_navwar_2024-06:row:lrae_navwar_2024-06:47 observed 2024-06-20 (superseded), basis inferred; Row tied to this requirement by same requirement title under the same office code (lrae_navwar_2023-06 row 409 -> lrae_navwar_2024-06 row 47, diff_lrae_navwar_2023-06_lrae_navwar_2024-06.csv)
+- revision assertion chromie-federal-buyer-map-trial/datapack:lrae_navwar_2025-06:req:lrae_navwar_2025-06:N00039-25-RFPREQ-PMW/A-170-0001 observed 2025-06-19 (live), basis documented
+- evidence navwar-lrae:ev:lrae_navwar_2023-06:row409: lrae_navwar_2023-06 LRAE Annex 25!row 409, source sha256 48ad6e27241aa862ceb8606; source https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR_LRAE_Report.xlsx
+- evidence navwar-lrae:ev:lrae_navwar_2024-06:row47: lrae_navwar_2024-06 LRAE Annex 25!row 47, source sha256 c327bcd3a34a642fe28df969; source https://www.navwar.navy.mil/Portals/93/Images/Documents/Command_NAVWAR_LRAE_Report_6-13-2024_NAVWAR%20HQCA-2024-A-094.xlsx
+- evidence navwar-lrae:ev:lrae_navwar_2025-06:row108: lrae_navwar_2025-06 LRAE Annex 25!row 108, source sha256 697ec8c004d239aeffab654; source https://www.navwar.navy.mil/Portals/93/Images/Documents/NAVWAR%20HQCA-2025-A-037%20Long%20Range%20Acquisition%20Estimate%20JUN%202025.xlsx
+
+## Watch: a requirement to follow before its RFP (read from the rows above; the tool asserts nothing new)
+- reads today as: review: award notice posted 2024-11-05 on incumbent N0003916C0087 (an action on the incumbent: a modification, extension or sole-source continuation; does the follow-on still stand?); no follow-on solicitation found in the saved SAM.gov searches as of 2026-09-20; also restructured: sibling line N00039-25-RFPREQ-PMW/A-170-0276 (NTCDL - Stand Alone Bridge Contract) first appears in lrae_navwar_2025-06 under the same office sharing a program name, and its title says 'Stand Alone': a split, or a new line beside this one; also delayed: solicitation window FY26 Q2 closed 174 days ago; award window moved FY27 Q1 -> FY25 Q3 -> FY27 Q2 across releases; candidate: presolicitation posted 2026-05-22 [N0003926RB002] (shared program tokens ntcdl; same office); a reviewer decides whether it is this line
+- forecast: solicitation FY26 Q2 (2026-01-01 to 2026-03-31) closed 174 days ago; no solicitation of this line found in the saved SAM.gov searches as of 2026-09-20; award FY27 Q2; lrae_navwar_2025-06 row 108
+- why it matters, as the forecast states it: $250M - $1B; Full and Open Competition; Single-Award Indefinite-Delivery; Follow-on; incumbent N0003916C0087 (BAE SYSTEMS INFORMATION AND ELECTRONIC SYSTEMS INTEGRATION INC.)
+- incumbent N0003916C0087: period of performance ends 2028-09-29 (739 days from 2026-09-21); ceiling $309,287,636, obligated $302,467,639, headroom $6,819,997 (this one contract's ceiling less its own obligations); USAspending retrieved 2026-09-20
+- on the record so far, as candidates: presolicitation 2026-05-22 [N0003926RB002] (shared program tokens ntcdl; same office); presolicitation 2023-05-10 [N00039-23-R-2005] (shared program tokens ntcdl; notice office not read (detail not saved))
+- sibling forecast lines in the same office sharing a program name: N00039-25-RFPREQ-PMW/A-170-0276 NTCDL - Stand Alone Bridge Contract (sol FY26 Q1)
+- would confirm (the reading becomes solicited, then awarded): a solicitation-stage SAM.gov notice carrying the PID N00039-25-RFPREQ-PMW/A-170-0001 or the incumbent contract N0003916C0087; a solicitation-stage notice whose title carries ntcdl and names pmw:170 or its parent; an FPDS or USAspending action under a new solicitation number naming N0003916C0087 as the predecessor; the next LRAE release keeping the line with an unchanged or nearer window
+- would invalidate (the reading becomes cancelled, restructured or review): a J&A, extension or modification carrying N0003916C0087 past 2028-09-29; the next LRAE release dropping the line or folding its scope into N00039-25-RFPREQ-PMW/A-170-0276; an award under N0003923R2005, N0003926RB002 whose description covers this line's scope
+- to re-check: python research/tools/sam_notices.py ntcdl; python research/tools/fetch.py 'https://api.usaspending.gov/api/v2/awards/CONT_AWD_N0003916C0087_9700_-NONE-_-NONE-/'; python research/tools/fetch.py 'https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:N0003916C0087&start=0'

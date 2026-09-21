@@ -271,3 +271,26 @@ organization it is documented against, with the source's scope wording; an offic
 the successor only when its own source says so, otherwise its parent claim prints with the date it
 was last confirmed. The "succeeded by" line, which drew the PEO's consolidation onto every office
 beneath it, is removed from both tools.
+
+## 2026-09-21 - The accepted connections load, the third matcher stage only nominates, and a reading opens with its outcome
+
+Three findings from the review of 2026-09-21. First, the walkthrough showed the NTCDL line in three
+releases while the database held two revisions: the June 2024 release has no PID column, so its row
+loaded as a separate need, and the title match that tied it lived only in the release diff. The loader
+(producer version 4) now reads the confirmed pairs from the diffs through `lrae_package.fold_map`,
+chains them, and loads every row of a chain under one key: its PID, or its earliest row key. A row tied
+without carrying the PID writes its requirement, office and value assertions with basis `inferred` and
+the tie (the basis, the two rows, the diff file) in the rationale, and the need's description names it,
+so a tool reading the tables alone retrieves the whole history and how each row was tied. A chain that
+would join two PIDs, or two rows of one release, is not folded and is reported on stderr. Second, the
+same office and the same incumbent do not make two rows one requirement: a production follow-on and an
+engineering-support bridge share both. The `office+incumbent` stage now yields candidates, a notice
+citing an incumbent that several lines cite is a candidate for each of them, and a notice or action on
+the incumbent posted before the line first appeared in a forecast is the incumbent's history, not the
+line's. Third, `trace.py status` and `need` open every reading with one outcome word: awarded,
+solicited, cancelled (marked so on SAM.gov), review (an award notice, J&A or special notice on the
+incumbent after the line appeared; a row missing from the latest release), restructured (a stated
+method, instrument, type or value changed between two stated values; a sibling line citing the same
+incumbent, or calling itself a bridge, appeared), delayed, open, not yet due, not dated. States that also
+hold follow "also"; a candidate is appended and never promoted. The 120 rows of June 2024 with no row in
+June 2025 print as review.

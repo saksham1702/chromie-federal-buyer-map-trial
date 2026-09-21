@@ -123,6 +123,41 @@ Deadline: reviewer's call 2026-09-21 11:40 PST. Commit locally only.
 ## Phase six: reviewer comments of 2026-09-20 23:29 (handed to the contributor)
 
 - [x] database kit for the contributor: `sandbox_schema.py`, `~/Downloads/navy-db-kit-2026-09-21` (+ zip), verified by two independent loads
-- [ ] asks 1-5 (negatives wording; notice -> office -> names -> forecasts -> awards with source + record id; same vs related; PEO/PAE scoped; one watch example): contributor, in the sandbox
-- [ ] ask 6 (push importer fixes to PR #1, fresh load with main's migrations, transcripts): owner, after the contributor's changes land
-- [ ] sandbox re-sync so the generator and DECISIONS entry reach him; issues filed from the `ask` template
+- [x] asks 1-5 (negatives wording; notice -> office -> names -> forecasts -> awards with source + record id; same vs related; PEO/PAE scoped; one watch example): done owner-side 2026-09-21 (7f217a8, 4b2a7dd)
+- [x] ask 6 (push importer fixes to PR #1, fresh load, transcripts): pushed 0c94ef1; transcripts research/transcripts/2026-09-21/
+- [ ] sandbox re-sync (generator, DECISIONS, trace.py, loader v3, kit expected/) so the contributor is on the pushed state
+
+## Phase seven: reviewer comments of 2026-09-21 04:05 (stored data = walkthrough; matcher; watch outcomes; clean-load proof)
+
+Checkpoint before expanding. Reviewer asks, mapped:
+
+1. Stored data must show the NTCDL line's three releases, and the accepted connections must be
+   retrievable by another tool.
+   - [x] `lrae_package.fold_map()`: confirmed release-diff pairs (PID, exact title under the same office)
+         chained; one canonical key per chain (its PID, else the earliest row key); a chain with two PIDs is
+         not folded and is reported
+   - [x] `agency_layers_sql.py` v4: every row of a chain loads under one need; a row tied without its own
+         PID writes its requirement, office and value assertions with basis `inferred` and the tie
+         (basis, older row -> newer row, the diff) in the rationale; the need description names the tie
+   - [x] `trace.py need`: "Loaded revisions" prints three for NTCDL with each assertion's basis and tie
+2. Same office + same incumbent is not identity (production follow-on vs engineering-support bridge).
+   - [x] `MATCH_STAGES` office+incumbent -> `candidate`
+   - [x] notice join by an incumbent contract that 2+ lines in the release cite -> `inferred`, never explicit
+   - [x] `trace.py line_match`: incumbent in the notice text is a candidate when 2+ lines cite that contract
+   - [x] an incumbent-cited solicitation-stage notice posted before the line first appeared in a forecast is
+         the incumbent's own procurement, not this line's solicitation (NILE 2020 presol read as "solicited")
+3. Watch outcomes: awarded / solicited / cancelled (explicit, SAM `isCanceled`) / review (action on the
+   incumbent; line missing from the latest release) / restructured (stated method, instrument, type or value
+   changed; sibling line added citing the same incumbent) / delayed (window closed, nothing found; windows
+   moved across releases) / open / not yet due. Secondary states appended, candidate kept as a reviewer's call.
+   - [x] `reading()` rewritten around the vocabulary; `line_status` feeds it history, siblings, incumbent actions
+   - [x] `status`: section for the previous release's lines with no pair in the latest -> review
+   - [x] `need`: "## Reading" line; `watch_block` names the outcome each confirm/invalidate item produces
+   - [x] selfchecks: every outcome word exercised; loader tie; matcher candidate; shared-incumbent join
+4. Prove it after a clean load, with new examples.
+   - [x] rebuild datapack, regenerate layers.sql (v4), fresh db, transcripts `research/transcripts/2026-09-21b/`
+   - [x] status; need NTCDL (three loaded revisions); need ADNS MAC (awarded, new); need NILE LLC 7M (review, new);
+         need row:lrae_navwar_2024-06:13 (dropped 2024 ADNS order line, new); notice MIDS-LVT presol 4ea95161 (new);
+         award N0003926D9501 (new); monitor (NTCDL now 2023 -> 2024 -> 2025)
+   - [x] pytest + three selfchecks; DECISIONS, research/11 + /12, transcripts README, TASK.md, write-up addendum
+   - [ ] commit, push to PR #1; ctx + memory

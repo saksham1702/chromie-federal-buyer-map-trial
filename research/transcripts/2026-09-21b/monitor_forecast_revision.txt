@@ -1,0 +1,268 @@
+**N00039-22-RFPREQ-PMW-740-0012** - Saudi Arabia/Oman CENTCOM Partner Network (C)
+- What changed: anticipated award slips FY23 Q4 -> FY24 Q4 between the 2023-06-20 and 2024-06-20 releases.
+- Office: PMW 740 International C4I Integration Program Office. Ancestry: PMW 740 International C4I Integration Program Office -> Program Executive Office Command, Control, Communications, Computers and Intelligence; succession documented at the ancestor's level and scoped to what that source lists: Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems (from 2026-05-11); this office's own placement under the successor is not established in the loaded data.
+- Evidence: LRAE lrae_navwar_2023-06 LRAE Annex 25!row 633 (sha256 48ad6e27241a); LRAE lrae_navwar_2024-06 LRAE Annex 25!row 56 (sha256 c327bcd3a34a).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-22-RFPREQ-PMW-790-0002** - C4I Arsenal - New Procurement (C)
+- What changed: anticipated award slips FY24 Q3 -> FY25 Q3 between the 2023-06-20 and 2024-06-20 releases.
+- Office: PMW 790 Tactical Shore and Expeditionary Integration Program Office. Ancestry: PMW 790 Tactical Shore and Expeditionary Integration Program Office -> Program Executive Office Command, Control, Communications, Computers and Intelligence; succession documented at the ancestor's level and scoped to what that source lists: Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems (from 2026-05-11); this office's own placement under the successor is not established in the loaded data.
+- Evidence: LRAE lrae_navwar_2023-06 LRAE Annex 25!row 423 (sha256 48ad6e27241a); LRAE lrae_navwar_2024-06 LRAE Annex 25!row 51 (sha256 c327bcd3a34a).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-22-RFPREQ-PMW/A-170-0002** - CBSP Engineering Services Sustainment
+- What changed: anticipated award slips FY24 Q3 -> FY25 Q4 between the 2024-06-20 and 2025-06-19 releases.
+- Office: PMW/A 170 Communications and GPS Navigation Program Office. Ancestry: PMW/A 170 Communications and GPS Navigation Program Office -> PAE Mission Systems Capability Portfolio Executive: Comms, Sensor, Electronic Warfare (EW), and Positioning, Navigation, and Timing (PNT) -> Portfolio Acquisition Executive Mission Systems -> Department of the Navy.
+- Evidence: LRAE lrae_navwar_2024-06 LRAE Annex 25!row 469 (sha256 c327bcd3a34a); LRAE lrae_navwar_2025-06 LRAE Annex 25!row 97 (sha256 697ec8c004d2).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-22-RFPREQ-PMW/A-170-0010** - ATIP - Ceiling Increase (No cost action – Admin Only)
+- What changed: anticipated award slips FY24 Q1 -> FY24 Q3 between the 2023-06-20 and 2024-06-20 releases.
+- Office: PMW/A 170 Communications and GPS Navigation Program Office. Ancestry: PMW/A 170 Communications and GPS Navigation Program Office -> PAE Mission Systems Capability Portfolio Executive: Comms, Sensor, Electronic Warfare (EW), and Positioning, Navigation, and Timing (PNT) -> Portfolio Acquisition Executive Mission Systems -> Department of the Navy.
+- Evidence: LRAE lrae_navwar_2023-06 LRAE Annex 25!row 395 (sha256 48ad6e27241a); LRAE lrae_navwar_2024-06 LRAE Annex 25!row 464 (sha256 c327bcd3a34a).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-22-RFPREQ-PMW/A-170-0021** - NMT-X - Follow-on
+- What changed: anticipated award slips FY25 Q1 -> FY25 Q2 between the 2023-06-20 and 2024-06-20 releases.
+- Office: PMW/A 170 Communications and GPS Navigation Program Office. Ancestry: PMW/A 170 Communications and GPS Navigation Program Office -> PAE Mission Systems Capability Portfolio Executive: Comms, Sensor, Electronic Warfare (EW), and Positioning, Navigation, and Timing (PNT) -> Portfolio Acquisition Executive Mission Systems -> Department of the Navy.
+- Evidence: LRAE lrae_navwar_2023-06 LRAE Annex 25!row 385 (sha256 48ad6e27241a); LRAE lrae_navwar_2024-06 LRAE Annex 25!row 472 (sha256 c327bcd3a34a).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-22-RFPREQ-PMW/A-170-0021** - NMT-X - Follow-on
+- What changed: anticipated award slips FY25 Q2 -> FY26 Q1 between the 2024-06-20 and 2025-06-19 releases.
+- Office: PMW/A 170 Communications and GPS Navigation Program Office. Ancestry: PMW/A 170 Communications and GPS Navigation Program Office -> PAE Mission Systems Capability Portfolio Executive: Comms, Sensor, Electronic Warfare (EW), and Positioning, Navigation, and Timing (PNT) -> Portfolio Acquisition Executive Mission Systems -> Department of the Navy.
+- Evidence: LRAE lrae_navwar_2024-06 LRAE Annex 25!row 472 (sha256 c327bcd3a34a); LRAE lrae_navwar_2025-06 LRAE Annex 25!row 99 (sha256 697ec8c004d2).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-23-RFPREQ-PMW-150-0033** - SETA Recompete/21F3000 Follow-On (C)
+- What changed: anticipated award pulls forward FY24 Q4 -> FY24 Q3 between the 2023-06-20 and 2024-06-20 releases.
+- Office: PMW 150 Naval Command and Control Systems Program Office. Ancestry: PMW 150 Naval Command and Control Systems Program Office -> Program Executive Office Command, Control, Communications, Computers and Intelligence; succession documented at the ancestor's level and scoped to what that source lists: Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems (from 2026-05-11); this office's own placement under the successor is not established in the loaded data.
+- Evidence: LRAE lrae_navwar_2023-06 LRAE Annex 25!row 187 (sha256 48ad6e27241a); LRAE lrae_navwar_2024-06 LRAE Annex 25!row 73 (sha256 c327bcd3a34a).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-23-RFPREQ-PMW-770-0024** - OE-315 AIS Amplifier Procurement (C)
+- What changed: anticipated award slips FY24 Q2 -> FY25 Q2 between the 2023-06-20 and 2024-06-20 releases.
+- Office: PMW 770 Undersea Communications and Integration Program Office. Ancestry: PMW 770 Undersea Communications and Integration Program Office -> Program Executive Office Command, Control, Communications, Computers and Intelligence; succession documented at the ancestor's level and scoped to what that source lists: Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems (from 2026-05-11); this office's own placement under the successor is not established in the loaded data.
+- Evidence: LRAE lrae_navwar_2023-06 LRAE Annex 25!row 426 (sha256 48ad6e27241a); LRAE lrae_navwar_2024-06 LRAE Annex 25!row 59 (sha256 c327bcd3a34a).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-23-RFPREQ-PMW-790-0011** - VIASAT TRANSEC FMS ENGINEERING SERVICES (ENG VM300M CARD FOR RT-1829/1830) TASK ORDER
+- What changed: anticipated award slips FY23 Q4 -> FY24 Q4 between the 2023-06-20 and 2024-06-20 releases.
+- Office: PMW 790 Tactical Shore and Expeditionary Integration Program Office. Ancestry: PMW 790 Tactical Shore and Expeditionary Integration Program Office -> Program Executive Office Command, Control, Communications, Computers and Intelligence; succession documented at the ancestor's level and scoped to what that source lists: Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems (from 2026-05-11); this office's own placement under the successor is not established in the loaded data.
+- Evidence: LRAE lrae_navwar_2023-06 LRAE Annex 25!row 429 (sha256 48ad6e27241a); LRAE lrae_navwar_2024-06 LRAE Annex 25!row 459 (sha256 c327bcd3a34a).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-23-RFPREQ-PMW-790-0021** - Program Management Support Services (C)
+- What changed: anticipated award pulls forward FY24 Q4 -> FY24 Q3 between the 2023-06-20 and 2024-06-20 releases.
+- Office: PMW 790 Tactical Shore and Expeditionary Integration Program Office. Ancestry: PMW 790 Tactical Shore and Expeditionary Integration Program Office -> Program Executive Office Command, Control, Communications, Computers and Intelligence; succession documented at the ancestor's level and scoped to what that source lists: Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems (from 2026-05-11); this office's own placement under the successor is not established in the loaded data.
+- Evidence: LRAE lrae_navwar_2023-06 LRAE Annex 25!row 416 (sha256 48ad6e27241a); LRAE lrae_navwar_2024-06 LRAE Annex 25!row 66 (sha256 c327bcd3a34a).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-23-RFPREQ-PMW/A-170-0148** - NTCDL – 3-Yr Contract Extension
+- What changed: anticipated award slips FY24 Q2 -> FY24 Q3 between the 2023-06-20 and 2024-06-20 releases.
+- Office: PMW/A 170 Communications and GPS Navigation Program Office. Ancestry: PMW/A 170 Communications and GPS Navigation Program Office -> PAE Mission Systems Capability Portfolio Executive: Comms, Sensor, Electronic Warfare (EW), and Positioning, Navigation, and Timing (PNT) -> Portfolio Acquisition Executive Mission Systems -> Department of the Navy.
+- Evidence: LRAE lrae_navwar_2023-06 LRAE Annex 25!row 412 (sha256 48ad6e27241a); LRAE lrae_navwar_2024-06 LRAE Annex 25!row 460 (sha256 c327bcd3a34a).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-23-RFPREQ-PMW/A-170-0155** - MAT Production and Sustainment
+- What changed: anticipated award slips FY25 Q3 -> FY25 Q4 between the 2023-06-20 and 2024-06-20 releases.
+- Office: PMW/A 170 Communications and GPS Navigation Program Office. Ancestry: PMW/A 170 Communications and GPS Navigation Program Office -> PAE Mission Systems Capability Portfolio Executive: Comms, Sensor, Electronic Warfare (EW), and Positioning, Navigation, and Timing (PNT) -> Portfolio Acquisition Executive Mission Systems -> Department of the Navy.
+- Evidence: LRAE lrae_navwar_2023-06 LRAE Annex 25!row 383 (sha256 48ad6e27241a); LRAE lrae_navwar_2024-06 LRAE Annex 25!row 463 (sha256 c327bcd3a34a).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-23-RFPREQ-PMW/A-170-0155** - MAT Production and Sustainment
+- What changed: anticipated award slips FY25 Q4 -> FY26 Q4 between the 2024-06-20 and 2025-06-19 releases.
+- Office: PMW/A 170 Communications and GPS Navigation Program Office. Ancestry: PMW/A 170 Communications and GPS Navigation Program Office -> PAE Mission Systems Capability Portfolio Executive: Comms, Sensor, Electronic Warfare (EW), and Positioning, Navigation, and Timing (PNT) -> Portfolio Acquisition Executive Mission Systems -> Department of the Navy.
+- Evidence: LRAE lrae_navwar_2024-06 LRAE Annex 25!row 463 (sha256 c327bcd3a34a); LRAE lrae_navwar_2025-06 LRAE Annex 25!row 100 (sha256 697ec8c004d2).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-23-RFPREQ-PMW/A-170-0173** - All SATCOM Multi Award Contract (C)
+- What changed: anticipated award slips FY24 Q2 -> FY27 Q2 between the 2023-06-20 and 2024-06-20 releases.
+- Office: PMW/A 170 Communications and GPS Navigation Program Office. Ancestry: PMW/A 170 Communications and GPS Navigation Program Office -> PAE Mission Systems Capability Portfolio Executive: Comms, Sensor, Electronic Warfare (EW), and Positioning, Navigation, and Timing (PNT) -> Portfolio Acquisition Executive Mission Systems -> Department of the Navy.
+- Evidence: LRAE lrae_navwar_2023-06 LRAE Annex 25!row 374 (sha256 48ad6e27241a); LRAE lrae_navwar_2024-06 LRAE Annex 25!row 74 (sha256 c327bcd3a34a).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-23-RFPREQ-PMW/A-170-0220** - DMR - 500W Power Amplifier OTP
+- What changed: anticipated award slips FY24 Q1 -> FY25 Q3 between the 2023-06-20 and 2024-06-20 releases.
+- Office: PMW/A 170 Communications and GPS Navigation Program Office. Ancestry: PMW/A 170 Communications and GPS Navigation Program Office -> PAE Mission Systems Capability Portfolio Executive: Comms, Sensor, Electronic Warfare (EW), and Positioning, Navigation, and Timing (PNT) -> Portfolio Acquisition Executive Mission Systems -> Department of the Navy.
+- Evidence: LRAE lrae_navwar_2023-06 LRAE Annex 25!row 207 (sha256 48ad6e27241a); LRAE lrae_navwar_2024-06 LRAE Annex 25!row 465 (sha256 c327bcd3a34a).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-24-RFPREQ-C4IEXEC-0002** - C-SEA (C)
+- What changed: anticipated award slips FY25 Q4 -> FY26 Q4 between the 2024-06-20 and 2025-06-19 releases.
+- Office: Program Executive Office Command, Control, Communications, Computers and Intelligence. Ancestry: Program Executive Office Command, Control, Communications, Computers and Intelligence; succession documented at the ancestor's level and scoped to what that source lists: Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems (from 2026-05-11); this office's own placement under the successor is not established in the loaded data.
+- Evidence: LRAE lrae_navwar_2024-06 LRAE Annex 25!row 172 (sha256 c327bcd3a34a); LRAE lrae_navwar_2025-06 LRAE Annex 25!row 143 (sha256 697ec8c004d2).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-24-RFPREQ-PEO-C4I-0001** - PEO C4I Executive Office Support Services (C)
+- What changed: anticipated award slips FY25 Q2 -> FY25 Q3 between the 2024-06-20 and 2025-06-19 releases.
+- Office: Program Executive Office Command, Control, Communications, Computers and Intelligence. Ancestry: Program Executive Office Command, Control, Communications, Computers and Intelligence; succession documented at the ancestor's level and scoped to what that source lists: Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems (from 2026-05-11); this office's own placement under the successor is not established in the loaded data.
+- Evidence: LRAE lrae_navwar_2024-06 LRAE Annex 25!row 45 (sha256 c327bcd3a34a); LRAE lrae_navwar_2025-06 LRAE Annex 25!row 107 (sha256 697ec8c004d2).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-24-RFPREQ-PMW-120-0001** - PMW 120 Professional Support Services (C)
+- What changed: anticipated award pulls forward FY26 Q3 -> FY26 Q2 between the 2024-06-20 and 2025-06-19 releases.
+- Office: PMW 120 Battlespace Awareness and Information Operations Program Office. Ancestry: PMW 120 Battlespace Awareness and Information Operations Program Office -> Program Executive Office Command, Control, Communications, Computers and Intelligence; succession documented at the ancestor's level and scoped to what that source lists: Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems (from 2026-05-11); this office's own placement under the successor is not established in the loaded data.
+- Evidence: LRAE lrae_navwar_2024-06 LRAE Annex 25!row 44 (sha256 c327bcd3a34a); LRAE lrae_navwar_2025-06 LRAE Annex 25!row 106 (sha256 697ec8c004d2).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-24-RFPREQ-PMW-740-0007** - C4I Integrated International Solutions (CIIS) - II (C)
+- What changed: anticipated award slips FY25 Q3 -> FY25 Q4 between the 2024-06-20 and 2025-06-19 releases.
+- Office: PMW 740 International C4I Integration Program Office. Ancestry: PMW 740 International C4I Integration Program Office -> Program Executive Office Command, Control, Communications, Computers and Intelligence; succession documented at the ancestor's level and scoped to what that source lists: Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems (from 2026-05-11); this office's own placement under the successor is not established in the loaded data.
+- Evidence: LRAE lrae_navwar_2024-06 LRAE Annex 25!row 39 (sha256 c327bcd3a34a); LRAE lrae_navwar_2025-06 LRAE Annex 25!row 123 (sha256 697ec8c004d2).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-24-RFPREQ-PMW-740-0052** - RSNF inKSA Support Services (C4ISR) Upgrade and Refurbishment (C)
+- What changed: anticipated award slips FY25 Q4 -> FY26 Q1 between the 2024-06-20 and 2025-06-19 releases.
+- Office: PMW 740 International C4I Integration Program Office. Ancestry: PMW 740 International C4I Integration Program Office -> Program Executive Office Command, Control, Communications, Computers and Intelligence; succession documented at the ancestor's level and scoped to what that source lists: Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems (from 2026-05-11); this office's own placement under the successor is not established in the loaded data.
+- Evidence: LRAE lrae_navwar_2024-06 LRAE Annex 25!row 9 (sha256 c327bcd3a34a); LRAE lrae_navwar_2025-06 LRAE Annex 25!row 14 (sha256 697ec8c004d2).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-24-RFPREQ-PMW-750-0001** - CVN 75 RCOH RCS CSIF and Shipboard Integration (C)
+- What changed: anticipated award slips FY25 Q1 -> FY25 Q3 between the 2024-06-20 and 2025-06-19 releases.
+- Office: PMW 750 Carrier and Air Integration Program Office. Ancestry: PMW 750 Carrier and Air Integration Program Office -> Program Executive Office Command, Control, Communications, Computers and Intelligence; succession documented at the ancestor's level and scoped to what that source lists: Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems (from 2026-05-11); this office's own placement under the successor is not established in the loaded data.
+- Evidence: LRAE lrae_navwar_2024-06 LRAE Annex 25!row 62 (sha256 c327bcd3a34a); LRAE lrae_navwar_2025-06 LRAE Annex 25!row 103 (sha256 697ec8c004d2).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-24-RFPREQ-PMW-750-0002** - CVN 75 RCOH SSES CSIF and Shipboard Integration (C)
+- What changed: anticipated award slips FY25 Q1 -> FY25 Q3 between the 2024-06-20 and 2025-06-19 releases.
+- Office: PMW 750 Carrier and Air Integration Program Office. Ancestry: PMW 750 Carrier and Air Integration Program Office -> Program Executive Office Command, Control, Communications, Computers and Intelligence; succession documented at the ancestor's level and scoped to what that source lists: Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems (from 2026-05-11); this office's own placement under the successor is not established in the loaded data.
+- Evidence: LRAE lrae_navwar_2024-06 LRAE Annex 25!row 63 (sha256 c327bcd3a34a); LRAE lrae_navwar_2025-06 LRAE Annex 25!row 104 (sha256 697ec8c004d2).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-24-RFPREQ-PMW-750-0003** - CVN 75 RCOH DS Shipboard Integration (C)
+- What changed: anticipated award slips FY25 Q1 -> FY25 Q2 between the 2023-06-20 and 2024-06-20 releases.
+- Office: PMW 750 Carrier and Air Integration Program Office. Ancestry: PMW 750 Carrier and Air Integration Program Office -> Program Executive Office Command, Control, Communications, Computers and Intelligence; succession documented at the ancestor's level and scoped to what that source lists: Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems (from 2026-05-11); this office's own placement under the successor is not established in the loaded data.
+- Evidence: LRAE lrae_navwar_2023-06 LRAE Annex 25!row 174 (sha256 48ad6e27241a); LRAE lrae_navwar_2024-06 LRAE Annex 25!row 64 (sha256 c327bcd3a34a).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-24-RFPREQ-PMW-750-0003** - CVN 75 RCOH DS Shipboard Integration (C)
+- What changed: anticipated award slips FY25 Q2 -> FY26 Q1 between the 2024-06-20 and 2025-06-19 releases.
+- Office: PMW 750 Carrier and Air Integration Program Office. Ancestry: PMW 750 Carrier and Air Integration Program Office -> Program Executive Office Command, Control, Communications, Computers and Intelligence; succession documented at the ancestor's level and scoped to what that source lists: Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems (from 2026-05-11); this office's own placement under the successor is not established in the loaded data.
+- Evidence: LRAE lrae_navwar_2024-06 LRAE Annex 25!row 64 (sha256 c327bcd3a34a); LRAE lrae_navwar_2025-06 LRAE Annex 25!row 105 (sha256 697ec8c004d2).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-24-RFPREQ-PMW-750-0032** - CVN 81 RCS/DS/SSES (C)
+- What changed: anticipated award slips FY25 Q2 -> FY25 Q4 between the 2024-06-20 and 2025-06-19 releases.
+- Office: PMW 750 Carrier and Air Integration Program Office. Ancestry: PMW 750 Carrier and Air Integration Program Office -> Program Executive Office Command, Control, Communications, Computers and Intelligence; succession documented at the ancestor's level and scoped to what that source lists: Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems (from 2026-05-11); this office's own placement under the successor is not established in the loaded data.
+- Evidence: LRAE lrae_navwar_2024-06 LRAE Annex 25!row 176 (sha256 c327bcd3a34a); LRAE lrae_navwar_2025-06 LRAE Annex 25!row 170 (sha256 697ec8c004d2).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-24-RFPREQ-PMW-770-0008** - LBUCS Receive Version 2 Development and Production (C)
+- What changed: anticipated award slips FY26 Q2 -> FY26 Q4 between the 2024-06-20 and 2025-06-19 releases.
+- Office: PMW 770 Undersea Communications and Integration Program Office. Ancestry: PMW 770 Undersea Communications and Integration Program Office -> Program Executive Office Command, Control, Communications, Computers and Intelligence; succession documented at the ancestor's level and scoped to what that source lists: Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems (from 2026-05-11); this office's own placement under the successor is not established in the loaded data.
+- Evidence: LRAE lrae_navwar_2024-06 LRAE Annex 25!row 29 (sha256 c327bcd3a34a); LRAE lrae_navwar_2025-06 LRAE Annex 25!row 116 (sha256 697ec8c004d2).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-24-RFPREQ-PMW-770-0008** - LBUCS Receive Version 2 Development and Production (C)
+- What changed: anticipated award slips FY25 Q3 -> FY26 Q2 between the 2023-06-20 and 2024-06-20 releases.
+- Office: PMW 770 Undersea Communications and Integration Program Office. Ancestry: PMW 770 Undersea Communications and Integration Program Office -> Program Executive Office Command, Control, Communications, Computers and Intelligence; succession documented at the ancestor's level and scoped to what that source lists: Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems (from 2026-05-11); this office's own placement under the successor is not established in the loaded data.
+- Evidence: LRAE lrae_navwar_2023-06 LRAE Annex 25!row 427 (sha256 48ad6e27241a); LRAE lrae_navwar_2024-06 LRAE Annex 25!row 29 (sha256 c327bcd3a34a).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-24-RFPREQ-PMW-770-0011** - FSBS HPTE TT to SS Conversion (C)
+- What changed: anticipated award slips FY26 Q2 -> FY26 Q4 between the 2024-06-20 and 2025-06-19 releases.
+- Office: PMW 770 Undersea Communications and Integration Program Office. Ancestry: PMW 770 Undersea Communications and Integration Program Office -> Program Executive Office Command, Control, Communications, Computers and Intelligence; succession documented at the ancestor's level and scoped to what that source lists: Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems (from 2026-05-11); this office's own placement under the successor is not established in the loaded data.
+- Evidence: LRAE lrae_navwar_2024-06 LRAE Annex 25!row 79 (sha256 c327bcd3a34a); LRAE lrae_navwar_2025-06 LRAE Annex 25!row 18 (sha256 697ec8c004d2).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-24-RFPREQ-PMW/A-170-0004** - BRSE Long-Term Production Contract (C)
+- What changed: anticipated award slips FY26 Q1 -> FY26 Q2 between the 2024-06-20 and 2025-06-19 releases.
+- Office: PMW/A 170 Communications and GPS Navigation Program Office. Ancestry: PMW/A 170 Communications and GPS Navigation Program Office -> PAE Mission Systems Capability Portfolio Executive: Comms, Sensor, Electronic Warfare (EW), and Positioning, Navigation, and Timing (PNT) -> Portfolio Acquisition Executive Mission Systems -> Department of the Navy.
+- Evidence: LRAE lrae_navwar_2024-06 LRAE Annex 25!row 48 (sha256 c327bcd3a34a); LRAE lrae_navwar_2025-06 LRAE Annex 25!row 109 (sha256 697ec8c004d2).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-24-RFPREQ-PMW/A-170-0014** - WAMS - TO # 6 EDM Buy
+- What changed: anticipated award slips FY24 Q3 -> FY25 Q3 between the 2024-06-20 and 2025-06-19 releases.
+- Office: PMW/A 170 Communications and GPS Navigation Program Office. Ancestry: PMW/A 170 Communications and GPS Navigation Program Office -> PAE Mission Systems Capability Portfolio Executive: Comms, Sensor, Electronic Warfare (EW), and Positioning, Navigation, and Timing (PNT) -> Portfolio Acquisition Executive Mission Systems -> Department of the Navy.
+- Evidence: LRAE lrae_navwar_2024-06 LRAE Annex 25!row 473 (sha256 c327bcd3a34a); LRAE lrae_navwar_2025-06 LRAE Annex 25!row 112 (sha256 697ec8c004d2).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-24-RFPREQ-PMW/A-170-0061** - WAMS TO # 7 - MEO Development
+- What changed: anticipated award slips FY24 Q4 -> FY25 Q3 between the 2024-06-20 and 2025-06-19 releases.
+- Office: PMW/A 170 Communications and GPS Navigation Program Office. Ancestry: PMW/A 170 Communications and GPS Navigation Program Office -> PAE Mission Systems Capability Portfolio Executive: Comms, Sensor, Electronic Warfare (EW), and Positioning, Navigation, and Timing (PNT) -> Portfolio Acquisition Executive Mission Systems -> Department of the Navy.
+- Evidence: LRAE lrae_navwar_2024-06 LRAE Annex 25!row 451 (sha256 c327bcd3a34a); LRAE lrae_navwar_2025-06 LRAE Annex 25!row 17 (sha256 697ec8c004d2).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-24-RFPREQ-PMW/A-170-0170** - UHF Antenna Alternative (CSO) (C)
+- What changed: anticipated award pulls forward FY26 Q3 -> FY26 Q2 between the 2024-06-20 and 2025-06-19 releases.
+- Office: PMW/A 170 Communications and GPS Navigation Program Office. Ancestry: PMW/A 170 Communications and GPS Navigation Program Office -> PAE Mission Systems Capability Portfolio Executive: Comms, Sensor, Electronic Warfare (EW), and Positioning, Navigation, and Timing (PNT) -> Portfolio Acquisition Executive Mission Systems -> Department of the Navy.
+- Evidence: LRAE lrae_navwar_2024-06 LRAE Annex 25!row 76 (sha256 c327bcd3a34a); LRAE lrae_navwar_2025-06 LRAE Annex 25!row 19 (sha256 697ec8c004d2).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-25-RFPREQ-PMW-160-0001** - ADNS Production MAC RFP #32 (C)
+- What changed: anticipated award slips FY25 Q2 -> FY25 Q3 between the 2024-06-20 and 2025-06-19 releases.
+- Office: PMW 160 Tactical Networks Program Office. Ancestry: PMW 160 Tactical Networks Program Office -> Program Executive Office Command, Control, Communications, Computers and Intelligence; succession documented at the ancestor's level and scoped to what that source lists: Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems (from 2026-05-11); this office's own placement under the successor is not established in the loaded data.
+- Evidence: LRAE lrae_navwar_2024-06 LRAE Annex 25!row 16 (sha256 c327bcd3a34a); LRAE lrae_navwar_2025-06 LRAE Annex 25!row 16 (sha256 697ec8c004d2).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-25-RFPREQ-PMW-740-0005** - Taiwan Training (2025) (C)
+- What changed: anticipated award slips FY25 Q2 -> FY26 Q1 between the 2024-06-20 and 2025-06-19 releases.
+- Office: PMW 740 International C4I Integration Program Office. Ancestry: PMW 740 International C4I Integration Program Office -> Program Executive Office Command, Control, Communications, Computers and Intelligence; succession documented at the ancestor's level and scoped to what that source lists: Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems (from 2026-05-11); this office's own placement under the successor is not established in the loaded data.
+- Evidence: LRAE lrae_navwar_2024-06 LRAE Annex 25!row 35 (sha256 c327bcd3a34a); LRAE lrae_navwar_2025-06 LRAE Annex 25!row 121 (sha256 697ec8c004d2).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-25-RFPREQ-PMW-740-0006** - Taiwan Engineering Support (2024) (C)
+- What changed: anticipated award slips FY24 Q4 -> FY26 Q1 between the 2024-06-20 and 2025-06-19 releases.
+- Office: PMW 740 International C4I Integration Program Office. Ancestry: PMW 740 International C4I Integration Program Office -> Program Executive Office Command, Control, Communications, Computers and Intelligence; succession documented at the ancestor's level and scoped to what that source lists: Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems (from 2026-05-11); this office's own placement under the successor is not established in the loaded data.
+- Evidence: LRAE lrae_navwar_2024-06 LRAE Annex 25!row 26 (sha256 c327bcd3a34a); LRAE lrae_navwar_2025-06 LRAE Annex 25!row 113 (sha256 697ec8c004d2).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-25-RFPREQ-PMW-740-0061** - Bahamas MSS 3/4 (New)
+- What changed: anticipated award slips FY25 Q1 -> FY25 Q4 between the 2024-06-20 and 2025-06-19 releases.
+- Office: PMW 740 International C4I Integration Program Office. Ancestry: PMW 740 International C4I Integration Program Office -> Program Executive Office Command, Control, Communications, Computers and Intelligence; succession documented at the ancestor's level and scoped to what that source lists: Program Executive Office Command, Control, Communications, Computers and Intelligence -> Portfolio Acquisition Executive Mission Systems (from 2026-05-11); this office's own placement under the successor is not established in the loaded data.
+- Evidence: LRAE lrae_navwar_2024-06 LRAE Annex 25!row 415 (sha256 c327bcd3a34a); LRAE lrae_navwar_2025-06 LRAE Annex 25!row 149 (sha256 697ec8c004d2).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-25-RFPREQ-PMW/A-170-0001** - NTCDL – Follow-On Production and ESS Contract (C)
+- What changed: anticipated award slips FY25 Q3 -> FY27 Q2 between the 2024-06-20 and 2025-06-19 releases.
+- Office: PMW/A 170 Communications and GPS Navigation Program Office. Ancestry: PMW/A 170 Communications and GPS Navigation Program Office -> PAE Mission Systems Capability Portfolio Executive: Comms, Sensor, Electronic Warfare (EW), and Positioning, Navigation, and Timing (PNT) -> Portfolio Acquisition Executive Mission Systems -> Department of the Navy.
+- Evidence: LRAE lrae_navwar_2024-06 LRAE Annex 25!row 47 (sha256 c327bcd3a34a); LRAE lrae_navwar_2025-06 LRAE Annex 25!row 108 (sha256 697ec8c004d2).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+**N00039-25-RFPREQ-PMW/A-170-0001** - NTCDL – Follow-On Production and ESS Contract (C)
+- What changed: anticipated award pulls forward FY27 Q1 -> FY25 Q3 between the 2023-06-20 and 2024-06-20 releases.
+- Office: PMW/A 170 Communications and GPS Navigation Program Office. Ancestry: PMW/A 170 Communications and GPS Navigation Program Office -> PAE Mission Systems Capability Portfolio Executive: Comms, Sensor, Electronic Warfare (EW), and Positioning, Navigation, and Timing (PNT) -> Portfolio Acquisition Executive Mission Systems -> Department of the Navy.
+- Evidence: LRAE lrae_navwar_2023-06 LRAE Annex 25!row 409 (sha256 48ad6e27241a); LRAE lrae_navwar_2024-06 LRAE Annex 25!row 47 (sha256 c327bcd3a34a).
+- Uncertainty: the LRAE is an estimate. A move may be an acquisition-strategy change or a clerical correction, and the release does not say which.
+- Why it matters: the award window is what a capture timeline is built on, and this one moved after the plan was set.
+
+38 award-window revisions: 33 slip, 5 pull forward or unstated
+0 value-range revisions

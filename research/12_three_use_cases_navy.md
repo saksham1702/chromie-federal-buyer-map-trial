@@ -74,11 +74,14 @@ Followed across all three releases:
 | release | row (sha) | matched by | solicitation | award | value as stated | office | method |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 2023-06-20 | `LRAE Annex 25` row 409 (48ad6e27241a) | PID | blank | FY27 Q1 | $250M - $1B | PMW/A-170 | - |
-| 2024-06-20 | row 47 (c327bcd3a34a) | title + office (confirmed) | TBD | FY25 Q3 | $250M - $1B | PMW/A-170 | Full and Open |
+| 2024-06-20 | row 47 (c327bcd3a34a) | title + office (confirmed; loads under the PID, basis `inferred`) | TBD | FY25 Q3 | $250M - $1B | PMW/A-170 | Full and Open |
 | 2025-06-19 | row 108 (697ec8c004d2) | PID | FY26 Q2 | FY27 Q2 | $250M - $1B | PMW/A-170 | Full and Open, single-award IDIQ, follow-on to N0003916C0087 (BAE) |
 
 The award window moved FY27 Q1 -> FY25 Q3 -> FY27 Q2. The 2024 row has no PID and is tied to the
-others by exact title under the same office code; the diff records that basis.
+others by exact title under the same office code; the diff records that basis, and since 2026-09-21
+the loader writes the row under the same need with basis `inferred` and the tie in the assertion's
+rationale, so `gov_requirement_revisions` holds all three releases (transcript
+`research/transcripts/2026-09-21b/need_ntcdl_follow_on.txt`, "Loaded revisions").
 
 **The office and its history.** The 2025 release names PMW/A 170. Today the loaded ancestry reads
 PMW/A 170 -> PAE Mission Systems CPE Comms, Sensor, EW and PNT -> PAE Mission Systems ->
@@ -135,6 +138,7 @@ above; the tool asserts nothing new there.
 
 | | |
 | --- | --- |
+| reads today as | `review`: the award notice of 2024-11-05 is an action on the incumbent after the line appeared (does the follow-on still stand?); also `restructured`: the bridge line `-0276` first appears in June 2025 beside it; also `delayed`: window closed, award window moved FY27 Q1 -> FY25 Q3 -> FY27 Q2; the ESS presolicitation stays a candidate |
 | where it stands | solicitation window FY26 Q2 (January to March 2026) closed 174 days before 2026-09-21 with no solicitation of the line in the saved searches; award window FY27 Q2 |
 | why it matters | $250M - $1B as stated, full and open, single-award IDIQ, follow-on to N0003916C0087 (BAE); the incumbent ends 2028-09-29 with $6.8M of headroom, so a production vehicle has to exist before then or the incumbent has to be extended again |
 | what is on the record | the ESS sole-source presolicitation N0003926RB002 (2026-05-22) as a candidate; the sibling bridge line `-0276` (sol FY26 Q1) sharing the program name |
@@ -301,15 +305,22 @@ to come.
 `trace.py status` reads every included June 2025 line whose solicitation window is FY26 or
 earlier (103 of 148) against the saved SAM.gov searches (by PID and by incumbent contract
 number), the saved FPDS lookups (by solicitation number where a line or a notice carries one; by
-incumbent PIID) and the reviewed attributions. Nothing is fetched live. Readings on 2026-09-20:
+incumbent PIID) and the reviewed attributions. Nothing is fetched live. Each reading opens with one
+outcome word; states that also hold follow "also". Readings on 2026-09-21 (transcript
+`research/transcripts/2026-09-21b/status_fy26.txt`):
 
 | reading | lines | what it means |
 | --- | --- | --- |
-| awarded | 1 | ADNS MAC: five IDVs under the solicitation number the line itself carries |
-| solicited | 1 | NILE LLC 7M production: presolicitation and J&A on the incumbent vehicle |
-| candidate | 7 | a solicitation-stage notice shares a rare program token with the line and names the same office, its parent, or no office the memory knows; two of these (MIDS-LVT, MIDS WDL SF2) have awards under the candidate's solicitation number |
-| incumbent action noticed | 1 | an award notice for a modification of the incumbent, no follow-on solicitation |
-| no public notice found | 93 | about half are delivery or task orders, whose SeaPort/GSA competitions are not posted on SAM.gov; the rest show only the incumbent's last action date, or nothing |
+| awarded | 1 | ADNS MAC: five IDVs under the solicitation number the line itself carries, signed 2026-05-21/22 |
+| review | 2, plus 120 | MIDS-LVT (J&A of 2023-11-28 on the incumbent vehicle, after the line first appeared) and the NTCDL follow-on (the sole-source modification of 2024-11-05): an action on the incumbent asks whether the follow-on still stands. Plus the 120 June 2024 rows with no row in June 2025, in their own table: awarded, folded into another line, or dropped, a reviewer says which |
+| restructured | 9 | five lines restate a value or an instrument between two stated values (one of them also gained a sibling); four gained a sibling line in June 2025 that cites the same incumbent |
+| delayed | 90 | the solicitation window closed with nothing in the saved searches; about half are orders whose SeaPort/GSA competitions are not posted on SAM.gov; where releases moved the award window the reading says so |
+| open | 1 | the window runs to 2026-09-30 |
+| with a candidate | 7 | appended to the reading, never promoted: MIDS WDL SF2, MIDS-LVT, the two NTCDL lines, the two RSNF lines, AINTS |
+
+The NILE LLC 7M line, read as `solicited` on 2026-09-20, reads `delayed` now: its 2020 presolicitation
+and 2022 J&A cite the incumbent vehicle and predate the line's first forecast appearance (June 2025),
+so they are the incumbent's history, not the line's solicitation.
 
 The candidate rows, with the basis the tool attaches to each:
 
@@ -354,3 +365,12 @@ were run on PIDs and incumbent contract numbers on 2026-09-16/17 and on the exam
    under PEO C4I while its own notices keep saying so.
 7. Still open from `11`: a requirement that slips a fiscal year and changes value is reported as a
    slip only, because value chains are scoped to one fiscal period.
+8. The 120 rows of the June 2024 release with no row in June 2025 (`status`, second table): each was
+   awarded, folded into another line, or dropped. No release states a cancellation, so the tool
+   reads every one as `review`.
+9. The 44 pairs the third matcher stage now nominates instead of confirming (17 across 2023-24, 22
+   across 2024-25, 5 across 2023-25: the same incumbent contract under the same office code, titles
+   differ). None loads as one requirement until accepted.
+10. MIDS-LVT: the presolicitation N00039-24-R-4019 of 2025-04-09 is a candidate for
+    `N00039-23-RFPREQ-PMA/PMW-101-0017`, and two IDVs were awarded under it on 2026-04-13
+    ($307,743,354 ceiling each). Accepting the candidate makes the line `awarded`; the tool does not.
