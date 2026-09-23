@@ -17,7 +17,10 @@ nothing.
 | `results/` | What the layer reads back: `corpus.json` (every dated event and outcome frozen from the database), `outcome_labels.json` (the office and names each outcome goes by, in its own words), `pulse.json`, `buying_dna.json` |
 | `tools/` | Every stage as a command-line tool with `--selfcheck`; `pipeline.py` runs them in order |
 | `cassettes/` | Recorded model answers, so a rebuild replays byte for byte and costs nothing |
-| `../datapack/` | The forecast releases (LRAE) as regenerable packages: `SOURCE.json` hashes and `reconciliation.md` committed, CSV tables rebuilt with `tools/lrae_package.py build` |
+| `../datapack/` | The forecast releases (LRAE) as regenerable packages: `reconciliation.md` committed, `SOURCE.json` hashes and CSV tables rebuilt with `tools/lrae_package.py build` |
+
+The JSON and JSONL data files and the cassettes are shared separately and are not kept in the repository; place
+them at the paths above before running the pipeline or the tests.
 
 ## Review order
 
