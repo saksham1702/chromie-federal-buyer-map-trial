@@ -143,7 +143,7 @@ def source_row(entry: dict) -> list[str]:
     example = entry.get("inspected_example") or {}
     restrictions = entry.get("access_restrictions") or ""
     adapter = ADAPTER.get(entry["access_mode"], "page_fetcher")
-    if example.get("method") == "browserbase" or "Browserbase" in restrictions:
+    if example.get("method") in ("browserbase", "context_dev") or "Browserbase" in restrictions:
         adapter = "browser_extractor"
     restricted = entry["verification_status"] == "restricted"
     return [
@@ -1468,7 +1468,9 @@ def emit_news(out: list[str], hosts: dict[str, str], org_ids: dict[str, str]) ->
                       lit(article["published"] or None),
                       *event_columns(None, article["published"] or None, tier, provider)])
         for number, claim in enumerate(article["claims"], start=1):
-            event, target = NEWS_EVENT.get(claim["statement_type"]), item_id
+            # An undated page (an organization page read as an article) places nothing in time: its claims stay
+            # evidence on the article and never become dated events.
+            event, target = NEWS_EVENT.get(claim["statement_type"]) if article["published"] else None, item_id
             if event:
                 target, passage = uid("brainitem", f"{claim_key}:{number}"), " ".join(claim["passage"].split())
                 items.append([lit(target), lit(AGENCY_NAVY), lit(NEWS_SECTION.get(claim["statement_type"], section)), lit("narrative"),

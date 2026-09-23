@@ -804,13 +804,22 @@ def watch(argv: list[str]) -> int:
 
 
 def retrieve(url: str, note: str) -> dict:
-    """Take one page and record the retrieval, the way every other document here is taken."""
+    """Take one page and record the retrieval, the way every other document here is taken.
+
+    A .mil front end refuses this address or answers it with almost nothing, so an official page that comes back
+    that way is taken again through context.dev's United States address."""
     sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from browserbase_fetch import FILE_LINK_RE
+    from context_fetch import take
     from fetch import fetch as fetch_one
+    from llm import env_value
 
     row = fetch_one(url, "direct", None, note)
     with MANIFEST.open("a", encoding="utf-8") as handle:
         handle.write(json.dumps(row, sort_keys=True) + "\n")
+    blocked = row.get("status") != 200 or (row.get("size") or 0) < 2000
+    if blocked and host_of(url).endswith(OFFICIAL_HOSTS) and not FILE_LINK_RE.search(url) and env_value("CONTEXT_DEV_API_KEY"):
+        row, _ = take(url, env_value("CONTEXT_DEV_API_KEY"))
     return row
 
 
@@ -998,8 +1007,7 @@ def offer(results: list[dict], seen: set[str], take: bool, limit: int, note: str
         elif len(body) < 2000 and host_of(url).endswith(OFFICIAL_HOSTS):
             # A .mil front end answers a blocked address with 200 and almost nothing rather than
             # refusing, so a short body from one of these hosts is a geography problem.
-            print(f"      200 with {len(body)} byte(s): this host answers this address with nothing, "
-                  "so it needs research/tools/browserbase_fetch.py")
+            print(f"      200 with {len(body)} byte(s): this host answered this address and context.dev with nothing")
         else:
             print(f"      {row.get('status')}  {len(body)} bytes  {row.get('path')}")
     if skipped:

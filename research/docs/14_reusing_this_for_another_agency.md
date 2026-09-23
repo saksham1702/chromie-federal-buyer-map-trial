@@ -32,7 +32,7 @@ repeats byte for byte.
 
 | part | why it travels |
 | --- | --- |
-| `fetch.py`, `browserbase_fetch.py`, `research/sources/documents_manifest.jsonl` | every retrieval is recorded with its bytes, SHA-256 and retrieval time, whatever the host; the US-egress browser is the answer to any host that refuses this address |
+| `fetch.py`, `context_fetch.py`, `browserbase_fetch.py`, `research/sources/documents_manifest.jsonl` | every retrieval is recorded with its bytes, SHA-256 and retrieval time, whatever the host; a page rendered from a United States address (context.dev) or a US-egress browser for files is the answer to any host that refuses this address |
 | `sam_notices.py` | SAM.gov is the single notice system for the whole federal government, so the notice reader, the attachment handling and the office-code extraction are agency-independent |
 | the award readers (FPDS, USAspending) | both are government-wide, keyed by contract and solicitation number |
 | the staged matcher in `lrae_package.py` | identifier, then title under the same office, then incumbent contract, then title similarity, with a candidate that is never promoted; the stages are about records, not about the Navy |

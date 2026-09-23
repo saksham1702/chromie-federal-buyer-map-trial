@@ -60,7 +60,8 @@ def test_every_item_names_a_registered_source_and_a_schema_event() -> None:
 
 def test_each_forecast_line_is_created_once() -> None:
     lines = one(f"select count(*) from public.gov_needs where source = '{LRAE_SOURCE}'")
-    assert one("select count(*) from public.agency_brain_items where event_type = 'forecast_created'") == lines
+    releases = ", ".join(f"'{p}'" for p in LRAE_PROVIDERS.values())  # a SAM.gov special notice can publish a forecast too
+    assert one(f"select count(*) from public.agency_brain_items where event_type = 'forecast_created' and source_provider in ({releases})") == lines
     assert one("select count(distinct data->>'line') from public.agency_brain_items where event_type = 'forecast_created'") == lines
 
 
@@ -80,7 +81,7 @@ def test_leadership_changes_are_the_dated_boundaries_of_the_memory() -> None:
 def test_each_event_claim_in_the_news_is_an_item_and_the_article_is_not() -> None:
     from agency_layers_sql import NEWS_EVENT, NEWS_RECORDS
     articles = json.loads(NEWS_RECORDS.read_text(encoding="utf-8"))["articles"]
-    expected = sum(1 for a in articles for c in a["claims"] if c["statement_type"] in NEWS_EVENT)
+    expected = sum(1 for a in articles if a["published"] for c in a["claims"] if c["statement_type"] in NEWS_EVENT)  # an undated page's claims stay evidence
     assert one("select count(*) from public.agency_brain_items where claim_key like 'news:%:%' and event_type is not null") == str(expected)
     assert one("select count(*) from public.agency_brain_items where claim_key like 'news:%' "
                "and claim_key not like 'news:%:%' and event_type is not null") == "0"
@@ -162,7 +163,7 @@ def test_swept_incumbents_cover_the_office_book() -> None:
     forecast row names: thousands of dated contract_expires events, each carrying the description FPDS
     states, an end date in its title, the page that carries it, and one item per contract."""
     swept = rows("select title, data->>'description', source->>'sha256', published_at::date, claim_key from public.agency_brain_items "
-                 "where source_provider = 'fpds_atom_feed' and data ? 'description'")
+                 "where source_provider = 'fpds_atom_feed' and event_type = 'contract_expires' and data ? 'description'")
     assert len(swept) > 1000, len(swept)
     assert all(re.search(r"ends \d{4}-\d{2}-\d{2}: ", r[0]) and r[1] and r[2] and r[3] for r in swept)
     assert one("select count(*) - count(distinct claim_key) from public.agency_brain_items where source_provider = 'fpds_atom_feed'") == "0"

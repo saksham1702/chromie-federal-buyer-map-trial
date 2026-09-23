@@ -72,8 +72,8 @@ action taken.
   decides how the source is rated, not whether it is read, because a host list kept by hand is
   the part that would not travel to another agency.
 - Nothing else in this document needs a key.
-- Where a `.mil` host refuses the request, some by answering 200 with an empty body,
-  `research/tools/browserbase_fetch.py` is the way through.
+- Where a `.mil` host refuses the request, some by answering 200 with an empty body, the page is
+  taken again through `research/tools/context_fetch.py` (context.dev, a United States address).
 
 ## What is a claim, and what is background
 

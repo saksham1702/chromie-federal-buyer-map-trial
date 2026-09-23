@@ -49,7 +49,7 @@ and fail on any difference unless `--refresh` is given.
 
 | Tool | What it does |
 | --- | --- |
-| `fetch.py`, `browserbase_fetch.py` | One address saved under `data/raw/` and recorded in the manifest; the second through a hosted browser with a United States address |
+| `fetch.py`, `context_fetch.py`, `browserbase_fetch.py` | One address saved under `data/raw/` and recorded in the manifest; a page a host refuses is rendered through context.dev from a United States address, a file through a hosted browser with one |
 | `fpds_sweep.py` | FPDS awards by contracting office and signed-date window; `histories` follows each running award through its modifications |
 | `sam_notices.py` | SAM.gov notices by number, and every notice a contracting office posted since FY22 |
 | `protests.py` | GAO's docket of Navy bid protests into dated protest events |
@@ -59,7 +59,7 @@ and fail on any difference unless `--refresh` is given.
 | `oversight.py`, `remarks.py` | Oversight reports and leaders' words read into dated events by one recorded model call each |
 | `budget.py` | Budget justification books into P-1 line items with their fiscal-year amounts |
 | `sbir.py` | Navy SBIR/STTR topics from the DoD portal |
-| `people.py` | Every contact, speaker and witness the sources name, merged into people with dated positions |
+| `people.py` | Every contact, speaker and witness the sources name, merged into people with dated positions; the routes into each office (requirement side, contracting side, published channels) |
 | `lrae_package.py`, `org_memory_lrae.py` | The forecast releases into the datapack and the organization memory |
 | `agency_layers_sql.py` | The memory, the datapack and every family's events as one transaction of SQL for the agency-intelligence tables |
 | `backtest.py`, `baselines.py` | The frozen corpus and the outcome labels; the back-test and its baselines are computed into `build/` |
@@ -69,7 +69,7 @@ and fail on any difference unless `--refresh` is given.
 | `coverage.py` | The command by family coverage grid and the per-source status |
 | `graph_export.py`, `schema_subset.py` | The organization graph as the program-office resolver reads it; the schema subset for a local database |
 | `llm.py`, `reader.py` | The recorded model call every reader shares, and the rules a reading must pass (verbatim passage, registry authority) |
-| `replay_attributions.py`, `monitor_forecast_revision.py`, `promote_plan.py` | Attributions replayed through the production resolver, the forecast-revision alert, and promotion SQL written to a file for review |
+| `replay_attributions.py`, `monitor_forecast_revision.py`, `promote_plan.py` | Attributions replayed through the production resolver, the forecast-revision alert (the `revisions` stage), and promotion SQL written to a file for review |
 
 ## Evidence rules
 

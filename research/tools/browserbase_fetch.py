@@ -49,10 +49,10 @@ STUB_MARKERS = (b"Request Rejected", b"Access Denied", b"Attention Required", b"
 
 
 def save(url: str, body: bytes, mime: str, status: int, note: str, final_url: str = "",
-         content_status: str = "", keep_bytes: bool = True) -> dict:
+         content_status: str = "", keep_bytes: bool = True, method: str = "browserbase") -> dict:
     """Record a 200 response. Anomalies keep the hash and get a `content_status` instead of a lie."""
     digest = hashlib.sha256(body).hexdigest()
-    row = {"url": url, "method": "browserbase", "retrieved_at": now(), "note": note, "status": status,
+    row = {"url": url, "method": method, "retrieved_at": now(), "note": note, "status": status,
            "final_url": final_url or url, "mime": mime.split(";")[0].strip(), "size": len(body), "sha256": digest,
            "tls_verified": True}
     if keep_bytes:
@@ -71,8 +71,8 @@ def save(url: str, body: bytes, mime: str, status: int, note: str, final_url: st
     return row
 
 
-def fail(url: str, note: str, error: str, status: int | None = None) -> dict:
-    row = {"url": url, "method": "browserbase", "retrieved_at": now(), "note": note, "status": status, "error": error[:200], "tls_verified": True}
+def fail(url: str, note: str, error: str, status: int | None = None, method: str = "browserbase") -> dict:
+    row = {"url": url, "method": method, "retrieved_at": now(), "note": note, "status": status, "error": error[:200], "tls_verified": True}
     record(row)
     return row
 

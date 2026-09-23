@@ -26,9 +26,7 @@ from __future__ import annotations
 import argparse
 import html
 import json
-import os
 import re
-import subprocess
 import sys
 import urllib.parse
 from collections import Counter
@@ -39,6 +37,7 @@ ROOT = Path(__file__).resolve().parents[2]
 RESEARCH = ROOT / "research"
 TOOLS = Path(__file__).resolve().parent
 sys.path.insert(0, str(TOOLS))
+from context_fetch import fetch as hosted  # noqa: E402
 from llm import MODEL, env_value, structured  # noqa: E402
 from news import as_date, feed_items, host_of, manifest_rows, origin_url, post_json, record_answer  # noqa: E402
 from org_memory_lrae import page_text, squash  # noqa: E402
@@ -152,20 +151,6 @@ def take(url: str, note: str) -> dict:
     return row
 
 
-def browserbase(urls: list[str]) -> int:
-    """gao.gov refuses this address, so its pages come through the Browserbase fetcher, keys from the env files."""
-    if not urls:
-        return 0
-    env = dict(os.environ)
-    for name in ("BROWSERBASE_API_KEY", "BROWSERBASE_PROJECT_ID", "BROWSERBASE_API_URL"):
-        if env_value(name):
-            env[name] = env_value(name)
-    if not env.get("BROWSERBASE_API_KEY"):
-        print(f"  {len(urls)} gao.gov page(s) need research/tools/browserbase_fetch.py and BROWSERBASE_API_KEY is not set")
-        return 1
-    return subprocess.run([sys.executable, str(TOOLS / "browserbase_fetch.py"), *urls], cwd=ROOT, env=env).returncode
-
-
 def watch(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(prog="oversight watch")
     parser.add_argument("--fetch", action="store_true", help="retrieve the new reports and their files")
@@ -220,7 +205,7 @@ def watch(argv: list[str]) -> int:
             print(f"  {i['published'] or '          '}  {i['title'][:90]}")
         new_total += len(gao_new)
         if args.fetch and gao_new:
-            browserbase(gao_new[: args.limit])
+            hosted(gao_new[: args.limit])
     else:
         print(f"GAO feed: {feed.get('error') or feed.get('status')}")
     print(f"{new_total} report(s) about this department are not yet in the manifest"
@@ -229,7 +214,7 @@ def watch(argv: list[str]) -> int:
 
 
 def discover(argv: list[str]) -> int:
-    """GAO reports about this department through Exa (search discovery), then Browserbase for the pages."""
+    """GAO reports about this department through Exa (search discovery), then context.dev for the pages."""
     parser = argparse.ArgumentParser(prog="oversight discover")
     parser.add_argument("--fetch", action="store_true")
     parser.add_argument("--days", type=int, default=540)
@@ -257,7 +242,7 @@ def discover(argv: list[str]) -> int:
             products.append(url)
     print(f"{len(results)} result(s), {len(products)} GAO product page(s) not saved yet")
     if args.fetch and products:
-        return browserbase(products)
+        return hosted(products)
     return 0
 
 

@@ -150,3 +150,15 @@ Specification in `research/docs/13_news_as_a_signal.md`.
 `research/tools/pipeline.py` runs every stage in the order the records depend on each other. Collection stages touch
 the network and run only with `--collect`; every other stage reads saved bytes, so a rebuild repeats byte for byte,
 and the database is built from nothing on every run. Nothing in the pipeline holds agency knowledge.
+
+## 2026-09-24 - Pages a host refuses are rendered through context.dev
+
+gao.gov and the navy.mil hosts refuse this address. Their pages are rendered through context.dev from a United
+States residential address and recorded with method `context_dev`; files keep the hosted browser, which saves the
+bytes as served.
+
+## 2026-09-24 - A meeting names the route in, not only the people
+
+Every meeting action carries the office's routes from the contact recommendations: the program manager on the
+requirement side, the contracting points of contact on the acquisition side, and the published channels, each
+dated by the observations it rests on and marked when the review log shows them checked against the saved file.

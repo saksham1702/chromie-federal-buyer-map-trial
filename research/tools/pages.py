@@ -19,7 +19,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from backtest import CORPUS, RESEARCH, chain, need_aliases, need_cell, recurring_tokens, scan, shift  # noqa: E402
 from buying_dna import PIID_RE  # noqa: E402
-from people import contacts_for  # noqa: E402
+from people import contacts_for, load_routes, routes_for  # noqa: E402
 from pulse import card, days_between, load_people, office_name, score  # noqa: E402
 from vendors import load as load_vendors, names_for  # noqa: E402
 
@@ -31,10 +31,11 @@ SHOWN = 8
 class Layer:
     """The frozen corpus, the people file and the pulse, read as six views: search, office, cell, topics, people, neighbours."""
 
-    def __init__(self, corpus: dict, roster: list[dict], as_of: str | None = None):
+    def __init__(self, corpus: dict, roster: list[dict], as_of: str | None = None, routes: list[dict] | None = None):
         self.corpus, self.orgs, self.events = corpus, corpus["orgs"], corpus["events"]
         self.needs = corpus["needs"]
         self.roster = roster
+        self.routes = load_routes() if routes is None else routes
         self.as_of = as_of or max(e["available_by"] for e in self.events)
         self.recurring = recurring_tokens(self.needs)
         self.by_acronym = {o["acronym"].lower(): oid for oid, o in self.orgs.items() if o.get("acronym")}
@@ -83,7 +84,8 @@ class Layer:
                 "newest": [self.brief(e) for e in sorted(mine, key=lambda e: e["available_by"], reverse=True)[:SHOWN]],
                 "topics": [self.brief(e) for e in sorted((e for e in mine if e["family"] == "programs"), key=lambda e: e["available_by"], reverse=True)[:5]],
                 "vendors": dict(vendors.most_common(5)),
-                "people": contacts_for(chain(oid, self.orgs) or [oid], self.roster, self.as_of)[:5]}
+                "people": contacts_for(chain(oid, self.orgs) or [oid], self.roster, self.as_of)[:5],
+                "routes": routes_for(chain(oid, self.orgs) or [oid], self.routes, self.as_of)}
 
     def statement(self, e: dict) -> dict:
         """One statement in full, with the forecast rows that share a name with it: the way from a topic or a notice to a cell."""
@@ -180,6 +182,10 @@ def office(layer: Layer, name: str, dna: dict) -> str:
         lines.append(book_line(book))
     if o["people"]:
         lines.append("people: " + "; ".join(f"{p['name']} ({p['title'][:60]}, {p['observed_at']})" for p in o["people"]))
+    if o["routes"]:
+        lines.append("routes in:")
+        lines += [f"  - {r['side']}: {r['recommendation'][:140]} ({r['office_id']}, observed {r['observed_at']}, {r['review_status']}"
+                  f"{', checked against the saved file' if r.get('checked') else ''})" for r in o["routes"]]
     return "\n".join(lines + source_lines(mine, layer))
 
 
@@ -187,8 +193,14 @@ def vendor(layer: Layer, name: str, resolved: dict | None = None) -> str:
     spellings = [s.lower() for s in names_for(name, resolved if resolved is not None else load_vendors())]  # every spelling under the UEI
     mine = [e for e in layer.events if e["family"] == "incumbent" and e["available_by"] <= layer.as_of
             and any(s in (e.get("vendor") or "").lower() for s in spellings)]
+    # A protest, an article or a directive that names the vendor by one of its spellings: what it does besides holding work.
+    said = sorted((e for e in layer.events if e["family"] != "incumbent" and e["available_by"] <= layer.as_of
+                   and any(len(s) >= 6 and s in e["title"].lower() for s in spellings)), key=lambda e: e["available_by"], reverse=True)
+    if not mine and not said:
+        return f"no contract or statement in the record names a vendor matching {name!r}"
     if not mine:
-        return f"no contract in the record names a vendor matching {name!r}"
+        return "\n".join([f"{name}: no contract in the record; {len(said)} statement(s) name it:"]
+                         + [f"  - {e['date']} {e['family']}/{e['event_type']}: {e['title'][:110]}" for e in said[:8]] + source_lines(said, layer))
     names = Counter(e["vendor"] for e in mine)
     offices = Counter(office_name(e["org"], layer.orgs) or "-" for e in mine)
     ends = sorted((m.group(2), m.group(1), e["title"].split(": ", 1)[-1]) for e in mine if (m := PIID_RE.search(e["title"])))
@@ -196,7 +208,10 @@ def vendor(layer: Layer, name: str, resolved: dict | None = None) -> str:
     lines = [f"{', '.join(names)}: {len(mine)} contract(s) in the record; offices: " + ", ".join(f"{o} {n}" for o, n in offices.most_common(5)),
              f"live at {layer.as_of}: {len(live)}; ending within two years: {sum(1 for x in live if x[0] <= shift(layer.as_of, TWO_YEARS))}; next end {live[0][0] if live else '-'}"]
     lines += [f"  - ends {d} {p}: {t[:90]}" for d, p, t in live[:8]]
-    return "\n".join(lines + source_lines(mine, layer))
+    if said:
+        lines.append(f"{len(said)} other statement(s) name it:")
+        lines += [f"  - {e['date']} {e['family']}/{e['event_type']}: {e['title'][:110]}" for e in said[:8]]
+    return "\n".join(lines + source_lines(mine + said, layer))
 
 
 def person(layer: Layer, name: str, roster: list[dict]) -> str:

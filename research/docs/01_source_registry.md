@@ -91,7 +91,7 @@ flow from that line to a specific contract is not observable.
 | Path | Sources | Notes |
 | --- | --- | --- |
 | Open, direct | USAspending API, FPDS ATOM, SAM public extract listing, govinfo, congress.gov, Federal Register, DVIDS, paemaritime.navy.mil, ONR, IT Dashboard, sbir.gov, PIEE landing, DoD contracts RSS, oversight.gov (listing, report pages, files), the GAO report feed, docs.house.gov (feeds, hearing pages, statements), most conference organizer pages | no key or a free api.data.gov key; gao.gov product pages, navy.mil archives and the Senate committee sites are in the geographic block below |
-| Geographic block (HTTP 403 to any client from a non-US address) | navwar, peoc4i, navsea, navair, niwc, navy.mil, war.gov, comptroller, gao.gov, peodigital | Wayback captures for history; Browserbase (US egress) for live pages and files |
+| Geographic block (HTTP 403 to any client from a non-US address) | navwar, peoc4i, navsea, navair, niwc, navy.mil, war.gov, comptroller, gao.gov, peodigital | Wayback captures for history; context.dev (a United States address) for live pages, Browserbase (US egress) for files |
 | Firewall resets | secnav.navy.mil (budget library, OSBP) | Wayback and Browserbase are refused; the Comptroller's P-1/R-1 tables cover the line amounts |
 | Login or key required | PIEE Solicitation Module (vendor login), SeaPort-NxG (vehicle holder) | recorded as `restricted` or `blocked`; SAM synopses and FPDS awards stand in |
 | Documented host dead | api.sam.gov (Opportunities public API): 404 from two networks; its keys come from a SAM.gov account, not api.data.gov | the keyless SAM.gov site API (notice detail, description, attachments, archived search) replaces it |

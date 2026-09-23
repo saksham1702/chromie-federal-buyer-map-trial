@@ -3,7 +3,7 @@
 
 The docket search (filtered to the Navy, twenty cases a page) lists each case's protester, solicitation number,
 sub-agency, file number and status for the last twelve months; the case page adds the filed date, the due date,
-the outcome and the decision date. gao.gov refuses this address, so both come through the Browserbase fetcher.
+the outcome and the decision date. gao.gov refuses this address, so both come through context.dev.
 `watch` re-takes the listing every run, takes the case page of every case not yet saved, and re-takes an open
 case's page once it is RETAKE_DAYS old so the outcome lands. A closed case is not taken again. `build` reads the
 saved pages into research/events/protest_events.json, the shape the loader's emit_records reads: one row per case, dated
@@ -28,7 +28,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from fetch import ROOT  # noqa: E402
 from lrae_package import manifest_rows, url_index  # noqa: E402
-from oversight import browserbase  # noqa: E402
+from context_fetch import fetch as hosted  # noqa: E402
 
 EVENTS = ROOT / "research" / "events" / "protest_events.json"
 LISTING = "https://www.gao.gov/legal/bid-protests/search?agency=Department%20of%20the%20Navy&page={page}"
@@ -119,14 +119,14 @@ def due(index: dict[str, dict], listed: dict[str, dict], today: date) -> list[st
 
 def watch(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(prog="protests.py watch")
-    ap.add_argument("--fetch", action="store_true", help="take pages through Browserbase; without it, only report what is due")
+    ap.add_argument("--fetch", action="store_true", help="take pages through context.dev; without it, only report what is due")
     ap.add_argument("--limit", type=int, default=200, help="most case pages to take in one run")
     args = ap.parse_args(argv)
     if not args.fetch:
         index = url_index(manifest_rows())
         print(f"listing re-taken every run; {len(due(index, cases(index), date.today()))} case page(s) due")
         return 0
-    if browserbase([listing_url(0)]):
+    if hosted([listing_url(0)]):
         return 1
     index = url_index(manifest_rows())
     first = index.get(listing_url(0))
@@ -134,12 +134,12 @@ def watch(argv: list[str]) -> int:
         print("the first docket page did not save")
         return 1
     top = min(last_page((ROOT / first["path"]).read_bytes()), MAX_PAGES - 1)
-    if top and browserbase([listing_url(p) for p in range(1, top + 1)]):
+    if top and hosted([listing_url(p) for p in range(1, top + 1)]):
         return 1
     index = url_index(manifest_rows())
     todo = due(index, cases(index), date.today())[: args.limit]
     print(f"{len(todo)} case page(s) to take")
-    return browserbase(todo) if todo else 0
+    return hosted(todo) if todo else 0
 
 
 def rows(index: dict[str, dict]) -> list[dict]:

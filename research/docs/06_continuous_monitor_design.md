@@ -71,7 +71,7 @@ the PEO and command web pages, the budget-book exhibits) and the alias table of 
 | Layer | Reusable core | Navy-specific adapter |
 | --- | --- | --- |
 | Source registry | `gov_procurement_sources` rows with `access_mode`, `refresh_cadence`, `verification_status`, `last_verified_at`, `known_access_gaps` | the 29 records in `research/sources/source_registry.json` |
-| Fetch and preserve | one fetch-and-record helper (direct, archive capture, browser, manual) writing a manifest row per retrieval, including failures and firewall stubs | fallback order per host (Wayback, WARP-off, Browserbase, manual) |
+| Fetch and preserve | one fetch-and-record helper (direct, archive capture, United States page render, browser, manual) writing a manifest row per retrieval, including failures and firewall stubs | fallback order per host (Wayback, context.dev for pages, Browserbase for files, manual) |
 | Extract | PDF page-addressable text; spreadsheet row-addressable with a stable key; HTML text with link list | Annex 25 parser (header on row 6 or 7, PID as key); P-40/R-2 exhibit parser (line item, P-1 line, related PE, cost profile); tear-sheet parser (office, programs, PM) |
 | Organization graph | `gov_organizations` + `gov_organization_relationships` with validity dates and provenance | alias table for PMW/PMA/PMS codes, LRAE HQ codes, NIWC competency codes; reorg-release reader |
 | Attribution | evidence-gated resolver (`program_office_resolver.py`) producing an evidence class and abstentions; edges in `gov_procurement_organizations` with review status | Navy tear-sheet program-to-office map; LRAE existing-contract join |
@@ -265,7 +265,7 @@ linked through the memory's aliases, from the event's own words first and the re
 
 Connector: oversight.gov's federal listing for the queries `Navy` and `Naval` (a relevance search, so a date cut
 applies after the page is read; investigations of a named person are left), the report page and its PDF, and the
-GAO report feed; gao.gov product pages come through Browserbase because the site refuses this address, and older
+GAO report feed; gao.gov product pages come through context.dev because the site refuses this address, and older
 GAO products are found by search discovery (Exa, `includeDomains gao.gov`, `discover --fetch`). Pipeline stages:
 `audits` (network) and `oversight` (agent, replays). Loader: one `narrative` item per report with findings, one
 `narrative` item per finding carrying `event_type`, `published_at` (the issue date), `official` tier, the registry
@@ -275,10 +275,10 @@ provider and the linked organization, and one evidence row per finding with the 
 
 `research/tools/remarks.py` reads all three as one family, on the same agent-and-rules pattern as
 the oversight family (section 12), with `reader.py` holding the rules both use. Connectors: the navy.mil speech
-and testimony archives (index pages and articles through Browserbase, since the site refuses this address),
+and testimony archives (index pages and articles through context.dev, since the site refuses this address),
 the House Committee Repository feeds for Armed Services and Appropriations (direct and keyless: hearing page,
 witness panel, witness statement PDFs; the feed's plain-http links are requested as https because the redirect
-answers a shell), and Exa discovery for conference pages that name Navy officials (direct fetch, Browserbase
+answers a shell), and Exa discovery for conference pages that name Navy officials (direct fetch, context.dev
 on refusal, a Cloudflare challenge stays unread). The agent states, per document, who spoke, in what role, at
 which event and host, to which audience, and the events: a capability named as a priority, a strategy stated,
 industry asked, an official's appearance at a named event, a congressional directive, a funding change, a
@@ -294,7 +294,8 @@ else the retrieval date (`date_basis`).
 ## 10. Alert C, implemented
 
 `python research/tools/monitor_forecast_revision.py` produces alert C from the loaded
-agency-intelligence tables. One `psql` read, no network, no file diffing: the
+agency-intelligence tables; the pipeline's `revisions` stage writes it to `build/forecast_revisions.txt` on every
+build. One `psql` read, no network, no file diffing: the
 supersession chain already records which revision replaced which, so a line that never
 moved produces nothing.
 
@@ -344,7 +345,9 @@ The pulse for a week is exactly the events that became available in it, per offi
 a closed list (meet office, attend event, research program, find partner, monitor forecast, watch expiration,
 track person) and every row points at the events behind it (T7.1, T7.2): a cell with three families asks for a
 meeting with one event per family attached; a forecast row touched in the last year is monitored; an incumbent
-ending within two years is watched; an appearance this quarter is an event to attend.
+ending within two years is watched; an appearance this quarter is an event to attend. Every row carries its cell's
+rank as its priority, and a watch carries the day the contract ends, so the queue reads dated actions first, soonest
+first, then the rest by rank (`pulse.py actions`).
 
 Over the swept corpus: 466 cells, of which 48 of the top 50 hold three families
 (MIDS rows at the top on forecast, incumbent and notice) and two hold five (PMW 740's CIIS rows: forecast,
@@ -370,7 +373,11 @@ point of contact follows the office the notice names when it names exactly one, 
 speaker follows the office the event's organizer states, else the Department. 565 observations give 173 people with
 564 dated positions, loaded into gov_contacts and gov_contact_positions on the schema's role vocabulary. Contacts
 attach to the meet-office action, never to the evidence and never as a scoring family: 312 of 315 meetings name
-whom the record ties to the office.
+whom the record ties to the office. The same action carries the routes in from the contact recommendations: the
+program manager on the requirement side, the contracting points of contact on the office's forecast rows on the
+acquisition side, and the published channels (an office mailbox, the small business office, an intake portal), for
+the office itself before its parents, each dated by the observations it rests on and marked when the review log shows those observations checked
+against the saved file. The office page lists them too.
 
 Money. `research/tools/budget.py` reads the FY2027 Other Procurement, Navy budget activity 2
 justification book with pdftotext in layout mode, splits pages on the form feed, and takes each Exhibit P-40 as one

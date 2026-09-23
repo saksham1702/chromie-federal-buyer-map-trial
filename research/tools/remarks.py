@@ -22,9 +22,7 @@ from __future__ import annotations
 import argparse
 import html
 import json
-import os
 import re
-import subprocess
 import sys
 import time
 from collections import Counter
@@ -35,6 +33,7 @@ ROOT = Path(__file__).resolve().parents[2]
 RESEARCH = ROOT / "research"
 TOOLS = Path(__file__).resolve().parent
 sys.path.insert(0, str(TOOLS))
+from context_fetch import fetch as hosted  # noqa: E402
 from llm import MODEL, env_value, structured  # noqa: E402
 from news import as_date, feed_items, host_of, manifest_rows, origin_url, post_json, record_answer  # noqa: E402
 from oversight import take  # noqa: E402
@@ -161,19 +160,6 @@ def statements(event: dict) -> list[dict]:
     return [d for d in event["documents"] if "statement" in d["label"].lower() or "-Wstate-" in d["url"]]
 
 
-def browserbase(urls: list[str]) -> int:
-    if not urls:
-        return 0
-    env = dict(os.environ)
-    for name in ("BROWSERBASE_API_KEY", "BROWSERBASE_PROJECT_ID", "BROWSERBASE_API_URL"):
-        if env_value(name):
-            env[name] = env_value(name)
-    if not env.get("BROWSERBASE_API_KEY"):
-        print(f"  {len(urls)} page(s) need research/tools/browserbase_fetch.py and BROWSERBASE_API_KEY is not set")
-        return 1
-    return subprocess.run([sys.executable, str(TOOLS / "browserbase_fetch.py"), *urls], cwd=ROOT, env=env).returncode
-
-
 def latest_saved(rows: list[dict], url: str) -> dict | None:
     for r in reversed(rows):
         if r.get("url") == url and r.get("status") == 200 and r.get("path") and (ROOT / r["path"]).exists():
@@ -191,10 +177,10 @@ def watch(argv: list[str]) -> int:
     rows = manifest_rows()
     seen = {origin_url(r) for r in rows} | {r.get("url") for r in rows}
     new_total = 0
-    # navy.mil: the index pages first (Browserbase), then the documents they list.
+    # navy.mil: the index pages first (context.dev), then the documents they list.
     indexes = [f"{base}?Page={n}" if n > 1 else base for base in (SPEECHES, TESTIMONY) for n in range(1, args.pages + 1)]
     if args.fetch:
-        browserbase(indexes)
+        hosted(indexes)
         rows = manifest_rows()
     listed: list[dict] = []
     for url in indexes:
@@ -208,7 +194,7 @@ def watch(argv: list[str]) -> int:
     for r in fresh[: args.limit]:
         print(f"  {r['issued']}  {r['title'][:90]}")
     if args.fetch and fresh:
-        browserbase([r["url"] for r in fresh[: args.limit]])
+        hosted([r["url"] for r in fresh[: args.limit]])
     new_total += len(fresh)
     # House committee repository: the feed (direct), hearings about this department, their statements.
     for code, feed_url in HOUSE_FEEDS.items():
@@ -290,7 +276,7 @@ def discover(argv: list[str]) -> int:
         if got.get("status") != 200:
             refused.append(url)
         print(f"  {got.get('status')}  {url[:90]}")
-    return browserbase(refused)
+    return hosted(refused)
 
 
 # --------------------------------------------------------------------- extract

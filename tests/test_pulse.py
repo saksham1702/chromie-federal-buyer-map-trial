@@ -15,7 +15,8 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "research" / "tools"))
 from backtest import CORPUS, LABELS, shift  # noqa: E402
-from pulse import ACTIONS, PULSE, actions, card, cell_events, cells, load_people, rank, recomposes, register_problems, score, week, week_text  # noqa: E402
+from people import load_routes  # noqa: E402
+from pulse import ACTIONS, ENDS_RE, PULSE, actions, card, cell_events, cells, load_people, rank, recomposes, register_problems, score, week, week_text  # noqa: E402
 from vocabulary import STAGES  # noqa: E402
 
 pytestmark = pytest.mark.skipif(not (CORPUS.exists() and LABELS.exists() and PULSE.exists()), reason="no frozen pulse on disk")
@@ -35,7 +36,7 @@ def test_pulse_rebuilds_from_the_frozen_files_alone(frozen):
     assert [c["key"] for c in ranked[:50]] == [c["key"] for c in saved["ranking"]]
     assert [c["score"] for c in ranked[:50]] == [c["score"] for c in saved["ranking"]]
     assert week(corpus, saved["week"]["since"], saved["week"]["until"]) == saved["week"]
-    assert actions(ranked, corpus, saved["as_of"], roster=load_people()) == saved["actions"]
+    assert actions(ranked, corpus, saved["as_of"], roster=load_people(), routes=load_routes()) == saved["actions"]
 
 
 def test_every_score_recomposes_from_its_parts_with_an_event_per_family(frozen):
@@ -57,12 +58,19 @@ def test_families_not_events_drive_the_score(frozen):
 
 
 def test_a_frozen_cell_never_scores_higher_later(frozen):
+    """With no new statement, families, recency and persistence only decay. Proximity may rise once, when a known
+    incumbent end comes inside two years: the recompete coming closer is the one thing time adds."""
     corpus, labels, saved = frozen
     wanted = {c["key"] for c in saved["ranking"][:5]}
     for cell in (c for c in cells(corpus, labels) if c["key"] in wanted):
         events = [e for e in cell_events(cell, corpus) if e["available_by"] <= saved["as_of"]]
-        series = [Decimal(score(events, shift(saved["as_of"], 30 * n))["score"]) for n in range(0, 40)]
-        assert all(x >= y for x, y in zip(series, series[1:])), (cell["key"], series)
+        series = [score(events, shift(saved["as_of"], 30 * n)) for n in range(0, 40)]
+        for was, now in zip(series, series[1:]):
+            for part in ("families", "recency", "persistence"):
+                assert Decimal(now["parts"][part]) <= Decimal(was["parts"][part]), (cell["key"], part, now["as_of"])
+            if Decimal(now["parts"]["proximity"]) > Decimal(was["parts"]["proximity"]):
+                ends = [m.group(1) for e in events if e["family"] == "incumbent" for m in [ENDS_RE.search(e["title"])] if m]
+                assert any(shift(was["as_of"], 730) < d <= shift(now["as_of"], 730) for d in ends), (cell["key"], now["as_of"])
 
 
 def test_a_statement_against_lowers_proximity(frozen):
@@ -120,3 +128,14 @@ def test_meetings_name_whom_the_record_ties_to_the_office(frozen) -> None:
         assert c["name"] and c["observed_at"] <= saved["as_of"] and c["source"] and c["source_ref"] and c["office"]
     assert all(len(a["contacts"]) <= 3 for a in meets)
     assert all("contacts" not in a for a in saved["actions"] if a["type"] != "meet_office")
+
+
+def test_meetings_name_the_route_in_and_the_queue_is_ordered(frozen) -> None:
+    """A meeting carries the office's routes (requirement side, contracting side, channels), each observed by as_of
+    and marked when its observations were checked against the saved file; every action carries its cell's rank, and a watch on a contract carries the day it ends."""
+    corpus, labels, saved = frozen
+    meets = [a for a in saved["actions"] if a["type"] == "meet_office"]
+    assert all("routes" in a for a in meets) and any(r["side"] == "requirement" for a in meets for r in a["routes"])
+    assert all(r["observed_at"] <= saved["as_of"] and r["source_url"] and isinstance(r["checked"], bool) for a in meets for r in a["routes"])
+    assert all(isinstance(a["priority"], int) and a["priority"] >= 1 for a in saved["actions"])
+    assert all(a["by"] and a["why"].endswith(a["by"]) for a in saved["actions"] if a["type"] == "watch_expiration")

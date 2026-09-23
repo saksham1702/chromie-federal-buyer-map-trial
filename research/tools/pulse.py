@@ -37,7 +37,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from backtest import (CORPUS, LABELS, LINE_RE, chain, matched, need_aliases, outcome_cell, pilot_needs,  # noqa: E402
                       recurring_tokens, register_problems, shift, specific, with_lines)
-from people import PEOPLE, contacts_for  # noqa: E402
+from people import PEOPLE, contacts_for, load_routes, routes_for  # noqa: E402
 from vocabulary import classify, next_milestones, stage_of  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -278,9 +278,11 @@ def card_cmd(argv: list[str]) -> int:
 
 # ------------------------------------------------------------------ actions
 
-def actions(ranked: list[dict], corpus: dict, as_of: str, minimum_families: int = 3, roster: list[dict] | None = None) -> list[dict]:
+def actions(ranked: list[dict], corpus: dict, as_of: str, minimum_families: int = 3, roster: list[dict] | None = None,
+            routes: list[dict] | None = None) -> list[dict]:
     """What a vendor can do now, each row from the closed list and pointing at the events behind it. A meeting names
-    whom the record ties to the office by as_of: its own people first, then its parents', newest first."""
+    whom the record ties to the office by as_of: its own people first, then its parents', newest first; and the routes
+    in: the requirement side, the contracting side and the published channels of the office or the nearest parent."""
     rows = []
     year_ago, quarter_ago = shift(as_of, -365), shift(as_of, -90)
     for cell in ranked:
@@ -289,6 +291,7 @@ def actions(ranked: list[dict], corpus: dict, as_of: str, minimum_families: int 
             meet = action("meet_office", cell, [r["id"] for rows_ in cell["evidence"].values() for r in rows_[:1]],
                           f"{len(cell['families'])} families of evidence on this requirement")
             meet["contacts"] = contacts_for(chain(cell["org"], corpus["orgs"]) or [cell["org"]], roster or [], as_of)
+            meet["routes"] = routes_for(chain(cell["org"], corpus["orgs"]) or [cell["org"]], routes or [], as_of)
             rows.append(meet)
         recent_forecast = [e["id"] for e in ev if e["family"] == "forecast" and e["available_by"] > year_ago]
         if recent_forecast:
@@ -301,7 +304,7 @@ def actions(ranked: list[dict], corpus: dict, as_of: str, minimum_families: int 
         for e in ev:
             m = ENDS_RE.search(e["title"]) if e["id"] in newest.values() else None
             if m and as_of < m.group(1) <= shift(as_of, 730):
-                rows.append(action("watch_expiration", cell, [e["id"]], f"incumbent ends {m.group(1)}"))
+                rows.append(action("watch_expiration", cell, [e["id"]], f"incumbent ends {m.group(1)}", by=m.group(1)))
         meetings = [e["id"] for e in ev if e["event_type"] in ("conference_appearance", "industry_engagement") and e["available_by"] > quarter_ago]
         if meetings:
             rows.append(action("attend_event", cell, meetings[:3], "the office or its leaders appeared at an event this quarter"))
@@ -315,11 +318,14 @@ def actions(ranked: list[dict], corpus: dict, as_of: str, minimum_families: int 
         if people:
             rows.append(action("track_person", cell, people[:3], "a leadership change this year"))
     # One row per (action, office, evidence): ten MIDS cells share one expiring terminal contract, and the
-    # vendor watches that contract once, under the highest-ranked cell that carries it.
+    # vendor watches that contract once, under the highest-ranked cell that carries it. Every row carries its cell's
+    # rank as the priority, and a date where its evidence states one (the day a contract ends).
+    rank = {c["key"]: n for n, c in enumerate(ranked, start=1)}
     seen: set[tuple] = set()
     unique = []
     for row in rows:
         assert row["type"] in ACTIONS and row["evidence"], row
+        row["priority"] = rank[row["cell"]]
         key = (row["type"], row["office"], tuple(row["evidence"])) if row["type"] != "meet_office" else (row["type"], row["cell"])
         if key not in seen:
             seen.add(key)
@@ -327,8 +333,14 @@ def actions(ranked: list[dict], corpus: dict, as_of: str, minimum_families: int 
     return unique
 
 
-def action(kind: str, cell: dict, evidence: list[str], why: str) -> dict:
-    return {"type": kind, "cell": cell["key"], "office": cell["office"], "name": cell["name"][:120], "evidence": evidence, "why": why}
+def action(kind: str, cell: dict, evidence: list[str], why: str, by: str | None = None) -> dict:
+    return {"type": kind, "cell": cell["key"], "office": cell["office"], "name": cell["name"][:120], "evidence": evidence, "why": why,
+            "by": by}
+
+
+def queue(acts: list[dict]) -> list[dict]:
+    """The actions in the order a vendor works them: a dated one first by its date, then the rest by priority."""
+    return sorted(acts, key=lambda a: (a["by"] is None, a["by"] or "", a["priority"]))
 
 
 # ------------------------------------------------------------------ build
@@ -365,7 +377,7 @@ def build(argv: list[str]) -> int:
     ranked = rank(corpus, labels, as_of)
     assert all(recomposes(c) for c in ranked), "a score did not recompose from its parts"
     pulse = week(corpus, shift(as_of, -args.days), as_of)
-    acts = actions(ranked, corpus, as_of, roster=load_people())
+    acts = actions(ranked, corpus, as_of, roster=load_people(), routes=load_routes())
     payload = {"as_of": as_of, "corpus_events": len(corpus["events"]), "cells": len(ranked), "ranking": ranked[:50],
                "week": pulse, "actions": acts}
     text = json.dumps(payload, indent=1, ensure_ascii=False) + "\n"
@@ -377,7 +389,9 @@ def build(argv: list[str]) -> int:
           f"{sum(c['momentum']['quarter'] > c['momentum']['prior'] for c in ranked)} have more events this quarter than last; "
           f"{sum(bool(c['vendors']) for c in ranked)} name an incumbent vendor")
     meets = [a for a in acts if a["type"] == "meet_office"]
-    print(f"{sum(bool(a['contacts']) for a in meets)} of {len(meets)} meetings name whom the record ties to the office")
+    print(f"{sum(bool(a['contacts']) for a in meets)} of {len(meets)} meetings name whom the record ties to the office; "
+          f"{sum(any(r['side'] == 'requirement' for r in a['routes']) for a in meets)} name the requirement side and "
+          f"{sum(any(r['side'] == 'acquisition' for r in a['routes']) for a in meets)} the contracting side")
     for line in (rank_text(ranked, 15), week_text(pulse)):
         problems = register_problems(line)
         assert not problems, problems
@@ -422,8 +436,10 @@ def actions_cmd(argv: list[str]) -> int:
     args = ap.parse_args(argv)
     corpus, labels = load()
     as_of = args.as_of or corpus_end(corpus)
-    for a in actions(rank(corpus, labels, as_of), corpus, as_of):
-        print(f"{a['type']:17} {a['office'][:12]:12} {a['name'][:60]:60} {a['why']} [{len(a['evidence'])} event(s)]")
+    for a in queue(actions(rank(corpus, labels, as_of), corpus, as_of, roster=load_people(), routes=load_routes())):
+        print(f"{a['by'] or '':10} #{a['priority']:<4} {a['type']:17} {a['office'][:12]:12} {a['name'][:60]:60} {a['why']} [{len(a['evidence'])} event(s)]")
+        for r in a.get("routes", [])[:3]:
+            print(f"{'':30} {r['side']}: {r['recommendation'][:100]}")
     return 0
 
 
@@ -488,6 +504,9 @@ def selfcheck() -> int:
                                       "autonomous aircraft sustainment", "contract_extended")]
     watch = [x for x in actions([cell], corpus, as_of) if x["type"] == "watch_expiration"]
     assert [x["evidence"] for x in watch] == [["e"]] and watch[0]["why"] == "incumbent ends 2028-03-31", "the extension's end replaces the expiry's"
+    assert watch[0]["by"] == "2028-03-31" and all(x["priority"] == 1 for x in acts)
+    ordered = queue([{"by": None, "priority": 1}, {"by": "2027-01-01", "priority": 9}, {"by": "2026-10-01", "priority": 5}])
+    assert [x["by"] for x in ordered] == ["2026-10-01", "2027-01-01", None], "dated actions first, soonest first"
     print("pulse selfcheck ok")
     return 0
 

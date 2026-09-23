@@ -18,7 +18,12 @@ honorifics dropped, "Last, First" turned around, middle initials dropped). Two p
 e-mail and sit in different offices stay two people. Nobody is invented: every position points at the document.
 
   python research/tools/people.py build          # writes research/memory/people.json
-  python research/tools/people.py show pmw:101   # whom the sources tie to an office, newest first
+  python research/tools/people.py show pmw:101   # whom the sources tie to an office, newest first, and the routes in
+
+Routes come from contact_recommendations.json: per office, the requirement side (the program manager), the
+acquisition side (the contracting points of contact on its forecast rows), the published channels (an office
+mailbox, the small business office, an intake portal) and the portfolio executive, each resting on the
+observations it names and dated by the newest of them.
 """
 from __future__ import annotations
 
@@ -34,6 +39,8 @@ from agency_layers_sql import POSITION_ROLES, role_type, uid  # noqa: E402
 
 PEOPLE = ROOT / "research" / "memory" / "people.json"
 OBSERVATIONS = ROOT / "research" / "memory" / "contact_observations.json"
+RECOMMENDATIONS = ROOT / "research" / "memory" / "contact_recommendations.json"
+REVIEWS = ROOT / "research" / "memory" / "review_log.json"
 REMARKS = ROOT / "research" / "events" / "remarks_events.json"
 NEWS = ROOT / "research" / "events" / "news_observations.json"
 SEED = ROOT / "research" / "memory" / "organization_seed.json"
@@ -107,12 +114,29 @@ def sam_contacts() -> list[tuple[str, str, dict]]:
         if not office:
             continue
         for poc in pocs:
-            name = (poc.get("fullName") or "").strip()
-            if not norm_name(name):
-                continue
             title = f"{poc.get('type') or 'point of'} point of contact on {d['type']} {d['solicitation'] or d['id']}"
-            out.append((name, (poc.get("email") or "").strip().lower(),
-                        position(office, POC_ROLE, title, d["posted"], "sam_gov_site_api", d["id"], SAM_VIEW.format(d["id"]), d["title"])))
+            for name, email in split_pocs((poc.get("fullName") or "").strip(), (poc.get("email") or "").strip().lower()):
+                if norm_name(name):
+                    out.append((name, email, position(office, POC_ROLE, title, d["posted"], "sam_gov_site_api", d["id"],
+                                                      SAM_VIEW.format(d["id"]), d["title"])))
+    return out
+
+
+LEGACY_POC = re.compile(r"^Point of Contact\s*-\s*", re.I)
+
+
+def split_pocs(full: str, email: str) -> list[tuple[str, str]]:
+    """A notice carried over from the old system writes every contact in one field, 'Point of Contact - Name, Title,
+    phone; Name, Title, phone', then a mailto link. One (name, e-mail) per contact; an address goes to the contact
+    whose surname it carries."""
+    if not LEGACY_POC.match(full):
+        return [(full, email)]
+    mails = [m.lower() for m in re.findall(r"mailto:([^\"'>\s]+)", full)] + ([email] if email else [])
+    out = []
+    for part in LEGACY_POC.sub("", full).split("\n", 1)[0].split(";"):
+        name = part.split(",", 1)[0].strip()
+        surname = (norm_name(name).split() or [""])[-1]
+        out.append((name, next((m for m in mails if surname and surname in m.split("@")[0]), "")))
     return out
 
 
@@ -258,11 +282,50 @@ def contacts_for(org_ids: list[str], people: list[dict], as_of: str | None = Non
             for _, _, person, p in rows[:limit]]
 
 
+ROUTE_ORDER = ("program_manager", "contracting_poc", "office_channel", "industry_intake_channel", "executive")
+SIDE = {"program_manager": "requirement", "contracting_poc": "acquisition", "office_channel": "channel",
+        "industry_intake_channel": "channel", "executive": "executive"}
+
+
+def load_routes() -> list[dict]:
+    """Every recommended route with the date and the source of the observations it rests on, and whether each of
+    those observations was checked against the saved file it cites."""
+    if not RECOMMENDATIONS.exists() or not OBSERVATIONS.exists():
+        return []
+    observed = {o["id"]: o for o in json.loads(OBSERVATIONS.read_text(encoding="utf-8"))}
+    reviews = json.loads(REVIEWS.read_text(encoding="utf-8")) if REVIEWS.exists() else []
+    checked = {r["target"] for r in reviews if r["outcome"] in ("confirmed", "corrected")}
+    rows = []
+    for rec in json.loads(RECOMMENDATIONS.read_text(encoding="utf-8")):
+        basis = [observed[i] for i in rec["contact_observation_ids"] if i in observed]
+        if not basis:
+            continue
+        newest = max(basis, key=lambda o: o["observed_at"])
+        rows.append({"org": uid("org", rec["office_id"]), "office_id": rec["office_id"], "route": rec["route_type"],
+                     "side": SIDE.get(rec["route_type"], "other"), "recommendation": rec["recommendation"],
+                     "confidence": rec["source_confidence"], "currency": rec["currency_confidence"],
+                     "review_status": rec["review_status"], "observed_at": newest["observed_at"], "source_url": newest["source_url"],
+                     "checked": all(o["id"] in checked for o in basis)})
+    return rows
+
+
+def routes_for(org_ids: list[str], routes: list[dict], as_of: str | None = None) -> list[dict]:
+    """The routes into the most specific of these organizations that has any, observed by as_of: the program
+    manager and the contracting side of the office itself before its parent's channels."""
+    rank = {org: i for i, org in enumerate(org_ids)}
+    fits = [r for r in routes if r["org"] in rank and (not as_of or r["observed_at"] <= as_of)]
+    order = {route: i for i, route in enumerate(ROUTE_ORDER)}
+    fits.sort(key=lambda r: (rank[r["org"]], order.get(r["route"], len(order)), r["recommendation"]))
+    return [{k: v for k, v in r.items() if k != "org"} for r in fits]
+
+
 def show(argv: list[str]) -> int:
     office = argv[0] if argv else "pmw:101"
     people = json.loads(PEOPLE.read_text(encoding="utf-8"))["rows"]
     for c in contacts_for([uid("org", office)], people, limit=20):
         print(f"{c['observed_at']}  {c['name']:32} {c['role']:20} {c['source']:26} {c['source_ref'][:40]}")
+    for r in routes_for([uid("org", office)], load_routes()):
+        print(f"{r['observed_at']}  {r['side']:12} {r['route']:24} {r['recommendation'][:90]}")
     return 0
 
 
@@ -287,6 +350,18 @@ def selfcheck() -> int:
     got = contacts_for([uid("org", "pmw:101"), uid("org", "peo:c4i")], people)
     assert [c["name"] for c in got] == ["Megan Ashley"] and got[0]["office"] == "pmw:101" and got[0]["email"] == "megan@navy.mil"
     assert contacts_for([uid("org", "pmw:101")], people, as_of="2025-12-31") == []
+    route = lambda office, kind, day: {"org": uid("org", office), "office_id": office, "route": kind, "side": SIDE[kind],
+                                       "recommendation": kind, "confidence": "high", "currency": "high", "review_status": "draft",
+                                       "observed_at": day, "source_url": "u"}
+    routes = [route("command:navwar", "industry_intake_channel", "2026-09-16"), route("pmw:160", "contracting_poc", "2025-06-01"),
+              route("pmw:160", "program_manager", "2025-01-01"), route("pmw:170", "program_manager", "2025-01-01")]
+    chain_ = [uid("org", "pmw:160"), uid("org", "peo:c4i"), uid("org", "command:navwar")]
+    assert [r["route"] for r in routes_for(chain_, routes)] == ["program_manager", "contracting_poc", "industry_intake_channel"]
+    assert [r["route"] for r in routes_for(chain_, routes, "2025-03-01")] == ["program_manager"]  # nothing observed later
+    legacy = ('Point of Contact - Clayton R Thomas, Contract Specialist,  619-524-7199; Stephen R Beckner, Contracting Officer, '
+              '619-524-7389\n\n<a href="mailto:clayton.r.thomas@navy.mil">Contract Specialist</a>')
+    assert split_pocs(legacy, "") == [("Clayton R Thomas", "clayton.r.thomas@navy.mil"), ("Stephen R Beckner", "")]
+    assert split_pocs("Megan Ashley", "megan.ashley@navy.mil") == [("Megan Ashley", "megan.ashley@navy.mil")]
     print("selfcheck ok")
     return 0
 

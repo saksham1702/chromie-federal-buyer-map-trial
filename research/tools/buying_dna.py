@@ -4,7 +4,8 @@ office, a program office and one requirement's cell actually buy, in the coded f
 and who holds the work, until when, with what pattern of renewal.
 
 No new collection. The contracting office's book is every base award on the saved pages; a program office's book is
-the awards a forecast line ties to it; a cell's book is the contracts its names reach in the frozen corpus. Shares are
+the awards the loader places under it (the office code in the description, the notice under the solicitation, a
+forecast line's incumbent; document 04); a cell's book is the contracts its names reach in the frozen corpus. Shares are
 of awards, values in dollars as FPDS states them (base and all options), durations from signature to the ultimate
 completion date, and the recompete cadence is the gap between successive awards that carry the same requirement text.
 
@@ -36,6 +37,7 @@ PIID_RE = re.compile(r"Incumbent contract (\S+) ends (\d{4}-\d{2}-\d{2})")
 BANDS = (("under $250k", 250_000), ("$250k to $1M", 1_000_000), ("$1M to $10M", 10_000_000), ("$10M to $100M", 100_000_000), ("over $100M", None))
 TOP = 5
 RECOMPETE_MIN_AWARDS = 2
+SAME_AWARD_DAYS = 90  # one requirement signed to several vendors across weeks is one multiple award, not a recompete
 CONTRACT_ACTIONS = ("DEFINITIVE CONTRACT", "IDC", "BPA", "GWAC", "FSS", "BOA")  # a contract or a vehicle, not an order under one
 POSITION_HORIZON_DAYS = 730
 
@@ -80,6 +82,16 @@ def requirement_key(description: str) -> str:
     return re.sub(r"[^a-z0-9 ]", "", description.lower())[:60].strip()
 
 
+def award_events(days: set[str]) -> list[str]:
+    """The first signature of each award event: a signature within SAME_AWARD_DAYS of the one before joins its event."""
+    kept, last = [], None
+    for day in sorted(days):
+        if last is None or (date.fromisoformat(day) - date.fromisoformat(last)).days > SAME_AWARD_DAYS:
+            kept.append(day)
+        last = day
+    return kept
+
+
 def dna(entries: list[dict]) -> dict:
     """One book's Buying DNA; every number is a count, a share or a median of the coded fields on these awards."""
     n = len(entries)
@@ -104,8 +116,9 @@ def dna(entries: list[dict]) -> dict:
     for e in entries:
         if e["signed"] and described(e, "contractActionType") in CONTRACT_ACTIONS and len(requirement_key(e["description"])) >= 12:
             lines[requirement_key(e["description"])].add(e["signed"])  # distinct days: same-day orders are one award event
+    events = {key: award_events(days) for key, days in lines.items()}
     gaps = []
-    for days in map(sorted, lines.values()):
+    for days in events.values():
         gaps += [round((date.fromisoformat(b) - date.fromisoformat(a)).days / 30.4) for a, b in zip(days, days[1:])]
     return {
         "awards": n, "first_signed": min(e["signed"] for e in entries if e["signed"]), "last_signed": max(e["signed"] for e in entries if e["signed"]),
@@ -129,7 +142,7 @@ def dna(entries: list[dict]) -> dict:
                                                           "value_share": round(value_by_vendor[v] / total_value, 3) if total_value else None} for v, c in top_vendors],
                     "top_share": round(top_vendors[0][1] / n, 3), "top3_share": round(sum(c for _, c in top_vendors) / n, 3),
                     "hhi": round(sum((c / n) ** 2 for c in by_vendor.values()), 3)},
-        "recompete": {"lines_awarded_again": sum(1 for d in lines.values() if len(d) >= RECOMPETE_MIN_AWARDS),
+        "recompete": {"lines_awarded_again": sum(1 for d in events.values() if len(d) >= RECOMPETE_MIN_AWARDS),
                       "median_gap_months": statistics.median(gaps) if gaps else None},
     }
 
@@ -177,7 +190,7 @@ def build(argv: list[str]) -> int:
     as_of = pulse["as_of"]
     entries = book()
     orgs = corpus["orgs"]
-    # A program office's book: the base awards a forecast line tied to it (the corpus incumbent events placed under it).
+    # A program office's book: the base awards placed under it in the corpus; an award left at its contracting office stays out.
     office_piids: dict[str, set] = defaultdict(set)
     for e in corpus["events"]:
         m = PIID_RE.search(e["title"]) if e["family"] == "incumbent" else None
@@ -278,6 +291,7 @@ def selfcheck() -> int:
     assert dna(orders)["recompete"] == {"lines_awarded_again": 0, "median_gap_months": None}, "orders under one vehicle are not recompetes"
     assert d["duration_months"]["median"] == 24
     assert dna([]) == {"awards": 0}
+    assert award_events({"2020-01-01", "2020-01-20", "2020-03-01", "2022-01-01"}) == ["2020-01-01", "2022-01-01"]  # a multiple award spread over weeks
     ev = [{"family": "incumbent", "title": "Incumbent contract A2 ends 2024-01-01", "vendor": "Acme", "available_by": "2022-04-01", "event_type": "contract_expires"},
           {"family": "incumbent", "title": "Incumbent contract B1 ends 2026-06-01", "vendor": "Bolt", "available_by": "2023-09-01", "event_type": "contract_expires"},
           {"family": "notice", "title": "J&A bridge", "available_by": "2025-01-01", "event_type": "justification_posted", "id": "j", "text": "bridge"}]

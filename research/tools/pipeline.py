@@ -87,6 +87,7 @@ STAGES = [
      [PY, str(TOOLS / "agency_layers_sql.py")]),
     ("database", "create the database and load the schema and the rows", False, None),
     ("graph", "export the organization graph as the program-office resolver reads it", False, None),
+    ("revisions", "the forecast-revision alert: every forecast line whose award window or value moved between releases, into build/", False, None),
     ("backtest", "replay the outcome labels and compute the back-test from the frozen corpus into build/", False,
      [PY, str(TOOLS / "backtest.py"), "check"]),
     ("pulse", "score every cell as of the corpus end, list the week's changes and the actions, and compare with the saved pulse", False,
@@ -210,6 +211,9 @@ def main(argv: list[str]) -> int:
             code = load_database(args.db)
         elif name == "graph":
             code = run([PY, str(TOOLS / "graph_export.py"), "--db", args.db], out=BUILD / "program_office_graph.json")
+        elif name == "revisions":
+            dsn = f"postgresql://{DSN_USER}:postgres@{DSN_HOST}:{DSN_PORT}/{args.db}"
+            code = run([PY, str(TOOLS / "monitor_forecast_revision.py"), "--dsn", dsn], out=BUILD / "forecast_revisions.txt")
         elif name == "checks":
             code = checks(args.db)
         elif name == "layers":
@@ -232,6 +236,7 @@ def selfcheck() -> int:
     assert names.index("datapack") < names.index("layers") < names.index("database") < names.index("checks"), \
         "the rows are emitted before they are loaded, and read back after"
     assert names.index("news") < names.index("layers"), "articles are modelled before they are emitted"
+    assert names.index("database") < names.index("revisions"), "the revision alert reads the loaded database"
     assert NETWORK == {"watch", "sweep", "audits", "podium", "contracts", "solicitations", "topics", "changes", "dockets", "reports",
                        "register"}, "only collection touches the network"
     assert set(refreshed("x")) <= set(names), "every refreshed stage is a stage"

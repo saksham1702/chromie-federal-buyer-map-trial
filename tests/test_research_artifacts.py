@@ -19,7 +19,7 @@ SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 EVIDENCE_CLASSES = {"directly_documented", "inferred", "ambiguous", "unresolved"}
 VERIFICATION_STATUSES = {"verified", "not_inspected", "blocked", "restricted", "stale"}
 ACCESS_MODES = {"api", "export", "webpage", "pdf", "spreadsheet", "manual"}
-FETCH_METHODS = {"direct", "wayback", "browserbase", "manual"}
+FETCH_METHODS = {"direct", "wayback", "browserbase", "context_dev", "manual"}
 REGISTRY_REQUIRED = {
     "source_key", "provider_name", "official_url", "responsible_org", "lifecycle_stages",
     "fields_and_identifiers", "historical_coverage", "publication_frequency", "reporting_lag",
