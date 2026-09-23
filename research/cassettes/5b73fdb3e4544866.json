@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:18:13Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory (NRL)\",\"capability\":\"electronic circuit simulation software license\",\"short_names\":[\"Multisim\"],\"aliases\":[\"Multisim Power Pro Edition\",\"Multisim Power Pro Edition, Perpetual License, Download New Single Seat License(s) With 3 YR Contact Customer Service for Availability\",\"solicitation N0017326Q1301257573\"],\"capability_terms\":[\"circuit simulation software\",\"electronic design automation software\",\"SPICE simulation\",\"schematic capture and simulation\"],\"confidence\":0.95}",
+ "request_key": "5b73fdb3e4544866e5587c5e68fd41b890c408f206e6a018faa4285e48b53ccb",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1674,
+  "output_tokens": 246
+ },
+ "user_sha256": "759966e5b3465e64"
+}

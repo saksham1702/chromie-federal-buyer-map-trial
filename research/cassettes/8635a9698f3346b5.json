@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:20:09Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMS 340\",\"capability\":\"maritime loitering munition strike\",\"short_names\":[\"Maritime Launched Effects - Increment 1\",\"MLE-1\",\"MLE Program of Record\"],\"aliases\":[\"solicitation N00024MLE1\",\"Maritime Launched Effects - Increment 1 (MLE-1) Request for Information\",\"MLE-1 AUR (FY30-32)\",\"MLE Capability Development Document\",\"Maritime Launched Effects - Increment 1 requirements\",\"MLE-1 Capability Compliance Matrix\"],\"capability_terms\":[\"loitering munitions\",\"maritime precision strike\",\"maritime launched effects\",\"integration with SOCOM Combatant Craft\",\"prototype munitions\"],\"confidence\":0.95}",
+ "request_key": "8635a9698f3346b5b936904362e5bf67e76c488da65bc4a92ef86d6e2d01c82e",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1735,
+  "output_tokens": 352
+ },
+ "user_sha256": "1603ace9d74cd080"
+}

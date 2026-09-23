@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T08:54:04Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "remarks_events",
+ "output_text": "{\"speaker_name\":\"\",\"speaker_role\":\"\",\"event_name\":\"\",\"event_host\":\"\",\"audience\":\"other\",\"events\":[]}",
+ "request_key": "9c2381dd9649d3e0f332326cd1c4b9f8072e7184ffb10730c8a1f060f4d14524",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "9bdbe03afea8d63f",
+ "usage": {
+  "input_tokens": 4538,
+  "output_tokens": 103
+ },
+ "user_sha256": "829f31ba90cbd755"
+}

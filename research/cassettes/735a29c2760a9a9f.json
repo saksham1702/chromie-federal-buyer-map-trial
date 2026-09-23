@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:35:32Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Space Science Division\",\"capability\":\"Space science R&D support services\",\"short_names\":[\"Space Science Division\"],\"aliases\":[\"Research & Development Support Services for Space Science Division\",\"N00173-26-R-DS01\",\"N0017326PDS01\"],\"capability_terms\":[\"space science research support\",\"applied science R&D services\",\"level-of-effort engineering support\",\"laboratory research and analysis support\"],\"confidence\":0.92}",
+ "request_key": "735a29c2760a9a9f22ba6b659777c1f6047c5ce9510b6555d450a44b96f48a72",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1079,
+  "output_tokens": 223
+ },
+ "user_sha256": "326ef5ab5a717d8f"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:22:42Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Sea Systems Command\",\"capability\":\"ship repair and modernization\",\"short_names\":[\"USS BOXER\",\"FY27 SRA\"],\"aliases\":[\"USS BOXER (LHD 4) FY27 Selected Restricted Availability (SRA)\",\"N0002426R4428\",\"Chief of Naval Operations (CNO) Availability\",\"CNO Availability\",\"USS BOXER (LHD 4) FY27 SRA\"],\"capability_terms\":[\"surface ship maintenance\",\"depot availability\",\"ship repair and modernization\",\"restricted availability\",\"fleet readiness repair\"],\"confidence\":0.98}",
+ "request_key": "80cbd5de8c135292e4cc272d265a5b63abbce28928c7c6da05745c41685a5d57",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1231,
+  "output_tokens": 258
+ },
+ "user_sha256": "fd7e63a5f0b59ca6"
+}

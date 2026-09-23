@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:16:42Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"radio production\",\"short_names\":[\"SF2 Radio Lot 3 Production\"],\"aliases\":[\"solicitation N0003926RE413\"],\"capability_terms\":[\"radio procurement\",\"radio hardware production\",\"tactical radio systems\"],\"confidence\":0.56}",
+ "request_key": "567b764740c70ca81c44115b2d5317b97f4121cb2395d2b40142617de02d0ca0",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 554,
+  "output_tokens": 334
+ },
+ "user_sha256": "1dcd78852a387288"
+}

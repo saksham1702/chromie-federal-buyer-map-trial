@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:29:40Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"AEGIS weapon system engineering and development\",\"short_names\":[\"AEGIS Weapon System\"],\"aliases\":[\"AEGIS Weapon System Engineering and Development\",\"N00024-26-R-5103\",\"N0002423C5123\",\"DDG 51 Flight III\",\"DDG 51 Flight I/II/IIA\",\"Foreign Military Sales\"],\"capability_terms\":[\"Aegis combat system\",\"air and missile defense combat system\",\"destroyer combat system\",\"surface combatant combat system\"],\"confidence\":0.98}",
+ "request_key": "328379e657373925ae6defbdd174763e39c216405a7e595b4143c0dfb6fe6c3e",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 861,
+  "output_tokens": 287
+ },
+ "user_sha256": "371dacb7a8e19405"
+}

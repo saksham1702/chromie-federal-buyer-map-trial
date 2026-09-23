@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:33:22Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMS 385\",\"capability\":\"Future hospital ship replacement\",\"short_names\":[\"T-AH(X)\",\"Future Hospital Ship\"],\"aliases\":[\"Next Generation Hospital Ship T-AH(X)\",\"T-AH(X) Notional Requirements\",\"Future Hospital Ship (T-AH(X))\",\"USNS Mercy (T-AH 19)\",\"USNS Comfort (T-AH 20)\",\"Vessel Construction Manager (VCM)\"],\"capability_terms\":[\"hospital ship\",\"Role 3 medical platform\",\"patient transfer at sea\",\"medical treatment ship\",\"afloat surgical capability\"],\"confidence\":0.96}",
+ "request_key": "e50c212d149be7ed44bc2e74d7d199083a832c32780f2909ed4a64bee6a2395a",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1775,
+  "output_tokens": 261
+ },
+ "user_sha256": "9e6166ff2802dca1"
+}

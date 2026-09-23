@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:23:27Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"Submarine acoustic cabinet upgrades\",\"short_names\":[\"TI-28\",\"TI-next\",\"CAC\"],\"aliases\":[\"Common Acoustic Cabinet with Technology Insertion (TI)-28, and TI-next\",\"solicitation N00024-26-R-6108\",\"Acoustic - Rapid COTS Insertion (A-RCI)\",\"Common Acoustic Cabinet Performance Specification\",\"LOS ANGELES class submarine\"],\"capability_terms\":[\"submarine sonar signal processing\",\"acoustic cabinet hardware\",\"COTS sonar modernization\",\"reconfigurable acoustic processing\",\"shipboard integrated baselines\"],\"confidence\":0.97}",
+ "request_key": "eb47ceaf9fce00fc6cadca44c34e426ce2c6191162f7a63591f37c195256f5c5",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1721,
+  "output_tokens": 334
+ },
+ "user_sha256": "76b34a680f09d08d"
+}

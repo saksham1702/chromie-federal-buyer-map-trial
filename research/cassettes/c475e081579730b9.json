@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:21:30Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"optical table and accessories\",\"short_names\":[\"OPTICAL TABLE\"],\"aliases\":[\"solicitation N0017326Q5218\",\"Optical Table with accessories\",\"Naval Research Laboratory\"],\"capability_terms\":[\"optical table\",\"precision laboratory table\",\"vibration-isolated optics support\",\"optics mounting platform\"],\"confidence\":0.96}",
+ "request_key": "c475e081579730b96c268a8d1db2fff657583bceaf9024a5e3bdf5ee737fb07e",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1209,
+  "output_tokens": 192
+ },
+ "user_sha256": "83f586cbec9cdbc5"
+}

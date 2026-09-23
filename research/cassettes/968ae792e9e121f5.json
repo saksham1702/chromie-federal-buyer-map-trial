@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:39:51Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"structured materials\",\"short_names\":[\"Structured Materials\"],\"aliases\":[\"Notice of Intent to Sole Source - Structured Materials\",\"solicitation N0017326NOIGF12\"],\"capability_terms\":[\"structured materials\",\"materials engineering\"],\"confidence\":0.24}",
+ "request_key": "968ae792e9e121f59c859e097d6e0fab03164340db74c3c07761e93166f64eb4",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 558,
+  "output_tokens": 167
+ },
+ "user_sha256": "1943302fad804928"
+}

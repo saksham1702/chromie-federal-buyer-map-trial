@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:36:43Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"signal generator and signal studio software\",\"short_names\":[\"UXG Agile Signal Generator\",\"Signal Studio\"],\"aliases\":[\"UXG Agile Signal Generator and Signal Studio Software Applications\",\"solicitation N0017326QGG03\",\"two Signal Studio software applications\"],\"capability_terms\":[\"RF signal generation\",\"signal generation software\",\"test signal creation\"],\"confidence\":0.93}",
+ "request_key": "c5dd456c23535452fed72d5ebc4b69ae903dac1abef22f9f04b9820d8f7d8ff6",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 595,
+  "output_tokens": 166
+ },
+ "user_sha256": "dc63c804f341329f"
+}

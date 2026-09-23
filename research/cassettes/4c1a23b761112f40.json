@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:24:15Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"microwave electronics and microsystems engineering support\",\"short_names\":[\"26REM01\"],\"aliases\":[\"Microwave Electronics Systems and Microsystems Engineering Support\",\"N0017326REM01\",\"26REM01 Draft SOW\",\"N0017322F3003\"],\"capability_terms\":[\"RF components and systems\",\"microelectronics systems design\",\"digital signal processing\",\"embedded microprocessors\",\"antennas and electromagnetics\",\"wireless systems testing\"],\"confidence\":0.9}",
+ "request_key": "4c1a23b761112f4057e367f792a007f4480f791cb1cb893ed25762a16f9a9e9c",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 960,
+  "output_tokens": 274
+ },
+ "user_sha256": "c0844fdca3d88cc5"
+}

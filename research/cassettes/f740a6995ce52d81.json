@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:10:29Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PEOC4I\",\"capability\":\"data destruction services\",\"short_names\":[\"Data Destruction Services\"],\"aliases\":[\"N00039-24-Q-1000\",\"solicitation N00039-24-Q-1000\",\"RFQ Number N00039-24-Q-1000\"],\"capability_terms\":[\"data destruction\",\"classified material destruction\",\"controlled unclassified material destruction\",\"secure information destruction\"],\"confidence\":0.92}",
+ "request_key": "f740a6995ce52d813bdeb5f3967c60d6992476e3ec48529c6dd8ece8ccaf0eaf",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 957,
+  "output_tokens": 585
+ },
+ "user_sha256": "5e77195441badc98"
+}

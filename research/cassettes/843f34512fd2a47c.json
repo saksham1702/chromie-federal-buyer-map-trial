@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:30:45Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"design agent engineering for shipboard EW subsystem\",\"short_names\":[\"SEWIP\",\"SEWIP Block 2\",\"AN/SLQ-32(V)6\"],\"aliases\":[\"Design Agent Engineering\",\"SEWIP AN/SLQ-32(V)6 Electronic Warfare (EW) subsystem\",\"SEWIP Block 2 EW subsystems\",\"N00024-24-C-5510\",\"N00024-24-C-5510-P000XX\",\"OY3\",\"OY4\"],\"capability_terms\":[\"electronic warfare subsystem engineering\",\"shipboard EW support\",\"surface combatant electronic warfare\",\"design agent engineering\"],\"confidence\":0.95}",
+ "request_key": "843f34512fd2a47c4aeaedfb8cc0f0b7339cac37232e968e043dc1cb141572d4",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 965,
+  "output_tokens": 337
+ },
+ "user_sha256": "f6efd77efd7165e4"
+}

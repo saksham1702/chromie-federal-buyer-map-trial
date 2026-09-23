@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:13:51Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NAVSEA Surface Warfare Directorate, SEA 21\",\"capability\":\"Repair and overhaul of boat davits\",\"short_names\":[\"Caley Boat Davits\",\"Boat Davits\"],\"aliases\":[\"Repair, Maintenance, and Overhaul of Caley Ocean Systems Ltd. Boat Davit on LPD-\",\"starboard rescue boat handling slewing davit\",\"MK II configuration\",\"N00024-26-R-4402\",\"LPD 17 class ships\",\"San Antonio-class Amphibious Transport Dock (LPD 17) vessels\"],\"capability_terms\":[\"boat davit overhaul\",\"rescue boat handling davit\",\"shipboard boat handling systems\",\"davit maintenance\",\"davit upgrade\"] ,\"confidence\":0.96}",
+ "request_key": "e4656d1f31ae516a68f7d06a22d7e4b4f7071ed3160d112b2f9050df34c4f4e3",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1182,
+  "output_tokens": 289
+ },
+ "user_sha256": "f437b72507d26e18"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:38:02Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"maintenance of submarine-launched heavyweight torpedoes\",\"short_names\":[\"SUBTORPIMA\",\"Mk 48 Mod 6\",\"ACOT\",\"CBASS\"],\"aliases\":[\"(SUBTORPIMA)Torpedo Maintenance\",\"N00024-26-R-6411\",\"Mk 48 Mod 6 Advanced Common Torpedo (ACOT)\",\"Mod 7 Common Broadband Advanced Sonar System (CBASS)\",\"Naval Submarine Torpedo Facility (NAVSUBTORPFAC)\"],\"capability_terms\":[\"heavyweight torpedo maintenance\",\"submarine-launched torpedo maintenance\",\"torpedo maintenance services\",\"torpedo repair and upkeep\"],\"confidence\":0.94}",
+ "request_key": "461f3a67a98562cbaa789d3912d4172156aecb31a6e4daab560c3411df1944c2",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 725,
+  "output_tokens": 249
+ },
+ "user_sha256": "7c190e9a0926f829"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T09:42:24Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NAVWAR\",\"capability\":\"passive towed acoustic surveillance array\",\"short_names\":[\"NGSA\",\"SURTASS\"],\"aliases\":[\"Next Generation Surveillance Array\",\"Surveillance Towed Array Sensor System\",\"Auxiliary General Ocean Surveillance (T-AGOS) ships\",\"Open Architecture Telemetry (OAT)\",\"N0003926RE017\"],\"capability_terms\":[\"towed acoustic sensor\",\"passive sonar array\",\"undersea surveillance array\",\"towed array acoustics\"],\"confidence\":0.96}",
+ "request_key": "bba04394d187938e6eb291d69706eaeb9329e2c5449afad011e97395511c2d6b",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 936,
+  "output_tokens": 187
+ },
+ "user_sha256": "b50247da70576433"
+}

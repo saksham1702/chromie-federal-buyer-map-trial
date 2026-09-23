@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:37:19Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Portfolio Acquisition Executive Maritime (PAEM)\",\"capability\":\"DDG-51 ship maintenance availabilities\",\"short_names\":[\"MSSP\"],\"aliases\":[\"Multiple Ship Sustainment Partnership (MSSP)\",\"solicitation N00024-26-R-4439\",\"N0002426R4439\",\"Multiple Ship Sustainment Partnership (MSSP) Single Award Indefinite Delivery Indefinite Quantity (SA-IDIQ) Contracts\",\"Fleet Maintenance Availabilities\",\"Incremental Selected Restricted Availabilities (ISRAs)\",\"DDG-51 Class ships homeported in Norfolk, VA\"],\"capability_terms\":[\"surface ship sustainment\",\"destroyer maintenance availabilities\",\"fleet maintenance availabilities\",\"restricted availabilities\",\"DDG-51 class ship repair\"],\"confidence\":0.97}",
+ "request_key": "0f1873355f9e6e55260fc6fb55ce08332b4f337e23a68046ef4c9c5277806c8a",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1276,
+  "output_tokens": 302
+ },
+ "user_sha256": "d280b51fe354f2d4"
+}

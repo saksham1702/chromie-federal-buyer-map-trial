@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:24:26Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"fatigue crack growth sample manufacturing\",\"short_names\":[],\"aliases\":[\"N00173-26-Q-0005\",\"United States Naval Research Laboratory\",\"Nickel Aluminum Bronze material used for submarine propellers\",\"corrosion fatigue crack growth testing\"],\"capability_terms\":[\"fatigue crack growth testing\",\"corrosion fatigue testing\",\"submarine propeller materials\",\"materials testing\"],\"confidence\":0.94}",
+ "request_key": "e1802167d963bf21a41a091c50e4bdc047f684ac8a537f8607440f6054c00858",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1491,
+  "output_tokens": 215
+ },
+ "user_sha256": "e2d3308ead6820b8"
+}

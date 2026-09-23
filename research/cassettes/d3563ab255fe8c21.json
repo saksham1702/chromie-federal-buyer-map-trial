@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:27:55Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"install large vertical sonar arrays\",\"short_names\":[\"LVA\"],\"aliases\":[\"VIRGINIA & OHIO-CLASS LARGE VERTICAL ARRAY (LVA) BACK-FIT INSTALL\",\"N0002426R2699\"],\"capability_terms\":[\"large vertical array sonar\",\"submarine acoustic sensing\",\"back-fit installation for submarines\"],\"confidence\":0.94}",
+ "request_key": "d3563ab255fe8c21561556ac371d0a4115d295020ca20b4c3b2262f029e13e20",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 598,
+  "output_tokens": 185
+ },
+ "user_sha256": "760bad49057a8d9f"
+}

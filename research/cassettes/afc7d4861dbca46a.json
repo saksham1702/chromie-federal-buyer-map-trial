@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:28:57Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"rugged rack-mounted server computers\",\"short_names\":[\"Rugged Rack-Mounted Server Computer\"],\"aliases\":[\"two (2) Rugged Rack-Mounted Server Computers\",\"solicitation N0017326RFICM03\",\"Naval Research Laboratory (NRL)\"],\"capability_terms\":[\"rugged server computing\",\"rack-mounted server\",\"hardened server platform\",\"deployable computing platform\"],\"confidence\":0.94}",
+ "request_key": "afc7d4861dbca46a0d1e606d17c9fc663c5c4b5c50ef8a01c33485283261c9c3",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 962,
+  "output_tokens": 235
+ },
+ "user_sha256": "4ae8041ace090ba9"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:23:15Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"engineering and design for valve components\",\"short_names\":[\"SNVY\"],\"aliases\":[\"Standard Navy Valve Yard (SNVY) Engineering & Design Support and Supplies\",\"solicitation N0002426R2105\",\"Standard Navy Valve components of nuclear-powered submarines and aircraft carriers\",\"Naval Nuclear Propulsion Program\"],\"capability_terms\":[\"nuclear submarine valve components\",\"aircraft carrier valve components\",\"valve engineering and design support\",\"naval nuclear propulsion systems\"],\"confidence\":0.91}",
+ "request_key": "65eee701f1ffc1bde1bd42dfd5fc3d640ccbbad49b454db180986a523b578b32",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 894,
+  "output_tokens": 249
+ },
+ "user_sha256": "1c1ab14a37ddb295"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T09:42:12Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMW/A 170\",\"capability\":\"engineering support and spares for NTCDL\",\"short_names\":[\"NTCDL\"],\"aliases\":[\"Network Tactical Common Data Link (NTCDL) System\",\"NTCDL Engineering Support Services - RFI\",\"NAVWAR_HQCA_2026_A_005\"],\"capability_terms\":[\"tactical data link\",\"network tactical common data link\",\"software and cyber support\",\"system engineering support\",\"installation and troubleshooting\"],\"confidence\":0.97}",
+ "request_key": "53d56fdadcd70a20b3731242a39bf4a1efbe5e6864983c12266e5d7343afbac0",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 726,
+  "output_tokens": 217
+ },
+ "user_sha256": "344f6e9432ed6cae"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:31:27Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMS 401\",\"capability\":\"submarine sonar technical insertion integration\",\"short_names\":[\"TI-28\",\"TI-Next\",\"A-RCI\",\"SWFTS\"],\"aliases\":[\"Technology Insertion (TI)-28 and TI-Next Acoustic Rapid Action Commercial Off-th\",\"Technology Insertion (TI)-28 and TI-Next Acoustic - Rapid COTS Insertion (A-RCI)\",\"solicitation N0002426R6111\",\"Submarine Warfare Federated Tactical System (SWFTS)\",\"TI-26\",\"TI-30\",\"TI-32\"],\"capability_terms\":[\"submarine sonar technical insertions\",\"acoustic sensor system integration\",\"rapid COTS insertion\",\"forward fit and back fit networking\",\"Common Compute Environment\",\"submarine warfare federated tactical system\"],\"confidence\":0.97}",
+ "request_key": "e4d81fbc8aec138f97040d6bcdb646597fb7706875f69ca03134b8bc604d3dca",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1729,
+  "output_tokens": 412
+ },
+ "user_sha256": "f00d6699a1ab6bd2"
+}

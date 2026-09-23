@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:35:01Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMS 460\",\"capability\":\"naval power and energy systems R&D\",\"short_names\":[\"NPES\"],\"aliases\":[\"Research and Development of Naval Power and Energy Systems\",\"Broad Agency Announcement (BAA) N00024-19-R-4145\",\"N00024-19-R4145\",\"N00024-10-R-4215\",\"2019 Naval Power and Energy Systems Technology Development Roadmap (NPES TDR)\",\"PE 0603573N (Advanced Surface Machinery Systems)\"],\"capability_terms\":[\"shipboard electric power systems\",\"naval power systems\",\"energy management\",\"ship energy systems\",\"advanced surface machinery systems\"],\"confidence\":0.94}",
+ "request_key": "ca7bfb232d9b35ff24e1e471d0ffd34064f153ce162dbe2dfd6b93bca46618eb",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1749,
+  "output_tokens": 340
+ },
+ "user_sha256": "d7cd0e0a2d73256b"
+}

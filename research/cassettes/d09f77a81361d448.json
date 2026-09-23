@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:39:44Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"climate control system installation\",\"short_names\":[],\"aliases\":[\"Climate Control System Installation\",\"solicitation N00173-26-Q-1301365124A\"],\"capability_terms\":[\"HVAC installation\",\"building climate control\",\"environmental control system installation\",\"air conditioning system installation\"],\"confidence\":0.95}",
+ "request_key": "d09f77a81361d4488d0fb120c449bb775d1af6bf9c04cf1fe29945dff3e37a79",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1663,
+  "output_tokens": 213
+ },
+ "user_sha256": "e470ed16cc1eac6d"
+}

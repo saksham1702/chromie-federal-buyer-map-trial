@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T09:05:44Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "remarks_events",
+ "output_text": "{\"speaker_name\":\"\",\"speaker_role\":\"\",\"event_name\":\"PEO IWS Industry Day 2026\",\"event_host\":\"Program Executive Office Integrated Warfare Systems (PEO IWS)\",\"audience\":\"industry\",\"events\":[{\"event_type\":\"industry_engagement\",\"statement\":\"PEO IWS is inviting businesses, academia, consortiums, and other government organizations to attend its 2026 Industry Day and submit questions for the contracting panel.\",\"capability\":\"\",\"program\":\"\",\"organization\":\"PEO IWS\",\"person\":\"\",\"evidence_span\":\"This event is designed for representatives from large and small businesses, academia, consortiums, and other government organizations interested in collaborating with PEO IWS. To maintain a manageable environment, each company is requested to send no more than two representatives.\",\"amounts\":[],\"confidence\":0.98},{\"event_type\":\"capability_priority\",\"statement\":\"PEO IWS says its industry day will focus on AI and machine learning for maritime applications and on cyber applications.\",\"capability\":\"AI and machine learning\",\"program\":\"\",\"organization\":\"PEO IWS\",\"person\":\"\",\"evidence_span\":\"The agenda focuses on strategic direction, technology adoption, and maritime applications for AI and machine learning, alongside discussions on cyber applications and SBIR/STTR success stories.\",\"amounts\":[],\"confidence\":0.97}]}",
+ "request_key": "fa25536eb1150d144f444bfc0f2b79e8421cc00bb3f72a5c0fc34588e2366a9f",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "9bdbe03afea8d63f",
+ "usage": {
+  "input_tokens": 6694,
+  "output_tokens": 555
+ },
+ "user_sha256": "d8285c20be8824b2"
+}

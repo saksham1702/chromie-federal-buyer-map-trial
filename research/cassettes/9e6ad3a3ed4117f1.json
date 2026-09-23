@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:37:16Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"Apple MacBook Pro laptops\",\"short_names\":[\"Apple MacBook Pro\"],\"aliases\":[\"Apple Macbook Pro\",\"Apple MacBook Pro laptops\",\"solicitation N0017326Q5624\",\"combined synopsis/solicitation 2026-08-27: Apple MacBook Pro laptops\"],\"capability_terms\":[\"commercial laptop computers\",\"MacBook Pro notebooks\",\"Apple portable computers\"],\"confidence\":0.97}",
+ "request_key": "9e6ad3a3ed4117f144f24910be85599bd8ab1f93cde767f77bbfef643b421ad0",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1653,
+  "output_tokens": 216
+ },
+ "user_sha256": "349dfa2e1a4e3f45"
+}

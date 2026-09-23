@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T09:06:17Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "remarks_events",
+ "output_text": "{\"speaker_name\":\"\",\"speaker_role\":\"\",\"event_name\":\"IndoPac 2026\",\"event_host\":\"The Washington Times' Threat Status\",\"audience\":\"industry\",\"events\":[{\"event_type\":\"funding_change\",\"statement\":\"The Department of the Navy said its Fiscal Year 2027 Shipbuilding Plan requests $65.8 billion, nearly 57% more than last year.\",\"capability\":\"shipbuilding\",\"program\":\"\",\"organization\":\"Department of the Navy\",\"person\":\"\",\"evidence_span\":\"On May 11, 2026, the Department released its Fiscal Year 2027 Shipbuilding Plan, requesting $65.8 billion \u2014 a nearly 57% increase over last year \u2014 and outlining a 30-year roadmap to expand fleet capacity, revitalize the maritime industrial base, and deliver a more capable, ready, and lethal naval force.\",\"amounts\":[\"$65.8 billion\",\"57%\"],\"confidence\":0.98},{\"event_type\":\"strategy_change\",\"statement\":\"Chief of Naval Operations Admiral Daryl Caudle said the Navy will use an all-hands-on-deck approach with modular shipbuilding as the core of its future industrial strategy.\",\"capability\":\"modular shipbuilding\",\"program\":\"\",\"organization\":\"the Navy\",\"person\":\"\",\"evidence_span\":\"The president is rightly recognizing that we need a renaissance and a resurgent sea and shipbuilding in our country,\\\" Admiral Caudle told Threat Status. \\\"You're going to see an all hands on deck approach with modular shipbuilding as the core of the design change.\",\"amounts\":[],\"confidence\":0.94},{\"event_type\":\"capability_priority\",\"statement\":\"The Navy said it needs to expand fleet capacity and revitalize the maritime industrial base to build a more capable, ready, and lethal naval force.\",\"capability\":\"fleet capacity\",\"program\":\"\",\"organization\":\"Department of the Navy\",\"person\":\"\",\"evidence_span\":\"On May 11, 2026, the Department released its Fiscal Year 2027 Shipbuilding Plan, requesting $65.8 billion \u2014 a nearly 57% increase over last year \u2014 and outlining a 30-year roadmap to expand fleet capacity, revitalize the maritime industrial base, and deliver a more capable, ready, and lethal naval force.\",\"amounts\":[\"$65.8 billion\",\"57%\"],\"confidence\":0.92}]}",
+ "request_key": "c2f19bbe9108330c116d9d823991b887f43ef0d8646263671e486a79f04484e9",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "9bdbe03afea8d63f",
+ "usage": {
+  "input_tokens": 2478,
+  "output_tokens": 780
+ },
+ "user_sha256": "bb3c12bc10a31403"
+}

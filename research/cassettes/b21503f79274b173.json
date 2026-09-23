@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:24:01Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Sea Systems Command\",\"capability\":\"end-of-life ammunition hoist components\",\"short_names\":[\"MK6\"],\"aliases\":[\"MK6 Ammunition Hoist Components and Spares\",\"MK6 Ammunition Hoist Assembly\",\"N00024-26-R-5324\",\"N00024-23-G-5320\"],\"capability_terms\":[\"ammunition hoist\",\"shipboard ammunition handling\",\"ammunition hoist assembly\",\"end of life components\"],\"confidence\":0.97}",
+ "request_key": "b21503f79274b17305df4d9bb61d4567a85223c76e6ac8556c9de7f2283154d6",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 758,
+  "output_tokens": 232
+ },
+ "user_sha256": "a15c76e7e71762e5"
+}

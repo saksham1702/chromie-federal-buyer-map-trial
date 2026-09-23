@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:22:05Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PEO Integrated Warfare Systems (IWS) 4.0 International Programs and Foreign Military Sales Directorate\",\"capability\":\"Lifetime support for AEGIS combat systems\",\"short_names\":[\"LTS\",\"ACS\"],\"aliases\":[\"Lifetime Support (LTS)\",\"AEGIS Combat System (ACS)\",\"solicitation N00024-26-R-51XX\",\"international partners assessing or operating the AEGIS Combat System\",\"advanced studies, sustainment, and Lifetime Support (LTS)\"],\"capability_terms\":[\"combat system sustainment\",\"life cycle supportability\",\"COTS obsolescence management\",\"engineering and technical support\",\"system configuration interoperability\"],\"confidence\":0.97}",
+ "request_key": "5cd6f815ea295ce3d723946dfd226292bfee31dbfcda115c8b561f7f2a47e5db",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1678,
+  "output_tokens": 352
+ },
+ "user_sha256": "8c3cd80c38cd0d3f"
+}

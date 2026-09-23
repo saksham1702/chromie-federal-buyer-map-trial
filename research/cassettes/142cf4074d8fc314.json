@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T09:41:49Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMW 160\",\"capability\":\"C4I engineering support\",\"short_names\":[\"PMW 160\"],\"aliases\":[\"PEO C4I engineering support for PMW 160, the 2021 recompete\",\"N0003922F3000\",\"solicitation N0003921R3015\",\"SeaPort-NxG IDV N0017819D7264\"],\"capability_terms\":[\"C4I engineering support\",\"command and control systems engineering\",\"software and systems integration\",\"combat systems engineering\"],\"confidence\":0.93}",
+ "request_key": "142cf4074d8fc314df428985bc47de7dd56d08ddf054400f6cb96d9029fb60cf",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 553,
+  "output_tokens": 443
+ },
+ "user_sha256": "0c138a9e4d32d7c2"
+}

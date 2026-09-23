@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:31:58Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"nucleic acid synthesizer\",\"short_names\":[\"Kilobaser\"],\"aliases\":[\"Kilobaser Nucleic Acid Synthesizer and accessories\",\"solicitation N0017326Q5248\"],\"capability_terms\":[\"oligonucleotide synthesis\",\"DNA/RNA synthesis\",\"benchtop nucleic acid synthesis\"],\"confidence\":0.96}",
+ "request_key": "f0fc6bd8f4cab83ecd8f677886d5b2d0cdb53632e497ff89deaebf0296c27484",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1439,
+  "output_tokens": 239
+ },
+ "user_sha256": "54a13fe8d0db91e6"
+}

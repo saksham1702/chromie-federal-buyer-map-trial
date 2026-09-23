@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:26:04Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"high-field nuclear magnetic resonance spectrometer\",\"short_names\":[\"600 MHz Nuclear Magnetic Resonance Spectrometer\"],\"aliases\":[\"Purchase High Field 600MHz Nuclear Magnetic Resonance Spectrometer\",\"Purchase a High Field 600 MHz Nuclear Magnetic Resonance Spectrometer\",\"High Field 600 MHz Nuclear Magnetic Resonance Spectrometer\",\"Nuclear Magnetic Resonance Spectrometer\"],\"capability_terms\":[\"nuclear magnetic resonance spectroscopy\",\"high-field NMR\",\"600 MHz NMR spectrometer\",\"magnetic resonance spectroscopy\"],\"confidence\":0.93}",
+ "request_key": "aea630cf8000f40501bf09f2cd405ee9c0668dd5922ca3ccfdef8f094f836428",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 2063,
+  "output_tokens": 244
+ },
+ "user_sha256": "bacc8644765d609b"
+}

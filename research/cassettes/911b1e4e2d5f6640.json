@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:24:59Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"ONR Code 011\",\"capability\":\"strategy, policy, plans, and assessment support\",\"short_names\":[\"SPPA\"],\"aliases\":[\"ONR Code 011 Strategy, Policy, Plans, and Assessment (SPPA) Support Services\",\"N0001426RFI7002\",\"Code 011\"],\"capability_terms\":[\"strategy support\",\"policy analysis\",\"plans development\",\"assessment support\",\"SETA support\"],\"confidence\":0.93}",
+ "request_key": "911b1e4e2d5f6640f15d24eac2370abb07cc1326deb13a458d9b450daf8b2bc1",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1923,
+  "output_tokens": 206
+ },
+ "user_sha256": "83b9307190c9f2f6"
+}

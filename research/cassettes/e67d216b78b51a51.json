@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T09:42:42Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Direct Reporting Portfolio Manager (DRPM) / Portfolio Acquisition Executive (PAE) for Robotics and Autonomous Systems (RAS)\",\"capability\":\"medium unmanned surface vessel integration and testing\",\"short_names\":[\"MUSV\"],\"aliases\":[\"Medium Unmanned Surface Vessel (MUSV) Phase II Integration and Testing\",\"solicitation N0003926RR002\"],\"capability_terms\":[\"unmanned surface vessel\",\"autonomous maritime systems\",\"open-architecture autonomy compatibility\",\"payload integration\",\"maritime autonomous systems\"],\"confidence\":0.98}",
+ "request_key": "e67d216b78b51a516a17a2446ecbf942eb4185c5af1a54e4d0812caa73351818",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 994,
+  "output_tokens": 276
+ },
+ "user_sha256": "ede800b702d491f3"
+}

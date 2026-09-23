@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:34:11Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NAVSEA\",\"capability\":\"Docking repair and modernization availability\",\"short_names\":[\"DSRA\",\"USS Delbert D. Black\"],\"aliases\":[\"USS Delbert D. Black (DDG 119)\",\"FY27 Docking Selected Restricted Availability\",\"N00024-26-R-4418\",\"Chief of Naval Operations (CNO) Availability\",\"Arleigh Burke-class (DDG) Aegis guided missile destroyer\"],\"capability_terms\":[\"destroyer maintenance availability\",\"ship repair and modernization\",\"depot-level surface ship upkeep\",\"docking selected restricted availability\"],\"confidence\":0.97}",
+ "request_key": "0bcb7de666c8727d4963aab4219e34c6c1ff9317844ea387cfede124fe4063a7",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1101,
+  "output_tokens": 299
+ },
+ "user_sha256": "f8be79b4efc7845f"
+}

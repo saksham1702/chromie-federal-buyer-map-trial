@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:28:44Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"expendable acoustic countermeasure units\",\"short_names\":[\"ADC MK 5\"],\"aliases\":[\"Acoustic Device Countermeasure (ADC) MK 5\",\"Contract No. N00024-18-C-6209\",\"N0002418C6209MOD\",\"Low-Rate Initial Production (LRIP) units\"],\"capability_terms\":[\"acoustic countermeasure\",\"torpedo decoy\",\"submarine survivability\",\"anti-torpedo countermeasure\",\"expendable acoustic countermeasure\"],\"confidence\":0.95}",
+ "request_key": "a5d3efd384eea186ba736487dd2f8a506fd3614102e012cfd45431156e28c921",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 876,
+  "output_tokens": 270
+ },
+ "user_sha256": "67c96b99abef8719"
+}

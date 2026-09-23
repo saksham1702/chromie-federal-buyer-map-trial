@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:26:21Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"subsonic wind tunnel maintenance and upgrades\",\"short_names\":[\"Aerolab US NRL Subsonic CCWT\",\"Subsonic CCWT\"],\"aliases\":[\"Aerolab US NRL Subsonic CCWT Maintenance & Upgrades\",\"Aerolab US\"],\"capability_terms\":[\"subsonic wind tunnel\",\"aerodynamic test facility\",\"wind tunnel maintenance\",\"wind tunnel upgrades\"],\"confidence\":0.83}",
+ "request_key": "99102ffa3e7c45a52157da0fc2b9dbd1e1866b48b7273b7395ca73af26077a75",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1693,
+  "output_tokens": 243
+ },
+ "user_sha256": "90532df49261f1f4"
+}

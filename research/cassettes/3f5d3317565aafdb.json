@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:14:17Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NAVSEA\",\"capability\":\"Aegis combat system integration and testing\",\"short_names\":[\"SI&T\",\"Aegis Ship Integration and Test\",\"Aegis Combat System\"],\"aliases\":[\"N00024-15-C-5151\",\"solicitation N0002415C5151-01\",\"Lockheed Martin Rotary and Mission Systems\",\"new construction Aegis Destroyer (DDG) 51 Class\",\"In-service DDG 51\",\"Aegis Cruiser (CG) 47 Class ships\",\"Aegis land-based tactical sites\",\"Ballistic Missile Defense (BMD) capability upgrades\"],\"capability_terms\":[\"combat system testing\",\"ship integration\",\"equipment troubleshooting\",\"Aegis combat system support\",\"ballistic missile defense upgrades\"],\"confidence\":0.95}",
+ "request_key": "3f5d3317565aafdbd5151bc12688b36bc2defd01deb96b17a08ee14ae22955a1",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 928,
+  "output_tokens": 256
+ },
+ "user_sha256": "12e07df4b2a68080"
+}

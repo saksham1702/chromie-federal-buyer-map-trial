@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:10:14Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"multifunctional information distribution radio\",\"short_names\":[\"MIDS SF2\",\"MIDS\"],\"aliases\":[\"Multifunctional Information Distribution System (MIDS) Weapons Data Link (WDL) Small form Factor Weapons Attritable Radio Multi-Mode (SWARMM) Family 2 (SF2) Radio\",\"Request for Infomation for MIDS SF2\",\"Request for information/sources sought for the Multifunctional Information Distribution System (MIDS) Weapons Data Link (WDL) Small form Factor Weapons Attritable Radio Multi-Mode (SWARMM) Family 2 (SF2) Radio\"],\"capability_terms\":[\"tactical data link\",\"weapons data link\",\"multifunctional information distribution system\",\"small form factor radio\",\"attritable radio\"],\"confidence\":0.92}",
+ "request_key": "5d07e41ee6be63085c74f48020dd2ed720922310a9c50f223c9b3f7a83c5548d",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 591,
+  "output_tokens": 300
+ },
+ "user_sha256": "11ac6d914784e688"
+}

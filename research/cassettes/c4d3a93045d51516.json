@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:26:27Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"Surface laptops and privacy screens\",\"short_names\":[\"Surface Laptops and Privacy Screens\",\"Surface Laptops\"],\"aliases\":[\"solicitation N00173-26-Q-1301347656\",\"combined synopsis/solicitation\",\"brand name or equal\"],\"capability_terms\":[\"laptop computers\",\"privacy screens\",\"portable computing equipment\"],\"confidence\":0.92}",
+ "request_key": "c4d3a93045d515163ac67cdaf3392e5838f2802d6d2475ffdea0e78e3ed71030",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1689,
+  "output_tokens": 193
+ },
+ "user_sha256": "c8a7b86f47932763"
+}

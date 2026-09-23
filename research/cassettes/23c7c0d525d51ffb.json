@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:35:04Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"High-speed computer towers and accessories\",\"short_names\":[],\"aliases\":[\"High Speed Computer Towers and Accessories\",\"solicitation N0017326Q5272\",\"N0017326Q5272\",\"Naval Research Laboratory\",\"NRL\"],\"capability_terms\":[\"high-performance computing workstations\",\"desktop computer towers\",\"computer peripherals and accessories\",\"commercial computer hardware\"],\"confidence\":0.93}",
+ "request_key": "23c7c0d525d51ffb26b36d24685d02e01bc86bffe5dcd123fa0c3383396cfb95",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1657,
+  "output_tokens": 158
+ },
+ "user_sha256": "9ac537a40c59d725"
+}

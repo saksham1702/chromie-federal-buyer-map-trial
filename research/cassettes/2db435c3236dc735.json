@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:24:07Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory\",\"capability\":\"engineering support for R&D equipment\",\"short_names\":[\"Engineering Technical Support Services\"],\"aliases\":[\"solicitation N00173-26-RFI-EN02\",\"Design, Development, Implementation, and Maintenance of Special Research and Development and Associated Support Equipment\",\"engineering and technical support services for research and development equipment support\",\"NRL Pomonkey Facility\",\"Special Research and Development and Associated Support Equipment\"],\"capability_terms\":[\"research and development equipment support\",\"antenna and RF subsystem sustainment\",\"site telecommunications and infrastructure support\",\"radome and environmental control maintenance\",\"technical documentation and system upgrades\"],\"confidence\":0.91}",
+ "request_key": "2db435c3236dc735efc861815eb6c6f8c3e1d83c5cc5d585437dc02dfd52326a",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1626,
+  "output_tokens": 415
+ },
+ "user_sha256": "5304c9477e8a38e0"
+}

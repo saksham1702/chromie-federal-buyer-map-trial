@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:14:06Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"service craft and boats acquisition\",\"short_names\":[\"SCB MAC\",\"SCB\"],\"aliases\":[\"Service Craft and Boat (SCB) Multiple Award Contract (MAC)\",\"Service Craft and Boats (SCB) Multiple Award Contract (MAC)\",\"solicitation N00024-26-R-2200\"],\"capability_terms\":[\"service craft procurement\",\"boat acquisition\",\"small craft acquisition\",\"naval service boats\"],\"confidence\":0.94}",
+ "request_key": "a9e4412a588705b20a526f2d078c9a501dc30472d45205b763020fa20ff3ec17",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 880,
+  "output_tokens": 178
+ },
+ "user_sha256": "ef948392690c2de2"
+}

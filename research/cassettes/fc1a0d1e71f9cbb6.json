@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:30:57Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Sea Systems Command (NAVSEA)\",\"capability\":\"Ship docking, maintenance, modernization, repair\",\"short_names\":[\"DSRAs\",\"USS ST LOUIS\",\"USS DONALD COOK\"],\"aliases\":[\"N0002426R4405\",\"N00024-26-R-4405 A0004\",\"fiscal year 2027 (FY27) Docking Selected Restricted Availabilities (DSRAs)\",\"the execution of the USS ST LOUIS (LCS 19) and USS DONALD COOK (DDG 75)\",\"single solicitation\"],\"capability_terms\":[\"docking selected restricted availabilities\",\"ship maintenance and repair\",\"surface ship modernization\",\"docking availability\",\"pierside availability\"],\"confidence\":0.95}",
+ "request_key": "fc1a0d1e71f9cbb6979c970345d4594e6a3e989e7a082e2f16bb1311ccf20fa4",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 2155,
+  "output_tokens": 397
+ },
+ "user_sha256": "f45126fc6b868416"
+}

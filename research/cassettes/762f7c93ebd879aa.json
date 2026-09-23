@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:23:51Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"SEA 21\",\"capability\":\"shipboard support for Welin Lambie davits\",\"short_names\":[\"Welin Lambie\",\"LUM 12A\",\"FAO 10A\",\"UDTD 3.2A\",\"PIV 3.6E\"],\"aliases\":[\"System Support on Welin Lambie davits onboard LHD, LCS-2 variant, CVN 78, and LS\",\"Welin Lambie LUM 12A, FAO 10A, UDTD 3.2A, and PIV 3.6E davits\",\"U.S. Navy owned Welin Lambie LUM 12A, FAO 10A, UDTD 3.2A, and PIV 3.6E davits\",\"Welin Lambie LUM 12A, FAO 10A, UDTD3.2A, and PIV3.6E davits\",\"solicitation N00024-26-R-4442\",\"LHD, LCS-2 variant, CVN 78, and LSD Class vessels\"],\"capability_terms\":[\"shipboard davit support\",\"davit maintenance and repair\",\"davit overhaul and modernization\",\"removal and installation of davits\",\"fleet response plan training\",\"technical logistics and engineering support\"],\"confidence\":0.9}",
+ "request_key": "762f7c93ebd879aae93c9ec7bd2b6f514a7015acee6f96ae6c1c8b04533b6e34",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1846,
+  "output_tokens": 413
+ },
+ "user_sha256": "46a527b738c133c5"
+}

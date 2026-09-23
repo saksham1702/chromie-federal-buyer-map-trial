@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:25:16Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NAVSEA\",\"capability\":\"initial SM-6 Block IAU missile production\",\"short_names\":[\"SM-6\",\"SM-6 Block IAU\"],\"aliases\":[\"Standard Missile-6 (SM-6) Block IAU Transition to Production (TTP) Synopsis\",\"SM-6 production contract\",\"SM-6 Block IAU missile\",\"SM-6 Block IA All-Up-Round (AUR)\",\"SM-6 Block IAU Missile Performance Specification (MPS)\",\"N00024-25-C-5409\"],\"capability_terms\":[\"missile production\",\"surface-to-air missile\",\"transition to full-rate production\",\"all-up-round missile upgrade\",\"missile manufacturing process validation\"],\"confidence\":0.97}",
+ "request_key": "bbe3f0e696bad3a7e10164adde6057a808e17e43a755a8a41bdbe4dbce1fa8ec",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 744,
+  "output_tokens": 384
+ },
+ "user_sha256": "c767956518230018"
+}

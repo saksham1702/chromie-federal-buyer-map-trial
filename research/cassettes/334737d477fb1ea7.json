@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T09:42:36Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Tactical Data Link (TDL) Program Office\",\"capability\":\"Weapons data link radios\",\"short_names\":[\"MIDS\",\"WDL\",\"SWARMM\",\"SF3\"],\"aliases\":[\"Multifunctional Information Distribution System (MIDS) Weapons Data Link (WDL) Small Weapons Attritable (SWARMM) Family 3 (SF3) Radios\",\"MIDS WDL SF3 terminals\",\"Notice ID MIDS-SWARMM-FAMILY-3\",\"solicitation N00039PRESOL_SF3\",\"National Security Agency (NSA) certified MIDS Weapons Data Link (WDL) Small Weapons Attritable (SWARMM) Family 3 (SF3) Radios\"],\"capability_terms\":[\"tactical data link\",\"weapons data link\",\"Link 16 terminals\",\"NSA-certified radio terminals\",\"tactical radio data link\"],\"confidence\":0.98}",
+ "request_key": "334737d477fb1ea76bbc21024f205469a3a22db44e827147aa7c6bb96bb9b19d",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 979,
+  "output_tokens": 491
+ },
+ "user_sha256": "802f3575ef73cf90"
+}

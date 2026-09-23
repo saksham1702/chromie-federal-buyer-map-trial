@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:37:13Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMS 351 Program Office\",\"capability\":\"advanced payload integration for future submarines\",\"short_names\":[],\"aliases\":[\"Industry Day - Advanced Payload Integration Capabilities for Future Submarines\",\"DSP Future Submarine Payload Integration Industry Day\",\"solicitation N00024-26-R-6250\"],\"capability_terms\":[\"submarine payload integration\",\"payload handling systems\",\"launch and recovery systems\",\"onloading and offloading payloads\",\"secure data exchange\",\"underway payload support\"],\"confidence\":0.94}",
+ "request_key": "d47aeba192e7e952a18fc7e5582b0e45836736bb3eae420218f8da4f6e3e5ff4",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1787,
+  "output_tokens": 370
+ },
+ "user_sha256": "3a0ea0c8a3219503"
+}

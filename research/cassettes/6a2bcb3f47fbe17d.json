@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:35:10Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"repair and recondition SpectroMag PT system\",\"short_names\":[\"SpectroMag PT\"],\"aliases\":[\"Oxford/Quantum Design's SpectroMag PT\",\"Repair and Reconditioning Field service of Oxford/Quantum Design's SpectroMag PT\",\"solicitation N0017326Q1301397941\"],\"capability_terms\":[\"magnetometer repair\",\"instrument reconditioning\",\"field service support\",\"laboratory equipment maintenance\"],\"confidence\":0.96}",
+ "request_key": "6a2bcb3f47fbe17db8c851503b4d7b2cda963fbc736f8203f844454496fe0c30",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1703,
+  "output_tokens": 196
+ },
+ "user_sha256": "6acf0f79c34be63c"
+}

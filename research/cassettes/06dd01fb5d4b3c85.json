@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:26:13Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"janitorial services for buildings\",\"short_names\":[],\"aliases\":[\"N0017326Q5223\",\"Naval Research Laboratory\",\"Key West, Florida\",\"Building F1 and F15\"],\"capability_terms\":[\"janitorial services\",\"custodial services\",\"facility cleaning\",\"building maintenance cleaning\"],\"confidence\":0.98}",
+ "request_key": "06dd01fb5d4b3c857106b629938ee91474f9775049cee31d1ffd3b94d7df69ac",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1619,
+  "output_tokens": 152
+ },
+ "user_sha256": "83a9475af41be72c"
+}

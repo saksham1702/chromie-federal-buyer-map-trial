@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:23:39Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"OpenText media management software upgrade\",\"short_names\":[\"OpenText Media Management\"],\"aliases\":[\"OpenText Media Management Software and Services Upgrade\",\"solicitation N00173-26-Q-1301306922\"],\"capability_terms\":[\"media asset management\",\"digital asset management\",\"content management\",\"software licensing and maintenance\"],\"confidence\":0.87}",
+ "request_key": "efca46376b8a68bc1b09fe7d2add1131b8e4e8b2631debc7d7547d8ce81f0d26",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1674,
+  "output_tokens": 206
+ },
+ "user_sha256": "4bdb7a9779270090"
+}

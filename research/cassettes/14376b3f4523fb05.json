@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:35:42Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"server and network hardware\",\"short_names\":[\"PowerEdge\"],\"aliases\":[\"Dell PowerEdge R760xs CTO\",\"Cisco Systems Catalyst 9200L 24-port data only 4 x10G, Network Advantage\",\"Cisco Systems C9200L Cisco DNA Advantage, 24-port Term License\",\"Cisco Systems C9200L Cisco DNA Advantage, 24-port, 3 Year Term license\",\"Cisco Systems C9200L Network Advantage, 24-port license\",\"Moxa 2 port RS-422/485 device server, 10/100M Ethernet, terminal block, 12-30VDC (no power adapter)\",\"Moxa 2 port device server, 10/100M Ethernet, RS-232, DB9 male, 0.5KV serial surge, 12~48VDC, 0~60C\",\"solicitation N0017326Q5831\"],\"capability_terms\":[\"rack server procurement\",\"network switching equipment\",\"serial device servers\",\"enterprise networking hardware\"],\"confidence\":0.88}",
+ "request_key": "14376b3f4523fb059691dc77cd7731827c4c735fb0fb7e26305acd39080d6940",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1999,
+  "output_tokens": 435
+ },
+ "user_sha256": "f173155f791b9a9d"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:25:55Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NAVSEA\",\"capability\":\"submarine ship monitoring system upgrades\",\"short_names\":[\"TI-28\",\"TI-next\",\"TSMS\",\"A-RCI\"],\"aliases\":[\"Technology Insertion (TI)-28 and TI-next Total Ship Monitoring System\",\"Total Ship Monitoring System (TSMS)\",\"Acoustic - Rapid COTS Insertion (A-RCI) upgrades\",\"AN/BQQ-10 A-RCI TI/APB Build Schedule for TI-28, and TI-next\",\"solicitation N00024-26-R-6109\"],\"capability_terms\":[\"submarine hull monitoring\",\"acoustic sensor processing\",\"shipboard monitoring hardware and software\",\"submarine upgrade kits\",\"signal processing for arrays\"],\"confidence\":0.9}",
+ "request_key": "072eddeb3e6a7351e06c34ad62782f5f521f1f20d1662d3aa9c41547f0e6f007",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1754,
+  "output_tokens": 236
+ },
+ "user_sha256": "d27612f5d098d023"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:14:15Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NAVSEA\",\"capability\":\"surface ship maintenance and repair availability\",\"short_names\":[\"USS AUGUSTA\",\"LCS 34\",\"DSRA\"],\"aliases\":[\"FY26 USS AUGUSTA (LCS 34) Docking Selected Restricted Availability (DSRA)\",\"USS AUGUSTA (LCS 34) FY26 DSRA\",\"N00024-26-R-4420\",\"Docking Selected Restricted Availability\",\"CNO Availability\",\"CNO-scheduled depot Availabilities\"],\"capability_terms\":[\"docking selected restricted availability\",\"ship depot availability\",\"surface ship maintenance\",\"ship repair and modernization\",\"fleet readiness maintenance\"],\"confidence\":0.98}",
+ "request_key": "c6affe55eb0828bbe5d399ee3fe0624b53856ff0b496343e0ebe0a251cb57c5f",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1104,
+  "output_tokens": 323
+ },
+ "user_sha256": "e582eb53435f5cc8"
+}

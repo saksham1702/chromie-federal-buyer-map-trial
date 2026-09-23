@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:31:09Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMS 495\",\"capability\":\"ATR software support for AN/AQS-20\",\"short_names\":[\"AN/AQS-20\",\"ATR\",\"GATR\"],\"aliases\":[\"Automatic Target Recognition (ATR)\",\"AN/AQS-20 program\",\"Generalized ATR (GATR)\",\"Multi-Forward Side Look Sonar (MFSLS)\",\"MineHunter (MH)\",\"solicitation N00024-26-R-2224\",\"DEPS contract N00024-17-C-6311\",\"Littoral Combat Ship (LCS) Mission Module (MM)\",\"post-mission analysis (PMA)\"],\"capability_terms\":[\"automatic target recognition\",\"mine countermeasure sonar processing\",\"surface and near-surface mine detection\",\"algorithm fusion capability\",\"synthetic aperture sonar imagery analysis\"],\"confidence\":0.96}",
+ "request_key": "0de67dc9aa37c97aacdba6165b0f7814383e897eee6c8075b8871d3b0f1993f2",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1455,
+  "output_tokens": 381
+ },
+ "user_sha256": "ed8ede10d06bea66"
+}

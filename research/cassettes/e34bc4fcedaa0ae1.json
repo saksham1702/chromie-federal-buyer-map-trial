@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T09:42:17Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMW/A 170\",\"capability\":\"engineering support for tactical data link systems\",\"short_names\":[\"NTCDL\"],\"aliases\":[\"Network Tactical Common Data Link (NTCDL) Engineering Support Services (ESS)\",\"NTCDL\",\"N0003926RB002\",\"NTCDL systems\"],\"capability_terms\":[\"tactical data link\",\"Common Data Link\",\"ISR data transmit/receive\",\"TCPED support\",\"CASREP and ship visit support\",\"software and cyber updates\"],\"confidence\":0.95}",
+ "request_key": "e34bc4fcedaa0ae1088664a36e18e517f8b8f943bc597efbeeb552eeed7f8888",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1156,
+  "output_tokens": 181
+ },
+ "user_sha256": "babb60007e8d24d1"
+}

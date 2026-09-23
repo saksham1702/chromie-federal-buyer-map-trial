@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:10:31Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Joint Tactical Network Center (JTNC)\",\"capability\":\"resilient tactical radio waveforms\",\"short_names\":[\"BAA\",\"RESILIENT RADIO-WAVEFOR\"],\"aliases\":[\"BROAD AGENCY ANNOUNCEMENT (BAA) INTELLIGENCE BRIEF & RESILIENT RADIO-WAVEFOR\",\"solicitation NAVWAR_Headquarters_MKTSVY_199FA6\",\"tactical radio industry representatives\",\"Intelligence Community (IC)\"],\"capability_terms\":[\"tactical radio resilience\",\"GPS jamming mitigation\",\"interception/targeting mitigation\",\"cyber mitigation\",\"directed energy weapon mitigation\"],\"confidence\":0.8}",
+ "request_key": "64f2ad35d73f3757ed9f95799182704f0a74ec47ce7f38ec5694811ef5b55be7",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 672,
+  "output_tokens": 291
+ },
+ "user_sha256": "2ecda0d37c0c027a"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:14:10Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMW 150\",\"capability\":\"produce modernized command and control processors\",\"short_names\":[\"C2P Mod\",\"C2P\"],\"aliases\":[\"Command and Control Processor Production\",\"modernized Command and Control Processor (C2P Mod) systems\",\"C2P Mod RFI Sanitized_NAVWAR HQCA-2025-A-012.pdf\",\"NAVWAR_Headquarters_MKTSVY_19F1A2\"],\"capability_terms\":[\"command and control processor\",\"command and control system modernization\",\"C2P modernization\",\"tactical command and control processing\"],\"confidence\":0.95}",
+ "request_key": "ba2f53cf1bf01c2b2279b90f66e9d94f6c512d2eb562f3b982861819fa0fd2cc",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 789,
+  "output_tokens": 304
+ },
+ "user_sha256": "89c940566950e20b"
+}

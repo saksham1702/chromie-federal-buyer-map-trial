@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:32:57Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"single-mode optical fiber\",\"short_names\":[\"Truewave - XL Ocean Single Mode Fiber\"],\"aliases\":[\"solicitation N00173-26-Q-1301370874\",\"RFQ N00173-26-Q-1301370874\",\"N00173-26-Q-1301370874\",\"Truewave - XL Ocean Single Mode Fiber solicitation\"],\"capability_terms\":[\"single-mode fiber\",\"fiber optic cable\",\"optical communications fiber\",\"undersea-grade fiber\"],\"confidence\":0.94}",
+ "request_key": "dc2a71f8b2d2f4267ae4b25eb67d67807c3fb9a3cdf58659a2f62bd456806afe",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1684,
+  "output_tokens": 247
+ },
+ "user_sha256": "8c30ada9c6ed98d4"
+}

@@ -9,7 +9,7 @@ Reads the loaded agency-intelligence tables and reports two things: every requir
 whose current revision supersedes an earlier one with a different anticipated award
 window, and every funding estimate superseded by a different value for the same
 fiscal period. Output follows the
-format section 9 of `06_continuous_monitor_design.md` sets: what changed, the office
+format section 9 of `research/docs/06_continuous_monitor_design.md` sets: what changed, the office
 and its ancestry, the evidence, the uncertainty, and why it matters.
 
 Offline: one `psql` read, no network. Detection is a query rather than a diff of
@@ -33,7 +33,11 @@ DEFAULT_DSN = "postgresql://postgres:postgres@127.0.0.1:54322/postgres"
 # documented against (PEO C4I -> PAE Mission Systems), never pushed down onto the
 # office: the release scoped the move to "mission systems elements" and itemized no
 # offices, so an office's own placement is established only by its own source.
-REVISIONS_SQL = """
+# Only a forecast release states an award window; a notice chained after it restates the requirement and says
+# nothing about the window, so its null is not a move. The alert compares forecast statements with each other.
+FORECAST_SOURCE = "chromie-federal-buyer-map-trial/datapack"
+
+REVISIONS_SQL = f"""
 with recursive ancestry as (
   select o.id as office_id, 1 as depth, o.id as ancestor_id, o.name, o.parent_organization_id
     from public.gov_organizations o
@@ -107,6 +111,7 @@ select json_agg(row_to_json(t)) from (
       join public.agency_brain_items bi on bi.id = e.brain_item_id
       where ae.assertion_id = prior_a.id limit 1) prior_item on true
    where cur.expected_from is distinct from prior.expected_from
+     and cur_a.source_key like '{FORECAST_SOURCE}%'
    order by n.source_key
 ) t
 """

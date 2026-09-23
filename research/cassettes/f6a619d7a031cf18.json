@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T08:54:58Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "remarks_events",
+ "output_text": "{\"speaker_name\":\"Adm. Daryl Caudle\",\"speaker_role\":\"Chief of Naval Operations\",\"event_name\":\"CNO Remarks at INR 250 Aboard USS Kearsarge\",\"event_host\":\"\",\"audience\":\"public\",\"events\":[{\"event_type\":\"conference_appearance\",\"statement\":\"Adm. Daryl Caudle delivered remarks aboard USS Kearsarge at the International Naval Review 250 ceremony.\",\"capability\":\"\",\"program\":\"\",\"organization\":\"\",\"person\":\"Adm. Daryl Caudle\",\"evidence_span\":\"CNO Remarks at INR 250 Aboard USS Kearsarge Aboard USS Kearsarge in New York Harbor Chief of Naval Operations Adm. Daryl Caudle Share PRINT RSS Good morning, everyone.\",\"amounts\":[],\"confidence\":0.97}]}",
+ "request_key": "f6a619d7a031cf18bed80f05210ba2326aeb07b603de3ab0d61038b8885d7f91",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "9bdbe03afea8d63f",
+ "usage": {
+  "input_tokens": 2077,
+  "output_tokens": 356
+ },
+ "user_sha256": "b491f315cb596f64"
+}

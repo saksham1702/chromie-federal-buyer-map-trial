@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:35:14Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory\",\"capability\":\"software license renewals\",\"short_names\":[\"3D\",\"GRASP\",\"CHAMP\"],\"aliases\":[\"3D and GRASP licenses\",\"Grasp and Champ License renewals\",\"N00173-26-Q-6013\"],\"capability_terms\":[\"software license renewals\",\"software maintenance renewals\",\"commercial software licensing\",\"brand-name-or-equal software licenses\"],\"confidence\":0.66}",
+ "request_key": "ede0c6d3527cdbe3b614bd96ea881e003bf5b5961be8644455f5e3da3f43497e",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1735,
+  "output_tokens": 444
+ },
+ "user_sha256": "3c56ba6f20be271f"
+}

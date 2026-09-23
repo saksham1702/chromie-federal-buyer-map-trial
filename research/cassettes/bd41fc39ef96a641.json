@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:30:31Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Surface Warfare Center (NSWC), Port Hueneme Division (PHD)\",\"capability\":\"MK 41 VLS canister production\",\"short_names\":[\"MK 41 VLS Canister\",\"MK 41 VLS\"],\"aliases\":[\"MK 41 VLS Canister Production Industry Day\",\"solicitation VLS008\",\"NAVSEA MK 41 VLS Canister Industry Day RSVP\",\"MK 41 VLS Canister Production Industry Day Request Form\",\"VLS Canisters\"],\"capability_terms\":[\"vertical launch system canisters\",\"shipboard missile canister production\",\"VLS canister manufacturing\",\"MK 41 canister fabrication\"],\"confidence\":0.95}",
+ "request_key": "bd41fc39ef96a641b45ce5239a66692629315cdfd26296f67180d2059e2134b6",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1180,
+  "output_tokens": 327
+ },
+ "user_sha256": "f5be23cdaa37757a"
+}

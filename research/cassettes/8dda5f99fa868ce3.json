@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:23:33Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NAVSEA\",\"capability\":\"Aegis foreign-military-sales lifetime support\",\"short_names\":[\"AWS\",\"Aegis\",\"ACS\"],\"aliases\":[\"FY 2027-2032 AEGIS FMS LIFETIME SUPPORT\",\"FY 27-32 lifetime support requirements for Aegis Weapon System (AWS) Foreign Military Sales (FMS) customers\",\"Aegis Weapon System (AWS)\",\"Aegis Combat System (ACS)\",\"solicitation N0002426R51XX\"],\"capability_terms\":[\"Aegis combat system support\",\"foreign military sales shipboard support\",\"combat system engineering\",\"software management\",\"installation and check-out\",\"in-country support\"],\"confidence\":0.97}",
+ "request_key": "8dda5f99fa868ce3e3ab7dfbca2d4ba53adf24c203663a25e19dc473b9c80e36",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1092,
+  "output_tokens": 362
+ },
+ "user_sha256": "1ad53cfbf138b7ed"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:30:07Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory's Tactical Electronic Warfare Division, Code 5700\",\"capability\":\"Fabrication of aluminum transportation-frame parts\",\"short_names\":[\"transportation frame\"],\"aliases\":[\"FFabrications of Aluminum parts for transportation frame\",\"Combined Synopsis/Solicitation N00173-26-Q-1301357113A2\",\"solicitation N0017326Q1301357113A2\",\"Attachment 2 - Drawings\"],\"capability_terms\":[\"aluminum fabrication\",\"transportation frame parts\",\"structural frame fabrication\",\"metal parts fabrication\"],\"confidence\":0.89}",
+ "request_key": "ec75384905a37fc5aeebca61cb68bc5d6e26f9b0a821d986fe9bf8a9ec11e773",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 710,
+  "output_tokens": 277
+ },
+ "user_sha256": "e22e527eb3c777a0"
+}

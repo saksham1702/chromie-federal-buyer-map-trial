@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:11:02Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PEO MLB\",\"capability\":\"Enterprise resource planning software\",\"short_names\":[\"ERP+\"],\"aliases\":[\"CANCELLED PEO MLB ERP+ RFI\",\"DRAFT CSO\",\"request for information\",\"solicitation NAVWAR_Headquarters_MKTSVY_19B28E\"],\"capability_terms\":[\"enterprise resource planning\",\"ERP software\",\"business systems modernization\",\"financial management systems\"],\"confidence\":0.86}",
+ "request_key": "ed13a9076cb2d21f36bf43fdef934fbb2704e7ce6ac5ae9a81fab724936e7ea8",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 566,
+  "output_tokens": 238
+ },
+ "user_sha256": "c4ee787b1ae20bc1"
+}

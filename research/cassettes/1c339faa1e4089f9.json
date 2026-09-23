@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:21:41Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMS 495\",\"capability\":\"remote mine detection and localization\",\"short_names\":[\"RMH Module\"],\"aliases\":[\"Remote Minehunting (RMH) Module\",\"solicitation N0002425R6304\",\"N00024-25-R-6304\",\"Remote Minehunting Module System Performance Specification\",\"Remote Minehunting Module System Performance Specification REV A\",\"APPENDIX A\u2014(U) CLASSIFIED PERFORMANCE REQUIREMENTS REV A\",\"Classified Addendum to the Performance Specification\",\"Mine Countermeasures Unmanned Surface Vehicle (MCM USV)\"],\"capability_terms\":[\"minehunting\",\"mine detection\",\"mine classification\",\"mine localization\",\"countermine warfare\"],\"confidence\":0.96}",
+ "request_key": "1c339faa1e4089f91007e84c490e0bdb39d32dda5187ddcaa33c8c43859ebe89",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1876,
+  "output_tokens": 356
+ },
+ "user_sha256": "72a4beb3db77350f"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:35:26Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory\",\"capability\":\"secure software edition\",\"short_names\":[\"XR-4 Secure Edition\",\"XR-4\"],\"aliases\":[\"2026 XR-4 Secure Edition\",\"2026 | XR-4 Secure Edition\",\"solicitation N0017326Q1301400110\"],\"capability_terms\":[\"secure software\",\"encrypted software\",\"software licensing\"],\"confidence\":0.64}",
+ "request_key": "5d99eb032764aa581232dc50fe09e4c9fa56665882734cc3718cfe22a37b2b32",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1681,
+  "output_tokens": 349
+ },
+ "user_sha256": "50b7328b5c769dc1"
+}

@@ -1,0 +1,33 @@
+{
+  "activity": "NAVSEA Enterprise (HQ and FPOs)",
+  "fetched_from": "https://web.archive.org/web/2026id_/https://www.navsea.navy.mil/Portals/103/Documents/Small_Business_Forum/LRAE-NAVSEA_Enterprise_LRAE_18DECEMBER2025_FINAL_Locked.xlsx",
+  "header_row": 8,
+  "joins_collected": false,
+  "method": "wayback",
+  "outputs": {
+    "joins.csv": "63219a5b88d953f08ec1582291a787516a5319cde8f57daa76b1f45232ba3a9b",
+    "layers/evidence.csv": "3db4106b16b076019ab90a7daabecb75101f4c4f683d7340b62069164fc683fe",
+    "layers/funding_observations.csv": "39cc98c18359e8f06bef99aa5233a3bee62af8a4a586281534f222ddf8b13de0",
+    "layers/need_requirements.csv": "80f2240b157214a4445626d30a1d274c499c6f5a1497589cb23e29050b41423b",
+    "layers/needs.csv": "d409164213ff75e0cdab8150ea20a8bd3dac9874d13def4299a56efe8853231d",
+    "layers/procurement_refs.csv": "cf131087c05f27244995998960c0c1208c37fa18ca7ddb1df3b12627e97f2cd7",
+    "reconciliation.md": "a2e6f69cd6bdcdd79bbb07d9b5bdd6de6bffc8981f77fa86cb7cc6c3d2318f2d",
+    "rows_classified.csv": "28476516be32f57cb3aa1ed6086843d8bfc9c32c3c00886fff57592c66158b41",
+    "rows_raw.csv": "14e3fde1023a1e3b59224b04fa7ce786f77d956b505129adc7dff8d749369305"
+  },
+  "raw_path": "data/raw/7a1b7d95f85b_LRAE-NAVSEA_Enterprise_LRAE_18DECEMBER2025_FINAL_Locked.xlsx",
+  "record_key": "pid, or the row itself (release key and row number) when the row has none; nothing is merged at import",
+  "refetch": "python research/tools/fetch.py 'https://www.navsea.navy.mil/Portals/103/Documents/Small_Business_Forum/LRAE-NAVSEA_Enterprise_LRAE_18DECEMBER2025_FINAL_Locked.xlsx' --wayback 20251226203409",
+  "regenerate": "python research/tools/lrae_package.py build",
+  "release_date": "2025-12-18",
+  "release_date_as_written": "",
+  "release_key": "lrae_navsea_2025-12",
+  "release_note": "",
+  "retrieved_at": "2026-09-16T15:43:42Z",
+  "scope": "all",
+  "sha256": "7a1b7d95f85bd10ccd87e93b256936d3f9132d7f97e9b81a180a7768cf627f15",
+  "sheet": "Annex 25 Template",
+  "size": 192018,
+  "source_url": "https://www.navsea.navy.mil/Portals/103/Documents/Small_Business_Forum/LRAE-NAVSEA_Enterprise_LRAE_18DECEMBER2025_FINAL_Locked.xlsx",
+  "wayback_timestamp": "20251226203409"
+}

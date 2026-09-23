@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:30:42Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"bronze bust and base restoration\",\"short_names\":[\"Bronze Bust\"],\"aliases\":[\"Bronze Bust and Base Restoration\",\"Bronze Bust Restoration, Base Repair and Cleaning, and Refinishing or Restoration Survey and Continued Care Plan\",\"Bronze Bust Restoration\",\"Base Repair and Cleaning\",\"Refinishing or Restoration Survey and Continued Care Plan\",\"solicitation N0017326Q5819\"],\"capability_terms\":[\"bronze sculpture restoration\",\"statue base repair\",\"artifact cleaning and refinishing\",\"conservation survey and care plan\"],\"confidence\":0.98}",
+ "request_key": "f756ae257ba11533815bb4e5b0b3d882774fc3d80384fff3a973f46c54526345",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1672,
+  "output_tokens": 201
+ },
+ "user_sha256": "070f1262c0e11757"
+}

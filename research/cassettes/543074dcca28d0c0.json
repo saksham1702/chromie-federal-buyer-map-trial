@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:20:03Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"SEA 0244\",\"capability\":\"dry-dock and pier-side ship maintenance\",\"short_names\":[\"USS DONALD COOK\",\"DDG 75\",\"FY27 DSRA\"],\"aliases\":[\"N0002426R4405\",\"solicitation N0002426C4405\",\"N00024-26-R-4405\",\"FY27 Dry Docking Selected Restricted Availability\",\"Chief of Naval Operations (CNO) availability\",\"Coast-wide (East Coast) solicitation\"],\"capability_terms\":[\"destroyer availability overhaul\",\"dry-dock maintenance\",\"pier-side ship repair\",\"ship alteration\",\"selected restricted availability\",\"naval surface ship maintenance\"],\"confidence\":0.95}",
+ "request_key": "543074dcca28d0c0f36daf801af47d275d73736e8fb223864d002f445cd186dd",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1790,
+  "output_tokens": 434
+ },
+ "user_sha256": "4213b4a51f9fd3b1"
+}

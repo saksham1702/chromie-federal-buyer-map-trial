@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:14:30Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"Dry Deck Shelter maintenance and modernization\",\"short_names\":[\"Dry Deck Shelter\",\"DDS\"],\"aliases\":[\"Dry Deck Shelter (DDS) Program\",\"N00024-25-R-4316\",\"N0002425R4316\",\"N00024-26-R-4316\"],\"capability_terms\":[\"dry deck shelter support\",\"submarine interface equipment fit-ups\",\"field change installations\",\"rotatable pool support\",\"inspection and repair\",\"engineering support\"],\"confidence\":0.97}",
+ "request_key": "191bbf0604c95dbf2ef9debd7a8e8bebab030bf2b1f5ad998eaba799d251110d",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1392,
+  "output_tokens": 275
+ },
+ "user_sha256": "ce86729d5d00271b"
+}

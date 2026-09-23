@@ -5,7 +5,7 @@
     python research/tools/replay_attributions.py --resolver /path/to/program_office_resolver.py
     python research/tools/replay_attributions.py --selfcheck
 
-Each example in `research/attribution_examples.json` records a contract, the office
+Each example in `research/memory/attribution_examples.json` records a contract, the office
 this research says owns it, and the passages that say so. This feeds those same
 passages to `resolve_program_office()` with the offices and edges loaded in the
 local database and reports where the resolver agrees, disagrees or declines.
@@ -30,7 +30,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-EXAMPLES = ROOT / "research" / "attribution_examples.json"
+EXAMPLES = ROOT / "research" / "memory" / "attribution_examples.json"
 DEFAULT_RESOLVER = Path.home() / "chromie-runner/orchestration/gov/agency_brain/program_office_resolver.py"
 DEFAULT_DSN = "postgresql://postgres:postgres@127.0.0.1:54322/postgres"
 

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:33:17Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Portfolio Acquisition Executive (PAE) Maritime\",\"capability\":\"design and build LPD Flight II ships\",\"short_names\":[\"LPD Flight II\",\"LPD\"],\"aliases\":[\"Landing Platform Dock (LPD) Flight II Detailed Design and Construction (DD&C)\",\"Landing Platform Docks (LPDs)\",\"N00024-26-R-2435\"],\"capability_terms\":[\"amphibious transport dock shipbuilding\",\"amphibious combatant construction\",\"detailed design and construction\",\"major surface combatant shipbuilding\"],\"confidence\":0.96}",
+ "request_key": "946b513021d5c45e222c653930479f5e3c7950a9c0429f35f07638e6d44d73c6",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1662,
+  "output_tokens": 281
+ },
+ "user_sha256": "b54b5c77df0faa3d"
+}

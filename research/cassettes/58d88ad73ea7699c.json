@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:34:21Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"U.S. Naval Research Laboratory, Code 8124\",\"capability\":\"corrosion control and coating services\",\"short_names\":[\"AN/FSC-78\"],\"aliases\":[\"CORROSION CONTROL AND COATING FOR AN/FSC-78 TERMINAL IN GUAM\",\"solicitation N0017326Q2440\",\"one AN/FSC-78 terminal located in Guam\"],\"capability_terms\":[\"antenna corrosion control\",\"protective coating application\",\"antenna surface preparation\",\"sheet-metal restoration\"],\"confidence\":0.95}",
+ "request_key": "58d88ad73ea7699c3414510d71214fd6acfebb3aeda4dbaf961d6bbe20d4ee8e",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 767,
+  "output_tokens": 288
+ },
+ "user_sha256": "cf7feb5f996226c5"
+}

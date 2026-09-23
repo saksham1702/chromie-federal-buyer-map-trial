@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:30:10Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"fitting out and post-shakedown ship availability\",\"short_names\":[\"LHA 8\"],\"aliases\":[\"LHA 8 Fitting Out Availability (FOA) / Post Shakedown Availability (PSA)\",\"solicitation N0002426R2419\"],\"capability_terms\":[\"fitting out availability\",\"post-shakedown availability\",\"amphibious warship maintenance\",\"ship repair and alteration\"],\"confidence\":0.93}",
+ "request_key": "044eb0c2be492efdeebdf902096b2b5814adab65ec54aebe0e165e6a67f528a5",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 677,
+  "output_tokens": 230
+ },
+ "user_sha256": "03f9579522a849ac"
+}

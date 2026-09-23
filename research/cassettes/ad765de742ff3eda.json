@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:19:45Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory\",\"capability\":\"spectrum analyzers\",\"short_names\":[\"spectrum analyzer\"],\"aliases\":[\"PURCHASE OF SPECTRUM ANALYZER\",\"PURCHASE REQUEST FOR SPECTRUM ANALYZER\",\"solicitation N00173-26-Q-1101\"],\"capability_terms\":[\"spectrum analysis\",\"RF signal testing\",\"frequency measurement\",\"electronic test equipment\"],\"confidence\":0.98}",
+ "request_key": "ad765de742ff3eda3e1b16ff1b5518fd5364745f6506dbb0359c32ee0aa6dbf2",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1720,
+  "output_tokens": 214
+ },
+ "user_sha256": "467c45fdbd009bec"
+}

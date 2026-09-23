@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:21:33Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PEO Integrated Warfare Systems (IWS) 3.0\",\"capability\":\"modular surface warfare missiles\",\"short_names\":[\"NMM\",\"Naval Modular Missile\"],\"aliases\":[\"Naval Modular Missile (NMM) Program\",\"N00024-26-R-5401\",\"Family Of Missiles (FOM)\",\"long-range hypersonic variant\",\"All-Up Round\",\"Top-Level Requirements (TLRs)\"],\"capability_terms\":[\"surface warfare missile systems\",\"family of missiles\",\"open-architecture weapons integration\",\"multi-mission naval missiles\",\"launcher-cell missile capacity\"],\"confidence\":0.95}",
+ "request_key": "c9365e49bd6c0ea465df68bab240e2c4d60d4ede62a187c5463a044c5493d9a9",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1490,
+  "output_tokens": 251
+ },
+ "user_sha256": "a7d00aa77965681d"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T02:56:59Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "explore_step",
+ "output_text": "{\"relevance\":0.68,\"findings\":[],\"next\":[],\"stop_branch\":true,\"note\":\"This node only adds PMA/PMW 101 contacts and does not show a new requirement, forecast row, topic, or notice the company could bid on or team for.\"}",
+ "request_key": "7c7b321ff620a01ac211e6f72c60883ad669456c4249de9ad4395d73a832e0ed",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "fce0606c182e238c",
+ "usage": {
+  "input_tokens": 1071,
+  "output_tokens": 113
+ },
+ "user_sha256": "e1d1e469b80d75ef"
+}

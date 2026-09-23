@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:32:39Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory\",\"capability\":\"Selective laser sintering additive manufacturing machine\",\"short_names\":[\"Selective Laser Sintering\"],\"aliases\":[\"Selective Laser Sintering Three-Dimensional Additive Manufacturing Machine\",\"solicitation N00173-26-R-TJ03\",\"N0017326RTJ03\",\"The Naval Research Laboratory\"],\"capability_terms\":[\"additive manufacturing\",\"selective laser sintering\",\"three-dimensional printing\",\"3D additive manufacturing\"],\"confidence\":0.96}",
+ "request_key": "57be281ec8586a48b1274e5dc6db3bbb124907e371986c04d7315af000f7deb8",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 649,
+  "output_tokens": 227
+ },
+ "user_sha256": "87d32361f9d19875"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:21:38Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"brand-name RFQ items\",\"short_names\":[],\"aliases\":[\"solicitation N0017326Q1301275263a3\"],\"capability_terms\":[],\"confidence\":0.12}",
+ "request_key": "17aa227c524cb8ac7f8d696030f2ae53565abb1700138a7b291b9d4e0e60526b",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 553,
+  "output_tokens": 187
+ },
+ "user_sha256": "886cffd1cdd92743"
+}

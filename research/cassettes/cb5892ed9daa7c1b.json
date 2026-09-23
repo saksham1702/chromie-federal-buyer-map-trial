@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:31:53Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NAVAL SEA Systems Command\",\"capability\":\"surface ship maintenance and repair\",\"short_names\":[\"USS JOHN P MURTHA\",\"LPD 26\",\"DSRA\"],\"aliases\":[\"USS JOHN P MURTHA (LPD 26) FY27 Docking Selected Restricted Availability (DSRA)\",\"USS JOHN P MURTHA (LPD 26) FY27 DSRA\",\"USS JOHN P MURTHA (LPD 26) Docking Selected Restricted Availability (DSRA)\",\"solicitation N00024-26-R-4412v2\",\"solicitation N0002426R4412\",\"Chief of Naval Operations (CNO) Availability\"],\"capability_terms\":[\"dockside ship availability\",\"depot-level ship maintenance\",\"surface combatant repair\",\"ship modernization work\",\"naval vessel overhaul\"],\"confidence\":0.97}",
+ "request_key": "cb5892ed9daa7c1b5572db4b18dee2e41249258844f5f540d3fba1cf7be81cb4",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1285,
+  "output_tokens": 458
+ },
+ "user_sha256": "33eeced1281d2b66"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:28:28Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"secure storage safes\",\"short_names\":[\"BLACK LABEL SAFES\"],\"aliases\":[\"solicitation N00173-26-Q-13013496900\"],\"capability_terms\":[\"security safes\",\"secure storage\",\"physical asset safes\"],\"confidence\":0.71}",
+ "request_key": "687215ac2b961d970540e7515fb3d2b820c73828d519df9df4ff6000d203f313",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1693,
+  "output_tokens": 238
+ },
+ "user_sha256": "feaa2b40f393d365"
+}

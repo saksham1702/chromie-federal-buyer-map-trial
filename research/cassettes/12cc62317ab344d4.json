@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:29:25Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMS 401\",\"capability\":\"submarine acoustic sensor processing upgrades\",\"short_names\":[\"A-RCI\",\"TI A-RCI\",\"AN/BQQ-10 A-RCI\"],\"aliases\":[\"Technology Insertion (TI) Acoustic-Rapid COTS Insertion (A-RCI)\",\"Technology Insertion for Acoustic Rapid Action Commercial Off-the Shelf (COTS) I\",\"solicitation N0002426R6114\",\"AN/BQQ-10 A-RCI\",\"Submarine Warfare Federated Tactical System (SWFTS)\"],\"capability_terms\":[\"submarine sonar processing\",\"acoustic sensor processing\",\"sonar display upgrades\",\"beamforming and detection\",\"common computing environment\"],\"confidence\":0.96}",
+ "request_key": "12cc62317ab344d4da811e00a4f30335c0f901dc29417ef188138f436320f001",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1674,
+  "output_tokens": 278
+ },
+ "user_sha256": "657b14e213f3bf29"
+}

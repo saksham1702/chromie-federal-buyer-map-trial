@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:26:41Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory (NRL)\",\"capability\":\"600 MHz spectrometer system\",\"short_names\":[\"600 MHz Spectrometer System\"],\"aliases\":[\"N00173-26-RFI-MR11\",\"N0017326RFIMR11\",\"Attachment 1- 600 MHz Spectrometer System\",\"Attachment 2- Summary of Requirements for 600 MHz Spectrometer System\"],\"capability_terms\":[\"nuclear magnetic resonance spectroscopy\",\"NMR spectrometer\",\"high-field spectrometer\",\"analytical spectroscopy instrument\"],\"confidence\":0.96}",
+ "request_key": "d2c5e3ad8600b1fef4308be138c7964016d61f7841b8e705c6690a017c629310",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1296,
+  "output_tokens": 267
+ },
+ "user_sha256": "067063bdb9d124ce"
+}

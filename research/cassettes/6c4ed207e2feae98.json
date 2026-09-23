@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:35:17Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"commercial camera lenses and software\",\"short_names\":[\"Camera, Lenses and Software\"],\"aliases\":[\"Teledyne FLIR Commercial Systems, Inc\",\"solicitation N0017326Q1301396275\",\"COMBINED SYNOPSIS/SOLICITATION FOR COMMERCIAL ITEMS\"],\"capability_terms\":[\"camera systems\",\"optical lenses\",\"image processing software\",\"electro-optical imaging\"],\"confidence\":0.79}",
+ "request_key": "6c4ed207e2feae98678185c2c9ba61531efa479f681344af22a90e132dfaeb17",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 566,
+  "output_tokens": 221
+ },
+ "user_sha256": "5c22fd7b8122f54c"
+}

@@ -1,0 +1,6020 @@
+{
+ "as_of": "2026-06-23",
+ "awards_read": 4061,
+ "vendors": [
+  {
+   "uei": "UE9QJD4KK1L6",
+   "name": "LEIDOS, INC.",
+   "spellings": [
+    "LEIDOS, INC."
+   ],
+   "parent_uei": "ZL41ERXMPAR3",
+   "parent_name": "LEIDOS  INC.",
+   "awards": 1022,
+   "first_signed": "2020-02-05",
+   "last_signed": "2026-06-23",
+   "live": 64,
+   "offices": {
+    "N00039": 1022
+   },
+   "funding_offices": {
+    "N00039": 846,
+    "N40455": 172,
+    "N00994": 2,
+    "N00024": 1,
+    "N3238A": 1
+   }
+  },
+  {
+   "uei": "LB5KVANFKPY7",
+   "name": "L3HARRIS TECHNOLOGIES, INC.",
+   "spellings": [
+    "HARRIS CORPORATION",
+    "L3HARRIS TECHNOLOGIES, INC."
+   ],
+   "parent_uei": "SJULQDJ8NZU7",
+   "parent_name": "HARRIS CORPORATION",
+   "awards": 861,
+   "first_signed": "2019-11-22",
+   "last_signed": "2026-06-22",
+   "live": 38,
+   "offices": {
+    "N00039": 861
+   },
+   "funding_offices": {
+    "N00039": 860,
+    "N00038": 1
+   }
+  },
+  {
+   "uei": "HCWRS39M4BL5",
+   "name": "GOFORTH & MARTI",
+   "spellings": [
+    "GOFORTH & MARTI"
+   ],
+   "parent_uei": "HCWRS39M4BL5",
+   "parent_name": "GOFORTH &amp; MARTI",
+   "awards": 118,
+   "first_signed": "2019-10-28",
+   "last_signed": "2026-05-14",
+   "live": 8,
+   "offices": {
+    "N00039": 118
+   },
+   "funding_offices": {
+    "N00039": 118
+   }
+  },
+  {
+   "uei": "PPVTFMDK1NN5",
+   "name": "DATA LINK SOLUTIONS L.L.C.",
+   "spellings": [
+    "DATA LINK SOLUTIONS L.L.C.",
+    "DATA LINK SOLUTIONS LLC"
+   ],
+   "parent_uei": "PPLZG8J3N9D4",
+   "parent_name": "DATA LINK SOLUTIONS L.L.C.",
+   "awards": 117,
+   "first_signed": "2019-11-25",
+   "last_signed": "2026-06-12",
+   "live": 15,
+   "offices": {
+    "N00039": 117
+   },
+   "funding_offices": {
+    "N00039": 116,
+    "N0039B": 1
+   }
+  },
+  {
+   "uei": "L9Z1ASN3B8E7",
+   "name": "VIASAT, INC.",
+   "spellings": [
+    "VIASAT, INC."
+   ],
+   "parent_uei": "L9Z1ASN3B8E7",
+   "parent_name": "VIASAT  INC.",
+   "awards": 92,
+   "first_signed": "2019-10-23",
+   "last_signed": "2025-02-04",
+   "live": 2,
+   "offices": {
+    "N00039": 92
+   },
+   "funding_offices": {
+    "N00039": 92
+   }
+  },
+  {
+   "uei": "FAK7LNGRNAN5",
+   "name": "SCIENTIFIC RESEARCH CORPORATION",
+   "spellings": [
+    "SCIENTIFIC RESEARCH CORPORATION"
+   ],
+   "parent_uei": "FAK7LNGRNAN5",
+   "parent_name": "SCIENTIFIC RESEARCH CORP",
+   "awards": 75,
+   "first_signed": "2019-10-07",
+   "last_signed": "2025-12-15",
+   "live": 14,
+   "offices": {
+    "N00039": 75
+   },
+   "funding_offices": {
+    "N00039": 75
+   }
+  },
+  {
+   "uei": "MWDRZJ2ZVPV7",
+   "name": "GENERAL DYNAMICS MISSION SYSTEMS, INC",
+   "spellings": [
+    "GENERAL DYNAMICS MISSION SYSTEMS, INC",
+    "GENERAL DYNAMICS MISSION SYSTEMS, INC."
+   ],
+   "parent_uei": "VF58HFRNGEL8",
+   "parent_name": "GENERAL DYNAMICS CORPORATION",
+   "awards": 75,
+   "first_signed": "2019-10-31",
+   "last_signed": "2025-09-29",
+   "live": 4,
+   "offices": {
+    "N00039": 75
+   },
+   "funding_offices": {
+    "N00039": 75
+   }
+  },
+  {
+   "uei": "Z2L7LVNEAPC3",
+   "name": "CSRA LLC",
+   "spellings": [
+    "CSRA LLC"
+   ],
+   "parent_uei": "VF58HFRNGEL8",
+   "parent_name": "GENERAL DYNAMICS CORPORATION",
+   "awards": 71,
+   "first_signed": "2019-11-19",
+   "last_signed": "2021-05-19",
+   "live": 0,
+   "offices": {
+    "N00039": 71
+   },
+   "funding_offices": {
+    "N00039": 70,
+    "N50082": 1
+   }
+  },
+  {
+   "uei": "HJLSY7RZV8X6",
+   "name": "DELL MARKETING L.P.",
+   "spellings": [
+    "DELL MARKETING L.P."
+   ],
+   "parent_uei": "JGSNSER23GR6",
+   "parent_name": "DELL MARKETING L.P.",
+   "awards": 68,
+   "first_signed": "2020-05-29",
+   "last_signed": "2026-05-13",
+   "live": 11,
+   "offices": {
+    "N00039": 68
+   },
+   "funding_offices": {
+    "N00039": 68
+   }
+  },
+  {
+   "uei": "DKJ1R5ABCN48",
+   "name": "SERCO INC.",
+   "spellings": [
+    "SERCO INC",
+    "SERCO INC."
+   ],
+   "parent_uei": "FC3YWXFNT7U6",
+   "parent_name": "SERCO GROUP PLC",
+   "awards": 67,
+   "first_signed": "2019-12-06",
+   "last_signed": "2026-05-22",
+   "live": 11,
+   "offices": {
+    "N00039": 67
+   },
+   "funding_offices": {
+    "N00039": 67
+   }
+  },
+  {
+   "uei": "PAMVUBYPXF48",
+   "name": "LOCKHEED MARTIN CORPORATION",
+   "spellings": [
+    "LOCKHEED MARTIN CORPORATION"
+   ],
+   "parent_uei": "ZFN2JJXBLZT3",
+   "parent_name": "LOCKHEED MARTIN CORPORATION",
+   "awards": 65,
+   "first_signed": "2020-01-30",
+   "last_signed": "2021-09-15",
+   "live": 0,
+   "offices": {
+    "N00039": 65
+   },
+   "funding_offices": {
+    "N00039": 65
+   }
+  },
+  {
+   "uei": "MBSRAWAQ9559",
+   "name": "ENTERPRISE SERVICES LLC",
+   "spellings": [
+    "ENTERPRISE SERVICES LLC"
+   ],
+   "parent_uei": "NM4CXQFFBXZ5",
+   "parent_name": "PERSPECTA INC.",
+   "awards": 57,
+   "first_signed": "2019-10-01",
+   "last_signed": "2024-10-29",
+   "live": 0,
+   "offices": {
+    "N00039": 57
+   },
+   "funding_offices": {
+    "N00039": 57
+   }
+  },
+  {
+   "uei": "DT8KJHZXVJH5",
+   "name": "CARAHSOFT TECHNOLOGY CORP.",
+   "spellings": [
+    "CARAHSOFT TECHNOLOGY CORP",
+    "CARAHSOFT TECHNOLOGY CORP.",
+    "CARAHSOFT TECHNOLOGY CORPORATION"
+   ],
+   "parent_uei": "DT8KJHZXVJH5",
+   "parent_name": "CARAHSOFT TECHNOLOGY CORPORATION",
+   "awards": 56,
+   "first_signed": "2020-01-29",
+   "last_signed": "2026-06-02",
+   "live": 8,
+   "offices": {
+    "N00039": 56
+   },
+   "funding_offices": {
+    "N00039": 55,
+    "N0039B": 1
+   }
+  },
+  {
+   "uei": "DJRUN4KK1HK3",
+   "name": "HPI FEDERAL LLC",
+   "spellings": [
+    "HPI FEDERAL LLC"
+   ],
+   "parent_uei": "SMLNZ8X9SHE7",
+   "parent_name": "HPI FEDERAL LLC",
+   "awards": 49,
+   "first_signed": "2019-10-08",
+   "last_signed": "2025-09-23",
+   "live": 1,
+   "offices": {
+    "N00039": 49
+   },
+   "funding_offices": {
+    "N00039": 44,
+    "N40455": 2,
+    "N00018": 1,
+    "N00994": 1,
+    "N3238A": 1
+   }
+  },
+  {
+   "uei": "LLREND6GJ4J7",
+   "name": "COMTECH EFDATA CORP.",
+   "spellings": [
+    "COMTECH EF DATA CORP.",
+    "COMTECH EFDATA CORP.",
+    "COMTECH SATELLITE NETWORK TECHNOLOGIES, INC"
+   ],
+   "parent_uei": "U8LNE16562Z5",
+   "parent_name": "COMTECH TELECOMMUNICATIONS CORP.",
+   "awards": 46,
+   "first_signed": "2019-12-19",
+   "last_signed": "2026-06-02",
+   "live": 3,
+   "offices": {
+    "N00039": 46
+   },
+   "funding_offices": {
+    "N00039": 46
+   }
+  },
+  {
+   "uei": "RF7KYWNLDTM7",
+   "name": "EUROMIDS",
+   "spellings": [
+    "EUROMIDS"
+   ],
+   "parent_uei": "RF7KYWNLDTM7",
+   "parent_name": "EUROMIDS",
+   "awards": 42,
+   "first_signed": "2020-05-12",
+   "last_signed": "2026-03-12",
+   "live": 12,
+   "offices": {
+    "N00039": 42
+   },
+   "funding_offices": {
+    "N00039": 42
+   }
+  },
+  {
+   "uei": "FBRSJB6V4LW8",
+   "name": "TELEDYNE BROWN ENGINEERING, INC.",
+   "spellings": [
+    "TELEDYNE BROWN ENGINEERING, INC."
+   ],
+   "parent_uei": "SQ2DSCE69F15",
+   "parent_name": "TELEDYNE TECHNOLOGIES INC",
+   "awards": 41,
+   "first_signed": "2021-02-24",
+   "last_signed": "2026-06-10",
+   "live": 5,
+   "offices": {
+    "N00039": 41
+   },
+   "funding_offices": {
+    "N00039": 40,
+    "N62306": 1
+   }
+  },
+  {
+   "uei": "FRJQGQHDX4J3",
+   "name": "L3 TECHNOLOGIES, INC.",
+   "spellings": [
+    "L3 TECHNOLOGIES, INC."
+   ],
+   "parent_uei": "SJULQDJ8NZU7",
+   "parent_name": "L3 TECHNOLOGIES  INC.",
+   "awards": 41,
+   "first_signed": "2023-09-26",
+   "last_signed": "2026-06-18",
+   "live": 14,
+   "offices": {
+    "N00039": 41
+   },
+   "funding_offices": {
+    "N00039": 41
+   }
+  },
+  {
+   "uei": "NMHFLDYJJ4C5",
+   "name": "LOCKHEED MARTIN CORPORATION",
+   "spellings": [
+    "LOCKHEED MARTIN CORPORATION"
+   ],
+   "parent_uei": "ZFN2JJXBLZT3",
+   "parent_name": "LOCKHEED MARTIN CORPORATION",
+   "awards": 34,
+   "first_signed": "2020-01-06",
+   "last_signed": "2026-03-04",
+   "live": 2,
+   "offices": {
+    "N00039": 34
+   },
+   "funding_offices": {
+    "N00039": 34
+   }
+  },
+  {
+   "uei": "KTMAJCY6JXM3",
+   "name": "LEIDOS, INC.",
+   "spellings": [
+    "LEIDOS, INC."
+   ],
+   "parent_uei": "ZL41ERXMPAR3",
+   "parent_name": "LEIDOS  INC.",
+   "awards": 33,
+   "first_signed": "2020-03-12",
+   "last_signed": "2026-05-22",
+   "live": 4,
+   "offices": {
+    "N00039": 33
+   },
+   "funding_offices": {
+    "N00039": 33
+   }
+  },
+  {
+   "uei": "VJGEGN9GZM11",
+   "name": "L3 TECHNOLOGIES, INC.",
+   "spellings": [
+    "L3 TECHNOLOGIES, INC."
+   ],
+   "parent_uei": "SJULQDJ8NZU7",
+   "parent_name": "L3 TECHNOLOGIES  INC.",
+   "awards": 24,
+   "first_signed": "2020-03-23",
+   "last_signed": "2026-04-20",
+   "live": 3,
+   "offices": {
+    "N00039": 24
+   },
+   "funding_offices": {
+    "N00039": 24
+   }
+  },
+  {
+   "uei": "D9DKLKAJ48M9",
+   "name": "RAYTHEON COMPANY",
+   "spellings": [
+    "RAYTHEON COMPANY"
+   ],
+   "parent_uei": "PPLZG8J3N9D4",
+   "parent_name": "RAYTHEON COMPANY",
+   "awards": 22,
+   "first_signed": "2019-10-30",
+   "last_signed": "2026-05-26",
+   "live": 7,
+   "offices": {
+    "N00039": 22
+   },
+   "funding_offices": {
+    "N00039": 22
+   }
+  },
+  {
+   "uei": "PFSGCPKU6ZK3",
+   "name": "FORWARD SLOPE INCORPORATED",
+   "spellings": [
+    "FORWARD SLOPE INC",
+    "FORWARD SLOPE INCORPORATED"
+   ],
+   "parent_uei": "PFSGCPKU6ZK3",
+   "parent_name": "FORWARD SLOPE INC",
+   "awards": 22,
+   "first_signed": "2019-12-03",
+   "last_signed": "2026-05-27",
+   "live": 6,
+   "offices": {
+    "N00039": 22
+   },
+   "funding_offices": {
+    "N00039": 22
+   }
+  },
+  {
+   "uei": "LX3BSV6NNW58",
+   "name": "BAE SYSTEMS TECHNOLOGY SOLUTIONS & SERVICES INC.",
+   "spellings": [
+    "BAE SYSTEMS TECHNOLOGY SOLUTIONS & SERVICES INC."
+   ],
+   "parent_uei": "E5K9VR2A1MW9",
+   "parent_name": "BAE SYSTEMS TECHNOLOGY SOLUTIONS &amp; SERVICES INC.",
+   "awards": 21,
+   "first_signed": "2019-12-06",
+   "last_signed": "2024-03-20",
+   "live": 2,
+   "offices": {
+    "N00039": 21
+   },
+   "funding_offices": {
+    "N00039": 21
+   }
+  },
+  {
+   "uei": "F1N2KDGBDTU8",
+   "name": "DLT SOLUTIONS, LLC",
+   "spellings": [
+    "DLT SOLUTIONS, LLC"
+   ],
+   "parent_uei": "F1N2KDGBDTU8",
+   "parent_name": "DLT SOLUTIONS  LLC",
+   "awards": 19,
+   "first_signed": "2020-05-25",
+   "last_signed": "2026-04-16",
+   "live": 6,
+   "offices": {
+    "N00039": 19
+   },
+   "funding_offices": {
+    "N00039": 19
+   }
+  },
+  {
+   "uei": "K1H5GGQPBLV5",
+   "name": "RAYTHEON COMPANY",
+   "spellings": [
+    "RAYTHEON COMPANY"
+   ],
+   "parent_uei": "PPLZG8J3N9D4",
+   "parent_name": "RAYTHEON COMPANY",
+   "awards": 19,
+   "first_signed": "2019-11-18",
+   "last_signed": "2024-09-26",
+   "live": 2,
+   "offices": {
+    "N00039": 19
+   },
+   "funding_offices": {
+    "N00039": 19
+   }
+  },
+  {
+   "uei": "N7NUHPAKNME8",
+   "name": "CUBIC DEFENSE APPLICATIONS, INC.",
+   "spellings": [
+    "CUBIC DEFENSE APPLICATIONS, INC."
+   ],
+   "parent_uei": "MYUSAB5D1VH6",
+   "parent_name": "CUBIC DEFENSE APPLICATIONS  INC.",
+   "awards": 19,
+   "first_signed": "2020-09-29",
+   "last_signed": "2024-10-11",
+   "live": 0,
+   "offices": {
+    "N00039": 19
+   },
+   "funding_offices": {
+    "N00039": 19
+   }
+  },
+  {
+   "uei": "JLREE96WGKM5",
+   "name": "LAUREL TECHNOLOGIES PARTNERSHIP",
+   "spellings": [
+    "DRS LAUREL TECHNOLOGIES",
+    "LAUREL TECHNOLOGIES PARTNERSHIP"
+   ],
+   "parent_uei": "W8PTMRME1496",
+   "parent_name": "LEONARDO DRS  INC.",
+   "awards": 18,
+   "first_signed": "2019-12-06",
+   "last_signed": "2025-09-30",
+   "live": 1,
+   "offices": {
+    "N00039": 18
+   },
+   "funding_offices": {
+    "N00039": 18
+   }
+  },
+  {
+   "uei": "LD98S4LK2113",
+   "name": "INSIGHT PUBLIC SECTOR, INC.",
+   "spellings": [
+    "INSIGHT PUBLIC SECTOR, INC."
+   ],
+   "parent_uei": "YNHKC9SDFWB3",
+   "parent_name": "INSIGHT PUBLIC SECTOR  INC.",
+   "awards": 18,
+   "first_signed": "2020-01-09",
+   "last_signed": "2021-09-15",
+   "live": 0,
+   "offices": {
+    "N00039": 18
+   },
+   "funding_offices": {
+    "N00039": 17,
+    "N0039B": 1
+   }
+  },
+  {
+   "uei": "WN18KN7KQLG9",
+   "name": "HII UNMANNED SYSTEMS, INC.",
+   "spellings": [
+    "HII UNMANNED SYSTEMS, INC.",
+    "HYDROID, INC."
+   ],
+   "parent_uei": "WN18KN7KQLG9",
+   "parent_name": "HYDROID  INC.",
+   "awards": 18,
+   "first_signed": "2020-04-02",
+   "last_signed": "2023-04-25",
+   "live": 0,
+   "offices": {
+    "N00039": 18
+   },
+   "funding_offices": {
+    "N00039": 18
+   }
+  },
+  {
+   "uei": "XK11LLUL61A7",
+   "name": "NEW TECH SOLUTIONS, INC.",
+   "spellings": [
+    "NEW TECH SOLUTIONS, INC."
+   ],
+   "parent_uei": "XK11LLUL61A7",
+   "parent_name": "NEW TECH SOLUTIONS  INC.",
+   "awards": 18,
+   "first_signed": "2019-11-20",
+   "last_signed": "2026-05-13",
+   "live": 3,
+   "offices": {
+    "N00039": 18
+   },
+   "funding_offices": {
+    "N00039": 18
+   }
+  },
+  {
+   "uei": "WH4DRDKB7RR8",
+   "name": "SYSTEMS ENGINEERING SUPPORT CO.",
+   "spellings": [
+    "SYSTEMS ENGINEERING SUPPORT CO."
+   ],
+   "parent_uei": "WH4DRDKB7RR8",
+   "parent_name": "SYSTEMS ENGINEERING SUPPORT CO.",
+   "awards": 17,
+   "first_signed": "2019-10-23",
+   "last_signed": "2026-05-22",
+   "live": 4,
+   "offices": {
+    "N00039": 17
+   },
+   "funding_offices": {
+    "N00039": 17
+   }
+  },
+  {
+   "uei": "SMNWM6HN79X5",
+   "name": "GENERAL DYNAMICS INFORMATION TECHNOLOGY, INC.",
+   "spellings": [
+    "GENERAL DYNAMICS INFORMATION TECHNOLOGY, INC."
+   ],
+   "parent_uei": "VF58HFRNGEL8",
+   "parent_name": "GENERAL DYNAMICS INFORMATION TECHNOLOGY  INC.",
+   "awards": 16,
+   "first_signed": "2021-08-19",
+   "last_signed": "2025-11-12",
+   "live": 3,
+   "offices": {
+    "N00039": 16
+   },
+   "funding_offices": {
+    "N00039": 16
+   }
+  },
+  {
+   "uei": "VJPHJTGAVHD4",
+   "name": "BAE SYSTEMS INFORMATION AND ELECTRONIC SYSTEMS INTEGRATION INC.",
+   "spellings": [
+    "BAE SYSTEMS INFORMATION AND ELECTRONIC SYSTEMS INTEGRATION I",
+    "BAE SYSTEMS INFORMATION AND ELECTRONIC SYSTEMS INTEGRATION INC."
+   ],
+   "parent_uei": "E5K9VR2A1MW9",
+   "parent_name": "BAE SYSTEMS INFORMATION AND ELECTRONIC SYSTEMS INTEGRATION INC.",
+   "awards": 16,
+   "first_signed": "2019-12-04",
+   "last_signed": "2026-01-22",
+   "live": 1,
+   "offices": {
+    "N00039": 16
+   },
+   "funding_offices": {
+    "N00039": 16
+   }
+  },
+  {
+   "uei": "CKV2L9GZKJK3",
+   "name": "DELOITTE CONSULTING LLP",
+   "spellings": [
+    "DELOITTE CONSULTING LLP"
+   ],
+   "parent_uei": "GT54N467W2C6",
+   "parent_name": "DELOITTE CONSULTING LLP",
+   "awards": 15,
+   "first_signed": "2020-06-30",
+   "last_signed": "2026-04-20",
+   "live": 5,
+   "offices": {
+    "N00039": 15
+   },
+   "funding_offices": {
+    "N00039": 15
+   }
+  },
+  {
+   "uei": "EJJMMJHYDFH6",
+   "name": "SOFTWARE INFORMATION RESOURCE CORP.",
+   "spellings": [
+    "SOFTWARE INFORMATION RESOURCE CORP."
+   ],
+   "parent_uei": "NYQ8DFDUJVX1",
+   "parent_name": "SOFTWARE INFORMATION RESOURCE CORP.",
+   "awards": 15,
+   "first_signed": "2020-04-07",
+   "last_signed": "2026-05-01",
+   "live": 6,
+   "offices": {
+    "N00039": 15
+   },
+   "funding_offices": {
+    "N00039": 14,
+    "N0039B": 1
+   }
+  },
+  {
+   "uei": "JCBMLGPE6Z71",
+   "name": "BOOZ ALLEN HAMILTON INC.",
+   "spellings": [
+    "BOOZ ALLEN HAMILTON INC",
+    "BOOZ ALLEN HAMILTON INC."
+   ],
+   "parent_uei": "MBPHTU7Y9S65",
+   "parent_name": "BOOZ ALLEN HAMILTON HOLDING CORPORATION",
+   "awards": 15,
+   "first_signed": "2020-03-03",
+   "last_signed": "2026-05-06",
+   "live": 11,
+   "offices": {
+    "N00039": 15
+   },
+   "funding_offices": {
+    "N00039": 15
+   }
+  },
+  {
+   "uei": "JXBPKGYKBXK6",
+   "name": "L3 TECHNOLOGIES, INC.",
+   "spellings": [
+    "L3 TECHNOLOGIES, INC."
+   ],
+   "parent_uei": "SJULQDJ8NZU7",
+   "parent_name": "L3 TECHNOLOGIES  INC.",
+   "awards": 15,
+   "first_signed": "2022-05-31",
+   "last_signed": "2026-05-29",
+   "live": 5,
+   "offices": {
+    "N00039": 15
+   },
+   "funding_offices": {
+    "N00039": 15
+   }
+  },
+  {
+   "uei": "J2FBDMUBXE61",
+   "name": "SOLUTE",
+   "spellings": [
+    "SOLUTE"
+   ],
+   "parent_uei": "J2FBDMUBXE61",
+   "parent_name": "SOLUTE",
+   "awards": 14,
+   "first_signed": "2019-11-12",
+   "last_signed": "2025-05-23",
+   "live": 0,
+   "offices": {
+    "N00039": 14
+   },
+   "funding_offices": {
+    "N00039": 14
+   }
+  },
+  {
+   "uei": "N8NGW9BXG5R8",
+   "name": "MANAGEMENT SERVICES GROUP, INC.",
+   "spellings": [
+    "MANAGEMENT SERVICES GROUP, INC."
+   ],
+   "parent_uei": "N8NGW9BXG5R8",
+   "parent_name": "MANAGEMENT SERVICES GROUP  INC.",
+   "awards": 14,
+   "first_signed": "2019-12-12",
+   "last_signed": "2026-05-22",
+   "live": 2,
+   "offices": {
+    "N00039": 14
+   },
+   "funding_offices": {
+    "N00039": 14
+   }
+  },
+  {
+   "uei": "HQXCRY51KBJ7",
+   "name": "MICRO USA INC",
+   "spellings": [
+    "MICRO USA INC"
+   ],
+   "parent_uei": "HQXCRY51KBJ7",
+   "parent_name": "MICRO USA INC",
+   "awards": 13,
+   "first_signed": "2019-10-11",
+   "last_signed": "2025-03-31",
+   "live": 0,
+   "offices": {
+    "N00039": 13
+   },
+   "funding_offices": {
+    "N00039": 13
+   }
+  },
+  {
+   "uei": "J4Q3HP6NHK47",
+   "name": "ROCKWELL COLLINS, INC.",
+   "spellings": [
+    "ROCKWELL COLLINS, INC."
+   ],
+   "parent_uei": "PPLZG8J3N9D4",
+   "parent_name": "ROCKWELL COLLINS  INC.",
+   "awards": 13,
+   "first_signed": "2019-12-30",
+   "last_signed": "2026-06-18",
+   "live": 7,
+   "offices": {
+    "N00039": 13
+   },
+   "funding_offices": {
+    "N00039": 13
+   }
+  },
+  {
+   "uei": "GFCKUD9DYWF1",
+   "name": "COBHAM TRIVEC-AVANT INC.",
+   "spellings": [
+    "COBHAM EXETER, INC.",
+    "COBHAM TRIVEC-AVANT INC.",
+    "TRIVEC-AVANT CORPORATION"
+   ],
+   "parent_uei": "NUJPUJELENZ5",
+   "parent_name": "COBHAM EXETER  INC.",
+   "awards": 12,
+   "first_signed": "2019-11-25",
+   "last_signed": "2022-12-13",
+   "live": 0,
+   "offices": {
+    "N00039": 12
+   },
+   "funding_offices": {
+    "N00039": 12
+   }
+  },
+  {
+   "uei": "YD6LTFVUZNG1",
+   "name": "RAYTHEON COMPANY",
+   "spellings": [
+    "RAYTHEON COMPANY"
+   ],
+   "parent_uei": "PPLZG8J3N9D4",
+   "parent_name": "RAYTHEON COMPANY",
+   "awards": 12,
+   "first_signed": "2020-02-25",
+   "last_signed": "2026-06-18",
+   "live": 9,
+   "offices": {
+    "N00039": 12
+   },
+   "funding_offices": {
+    "N00039": 12
+   }
+  },
+  {
+   "uei": "M2BMNKL4CR69",
+   "name": "KATMAI MANAGEMENT SERVICES LLC",
+   "spellings": [
+    "KATMAI MANAGEMENT SERVICES LLC",
+    "KATMAI MANAGEMENT SERVICES, LLC"
+   ],
+   "parent_uei": "M2BMNKL4CR69",
+   "parent_name": "KATMAI MANAGEMENT SERVICES  LLC",
+   "awards": 11,
+   "first_signed": "2020-12-08",
+   "last_signed": "2026-06-04",
+   "live": 7,
+   "offices": {
+    "N00039": 11
+   },
+   "funding_offices": {
+    "N00039": 11
+   }
+  },
+  {
+   "uei": "G4J1RJ94JBU1",
+   "name": "FORCEPOINT FEDERAL LLC",
+   "spellings": [
+    "FORCEPOINT FEDERAL LLC"
+   ],
+   "parent_uei": "PPLZG8J3N9D4",
+   "parent_name": "FORCEPOINT FEDERAL LLC",
+   "awards": 10,
+   "first_signed": "2020-04-01",
+   "last_signed": "2023-04-05",
+   "live": 0,
+   "offices": {
+    "N00039": 10
+   },
+   "funding_offices": {
+    "N00039": 10
+   }
+  },
+  {
+   "uei": "NUMJXMNFTW19",
+   "name": "SECHAN ELECTRONICS, INC.",
+   "spellings": [
+    "SECHAN ELECTRONICS, INC."
+   ],
+   "parent_uei": "NUMJXMNFTW19",
+   "parent_name": "SECHAN ELECTRONICS  INC.",
+   "awards": 10,
+   "first_signed": "2020-03-26",
+   "last_signed": "2025-09-18",
+   "live": 1,
+   "offices": {
+    "N00039": 10
+   },
+   "funding_offices": {
+    "N00039": 10
+   }
+  },
+  {
+   "uei": "PG4AHPP8MDN6",
+   "name": "CMA TECHNOLOGY, INC.",
+   "spellings": [
+    "CMA TECHNOLOGY, INC.",
+    "COMPUTER MARKETING ASSOCIATES,INC."
+   ],
+   "parent_uei": "PG4AHPP8MDN6",
+   "parent_name": "COMPUTER MARKETING ASSOCIATES INC.",
+   "awards": 10,
+   "first_signed": "2019-12-18",
+   "last_signed": "2025-06-12",
+   "live": 1,
+   "offices": {
+    "N00039": 10
+   },
+   "funding_offices": {
+    "N00039": 10
+   }
+  },
+  {
+   "uei": "SS1MGHCS2ZJ1",
+   "name": "MILPOWER",
+   "spellings": [
+    "MILPOWER",
+    "MILPOWER, INC."
+   ],
+   "parent_uei": "SS1MGHCS2ZJ1",
+   "parent_name": "MILPOWER.",
+   "awards": 10,
+   "first_signed": "2020-03-25",
+   "last_signed": "2025-03-12",
+   "live": 0,
+   "offices": {
+    "N00039": 10
+   },
+   "funding_offices": {
+    "N00039": 10
+   }
+  },
+  {
+   "uei": "CGE8ABMZLZN9",
+   "name": "ADVANCED COMPUTER CONCEPTS, INC.",
+   "spellings": [
+    "ADVANCED COMPUTER CONCEPTS, INC."
+   ],
+   "parent_uei": "CGE8ABMZLZN9",
+   "parent_name": "ADVANCED COMPUTER CONCEPTS  INC.",
+   "awards": 9,
+   "first_signed": "2020-06-26",
+   "last_signed": "2026-05-06",
+   "live": 3,
+   "offices": {
+    "N00039": 9
+   },
+   "funding_offices": {
+    "N00039": 9
+   }
+  },
+  {
+   "uei": "CHKKPGHNUYX1",
+   "name": "VT MILCOM INC.",
+   "spellings": [
+    "VT MILCOM INC."
+   ],
+   "parent_uei": "NY2RNWDENUG7",
+   "parent_name": "VT MILCOM INC.",
+   "awards": 9,
+   "first_signed": "2022-12-16",
+   "last_signed": "2026-05-22",
+   "live": 1,
+   "offices": {
+    "N00039": 9
+   },
+   "funding_offices": {
+    "N00039": 9
+   }
+  },
+  {
+   "uei": "VNP2L293JWL6",
+   "name": "COBHAM ADVANCED ELECTRONIC SOLUTIONS INC.",
+   "spellings": [
+    "COBHAM ADVANCED ELECTRONIC SOLUTIONS INC."
+   ],
+   "parent_uei": "VNP2L293JWL6",
+   "parent_name": "FRONTGRADE TECHNOLOGIES INC.",
+   "awards": 9,
+   "first_signed": "2023-10-03",
+   "last_signed": "2026-06-08",
+   "live": 3,
+   "offices": {
+    "N00039": 9
+   },
+   "funding_offices": {
+    "N00039": 9
+   }
+  },
+  {
+   "uei": "CFALLJBGZ697",
+   "name": "GARTNER, INC.",
+   "spellings": [
+    "GARTNER, INC."
+   ],
+   "parent_uei": "CFALLJBGZ697",
+   "parent_name": "GARTNER  INC.",
+   "awards": 8,
+   "first_signed": "2019-11-27",
+   "last_signed": "2026-01-15",
+   "live": 2,
+   "offices": {
+    "N00039": 8
+   },
+   "funding_offices": {
+    "N00039": 8
+   }
+  },
+  {
+   "uei": "JEANDJTZ8HJ3",
+   "name": "FCN, INC.",
+   "spellings": [
+    "FCN, INC."
+   ],
+   "parent_uei": "QMSEC7DE98U6",
+   "parent_name": "FCN  INC.",
+   "awards": 8,
+   "first_signed": "2020-06-23",
+   "last_signed": "2026-03-27",
+   "live": 3,
+   "offices": {
+    "N00039": 8
+   },
+   "funding_offices": {
+    "N00039": 8
+   }
+  },
+  {
+   "uei": "LJSJAJW9KMW6",
+   "name": "ITC DEFENSE CORP",
+   "spellings": [
+    "ITC DEFENSE CORP"
+   ],
+   "parent_uei": "LJSJAJW9KMW6",
+   "parent_name": "ITC DEFENSE CORP",
+   "awards": 8,
+   "first_signed": "2020-07-30",
+   "last_signed": "2025-08-25",
+   "live": 1,
+   "offices": {
+    "N00039": 8
+   },
+   "funding_offices": {
+    "N00039": 8
+   }
+  },
+  {
+   "uei": "TC3NF4XRLGV7",
+   "name": "IDEAL SYSTEM SOLUTIONS, INC.",
+   "spellings": [
+    "IDEAL SYSTEM SOLUTIONS, INC."
+   ],
+   "parent_uei": "TC3NF4XRLGV7",
+   "parent_name": "IDEAL SYSTEM SOLUTIONS  INC.",
+   "awards": 8,
+   "first_signed": "2020-01-29",
+   "last_signed": "2021-07-29",
+   "live": 0,
+   "offices": {
+    "N00039": 8
+   },
+   "funding_offices": {
+    "N00039": 8
+   }
+  },
+  {
+   "uei": "C6Z6WQKFN7M6",
+   "name": "RAYTHEON COMPANY",
+   "spellings": [
+    "RAYTHEON COMPANY"
+   ],
+   "parent_uei": "KLW3ZYL15493",
+   "parent_name": "RAYTHEON COMPANY",
+   "awards": 7,
+   "first_signed": "2019-11-15",
+   "last_signed": "2025-05-01",
+   "live": 0,
+   "offices": {
+    "N00039": 7
+   },
+   "funding_offices": {
+    "N00039": 7
+   }
+  },
+  {
+   "uei": "FLZ4SYA9U2D1",
+   "name": "INSIGHT PUBLIC SECTOR, INC.",
+   "spellings": [
+    "INSIGHT PUBLIC SECTOR, INC."
+   ],
+   "parent_uei": "YNHKC9SDFWB3",
+   "parent_name": "INSIGHT PUBLIC SECTOR  INC.",
+   "awards": 7,
+   "first_signed": "2021-06-22",
+   "last_signed": "2021-12-13",
+   "live": 0,
+   "offices": {
+    "N00039": 7
+   },
+   "funding_offices": {
+    "N00039": 5,
+    "N0039B": 2
+   }
+  },
+  {
+   "uei": "HNNUJXHSXGU3",
+   "name": "THALES DEFENSE & SECURITY, INC",
+   "spellings": [
+    "THALES DEFENSE & SECURITY, INC"
+   ],
+   "parent_uei": "QWSHM2ZMJNB4",
+   "parent_name": "THALES",
+   "awards": 7,
+   "first_signed": "2020-03-04",
+   "last_signed": "2022-08-29",
+   "live": 0,
+   "offices": {
+    "N00039": 7
+   },
+   "funding_offices": {
+    "N00039": 7
+   }
+  },
+  {
+   "uei": "N1C5QLNPJLS4",
+   "name": "DELL FEDERAL SYSTEMS L.P.",
+   "spellings": [
+    "DELL FEDERAL SYSTEMS L.P."
+   ],
+   "parent_uei": "JGSNSER23GR6",
+   "parent_name": "DELL FEDERAL SYSTEMS L.P",
+   "awards": 7,
+   "first_signed": "2022-02-28",
+   "last_signed": "2026-06-11",
+   "live": 4,
+   "offices": {
+    "N00039": 7
+   },
+   "funding_offices": {
+    "N00039": 7
+   }
+  },
+  {
+   "uei": "QM4EZDV15JL8",
+   "name": "L3HARRIS TECHNOLOGIES, INC.",
+   "spellings": [
+    "L3HARRIS TECHNOLOGIES, INC."
+   ],
+   "parent_uei": "SJULQDJ8NZU7",
+   "parent_name": "L3HARRIS TECHNOLOGIES  INC.",
+   "awards": 7,
+   "first_signed": "2025-07-01",
+   "last_signed": "2026-06-23",
+   "live": 6,
+   "offices": {
+    "N00039": 7
+   },
+   "funding_offices": {
+    "N00039": 7
+   }
+  },
+  {
+   "uei": "RUSZYP1S6GC5",
+   "name": "ULTRA ELECTRONICS TCS INC",
+   "spellings": [
+    "ULTRA ELECTRONICS TCS INC"
+   ],
+   "parent_uei": "SCWYXXK1EM13",
+   "parent_name": "ULTRA ELECTRONICS TCS INC",
+   "awards": 7,
+   "first_signed": "2020-07-30",
+   "last_signed": "2025-03-26",
+   "live": 0,
+   "offices": {
+    "N00039": 7
+   },
+   "funding_offices": {
+    "N00039": 7
+   }
+  },
+  {
+   "uei": "STJ2X23FGCB3",
+   "name": "CAMBRIDGE INTERNATIONAL SYSTEMS INC.",
+   "spellings": [
+    "CAMBRIDGE INTERNATIONAL SYSTEMS INC."
+   ],
+   "parent_uei": "STJ2X23FGCB3",
+   "parent_name": "CAMBRIDGE INTERNATIONAL SYSTEMS INC.",
+   "awards": 7,
+   "first_signed": "2020-08-18",
+   "last_signed": "2025-02-07",
+   "live": 3,
+   "offices": {
+    "N00039": 7
+   },
+   "funding_offices": {
+    "N00039": 7
+   }
+  },
+  {
+   "uei": "CQWLW9XRQTH5",
+   "name": "LOCKHEED MARTIN CORPORATION",
+   "spellings": [
+    "LOCKHEED MARTIN CORPORATION"
+   ],
+   "parent_uei": "ZFN2JJXBLZT3",
+   "parent_name": "LOCKHEED MARTIN CORPORATION",
+   "awards": 6,
+   "first_signed": "2020-03-25",
+   "last_signed": "2020-12-01",
+   "live": 0,
+   "offices": {
+    "N00039": 6
+   },
+   "funding_offices": {
+    "N00039": 6
+   }
+  },
+  {
+   "uei": "DJACUETFQUL8",
+   "name": "GOVSMART, INC.",
+   "spellings": [
+    "GOVSMART, INC."
+   ],
+   "parent_uei": "DJACUETFQUL8",
+   "parent_name": "GOVSMART  INC.",
+   "awards": 6,
+   "first_signed": "2024-06-20",
+   "last_signed": "2026-04-27",
+   "live": 2,
+   "offices": {
+    "N00039": 6
+   },
+   "funding_offices": {
+    "N00039": 6
+   }
+  },
+  {
+   "uei": "FAP4HJHRMJU3",
+   "name": "NAKUPUNA CONSULTING, LLC",
+   "spellings": [
+    "NAKUPUNA CONSULTING LLC",
+    "NAKUPUNA CONSULTING, LLC"
+   ],
+   "parent_uei": "FAP4HJHRMJU3",
+   "parent_name": "NAKUPUNA CONSULTING  LLC",
+   "awards": 6,
+   "first_signed": "2022-08-31",
+   "last_signed": "2024-12-16",
+   "live": 0,
+   "offices": {
+    "N00039": 6
+   },
+   "funding_offices": {
+    "N00039": 6
+   }
+  },
+  {
+   "uei": "FMVPEWNJGLM1",
+   "name": "MICROSOFT CORPORATION",
+   "spellings": [
+    "MICROSOFT CORPORATION"
+   ],
+   "parent_uei": "FMVPEWNJGLM1",
+   "parent_name": "MICROSOFT CORPORATION",
+   "awards": 6,
+   "first_signed": "2020-05-15",
+   "last_signed": "2023-09-27",
+   "live": 0,
+   "offices": {
+    "N00039": 6
+   },
+   "funding_offices": {
+    "N00039": 6
+   }
+  },
+  {
+   "uei": "GAX3L178FCK5",
+   "name": "TECHNOLOGY UNLIMITED GROUP",
+   "spellings": [
+    "TECHNOLOGY UNLIMITED GROUP"
+   ],
+   "parent_uei": "GAX3L178FCK5",
+   "parent_name": "TECHNOLOGY UNLIMITED GROUP",
+   "awards": 6,
+   "first_signed": "2022-09-19",
+   "last_signed": "2025-10-31",
+   "live": 1,
+   "offices": {
+    "N00039": 6
+   },
+   "funding_offices": {
+    "N00039": 6
+   }
+  },
+  {
+   "uei": "J16ZWJLVHEY5",
+   "name": "ADVANCED TECHNOLOGY SYSTEMS COMPANY, INC. (OF VIRGINIA)",
+   "spellings": [
+    "ADVANCED TECHNOLOGY SYSTEMS COMPANY, INC. (OF VIRGINIA)"
+   ],
+   "parent_uei": "J16ZWJLVHEY5",
+   "parent_name": "ADVANCED TECHNOLOGY SYSTEMS COMPANY  INC. (OF VIRGINIA)",
+   "awards": 6,
+   "first_signed": "2020-07-30",
+   "last_signed": "2025-08-25",
+   "live": 1,
+   "offices": {
+    "N00039": 6
+   },
+   "funding_offices": {
+    "N00039": 6
+   }
+  },
+  {
+   "uei": "NDBGSG77NZV5",
+   "name": "DRS ADVANCED ISR, LLC",
+   "spellings": [
+    "DRS ADVANCED ISR, LLC"
+   ],
+   "parent_uei": "W8PTMRME1496",
+   "parent_name": "DRS TECHNOLOGIES  INC.",
+   "awards": 6,
+   "first_signed": "2019-11-07",
+   "last_signed": "2023-10-20",
+   "live": 1,
+   "offices": {
+    "N00039": 6
+   },
+   "funding_offices": {
+    "N00039": 6
+   }
+  },
+  {
+   "uei": "NLXJF2VX2TN3",
+   "name": "MNEMONICS, INC.",
+   "spellings": [
+    "MNEMONICS, INC."
+   ],
+   "parent_uei": "NLXJF2VX2TN3",
+   "parent_name": "MNEMONICS  INC.",
+   "awards": 6,
+   "first_signed": "2020-05-13",
+   "last_signed": "2024-05-13",
+   "live": 0,
+   "offices": {
+    "N00039": 6
+   },
+   "funding_offices": {
+    "N00039": 6
+   }
+  },
+  {
+   "uei": "TQ2KDQLRL8F1",
+   "name": "BAHFED CORP",
+   "spellings": [
+    "BAHFED CORP"
+   ],
+   "parent_uei": "TQ2KDQLRL8F1",
+   "parent_name": "BAHFED CORP",
+   "awards": 6,
+   "first_signed": "2024-05-03",
+   "last_signed": "2026-06-05",
+   "live": 3,
+   "offices": {
+    "N00039": 6
+   },
+   "funding_offices": {
+    "N00039": 6
+   }
+  },
+  {
+   "uei": "UER4AJLUB8D5",
+   "name": "THUNDERCAT TECHNOLOGY, LLC",
+   "spellings": [
+    "THUNDERCAT TECHNOLOGY, LLC"
+   ],
+   "parent_uei": "S2SKMY4U8KH5",
+   "parent_name": "THUNDERCAT TECHNOLOGY  LLC",
+   "awards": 6,
+   "first_signed": "2020-01-06",
+   "last_signed": "2026-04-28",
+   "live": 1,
+   "offices": {
+    "N00039": 6
+   },
+   "funding_offices": {
+    "N00039": 6
+   }
+  },
+  {
+   "uei": "YZTLALWM4UC7",
+   "name": "STERLING COMPUTERS CORPORATION",
+   "spellings": [
+    "STERLING COMPUTERS CORPORATION"
+   ],
+   "parent_uei": "YZTLALWM4UC7",
+   "parent_name": "STERLING COMPUTERS CORPORATION",
+   "awards": 6,
+   "first_signed": "2020-04-01",
+   "last_signed": "2024-01-31",
+   "live": 1,
+   "offices": {
+    "N00039": 6
+   },
+   "funding_offices": {
+    "N00039": 5,
+    "N0039B": 1
+   }
+  },
+  {
+   "uei": "ZBPQEJVECCT4",
+   "name": "PERATON INC.",
+   "spellings": [
+    "PERATON INC."
+   ],
+   "parent_uei": "CMZ8EX8SUE75",
+   "parent_name": "PERATON CORP.",
+   "awards": 6,
+   "first_signed": "2022-12-16",
+   "last_signed": "2024-01-09",
+   "live": 0,
+   "offices": {
+    "N00039": 6
+   },
+   "funding_offices": {
+    "N00039": 6
+   }
+  },
+  {
+   "uei": "CK77N4SCAJD3",
+   "name": "CELLCO PARTNERSHIP",
+   "spellings": [
+    "CELLCO PARTNERSHIP"
+   ],
+   "parent_uei": "KLVFB6J1M377",
+   "parent_name": "VERIZON COMMUNICATIONS INC.",
+   "awards": 5,
+   "first_signed": "2020-09-30",
+   "last_signed": "2024-05-07",
+   "live": 0,
+   "offices": {
+    "N00039": 5
+   },
+   "funding_offices": {
+    "N00039": 5
+   }
+  },
+  {
+   "uei": "F4M9NB1HD785",
+   "name": "COLOSSAL CONTRACTING, LLC",
+   "spellings": [
+    "COLOSSAL CONTRACTING, LLC"
+   ],
+   "parent_uei": "F4M9NB1HD785",
+   "parent_name": "COLOSSAL CONTRACTING LLC",
+   "awards": 5,
+   "first_signed": "2024-09-06",
+   "last_signed": "2026-02-27",
+   "live": 2,
+   "offices": {
+    "N00039": 5
+   },
+   "funding_offices": {
+    "N00039": 5
+   }
+  },
+  {
+   "uei": "M94JMRP7K5G5",
+   "name": "GUERRERO PROFESSIONAL SERVICES, INC.",
+   "spellings": [
+    "GUERRERO PROFESSIONAL SERVICES, INC."
+   ],
+   "parent_uei": "M94JMRP7K5G5",
+   "parent_name": "GUERRERO PROFESSIONAL SERVICES  INC.",
+   "awards": 5,
+   "first_signed": "2019-11-06",
+   "last_signed": "2021-03-08",
+   "live": 0,
+   "offices": {
+    "N00039": 5
+   },
+   "funding_offices": {
+    "N00039": 5
+   }
+  },
+  {
+   "uei": "MMLKPW9JLX64",
+   "name": "SCIENCE APPLICATIONS INTERNATIONAL CORPORATION",
+   "spellings": [
+    "SCIENCE APPLICATIONS INTERNATIONAL CORPORATION"
+   ],
+   "parent_uei": "RE7WMNV9L719",
+   "parent_name": "SCIENCE APPLICATIONS INTERNATIONAL CORPORATION",
+   "awards": 5,
+   "first_signed": "2020-08-12",
+   "last_signed": "2026-04-02",
+   "live": 2,
+   "offices": {
+    "N00039": 5
+   },
+   "funding_offices": {
+    "N00039": 5
+   }
+  },
+  {
+   "uei": "PPMBFPRXNAJ9",
+   "name": "AUGUST SCHELL ENTERPRISES, INC.",
+   "spellings": [
+    "AUGUST SCHELL ENTERPRISES, INC."
+   ],
+   "parent_uei": "PPMBFPRXNAJ9",
+   "parent_name": "AUGUST SCHELL ENTERPRISES  INC.",
+   "awards": 5,
+   "first_signed": "2020-02-04",
+   "last_signed": "2026-05-20",
+   "live": 1,
+   "offices": {
+    "N00039": 5
+   },
+   "funding_offices": {
+    "N00039": 5
+   }
+  },
+  {
+   "uei": "U35VSLMQRME6",
+   "name": "FUSE INTEGRATION, INC.",
+   "spellings": [
+    "FUSE INTEGRATION, INC."
+   ],
+   "parent_uei": "U35VSLMQRME6",
+   "parent_name": "FUSE INTEGRATION  INC.",
+   "awards": 5,
+   "first_signed": "2020-03-17",
+   "last_signed": "2021-09-27",
+   "live": 0,
+   "offices": {
+    "N00039": 5
+   },
+   "funding_offices": {
+    "N00039": 5
+   }
+  },
+  {
+   "uei": "V4GVJZF4S263",
+   "name": "NAKUPUNA SOLUTIONS, LLC",
+   "spellings": [
+    "NAKUPUNA SOLUTIONS, LLC"
+   ],
+   "parent_uei": "V4GVJZF4S263",
+   "parent_name": "NAKUPUNA SOLUTIONS  LLC",
+   "awards": 5,
+   "first_signed": "2021-03-12",
+   "last_signed": "2025-06-30",
+   "live": 2,
+   "offices": {
+    "N00039": 5
+   },
+   "funding_offices": {
+    "N00039": 5
+   }
+  },
+  {
+   "uei": "W14HEX5YCJU3",
+   "name": "MOEBIUS SOLUTIONS, INC",
+   "spellings": [
+    "MOEBIUS SOLUTIONS INC",
+    "MOEBIUS SOLUTIONS, INC"
+   ],
+   "parent_uei": "W14HEX5YCJU3",
+   "parent_name": "MOEBIUS SOLUTIONS INC",
+   "awards": 5,
+   "first_signed": "2020-11-19",
+   "last_signed": "2023-08-03",
+   "live": 1,
+   "offices": {
+    "N00039": 5
+   },
+   "funding_offices": {
+    "N00039": 5
+   }
+  },
+  {
+   "uei": "C8VFSNKTMQB6",
+   "name": "WORLD WIDE TECHNOLOGY, LLC",
+   "spellings": [
+    "WORLD WIDE TECHNOLOGY, INC.",
+    "WORLD WIDE TECHNOLOGY, LLC"
+   ],
+   "parent_uei": "XLLLFFAR2YT7",
+   "parent_name": "WORLD WIDE TECHNOLOGY HOLDING CO.  INC.",
+   "awards": 4,
+   "first_signed": "2020-08-27",
+   "last_signed": "2026-04-16",
+   "live": 1,
+   "offices": {
+    "N00039": 4
+   },
+   "funding_offices": {
+    "N00039": 4
+   }
+  },
+  {
+   "uei": "DD1BYN8SN355",
+   "name": "CHARLES RIVER ANALYTICS, INC.",
+   "spellings": [
+    "CHARLES RIVER ANALYTICS, INC."
+   ],
+   "parent_uei": "DD1BYN8SN355",
+   "parent_name": "CHARLES RIVER ANALYTICS  INC.",
+   "awards": 4,
+   "first_signed": "2022-06-09",
+   "last_signed": "2024-10-28",
+   "live": 1,
+   "offices": {
+    "N00039": 4
+   },
+   "funding_offices": {
+    "N00039": 4
+   }
+  },
+  {
+   "uei": "DZXWD6BZBLJ3",
+   "name": "ALPHA OMEGA GROUP",
+   "spellings": [
+    "ALPHA OMEGA GROUP"
+   ],
+   "parent_uei": "DZXWD6BZBLJ3",
+   "parent_name": "ALPHA OMEGA GROUP LLC",
+   "awards": 4,
+   "first_signed": "2020-09-17",
+   "last_signed": "2025-09-11",
+   "live": 3,
+   "offices": {
+    "N00039": 4
+   },
+   "funding_offices": {
+    "N00039": 4
+   }
+  },
+  {
+   "uei": "E41LV9AJGHQ1",
+   "name": "PARAGON MICRO INC.",
+   "spellings": [
+    "PARAGON MICRO INC."
+   ],
+   "parent_uei": "E41LV9AJGHQ1",
+   "parent_name": "PARAGON MICRO INC.",
+   "awards": 4,
+   "first_signed": "2021-06-24",
+   "last_signed": "2022-02-11",
+   "live": 0,
+   "offices": {
+    "N00039": 4
+   },
+   "funding_offices": {
+    "N00039": 4
+   }
+  },
+  {
+   "uei": "FBRMCGPMN963",
+   "name": "ENTERPRISE TECHNOLOGY SOLUTIONS, INC.",
+   "spellings": [
+    "ENTERPRISE TECHNOLOGY SOLUTIONS, INC."
+   ],
+   "parent_uei": "FBRMCGPMN963",
+   "parent_name": "ENTERPRISE TECHNOLOGY SOLUTIONS  INC.",
+   "awards": 4,
+   "first_signed": "2025-04-21",
+   "last_signed": "2026-03-06",
+   "live": 2,
+   "offices": {
+    "N00039": 4
+   },
+   "funding_offices": {
+    "N00039": 4
+   }
+  },
+  {
+   "uei": "HMXCQJ8ADNL7",
+   "name": "ACCESSAGILITY LLC",
+   "spellings": [
+    "ACCESSAGILITY LLC"
+   ],
+   "parent_uei": "Q75NZZM55SM3",
+   "parent_name": "ACCESSAGILITY LLC",
+   "awards": 4,
+   "first_signed": "2024-01-31",
+   "last_signed": "2026-02-11",
+   "live": 3,
+   "offices": {
+    "N00039": 4
+   },
+   "funding_offices": {
+    "N00039": 4
+   }
+  },
+  {
+   "uei": "HZCDXJV7M8Z9",
+   "name": "RED RIVER RESOURCES, LLC",
+   "spellings": [
+    "RED RIVER RESOURCES, LLC"
+   ],
+   "parent_uei": "HZCDXJV7M8Z9",
+   "parent_name": "RED RIVER RESOURCES  LLC",
+   "awards": 4,
+   "first_signed": "2021-09-29",
+   "last_signed": "2025-08-26",
+   "live": 2,
+   "offices": {
+    "N00039": 4
+   },
+   "funding_offices": {
+    "N00039": 4
+   }
+  },
+  {
+   "uei": "KQ7NL4AZD7E7",
+   "name": "HIGHBURY DEFENSE GROUP",
+   "spellings": [
+    "HIGHBURY DEFENSE GROUP"
+   ],
+   "parent_uei": "KQ7NL4AZD7E7",
+   "parent_name": "HIGHBURY DEFENSE GROUP",
+   "awards": 4,
+   "first_signed": "2021-03-22",
+   "last_signed": "2023-09-14",
+   "live": 3,
+   "offices": {
+    "N00039": 4
+   },
+   "funding_offices": {
+    "N00039": 4
+   }
+  },
+  {
+   "uei": "L3G5SBQ2PLK5",
+   "name": "GEORGIA TECH APPLIED RESEARCH CORPORATION",
+   "spellings": [
+    "GEORGIA TECH APPLIED RESEARCH CORPORATION"
+   ],
+   "parent_uei": "EMW9FC8J3HN4",
+   "parent_name": "GEORGIA TECH RESEARCH CORPORATION",
+   "awards": 4,
+   "first_signed": "2020-05-01",
+   "last_signed": "2021-03-12",
+   "live": 0,
+   "offices": {
+    "N00039": 4
+   },
+   "funding_offices": {
+    "N00039": 4
+   }
+  },
+  {
+   "uei": "L997DB4PEJL8",
+   "name": "WEST PUBLISHING CORPORATION",
+   "spellings": [
+    "WEST PUBLISHING CORPORATION"
+   ],
+   "parent_uei": "GUMLELLJ6193",
+   "parent_name": "WEST PUBLISHING CORPORATION",
+   "awards": 4,
+   "first_signed": "2023-05-16",
+   "last_signed": "2026-05-19",
+   "live": 1,
+   "offices": {
+    "N00039": 4
+   },
+   "funding_offices": {
+    "N00039": 4
+   }
+  },
+  {
+   "uei": "M6BRZ1FHEZQ1",
+   "name": "BOEING COMPANY, THE",
+   "spellings": [
+    "BOEING COMPANY, THE"
+   ],
+   "parent_uei": "NU2UC8MX6NK1",
+   "parent_name": "THE BOEING COMPANY",
+   "awards": 4,
+   "first_signed": "2019-12-20",
+   "last_signed": "2021-12-21",
+   "live": 0,
+   "offices": {
+    "N00039": 4
+   },
+   "funding_offices": {
+    "N00039": 4
+   }
+  },
+  {
+   "uei": "NKEVJEY16LE1",
+   "name": "THE MARLIN ALLIANCE, INC.",
+   "spellings": [
+    "MARLIN ALLIANCE, INC., THE",
+    "THE MARLIN ALLIANCE, INC."
+   ],
+   "parent_uei": "NKEVJEY16LE1",
+   "parent_name": "THE MARLIN ALLIANCE  INC.",
+   "awards": 4,
+   "first_signed": "2020-02-13",
+   "last_signed": "2026-05-05",
+   "live": 1,
+   "offices": {
+    "N00039": 4
+   },
+   "funding_offices": {
+    "N00039": 4
+   }
+  },
+  {
+   "uei": "NQCCULJZFY29",
+   "name": "VERTEX MODERNIZATION AND SUSTAINMENT LLC",
+   "spellings": [
+    "VERTEX MODERNIZATION AND SUSTAINMENT LLC"
+   ],
+   "parent_uei": "NQCCULJZFY29",
+   "parent_name": "VERTEX MODERNIZATION AND SUSTAINMENT LLC",
+   "awards": 4,
+   "first_signed": "2024-10-18",
+   "last_signed": "2026-05-26",
+   "live": 2,
+   "offices": {
+    "N00039": 4
+   },
+   "funding_offices": {
+    "N00039": 4
+   }
+  },
+  {
+   "uei": "R98MW4ZKUUK3",
+   "name": "GOVERNMENT ACQUISITIONS, INC.",
+   "spellings": [
+    "GOVERNMENT ACQUISITIONS INC",
+    "GOVERNMENT ACQUISITIONS, INC."
+   ],
+   "parent_uei": "R98MW4ZKUUK3",
+   "parent_name": "GOVERNMENT ACQUISITIONS INC",
+   "awards": 4,
+   "first_signed": "2025-03-26",
+   "last_signed": "2026-04-27",
+   "live": 2,
+   "offices": {
+    "N00039": 4
+   },
+   "funding_offices": {
+    "N00039": 4
+   }
+  },
+  {
+   "uei": "VV9KH3L99VE3",
+   "name": "INTERNATIONAL BUSINESS MACHINES CORPORATION",
+   "spellings": [
+    "INTERNATIONAL BUSINESS MACHINES CORPORATION"
+   ],
+   "parent_uei": "J64CSQTQNRC1",
+   "parent_name": "INTERNATIONAL BUSINESS MACHINES CORPORATION",
+   "awards": 4,
+   "first_signed": "2020-12-10",
+   "last_signed": "2026-04-21",
+   "live": 3,
+   "offices": {
+    "N00039": 4
+   },
+   "funding_offices": {
+    "N00039": 4
+   }
+  },
+  {
+   "uei": "X1JJYEW4HAN9",
+   "name": "FOUR LLC",
+   "spellings": [
+    "FOUR LLC"
+   ],
+   "parent_uei": "X1JJYEW4HAN9",
+   "parent_name": "FOUR LLC",
+   "awards": 4,
+   "first_signed": "2024-02-16",
+   "last_signed": "2025-04-23",
+   "live": 0,
+   "offices": {
+    "N00039": 4
+   },
+   "funding_offices": {
+    "N00039": 4
+   }
+  },
+  {
+   "uei": "YDJEPUN1JQY6",
+   "name": "KAPSUUN GROUP, LLC",
+   "spellings": [
+    "KAPSUUN GROUP, LLC"
+   ],
+   "parent_uei": "YDJEPUN1JQY6",
+   "parent_name": "KAPSUUN GROUP  LLC",
+   "awards": 4,
+   "first_signed": "2020-06-03",
+   "last_signed": "2021-06-23",
+   "live": 0,
+   "offices": {
+    "N00039": 4
+   },
+   "funding_offices": {
+    "N00039": 4
+   }
+  },
+  {
+   "uei": "C47BNA8GM833",
+   "name": "ACCENTURE FEDERAL SERVICES LLC",
+   "spellings": [
+    "ACCENTURE FEDERAL SERVICES LLC"
+   ],
+   "parent_uei": "K9S7KL73XBE3",
+   "parent_name": "ACCENTURE FEDERAL SERVICES LLC",
+   "awards": 3,
+   "first_signed": "2024-02-21",
+   "last_signed": "2026-03-26",
+   "live": 1,
+   "offices": {
+    "N00039": 3
+   },
+   "funding_offices": {
+    "N00039": 3
+   }
+  },
+  {
+   "uei": "C8V6T36LW557",
+   "name": "AEGIS POWER SYSTEMS INC",
+   "spellings": [
+    "AEGIS POWER SYSTEMS INC"
+   ],
+   "parent_uei": "C8V6T36LW557",
+   "parent_name": "AEGIS POWER SYSTEMS  INC.",
+   "awards": 3,
+   "first_signed": "2023-04-25",
+   "last_signed": "2025-11-13",
+   "live": 1,
+   "offices": {
+    "N00039": 3
+   },
+   "funding_offices": {
+    "N00039": 3
+   }
+  },
+  {
+   "uei": "D21ZNGNM3VC5",
+   "name": "XTEC INC",
+   "spellings": [
+    "XTEC INC"
+   ],
+   "parent_uei": "D21ZNGNM3VC5",
+   "parent_name": "XTEC  INCORPORATED",
+   "awards": 3,
+   "first_signed": "2024-04-30",
+   "last_signed": "2026-04-08",
+   "live": 1,
+   "offices": {
+    "N00039": 3
+   },
+   "funding_offices": {
+    "N00039": 3
+   }
+  },
+  {
+   "uei": "DGA4AQ4DJYY9",
+   "name": "BROADLEAF, INC",
+   "spellings": [
+    "BROADLEAF, INC"
+   ],
+   "parent_uei": "DGA4AQ4DJYY9",
+   "parent_name": "BROADLEAF  INC.",
+   "awards": 3,
+   "first_signed": "2021-05-14",
+   "last_signed": "2022-05-31",
+   "live": 1,
+   "offices": {
+    "N00039": 3
+   },
+   "funding_offices": {
+    "N00039": 3
+   }
+  },
+  {
+   "uei": "F2DPFWRULBM4",
+   "name": "GLOTECH, INC.",
+   "spellings": [
+    "GLOTECH, INC."
+   ],
+   "parent_uei": "F2DPFWRULBM4",
+   "parent_name": "GLOTECH  INC.",
+   "awards": 3,
+   "first_signed": "2020-11-18",
+   "last_signed": "2026-01-29",
+   "live": 2,
+   "offices": {
+    "N00039": 3
+   },
+   "funding_offices": {
+    "N00039": 3
+   }
+  },
+  {
+   "uei": "FQDQTL1F3LT7",
+   "name": "INNOVATUS TECHNOLOGY CONSULTING",
+   "spellings": [
+    "INNOVATUS TECHNOLOGY CONSULTING"
+   ],
+   "parent_uei": "FQDQTL1F3LT7",
+   "parent_name": "INNOVATUS TECHNOLOGY CONSULTING",
+   "awards": 3,
+   "first_signed": "2022-03-31",
+   "last_signed": "2023-09-27",
+   "live": 2,
+   "offices": {
+    "N00039": 3
+   },
+   "funding_offices": {
+    "N00039": 3
+   }
+  },
+  {
+   "uei": "G2D4Q7UKR5P5",
+   "name": "CTG FEDERAL, LLC",
+   "spellings": [
+    "CTG FEDERAL, LLC"
+   ],
+   "parent_uei": "G2D4Q7UKR5P5",
+   "parent_name": "CTG FEDERAL  LLC",
+   "awards": 3,
+   "first_signed": "2025-05-19",
+   "last_signed": "2026-01-30",
+   "live": 2,
+   "offices": {
+    "N00039": 3
+   },
+   "funding_offices": {
+    "N00039": 3
+   }
+  },
+  {
+   "uei": "G8LCAVK5AVW7",
+   "name": "NORSEMAN, INC.",
+   "spellings": [
+    "NORSEMAN, INC."
+   ],
+   "parent_uei": "G8LCAVK5AVW7",
+   "parent_name": "NORSEMAN  INC.",
+   "awards": 3,
+   "first_signed": "2019-11-12",
+   "last_signed": "2020-11-24",
+   "live": 0,
+   "offices": {
+    "N00039": 3
+   },
+   "funding_offices": {
+    "N00039": 3
+   }
+  },
+  {
+   "uei": "J84GXV5ZKJK9",
+   "name": "ABBA TECHNOLOGIES, INC.",
+   "spellings": [
+    "ABBA TECHNOLOGIES, INC."
+   ],
+   "parent_uei": "J84GXV5ZKJK9",
+   "parent_name": "ABBA TECHNOLOGIES  INC.",
+   "awards": 3,
+   "first_signed": "2024-09-09",
+   "last_signed": "2026-05-08",
+   "live": 2,
+   "offices": {
+    "N00039": 3
+   },
+   "funding_offices": {
+    "N00039": 3
+   }
+  },
+  {
+   "uei": "JVMNF4DN5XT7",
+   "name": "FALCONWOOD, INC.",
+   "spellings": [
+    "FALCONWOOD",
+    "FALCONWOOD, INC."
+   ],
+   "parent_uei": "JVMNF4DN5XT7",
+   "parent_name": "FALCONWOOD",
+   "awards": 3,
+   "first_signed": "2021-07-29",
+   "last_signed": "2021-12-10",
+   "live": 2,
+   "offices": {
+    "N00039": 3
+   },
+   "funding_offices": {
+    "N00039": 3
+   }
+  },
+  {
+   "uei": "LDMMF472BB93",
+   "name": "ADVANCED TECHNOLOGY INTERNATIONAL",
+   "spellings": [
+    "ADVANCED TECHNOLOGY INTERNATIONAL"
+   ],
+   "parent_uei": "MEHNDWCSBKD5",
+   "parent_name": "ANALYTIC SERVICES INC.",
+   "awards": 3,
+   "first_signed": "2020-08-03",
+   "last_signed": "2023-12-19",
+   "live": 0,
+   "offices": {
+    "N00039": 3
+   },
+   "funding_offices": {
+    "N00039": 3
+   }
+  },
+  {
+   "uei": "MK98NK45JES1",
+   "name": "THE MEDICI GROUP LLC",
+   "spellings": [
+    "THE MEDICI GROUP LLC"
+   ],
+   "parent_uei": "RWJ5UM6GABS6",
+   "parent_name": "THE MEDICI GROUP LLC",
+   "awards": 3,
+   "first_signed": "2024-12-16",
+   "last_signed": "2026-01-29",
+   "live": 2,
+   "offices": {
+    "N00039": 3
+   },
+   "funding_offices": {
+    "N00039": 3
+   }
+  },
+  {
+   "uei": "N3JYDBMD15L5",
+   "name": "SENTEK CONSULTING, INC.",
+   "spellings": [
+    "SENTEK CONSULTING, INC."
+   ],
+   "parent_uei": "N3JYDBMD15L5",
+   "parent_name": "SENTEK CONSULTING  INC.",
+   "awards": 3,
+   "first_signed": "2020-11-19",
+   "last_signed": "2021-03-26",
+   "live": 0,
+   "offices": {
+    "N00039": 3
+   },
+   "funding_offices": {
+    "N00039": 3
+   }
+  },
+  {
+   "uei": "N5MDKHXE6ZJ8",
+   "name": "G2 OPS, INC.",
+   "spellings": [
+    "G2 OPS, INC."
+   ],
+   "parent_uei": "F7FYLQ93PVU3",
+   "parent_name": "G2 OPS  INC.",
+   "awards": 3,
+   "first_signed": "2020-07-14",
+   "last_signed": "2025-07-10",
+   "live": 2,
+   "offices": {
+    "N00039": 3
+   },
+   "funding_offices": {
+    "N00039": 3
+   }
+  },
+  {
+   "uei": "QB4YMGYNL4R3",
+   "name": "CUBIC DEFENSE APPLICATIONS, INC.",
+   "spellings": [
+    "CUBIC DEFENSE APPLICATIONS, INC."
+   ],
+   "parent_uei": "C8A9Y7QPWJJ6",
+   "parent_name": "CUBIC DEFENSE APPLICATIONS  INC.",
+   "awards": 3,
+   "first_signed": "2020-04-17",
+   "last_signed": "2025-09-30",
+   "live": 1,
+   "offices": {
+    "N00039": 3
+   },
+   "funding_offices": {
+    "N00039": 3
+   }
+  },
+  {
+   "uei": "SC8LMLWA6H51",
+   "name": "REGENCY CONSULTING INC",
+   "spellings": [
+    "REGENCY CONSULTING INC"
+   ],
+   "parent_uei": "UUX1P1KKLQJ7",
+   "parent_name": "REGENCY CONSULTING INC",
+   "awards": 3,
+   "first_signed": "2024-06-03",
+   "last_signed": "2025-04-21",
+   "live": 0,
+   "offices": {
+    "N00039": 3
+   },
+   "funding_offices": {
+    "N00039": 3
+   }
+  },
+  {
+   "uei": "SYZ6QUBSFDB3",
+   "name": "EXCEPTIONAL EMPLOYEES FOR EXCEPTIONAL RESULTS, INC.",
+   "spellings": [
+    "EXCEPTIONAL EMPLOYEES FOR EXCEPTIONAL RESULTS, INC."
+   ],
+   "parent_uei": "SYZ6QUBSFDB3",
+   "parent_name": "EXCEPTIONAL EMPLOYEES FOR EXCEPTIONAL RESULTS INC.",
+   "awards": 3,
+   "first_signed": "2022-03-01",
+   "last_signed": "2026-03-04",
+   "live": 3,
+   "offices": {
+    "N00039": 3
+   },
+   "funding_offices": {
+    "N00039": 3
+   }
+  },
+  {
+   "uei": "TSY3HH9UE7G3",
+   "name": "IT1 SOURCE LLC",
+   "spellings": [
+    "IT1 SOURCE LLC"
+   ],
+   "parent_uei": "TSY3HH9UE7G3",
+   "parent_name": "IT1 SOURCE LLC",
+   "awards": 3,
+   "first_signed": "2020-03-27",
+   "last_signed": "2020-11-30",
+   "live": 0,
+   "offices": {
+    "N00039": 3
+   },
+   "funding_offices": {
+    "N00039": 2,
+    "N0039B": 1
+   }
+  },
+  {
+   "uei": "UPS2W9ZM5KT9",
+   "name": "JOINT TACTICS AND TECHNOLOGIES, LLC",
+   "spellings": [
+    "JOINT TACTICS AND TECHNOLOGIES, LLC"
+   ],
+   "parent_uei": "UPS2W9ZM5KT9",
+   "parent_name": "JOINT TACTICS AND TECHNOLOGIES  LLC",
+   "awards": 3,
+   "first_signed": "2020-03-11",
+   "last_signed": "2025-03-03",
+   "live": 2,
+   "offices": {
+    "N00039": 3
+   },
+   "funding_offices": {
+    "N00039": 3
+   }
+  },
+  {
+   "uei": "WPD2U59BGNC9",
+   "name": "INTEPROS FEDERAL INCORPORATED",
+   "spellings": [
+    "INTEPROS FEDERAL INCORPORATED"
+   ],
+   "parent_uei": "WPD2U59BGNC9",
+   "parent_name": "INTEPROS FEDERAL INCORPORATED",
+   "awards": 3,
+   "first_signed": "2022-12-09",
+   "last_signed": "2024-11-22",
+   "live": 0,
+   "offices": {
+    "N00039": 3
+   },
+   "funding_offices": {
+    "N00039": 3
+   }
+  },
+  {
+   "uei": "XTVAGRCDDEC3",
+   "name": "G2 SOFTWARE SYSTEMS, INC.",
+   "spellings": [
+    "G2 SOFTWARE SYSTEMS, INC."
+   ],
+   "parent_uei": "XTVAGRCDDEC3",
+   "parent_name": "G2 SOFTWARE SYSTEMS  INC.",
+   "awards": 3,
+   "first_signed": "2020-11-30",
+   "last_signed": "2024-06-24",
+   "live": 2,
+   "offices": {
+    "N00039": 3
+   },
+   "funding_offices": {
+    "N00039": 3
+   }
+  },
+  {
+   "uei": "CFKRP8CNSWZ6",
+   "name": "DOLJENN PERFORMANCE CONSULTING LLC",
+   "spellings": [
+    "DOLJENN PERFORMANCE CONSULTING LLC"
+   ],
+   "parent_uei": "CFKRP8CNSWZ6",
+   "parent_name": "DOLJENN PERFORMANCE CONSULTING LLC",
+   "awards": 2,
+   "first_signed": "2024-08-25",
+   "last_signed": "2024-08-27",
+   "live": 0,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "CPJ7AMGCJ9B6",
+   "name": "TECHVISION RESEARCH CORPORATION",
+   "spellings": [
+    "TECHVISION RESEARCH CORPORATION"
+   ],
+   "parent_uei": "CPJ7AMGCJ9B6",
+   "parent_name": "TECHVISION RESEARCH CORPORATION",
+   "awards": 2,
+   "first_signed": "2020-07-01",
+   "last_signed": "2023-09-11",
+   "live": 1,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "D8AFMWQNMN25",
+   "name": "KOAM ENGINEERING SYSTEMS, INC.",
+   "spellings": [
+    "KOAM ENGINEERING SYSTEMS, INC."
+   ],
+   "parent_uei": "D8AFMWQNMN25",
+   "parent_name": "KOAM ENGINEERING SYSTEMS  INC.",
+   "awards": 2,
+   "first_signed": "2021-06-15",
+   "last_signed": "2024-12-04",
+   "live": 2,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "D93YKLC3MK67",
+   "name": "GENERAL DYNAMICS ONE SOURCE LLC",
+   "spellings": [
+    "GENERAL DYNAMICS ONE SOURCE LLC"
+   ],
+   "parent_uei": "FAZSFFE6CST9",
+   "parent_name": "GENERAL DYNAMICS ONE SOURCE LLC",
+   "awards": 2,
+   "first_signed": "2024-09-25",
+   "last_signed": "2025-08-21",
+   "live": 0,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "DJ6XYBS9MDN5",
+   "name": "INTECON LLC",
+   "spellings": [
+    "INTECON LLC"
+   ],
+   "parent_uei": "GL59RTLP1JY5",
+   "parent_name": "INTECON  LLC",
+   "awards": 2,
+   "first_signed": "2025-08-25",
+   "last_signed": "2025-08-25",
+   "live": 0,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "EETHKKLA2VB4",
+   "name": "TECOLOTE RESEARCH, INC.",
+   "spellings": [
+    "TECOLOTE RESEARCH, INC."
+   ],
+   "parent_uei": "EETHKKLA2VB4",
+   "parent_name": "TECOLOTE RESEARCH  INC.",
+   "awards": 2,
+   "first_signed": "2023-10-27",
+   "last_signed": "2024-09-12",
+   "live": 1,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "EZSDZBCMXQ85",
+   "name": "GEO4S TECHNOLOGIES LLC",
+   "spellings": [
+    "GEO4S TECHNOLOGIES LLC"
+   ],
+   "parent_uei": "EZSDZBCMXQ85",
+   "parent_name": "GEO4S TECHNOLOGIES LLC",
+   "awards": 2,
+   "first_signed": "2023-07-24",
+   "last_signed": "2023-07-26",
+   "live": 0,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "F3PDWX4UERS2",
+   "name": "GLOBAL C2 INTEGRATION TECHNOLOGIES LLC",
+   "spellings": [
+    "GLOBAL C2 INTEGRATION TECHNOLOGIES LLC"
+   ],
+   "parent_uei": "F3PDWX4UERS2",
+   "parent_name": "GLOBAL C2 INTEGRATION TECHNOLOGIES LLC",
+   "awards": 2,
+   "first_signed": "2025-08-25",
+   "last_signed": "2025-08-25",
+   "live": 0,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "F3U6Q6NH6V98",
+   "name": "ODME SOLUTIONS, LLC",
+   "spellings": [
+    "ODME SOLUTIONS, LLC"
+   ],
+   "parent_uei": "F3U6Q6NH6V98",
+   "parent_name": "ODME SOLUTIONS  LLC",
+   "awards": 2,
+   "first_signed": "2023-07-24",
+   "last_signed": "2023-07-25",
+   "live": 0,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "FEM5S7ZFRG44",
+   "name": "CYPHER ANALYTICS, INC",
+   "spellings": [
+    "CYPHER ANALYTICS, INC"
+   ],
+   "parent_uei": "FEM5S7ZFRG44",
+   "parent_name": "M2 CONSULTING INC.",
+   "awards": 2,
+   "first_signed": "2020-04-24",
+   "last_signed": "2020-06-12",
+   "live": 0,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "FZK7KZZJYNQ9",
+   "name": "FEDERAL RESOURCES CORPORATION",
+   "spellings": [
+    "FEDERAL RESOURCES CORPORATION"
+   ],
+   "parent_uei": "FZK7KZZJYNQ9",
+   "parent_name": "FEDERAL RESOURCES CORPORATION",
+   "awards": 2,
+   "first_signed": "2024-07-17",
+   "last_signed": "2024-08-30",
+   "live": 0,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "GERMM3L4D261",
+   "name": "KATMAI TECHNICAL SERVICES, LLC",
+   "spellings": [
+    "KATMAI TECHNICAL SERVICES, LLC"
+   ],
+   "parent_uei": "GERMM3L4D261",
+   "parent_name": "KATMAI TECHNICAL SERVICES  LLC",
+   "awards": 2,
+   "first_signed": "2020-02-14",
+   "last_signed": "2023-05-25",
+   "live": 1,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "GGJJKBVXJJL4",
+   "name": "BOWHEAD CYBERSECURITY SOLUTIONS & SERVICES, LLC",
+   "spellings": [
+    "BOWHEAD CYBERSECURITY SOLUTIONS & SERVICES, LLC"
+   ],
+   "parent_uei": "GGJJKBVXJJL4",
+   "parent_name": "BOWHEAD CYBERSECURITY SOLUTIONS &amp; SERVICES  LLC",
+   "awards": 2,
+   "first_signed": "2021-06-04",
+   "last_signed": "2021-06-04",
+   "live": 0,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "GHLJX6LSQET8",
+   "name": "KATMAI INTEGRATED SOLUTIONS, LLC",
+   "spellings": [
+    "KATMAI INTEGRATED SOLUTIONS, LLC"
+   ],
+   "parent_uei": "GHLJX6LSQET8",
+   "parent_name": "KATMAI INTEGRATED SOLUTIONS  LLC",
+   "awards": 2,
+   "first_signed": "2024-05-09",
+   "last_signed": "2024-08-22",
+   "live": 2,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "GLTJGJFF9MR2",
+   "name": "TAPHERE! TECHNOLOGY LLC",
+   "spellings": [
+    "TAPHERE! TECHNOLOGY LLC"
+   ],
+   "parent_uei": "GLTJGJFF9MR2",
+   "parent_name": "TAPHERE! TECHNOLOGY  LLC",
+   "awards": 2,
+   "first_signed": "2023-07-24",
+   "last_signed": "2023-07-25",
+   "live": 0,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "H1LMRXJG66H3",
+   "name": "FEDTRIBE LLC",
+   "spellings": [
+    "FEDTRIBE LLC"
+   ],
+   "parent_uei": "H1LMRXJG66H3",
+   "parent_name": "FEDTRIBE LLC",
+   "awards": 2,
+   "first_signed": "2023-09-26",
+   "last_signed": "2024-09-20",
+   "live": 0,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "HCUVLY5JJJF8",
+   "name": "NEWSAT NORTH AMERICA, LLC",
+   "spellings": [
+    "NEWSAT NORTH AMERICA, LLC"
+   ],
+   "parent_uei": "HCUVLY5JJJF8",
+   "parent_name": "NEWSAT NORTH AMERICA  LLC",
+   "awards": 2,
+   "first_signed": "2025-08-25",
+   "last_signed": "2025-08-25",
+   "live": 0,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "HT7NUMWCZL61",
+   "name": "OBJECTIVE FUNCTION SYSTEMS LLC",
+   "spellings": [
+    "OBJECTIVE FUNCTION SYSTEMS LLC"
+   ],
+   "parent_uei": "HT7NUMWCZL61",
+   "parent_name": "OBJECTIVE FUNCTION SYSTEMS LLC",
+   "awards": 2,
+   "first_signed": "2023-07-24",
+   "last_signed": "2023-07-26",
+   "live": 0,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "HZYNSL4JCKF5",
+   "name": "2 TWELVE SOLUTIONS LLC",
+   "spellings": [
+    "2 TWELVE SOLUTIONS LLC"
+   ],
+   "parent_uei": "HZYNSL4JCKF5",
+   "parent_name": "2 TWELVE SOLUTIONS LLC",
+   "awards": 2,
+   "first_signed": "2020-02-27",
+   "last_signed": "2026-01-14",
+   "live": 1,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "J867EA61HLE4",
+   "name": "AT&T MOBILITY NATIONAL ACCOUNTS, LLC",
+   "spellings": [
+    "AT&T MOBILITY NATIONAL ACCOUNTS, LLC"
+   ],
+   "parent_uei": "FYZWKUHGU8W4",
+   "parent_name": "AT&amp;T MOBILITY LLC",
+   "awards": 2,
+   "first_signed": "2023-08-21",
+   "last_signed": "2024-04-23",
+   "live": 0,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "K67DTTG9L6S5",
+   "name": "GEODESICX, INC.",
+   "spellings": [
+    "GEODESICX, INC."
+   ],
+   "parent_uei": "K67DTTG9L6S5",
+   "parent_name": "GEODESICX  INC.",
+   "awards": 2,
+   "first_signed": "2025-08-25",
+   "last_signed": "2025-08-25",
+   "live": 0,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "K8KVUFQMGYV5",
+   "name": "DARK WOLF SOLUTIONS, LLC",
+   "spellings": [
+    "DARK WOLF SOLUTIONS, LLC"
+   ],
+   "parent_uei": "K8KVUFQMGYV5",
+   "parent_name": "DARK WOLF SOLUTIONS  LLC",
+   "awards": 2,
+   "first_signed": "2023-07-24",
+   "last_signed": "2023-07-25",
+   "live": 0,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "KML7LB78R5F5",
+   "name": "TDI TECHNOLOGIES INC",
+   "spellings": [
+    "TDI TECHNOLOGIES INC"
+   ],
+   "parent_uei": "KML7LB78R5F5",
+   "parent_name": "TECHNICAL DOCUMENTATION  INC.",
+   "awards": 2,
+   "first_signed": "2023-07-24",
+   "last_signed": "2023-07-25",
+   "live": 0,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "LEMLXG994AU3",
+   "name": "NORTHROP GRUMMAN SYSTEMS CORPORATION",
+   "spellings": [
+    "NORTHROP GRUMMAN SYSTEMS CORPORATION"
+   ],
+   "parent_uei": "NKVZLJL93QT6",
+   "parent_name": "NORTHROP GRUMMAN SYSTEMS CORPORATION",
+   "awards": 2,
+   "first_signed": "2022-09-13",
+   "last_signed": "2023-11-06",
+   "live": 1,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "M1N1TSKZQY17",
+   "name": "LAUREL TECHNOLOGIES PARTNERSHIP",
+   "spellings": [
+    "LAUREL TECHNOLOGIES PARTNERSHIP"
+   ],
+   "parent_uei": "W8PTMRME1496",
+   "parent_name": "LEONARDO DRS  INC.",
+   "awards": 2,
+   "first_signed": "2023-09-28",
+   "last_signed": "2025-09-30",
+   "live": 1,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "M64TAHG7FYN5",
+   "name": "ATLAS EXECUTIVE CONSULTING, LLC",
+   "spellings": [
+    "ATLAS EXECUTIVE CONSULTING, LLC",
+    "IGNITE DIGITAL FEDERAL SERVICES, LLC"
+   ],
+   "parent_uei": "M64TAHG7FYN5",
+   "parent_name": "ATLAS EXECUTIVE CONSULTING  LLC",
+   "awards": 2,
+   "first_signed": "2021-03-15",
+   "last_signed": "2026-06-04",
+   "live": 1,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "M6V9UNRMMT68",
+   "name": "NORTH AMERICAN CONSULTING SERVICES, INC.",
+   "spellings": [
+    "NORTH AMERICAN CONSULTING SERVICES, INC."
+   ],
+   "parent_uei": "M6V9UNRMMT68",
+   "parent_name": "NORTH AMERICAN CONSULTING SERVICES  INC.",
+   "awards": 2,
+   "first_signed": "2022-07-01",
+   "last_signed": "2024-02-27",
+   "live": 2,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "M9ALV9LKVDC3",
+   "name": "RAFT LLC",
+   "spellings": [
+    "RAFT LLC"
+   ],
+   "parent_uei": "W26ECTL5G1V4",
+   "parent_name": "RAFT LLC",
+   "awards": 2,
+   "first_signed": "2023-07-24",
+   "last_signed": "2023-07-25",
+   "live": 0,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "MPTHMD1MDBR1",
+   "name": "BASCOM HUNTER TECHNOLOGIES, INC.",
+   "spellings": [
+    "BASCOM HUNTER TECHNOLOGIES, INC."
+   ],
+   "parent_uei": "MPTHMD1MDBR1",
+   "parent_name": "BASCOM HUNTER TECHNOLOGIES  INC.",
+   "awards": 2,
+   "first_signed": "2025-11-20",
+   "last_signed": "2025-11-20",
+   "live": 0,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "N3PBJAVNKF61",
+   "name": "CACI, INC. - FEDERAL",
+   "spellings": [
+    "CACI, INC. - FEDERAL"
+   ],
+   "parent_uei": "QSRTXLFKV857",
+   "parent_name": "CACI  INC. - FEDERAL",
+   "awards": 2,
+   "first_signed": "2024-07-29",
+   "last_signed": "2026-01-15",
+   "live": 1,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "N6LCFMKNCNT5",
+   "name": "CHUGACH SOLUTIONS ENTERPRISE, LLC",
+   "spellings": [
+    "CHUGACH SOLUTIONS ENTERPRISE, LLC"
+   ],
+   "parent_uei": "N6LCFMKNCNT5",
+   "parent_name": "CHUGACH SOLUTIONS ENTERPRISE  LLC",
+   "awards": 2,
+   "first_signed": "2024-09-19",
+   "last_signed": "2024-09-19",
+   "live": 1,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "NFFFR55KQUE3",
+   "name": "FEDRESULTS, INC.",
+   "spellings": [
+    "FEDRESULTS, INC."
+   ],
+   "parent_uei": "NFFFR55KQUE3",
+   "parent_name": "FEDRESULTS  INC.",
+   "awards": 2,
+   "first_signed": "2021-06-30",
+   "last_signed": "2024-08-26",
+   "live": 0,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "NP6LZSFKB3R8",
+   "name": "ARTEMIS CONSULTING, LLC",
+   "spellings": [
+    "ARTEMIS CONSULTING, LLC"
+   ],
+   "parent_uei": "NP6LZSFKB3R8",
+   "parent_name": "ARTEMIS CONSULTING  LLC",
+   "awards": 2,
+   "first_signed": "2023-08-29",
+   "last_signed": "2025-06-13",
+   "live": 2,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "NQEWN6C1LSU5",
+   "name": "AMAZON WEB SERVICES, INC.",
+   "spellings": [
+    "AMAZON WEB SERVICES, INC."
+   ],
+   "parent_uei": "NQEWN6C1LSU5",
+   "parent_name": "AMAZON WEB SERVICES  INC.",
+   "awards": 2,
+   "first_signed": "2025-09-22",
+   "last_signed": "2026-04-27",
+   "live": 1,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "P3ENJBGK2H95",
+   "name": "FIELDPRINT INC",
+   "spellings": [
+    "FIELDPRINT INC"
+   ],
+   "parent_uei": "P3ENJBGK2H95",
+   "parent_name": "FIELDPRINT INC",
+   "awards": 2,
+   "first_signed": "2024-02-12",
+   "last_signed": "2025-04-30",
+   "live": 1,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "Q5LJNF15T2R5",
+   "name": "SALIENT CRGT, INC.",
+   "spellings": [
+    "SALIENT CRGT, INC."
+   ],
+   "parent_uei": "UJHDMJG763Y9",
+   "parent_name": "CRGT  INC.",
+   "awards": 2,
+   "first_signed": "2020-10-06",
+   "last_signed": "2025-06-02",
+   "live": 1,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "QEHMNH93DYH6",
+   "name": "INNOVATIVE DEFENSE TECHNOLOGIES, LLC",
+   "spellings": [
+    "INNOVATIVE DEFENSE TECHNOLOGIES, LLC"
+   ],
+   "parent_uei": "QEHMNH93DYH6",
+   "parent_name": "INNOVATIVE DEFENSE TECHNOLOGIES  LLC",
+   "awards": 2,
+   "first_signed": "2021-06-15",
+   "last_signed": "2023-09-27",
+   "live": 1,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "RFVGJGX8H5A8",
+   "name": "CP MARINE, LLC",
+   "spellings": [
+    "CP MARINE, LLC"
+   ],
+   "parent_uei": "P9QQX7RT8E98",
+   "parent_name": "GOLDBELT  INCORPORATED",
+   "awards": 2,
+   "first_signed": "2026-01-30",
+   "last_signed": "2026-01-30",
+   "live": 1,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "SJ18PGX2SNY5",
+   "name": "AVUM INC",
+   "spellings": [
+    "AVUM INC",
+    "AVUM, INC."
+   ],
+   "parent_uei": "SJ18PGX2SNY5",
+   "parent_name": "AVUM  INC.",
+   "awards": 2,
+   "first_signed": "2022-09-30",
+   "last_signed": "2023-08-22",
+   "live": 1,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "TMRCWZ2UQRL8",
+   "name": "MORGAN BUSINESS CONSULTING, LLC",
+   "spellings": [
+    "MORGAN BUSINESS CONSULTING, LLC"
+   ],
+   "parent_uei": "TMRCWZ2UQRL8",
+   "parent_name": "MORGAN BUSINESS CONSULTING  LLC",
+   "awards": 2,
+   "first_signed": "2022-12-08",
+   "last_signed": "2023-02-08",
+   "live": 1,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "V6EJTHUNJVT1",
+   "name": "CABILITY, INC.",
+   "spellings": [
+    "CABILITY, INC."
+   ],
+   "parent_uei": "V6EJTHUNJVT1",
+   "parent_name": "CABILITY  INC.",
+   "awards": 2,
+   "first_signed": "2020-12-02",
+   "last_signed": "2022-11-10",
+   "live": 0,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "VEL4T1QC7667",
+   "name": "INDUS TECHNOLOGY INC.",
+   "spellings": [
+    "INDUS TECHNOLOGY INC."
+   ],
+   "parent_uei": "VEL4T1QC7667",
+   "parent_name": "INDUS TECHNOLOGY INC.",
+   "awards": 2,
+   "first_signed": "2022-09-21",
+   "last_signed": "2023-02-27",
+   "live": 2,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "VGCPMJFD1NN5",
+   "name": "RITE-SOLUTIONS, INC.",
+   "spellings": [
+    "RITE-SOLUTIONS, INC."
+   ],
+   "parent_uei": "VGCPMJFD1NN5",
+   "parent_name": "RITE-SOLUTIONS  INC.",
+   "awards": 2,
+   "first_signed": "2021-04-12",
+   "last_signed": "2022-10-03",
+   "live": 1,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "W9KASKPN33E1",
+   "name": "BLUE RIDGE TECH SOLUTIONS, LLC",
+   "spellings": [
+    "BLUE RIDGE TECH SOLUTIONS, LLC"
+   ],
+   "parent_uei": "W9KASKPN33E1",
+   "parent_name": "BLUE RIDGE TECH SOLUTIONS  LLC",
+   "awards": 2,
+   "first_signed": "2025-08-25",
+   "last_signed": "2025-08-25",
+   "live": 0,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "XGD4KR3RMXQ6",
+   "name": "ISPA TECHNOLOGY LLC",
+   "spellings": [
+    "ISPA TECHNOLOGY LLC"
+   ],
+   "parent_uei": "MN27SF9MSG51",
+   "parent_name": "ISPA TECHNOLOGY LLC",
+   "awards": 2,
+   "first_signed": "2023-07-24",
+   "last_signed": "2023-07-26",
+   "live": 0,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "YKYMKKH31AH5",
+   "name": "VETERANS FIRST INITIATIVE, LLC",
+   "spellings": [
+    "VETERANS FIRST INITIATIVE, LLC"
+   ],
+   "parent_uei": "YKYMKKH31AH5",
+   "parent_name": "VETERANS FIRST INITIATIVE  LLC",
+   "awards": 2,
+   "first_signed": "2020-07-30",
+   "last_signed": "2020-07-30",
+   "live": 0,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "YX5QCXCL5RX7",
+   "name": "OPAL SOFT, INC.",
+   "spellings": [
+    "OPAL SOFT, INC."
+   ],
+   "parent_uei": "JDW3T9BM8621",
+   "parent_name": "OPAL SOFT  INC.",
+   "awards": 2,
+   "first_signed": "2023-07-24",
+   "last_signed": "2023-07-25",
+   "live": 0,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "ZNSFUPHSC3N3",
+   "name": "OGIS COMMUNICATION GROUP, INC.",
+   "spellings": [
+    "OGIS COMMUNICATION GROUP INC",
+    "OGIS COMMUNICATION GROUP, INC."
+   ],
+   "parent_uei": "ZNSFUPHSC3N3",
+   "parent_name": "OGIS COMMUNICATION GROUP INC",
+   "awards": 2,
+   "first_signed": "2024-09-09",
+   "last_signed": "2026-04-24",
+   "live": 1,
+   "offices": {
+    "N00039": 2
+   },
+   "funding_offices": {
+    "N00039": 2
+   }
+  },
+  {
+   "uei": "C1HBCJ9RMBV3",
+   "name": "JOHNS HOPKINS UNIVERSITY APPLIED PHYSICS LABORATORY LLC, THE",
+   "spellings": [
+    "JOHNS HOPKINS UNIVERSITY APPLIED PHYSICS LABORATORY LLC, THE"
+   ],
+   "parent_uei": "FTMTDMBR29C7",
+   "parent_name": "JOHNS HOPKINS UNIVERSITY",
+   "awards": 1,
+   "first_signed": "2020-07-02",
+   "last_signed": "2020-07-02",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "C1NMTBMS4KG5",
+   "name": "AURORA SYSTEMS CONSULTING, INC.",
+   "spellings": [
+    "AURORA SYSTEMS CONSULTING, INC."
+   ],
+   "parent_uei": "C1NMTBMS4KG5",
+   "parent_name": "AURORA SYSTEMS CONSULTING INC",
+   "awards": 1,
+   "first_signed": "2024-09-26",
+   "last_signed": "2024-09-26",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "C37LHT42K5L7",
+   "name": "PATRIOT SHREDDING INC.",
+   "spellings": [
+    "PATRIOT SHREDDING INC."
+   ],
+   "parent_uei": "C37LHT42K5L7",
+   "parent_name": "PATRIOT SHREDDING INC.",
+   "awards": 1,
+   "first_signed": "2022-01-26",
+   "last_signed": "2022-01-26",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "CA11RWJPADV6",
+   "name": "ASRC FEDERAL TECHNOLOGY SOLUTIONS, LLC",
+   "spellings": [
+    "ASRC FEDERAL TECHNOLOGY SOLUTIONS, LLC"
+   ],
+   "parent_uei": "CA11RWJPADV6",
+   "parent_name": "ASRC FEDERAL TECHNOLOGY SOLUTIONS  LLC",
+   "awards": 1,
+   "first_signed": "2024-08-30",
+   "last_signed": "2024-08-30",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "CB42CNL4JNM5",
+   "name": "DILTEX INC",
+   "spellings": [
+    "DILTEX INC"
+   ],
+   "parent_uei": "CB42CNL4JNM5",
+   "parent_name": "DILTEX INC",
+   "awards": 1,
+   "first_signed": "2021-02-02",
+   "last_signed": "2021-02-02",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "CFSLHCPCGGC5",
+   "name": "TRINITY INFORMATION TECHNOLOGY, L.L.C.",
+   "spellings": [
+    "TRINITY INFORMATION TECHNOLOGY, L.L.C."
+   ],
+   "parent_uei": "Q9RXCNMAHBB5",
+   "parent_name": "TRINITY INFORMATION TECHNOLOGY  L.L.C.",
+   "awards": 1,
+   "first_signed": "2023-09-21",
+   "last_signed": "2023-09-21",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "CL69E7KATK59",
+   "name": "MICROTECHNOLOGIES LLC",
+   "spellings": [
+    "MICROTECHNOLOGIES LLC"
+   ],
+   "parent_uei": "CL69E7KATK59",
+   "parent_name": "MICROTECHNOLOGIES LLC",
+   "awards": 1,
+   "first_signed": "2021-09-29",
+   "last_signed": "2021-09-29",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "CMBKC2MHJFK5",
+   "name": "SMARTRONIX, LLC",
+   "spellings": [
+    "SMARTRONIX, LLC"
+   ],
+   "parent_uei": "CWYHY6SLG8F3",
+   "parent_name": "SMARTRONIX  LLC",
+   "awards": 1,
+   "first_signed": "2022-02-02",
+   "last_signed": "2022-02-02",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "CQJCMS188DM7",
+   "name": "TITANIUM COBRA SOLUTIONS, LLC",
+   "spellings": [
+    "TITANIUM COBRA SOLUTIONS, LLC"
+   ],
+   "parent_uei": "CQJCMS188DM7",
+   "parent_name": "TITANIUM COBRA SOLUTIONS  LLC",
+   "awards": 1,
+   "first_signed": "2022-04-20",
+   "last_signed": "2022-04-20",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "DFVEM9N1F4J6",
+   "name": "TECHNOLOGY INTERNATIONAL, INC.",
+   "spellings": [
+    "TECHNOLOGY INTERNATIONAL, INC."
+   ],
+   "parent_uei": "DFVEM9N1F4J6",
+   "parent_name": "TECHNOLOGY INTERNATIONAL  INC.",
+   "awards": 1,
+   "first_signed": "2021-03-23",
+   "last_signed": "2021-03-23",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "DFVJNBYNM8U1",
+   "name": "RIGHTSTAR SYSTEMS INCORPORATED",
+   "spellings": [
+    "RIGHTSTAR SYSTEMS INCORPORATED"
+   ],
+   "parent_uei": "DFVJNBYNM8U1",
+   "parent_name": "RIGHTSTAR  INC.",
+   "awards": 1,
+   "first_signed": "2020-08-19",
+   "last_signed": "2020-08-19",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "DG87J5EZLC94",
+   "name": "OWL CYBER DEFENSE SOLUTIONS, LLC",
+   "spellings": [
+    "OWL CYBER DEFENSE SOLUTIONS, LLC"
+   ],
+   "parent_uei": "DG87J5EZLC94",
+   "parent_name": "OWL CYBER DEFENSE SOLUTIONS  LLC",
+   "awards": 1,
+   "first_signed": "2021-09-09",
+   "last_signed": "2021-09-09",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "DHFLCHUB3JM9",
+   "name": "VENESCO, LLC",
+   "spellings": [
+    "VENESCO, LLC"
+   ],
+   "parent_uei": "DHFLCHUB3JM9",
+   "parent_name": "VENESCO  LLC",
+   "awards": 1,
+   "first_signed": "2021-02-03",
+   "last_signed": "2021-02-03",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "DHU2LMKSDQD9",
+   "name": "SCALE AI, INC.",
+   "spellings": [
+    "SCALE AI, INC."
+   ],
+   "parent_uei": "DHU2LMKSDQD9",
+   "parent_name": "SCALE AI  INC.",
+   "awards": 1,
+   "first_signed": "2025-09-16",
+   "last_signed": "2025-09-16",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "DJUCEANK2KP4",
+   "name": "NORTHROP GRUMMAN SYSTEMS CORPORATION",
+   "spellings": [
+    "NORTHROP GRUMMAN SYSTEMS CORPORATION"
+   ],
+   "parent_uei": "NKVZLJL93QT6",
+   "parent_name": "NORTHROP GRUMMAN SYSTEMS CORPORATION",
+   "awards": 1,
+   "first_signed": "2022-04-13",
+   "last_signed": "2022-04-13",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "DKGULZJ85LB4",
+   "name": "XST INC.",
+   "spellings": [
+    "XST INC."
+   ],
+   "parent_uei": "DKGULZJ85LB4",
+   "parent_name": "XST INC.",
+   "awards": 1,
+   "first_signed": "2021-08-03",
+   "last_signed": "2021-08-03",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "DUQKMDGAMAK3",
+   "name": "PROGRAMS MANAGEMENT ANALYTICS & TECHNOLOGIES, INC.",
+   "spellings": [
+    "PROGRAMS MANAGEMENT ANALYTICS & TECHNOLOGIES, INC."
+   ],
+   "parent_uei": "DUQKMDGAMAK3",
+   "parent_name": "PROGRAMS MANAGEMENT ANALYTICS &amp; TECHNOLOGIES INC",
+   "awards": 1,
+   "first_signed": "2024-10-16",
+   "last_signed": "2024-10-16",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "DWVKL7Q3K1K4",
+   "name": "COX CALIFORNIA TELCOM, LLC",
+   "spellings": [
+    "COX CALIFORNIA TELCOM, LLC"
+   ],
+   "parent_uei": "DWVKL7Q3K1K4",
+   "parent_name": "COX CALIFORNIA TELCOM  LLC",
+   "awards": 1,
+   "first_signed": "2025-05-21",
+   "last_signed": "2025-05-21",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "DZ9XM5UDFN29",
+   "name": "STANDARD-BLAZAR, LLC",
+   "spellings": [
+    "STANDARD-BLAZAR, LLC"
+   ],
+   "parent_uei": "DZ9XM5UDFN29",
+   "parent_name": "STANDARD-BLAZAR  LLC",
+   "awards": 1,
+   "first_signed": "2025-03-24",
+   "last_signed": "2025-03-24",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "E2PHGXXFKM91",
+   "name": "THE KENIFIC GROUP INC",
+   "spellings": [
+    "THE KENIFIC GROUP INC"
+   ],
+   "parent_uei": "EH1PMAU36HC7",
+   "parent_name": "THE KENIFIC GROUP INC",
+   "awards": 1,
+   "first_signed": "2023-09-28",
+   "last_signed": "2023-09-28",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "E2YSTNG9R2P8",
+   "name": "SAP NATIONAL SECURITY SERVICES INC",
+   "spellings": [
+    "SAP NATIONAL SECURITY SERVICES INC"
+   ],
+   "parent_uei": "K4RKXW9KFJT3",
+   "parent_name": "SAP NATIONAL SECURITY SERVICES INC",
+   "awards": 1,
+   "first_signed": "2025-12-30",
+   "last_signed": "2025-12-30",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "E32XCUALMYL4",
+   "name": "HAWORTH, INC.",
+   "spellings": [
+    "HAWORTH, INC."
+   ],
+   "parent_uei": "KYNJNSUVGGD8",
+   "parent_name": "HAWORTH INTERNATIONAL  LTD.",
+   "awards": 1,
+   "first_signed": "2020-09-09",
+   "last_signed": "2020-09-09",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "E8QNBC287DY4",
+   "name": "NATIONAL INDUSTRIES FOR THE BLIND",
+   "spellings": [
+    "NATIONAL INDUSTRIES FOR THE BLIND"
+   ],
+   "parent_uei": "E8QNBC287DY4",
+   "parent_name": "NATIONAL INDUSTRIES FOR THE BLIND",
+   "awards": 1,
+   "first_signed": "2021-09-27",
+   "last_signed": "2021-09-27",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "EELEC8QCC3N8",
+   "name": "CACI NSS, LLC",
+   "spellings": [
+    "CACI NSS, LLC"
+   ],
+   "parent_uei": "QSRTXLFKV857",
+   "parent_name": "CACI NSS  LLC",
+   "awards": 1,
+   "first_signed": "2023-01-31",
+   "last_signed": "2023-01-31",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "EFNNW5KAXTU4",
+   "name": "MARK WILSON SOFTWARE LTD",
+   "spellings": [
+    "MARK WILSON SOFTWARE LTD"
+   ],
+   "parent_uei": "EFNNW5KAXTU4",
+   "parent_name": "MARK WILSON SOFTWARE LTD",
+   "awards": 1,
+   "first_signed": "2020-09-28",
+   "last_signed": "2020-09-28",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "EM1HPFPBH6J1",
+   "name": "M&K GENERAL CONTRACTORS INC",
+   "spellings": [
+    "M&K GENERAL CONTRACTORS INC"
+   ],
+   "parent_uei": "EM1HPFPBH6J1",
+   "parent_name": "M&amp;K GENERAL CONTRACTORS INC",
+   "awards": 1,
+   "first_signed": "2024-09-30",
+   "last_signed": "2024-09-30",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "EMFSYRQHWLM4",
+   "name": "CHENEGA DEFENSE & AEROSPACE SOLUTIONS LLC",
+   "spellings": [
+    "CHENEGA DEFENSE & AEROSPACE SOLUTIONS LLC"
+   ],
+   "parent_uei": "EMFSYRQHWLM4",
+   "parent_name": "CHENEGA DEFENSE &amp; AEROSPACE SOLUTIONS LLC",
+   "awards": 1,
+   "first_signed": "2023-11-30",
+   "last_signed": "2023-11-30",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "F4FLM3NP2N46",
+   "name": "ROHDE & SCHWARZ USA, INC.",
+   "spellings": [
+    "ROHDE & SCHWARZ USA, INC."
+   ],
+   "parent_uei": "TMB8RWMAADP5",
+   "parent_name": "ROHDE &amp; SCHWARZ GMBH &amp; CO. KG",
+   "awards": 1,
+   "first_signed": "2022-05-10",
+   "last_signed": "2022-05-10",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "F4TGRSZ7SQ85",
+   "name": "DATA DISPOSAL, INC.",
+   "spellings": [
+    "DATA DISPOSAL, INC."
+   ],
+   "parent_uei": "F4TGRSZ7SQ85",
+   "parent_name": "DATA DISPOSAL  INC.",
+   "awards": 1,
+   "first_signed": "2024-04-25",
+   "last_signed": "2024-04-25",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "F9KSDU7L9VP6",
+   "name": "DELOITTE & TOUCHE LLP",
+   "spellings": [
+    "DELOITTE & TOUCHE LLP"
+   ],
+   "parent_uei": "GXJAJT3X6SY3",
+   "parent_name": "DELOITTE LLP",
+   "awards": 1,
+   "first_signed": "2023-11-07",
+   "last_signed": "2023-11-07",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "FARVYNA975E1",
+   "name": "AGEMA TECHNOLOGY INC.",
+   "spellings": [
+    "AGEMA TECHNOLOGY INC."
+   ],
+   "parent_uei": "FARVYNA975E1",
+   "parent_name": "CRESCENT ALLIED SOLUTIONS",
+   "awards": 1,
+   "first_signed": "2020-08-05",
+   "last_signed": "2020-08-05",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "FE6AL4Z2Q4R8",
+   "name": "E.M. NORTON ENTERPRISES, INC.",
+   "spellings": [
+    "E.M. NORTON ENTERPRISES, INC."
+   ],
+   "parent_uei": "FE6AL4Z2Q4R8",
+   "parent_name": "E.M. NORTON ENTERPRISES  INC.",
+   "awards": 1,
+   "first_signed": "2024-06-14",
+   "last_signed": "2024-06-14",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "FQZ6AZM2FNK6",
+   "name": "FLATWATER SOLUTIONS COMPANY",
+   "spellings": [
+    "FLATWATER SOLUTIONS COMPANY"
+   ],
+   "parent_uei": "FQZ6AZM2FNK6",
+   "parent_name": "FLATWATER SOLUTIONS COMPANY",
+   "awards": 1,
+   "first_signed": "2020-04-30",
+   "last_signed": "2020-04-30",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "FSY4LVSBGWB7",
+   "name": "PALANTIR TECHNOLOGIES INCORPORATED",
+   "spellings": [
+    "PALANTIR TECHNOLOGIES INCORPORATED"
+   ],
+   "parent_uei": "FSY4LVSBGWB7",
+   "parent_name": "PALANTIR TECHNOLOGIES INC.",
+   "awards": 1,
+   "first_signed": "2020-02-07",
+   "last_signed": "2020-02-07",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "FTEMBMQ3SGR5",
+   "name": "JJR SOLUTIONS, LLC",
+   "spellings": [
+    "JJR SOLUTIONS, LLC"
+   ],
+   "parent_uei": "Y3E1LR5RD374",
+   "parent_name": "JJR SOLUTIONS LLC",
+   "awards": 1,
+   "first_signed": "2024-09-26",
+   "last_signed": "2024-09-26",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "G4L6RJS94VP9",
+   "name": "AMERICAN WORDATA, INC.",
+   "spellings": [
+    "AMERICAN WORDATA, INC."
+   ],
+   "parent_uei": "G4L6RJS94VP9",
+   "parent_name": "AMERICAN WORDATA  INCORPORATED",
+   "awards": 1,
+   "first_signed": "2020-09-30",
+   "last_signed": "2020-09-30",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "GH4DN6E3DV23",
+   "name": "BOS LOGISTICS INC",
+   "spellings": [
+    "BOS LOGISTICS INC"
+   ],
+   "parent_uei": "GH4DN6E3DV23",
+   "parent_name": "BOS LOGISTICS INC",
+   "awards": 1,
+   "first_signed": "2020-01-10",
+   "last_signed": "2020-01-10",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "GQ1NNDXHWHK4",
+   "name": "TYCHON, LLC",
+   "spellings": [
+    "TYCHON, LLC"
+   ],
+   "parent_uei": "GQ1NNDXHWHK4",
+   "parent_name": "TYCHON  LLC",
+   "awards": 1,
+   "first_signed": "2020-06-30",
+   "last_signed": "2020-06-30",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "GVLGK73C9DM1",
+   "name": "MAKAI OCEAN ENGINEERING INC",
+   "spellings": [
+    "MAKAI OCEAN ENGINEERING INC"
+   ],
+   "parent_uei": "GVLGK73C9DM1",
+   "parent_name": "MAKAI OCEAN ENGINEERING INC",
+   "awards": 1,
+   "first_signed": "2023-06-29",
+   "last_signed": "2023-06-29",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00024": 1
+   }
+  },
+  {
+   "uei": "GZJCC4PGBLB5",
+   "name": "BEACON INTERACTIVE SYSTEMS LLC",
+   "spellings": [
+    "BEACON INTERACTIVE SYSTEMS LLC"
+   ],
+   "parent_uei": "GZJCC4PGBLB5",
+   "parent_name": "BEACON INTERACTIVE SYSTEMS LLC",
+   "awards": 1,
+   "first_signed": "2023-08-18",
+   "last_signed": "2023-08-18",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "H11HD5VHGHN3",
+   "name": "LOCKHEED MARTIN CORPORATION",
+   "spellings": [
+    "LOCKHEED MARTIN CORPORATION"
+   ],
+   "parent_uei": "ZFN2JJXBLZT3",
+   "parent_name": "LOCKHEED MARTIN CORPORATION",
+   "awards": 1,
+   "first_signed": "2020-02-28",
+   "last_signed": "2020-02-28",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00024": 1
+   }
+  },
+  {
+   "uei": "H1KHJPJH9R51",
+   "name": "FOUR POINTS TECHNOLOGY, L.L.C.",
+   "spellings": [
+    "FOUR POINTS TECHNOLOGY, L.L.C."
+   ],
+   "parent_uei": "H1KHJPJH9R51",
+   "parent_name": "FOUR POINTS TECHNOLOGY  L.L.C.",
+   "awards": 1,
+   "first_signed": "2020-06-30",
+   "last_signed": "2020-06-30",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "H5KMT2HK1K75",
+   "name": "CORETWOEIGHT TECHNOLOGY, LLC",
+   "spellings": [
+    "CORETWOEIGHT TECHNOLOGY, LLC"
+   ],
+   "parent_uei": "H5KMT2HK1K75",
+   "parent_name": "CORETWOEIGHT TECHNOLOGY  LLC",
+   "awards": 1,
+   "first_signed": "2025-09-17",
+   "last_signed": "2025-09-17",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "HA3UFSU8FN75",
+   "name": "L3 TECHNOLOGIES, INC.",
+   "spellings": [
+    "L3 TECHNOLOGIES, INC."
+   ],
+   "parent_uei": "SJULQDJ8NZU7",
+   "parent_name": "L3 TECHNOLOGIES  INC.",
+   "awards": 1,
+   "first_signed": "2020-09-21",
+   "last_signed": "2020-09-21",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "HEJPC2YLXUM7",
+   "name": "JLWS ENTERPRISES INCORPORATED",
+   "spellings": [
+    "JLWS ENTERPRISES INCORPORATED"
+   ],
+   "parent_uei": "HEJPC2YLXUM7",
+   "parent_name": "JLWS ENTERPRISES  INC.",
+   "awards": 1,
+   "first_signed": "2020-02-25",
+   "last_signed": "2020-02-25",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "HLKFK56552A6",
+   "name": "DYNAMIC FABRICATION INC",
+   "spellings": [
+    "DYNAMIC FABRICATION INC"
+   ],
+   "parent_uei": "HLKFK56552A6",
+   "parent_name": "DYNAMIC FABRICATION INC.",
+   "awards": 1,
+   "first_signed": "2022-10-17",
+   "last_signed": "2022-10-17",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "HLTWE4LVPDM9",
+   "name": "WEST ELECTRONICS, INC.",
+   "spellings": [
+    "WEST ELECTRONICS, INC."
+   ],
+   "parent_uei": "HLTWE4LVPDM9",
+   "parent_name": "WEST ELECTRONICS  INC",
+   "awards": 1,
+   "first_signed": "2022-11-10",
+   "last_signed": "2022-11-10",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "HMT9NXXLZGP9",
+   "name": "ULTRA ELECTRONICS ADVANCED TACTICAL SYSTEMS INC",
+   "spellings": [
+    "ULTRA ELECTRONICS ADVANCED TACTICAL SYSTEMS INC"
+   ],
+   "parent_uei": "SCWYXXK1EM13",
+   "parent_name": "ULTRA ELECTRONICS ADVANCED TACTICAL SYSTEMS INC",
+   "awards": 1,
+   "first_signed": "2021-09-29",
+   "last_signed": "2021-09-29",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "HQAJMSZDK666",
+   "name": "ARCHITECHTURE SOLUTIONS, LLC",
+   "spellings": [
+    "ARCHITECHTURE SOLUTIONS, LLC"
+   ],
+   "parent_uei": "HQAJMSZDK666",
+   "parent_name": "ARCHITECHTURE SOLUTIONS LLC",
+   "awards": 1,
+   "first_signed": "2025-07-01",
+   "last_signed": "2025-07-01",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "HUZ2XKV2KLS5",
+   "name": "8-KOI, INC.",
+   "spellings": [
+    "8-KOI, INC."
+   ],
+   "parent_uei": "HUZ2XKV2KLS5",
+   "parent_name": "8-KOI  INC.",
+   "awards": 1,
+   "first_signed": "2021-02-24",
+   "last_signed": "2021-02-24",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "J4BPM3UKM674",
+   "name": "CYKOR LLC",
+   "spellings": [
+    "CYKOR LLC"
+   ],
+   "parent_uei": "J4BPM3UKM674",
+   "parent_name": "CYKOR LLC",
+   "awards": 1,
+   "first_signed": "2025-09-17",
+   "last_signed": "2025-09-17",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "JM3KFJD63CK7",
+   "name": "MAG DS CORP.",
+   "spellings": [
+    "MAG DS CORP."
+   ],
+   "parent_uei": "JM3KFJD63CK7",
+   "parent_name": "MAG DEFENSE SERVICES  LLC",
+   "awards": 1,
+   "first_signed": "2021-06-02",
+   "last_signed": "2021-06-02",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "JQJAD34Q1LK7",
+   "name": "TRACEN TECHNOLOGIES, INC.",
+   "spellings": [
+    "TRACEN TECHNOLOGIES, INC."
+   ],
+   "parent_uei": "JQJAD34Q1LK7",
+   "parent_name": "TRACEN TECHNOLOGIES  INC.",
+   "awards": 1,
+   "first_signed": "2021-02-24",
+   "last_signed": "2021-02-24",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "JTG2U13CK1R5",
+   "name": "INK TO THINK LLC",
+   "spellings": [
+    "INK TO THINK LLC"
+   ],
+   "parent_uei": "JTG2U13CK1R5",
+   "parent_name": "INK TO THINK LLC",
+   "awards": 1,
+   "first_signed": "2024-05-24",
+   "last_signed": "2024-05-24",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "K1MPUUN7WP55",
+   "name": "SES GOVERNMENT SOLUTIONS, INC.",
+   "spellings": [
+    "SES GOVERNMENT SOLUTIONS, INC."
+   ],
+   "parent_uei": "CY8CLJB6W781",
+   "parent_name": "SES GOVERNMENT SOLUTIONS  INC.",
+   "awards": 1,
+   "first_signed": "2020-05-28",
+   "last_signed": "2020-05-28",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "K9MCL74ARMP3",
+   "name": "OSI VISION LLC",
+   "spellings": [
+    "OSI VISION LLC"
+   ],
+   "parent_uei": "K9MCL74ARMP3",
+   "parent_name": "OSI VISION LLC",
+   "awards": 1,
+   "first_signed": "2019-12-06",
+   "last_signed": "2019-12-06",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "KDLED2J72983",
+   "name": "VETERAN TECHNOLOGY PARTNERS, LLC",
+   "spellings": [
+    "VETERAN TECHNOLOGY PARTNERS, LLC"
+   ],
+   "parent_uei": "KDLED2J72983",
+   "parent_name": "VETERAN TECHNOLOGY PARTNERS LLC",
+   "awards": 1,
+   "first_signed": "2026-06-11",
+   "last_signed": "2026-06-11",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "KG5YKVBV5UW9",
+   "name": "STILMAN ADVANCED STRATEGIES, LLC",
+   "spellings": [
+    "STILMAN ADVANCED STRATEGIES, LLC"
+   ],
+   "parent_uei": "D1ZCV4P993E5",
+   "parent_name": "STILMAN ADVANCED STRATEGIES LLC",
+   "awards": 1,
+   "first_signed": "2023-09-05",
+   "last_signed": "2023-09-05",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "KQJ2KNHNXMX4",
+   "name": "DOMINO DATA LAB INC",
+   "spellings": [
+    "DOMINO DATA LAB INC"
+   ],
+   "parent_uei": "F757CD26MG41",
+   "parent_name": "DOMINO DATA LAB  INC.",
+   "awards": 1,
+   "first_signed": "2026-04-17",
+   "last_signed": "2026-04-17",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "KQNYKJCTWEC8",
+   "name": "BSET, LLC",
+   "spellings": [
+    "BSET, LLC"
+   ],
+   "parent_uei": "JTT1TMUBS2N5",
+   "parent_name": "BSET  LLC",
+   "awards": 1,
+   "first_signed": "2023-04-06",
+   "last_signed": "2023-04-06",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "KYP9UPNMQL67",
+   "name": "RIVET OPERATIONS COMPANY LLC",
+   "spellings": [
+    "RIVET OPERATIONS COMPANY LLC"
+   ],
+   "parent_uei": "X4MUDVBDR6C4",
+   "parent_name": "RIVET OPERATIONS COMPANY LLC",
+   "awards": 1,
+   "first_signed": "2024-08-15",
+   "last_signed": "2024-08-15",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "KZC1APBM88W5",
+   "name": "ANALYTICS HQ, LLC",
+   "spellings": [
+    "ANALYTICS HQ, LLC"
+   ],
+   "parent_uei": "KZC1APBM88W5",
+   "parent_name": "ANALYTICS HQ  LLC",
+   "awards": 1,
+   "first_signed": "2026-02-26",
+   "last_signed": "2026-02-26",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "L4T4AYLZ1YG9",
+   "name": "COMPLETE LOGISTICS SUPPORT INC.",
+   "spellings": [
+    "COMPLETE LOGISTICS SUPPORT INC."
+   ],
+   "parent_uei": "L4T4AYLZ1YG9",
+   "parent_name": "COMPLETE LOGISTICS SUPPORT INC.",
+   "awards": 1,
+   "first_signed": "2024-05-21",
+   "last_signed": "2024-05-21",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "LB8JT7MNMYB5",
+   "name": "VAE, INC.",
+   "spellings": [
+    "VAE, INC."
+   ],
+   "parent_uei": "LB8JT7MNMYB5",
+   "parent_name": "VAE  INC.",
+   "awards": 1,
+   "first_signed": "2024-03-27",
+   "last_signed": "2024-03-27",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "LGMVH2NYJH38",
+   "name": "DIVINE IMAGING INC.",
+   "spellings": [
+    "DIVINE IMAGING INC."
+   ],
+   "parent_uei": "LGMVH2NYJH38",
+   "parent_name": "DIVINE IMAGING INC.",
+   "awards": 1,
+   "first_signed": "2023-01-17",
+   "last_signed": "2023-01-17",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "LHSBQKG97P89",
+   "name": "INDUSTRIES FOR THE BLIND AND VISUALLY IMPAIRED, INC.",
+   "spellings": [
+    "INDUSTRIES FOR THE BLIND AND VISUALLY IMPAIRED, INC."
+   ],
+   "parent_uei": "LHSBQKG97P89",
+   "parent_name": "INDUSTRIES FOR THE BLIND  INC.",
+   "awards": 1,
+   "first_signed": "2019-11-13",
+   "last_signed": "2019-11-13",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "LJMKLES23319",
+   "name": "PHASE SENSITIVE INNOVATIONS INC",
+   "spellings": [
+    "PHASE SENSITIVE INNOVATIONS INC"
+   ],
+   "parent_uei": "LJMKLES23319",
+   "parent_name": "PHASE SENSITIVE INNOVATIONS INC",
+   "awards": 1,
+   "first_signed": "2024-04-04",
+   "last_signed": "2024-04-04",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "LKAAJG8KK4U1",
+   "name": "RELX INC.",
+   "spellings": [
+    "RELX INC."
+   ],
+   "parent_uei": "LVJ9DAT4V6N5",
+   "parent_name": "RELX INC",
+   "awards": 1,
+   "first_signed": "2022-05-27",
+   "last_signed": "2022-05-27",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "M2JCFQ81E628",
+   "name": "SMACK TECHNOLOGIES INC.",
+   "spellings": [
+    "SMACK TECHNOLOGIES INC."
+   ],
+   "parent_uei": "M2JCFQ81E628",
+   "parent_name": "SMACK TECHNOLOGIES INC.",
+   "awards": 1,
+   "first_signed": "2025-09-19",
+   "last_signed": "2025-09-19",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "HQ0845": 1
+   }
+  },
+  {
+   "uei": "M5XHK9Y6MB74",
+   "name": "UNIVERSITY OF VIRGINIA DARDEN SCHOOL FOUNDATION INC",
+   "spellings": [
+    "UNIVERSITY OF VIRGINIA DARDEN SCHOOL FOUNDATION INC"
+   ],
+   "parent_uei": "M5XHK9Y6MB74",
+   "parent_name": "UNIVERSITY OF VIRGINIA DARDEN SCHOOL FOUNDATION",
+   "awards": 1,
+   "first_signed": "2024-02-20",
+   "last_signed": "2024-02-20",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "M8CEKUNWVNK8",
+   "name": "SHRED ACE, INC.",
+   "spellings": [
+    "SHRED ACE, INC."
+   ],
+   "parent_uei": "M8CEKUNWVNK8",
+   "parent_name": "SHRED ACE INC",
+   "awards": 1,
+   "first_signed": "2024-01-16",
+   "last_signed": "2024-01-16",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "MJ7TACS2CUK8",
+   "name": "GHOSTROCK SYSTEMS DEVELOPMENT, LLC",
+   "spellings": [
+    "GHOSTROCK SYSTEMS DEVELOPMENT, LLC"
+   ],
+   "parent_uei": "MJ7TACS2CUK8",
+   "parent_name": "GHOSTROCK SYSTEMS DEVELOPMENT  LLC",
+   "awards": 1,
+   "first_signed": "2020-09-23",
+   "last_signed": "2020-09-23",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "MJN8ZCCFNKL8",
+   "name": "GLOBAL-LG LLC",
+   "spellings": [
+    "GLOBAL-LG LLC"
+   ],
+   "parent_uei": "MJN8ZCCFNKL8",
+   "parent_name": "GLOBAL-LG LLC",
+   "awards": 1,
+   "first_signed": "2020-09-30",
+   "last_signed": "2020-09-30",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "MJPNRU2DSNF8",
+   "name": "CAMERON BELL CORPORATION, THE",
+   "spellings": [
+    "CAMERON BELL CORPORATION, THE"
+   ],
+   "parent_uei": "MJPNRU2DSNF8",
+   "parent_name": "CAMERON BELL CORPORATION",
+   "awards": 1,
+   "first_signed": "2020-09-10",
+   "last_signed": "2020-09-10",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "ML5FTWJYF5V5",
+   "name": "KELLSTROM DEFENSE AEROSPACE, INC.",
+   "spellings": [
+    "KELLSTROM DEFENSE AEROSPACE, INC."
+   ],
+   "parent_uei": "KHB6XEUSKF64",
+   "parent_name": "KELLSTROM DEFENSE AEROSPACE  INC.",
+   "awards": 1,
+   "first_signed": "2021-03-17",
+   "last_signed": "2021-03-17",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "MNL5VYKA4B98",
+   "name": "FORCEPOINT FEDERAL LLC",
+   "spellings": [
+    "FORCEPOINT FEDERAL LLC"
+   ],
+   "parent_uei": "KLW3ZYL15493",
+   "parent_name": "FORCEPOINT FEDERAL LLC",
+   "awards": 1,
+   "first_signed": "2019-12-13",
+   "last_signed": "2019-12-13",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "MNZXENLEPTH3",
+   "name": "A&E OFFICE AND INDUSTRIAL SUPPLY",
+   "spellings": [
+    "A&E OFFICE AND INDUSTRIAL SUPPLY"
+   ],
+   "parent_uei": "MNZXENLEPTH3",
+   "parent_name": "A&amp;E OFFICE AND INDUSTRIAL SUPPLY",
+   "awards": 1,
+   "first_signed": "2021-06-22",
+   "last_signed": "2021-06-22",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "MQMXKNLL76T5",
+   "name": "MANADA TECHNOLOGY LLC",
+   "spellings": [
+    "MANADA TECHNOLOGY LLC"
+   ],
+   "parent_uei": "MQMXKNLL76T5",
+   "parent_name": "MANADA TECHNOLOGY LLC",
+   "awards": 1,
+   "first_signed": "2024-10-31",
+   "last_signed": "2024-10-31",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "MSEEPA5JRLN4",
+   "name": "MISSION PHOENIX, LLC",
+   "spellings": [
+    "MISSION PHOENIX, LLC"
+   ],
+   "parent_uei": "CS5HSZ6UX448",
+   "parent_name": "MISSION PHOENIX  LLC",
+   "awards": 1,
+   "first_signed": "2025-03-27",
+   "last_signed": "2025-03-27",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "MSSQQ551LG41",
+   "name": "IMPRES TECHNOLOGY SOLUTIONS, INC.",
+   "spellings": [
+    "IMPRES TECHNOLOGY SOLUTIONS, INC."
+   ],
+   "parent_uei": "MSSQQ551LG41",
+   "parent_name": "IMPRES TECHNOLOGY SOLUTIONS  INC.",
+   "awards": 1,
+   "first_signed": "2020-09-30",
+   "last_signed": "2020-09-30",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "N8K7N7GJAZ73",
+   "name": "CQ-ROLL CALL, INC.",
+   "spellings": [
+    "CQ-ROLL CALL, INC."
+   ],
+   "parent_uei": "FMHKL71EGBX7",
+   "parent_name": "FISCALNOTE  INC.",
+   "awards": 1,
+   "first_signed": "2020-03-03",
+   "last_signed": "2020-03-03",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "N9G2TBRX8PQ3",
+   "name": "L3 TECHNOLOGIES, INC.",
+   "spellings": [
+    "L3 TECHNOLOGIES, INC."
+   ],
+   "parent_uei": "SJULQDJ8NZU7",
+   "parent_name": "L3 TECHNOLOGIES  INC.",
+   "awards": 1,
+   "first_signed": "2022-03-31",
+   "last_signed": "2022-03-31",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00024": 1
+   }
+  },
+  {
+   "uei": "NB21QESAKUM9",
+   "name": "L3 TECHNOLOGIES INC",
+   "spellings": [
+    "L3 TECHNOLOGIES INC"
+   ],
+   "parent_uei": "SJULQDJ8NZU7",
+   "parent_name": "L3 TECHNOLOGIES INC",
+   "awards": 1,
+   "first_signed": "2024-03-13",
+   "last_signed": "2024-03-13",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00024": 1
+   }
+  },
+  {
+   "uei": "NBLLT8K2SA48",
+   "name": "INFO-TECH RESEARCH GROUP INC.",
+   "spellings": [
+    "INFO-TECH RESEARCH GROUP INC."
+   ],
+   "parent_uei": "NBLLT8K2SA48",
+   "parent_name": "INFO-TECH RESEARCH GROUP INC.",
+   "awards": 1,
+   "first_signed": "2023-09-11",
+   "last_signed": "2023-09-11",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "NF2CK3EEHLP4",
+   "name": "CAST SOFTWARE, INC.",
+   "spellings": [
+    "CAST SOFTWARE, INC."
+   ],
+   "parent_uei": "DRPNWB7GJN85",
+   "parent_name": "CAST SOFTWARE  INC.",
+   "awards": 1,
+   "first_signed": "2020-08-26",
+   "last_signed": "2020-08-26",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "NYM8TAUFLXP3",
+   "name": "SRA INTERNATIONAL, INC.",
+   "spellings": [
+    "SRA INTERNATIONAL, INC."
+   ],
+   "parent_uei": "VF58HFRNGEL8",
+   "parent_name": "GENERAL DYNAMICS CORPORATION",
+   "awards": 1,
+   "first_signed": "2020-02-24",
+   "last_signed": "2020-02-24",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "NZ4AZRQ1M979",
+   "name": "SCIENTIFIC SOLUTIONS, INC.",
+   "spellings": [
+    "SCIENTIFIC SOLUTIONS, INC."
+   ],
+   "parent_uei": "H8SADKQNVKP8",
+   "parent_name": "SCIENTIFIC SOLUTIONS  INC.",
+   "awards": 1,
+   "first_signed": "2024-06-26",
+   "last_signed": "2024-06-26",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "P2S7GZFBCSJ1",
+   "name": "ATT MOBILITY LLC",
+   "spellings": [
+    "ATT MOBILITY LLC"
+   ],
+   "parent_uei": "NT9TC1ZVV5N9",
+   "parent_name": "AT&amp;T INC.",
+   "awards": 1,
+   "first_signed": "2025-04-23",
+   "last_signed": "2025-04-23",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "PJ2BS3KYWKS5",
+   "name": "REGAN TECHNOLOGIES CORPORATION",
+   "spellings": [
+    "REGAN TECHNOLOGIES CORPORATION"
+   ],
+   "parent_uei": "F1BEJXY67QU4",
+   "parent_name": "REGAN TECHNOLOGIES CORP",
+   "awards": 1,
+   "first_signed": "2025-09-17",
+   "last_signed": "2025-09-17",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "PTH7Z5BD9GK5",
+   "name": "NAKUPUNA FEDERAL LLC",
+   "spellings": [
+    "NAKUPUNA FEDERAL LLC"
+   ],
+   "parent_uei": "PTH7Z5BD9GK5",
+   "parent_name": "NAKUPUNA FEDERAL LLC",
+   "awards": 1,
+   "first_signed": "2026-06-02",
+   "last_signed": "2026-06-02",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "PZAMGK8HM3W5",
+   "name": "KUPONO GOVERNMENT SERVICES, LLC",
+   "spellings": [
+    "KUPONO GOVERNMENT SERVICES, LLC"
+   ],
+   "parent_uei": "PZAMGK8HM3W5",
+   "parent_name": "ALL HAZARDS CONSULTING",
+   "awards": 1,
+   "first_signed": "2022-05-31",
+   "last_signed": "2022-05-31",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "QCV1G7RNQUN5",
+   "name": "PEREGRINE TECHNICAL SOLUTIONS, LLC",
+   "spellings": [
+    "PEREGRINE TECHNICAL SOLUTIONS, LLC"
+   ],
+   "parent_uei": "P9QQX7RT8E98",
+   "parent_name": "GOLDBELT INCORPORATED",
+   "awards": 1,
+   "first_signed": "2021-01-05",
+   "last_signed": "2021-01-05",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "QEMLRQA7PLG4",
+   "name": "AMENTUM SERVICES, INC.",
+   "spellings": [
+    "AMENTUM SERVICES, INC."
+   ],
+   "parent_uei": "TU4KCXMM9AP6",
+   "parent_name": "AMENTUM SERVICES  INC.",
+   "awards": 1,
+   "first_signed": "2026-05-13",
+   "last_signed": "2026-05-13",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00024": 1
+   }
+  },
+  {
+   "uei": "QEX5RKDK18L8",
+   "name": "NAKUPUNA PRIME, LLC",
+   "spellings": [
+    "NAKUPUNA PRIME, LLC"
+   ],
+   "parent_uei": "QEX5RKDK18L8",
+   "parent_name": "NAKUPUNA PRIME  LLC",
+   "awards": 1,
+   "first_signed": "2026-03-10",
+   "last_signed": "2026-03-10",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "QGAAEMCMJXQ7",
+   "name": "REDHAWK IT SOLUTIONS LLC",
+   "spellings": [
+    "REDHAWK IT SOLUTIONS LLC"
+   ],
+   "parent_uei": "QGAAEMCMJXQ7",
+   "parent_name": "REDHAWK IT SOLUTIONS  LLC",
+   "awards": 1,
+   "first_signed": "2025-01-30",
+   "last_signed": "2025-01-30",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "QL4CHNKHQQF4",
+   "name": "BOEING AEROSPACE OPERATIONS, INC.",
+   "spellings": [
+    "BOEING AEROSPACE OPERATIONS, INC."
+   ],
+   "parent_uei": "NU2UC8MX6NK1",
+   "parent_name": "BOEING COMPANY  THE",
+   "awards": 1,
+   "first_signed": "2022-04-13",
+   "last_signed": "2022-04-13",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "QLNMVC12KWY3",
+   "name": "LEIDOS, INC.",
+   "spellings": [
+    "LEIDOS, INC."
+   ],
+   "parent_uei": "ZL41ERXMPAR3",
+   "parent_name": "LEIDOS HOLDINGS  INC.",
+   "awards": 1,
+   "first_signed": "2021-04-22",
+   "last_signed": "2021-04-22",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "QVMYLK59N3G2",
+   "name": "INTEGRITS CORPORATION",
+   "spellings": [
+    "INTEGRITS CORPORATION"
+   ],
+   "parent_uei": "QVMYLK59N3G2",
+   "parent_name": "INTEGRITS CORPORATION",
+   "awards": 1,
+   "first_signed": "2022-08-24",
+   "last_signed": "2022-08-24",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N0039B": 1
+   }
+  },
+  {
+   "uei": "RFALGF4H8N23",
+   "name": "NOVA PHOTONICS, INC.",
+   "spellings": [
+    "NOVA PHOTONICS, INC."
+   ],
+   "parent_uei": "RFALGF4H8N23",
+   "parent_name": "NOVA PHOTONICS  INC.",
+   "awards": 1,
+   "first_signed": "2022-09-20",
+   "last_signed": "2022-09-20",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "RRFJZGASZJ41",
+   "name": "VECTRUS SYSTEMS LLC",
+   "spellings": [
+    "VECTRUS SYSTEMS LLC"
+   ],
+   "parent_uei": "CG8SV4246V29",
+   "parent_name": "VECTRUS  INC.",
+   "awards": 1,
+   "first_signed": "2024-07-11",
+   "last_signed": "2024-07-11",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "S46DDC5FJ9K2",
+   "name": "UCERT LLC",
+   "spellings": [
+    "UCERT LLC"
+   ],
+   "parent_uei": "S46DDC5FJ9K2",
+   "parent_name": "UCERT LLC",
+   "awards": 1,
+   "first_signed": "2021-09-24",
+   "last_signed": "2021-09-24",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "S4ZAF64LJ1G3",
+   "name": "GENERAL DYNAMICS MISSION SYSTEMS, INC.",
+   "spellings": [
+    "GENERAL DYNAMICS MISSION SYSTEMS, INC."
+   ],
+   "parent_uei": "VF58HFRNGEL8",
+   "parent_name": "GENERAL DYNAMICS MISSION SYSTEMS  INC.",
+   "awards": 1,
+   "first_signed": "2020-09-22",
+   "last_signed": "2020-09-22",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "SMM7VQCC87V3",
+   "name": "APPLIED INTUITION GOVERNMENT INC",
+   "spellings": [
+    "APPLIED INTUITION GOVERNMENT INC"
+   ],
+   "parent_uei": "SMM7VQCC87V3",
+   "parent_name": "APPLIED INTUITION GOVERNMENT INC",
+   "awards": 1,
+   "first_signed": "2025-10-27",
+   "last_signed": "2025-10-27",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "T3NKFUYR8KB1",
+   "name": "TRI-STATE CAMERA EXCH. INC.",
+   "spellings": [
+    "TRI-STATE CAMERA EXCH. INC."
+   ],
+   "parent_uei": "T3NKFUYR8KB1",
+   "parent_name": "TRI-STATE CAMERA EXCH. INC.",
+   "awards": 1,
+   "first_signed": "2025-03-11",
+   "last_signed": "2025-03-11",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "TFN5KNC4FX33",
+   "name": "ELECTRONIC METAL FABRICATION INC",
+   "spellings": [
+    "ELECTRONIC METAL FABRICATION INC"
+   ],
+   "parent_uei": "TBW3ZR8S1AE1",
+   "parent_name": "ELECTRONIC METAL FABRICATION INC",
+   "awards": 1,
+   "first_signed": "2023-01-17",
+   "last_signed": "2023-01-17",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "TLB2NUDYCK73",
+   "name": "90METER INC.",
+   "spellings": [
+    "90METER INC."
+   ],
+   "parent_uei": "TLB2NUDYCK73",
+   "parent_name": "90METER INC.",
+   "awards": 1,
+   "first_signed": "2021-02-25",
+   "last_signed": "2021-02-25",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N0039B": 1
+   }
+  },
+  {
+   "uei": "TSC1ZFN398U3",
+   "name": "AI2 INCORPORATED",
+   "spellings": [
+    "AI2 INCORPORATED"
+   ],
+   "parent_uei": "TSC1ZFN398U3",
+   "parent_name": "AI2 INCORPORATED",
+   "awards": 1,
+   "first_signed": "2024-08-07",
+   "last_signed": "2024-08-07",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "U1KTKVFN5RW3",
+   "name": "VULCAN WIRELESS, INC.",
+   "spellings": [
+    "VULCAN WIRELESS, INC."
+   ],
+   "parent_uei": "U1KTKVFN5RW3",
+   "parent_name": "VULCAN WIRELESS  INC.",
+   "awards": 1,
+   "first_signed": "2020-06-10",
+   "last_signed": "2020-06-10",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "U8H9F5MLU957",
+   "name": "THREE WIRE SYSTEMS, LLC",
+   "spellings": [
+    "THREE WIRE SYSTEMS, LLC"
+   ],
+   "parent_uei": "U8H9F5MLU957",
+   "parent_name": "THREE WIRE SYSTEMS  LLC",
+   "awards": 1,
+   "first_signed": "2024-05-09",
+   "last_signed": "2024-05-09",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "UCM7WPGJBZ67",
+   "name": "ALLIANCE TECHNOLOGY GROUP, LLC",
+   "spellings": [
+    "ALLIANCE TECHNOLOGY GROUP, LLC"
+   ],
+   "parent_uei": "UCM7WPGJBZ67",
+   "parent_name": "ALLIANCE TECHNOLOGY GROUP LLC",
+   "awards": 1,
+   "first_signed": "2024-09-12",
+   "last_signed": "2024-09-12",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "UYLVJZ49BFC6",
+   "name": "4 STAR TECHNOLOGIES, INC.",
+   "spellings": [
+    "4 STAR TECHNOLOGIES, INC."
+   ],
+   "parent_uei": "UYLVJZ49BFC6",
+   "parent_name": "4 STAR TECHNOLOGIES  INC.",
+   "awards": 1,
+   "first_signed": "2025-04-17",
+   "last_signed": "2025-04-17",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "V18YGV7J5DN8",
+   "name": "STRATEGIC INSIGHT, LTD.",
+   "spellings": [
+    "STRATEGIC INSIGHT, LTD."
+   ],
+   "parent_uei": "V18YGV7J5DN8",
+   "parent_name": "STRATEGIC INSIGHT  LTD.",
+   "awards": 1,
+   "first_signed": "2025-02-24",
+   "last_signed": "2025-02-24",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "VQEKGSSU7FG3",
+   "name": "MILLENNIUM CORPORATION",
+   "spellings": [
+    "MILLENNIUM CORPORATION"
+   ],
+   "parent_uei": "VQEKGSSU7FG3",
+   "parent_name": "MILLENNIUM CORPORATION",
+   "awards": 1,
+   "first_signed": "2021-09-09",
+   "last_signed": "2021-09-09",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "WD8KKTRJWAZ3",
+   "name": "ADVANTAGED SOLUTIONS INCORPORATED",
+   "spellings": [
+    "ADVANTAGED SOLUTIONS INCORPORATED"
+   ],
+   "parent_uei": "WD8KKTRJWAZ3",
+   "parent_name": "ADVANTAGED SOLUTIONS  INC.",
+   "awards": 1,
+   "first_signed": "2021-02-19",
+   "last_signed": "2021-02-19",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "WFPUKJZV9DM3",
+   "name": "DAV-FORCE, INC.",
+   "spellings": [
+    "DAV-FORCE, INC."
+   ],
+   "parent_uei": "WFPUKJZV9DM3",
+   "parent_name": "DAV-FORCE  INC.",
+   "awards": 1,
+   "first_signed": "2021-03-26",
+   "last_signed": "2021-03-26",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "WK4KLC4ZBNF8",
+   "name": "UNISON SOFTWARE, INC.",
+   "spellings": [
+    "UNISON SOFTWARE, INC."
+   ],
+   "parent_uei": "GLB1EGQHMTM7",
+   "parent_name": "UNISON SOFTWARE  INC.",
+   "awards": 1,
+   "first_signed": "2021-12-28",
+   "last_signed": "2021-12-28",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "WL9HGM6PCK53",
+   "name": "ZIVARO, INC.",
+   "spellings": [
+    "ZIVARO, INC."
+   ],
+   "parent_uei": "WL9HGM6PCK53",
+   "parent_name": "GLOBAL TECHNOLOGY RESOURCES  INC.",
+   "awards": 1,
+   "first_signed": "2021-10-26",
+   "last_signed": "2021-10-26",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "WRF5LZ2UFF92",
+   "name": "ENTERPRISE MANAGEMENT SOLUTIONS, LLC",
+   "spellings": [
+    "ENTERPRISE MANAGEMENT SOLUTIONS, LLC"
+   ],
+   "parent_uei": "WRF5LZ2UFF92",
+   "parent_name": "ENTERPRISE MANAGEMENT SOLUTIONS  LLC",
+   "awards": 1,
+   "first_signed": "2025-01-24",
+   "last_signed": "2025-01-24",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "X5V6UB9HVCD8",
+   "name": "OCTO CONSULTING GROUP, LLC",
+   "spellings": [
+    "OCTO CONSULTING GROUP, LLC"
+   ],
+   "parent_uei": "HFJJNGMC1FE6",
+   "parent_name": "OCTO CONSULTING GROUP  INC.",
+   "awards": 1,
+   "first_signed": "2021-08-13",
+   "last_signed": "2021-08-13",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "X76KEVV61AM9",
+   "name": "AATD LLC",
+   "spellings": [
+    "AATD LLC"
+   ],
+   "parent_uei": "X76KEVV61AM9",
+   "parent_name": "AATD LLC",
+   "awards": 1,
+   "first_signed": "2022-03-07",
+   "last_signed": "2022-03-07",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "XVNBJ1QJY5N4",
+   "name": "TRIBALCO, LLC",
+   "spellings": [
+    "TRIBALCO, LLC"
+   ],
+   "parent_uei": "XVNBJ1QJY5N4",
+   "parent_name": "TRIBALCO  LLC",
+   "awards": 1,
+   "first_signed": "2020-09-22",
+   "last_signed": "2020-09-22",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "Y5ZZFR2AQC63",
+   "name": "RAYTHEON COMPANY",
+   "spellings": [
+    "RAYTHEON COMPANY"
+   ],
+   "parent_uei": "PPLZG8J3N9D4",
+   "parent_name": "RAYTHEON COMPANY",
+   "awards": 1,
+   "first_signed": "2023-05-25",
+   "last_signed": "2023-05-25",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "Y928UVG75CT6",
+   "name": "ALVAREZ LLC",
+   "spellings": [
+    "ALVAREZ LLC"
+   ],
+   "parent_uei": "Y928UVG75CT6",
+   "parent_name": "ALVAREZ LLC",
+   "awards": 1,
+   "first_signed": "2020-05-29",
+   "last_signed": "2020-05-29",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "YF3QLA2LEC61",
+   "name": "MOBOMO, LLC",
+   "spellings": [
+    "MOBOMO, LLC"
+   ],
+   "parent_uei": "YF3QLA2LEC61",
+   "parent_name": "MOBOMO  LLC",
+   "awards": 1,
+   "first_signed": "2020-08-05",
+   "last_signed": "2020-08-05",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "YNB9K1EVTNZ9",
+   "name": "SELLERS & ASSOCIATES, LLC",
+   "spellings": [
+    "SELLERS & ASSOCIATES, LLC"
+   ],
+   "parent_uei": "YNB9K1EVTNZ9",
+   "parent_name": "SELLERS &amp; ASSOCIATES  LLC",
+   "awards": 1,
+   "first_signed": "2021-09-23",
+   "last_signed": "2021-09-23",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "YS2TNLEU8EK3",
+   "name": "LOCKHEED MARTIN SIPPICAN, INC.",
+   "spellings": [
+    "LOCKHEED MARTIN SIPPICAN, INC."
+   ],
+   "parent_uei": "ZFN2JJXBLZT3",
+   "parent_name": "LOCKHEED MARTIN CORPORATION",
+   "awards": 1,
+   "first_signed": "2020-09-29",
+   "last_signed": "2020-09-29",
+   "live": 1,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "ZF2JKBE7K285",
+   "name": "WESTWIND COMPUTER PRODUCTS, INC.",
+   "spellings": [
+    "WESTWIND COMPUTER PRODUCTS, INC."
+   ],
+   "parent_uei": "ZF2JKBE7K285",
+   "parent_name": "WESTWIND COMPUTER PRODUCTS  INC.",
+   "awards": 1,
+   "first_signed": "2020-02-13",
+   "last_signed": "2020-02-13",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  },
+  {
+   "uei": "ZXEPG9XJEYB3",
+   "name": "FOCUS CAMERA LLC",
+   "spellings": [
+    "FOCUS CAMERA LLC"
+   ],
+   "parent_uei": "ZXEPG9XJEYB3",
+   "parent_name": "FOCUS CAMERA LLC",
+   "awards": 1,
+   "first_signed": "2025-02-06",
+   "last_signed": "2025-02-06",
+   "live": 0,
+   "offices": {
+    "N00039": 1
+   },
+   "funding_offices": {
+    "N00039": 1
+   }
+  }
+ ],
+ "spelling_to_uei": {
+  "LEIDOS, INC.": "UE9QJD4KK1L6",
+  "HARRIS CORPORATION": "LB5KVANFKPY7",
+  "L3HARRIS TECHNOLOGIES, INC.": "LB5KVANFKPY7",
+  "GOFORTH & MARTI": "HCWRS39M4BL5",
+  "DATA LINK SOLUTIONS L.L.C.": "PPVTFMDK1NN5",
+  "DATA LINK SOLUTIONS LLC": "PPVTFMDK1NN5",
+  "VIASAT, INC.": "L9Z1ASN3B8E7",
+  "SCIENTIFIC RESEARCH CORPORATION": "FAK7LNGRNAN5",
+  "GENERAL DYNAMICS MISSION SYSTEMS, INC": "MWDRZJ2ZVPV7",
+  "GENERAL DYNAMICS MISSION SYSTEMS, INC.": "MWDRZJ2ZVPV7",
+  "CSRA LLC": "Z2L7LVNEAPC3",
+  "DELL MARKETING L.P.": "HJLSY7RZV8X6",
+  "SERCO INC": "DKJ1R5ABCN48",
+  "SERCO INC.": "DKJ1R5ABCN48",
+  "LOCKHEED MARTIN CORPORATION": "PAMVUBYPXF48",
+  "ENTERPRISE SERVICES LLC": "MBSRAWAQ9559",
+  "CARAHSOFT TECHNOLOGY CORP": "DT8KJHZXVJH5",
+  "CARAHSOFT TECHNOLOGY CORP.": "DT8KJHZXVJH5",
+  "CARAHSOFT TECHNOLOGY CORPORATION": "DT8KJHZXVJH5",
+  "HPI FEDERAL LLC": "DJRUN4KK1HK3",
+  "COMTECH EF DATA CORP.": "LLREND6GJ4J7",
+  "COMTECH EFDATA CORP.": "LLREND6GJ4J7",
+  "COMTECH SATELLITE NETWORK TECHNOLOGIES, INC": "LLREND6GJ4J7",
+  "EUROMIDS": "RF7KYWNLDTM7",
+  "TELEDYNE BROWN ENGINEERING, INC.": "FBRSJB6V4LW8",
+  "L3 TECHNOLOGIES, INC.": "FRJQGQHDX4J3",
+  "RAYTHEON COMPANY": "D9DKLKAJ48M9",
+  "FORWARD SLOPE INC": "PFSGCPKU6ZK3",
+  "FORWARD SLOPE INCORPORATED": "PFSGCPKU6ZK3",
+  "BAE SYSTEMS TECHNOLOGY SOLUTIONS & SERVICES INC.": "LX3BSV6NNW58",
+  "DLT SOLUTIONS, LLC": "F1N2KDGBDTU8",
+  "CUBIC DEFENSE APPLICATIONS, INC.": "N7NUHPAKNME8",
+  "DRS LAUREL TECHNOLOGIES": "JLREE96WGKM5",
+  "LAUREL TECHNOLOGIES PARTNERSHIP": "JLREE96WGKM5",
+  "INSIGHT PUBLIC SECTOR, INC.": "LD98S4LK2113",
+  "HII UNMANNED SYSTEMS, INC.": "WN18KN7KQLG9",
+  "HYDROID, INC.": "WN18KN7KQLG9",
+  "NEW TECH SOLUTIONS, INC.": "XK11LLUL61A7",
+  "SYSTEMS ENGINEERING SUPPORT CO.": "WH4DRDKB7RR8",
+  "GENERAL DYNAMICS INFORMATION TECHNOLOGY, INC.": "SMNWM6HN79X5",
+  "BAE SYSTEMS INFORMATION AND ELECTRONIC SYSTEMS INTEGRATION I": "VJPHJTGAVHD4",
+  "BAE SYSTEMS INFORMATION AND ELECTRONIC SYSTEMS INTEGRATION INC.": "VJPHJTGAVHD4",
+  "DELOITTE CONSULTING LLP": "CKV2L9GZKJK3",
+  "SOFTWARE INFORMATION RESOURCE CORP.": "EJJMMJHYDFH6",
+  "BOOZ ALLEN HAMILTON INC": "JCBMLGPE6Z71",
+  "BOOZ ALLEN HAMILTON INC.": "JCBMLGPE6Z71",
+  "SOLUTE": "J2FBDMUBXE61",
+  "MANAGEMENT SERVICES GROUP, INC.": "N8NGW9BXG5R8",
+  "MICRO USA INC": "HQXCRY51KBJ7",
+  "ROCKWELL COLLINS, INC.": "J4Q3HP6NHK47",
+  "COBHAM EXETER, INC.": "GFCKUD9DYWF1",
+  "COBHAM TRIVEC-AVANT INC.": "GFCKUD9DYWF1",
+  "TRIVEC-AVANT CORPORATION": "GFCKUD9DYWF1",
+  "KATMAI MANAGEMENT SERVICES LLC": "M2BMNKL4CR69",
+  "KATMAI MANAGEMENT SERVICES, LLC": "M2BMNKL4CR69",
+  "FORCEPOINT FEDERAL LLC": "G4J1RJ94JBU1",
+  "SECHAN ELECTRONICS, INC.": "NUMJXMNFTW19",
+  "CMA TECHNOLOGY, INC.": "PG4AHPP8MDN6",
+  "COMPUTER MARKETING ASSOCIATES,INC.": "PG4AHPP8MDN6",
+  "MILPOWER": "SS1MGHCS2ZJ1",
+  "MILPOWER, INC.": "SS1MGHCS2ZJ1",
+  "ADVANCED COMPUTER CONCEPTS, INC.": "CGE8ABMZLZN9",
+  "VT MILCOM INC.": "CHKKPGHNUYX1",
+  "COBHAM ADVANCED ELECTRONIC SOLUTIONS INC.": "VNP2L293JWL6",
+  "GARTNER, INC.": "CFALLJBGZ697",
+  "FCN, INC.": "JEANDJTZ8HJ3",
+  "ITC DEFENSE CORP": "LJSJAJW9KMW6",
+  "IDEAL SYSTEM SOLUTIONS, INC.": "TC3NF4XRLGV7",
+  "THALES DEFENSE & SECURITY, INC": "HNNUJXHSXGU3",
+  "DELL FEDERAL SYSTEMS L.P.": "N1C5QLNPJLS4",
+  "ULTRA ELECTRONICS TCS INC": "RUSZYP1S6GC5",
+  "CAMBRIDGE INTERNATIONAL SYSTEMS INC.": "STJ2X23FGCB3",
+  "GOVSMART, INC.": "DJACUETFQUL8",
+  "NAKUPUNA CONSULTING LLC": "FAP4HJHRMJU3",
+  "NAKUPUNA CONSULTING, LLC": "FAP4HJHRMJU3",
+  "MICROSOFT CORPORATION": "FMVPEWNJGLM1",
+  "TECHNOLOGY UNLIMITED GROUP": "GAX3L178FCK5",
+  "ADVANCED TECHNOLOGY SYSTEMS COMPANY, INC. (OF VIRGINIA)": "J16ZWJLVHEY5",
+  "DRS ADVANCED ISR, LLC": "NDBGSG77NZV5",
+  "MNEMONICS, INC.": "NLXJF2VX2TN3",
+  "BAHFED CORP": "TQ2KDQLRL8F1",
+  "THUNDERCAT TECHNOLOGY, LLC": "UER4AJLUB8D5",
+  "STERLING COMPUTERS CORPORATION": "YZTLALWM4UC7",
+  "PERATON INC.": "ZBPQEJVECCT4",
+  "CELLCO PARTNERSHIP": "CK77N4SCAJD3",
+  "COLOSSAL CONTRACTING, LLC": "F4M9NB1HD785",
+  "GUERRERO PROFESSIONAL SERVICES, INC.": "M94JMRP7K5G5",
+  "SCIENCE APPLICATIONS INTERNATIONAL CORPORATION": "MMLKPW9JLX64",
+  "AUGUST SCHELL ENTERPRISES, INC.": "PPMBFPRXNAJ9",
+  "FUSE INTEGRATION, INC.": "U35VSLMQRME6",
+  "NAKUPUNA SOLUTIONS, LLC": "V4GVJZF4S263",
+  "MOEBIUS SOLUTIONS INC": "W14HEX5YCJU3",
+  "MOEBIUS SOLUTIONS, INC": "W14HEX5YCJU3",
+  "WORLD WIDE TECHNOLOGY, INC.": "C8VFSNKTMQB6",
+  "WORLD WIDE TECHNOLOGY, LLC": "C8VFSNKTMQB6",
+  "CHARLES RIVER ANALYTICS, INC.": "DD1BYN8SN355",
+  "ALPHA OMEGA GROUP": "DZXWD6BZBLJ3",
+  "PARAGON MICRO INC.": "E41LV9AJGHQ1",
+  "ENTERPRISE TECHNOLOGY SOLUTIONS, INC.": "FBRMCGPMN963",
+  "ACCESSAGILITY LLC": "HMXCQJ8ADNL7",
+  "RED RIVER RESOURCES, LLC": "HZCDXJV7M8Z9",
+  "HIGHBURY DEFENSE GROUP": "KQ7NL4AZD7E7",
+  "GEORGIA TECH APPLIED RESEARCH CORPORATION": "L3G5SBQ2PLK5",
+  "WEST PUBLISHING CORPORATION": "L997DB4PEJL8",
+  "BOEING COMPANY, THE": "M6BRZ1FHEZQ1",
+  "MARLIN ALLIANCE, INC., THE": "NKEVJEY16LE1",
+  "THE MARLIN ALLIANCE, INC.": "NKEVJEY16LE1",
+  "VERTEX MODERNIZATION AND SUSTAINMENT LLC": "NQCCULJZFY29",
+  "GOVERNMENT ACQUISITIONS INC": "R98MW4ZKUUK3",
+  "GOVERNMENT ACQUISITIONS, INC.": "R98MW4ZKUUK3",
+  "INTERNATIONAL BUSINESS MACHINES CORPORATION": "VV9KH3L99VE3",
+  "FOUR LLC": "X1JJYEW4HAN9",
+  "KAPSUUN GROUP, LLC": "YDJEPUN1JQY6",
+  "ACCENTURE FEDERAL SERVICES LLC": "C47BNA8GM833",
+  "AEGIS POWER SYSTEMS INC": "C8V6T36LW557",
+  "XTEC INC": "D21ZNGNM3VC5",
+  "BROADLEAF, INC": "DGA4AQ4DJYY9",
+  "GLOTECH, INC.": "F2DPFWRULBM4",
+  "INNOVATUS TECHNOLOGY CONSULTING": "FQDQTL1F3LT7",
+  "CTG FEDERAL, LLC": "G2D4Q7UKR5P5",
+  "NORSEMAN, INC.": "G8LCAVK5AVW7",
+  "ABBA TECHNOLOGIES, INC.": "J84GXV5ZKJK9",
+  "FALCONWOOD": "JVMNF4DN5XT7",
+  "FALCONWOOD, INC.": "JVMNF4DN5XT7",
+  "ADVANCED TECHNOLOGY INTERNATIONAL": "LDMMF472BB93",
+  "THE MEDICI GROUP LLC": "MK98NK45JES1",
+  "SENTEK CONSULTING, INC.": "N3JYDBMD15L5",
+  "G2 OPS, INC.": "N5MDKHXE6ZJ8",
+  "REGENCY CONSULTING INC": "SC8LMLWA6H51",
+  "EXCEPTIONAL EMPLOYEES FOR EXCEPTIONAL RESULTS, INC.": "SYZ6QUBSFDB3",
+  "IT1 SOURCE LLC": "TSY3HH9UE7G3",
+  "JOINT TACTICS AND TECHNOLOGIES, LLC": "UPS2W9ZM5KT9",
+  "INTEPROS FEDERAL INCORPORATED": "WPD2U59BGNC9",
+  "G2 SOFTWARE SYSTEMS, INC.": "XTVAGRCDDEC3",
+  "DOLJENN PERFORMANCE CONSULTING LLC": "CFKRP8CNSWZ6",
+  "TECHVISION RESEARCH CORPORATION": "CPJ7AMGCJ9B6",
+  "KOAM ENGINEERING SYSTEMS, INC.": "D8AFMWQNMN25",
+  "GENERAL DYNAMICS ONE SOURCE LLC": "D93YKLC3MK67",
+  "INTECON LLC": "DJ6XYBS9MDN5",
+  "TECOLOTE RESEARCH, INC.": "EETHKKLA2VB4",
+  "GEO4S TECHNOLOGIES LLC": "EZSDZBCMXQ85",
+  "GLOBAL C2 INTEGRATION TECHNOLOGIES LLC": "F3PDWX4UERS2",
+  "ODME SOLUTIONS, LLC": "F3U6Q6NH6V98",
+  "CYPHER ANALYTICS, INC": "FEM5S7ZFRG44",
+  "FEDERAL RESOURCES CORPORATION": "FZK7KZZJYNQ9",
+  "KATMAI TECHNICAL SERVICES, LLC": "GERMM3L4D261",
+  "BOWHEAD CYBERSECURITY SOLUTIONS & SERVICES, LLC": "GGJJKBVXJJL4",
+  "KATMAI INTEGRATED SOLUTIONS, LLC": "GHLJX6LSQET8",
+  "TAPHERE! TECHNOLOGY LLC": "GLTJGJFF9MR2",
+  "FEDTRIBE LLC": "H1LMRXJG66H3",
+  "NEWSAT NORTH AMERICA, LLC": "HCUVLY5JJJF8",
+  "OBJECTIVE FUNCTION SYSTEMS LLC": "HT7NUMWCZL61",
+  "2 TWELVE SOLUTIONS LLC": "HZYNSL4JCKF5",
+  "AT&T MOBILITY NATIONAL ACCOUNTS, LLC": "J867EA61HLE4",
+  "GEODESICX, INC.": "K67DTTG9L6S5",
+  "DARK WOLF SOLUTIONS, LLC": "K8KVUFQMGYV5",
+  "TDI TECHNOLOGIES INC": "KML7LB78R5F5",
+  "NORTHROP GRUMMAN SYSTEMS CORPORATION": "LEMLXG994AU3",
+  "ATLAS EXECUTIVE CONSULTING, LLC": "M64TAHG7FYN5",
+  "IGNITE DIGITAL FEDERAL SERVICES, LLC": "M64TAHG7FYN5",
+  "NORTH AMERICAN CONSULTING SERVICES, INC.": "M6V9UNRMMT68",
+  "RAFT LLC": "M9ALV9LKVDC3",
+  "BASCOM HUNTER TECHNOLOGIES, INC.": "MPTHMD1MDBR1",
+  "CACI, INC. - FEDERAL": "N3PBJAVNKF61",
+  "CHUGACH SOLUTIONS ENTERPRISE, LLC": "N6LCFMKNCNT5",
+  "FEDRESULTS, INC.": "NFFFR55KQUE3",
+  "ARTEMIS CONSULTING, LLC": "NP6LZSFKB3R8",
+  "AMAZON WEB SERVICES, INC.": "NQEWN6C1LSU5",
+  "FIELDPRINT INC": "P3ENJBGK2H95",
+  "SALIENT CRGT, INC.": "Q5LJNF15T2R5",
+  "INNOVATIVE DEFENSE TECHNOLOGIES, LLC": "QEHMNH93DYH6",
+  "CP MARINE, LLC": "RFVGJGX8H5A8",
+  "AVUM INC": "SJ18PGX2SNY5",
+  "AVUM, INC.": "SJ18PGX2SNY5",
+  "MORGAN BUSINESS CONSULTING, LLC": "TMRCWZ2UQRL8",
+  "CABILITY, INC.": "V6EJTHUNJVT1",
+  "INDUS TECHNOLOGY INC.": "VEL4T1QC7667",
+  "RITE-SOLUTIONS, INC.": "VGCPMJFD1NN5",
+  "BLUE RIDGE TECH SOLUTIONS, LLC": "W9KASKPN33E1",
+  "ISPA TECHNOLOGY LLC": "XGD4KR3RMXQ6",
+  "VETERANS FIRST INITIATIVE, LLC": "YKYMKKH31AH5",
+  "OPAL SOFT, INC.": "YX5QCXCL5RX7",
+  "OGIS COMMUNICATION GROUP INC": "ZNSFUPHSC3N3",
+  "OGIS COMMUNICATION GROUP, INC.": "ZNSFUPHSC3N3",
+  "JOHNS HOPKINS UNIVERSITY APPLIED PHYSICS LABORATORY LLC, THE": "C1HBCJ9RMBV3",
+  "AURORA SYSTEMS CONSULTING, INC.": "C1NMTBMS4KG5",
+  "PATRIOT SHREDDING INC.": "C37LHT42K5L7",
+  "ASRC FEDERAL TECHNOLOGY SOLUTIONS, LLC": "CA11RWJPADV6",
+  "DILTEX INC": "CB42CNL4JNM5",
+  "TRINITY INFORMATION TECHNOLOGY, L.L.C.": "CFSLHCPCGGC5",
+  "MICROTECHNOLOGIES LLC": "CL69E7KATK59",
+  "SMARTRONIX, LLC": "CMBKC2MHJFK5",
+  "TITANIUM COBRA SOLUTIONS, LLC": "CQJCMS188DM7",
+  "TECHNOLOGY INTERNATIONAL, INC.": "DFVEM9N1F4J6",
+  "RIGHTSTAR SYSTEMS INCORPORATED": "DFVJNBYNM8U1",
+  "OWL CYBER DEFENSE SOLUTIONS, LLC": "DG87J5EZLC94",
+  "VENESCO, LLC": "DHFLCHUB3JM9",
+  "SCALE AI, INC.": "DHU2LMKSDQD9",
+  "XST INC.": "DKGULZJ85LB4",
+  "PROGRAMS MANAGEMENT ANALYTICS & TECHNOLOGIES, INC.": "DUQKMDGAMAK3",
+  "COX CALIFORNIA TELCOM, LLC": "DWVKL7Q3K1K4",
+  "STANDARD-BLAZAR, LLC": "DZ9XM5UDFN29",
+  "THE KENIFIC GROUP INC": "E2PHGXXFKM91",
+  "SAP NATIONAL SECURITY SERVICES INC": "E2YSTNG9R2P8",
+  "HAWORTH, INC.": "E32XCUALMYL4",
+  "NATIONAL INDUSTRIES FOR THE BLIND": "E8QNBC287DY4",
+  "CACI NSS, LLC": "EELEC8QCC3N8",
+  "MARK WILSON SOFTWARE LTD": "EFNNW5KAXTU4",
+  "M&K GENERAL CONTRACTORS INC": "EM1HPFPBH6J1",
+  "CHENEGA DEFENSE & AEROSPACE SOLUTIONS LLC": "EMFSYRQHWLM4",
+  "ROHDE & SCHWARZ USA, INC.": "F4FLM3NP2N46",
+  "DATA DISPOSAL, INC.": "F4TGRSZ7SQ85",
+  "DELOITTE & TOUCHE LLP": "F9KSDU7L9VP6",
+  "AGEMA TECHNOLOGY INC.": "FARVYNA975E1",
+  "E.M. NORTON ENTERPRISES, INC.": "FE6AL4Z2Q4R8",
+  "FLATWATER SOLUTIONS COMPANY": "FQZ6AZM2FNK6",
+  "PALANTIR TECHNOLOGIES INCORPORATED": "FSY4LVSBGWB7",
+  "JJR SOLUTIONS, LLC": "FTEMBMQ3SGR5",
+  "AMERICAN WORDATA, INC.": "G4L6RJS94VP9",
+  "BOS LOGISTICS INC": "GH4DN6E3DV23",
+  "TYCHON, LLC": "GQ1NNDXHWHK4",
+  "MAKAI OCEAN ENGINEERING INC": "GVLGK73C9DM1",
+  "BEACON INTERACTIVE SYSTEMS LLC": "GZJCC4PGBLB5",
+  "FOUR POINTS TECHNOLOGY, L.L.C.": "H1KHJPJH9R51",
+  "CORETWOEIGHT TECHNOLOGY, LLC": "H5KMT2HK1K75",
+  "JLWS ENTERPRISES INCORPORATED": "HEJPC2YLXUM7",
+  "DYNAMIC FABRICATION INC": "HLKFK56552A6",
+  "WEST ELECTRONICS, INC.": "HLTWE4LVPDM9",
+  "ULTRA ELECTRONICS ADVANCED TACTICAL SYSTEMS INC": "HMT9NXXLZGP9",
+  "ARCHITECHTURE SOLUTIONS, LLC": "HQAJMSZDK666",
+  "8-KOI, INC.": "HUZ2XKV2KLS5",
+  "CYKOR LLC": "J4BPM3UKM674",
+  "MAG DS CORP.": "JM3KFJD63CK7",
+  "TRACEN TECHNOLOGIES, INC.": "JQJAD34Q1LK7",
+  "INK TO THINK LLC": "JTG2U13CK1R5",
+  "SES GOVERNMENT SOLUTIONS, INC.": "K1MPUUN7WP55",
+  "OSI VISION LLC": "K9MCL74ARMP3",
+  "VETERAN TECHNOLOGY PARTNERS, LLC": "KDLED2J72983",
+  "STILMAN ADVANCED STRATEGIES, LLC": "KG5YKVBV5UW9",
+  "DOMINO DATA LAB INC": "KQJ2KNHNXMX4",
+  "BSET, LLC": "KQNYKJCTWEC8",
+  "RIVET OPERATIONS COMPANY LLC": "KYP9UPNMQL67",
+  "ANALYTICS HQ, LLC": "KZC1APBM88W5",
+  "COMPLETE LOGISTICS SUPPORT INC.": "L4T4AYLZ1YG9",
+  "VAE, INC.": "LB8JT7MNMYB5",
+  "DIVINE IMAGING INC.": "LGMVH2NYJH38",
+  "INDUSTRIES FOR THE BLIND AND VISUALLY IMPAIRED, INC.": "LHSBQKG97P89",
+  "PHASE SENSITIVE INNOVATIONS INC": "LJMKLES23319",
+  "RELX INC.": "LKAAJG8KK4U1",
+  "SMACK TECHNOLOGIES INC.": "M2JCFQ81E628",
+  "UNIVERSITY OF VIRGINIA DARDEN SCHOOL FOUNDATION INC": "M5XHK9Y6MB74",
+  "SHRED ACE, INC.": "M8CEKUNWVNK8",
+  "GHOSTROCK SYSTEMS DEVELOPMENT, LLC": "MJ7TACS2CUK8",
+  "GLOBAL-LG LLC": "MJN8ZCCFNKL8",
+  "CAMERON BELL CORPORATION, THE": "MJPNRU2DSNF8",
+  "KELLSTROM DEFENSE AEROSPACE, INC.": "ML5FTWJYF5V5",
+  "A&E OFFICE AND INDUSTRIAL SUPPLY": "MNZXENLEPTH3",
+  "MANADA TECHNOLOGY LLC": "MQMXKNLL76T5",
+  "MISSION PHOENIX, LLC": "MSEEPA5JRLN4",
+  "IMPRES TECHNOLOGY SOLUTIONS, INC.": "MSSQQ551LG41",
+  "CQ-ROLL CALL, INC.": "N8K7N7GJAZ73",
+  "L3 TECHNOLOGIES INC": "NB21QESAKUM9",
+  "INFO-TECH RESEARCH GROUP INC.": "NBLLT8K2SA48",
+  "CAST SOFTWARE, INC.": "NF2CK3EEHLP4",
+  "SRA INTERNATIONAL, INC.": "NYM8TAUFLXP3",
+  "SCIENTIFIC SOLUTIONS, INC.": "NZ4AZRQ1M979",
+  "ATT MOBILITY LLC": "P2S7GZFBCSJ1",
+  "REGAN TECHNOLOGIES CORPORATION": "PJ2BS3KYWKS5",
+  "NAKUPUNA FEDERAL LLC": "PTH7Z5BD9GK5",
+  "KUPONO GOVERNMENT SERVICES, LLC": "PZAMGK8HM3W5",
+  "PEREGRINE TECHNICAL SOLUTIONS, LLC": "QCV1G7RNQUN5",
+  "AMENTUM SERVICES, INC.": "QEMLRQA7PLG4",
+  "NAKUPUNA PRIME, LLC": "QEX5RKDK18L8",
+  "REDHAWK IT SOLUTIONS LLC": "QGAAEMCMJXQ7",
+  "BOEING AEROSPACE OPERATIONS, INC.": "QL4CHNKHQQF4",
+  "INTEGRITS CORPORATION": "QVMYLK59N3G2",
+  "NOVA PHOTONICS, INC.": "RFALGF4H8N23",
+  "VECTRUS SYSTEMS LLC": "RRFJZGASZJ41",
+  "UCERT LLC": "S46DDC5FJ9K2",
+  "APPLIED INTUITION GOVERNMENT INC": "SMM7VQCC87V3",
+  "TRI-STATE CAMERA EXCH. INC.": "T3NKFUYR8KB1",
+  "ELECTRONIC METAL FABRICATION INC": "TFN5KNC4FX33",
+  "90METER INC.": "TLB2NUDYCK73",
+  "AI2 INCORPORATED": "TSC1ZFN398U3",
+  "VULCAN WIRELESS, INC.": "U1KTKVFN5RW3",
+  "THREE WIRE SYSTEMS, LLC": "U8H9F5MLU957",
+  "ALLIANCE TECHNOLOGY GROUP, LLC": "UCM7WPGJBZ67",
+  "4 STAR TECHNOLOGIES, INC.": "UYLVJZ49BFC6",
+  "STRATEGIC INSIGHT, LTD.": "V18YGV7J5DN8",
+  "MILLENNIUM CORPORATION": "VQEKGSSU7FG3",
+  "ADVANTAGED SOLUTIONS INCORPORATED": "WD8KKTRJWAZ3",
+  "DAV-FORCE, INC.": "WFPUKJZV9DM3",
+  "UNISON SOFTWARE, INC.": "WK4KLC4ZBNF8",
+  "ZIVARO, INC.": "WL9HGM6PCK53",
+  "ENTERPRISE MANAGEMENT SOLUTIONS, LLC": "WRF5LZ2UFF92",
+  "OCTO CONSULTING GROUP, LLC": "X5V6UB9HVCD8",
+  "AATD LLC": "X76KEVV61AM9",
+  "TRIBALCO, LLC": "XVNBJ1QJY5N4",
+  "ALVAREZ LLC": "Y928UVG75CT6",
+  "MOBOMO, LLC": "YF3QLA2LEC61",
+  "SELLERS & ASSOCIATES, LLC": "YNB9K1EVTNZ9",
+  "LOCKHEED MARTIN SIPPICAN, INC.": "YS2TNLEU8EK3",
+  "WESTWIND COMPUTER PRODUCTS, INC.": "ZF2JKBE7K285",
+  "FOCUS CAMERA LLC": "ZXEPG9XJEYB3"
+ },
+ "spellings_under_two_ueis": [
+  "CUBIC DEFENSE APPLICATIONS, INC.",
+  "FORCEPOINT FEDERAL LLC",
+  "GENERAL DYNAMICS MISSION SYSTEMS, INC.",
+  "INSIGHT PUBLIC SECTOR, INC.",
+  "L3 TECHNOLOGIES, INC.",
+  "L3HARRIS TECHNOLOGIES, INC.",
+  "LAUREL TECHNOLOGIES PARTNERSHIP",
+  "LEIDOS, INC.",
+  "LOCKHEED MARTIN CORPORATION",
+  "NORTHROP GRUMMAN SYSTEMS CORPORATION",
+  "RAYTHEON COMPANY"
+ ],
+ "unresolved_spellings": {},
+ "summary": {
+  "vendors": 297,
+  "with_two_or_more_spellings": 24,
+  "with_a_parent": 111,
+  "awards_without_uei": 0
+ }
+}

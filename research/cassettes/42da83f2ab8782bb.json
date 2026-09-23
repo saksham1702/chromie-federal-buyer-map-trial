@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:23:43Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"Manufacture test samples for corrosion fatigue testing\",\"short_names\":[\"Materials Testing\"],\"aliases\":[\"solicitation N00173-26-Q-0003\",\"combined synopsis/solicitation for commercial items\",\"manufacturing of fatigue crack growth samples\",\"corrosion fatigue crack growth testing of Nickel Aluminum Bronze material used for submarine propellers\"],\"capability_terms\":[\"corrosion fatigue crack growth testing\",\"fatigue crack growth samples\",\"Nickel Aluminum Bronze testing\",\"submarine propeller material testing\"],\"confidence\":0.87}",
+ "request_key": "42da83f2ab8782bb5061c08b988a5af8fe54069bf4658e0cfd5dc8df596f5333",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1512,
+  "output_tokens": 252
+ },
+ "user_sha256": "b17f71027fefca30"
+}

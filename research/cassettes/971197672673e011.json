@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T09:05:31Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "remarks_events",
+ "output_text": "{\"speaker_name\":\"Admiral Daryl Caudle\",\"speaker_role\":\"Chief of Naval Operations, U.S. Navy\",\"event_name\":\"Apex Conversations | Apex Defense\",\"event_host\":\"Apex Defense\",\"audience\":\"public\",\"events\":[{\"event_type\":\"conference_appearance\",\"statement\":\"Admiral Daryl Caudle is listed as a keynote conversation speaker for Apex Defense 2026.\",\"capability\":\"\",\"program\":\"\",\"organization\":\"\",\"person\":\"Admiral Daryl Caudle\",\"evidence_span\":\"Keynote Conversation with Admiral Daryl Caudle, Chief of Naval Operations, U.S. Navy\",\"amounts\":[],\"confidence\":0.99},{\"event_type\":\"conference_appearance\",\"statement\":\"Hon. Michael P. Duffey is listed as a keynote address speaker for Apex Defense 2026.\",\"capability\":\"\",\"program\":\"\",\"organization\":\"\",\"person\":\"Hon. Michael P. Duffey\",\"evidence_span\":\"Keynote Address with Hon. Michael P. Duffey, Under Secretary of War for Acquisition and Sustainment, Office of the Under Secretary of War\",\"amounts\":[],\"confidence\":0.99}]}",
+ "request_key": "971197672673e011258b7bbb2ab974265664db4da0d8102daa5aac282733cb80",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "9bdbe03afea8d63f",
+ "usage": {
+  "input_tokens": 1981,
+  "output_tokens": 497
+ },
+ "user_sha256": "fd7f15e7f46d3130"
+}

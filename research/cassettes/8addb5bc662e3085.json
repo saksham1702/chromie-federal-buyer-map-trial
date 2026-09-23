@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:14:54Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"US Naval Research Laboratory\",\"capability\":\"vacuum muffle furnace\",\"short_names\":[\"Vacuum Muffle Furnace\"],\"aliases\":[\"request for information\",\"sources sought\",\"solicitation N0017326RFIGF02\",\"Request for Information Instructions\",\"Minimum Specifications\",\"REVISED\"],\"capability_terms\":[\"vacuum furnace\",\"muffle furnace\",\"laboratory furnace\",\"high-temperature heating\"],\"confidence\":0.96}",
+ "request_key": "8addb5bc662e308586e68e6b9f1190eac51e3dff75e12b072626bfd9ef50daa8",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 606,
+  "output_tokens": 194
+ },
+ "user_sha256": "a8e274d37a9932af"
+}

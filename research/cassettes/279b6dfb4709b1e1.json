@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:24:30Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"microwave signal analysis equipment\",\"short_names\":[\"FieldFox\"],\"aliases\":[\"Keysight FieldFox Microwave Analyzer\",\"solicitation N00173-26-Q-1301324347A\",\"FieldFox Microwave Analyzer\"],\"capability_terms\":[\"microwave analyzer\",\"RF test and measurement\",\"portable spectrum analysis\",\"network analysis\",\"vector signal measurement\"],\"confidence\":0.93}",
+ "request_key": "279b6dfb4709b1e1b303729b0969f03b1b5fae4199e753cfa1e2be0d8b74beea",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1668,
+  "output_tokens": 162
+ },
+ "user_sha256": "19ca6582b542f049"
+}

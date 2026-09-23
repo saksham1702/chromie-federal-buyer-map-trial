@@ -4,8 +4,8 @@
     python research/tools/lrae_package.py build              # regenerate every package from saved bytes only
     python research/tools/lrae_package.py collect [--limit N]  # fetch the FPDS and SAM.gov lookups the joins need
 
-`build` reads the spreadsheet bytes recorded in research/documents_manifest.jsonl plus the saved
-FPDS ATOM and SAM.gov search responses, and writes one datapack/lrae_navwar_<release>/ per saved
+`build` reads the spreadsheet bytes recorded in research/sources/documents_manifest.jsonl plus the saved
+FPDS ATOM and SAM.gov search responses, and writes one datapack/lrae_<activity>_<release>/ per saved
 release, plus a diff between consecutive releases in the newer package. It never touches the
 network, so a reviewer with the same data/raw/ gets byte-identical files. `collect` performs the
 lookups that are not yet in the manifest (one FPDS PIID search per contract token, one SAM.gov
@@ -16,11 +16,13 @@ from __future__ import annotations
 
 import csv
 import hashlib
+import html
 import io
 import json
 import os
 import re
 import sys
+import tempfile
 import time
 import urllib.parse
 from collections import Counter, defaultdict
@@ -34,15 +36,26 @@ RESEARCH = ROOT / "research"
 SHEET = "LRAE Annex 25"
 HEADER_ROW = 8  # Excel row number of the column headers in every release seen so far
 PACK_BASE = Path(os.environ.get("LRAE_PACK_DIR") or ROOT / "datapack")  # override lets the test rebuild elsewhere
-# Oldest first. `match` identifies the manifest row; `release_date` is the fallback when the sheet gives none.
+# Oldest first within an activity. `match` identifies the manifest row; `release_date` is the fallback when the
+# sheet gives none; `scope` is which rows load: PEO C4I's offices only (the NAVWAR trial) or the whole activity.
+# Releases are diffed and chained within one activity; a NAVSEA line is never a NAVWAR line's revision.
 RELEASES = [
-    {"key": "lrae_navwar_2023-06", "match": "NAVWAR_LRAE_Report.xlsx", "release_date": "2023-06-20",
-     "release_note": "sheet says '20 June 2023 / TDB'; the report was exported 2023-05-25 (Filters sheet)"},
-    {"key": "lrae_navwar_2024-06", "match": "HQCA-2024-A-094", "release_date": "2024-06-20", "release_note": ""},
-    {"key": "lrae_navwar_2025-06", "match": "HQCA-2025-A-037", "release_date": "2025-06-19", "release_note": ""},
+    {"key": "lrae_navwar_2023-06", "activity": "navwar", "match": "NAVWAR_LRAE_Report.xlsx", "release_date": "2023-06-20",
+     "release_note": "sheet says '20 June 2023 / TDB'; the report was exported 2023-05-25 (Filters sheet)", "sheet": "LRAE Annex 25", "header_row": 8, "scope": "peo_c4i"},
+    {"key": "lrae_navwar_2024-06", "activity": "navwar", "match": "HQCA-2024-A-094", "release_date": "2024-06-20",
+     "release_note": '', "sheet": "LRAE Annex 25", "header_row": 8, "scope": "peo_c4i"},
+    {"key": "lrae_navwar_2025-06", "activity": "navwar", "match": "HQCA-2025-A-037", "release_date": "2025-06-19",
+     "release_note": '', "sheet": "LRAE Annex 25", "header_row": 8, "scope": "peo_c4i"},
+    {"key": "lrae_navsea_2025-12", "activity": "navsea", "match": "LRAE-NAVSEA_Enterprise_LRAE_18DECEMBER2025", "release_date": "2025-12-18",
+     "release_note": '', "sheet": "Annex 25 Template", "header_row": 8, "scope": "all"},
+    {"key": "lrae_onr_2025-12", "activity": "onr", "match": "onr-and-nrl-long-range-acquisition-estimate", "release_date": "2025-12-19",
+     "release_note": 'one workbook carries ONR and NRL as two sheets; each sheet is its own release', "sheet": "ONR", "header_row": 7, "scope": "all"},
+    {"key": "lrae_nrl_2025-12", "activity": "nrl", "match": "onr-and-nrl-long-range-acquisition-estimate", "release_date": "2025-12-19",
+     "release_note": 'one workbook carries ONR and NRL as two sheets; each sheet is its own release', "sheet": "NRL", "header_row": 7, "scope": "all"},
 ]
 JOINS_COLLECTED_FOR = "lrae_navwar_2025-06"  # the only release whose FPDS and SAM.gov lookups were collected
-FPDS = "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:{piid}&start=0"
+FPDS = "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:{piid}&start={start}"
+FPDS_PAGE = 10  # actions a page; the feed runs oldest first and names the next page with a rel="next" link
 SGS = "https://sam.gov/api/prod/sgs/v1/search/?"
 PIID_RE = re.compile(r"N\d{5}\d{2}[A-Z]\d{4,5}(?!\d)|NNG\d{2}S[A-Z]\d{2}B|GS-?\d{2}F-?\d{3,4}[A-Z]{1,2}")
 FORECAST_PID_RE = re.compile(r"[A-Z0-9]{6}-\d{2}-RFPREQ-[A-Za-z0-9/\-]+?-\d{4}")
@@ -77,6 +90,7 @@ VALUE_RANGES = {
     "> $50M - < $100M": (50_000_000, 100_000_000), "$100M - $250M": (100_000_000, 250_000_000), "> $100M - < $250M": (100_000_000, 250_000_000),
     "$250M - $1B": (250_000_000, 1_000_000_000), "> $250M - < $1B": (250_000_000, 1_000_000_000), "> $1B+": (1_000_000_000, ""),
     "> $1B": (1_000_000_000, ""), "No Range Specified": ("", ""),
+    "\u2265 $50M\u2012<$100M": (50_000_000, 100_000_000),  # the NAVSEA sheet once writes the range with a >= and a figure dash
 }
 
 
@@ -92,6 +106,16 @@ def saved(rows: list[dict], predicate) -> dict | None:
     return hits[-1] if hits else None
 
 
+def url_index(rows: list[dict]) -> dict[str, dict]:
+    """`saved` for every URL at once: the latest successful row per URL whose bytes are on disk. For callers
+    that look up thousands of URLs, where a scan of the manifest per lookup does not finish."""
+    index: dict[str, dict] = {}
+    for r in rows:
+        if r.get("status") == 200 and r.get("path") and (ROOT / r["path"]).exists():
+            index[r["url"]] = r
+    return index
+
+
 def cell(value) -> str:
     if value is None:
         return ""
@@ -100,25 +124,26 @@ def cell(value) -> str:
     return str(value).strip()
 
 
-def read_sheet(path: Path, release_key: str = "") -> tuple[dict, list[dict]]:
+def read_sheet(path: Path, release_key: str = "", sheet_name: str = SHEET, header_row: int = HEADER_ROW) -> tuple[dict, list[dict]]:
     import openpyxl  # optional dependency, only needed here
 
-    book = openpyxl.load_workbook(path, read_only=True, data_only=True)
-    sheet = book[SHEET]
+    # From bytes, not the path: openpyxl judges a file by its extension, and a saved download may have none.
+    book = openpyxl.load_workbook(io.BytesIO(path.read_bytes()), read_only=True, data_only=True)
+    sheet = book[sheet_name]
     meta = {}
-    for row in sheet.iter_rows(min_row=1, max_row=HEADER_ROW - 1, values_only=True):
+    for row in sheet.iter_rows(min_row=1, max_row=header_row - 1, values_only=True):
         if row and row[0] and str(row[0]).endswith(":") and len(row) > 1:
             meta[str(row[0]).rstrip(":").strip()] = cell(row[1])
-    header = next(sheet.iter_rows(min_row=HEADER_ROW, max_row=HEADER_ROW, values_only=True))
+    header = next(sheet.iter_rows(min_row=header_row, max_row=header_row, values_only=True))
     fields = []
     for text in header:
         first = (str(text or "").split("\n")[0]).strip().lower()
         fields.append(next((name for prefix, name in HEADERS.items() if first.startswith(prefix)), None))
     rows = []
-    for number, values in enumerate(sheet.iter_rows(min_row=HEADER_ROW + 1, values_only=True), start=HEADER_ROW + 1):
+    for number, values in enumerate(sheet.iter_rows(min_row=header_row + 1, values_only=True), start=header_row + 1):
         if all(v is None or str(v).strip() == "" for v in values):
             continue
-        record = {"sheet": SHEET, "row_number": number, "release": release_key}
+        record = {"sheet": sheet_name, "row_number": number, "release": release_key}
         record.update({name: "" for name in COLUMNS})
         for i, name in enumerate(fields):
             if name and i < len(values):
@@ -151,7 +176,7 @@ def norm_code(text: str) -> str:
 
 
 def alias_map() -> dict[str, str]:
-    seed = json.loads((RESEARCH / "organization_seed.json").read_text(encoding="utf-8"))
+    seed = json.loads((RESEARCH / "memory" / "organization_seed.json").read_text(encoding="utf-8"))
     aliases: dict[str, str] = {}
     for node in seed["nodes"]:
         if node["type"] == "person":
@@ -164,14 +189,14 @@ def alias_map() -> dict[str, str]:
 
 
 def included_offices() -> set[str]:
-    seed = json.loads((RESEARCH / "organization_seed.json").read_text(encoding="utf-8"))
+    seed = json.loads((RESEARCH / "memory" / "organization_seed.json").read_text(encoding="utf-8"))
     offices = {r["from"] for r in seed["relationships"] if r["type"] == "child_of" and r["to"] == INCLUDED_PARENT
                and r["from"].startswith("pmw:") and r["review_status"] != "retracted"}
     return offices | {INCLUDED_PARENT}
 
 
 def families() -> list[tuple[str, re.Pattern, str]]:
-    data = json.loads((RESEARCH / "org_code_families.json").read_text(encoding="utf-8"))
+    data = json.loads((RESEARCH / "memory" / "org_code_families.json").read_text(encoding="utf-8"))
     return [(f["family"], re.compile(f["pattern"]), f.get("org_type", "")) for f in data["families"]]
 
 
@@ -188,14 +213,18 @@ def classify_code(token: str, aliases: dict[str, str] | None = None, fams: list 
     return {"code": code, "office_id": office_id, "family": family, "org_type": org_type}
 
 
-def classify(rows: list[dict]) -> list[dict]:
+def classify(rows: list[dict], scope: str = "peo_c4i") -> list[dict]:
     aliases, included, fams = alias_map(), included_offices(), families()
     out = []
     for r in rows:
         hit = classify_code(r["office_code_string"], aliases, fams)
         code, family, org_type, office_id = hit["code"], hit["family"], hit["org_type"], hit["office_id"]
         key = record_key(r)
-        if office_id in included:
+        if scope == "all":
+            # The whole activity loads. The office stays as the sheet wrote it until the memory knows it.
+            decision, reason = "included", (f"activity-wide release; code resolves to {office_id}" if office_id
+                                            else f"activity-wide release; code {code or 'blank'} names no office the memory knows")
+        elif office_id in included:
             decision, reason = "included", f"code resolves to {office_id}, a PEO C4I office (alias table)"
         elif office_id:
             decision, reason = "excluded", f"code resolves to {office_id} ({org_type or 'other organization'}), outside the PEO C4I portfolio"
@@ -236,17 +265,66 @@ def is_vehicle(token: str) -> bool:
     return token.startswith(("NNG", "GS")) or (len(token) in (13, 14) and token[8] == "D")
 
 
-def fpds_entries(body: bytes) -> list[dict]:
+# The coded fields FPDS states on an action, each with the description it carries; read only when asked (Buying DNA).
+FPDS_CODED = ("typeOfSetAside", "extentCompeted", "numberOfOffersReceived", "principalNAICSCode", "productOrServiceCode",
+              "typeOfContractPricing", "totalBaseAndAllOptionsValue", "totalObligatedAmount", "referencedIDVType",
+              "referencedIDVMultipleOrSingle", "solicitationProcedures", "contractActionType", "ultimateParentUEI",
+              "ultimateParentUEIName", "UEI")
+
+
+def fpds_entries(body: bytes, width: int | None = 160, full: bool = False) -> list[dict]:
+    """Every action on an FPDS ATOM page; `width` clips the description (None keeps it whole). `full` adds the coded
+    fields as {"code", "description"} under `coded`; the tag must end at the name, so vendorUEI is not vendorUEIInformation."""
     text = body.decode("utf-8", "replace")
     entries = []
     for chunk in text.split("<entry>")[1:]:
         def tag(name: str) -> str:
             found = re.search(rf"<ns1:{name}[^>]*>([^<]*)<", chunk)
-            return found.group(1).strip() if found else ""
-        entries.append({"piid": tag("PIID"), "signed": tag("signedDate")[:10], "contracting_office": tag("contractingOfficeID"),
-                        "funding_office": tag("fundingRequestingOfficeID"), "vendor": tag("vendorName"),
-                        "idv": tag("referencedIDVID"), "description": tag("descriptionOfContractRequirement")[:160]})
+            return html.unescape(found.group(1)).strip() if found else ""  # the feed escapes & as &amp; inside vendor names
+
+        def coded(name: str) -> dict:
+            # An order states set-aside and offers on its vehicle: idvTypeOfSetAside, idvNumberOfOffersReceived.
+            found = (re.search(rf"<ns1:{name}(?=[\s>])([^>]*)>([^<]*)<", chunk)
+                     or re.search(rf"<ns1:idv{name[0].upper()}{name[1:]}(?=[\s>])([^>]*)>([^<]*)<", chunk))
+            if not found:
+                return {"code": "", "description": ""}
+            desc = re.search(r'description="([^"]*)"', found.group(1))
+            return {"code": found.group(2).strip(), "description": desc.group(1).strip() if desc else ""}
+        idv = re.search(r"<ns1:referencedIDVID>.*?<ns1:PIID>([^<]*)<", chunk, re.S)  # the vehicle's id sits below its agency id
+        office_name = re.search(r'<ns1:contractingOfficeID name="([^"]*)"', chunk)
+        row = {"piid": tag("PIID"), "signed": tag("signedDate")[:10], "contracting_office": tag("contractingOfficeID"),
+               "funding_office": tag("fundingRequestingOfficeID"), "vendor": tag("vendorName"),
+               "idv": idv.group(1).strip() if idv else "", "description": tag("descriptionOfContractRequirement")[:width],
+               "completion": tag("ultimateCompletionDate")[:10], "solicitation": tag("solicitationID"),
+               "mod": tag("modNumber"), "reason": tag("reasonForModification"), "research": tag("research"),
+               "contracting_office_name": html.unescape(office_name.group(1)).strip() if office_name else ""}
+        if full:
+            row["coded"] = {name: coded(name) for name in FPDS_CODED}
+        entries.append(row)
     return entries
+
+
+def fpds_url(piid: str, start: int = 0) -> str:
+    return FPDS.format(piid=piid, start=start)
+
+
+def fpds_history(manifest: list[dict] | dict[str, dict], piid: str) -> tuple[list[dict], list[dict], bool]:
+    """The saved pages of one contract's FPDS history, oldest first, every action on them tagged with
+    the page that carries it, and whether the last page is among them. Pages chain from `start=0` in
+    steps of FPDS_PAGE; the history is complete when the newest saved page names no next one.
+    `manifest` is the manifest rows or their `url_index`."""
+    pages: list[dict] = []
+    actions: list[dict] = []
+    while True:
+        url = fpds_url(piid, len(pages) * FPDS_PAGE)
+        capture = manifest.get(url) if isinstance(manifest, dict) else saved(manifest, lambda m, u=url: m.get("url") == u)
+        if capture is None:
+            return pages, actions, False
+        body = (ROOT / capture["path"]).read_bytes()
+        pages.append(capture)
+        actions += [dict(e, page=capture["sha256"]) for e in fpds_entries(body)]
+        if b'rel="next"' not in body:
+            return pages, actions, True
 
 
 def sgs_url(query: str, active: str) -> str:
@@ -263,12 +341,12 @@ def sgs_hits(body: bytes, needle: str) -> list[dict]:
 
 
 def contacts() -> dict[tuple[str, str], str]:
-    rows = json.loads((RESEARCH / "contact_observations.json").read_text(encoding="utf-8"))
+    rows = json.loads((RESEARCH / "memory" / "contact_observations.json").read_text(encoding="utf-8"))
     return {(norm_code(c["name"]), c["office_id_as_resolved"]): c["id"] for c in rows if c.get("name")}
 
 
 def attribution_by_pid() -> dict[str, dict]:
-    rows = json.loads((RESEARCH / "attribution_examples.json").read_text(encoding="utf-8"))
+    rows = json.loads((RESEARCH / "memory" / "attribution_examples.json").read_text(encoding="utf-8"))
     table = {}
     for x in rows:
         match = FORECAST_PID_RE.match((x.get("related") or {}).get("forecast_pid") or "")
@@ -297,26 +375,30 @@ def build_joins(rows: list[dict], classified: list[dict], manifest: list[dict]) 
         c = decision[r["row_number"]]
         if c["include_decision"] != "included":
             continue
-        add(r, "office", "explicit", c["office_code"], c["office_id"],
-            f"{SHEET}!C{r['row_number']}; organization_seed.json alias table", "requirement-office code matched an alias")
+        if c["office_id"]:
+            add(r, "office", "explicit", c["office_code"], c["office_id"],
+                f"{r['sheet']}!C{r['row_number']}; organization_seed.json alias table", "requirement-office code matched an alias")
+        else:  # an activity-wide release keeps the row; the office stays as written until the memory knows it
+            add(r, "office", "explicit", c["office_code"] or "(blank)", "", f"{r['sheet']}!C{r['row_number']}",
+                "office string names no organization the memory knows")
         tokens = contract_tokens(r["existing_contract_number"])
         if not tokens and r["existing_contract_number"]:
-            add(r, "existing_contract", "explicit", r["existing_contract_number"], "", f"{SHEET}!O{r['row_number']}",
+            add(r, "existing_contract", "explicit", r["existing_contract_number"], "", f"{r['sheet']}!O{r['row_number']}",
                 "no contract identifier pattern recognised in the cell")
         for token in tokens:
-            capture = saved(manifest, lambda m, t=token: f"PIID:{t}&" in m.get("url", ""))
-            if capture is None:
+            pages, actions, complete = fpds_history(manifest, token)
+            if not pages:
                 add(r, "existing_contract", "explicit", token, "", "", "FPDS lookup not collected yet")
                 continue
-            entries = fpds_entries((ROOT / capture["path"]).read_bytes())
-            mine = [e for e in entries if e["piid"] == token]
+            mine = [e for e in actions if e["piid"] == token]
             if mine:
                 e = mine[0]
-                add(r, "existing_contract", "explicit", token, f"fpds:{token}", f"sha256:{capture['sha256']}",
-                    f"FPDS entries={len(mine)}; contracting {e['contracting_office']}; funding {e['funding_office']}; "
+                add(r, "existing_contract", "explicit", token, f"fpds:{token}", f"sha256:{pages[0]['sha256']}",
+                    f"FPDS entries={len(mine)} on {len(pages)} page(s){'' if complete else ', history not saved to its last page'}; "
+                    f"contracting {e['contracting_office']}; funding {e['funding_office']}; "
                     f"vendor {e['vendor']}; idv {e['idv'] or '-'}; first signed {e['signed']}")
             else:
-                add(r, "existing_contract", "explicit", token, "", f"sha256:{capture['sha256']}", "FPDS PIID search returned no entry")
+                add(r, "existing_contract", "explicit", token, "", f"sha256:{pages[0]['sha256']}", "FPDS PIID search returned no entry")
         needles = [n for n in [r["pid"], *tokens] if n]
         for needle in needles:
             found, refs, hits = False, [], []
@@ -357,7 +439,7 @@ def build_joins(rows: list[dict], classified: list[dict], manifest: list[dict]) 
             elsewhere = [v for (n, o), v in contact_table.items() if n == norm_code(name) and o != c["office_id"]]
             note = f"{role} on the row matches a contact observation for the same office" if target else (
                 f"{role} has no contact observation for {c['office_id']}" + (f"; observed for {', '.join(sorted(set(elsewhere)))}" if elsewhere else ""))
-            add(r, "contact", "explicit", name, target, f"{SHEET}!{'T' if role == 'contracting_poc' else 'V'}{r['row_number']}", note)
+            add(r, "contact", "explicit", name, target, f"{r['sheet']}!{'T' if role == 'contracting_poc' else 'V'}{r['row_number']}", note)
     joins.sort(key=lambda j: (j["row_number"], j["join_type"], j["method"], j["key_used"], j["target_id"]))
     return joins
 
@@ -376,10 +458,10 @@ def layers(rows: list[dict], classified: list[dict], joins: list[dict], source_s
             continue
         rk = record_key(r)
         need_id = f"need:{key}:{rk}"
-        evidence.append({"id": evidence_id(r), "source_sha256": source_sha, "locator": f"{SHEET}!row {r['row_number']}",
+        evidence.append({"id": evidence_id(r), "source_sha256": source_sha, "locator": f"{release['sheet']}!row {r['row_number']}",
                          "release_date": release_date, "kind": "spreadsheet_row"})
         needs.append({"id": need_id, "record_key": rk, "pid": r["pid"], "title": r["requirement_title"], "office_id": c["office_id"],
-                      "office_code_string": r["office_code_string"], "contracting_office_uic": r["contracting_office_uic"].split(" - ")[0],
+                      "office_code_string": r["office_code_string"], "contracting_office_uic": re.split(r"\s*[:-]\s*|\s+", r["contracting_office_uic"])[0].strip(),
                       "follow_on_or_new": r["follow_on_or_new"], "predecessor_refs": " ".join(contract_tokens(r["existing_contract_number"])),
                       "valid_from": release_date, "evidence_id": evidence_id(r)})
         reqs.append({"id": f"req:{key}:{rk}", "need_id": need_id, "revision": key,
@@ -458,13 +540,19 @@ def pair_releases(old_rows: list[dict], new_rows: list[dict]) -> tuple[list[dict
                 index_new[k].append(r)
         taken_old, taken_new = set(), set()
         for k in sorted(set(index_old) & set(index_new)):
-            olds, news = index_old[k], index_new[k]
+            # One row can carry several keys in the same stage (a row citing two incumbent contract
+            # numbers). A key claims only rows no earlier key of this stage took, so a row is paired
+            # once, the way the stages themselves hand rows on.
+            olds = [r for r in index_old[k] if r["row_number"] not in taken_old]
+            news = [r for r in index_new[k] if r["row_number"] not in taken_new]
+            if not olds or not news:
+                continue
             if len(olds) == 1 and len(news) == 1:
                 pairs.append({"old": olds[0], "new": news[0], "basis": basis, "confidence": confidence, "reason": why})
                 taken_old.add(olds[0]["row_number"])
                 taken_new.add(news[0]["row_number"])
             else:
-                contested.append({"key": k, "basis": basis, "olds": olds, "news": news,
+                contested.append({"key": k, "basis": basis, "olds": olds, "news": news, "why": why,
                                   "reason": f"{why}, but the key matches {len(olds)} earlier and {len(news)} later rows"})
         left_old = [r for r in left_old if r["row_number"] not in taken_old]
         left_new = [r for r in left_new if r["row_number"] not in taken_new]
@@ -508,15 +596,19 @@ def diff_releases(old_rows: list[dict], new_rows: list[dict]) -> tuple[list[dict
 
     out = []
     for c in contested:
+        # Only the rows still unpaired after every stage are ambiguous. A row a later stage resolved is
+        # reported as that pair, and a key with nothing left on one side is no longer a contest: its
+        # remaining rows are added or removed rows and are reported as such.
         live_old = [r for r in c["olds"] if r["row_number"] not in matched_old]
         live_new = [r for r in c["news"] if r["row_number"] not in matched_new]
-        if not live_old and not live_new:
-            continue  # a later stage resolved every row this key touched
-        out.append(row("ambiguous", c["key"], c["basis"], "candidate", c["reason"],
-                       old_value=f"{len(c['olds'])} rows", new_value=f"{len(c['news'])} rows",
-                       old_row=";".join(str(r["row_number"]) for r in c["olds"]),
-                       new_row=";".join(str(r["row_number"]) for r in c["news"]),
-                       office=office_code(c["news"][0] if c["news"] else c["olds"][0])))
+        if not live_old or not live_new:
+            continue
+        out.append(row("ambiguous", c["key"], c["basis"], "candidate",
+                       f"{c['why']}, but the key matches {len(live_old)} earlier and {len(live_new)} later rows",
+                       old_value=f"{len(live_old)} rows", new_value=f"{len(live_new)} rows",
+                       old_row=";".join(str(r["row_number"]) for r in live_old),
+                       new_row=";".join(str(r["row_number"]) for r in live_new),
+                       office=office_code(live_new[0])))
     for p in pairs:
         o, n = p["old"], p["new"]
         key = n["pid"] or o["pid"] or f"row {o['row_number']}->{n['row_number']}"
@@ -544,7 +636,7 @@ def diff_releases(old_rows: list[dict], new_rows: list[dict]) -> tuple[list[dict
 
 # ---------------------------------------------------------------- accepted connections
 
-DIFF_NAME = re.compile(r"diff_(lrae_navwar_[\d-]+)_(lrae_navwar_[\d-]+)\.csv")
+DIFF_NAME = re.compile(r"diff_(lrae_[a-z]+_[\d-]+)_(lrae_[a-z]+_[\d-]+)\.csv")
 
 
 def fold_map(pack_base: Path = PACK_BASE) -> tuple[dict[tuple[str, str], dict], list[str]]:
@@ -558,7 +650,7 @@ def fold_map(pack_base: Path = PACK_BASE) -> tuple[dict[tuple[str, str], dict], 
     database alone sees the full history. A chain that would join two different PIDs, or two rows
     of one release, is left unfolded and named in the second value: those are a reviewer's call.
     """
-    packs = sorted(p for p in pack_base.glob("lrae_navwar_*") if p.is_dir() and (p / "rows_classified.csv").exists())
+    packs = sorted(p for p in pack_base.glob("lrae_*") if p.is_dir() and (p / "rows_classified.csv").exists())
     keys: dict[tuple[str, str], str] = {}  # (release, row number) -> record key, included rows only
     for pack in packs:
         with (pack / "rows_classified.csv").open(newline="") as handle:
@@ -628,7 +720,7 @@ def reconciliation(release: dict, rows, classified, joins, diff_note: str) -> st
     decisions = Counter(c["include_decision"] for c in classified)
     reasons = Counter((c["include_decision"], c["reason"]) for c in classified)
     unresolved = sorted({c["office_code"] for c in classified if c["include_decision"] == "unresolved"})
-    per_office = Counter(c["office_id"] for c in classified if c["include_decision"] == "included")
+    per_office = Counter(c["office_id"] or "(no office the memory knows)" for c in classified if c["include_decision"] == "included")
     same = Counter((norm_title(r["requirement_title"]), office_code(r)) for r in rows if norm_title(r["requirement_title"]))
     shared = sorted(k for k, v in same.items() if v > 1)
     # Whether the release *has* a PID column, not whether every raw row filled one.
@@ -639,7 +731,7 @@ def reconciliation(release: dict, rows, classified, joins, diff_note: str) -> st
     has_pid = pid_rows > 0
     key_note = (f"PID, where present ({pid_rows} of {len(rows)} raw rows); a row without one is its own record (release and row number)"
                 if has_pid else "the row itself, as release and row number (this release has no PID column). No two rows are merged at import")
-    lines = [f"# Reconciliation - {release['key']}", "", f"Sheet `{SHEET}`, header on Excel row {HEADER_ROW}, data rows {rows[0]['row_number']}-{rows[-1]['row_number']}.",
+    lines = [f"# Reconciliation - {release['key']}", "", f"Sheet `{release['sheet']}`, header on Excel row {release['header_row']}, data rows {rows[0]['row_number']}-{rows[-1]['row_number']}.",
              f"Record key: {key_note}.",
              "", "## Rows", "", "| Decision | Rows |", "| --- | --- |", f"| raw | {len(rows)} |"]
     lines += [f"| {d} | {decisions.get(d, 0)} |" for d in ("included", "excluded", "unresolved")]
@@ -688,17 +780,19 @@ def build() -> int:
         if source is None:
             print(f"{release['key']}: spreadsheet bytes not found under data/raw; skipped", file=sys.stderr)
             continue
-        meta, rows = read_sheet(ROOT / source["path"], release["key"])
+        meta, rows = read_sheet(ROOT / source["path"], release["key"], release["sheet"], release["header_row"])
         release_date = meta.get("Release Date", "")[:10] if re.match(r"\d{4}-\d{2}-\d{2}", meta.get("Release Date", "")) else release["release_date"]
         packages.append((release, source, meta, rows, release_date))
     if not packages:
         return 1
-    earlier: list[tuple[dict, list[dict]]] = []
+    earlier: dict[str, list[tuple[dict, list[dict]]]] = {}  # per activity: a release is diffed against its own predecessors
     for release, source, meta, rows, release_date in packages:
         pack = PACK_BASE / release["key"]
         pack.mkdir(parents=True, exist_ok=True)
         (pack / "layers").mkdir(exist_ok=True)
-        classified = classify(rows)
+        classified = classify(rows, release["scope"])
+        # Office joins come from the alias table for every release; FPDS, SAM.gov, contact and
+        # attribution lookups were collected for the PEO C4I rows only and read "not collected" elsewhere.
         joins = build_joins(rows, classified, manifest)
         write_csv(pack / "rows_raw.csv", rows)
         write_csv(pack / "rows_classified.csv", classified)
@@ -707,7 +801,7 @@ def build() -> int:
             if table:
                 write_csv(pack / "layers" / f"{name}.csv", table)
         notes = []
-        for prev_release, prev_rows in earlier:
+        for prev_release, prev_rows in earlier.get(release["activity"], []):
             changes, method = diff_releases(prev_rows, rows)
             name = f"diff_{prev_release['key']}_{release['key']}.csv"
             if changes:
@@ -727,13 +821,14 @@ def build() -> int:
                 "release_date_as_written": meta.get("Release Date", ""), "release_note": release["release_note"],
                 "source_url": source["url"], "fetched_from": source.get("fetched_from", ""), "method": source["method"],
                 "wayback_timestamp": source.get("wayback_timestamp", ""), "retrieved_at": source["retrieved_at"],
-                "sha256": source["sha256"], "size": source["size"], "raw_path": source["path"], "sheet": SHEET, "header_row": HEADER_ROW,
+                "sha256": source["sha256"], "size": source["size"], "raw_path": source["path"], "sheet": release["sheet"],
+                "header_row": release["header_row"], "scope": release["scope"],
                 "refetch": f"python research/tools/fetch.py '{source['url']}' --wayback {source.get('wayback_timestamp', '')}",
                 "regenerate": "python research/tools/lrae_package.py build", "record_key": "pid, or the row itself (release key and row number) when the row has none; nothing is merged at import",
                 "joins_collected": release["key"] == JOINS_COLLECTED_FOR, "outputs": outputs}
         (pack / "SOURCE.json").write_text(json.dumps(info, indent=2, sort_keys=True) + "\n", encoding="utf-8")
         print(release["key"], release_date, len(rows), "rows;", Counter(c["include_decision"] for c in classified))
-        earlier.append((release, rows))
+        earlier.setdefault(release["activity"], []).append((release, rows))
     return 0
 
 
@@ -741,14 +836,16 @@ def collect(limit: int) -> int:
     manifest = manifest_rows()
     release = next(r for r in RELEASES if r["key"] == JOINS_COLLECTED_FOR)
     source = saved(manifest, lambda m: release["match"] in m.get("url", "") and m.get("mime", "").endswith("sheet"))
-    _, rows = read_sheet(ROOT / source["path"], release["key"])
-    included = {c["row_number"] for c in classify(rows) if c["include_decision"] == "included"}
+    _, rows = read_sheet(ROOT / source["path"], release["key"], release["sheet"], release["header_row"])
+    included = {c["row_number"] for c in classify(rows, release["scope"]) if c["include_decision"] == "included"}
     wanted: list[tuple[str, str]] = []
+    piids: set[str] = set()
     for r in rows:
         if r["row_number"] not in included:
             continue
         tokens = contract_tokens(r["existing_contract_number"])
-        wanted += [(FPDS.format(piid=t), f"LRAE join: FPDS search for existing contract {t} (row {r['row_number']})") for t in tokens]
+        piids.update(tokens)
+        wanted += [(fpds_url(t), f"LRAE join: FPDS search for existing contract {t} (row {r['row_number']})") for t in tokens]
         wanted += [(sgs_url(n, a), f"LRAE join: SAM.gov search for {n} (row {r['row_number']})") for n in (r["pid"], *tokens) if n for a in ("false", "true")]
     have = {m["url"] for m in manifest if m.get("status") == 200 and m.get("path")}
     todo = []
@@ -758,13 +855,31 @@ def collect(limit: int) -> int:
     print(f"{len(todo)} lookups to collect")
     done = 0
     with MANIFEST.open("a", encoding="utf-8") as handle:
-        for url, note in todo[:limit]:
+        def take(url: str, note: str) -> dict:
             row = fetch(url, "direct", None, note)
             handle.write(json.dumps(row, sort_keys=True) + "\n")
             handle.flush()
-            done += 1
             print(row.get("status"), row.get("size"), url[:110])
             time.sleep(1.0)
+            return row
+
+        for url, note in todo[:limit]:
+            take(url, note)
+            done += 1
+        # The rest of each contract's history: the completion date a follow-on is timed against is
+        # stated by the newest action, and the feed puts that on the last page.
+        manifest = manifest_rows()
+        for piid in sorted(piids):
+            while done < limit:
+                pages, _, complete = fpds_history(manifest, piid)
+                if complete or not pages:
+                    break
+                row = take(fpds_url(piid, len(pages) * FPDS_PAGE),
+                           f"LRAE join: FPDS history page {len(pages) + 1} for existing contract {piid}")
+                done += 1
+                if row.get("status") != 200:
+                    break
+                manifest.append(row)
     print(f"collected {done}")
     return 0
 
@@ -850,6 +965,23 @@ def selfcheck() -> int:
     assert not [c for c in changes if c["change"] == "ambiguous"]
     assert {c["change"] for c in changes} == {"unchanged"}
 
+    # A row citing two incumbent contract numbers carries two keys in one stage. It is paired once.
+    pairs, _, _, _ = pair_releases([r(1, "Alpha", "PMW-160", contract="N0003920D0061, N0003921D0075")],
+                                   [r(9, "Alpha follow-on", "PMW-160", contract="N0003920D0061, N0003921D0075")])
+    assert len(pairs) == 1, pairs
+    assert [(p["old"]["row_number"], p["new"]["row_number"]) for p in pairs] == [(1, 9)]
+
+    # A row a later key or a later stage paired is not also reported inside an ambiguous group.
+    changes, _ = diff_releases([r(1, "Alpha", "PMW-160", contract="N0003920D0061"),
+                                r(2, "Beta", "PMW-160", contract="N0003920D0061")],
+                               [r(9, "Alpha", "PMW-160", contract="N0003920D0061"),
+                                r(8, "Gamma", "PMW-160", contract="N0003920D0061")])
+    ambiguous = [c for c in changes if c["change"] == "ambiguous"]
+    paired_rows = {(c["old_row"], c["new_row"]) for c in changes if c["change"] in ("unchanged", "changed")}
+    assert ("1", "9") not in {(a["old_row"], a["new_row"]) for a in ambiguous}
+    assert all("1" not in a["old_row"].split(";") and "9" not in a["new_row"].split(";") for a in ambiguous), ambiguous
+    assert (1, 9) in {(int(o), int(n)) for o, n in paired_rows}, "the title still pairs Alpha across the releases"
+
     # Two rows with one title under one office are two records. The June 2024 release
     # lists five "Order to Contract #N0003922D4001" rows at PMA/PMW-101 describing
     # different work; neither is a duplicate of the other.
@@ -873,6 +1005,22 @@ def selfcheck() -> int:
     moved = [c for c in changes if c["change"] == "changed"]
     assert len(moved) == 1 and moved[0]["field"] == "anticipated_total_value"
     assert moved[0]["old_value"] == "$250M - $1B" and moved[0]["new_value"] == "> $1B+"
+
+    # A contract's FPDS history is read across its saved pages, oldest first, and is complete only
+    # when the newest saved page names no next one.
+    with tempfile.TemporaryDirectory() as tmp:
+        def page(start: int, signed: str, more: bool) -> dict:
+            body = f"<entry><ns1:PIID>P1</ns1:PIID><ns1:signedDate>{signed}</ns1:signedDate></entry>" + ('<link rel="next" href="x"/>' if more else "")
+            path = Path(tmp) / f"p{start}"
+            path.write_text(body, encoding="utf-8")
+            return {"url": fpds_url("P1", start), "status": 200, "path": str(path), "sha256": f"sha{start}"}
+        saved_pages = [page(0, "2020-01-01", True)]
+        pages, actions, complete = fpds_history(saved_pages, "P1")
+        assert (len(pages), complete, [a["signed"] for a in actions]) == (1, False, ["2020-01-01"])
+        saved_pages.append(page(10, "2021-01-01", False))
+        pages, actions, complete = fpds_history(saved_pages, "P1")
+        assert (len(pages), complete, [a["page"] for a in actions]) == (2, True, ["sha0", "sha10"])
+        assert fpds_history(saved_pages, "P2") == ([], [], False)
 
     print("selfcheck ok")
     return 0

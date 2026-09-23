@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:16:50Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory (NRL)\",\"capability\":\"specialty fiber optic draw tower\",\"short_names\":[\"Specialty Fiber Optic Draw Tower\"],\"aliases\":[\"Specialty Fiber Optic Draw Tower request for information\",\"solicitation N0017326RFICM01\"],\"capability_terms\":[\"fiber optic drawing equipment\",\"specialty optical fiber manufacturing\",\"optical fiber draw tower\",\"fiber preform drawing system\",\"specialty fiber production\"],\"confidence\":0.95}",
+ "request_key": "f23ccd0c7c585f3f224ac7fdb3dcfa23c80c0399a1640141676102f9e2eae537",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 767,
+  "output_tokens": 281
+ },
+ "user_sha256": "5bc4dcf007ffd683"
+}

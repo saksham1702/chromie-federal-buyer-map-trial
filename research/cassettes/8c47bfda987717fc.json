@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:20:15Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NAVSEA\",\"capability\":\"Combat system sustainment and modernization\",\"short_names\":[\"ZCS\",\"ZCS SAM\"],\"aliases\":[\"Zumwalt Combat System (ZCS) Sustainment and Modernization (SAM)\",\"FY27-31 Zumwalt Combat System (ZCS) Sustainment and Modernization (SAM)\",\"FY27 Zumwalt Combat System (ZCS) Sustainment and Modernization (SAM) Effort\",\"DDG 1000 Class\",\"N00024-26-R-5507\",\"N00024-22-C-5522\"],\"capability_terms\":[\"destroyer combat system sustainment\",\"combat system modernization\",\"software development and integration\",\"shipboard system upgrades\",\"land-based site support\",\"training systems sustainment\"],\"confidence\":0.96}",
+ "request_key": "8c47bfda987717fc952eb73a477f0d4775cce59e31dc915c267d1746c2db669b",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1143,
+  "output_tokens": 364
+ },
+ "user_sha256": "fb1705093b4d8546"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:21:59Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"Demolish and construct drinking water well\",\"short_names\":[],\"aliases\":[\"Demolition and Construction of Drinking Water Well\",\"N0017326Q5801\",\"POMONKEY Site\",\"7425 Bumpy Oak Road La Plata, MD 20646\"],\"capability_terms\":[\"drinking water well demolition\",\"potable water well construction\",\"water well replacement\",\"well drilling and site prep\"],\"confidence\":0.97}",
+ "request_key": "7cf869610c5b5da5e50dab345d5f502e9ee5000beb0d8f5fec1823c20c45886b",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1731,
+  "output_tokens": 200
+ },
+ "user_sha256": "1135487154bbc339"
+}

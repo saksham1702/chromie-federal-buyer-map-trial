@@ -13,6 +13,7 @@ and records every retrieval in research/documents_manifest.jsonl. Prints office-
 from __future__ import annotations
 
 import hashlib
+from collections import Counter
 import io
 import json
 import re
@@ -26,7 +27,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "data" / "raw" / "sam_notices"
-MANIFEST = ROOT / "research" / "documents_manifest.jsonl"
+MANIFEST = ROOT / "research" / "sources" / "documents_manifest.jsonl"
 SGS = "https://sam.gov/api/prod/sgs/v1/search/"
 OPPS = "https://sam.gov/api/prod/opps"
 HEADERS = {"User-Agent": "Mozilla/5.0", "Accept": "application/hal+json, application/json"}
@@ -60,14 +61,22 @@ def record(url: str, body: bytes | None, path: Path | None, note: str, status: i
 
 
 def search(query: str) -> list[dict]:
+    """Both halves of a SAM.gov search (archived and active), each saved and recorded so a negative can
+    name the search it rests on and trace.py reads every hit, harvested or not."""
     hits = []
+    OUT.mkdir(parents=True, exist_ok=True)
     for active in ("false", "true"):
         q = urllib.parse.urlencode({"index": "opp", "page": 0, "size": 25, "q": query, "mode": "search", "is_active": active})
+        url = f"{SGS}?{q}"
         try:
-            _, body, _ = get(f"{SGS}?{q}")
+            status, body, _ = get(url)
+            path = OUT / f"search_{hashlib.sha256(url.encode()).hexdigest()[:12]}.json"
+            path.write_bytes(body)
+            record(url, body, path, f"SAM search {query} active={active}", status, "application/json")
             hits += json.loads(body).get("_embedded", {}).get("results", [])
         except Exception as exc:  # noqa: BLE001
             print(f"  search error {query} active={active}: {exc}")
+            record(url, None, None, f"SAM search {query} active={active}", None, error=str(exc)[:120])
         time.sleep(0.8)
     seen, out = set(), []
     for h in hits:
@@ -103,7 +112,7 @@ def mentions(text: str) -> list[str]:
     return out
 
 
-def harvest_notice(notice_id: str, label: str) -> dict:
+def harvest_notice(notice_id: str, label: str, attachments: bool = True) -> dict:
     OUT.mkdir(parents=True, exist_ok=True)
     url = f"{OPPS}/v2/opportunities/{notice_id}?api_key=null"
     status, body, _ = get(url)
@@ -118,6 +127,8 @@ def harvest_notice(notice_id: str, label: str) -> dict:
               "poc": [(p.get("fullName"), p.get("email"), p.get("type")) for p in d2.get("pointOfContact", [])],
               "description_chars": len(desc), "description_mentions": mentions(desc), "attachments": []}
     time.sleep(0.8)
+    if not attachments:
+        return result  # the sweep wants the notice's own words; NAVWAR attachments are PIEE links anyway
     rurl = f"{OPPS}/v3/opportunities/{notice_id}/resources?api_key=null&random={int(time.time()*1000)}"
     try:
         rstatus, rbody, _ = get(rurl)
@@ -164,7 +175,124 @@ def harvest_notice(notice_id: str, label: str) -> dict:
     return result
 
 
+# The SAM.gov organizations the sweep keeps, by the id the site search filters on (`organization_id`) and the
+# level-5 office code a hit's hierarchy carries; a legacy hit may carry the id and no code.
+SWEEP_ORGS = {"100076586": "N00039", "100076491": "N00024", "100076476": "N00014", "100255323": "N00173",
+              "100076487": "N66001", "100076484": "N65236"}  # SAM.gov organization ids at the office level
+# Offices swept by code whose SAM.gov id is read off a search for the code at sweep time (NAVAIR HQ, NAWCAD).
+SWEEP_CODES = ("N00019", "N00421", "N68335")
+SWEEP_SINCE = "2021-10-01"  # FY22 on: two years of prior notices before the first back-test outcome
+
+
+def wanted(hits: list[dict], since: str = SWEEP_SINCE, orgs: dict[str, str] = SWEEP_ORGS) -> list[dict]:
+    """The search hits posted by one of the swept organizations on or after `since`, one per notice id."""
+    out, seen = [], set()
+    for h in hits:
+        tree = h.get("organizationHierarchy") or []
+        ours = {str(o.get("code") or "") for o in tree} & set(orgs.values()) or {str(o.get("organizationId") or "") for o in tree} & set(orgs)
+        if h.get("_id") in seen or not ours or (h.get("publishDate") or "")[:10] < since:
+            continue
+        seen.add(h["_id"]); out.append(h)
+    return out
+
+
+def org_id_of(code: str, hits: list[dict]) -> str | None:
+    """The office-level SAM.gov organization id the hits' hierarchies give for an office code, the most common one."""
+    ids = Counter(str(o["organizationId"]) for h in hits for o in h.get("organizationHierarchy") or []
+                  if o.get("code") == code and o.get("level") == 5 and o.get("organizationId"))
+    return ids.most_common(1)[0][0] if ids else None
+
+
+def resolve_orgs(codes: tuple[str, ...]) -> dict[str, str]:
+    """SAM.gov organization id -> office code for offices known only by code: one search for the code each, since
+    the notices an office posts carry its solicitation prefix and its hierarchy."""
+    found = {}
+    for code in codes:
+        url = f"{SGS}?{urllib.parse.urlencode({'index': 'opp', 'page': 0, 'size': 25, 'q': code, 'mode': 'search', 'sort': '-modifiedDate'})}"
+        _, body, _ = get(url)
+        org = org_id_of(code, json.loads(body).get("_embedded", {}).get("results", []))
+        if org:
+            found[org] = code
+        else:
+            print(f"no SAM.gov organization id found for {code}; not swept", flush=True)
+    return found
+
+
+def sweep(argv: list[str]) -> int:
+    """Every notice an office posted since FY22: page the site search for the office code (archived and active,
+    newest first, every page saved and recorded), then harvest the detail of each notice not yet on disk.
+    The loader reads every detail file in data/raw/sam_notices, so nothing else changes.
+
+        python research/tools/sam_notices.py sweep [--org 100076586] [--since 2021-10-01] [--shard i/n] [--limit N]
+    """
+    import argparse
+    ap = argparse.ArgumentParser(prog="sam_notices.py sweep")
+    ap.add_argument("--org", default=",".join(SWEEP_ORGS), help="SAM.gov organization ids to sweep")
+    ap.add_argument("--since", default=SWEEP_SINCE)
+    ap.add_argument("--shard", default="0/1", help="i/n: harvest only the notices whose position mod n is i, so shards run side by side")
+    ap.add_argument("--limit", type=int, default=5000)
+    ap.add_argument("--no-search", action="store_true", help="reuse the saved search pages instead of paging again")
+    args = ap.parse_args(argv)
+    shard, shards = (int(x) for x in args.shard.split("/"))
+    OUT.mkdir(parents=True, exist_ok=True)
+    orgs = dict(SWEEP_ORGS)
+    if args.org == ",".join(SWEEP_ORGS):
+        orgs.update(resolve_orgs(SWEEP_CODES))
+    hits: list[dict] = []
+    for org in (orgs if args.org == ",".join(SWEEP_ORGS) else args.org.split(",")):
+        for active in ("false", "true"):
+            page = 0
+            while True:
+                q = urllib.parse.urlencode({"index": "opp", "page": page, "size": 25, "organization_id": org, "mode": "search",
+                                            "is_active": active, "sort": "-modifiedDate"})
+                url = f"{SGS}?{q}"
+                path = OUT / f"search_{hashlib.sha256(url.encode()).hexdigest()[:12]}.json"
+                if args.no_search and path.exists():
+                    body = path.read_bytes()
+                else:
+                    status, body, _ = get(url)
+                    path.write_bytes(body)
+                    record(url, body, path, f"SAM sweep organization {org} ({orgs.get(org, org)}) active={active} page {page + 1}", status, "application/json")
+                    time.sleep(0.8)
+                d = json.loads(body)
+                results = d.get("_embedded", {}).get("results", [])
+                hits += results
+                if not results or page + 1 >= int(d.get("page", {}).get("totalPages") or 0):
+                    break
+                page += 1
+    keep = wanted(hits, args.since, orgs)
+    print(f"{len(hits)} hit(s), {len(keep)} posted by {sorted(orgs.values())} since {args.since}", flush=True)
+    todo = [h for i, h in enumerate(keep) if i % shards == shard and not (OUT / f"{h['_id']}.json").exists()]
+    print(f"shard {shard}/{shards}: {len(todo)} detail(s) to harvest", flush=True)
+    for n, h in enumerate(todo[:args.limit], 1):
+        try:
+            res = harvest_notice(h["_id"], "sweep", attachments=False)
+            print(f"{n}/{len(todo)} {res['posted']} {res['type']} {res['solicitation']} | {str(res['title'])[:60]}", flush=True)
+        except Exception as exc:  # noqa: BLE001
+            print(f"{n}/{len(todo)} error {h['_id']}: {exc}", flush=True)
+            time.sleep(2.0)
+    return 0
+
+
+def selfcheck() -> int:
+    def hit(i, code, day, org="1"):
+        return {"_id": i, "publishDate": f"{day}T00:00:00", "organizationHierarchy": [{"code": "1700", "level": 2}, {"code": code, "level": 5, "organizationId": org}]}
+    keep = wanted([hit("a", "N00039", "2024-01-01"), hit("a", "N00039", "2024-01-01"), hit("b", "N66001", "2024-01-01"),
+                   hit("c", "N00039", "2021-09-30"), hit("d", "N00039", "2021-10-01"), hit("e", None, "2024-01-01", "100076586")])
+    assert [h["_id"] for h in keep] == ["a", "b", "d", "e"], "one per id, the organization's own by code or id, from FY22 on"
+    assert [h["_id"] for h in wanted([hit("b", "N66001", "2024-01-01")], orgs={"100076586": "N00039"})] == [], "an office not swept is dropped"
+    assert org_id_of("N00019", [hit("x", "N00019", "2024-01-01", "7"), hit("y", "N00019", "2024-01-01", "7"),
+                                hit("z", "N00019", "2024-01-01", "8"), hit("w", "N00039", "2024-01-01", "9")]) == "7"
+    assert org_id_of("N68335", [hit("x", "N00019", "2024-01-01", "7")]) is None
+    print("sam_notices selfcheck ok")
+    return 0
+
+
 def main(argv: list[str]) -> int:
+    if "--selfcheck" in argv:
+        return selfcheck()
+    if argv and argv[0] == "sweep":
+        return sweep(argv[1:])
     summary = []
     for arg in argv:
         label = arg

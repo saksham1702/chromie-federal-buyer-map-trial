@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:36:28Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"GPU computing hardware\",\"short_names\":[\"Purchase of Liqid and NVIDIA GPUs\"],\"aliases\":[\"Purchase of Liqid and NVIDIA GPUs\",\"solicitation N0017326Q1301382046\",\"U.S. Naval Research Laboratory\"],\"capability_terms\":[\"graphics processing units\",\"AI compute accelerators\",\"high-performance GPU hardware\"],\"confidence\":0.93}",
+ "request_key": "a3981fdc743533c77e48ec7cd35ba62799c977483cbd86dd5a21b21e659950be",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1679,
+  "output_tokens": 226
+ },
+ "user_sha256": "4e1b443a5e424c65"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:13:44Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"inertial navigation system kit\",\"short_names\":[\"INS Standard Kit\"],\"aliases\":[\"INS Standard Kit with additional features\",\"solicitation N00173-26-Q-1301290038\"],\"capability_terms\":[\"inertial navigation\",\"navigation sensing\",\"attitude reference\",\"positioning and guidance\"],\"confidence\":0.41}",
+ "request_key": "7b4b0391a6a47bff63fec39fc12b7825f37db1cfd05c71446948dff9a183736e",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 546,
+  "output_tokens": 189
+ },
+ "user_sha256": "1fd6d9c9c9a9e57e"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:16:25Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NAVWAR\",\"capability\":\"end-to-end ICT for unmanned surface vessels\",\"short_names\":[\"ICT-USV\",\"USV\"],\"aliases\":[\"Area of Interest (AOI): Information and Communications Technology (ICT) for Unmanned Surface Vessels (USV)\",\"N0003926RA005\",\"NAVWAR CSO N0003925S0001\",\"ICT-USV\"],\"capability_terms\":[\"information and communications technology\",\"unmanned surface vessel integration\",\"onboard networking\",\"vessel communications\"],\"confidence\":0.92}",
+ "request_key": "ac53b637180b4f4a935692575c2687f73310fea8bccccbfb6cd2ab2c6dfee35a",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 799,
+  "output_tokens": 285
+ },
+ "user_sha256": "95258ae1a052a0b4"
+}

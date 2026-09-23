@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:33:49Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PAE Mission Systems\",\"capability\":\"sensor netting production and repair\",\"short_names\":[\"CEC\"],\"aliases\":[\"Cooperative Engagement Capability\",\"CEC system\",\"N00024-26-R-5201\",\"CEC program\"],\"capability_terms\":[\"sensor netting system\",\"composite track picture\",\"integrated force fire control\",\"shipboard sensor data fusion\",\"airborne and shipboard engagement coordination\"],\"confidence\":0.98}",
+ "request_key": "6dcc908fab6ab54a7ccbb0c74d0572eaeadef1d5671990c04c7fc71139cc8982",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1672,
+  "output_tokens": 178
+ },
+ "user_sha256": "bb35a80ab7c8d77e"
+}

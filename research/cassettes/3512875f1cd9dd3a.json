@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T08:54:46Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "remarks_events",
+ "output_text": "{\"speaker_name\":\"Adm. Daryl Caudle\",\"speaker_role\":\"Chief of Naval Operations\",\"event_name\":\"CNO Remarks at INR 250 Closing Reception\",\"event_host\":\"\",\"audience\":\"allies\",\"events\":[{\"event_type\":\"conference_appearance\",\"statement\":\"Adm. Daryl Caudle spoke at the INR 250 Closing Reception aboard USS Arlington in New York City.\",\"capability\":\"\",\"program\":\"\",\"organization\":\"\",\"person\":\"Adm. Daryl Caudle\",\"evidence_span\":\"CNO Remarks at INR 250 Closing Reception Aboard USS Arlington in New York City Chief of Naval Operations Adm. Daryl Caudle\",\"amounts\":[],\"confidence\":0.99}]}",
+ "request_key": "3512875f1cd9dd3a8bbd40522fb8048661b8c5817f7962ea83ddd1c00364c63c",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "9bdbe03afea8d63f",
+ "usage": {
+  "input_tokens": 2235,
+  "output_tokens": 245
+ },
+ "user_sha256": "930ee979285324aa"
+}

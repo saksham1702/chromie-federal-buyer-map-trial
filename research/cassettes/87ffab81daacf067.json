@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:29:37Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NAVSEA\",\"capability\":\"nuclear submarine repair support\",\"short_names\":[\"Emergent Submarine Repair\",\"Nuclear-Powered Emergent Submarine Repair BOA\"],\"aliases\":[\"Nuclear-Powered Emergent Submarine Repair Basic Ordering Agreement (BOA)\",\"solicitation N00024-26-R-4309\",\"Emergent Submarine Repair\",\"nuclear-powered submarines\",\"Special Mission Submersibles and Host Submarine Interfaces\",\"Nuclear-Powered Moored Training Ships\",\"Submarine Support Facilities\"],\"capability_terms\":[\"submarine repair\",\"nuclear-related trade labor\",\"technical and engineering support\",\"CUI handling\",\"nuclear-qualified shipyard work\"],\"confidence\":0.95}",
+ "request_key": "87ffab81daacf0673890a2366f7bb87f480cab608392c411072a951d6ee151c5",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1263,
+  "output_tokens": 244
+ },
+ "user_sha256": "f20b8860cb9761b9"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:24:47Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMS 495\",\"capability\":\"Moored torpedo mine system for ASW targets\",\"short_names\":[\"Hammerhead\"],\"aliases\":[\"Hammerhead Program\",\"Hammerhead production units\",\"Contract No. N00024-21-C-6425\",\"N0002421C6425\"],\"capability_terms\":[\"moored-torpedo variant mine system\",\"Anti-Submarine Warfare targets\",\"detect, classify, and defeat\",\"Fleet's operational requirements\"],\"confidence\":0.96}",
+ "request_key": "76272e743ff85fa41c5c0aab0d4e12ef241abab0cf61003850c90e428e2cba8a",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1051,
+  "output_tokens": 222
+ },
+ "user_sha256": "2d3b97a4c15975dd"
+}

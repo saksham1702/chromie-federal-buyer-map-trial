@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:22:17Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"training sailboats for Naval Academy\",\"short_names\":[\"US Naval Academy Sailboats\"],\"aliases\":[\"Sources Sought for US Naval Academy Sailboats\",\"request for information (sources sought)\",\"solicitation N00024-26-R-2203\"],\"capability_terms\":[\"sail training vessels\",\"academy sailing craft\",\"training sailboats\"],\"confidence\":0.94}",
+ "request_key": "1c3ae6b467cf2190eea9ac3b54838317ec72bd505257b843bb5f7e90d554e0e8",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 959,
+  "output_tokens": 198
+ },
+ "user_sha256": "4787f5d13cfb5183"
+}

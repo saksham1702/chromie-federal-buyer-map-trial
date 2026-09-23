@@ -6,7 +6,7 @@
 
 The .mil hosts fronted by Akamai refuse requests from non-US addresses; a hosted US browser is
 the approved fallback. Pages are saved as rendered HTML, files (PDF, XLSX) as bytes, and every
-retrieval is recorded in research/documents_manifest.jsonl with method "browserbase". Links to
+retrieval is recorded in research/sources/documents_manifest.jsonl with method "browserbase". Links to
 tear sheets, LRAE spreadsheets and budget exhibits found on fetched pages are downloaded too.
 Sessions are never recorded (Browserbase `recordSession: false`).
 """
@@ -25,7 +25,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 RAW = ROOT / "data" / "raw"
-MANIFEST = ROOT / "research" / "documents_manifest.jsonl"
+MANIFEST = ROOT / "research" / "sources" / "documents_manifest.jsonl"
 FILE_LINK_RE = re.compile(r"\.(pdf|xlsx|xls|docx)(\?|$)", re.I)
 WANTED_LINK_RE = re.compile(r"tear.?sheet|long.?range|lrae|r-1|p-1|budget|exhibit|org.?chart|fact.?sheet", re.I)
 MAX_FILE = 80_000_000

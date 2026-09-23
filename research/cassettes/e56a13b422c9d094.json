@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:33:19Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory\",\"capability\":\"AC/DC power supply converter\",\"short_names\":[\"M1982-104\"],\"aliases\":[\"M1982-104 Power Supply AC/DC Converter\",\"solicitation N0017326Q1301370841D\"],\"capability_terms\":[\"AC/DC converter\",\"power supply\",\"electrical power conversion\",\"regulated power supply\"],\"confidence\":0.94}",
+ "request_key": "e56a13b422c9d09407bd733a32b97d475295a46578a11041223a815d656299a5",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1674,
+  "output_tokens": 213
+ },
+ "user_sha256": "4452032527fc5813"
+}

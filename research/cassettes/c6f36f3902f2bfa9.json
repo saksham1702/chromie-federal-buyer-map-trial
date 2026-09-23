@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:28:46Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory\",\"capability\":\"polyamide powder for additive manufacturing\",\"short_names\":[\"PA 2200\"],\"aliases\":[\"PA 2200 Polyamide powder\",\"PA 2200 Polyamide powder 480 KG\"],\"capability_terms\":[\"polyamide powder\",\"additive manufacturing powder\",\"3D printing feedstock\",\"nylon powder\"],\"confidence\":0.96}",
+ "request_key": "c6f36f3902f2bfa999d66e946404174a03b8b21b4c743a0ddc10286d0293c2d2",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1688,
+  "output_tokens": 182
+ },
+ "user_sha256": "48e74ba12ec8f795"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:10:54Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMW 790\",\"capability\":\"Field service support for portable radios\",\"short_names\":[\"Portable Radios\",\"PRP radios\"],\"aliases\":[\"Field Service Representative (FSR)\",\"L3Harris Communication Systems product lines\",\"L3Harris' radios\",\"PRP radios\",\"Harris Corporation, RF Communications Division (Harris)\",\"Harris Defense Communications products and systems\",\"Portable Radios\"],\"capability_terms\":[\"radio maintenance\",\"radio training\",\"field service representative support\",\"tactical radio sustainment\",\"communications equipment technical support\"],\"confidence\":0.95}",
+ "request_key": "ef75b76a1dc2f1d25f0bc2b7e2032496a05445d00c9a298dd70758ecd53fd5a6",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1099,
+  "output_tokens": 218
+ },
+ "user_sha256": "24c04209f7007d64"
+}

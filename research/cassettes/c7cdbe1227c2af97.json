@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:11:10Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PEO MLB\",\"capability\":\"defense business IT solutions\",\"short_names\":[\"PEO MLB\"],\"aliases\":[\"PEO MLB Small Business Industry Day\",\"N00039-24-R-4025\",\"Program Executive Office for Manpower, Logistics, and Business Solutions\"],\"capability_terms\":[\"defense business systems\",\"workforce management systems\",\"manpower logistics business systems\"],\"confidence\":0.34}",
+ "request_key": "c7cdbe1227c2af977b027e918fdd49272ea56bdd51d389d943e4b5bb57ffd4f5",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1003,
+  "output_tokens": 245
+ },
+ "user_sha256": "4188ae5198e6cdf3"
+}

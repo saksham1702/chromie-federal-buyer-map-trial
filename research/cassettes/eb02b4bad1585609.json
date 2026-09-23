@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:23:24Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory (NRL)\",\"capability\":\"deliver liquid and compressed gases\",\"short_names\":[],\"aliases\":[\"Liquid and Compressed Gas Fulfillment\",\"solicitation N0017326RFIGF08\"],\"capability_terms\":[\"liquid gas supply\",\"compressed gas supply\",\"laboratory gas deliveries\",\"scientific equipment gas support\"],\"confidence\":0.94}",
+ "request_key": "eb02b4bad1585609112f99c48994254a3b3c011b4852cd9a173882476d464180",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 623,
+  "output_tokens": 146
+ },
+ "user_sha256": "2e98165a58f91de3"
+}

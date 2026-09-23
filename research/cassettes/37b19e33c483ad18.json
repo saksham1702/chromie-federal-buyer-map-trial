@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:28:36Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"ONR Research Protections Division (343)\",\"capability\":\"operate and maintain research protections IT system\",\"short_names\":[\"RPITMS\",\"HRPP\"],\"aliases\":[\"Department of the Navy (DON) Human Research Protection Program (HRPP) Research Protections Information Technology Management System (RPITMS) Support Services\",\"N0001426RFI7003\",\"N0017819D7525/ N0001421F3006\"],\"capability_terms\":[\"research protections information system support\",\"human subjects research compliance IT\",\"research compliance workflow management\",\"system operations and enhancements\",\"continuity of operations support\"],\"confidence\":0.97}",
+ "request_key": "37b19e33c483ad185b5c6908c52cb6e75551bcdc1652bdf16e3c6ca0f8cc8f14",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1796,
+  "output_tokens": 242
+ },
+ "user_sha256": "d45107f14c9bb81f"
+}

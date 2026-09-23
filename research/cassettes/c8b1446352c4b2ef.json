@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:35:07Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"perpetual license for RF design software\",\"short_names\":[\"PathWave ADS\"],\"aliases\":[\"PathWave ADS Core, EM Design, Layout, RFPro, RF Ckt Sim, Sys-Ckt Verification USB portable perpetual license\",\"solicitation N0017326Q1301385663\",\"brand name only\"],\"capability_terms\":[\"electronic design automation\",\"RF circuit simulation\",\"electromagnetic design\",\"RF design layout\",\"system-circuit verification\"],\"confidence\":0.95}",
+ "request_key": "c8b1446352c4b2ef412041990bad3d5b2d57ff078ad55c0b1916a542fff3d547",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1697,
+  "output_tokens": 341
+ },
+ "user_sha256": "064ced7108f29b5b"
+}

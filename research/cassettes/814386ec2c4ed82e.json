@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:33:52Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"data science PC workstation\",\"short_names\":[\"Data Science PC Workstation\"],\"aliases\":[\"AMD Ryzen Threadripper PRO 7000, WRX90 Chipset, Data Science PC Workstation\",\"solicitation N0017326-Q-1301392635\",\"AMD Ryzen\u2122 Threadripper\u2122 PRO 7000, WRX90 Chipset, Data Science PC Workstation\",\"N0017326-Q-1301392635\"],\"capability_terms\":[\"high-performance data science workstation\",\"GPU-accelerated analytics workstation\",\"AI/ML compute workstation\",\"workstation for large model training\",\"scientific computing desktop\"],\"confidence\":0.93}",
+ "request_key": "814386ec2c4ed82e6e55717e6f112dc40f358256af8d1f8337870c5224b19f59",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 924,
+  "output_tokens": 316
+ },
+ "user_sha256": "a8407bf3af19b31f"
+}

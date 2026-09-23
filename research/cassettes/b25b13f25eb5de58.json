@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:24:24Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Sea Systems Command (NAVSEA)\",\"capability\":\"LCS Freedom class radar sustainment\",\"short_names\":[\"LCS Freedom Class Radars\",\"AN/SPS-75\",\"AN/SPS-80\",\"Sharp Eye\"],\"aliases\":[\"FY27-31 LCS FREEDOM CLASS RADARS (AN/SPS-75, AN/SPS-80, SHARP EYE) SUSTAINMENT\",\"solicitation N0002426R5538\",\"LCS Freedom Class Radar systems\"],\"capability_terms\":[\"shipboard radar sustainment\",\"surface search radar maintenance\",\"radar repair and engineering support\",\"radar software maintenance\",\"spares and logistics support\"],\"confidence\":0.97}",
+ "request_key": "b25b13f25eb5de58d7289078b9cad4c68c85ef3dbf58a4fa03b03171fd7dfab1",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 885,
+  "output_tokens": 364
+ },
+ "user_sha256": "4b9a146b49235277"
+}

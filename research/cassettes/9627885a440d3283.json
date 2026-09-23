@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:22:10Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PEO IWS 2.0\",\"capability\":\"future X-band radar development and production\",\"short_names\":[\"FXR\"],\"aliases\":[\"Future X-Band Radar\",\"Future X-Band Radar (FXR)\",\"solicitation N00024-26-R-5502\",\"competitive Request for Proposal (RFP) for the Future X-Band Radar (FXR) for Fiscal Year 2026 (FY26) to FY33\",\"N00024-26-R-5502\"],\"capability_terms\":[\"X-band radar\",\"naval radar development\",\"radar low-rate initial production\",\"fire-control radar\",\"shipboard radar\"],\"confidence\":0.94}",
+ "request_key": "9627885a440d32833cbb4a26f5775ca2df7011bbc7b2178eee33baa0c8f36c87",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1670,
+  "output_tokens": 275
+ },
+ "user_sha256": "6471b97abfbfa3e9"
+}

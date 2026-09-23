@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:16:55Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"Zynq UltraScale programmable logic devices\",\"short_names\":[\"Xilinx Zynq UltraScale\"],\"aliases\":[\"solicitation N0017326Q1301275263a2\",\"Brand Name Only RFQ\",\"Authorized OEM (AMD)\"],\"capability_terms\":[\"FPGA SoC\",\"reconfigurable logic\",\"embedded processing hardware\",\"programmable integrated circuits\"],\"confidence\":0.92}",
+ "request_key": "dcc2f1c9e229aff059aff804849ede5a1b50182d338990627c812f32d5715350",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 603,
+  "output_tokens": 222
+ },
+ "user_sha256": "31aa69928db37835"
+}

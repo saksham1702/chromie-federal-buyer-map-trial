@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:15:59Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"resilient IBS threat-intelligence data feed\",\"short_names\":[\"MIBS\",\"JTT-ME\"],\"aliases\":[\"Full Rate Production and Sustainment\",\"Integrated Broadcast Service (IBS) data feed\",\"Joint Tactical Terminal - Maritime Evolved (JTT-ME) system\",\"Universal Computer and Network Switch\",\"KSR-4A\",\"MX-12605/USQ\"],\"capability_terms\":[\"integrated broadcast service\",\"near-real-time threat intelligence\",\"over-the-air threat data\",\"indications and warnings\",\"cyber-secured IBS data feed\",\"broadcast waveforms\"],\"confidence\":0.95}",
+ "request_key": "d8037de95ee91456e90a597c05a4a40da06e10d96d149ad7d9be33fd2ac56777",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 856,
+  "output_tokens": 377
+ },
+ "user_sha256": "a253c536ba42e5e4"
+}

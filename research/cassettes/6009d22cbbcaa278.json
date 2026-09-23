@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:30:37Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"enterprise software licenses\",\"short_names\":[\"Windsurf Enterprise Base\"],\"aliases\":[\"Windsurf Enterprise Base (FedRAMP) Software Licenses\",\"solicitation N0017326Q5610\",\"combined synopsis/solicitation\"],\"capability_terms\":[\"FedRAMP software licensing\",\"enterprise base software licenses\",\"commercial software subscriptions\"],\"confidence\":0.92}",
+ "request_key": "6009d22cbbcaa278b23801d32c3994ac03a5e534211c90e8f766662caf2e0399",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1671,
+  "output_tokens": 264
+ },
+ "user_sha256": "13b5fcf1d0654bf9"
+}

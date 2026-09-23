@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:24:04Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMS415\",\"capability\":\"expendable acoustic torpedo countermeasure\",\"short_names\":[\"ADC MK 2\",\"ADC MK 2 Training Device\"],\"aliases\":[\"Acoustic Device Countermeasure (ADC) MK 2 & ADC MK 2 Training Device\",\"Acoustic Device Countermeasure (ADC) MK 2\",\"ADC MK 2 training device\",\"solicitation N00024-26-R-6262\",\"Internal Countermeasure Launcher (ICL)\"],\"capability_terms\":[\"acoustic torpedo countermeasure\",\"expendable countermeasure\",\"surface-launched countermeasure\",\"submarine-launched countermeasure\",\"underwater acoustic decoy\"],\"confidence\":0.97}",
+ "request_key": "8c910919258c48a64399c6178141d6d1e46278c35b1b1d9ef60a2e3925a4c059",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1451,
+  "output_tokens": 311
+ },
+ "user_sha256": "5553ecb30800805a"
+}

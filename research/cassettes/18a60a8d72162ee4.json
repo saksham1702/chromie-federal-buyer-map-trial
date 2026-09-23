@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:29:53Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"MacBook Pro laptops and accessories\",\"short_names\":[\"MACBOOK PRO M5 MAX\"],\"aliases\":[\"MACBOOK PRO M5 MAX AND ACCESSORIES\",\"Apply Macbooks with accessories\",\"N0017326Q5235\",\"Naval Research Laboratory\"],\"capability_terms\":[\"Apple MacBook procurement\",\"laptop computers\",\"MacBook Pro workstations\",\"commercial off-the-shelf laptops\"],\"confidence\":0.95}",
+ "request_key": "18a60a8d72162ee46b87b07207c57da42115a521352990f2da91151c71e21f93",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1475,
+  "output_tokens": 234
+ },
+ "user_sha256": "45f416a368d23e01"
+}

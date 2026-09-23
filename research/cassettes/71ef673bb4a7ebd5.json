@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:31:33Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory\",\"capability\":\"high-fidelity digital twin simulation\",\"short_names\":[\"Digital Twin\",\"LASR\"],\"aliases\":[\"Digital Twin Modeling & Software\",\"Digital Twin Modeling  & Software\",\"request for information\",\"sources sought\",\"solicitation N00173-26-RFI-DS02\",\"The Laboratory for Autonomous Systems Research (LASR)\",\"Code 1700\",\"Naval Research Laboratory (NRL)\"],\"capability_terms\":[\"digital twin modeling\",\"robotic and autonomous systems simulation\",\"high-fidelity facility simulation\",\"virtual test and evaluation\",\"realistic digital environments\"],\"confidence\":0.94}",
+ "request_key": "71ef673bb4a7ebd5803a3f280465449610cafaacd056daa65b8d4a1c17cd0343",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 721,
+  "output_tokens": 239
+ },
+ "user_sha256": "56b4a65d5917210c"
+}

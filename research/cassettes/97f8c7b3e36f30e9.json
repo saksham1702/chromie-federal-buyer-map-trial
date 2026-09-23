@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:22:47Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"integrated library system software\",\"short_names\":[\"Integrated Library System\"],\"aliases\":[\"solicitation N0017326QKN03\"],\"capability_terms\":[\"library management system\",\"cataloging and circulation software\",\"acquisitions and serials management\",\"electronic resource management\"],\"confidence\":0.95}",
+ "request_key": "97f8c7b3e36f30e9654cf8a86bb6b4a7686a7fa3a5dbd8f01fe494037b3329f2",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 567,
+  "output_tokens": 170
+ },
+ "user_sha256": "2fbddc042b9a9821"
+}

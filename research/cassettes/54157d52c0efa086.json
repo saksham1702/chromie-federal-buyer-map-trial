@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:21:02Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"tactical sensing equipment\",\"short_names\":[\"Tactical Sensor\"],\"aliases\":[\"solicitation N00173-26-Q-1301314716\",\"combined synopsis/solicitation\",\"combined synopsis/solicitation for commercial items\",\"Request for Quotations (RFQ)\"],\"capability_terms\":[\"tactical sensor\",\"sensor system\",\"targeting sensor\",\"fieldable sensing equipment\"],\"confidence\":0.92}",
+ "request_key": "54157d52c0efa086919da6e3b15984621c62cedf8a032641611eb9a93a1d86fc",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1696,
+  "output_tokens": 233
+ },
+ "user_sha256": "9ff88ec6446c7c57"
+}

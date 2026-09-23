@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:38:20Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"acoustic projector for underwater testing\",\"short_names\":[\"Acoustic Projector\"],\"aliases\":[\"solicitation N0017326QKN06\",\"combined synopsis/solicitation\"],\"capability_terms\":[\"acoustic projection\",\"underwater acoustics\",\"sonar testing\",\"acoustic transmission\"],\"confidence\":0.88}",
+ "request_key": "3833e96034f669d660a1dd2a3e9e71d49e22327e1cf26bdd66e51338c9423609",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 570,
+  "output_tokens": 142
+ },
+ "user_sha256": "94bb3d657210b73a"
+}

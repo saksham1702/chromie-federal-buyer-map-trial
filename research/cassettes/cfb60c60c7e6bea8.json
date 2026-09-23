@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T09:05:11Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "remarks_events",
+ "output_text": "{\"speaker_name\":\"Adm. Daryl Caudle\",\"speaker_role\":\"chief of naval operations\",\"event_name\":\"Sea Air Space 2026\",\"event_host\":\"\",\"audience\":\"industry\",\"events\":[{\"event_type\":\"conference_appearance\",\"statement\":\"Adm. Daryl Caudle is expected to make his first appearance at Sea Air Space 2026 as chief of naval operations.\",\"capability\":\"\",\"program\":\"\",\"organization\":\"\",\"person\":\"Adm. Daryl Caudle\",\"evidence_span\":\"According to Breaking Defense, the conference is expected to focus on Adm. Daryl Caudle's first appearance at the event as chief of naval operations, military-wide acquisition reform, and the Navy's role in the ongoing conflict in Iran.\",\"amounts\":[],\"confidence\":0.98}]}",
+ "request_key": "cfb60c60c7e6bea8ea3694a279930bcf9cbc37155ce2338b009b14c279bd88f9",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "9bdbe03afea8d63f",
+ "usage": {
+  "input_tokens": 3088,
+  "output_tokens": 295
+ },
+ "user_sha256": "1fd401265121a767"
+}

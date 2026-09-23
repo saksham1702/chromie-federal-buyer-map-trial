@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:16:57Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NAVSEA\",\"capability\":\"LCAC service life extension maintenance\",\"short_names\":[\"LCAC\",\"E-SLEP\",\"SLEP\"],\"aliases\":[\"Landing Craft, Air Cushion (LCAC) Extended Service Life Extension Program (E-SLEP\",\"original LCAC Service Life Extension Program (SLEP)\",\"Landing Craft, Air Cushion (LCAC)\",\"solicitation N00024-26-R-2409\"],\"capability_terms\":[\"landing craft air cushion overhaul\",\"amphibious hovercraft depot maintenance\",\"service life extension availability\",\"craft material and labor growth work\",\"fleet return-to-mission-capable repair\"],\"confidence\":0.95}",
+ "request_key": "933302e1fc2b937e86671dc1b988cd95293cf067c2029d60dd2231e01a408b36",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1209,
+  "output_tokens": 298
+ },
+ "user_sha256": "b4ad8afc1a3fc072"
+}

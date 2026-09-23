@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:32:54Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory (NRL) Contracting Division\",\"capability\":\"agile signal generator system\",\"short_names\":[\"UXG\",\"UXG Agile Signal Generator\"],\"aliases\":[\"UXG Agile Signal Generator system\",\"solicitation N0017326QDH01\"],\"capability_terms\":[\"signal generation\",\"agile waveform generation\",\"RF signal generation\"],\"confidence\":0.92}",
+ "request_key": "113c38cada2d574984241597d595826832c9d557d9ea938ed16d02ca34be9acb",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 585,
+  "output_tokens": 195
+ },
+ "user_sha256": "682601bb432c443a"
+}

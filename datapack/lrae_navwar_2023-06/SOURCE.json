@@ -5,7 +5,7 @@
   "joins_collected": false,
   "method": "wayback",
   "outputs": {
-    "joins.csv": "e5c71448cab4e3562c4a658b76c97ad514205972741eaac13567e828f069bf57",
+    "joins.csv": "8c6b370ff4523137dcfe08b49a75bf24ddaf454e666050a0452a52035649dad5",
     "layers/evidence.csv": "18fc56f8ad66367079084cf6fa338ee361698e3d2dd7238968827db77f768769",
     "layers/funding_observations.csv": "482e340acf2aa124023716301f174ced582a83f976142b5492fe7f1a596aff1a",
     "layers/need_requirements.csv": "695feea1bd332a36198660337f501d0c511669dc92cd90f7b992eba83a0e2d6d",
@@ -24,6 +24,7 @@
   "release_key": "lrae_navwar_2023-06",
   "release_note": "sheet says '20 June 2023 / TDB'; the report was exported 2023-05-25 (Filters sheet)",
   "retrieved_at": "2026-09-17T20:19:35Z",
+  "scope": "peo_c4i",
   "sha256": "48ad6e27241aa862ceb860678bb96dddb5ab83dfff6009481f7f58c86e091511",
   "sheet": "LRAE Annex 25",
   "size": 242542,

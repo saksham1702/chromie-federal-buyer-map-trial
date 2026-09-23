@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:33:55Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory\",\"capability\":\"Respirators\",\"short_names\":[\"RESPIRATORS\"],\"aliases\":[\"RESPIRATORS\",\"N00173-26-Q-1301375223\"],\"capability_terms\":[\"respiratory protection\",\"protective respirators\",\"breathing protection equipment\"],\"confidence\":0.97}",
+ "request_key": "a78d09dad6aaaebadf4580d5ca37851f21c17c9e585c1a87d94b0df8b10baeae",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1683,
+  "output_tokens": 214
+ },
+ "user_sha256": "7582ac6693239405"
+}

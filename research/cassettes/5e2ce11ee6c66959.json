@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:31:18Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Portfolio Acquisition Executive (PAE) Maritime\",\"capability\":\"medium-range bulk fuel tanker vessels\",\"short_names\":[\"CONSOL\"],\"aliases\":[\"Medium-Range Bulk Fuel Tanker Vessels\",\"consolidated cargo replenishment at sea (CONSOL) vessels\",\"CONSOL tanker construction program\",\"N00024-26-R-4160\"],\"capability_terms\":[\"bulk fuel tanker\",\"consolidated replenishment at sea\",\"fleet oil replenishment\",\"cargo replenishment at sea\",\"fuel transport ship\"],\"confidence\":0.97}",
+ "request_key": "5e2ce11ee6c66959c8d59d73b77b0a84791ced3b3c64dc113f0d413a327662eb",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1691,
+  "output_tokens": 219
+ },
+ "user_sha256": "a42798b8693a94b3"
+}

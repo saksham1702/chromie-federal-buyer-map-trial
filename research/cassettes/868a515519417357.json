@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:14:46Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"optometanical signal processing equipment\",\"short_names\":[\"Optometanical Signal Processing\"],\"aliases\":[\"solicitation N0017326Q0017a\",\"N0017326Q0017a\",\"Naval Research Laboratory\",\"NRL\"],\"capability_terms\":[\"signal processing equipment\",\"optical signal processing\",\"electro-optical processing\"],\"confidence\":0.94}",
+ "request_key": "868a515519417357c0b67f1927081f5f4c17116c399602d7a625879ac22f87bc",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1683,
+  "output_tokens": 165
+ },
+ "user_sha256": "f18adc6b46b66404"
+}

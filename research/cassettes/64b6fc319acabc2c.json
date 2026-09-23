@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:24:44Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"National Shipbuilding Research Program (NSRP) Executive Control Board (ECB)\",\"capability\":\"shipbuilding research and development projects\",\"short_names\":[\"NSRP\",\"RA-27\",\"PP-27\"],\"aliases\":[\"National Shipbuilding Research Program (NSRP)\",\"NSRP Research Announcement 27 (RA-27)\",\"NSRP Panel Project Announcement (PP-27)\",\"Joint Funding Agreement, N00024-18-3-2231\"],\"capability_terms\":[\"shipbuilding research\",\"shipbuilding R&D\",\"panel projects\",\"research announcements\"],\"confidence\":0.96}",
+ "request_key": "64b6fc319acabc2ccbf40072925c85646d488a8017829d188c4cd502c8861f8d",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 687,
+  "output_tokens": 344
+ },
+ "user_sha256": "38e04a75f5616723"
+}

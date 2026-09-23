@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T08:53:14Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "remarks_events",
+ "output_text": "{\"speaker_name\":\"Stephen M. Carmel\",\"speaker_role\":\"Maritime Administrator\",\"event_name\":\"REVITALIZING SHIPBUILDING AND THE MARITIME INDUSTRIAL BASE\",\"event_host\":\"Committee on Armed Services Subcommittee on Seapower & Projection Forces & the Committee on Transportation & Infrastructure Subcommittee on Coast Guard & Maritime Transportation U.S. House of Representatives\",\"audience\":\"congress\",\"events\":[]}",
+ "request_key": "c34dbf22de0df9c5d3d9ecfe37b8cb981f5a3405e70572136768aaa85f929362",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "9bdbe03afea8d63f",
+ "usage": {
+  "input_tokens": 7918,
+  "output_tokens": 335
+ },
+ "user_sha256": "e24a100348d0897b"
+}

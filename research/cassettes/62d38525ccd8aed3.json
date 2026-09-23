@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:20:44Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"automated nucleic acid extraction device\",\"short_names\":[\"TRITON\"],\"aliases\":[\"TRITON AUTOMATED NUCLEIC ACID EXTRACTION DEVICE AND CARTRIDGES\",\"TRITON AUTOMATED NUCLEIC ACID EXTRACTION DEVICE AND CARTRIDGE\"],\"capability_terms\":[\"nucleic acid extraction\",\"automated sample preparation\",\"molecular biology sample prep\",\"cartridge-based extraction\"],\"confidence\":0.94}",
+ "request_key": "62d38525ccd8aed3f4028ddb42e5df6f5c937275d04cfda844b752c0604d9f29",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1545,
+  "output_tokens": 177
+ },
+ "user_sha256": "3b7125b28a6fe3ee"
+}

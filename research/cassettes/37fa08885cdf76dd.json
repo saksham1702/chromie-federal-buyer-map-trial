@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:14:56Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"firewall software maintenance\",\"short_names\":[\"DREN\",\"Palo Alto\"],\"aliases\":[\"PALO Alto DREN firewall Maintenance\",\"N0017325P5635\",\"Palo Alto software\",\"commercial software licenses and related services\"],\"capability_terms\":[\"firewall maintenance\",\"network security software\",\"commercial software licenses\",\"software support services\"],\"confidence\":0.89}",
+ "request_key": "37fa08885cdf76dd435ca28a1dd7829bd437da5f10654ef0873a7ebee6c562b2",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 742,
+  "output_tokens": 200
+ },
+ "user_sha256": "405701e8b21415e4"
+}

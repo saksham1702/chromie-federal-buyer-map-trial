@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:34:33Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"wavefront sensor package\",\"short_names\":[\"SID4-DWIR\"],\"aliases\":[\"Purchase SID4-DWIR wavefront sensor package\",\"solicitation N0017326P1301396055\",\"The Naval Research Laboratory (NRL), located in Washington DC, is seeking to: Purchase dielectric and ferroelectric test systems to update and expand current capabilities\"],\"capability_terms\":[\"wavefront sensing\",\"optical metrology\",\"infrared wavefront measurement\"],\"confidence\":0.74}",
+ "request_key": "023b5f826111b82cac43eb9cd1109e5498a7605ef4e0e00fa2f4573ce9ccf40c",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 2048,
+  "output_tokens": 302
+ },
+ "user_sha256": "8f709abdf878ffcc"
+}

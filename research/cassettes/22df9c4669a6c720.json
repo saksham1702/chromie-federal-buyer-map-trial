@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:32:17Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Office of Naval Research\",\"capability\":\"enabling technologies for hypersonic boost-glide vehicles\",\"short_names\":[\"hypersonic boost-glide\"],\"aliases\":[\"BAA Call N0001426SBC05\",\"N0001426SBC10\",\"Special Programs Announcement for Office of Naval Research Opportunity: Enabling Technologies for Hypersonic Boost-Glide Vehicles\"],\"capability_terms\":[\"hypersonic boost-glide vehicles\",\"boost-glide systems\",\"hypersonic vehicle technologies\",\"hypersonic weapons technologies\"],\"confidence\":0.89}",
+ "request_key": "22df9c4669a6c720be5cc2b7bc7143b30f80d47b4bfff2550c93e93c2e28bc77",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 576,
+  "output_tokens": 302
+ },
+ "user_sha256": "d9181b332fec57ed"
+}

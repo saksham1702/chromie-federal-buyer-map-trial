@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:29:14Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory (NRL), Washington, DC\",\"capability\":\"selective laser sintering 3D printer\",\"short_names\":[\"3D Printer\"],\"aliases\":[\"Selective Laser Sintering Three-Dimensional Additive Manufacturing Machine\",\"Functional Specifications 3D Printer\",\"request for information (sources sought)\",\"solicitation N00173-26-RFI-TJ01\"],\"capability_terms\":[\"selective laser sintering\",\"three-dimensional additive manufacturing\",\"3D printing\",\"powder-bed fusion\"],\"confidence\":0.93}",
+ "request_key": "7b3248cc04a9073e16d5ad6d281d642de1024a0c4ca0a9ab98cd8fd5454dc83e",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1204,
+  "output_tokens": 250
+ },
+ "user_sha256": "0ddcbab5f7da8ddf"
+}

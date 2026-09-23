@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:21:11Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Sea Systems Command (NAVSEA)\",\"capability\":\"Ship maintenance, modernization, and repair\",\"short_names\":[\"USS AUGUSTA\",\"LCS 34\",\"DSRA\"],\"aliases\":[\"N0002426R4420\",\"N00024-26-R-4420\",\"FY26 DSRA\",\"West Coast\",\"single contract\"],\"capability_terms\":[\"ship availability\",\"surface ship maintenance\",\"modernization and repair\",\"docking selected restricted availability\"],\"confidence\":0.95}",
+ "request_key": "02cb07236519a64a09b6dc854140959272b92353c95309c9622b7830838959a5",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1778,
+  "output_tokens": 235
+ },
+ "user_sha256": "074ba47be9a00602"
+}

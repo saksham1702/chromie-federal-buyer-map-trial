@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:10:59Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMW 160\",\"capability\":\"wide area network procurement\",\"short_names\":[\"WAN MAC\"],\"aliases\":[\"Wide Area Network (WAN) Multiple Award Contract (MAC)\",\"PMW 160 Wide Area Network (WAN) MAC RFI\",\"WAN MAC RFI\",\"solicitation NAVWAR_Headquarters_MKTSVY_19AF7E\"],\"capability_terms\":[\"wide area network\",\"network transport\",\"enterprise WAN connectivity\",\"network backbone\"],\"confidence\":0.93}",
+ "request_key": "2500580a830c25b87a0f5bbff91aec86a88cf883ecc716db9c0a1b0f17018def",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 639,
+  "output_tokens": 242
+ },
+ "user_sha256": "caba065b8baac78b"
+}

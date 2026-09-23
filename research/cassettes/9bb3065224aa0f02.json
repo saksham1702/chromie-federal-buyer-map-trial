@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:29:51Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory\",\"capability\":\"Mobile two-way radios\",\"short_names\":[\"APX-8500\"],\"aliases\":[\"Motorola APX-8500 Radios\",\"Motorola APX-8500 Radios solicitation\",\"brand name only requirement\",\"N00173Q265611\"],\"capability_terms\":[\"land mobile radio\",\"vehicular two-way radio\",\"public safety radio\",\"mobile communications radio\"],\"confidence\":0.95}",
+ "request_key": "9bb3065224aa0f022194c5e8e236f2a09bd920db49e05411fa8bd707f72dac32",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1656,
+  "output_tokens": 250
+ },
+ "user_sha256": "b638ca4a4435b4da"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:38:15Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory (NRL) Contracting Division\",\"capability\":\"numerical weather prediction research support\",\"short_names\":[],\"aliases\":[\"Numerical Weather Prediction R&D\",\"N0017326RBZ07\",\"Numerical Weather Prediction Research and Development\"],\"capability_terms\":[\"numerical weather prediction\",\"weather forecasting models\",\"meteorological research and development\",\"atmospheric prediction\"],\"confidence\":0.88}",
+ "request_key": "9dcd26694e3263eb9a94a847a62e9d6b349d3f2b96bee7316bc05b2df637004d",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 771,
+  "output_tokens": 244
+ },
+ "user_sha256": "758bcb78ac371fcf"
+}

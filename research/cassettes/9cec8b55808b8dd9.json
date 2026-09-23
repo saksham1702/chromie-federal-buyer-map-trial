@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:25:11Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"replace uninterruptible power supply\",\"short_names\":[\"Galaxy VX\"],\"aliases\":[\"REPLACEMENT UPS\",\"Schneider Electric Galaxy VX 500 kW N+1 UPS\"],\"capability_terms\":[\"uninterruptible power supply\",\"backup power protection\",\"critical power continuity\",\"power conditioning\"],\"confidence\":0.88}",
+ "request_key": "9cec8b55808b8dd9c9fb8a3a87c49cbeb45d1fe14fb1e747e6d59637dde4a8cd",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1715,
+  "output_tokens": 207
+ },
+ "user_sha256": "04b3be2b5ee97065"
+}

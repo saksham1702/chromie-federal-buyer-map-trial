@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T09:14:20Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "remarks_events",
+ "output_text": "{\"speaker_name\":\"Adm. Daryl Caudle\",\"speaker_role\":\"Chief of Naval Operation\",\"event_name\":\"Naval War College Graduation\",\"event_host\":\"\",\"audience\":\"public\",\"events\":[{\"event_type\":\"conference_appearance\",\"statement\":\"Adm. Daryl Caudle appears and speaks at the Naval War College Graduation in Newport, R.I.\",\"capability\":\"\",\"program\":\"\",\"organization\":\"\",\"person\":\"Adm. Daryl Caudle\",\"evidence_span\":\"CNO Remarks at Naval War College Graduation Newport, R.I. Chief of Naval Operation Adm. Daryl Caudle Share PRINT RSS Good morning.\",\"amounts\":[],\"confidence\":0.99},{\"event_type\":\"capability_priority\",\"statement\":\"He says readiness is the Navy's top priority and defines it as ready people, platforms, payloads, logistics, and command and control.\",\"capability\":\"readiness\",\"program\":\"\",\"organization\":\"\",\"person\":\"\",\"evidence_span\":\"That is why readiness remains our north star. Not readiness as a slogan. Real readiness. Ready people. Ready platforms. Ready payloads. Ready logistics. Ready command and control.\",\"amounts\":[],\"confidence\":0.95},{\"event_type\":\"capability_priority\",\"statement\":\"He says the Navy must keep building trust and partnerships that make the force more capable, more credible, and more lethal.\",\"capability\":\"trust and partnerships\",\"program\":\"\",\"organization\":\"\",\"person\":\"\",\"evidence_span\":\"Keep learning. Keep sharpening your warfighting advantage. And keep building the trust and partnerships that make this force more capable, more credible, and more lethal.\",\"amounts\":[],\"confidence\":0.87}]}",
+ "request_key": "d81d0456ac5b8e6262d6b27de2d4660d00b4d9b4d4c708002219fcc78b0365fc",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "9bdbe03afea8d63f",
+ "usage": {
+  "input_tokens": 4238,
+  "output_tokens": 520
+ },
+ "user_sha256": "18ab543fc09bbfe9"
+}

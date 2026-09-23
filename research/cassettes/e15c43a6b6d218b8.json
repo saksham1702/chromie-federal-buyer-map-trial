@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:14:44Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory (NRL)\",\"capability\":\"Satellite software and operations support\",\"short_names\":[\"Neptune Software\",\"VMOC\",\"TREx\"],\"aliases\":[\"Research and Development for Satellite Software and Operations Support\",\"N00173-26-R-0001\",\"DOD-owned Neptune Software\",\"Virtual Mission Operations Center (VMOC) software\",\"Transmit/Receive Enterprise (TREx) services\",\"Development/Security/Operations (DevSecOps)\",\"satellite ground systems\",\"DOD satellite mission operations\"],\"capability_terms\":[\"satellite mission operations\",\"satellite ground systems\",\"DevSecOps\",\"mission software support\",\"cybersecurity for satellite operations\"],\"confidence\":0.97}",
+ "request_key": "e15c43a6b6d218b8fd4103574142c940e1eea145c377e95f51a33009549be74f",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 841,
+  "output_tokens": 303
+ },
+ "user_sha256": "11b5a3a980d976c5"
+}

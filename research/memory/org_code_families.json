@@ -1,0 +1,262 @@
+{
+  "generated": "2026-09-22",
+  "source": "code values observed in the NAVWAR LRAE (June 2025 release), NAVSEA Enterprise LRAE (December 2025), ONR and NRL LRAEs (December 2025), FPDS feeds and the PAE Mission Systems site",
+  "rule": "normalize first (upper-case, strip a ' - NAME' suffix, collapse spaces and hyphens), look the token up in the alias table of organization_seed.json, and only then classify by the first matching family; unknown codes stay unresolved with the code kept verbatim and are queued for review",
+  "families": [
+    {
+      "family": "peo_program_office",
+      "pattern": "^(PM[WA]|PMA/PMW)(/A)?-?\\s?\\d{3}$",
+      "org_type": "program_office",
+      "era": "PEO and PAE (codes unchanged so far)",
+      "parent_hint": "PEO named on the office's tear sheet or official page; PEO C4I for PMW 1xx/7xx, PEO Digital for PMW 2xx/205, PEO MLB for PMW 22x-25x, 444",
+      "where_seen": [
+        "LRAE Associated Program or Requirement Office",
+        "PID number segment",
+        "award and notice descriptions ('PMW 160')",
+        "tear sheets"
+      ],
+      "normalize": "strip hyphens and spaces: PMW-160, PMW 160, PMW160 -> PMW 160; PMW/A-170 -> PMW/A 170; PMA/PMW-101 -> PMA/PMW 101",
+      "examples": [
+        "PMW-740",
+        "PMW-160",
+        "PMW/A-170",
+        "PMW-770",
+        "PMW-750",
+        "PMW-120"
+      ]
+    },
+    {
+      "family": "navsea_program_office",
+      "pattern": "^PMS-?\\s?\\d{3}$",
+      "org_type": "program_office",
+      "era": "PEO and PAE",
+      "parent_hint": "a NAVSEA PEO (e.g. PEO Submarines for PMS 485 per the 2019 J&A); now PAE Maritime / Undersea / Mission Systems by portfolio",
+      "where_seen": [
+        "NAVWAR and NAVSEA LRAE requirement-office column",
+        "J&A and award notices"
+      ],
+      "normalize": "PMS-485 -> PMS 485",
+      "examples": [
+        "PMS-485"
+      ]
+    },
+    {
+      "family": "peo_iws_office",
+      "pattern": "^IWS-?\\d+\\.\\d$",
+      "org_type": "program_office",
+      "era": "PEO IWS, consolidated into PAE Mission Systems 2026-05-11",
+      "parent_hint": "PEO IWS",
+      "where_seen": [
+        "NAVSEA Enterprise LRAE"
+      ],
+      "normalize": "IWS-3.0 -> IWS 3.0",
+      "examples": []
+    },
+    {
+      "family": "niwc_atlantic_division",
+      "pattern": "^L(SUB|BUS)P\\d{5}$",
+      "org_type": "technical_center_division",
+      "era": "all",
+      "parent_hint": "NIWC Atlantic (N65236); never a program office",
+      "where_seen": [
+        "NAVWAR LRAE rows contracted by N65236"
+      ],
+      "normalize": "keep code; label after the second ' - ' is the division name",
+      "examples": [
+        "LSUBP00082",
+        "LSUBP00063",
+        "LSUBP00015",
+        "LSUBP00006",
+        "LSUBP00095",
+        "LSUBP00034"
+      ]
+    },
+    {
+      "family": "niwc_pacific_competency",
+      "pattern": "^NP-[A-Z0-9]{5}$",
+      "org_type": "technical_center_division",
+      "era": "all",
+      "parent_hint": "NIWC Pacific (N66001); never a program office",
+      "where_seen": [
+        "NAVWAR LRAE rows contracted by N66001"
+      ],
+      "normalize": "keep code; label is the competency name",
+      "examples": [
+        "NP-20000",
+        "NP-55300",
+        "NP-41100",
+        "NP-58400",
+        "NP-60000",
+        "NP-71700"
+      ]
+    },
+    {
+      "family": "navwar_hq_competency",
+      "pattern": "^\\d\\.\\d$",
+      "org_type": "headquarters_competency",
+      "era": "all",
+      "parent_hint": "NAVWAR HQ",
+      "where_seen": [
+        "NAVWAR LRAE"
+      ],
+      "normalize": "keep",
+      "examples": [
+        "8.0",
+        "1.0",
+        "4.0",
+        "6.0"
+      ]
+    },
+    {
+      "family": "peo_front_office_or_hq_code",
+      "pattern": "^(C4IEXEC|PEO-?\\s?C4I|PEO-?\\s?MLB|PEO-?\\s?DIGITAL|NAVWAR(SYSCOM)?|Digital TD|PCE|PAS|DCE|JTNC|DRPM-NOA)$",
+      "org_type": "portfolio_or_front_office",
+      "era": "PEO (still used in the June 2025 LRAE)",
+      "parent_hint": "C4IEXEC / PEO-C4I = PEO C4I front office; PEO-MLB and Pf008MLBFO = PEO MLB; Digital TD and PCE = PEO Digital; DRPM-NOA = DRPM Overmatch; PAS, DCE, JTNC = NAVWAR HQ functions (unverified)",
+      "where_seen": [
+        "NAVWAR LRAE"
+      ],
+      "normalize": "keep; resolve through the alias table",
+      "examples": [
+        "C4IEXEC",
+        "DCE",
+        "DRPM-NOA",
+        "JTNC",
+        "NAVWAR",
+        "PAS",
+        "PCE",
+        "PEO C4I",
+        "PEO-MLB",
+        "PEOC4I"
+      ]
+    },
+    {
+      "family": "peo_mlb_portfolio_code",
+      "pattern": "^Pf00\\d[A-Z]+$",
+      "org_type": "portfolio_code",
+      "era": "PEO MLB (June 2025 LRAE)",
+      "parent_hint": "PEO MLB (NERP, MNHR, NABS, MLBFO suffixes)",
+      "where_seen": [
+        "NAVWAR LRAE"
+      ],
+      "normalize": "keep; map to PEO MLB offices when an official inventory is available",
+      "examples": [
+        "Pf004MNHR",
+        "Pf007NERP",
+        "Pf008MLBFO",
+        "Pf005NABS"
+      ]
+    },
+    {
+      "family": "pae_capability_portfolio",
+      "pattern": "^(Digital Infrastructure & Services|Warfighter Enterprise Business Services|Naval Intelligence, C2, Cyber Warfare, & Information Operations|Sensors, PNT, EW, & Communications Systems|Combat Systems & Fires)$",
+      "org_type": "capability_portfolio",
+      "era": "PAE Mission Systems (from 2026-05-11)",
+      "parent_hint": "PAE Mission Systems; office membership not yet published",
+      "where_seen": [
+        "missionsystems.navy.mil Industry page"
+      ],
+      "normalize": "exact names",
+      "examples": []
+    },
+    {
+      "family": "navsea_directorate",
+      "pattern": "^(?:NAVSEA|SEA)\\s?\\d{2}[A-Z]{0,2}$",
+      "org_type": "department",
+      "era": "PEO and PAE",
+      "parent_hint": "NAVSEA headquarters (the LRAE office cell states `- NAVSEA`)",
+      "where_seen": [
+        "NAVSEA Enterprise LRAE, Associated Program or Requirement Office"
+      ],
+      "normalize": "SEA21, SEA 21, NAVSEA 05 -> SEA 21 / SEA 05; a letter suffix (SEA21C, SEA05TU) is its own division",
+      "examples": [
+        "SEA21",
+        "SEA21C",
+        "SEA 05",
+        "NAVSEA 05",
+        "SEA05TU"
+      ]
+    },
+    {
+      "family": "warfare_center_department_code",
+      "pattern": "^(?:PD|DD|PCD|PHD|KPT)-[A-Z0-9]+$|^DNA$",
+      "org_type": "technical_center_department",
+      "era": "current",
+      "parent_hint": "the center the cell names after the code (NSWCPD, NSWCDD, NSWCPCD, NSWCPHD, NUWCKPT); resolves to the center, the code stays on the record, as NIWC competency codes do",
+      "where_seen": [
+        "NAVSEA Enterprise LRAE, Associated Program or Requirement Office"
+      ],
+      "examples": [
+        "PD-102",
+        "DD-H",
+        "PCD-A20",
+        "PHD-E03",
+        "KPT-20",
+        "DNA"
+      ],
+      "normalize": "the code before the center's name in `CODE - CODE - CENTER`; `KPT - 20 - KPT-20 - NUWCKPT` reads as KPT-20"
+    },
+    {
+      "family": "onr_department",
+      "pattern": "^ONR (?:Code \\d+|PMR-\\d+),",
+      "org_type": "department",
+      "era": "current",
+      "parent_hint": "ONR (the cell starts with the command's name)",
+      "where_seen": [
+        "ONR LRAE, Associated Program or Requirement Office"
+      ],
+      "examples": [
+        "ONR Code 34, Warfighter Performance",
+        "ONR Code 332, Advanced Naval Materials & Systems Division",
+        "ONR PMR-51, Office of Low Observable/Counter-Low Observable Policy Technology and Advanced Projects"
+      ],
+      "normalize": "the whole cell is the alias; two names for one code (ONR Code 56) become one node with two aliases"
+    },
+    {
+      "family": "nrl_division",
+      "pattern": "^\\d{4}$",
+      "org_type": "department",
+      "era": "current",
+      "parent_hint": "NRL (the cell reads `NNNN - NNNN - <name> DIV - NRL`)",
+      "where_seen": [
+        "NRL LRAE, Associated Program or Requirement Office"
+      ],
+      "examples": [
+        "7600",
+        "6100"
+      ],
+      "normalize": "the four-digit code before the division name; the name after it becomes the node's name"
+    },
+    {
+      "family": "contracting_office_uic",
+      "pattern": "^[A-Z][A-Z0-9]{5}$",
+      "org_type": "contracting_office",
+      "era": "all",
+      "parent_hint": "N00039 NAVWAR HQ, N66001 NIWC Pacific, N65236 NIWC Atlantic, N00024 NAVSEA HQ, N00178 NSWC Dahlgren (SeaPort-NxG)",
+      "where_seen": [
+        "LRAE Contracting Office UIC",
+        "FPDS contractingOfficeID and fundingRequestingOfficeID",
+        "first six characters of PIIDs and solicitation numbers",
+        "SAM AAC Code"
+      ],
+      "normalize": "upper-case; strip ' - NAME' suffix; a token that resolves through the alias table (PEOC4I, NAVWAR) is never a UIC",
+      "examples": [
+        "N00039",
+        "N66001",
+        "N65236",
+        "N00024",
+        "N00178"
+      ],
+      "non_examples": [
+        "PEOC4I",
+        "NAVWAR",
+        "C4IEXEC",
+        "000039"
+      ]
+    }
+  ],
+  "unmatched_examples": [
+    "NIWCPAC",
+    "NPT-34"
+  ]
+}

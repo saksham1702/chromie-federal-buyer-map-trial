@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:12:39Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"Process, store, and analyze METOC data\",\"short_names\":[\"NITES-Next\"],\"aliases\":[\"Naval Integrated Tactical Environmental System - Next Generation\",\"request for information (sources sought)\",\"solicitation NAVWAR_Headquarters_MKTSVY_19D932\"],\"capability_terms\":[\"meteorology and oceanography data processing\",\"METOC data analysis\",\"environmental data system\",\"METOC products management\"],\"confidence\":0.94}",
+ "request_key": "35b3be4fa32a8e63b98a53650a28b9d946f21e215b9ce929c6356731224993be",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 600,
+  "output_tokens": 269
+ },
+ "user_sha256": "08406fcf8e7bac7b"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:26:25Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"Destroyer modernization for Conventional Prompt Strike\",\"short_names\":[\"USS MICHAEL MONSOOR\",\"DDG 1001\",\"CNO Availability\"],\"aliases\":[\"Sources Sought Notice for USS MICHAEL MONSOOR (DDG 1001) CNO Availability\",\"solicitation N00024-26-R-4443\",\"Guided Missile Destroyer (DDG) CNO availability\",\"Conventional Prompt Strike (CPS) capability\",\"Large Missile Vertical Launch System (LMVLS)\"],\"capability_terms\":[\"Conventional Prompt Strike integration\",\"destroyer modernization availability\",\"vertical launch system installation\",\"advanced gun system removal\",\"shipyard maintenance and alterations\"],\"confidence\":0.93}",
+ "request_key": "fdeff214e564d0a5b8b7283a7f7f06986880833b557c88014f8a2a984e7551a9",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1671,
+  "output_tokens": 324
+ },
+ "user_sha256": "f533c8557db434a9"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:25:26Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"internships, outreach, website support\",\"short_names\":[\"SEAP\",\"NREIP\",\"Naval Horizons\"],\"aliases\":[\"ONR Internships, Outreach, and Website Support contract\",\"solicitation N0001426R0001\",\"SAXMAN ONE, N0001421D4002\",\"Naval STEM Website\",\"Naval STEM Website Platform\",\"Short-Term Internship Programs\"],\"capability_terms\":[\"student internship programs\",\"STEM outreach material support\",\"naval STEM website management\",\"stipend distribution\",\"website content management\"],\"confidence\":0.86}",
+ "request_key": "5447ce158ad49e78a4aa66b9189abec002d99735d6248d2dea563947451c7f18",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1842,
+  "output_tokens": 405
+ },
+ "user_sha256": "6265b32ee01d7cf3"
+}

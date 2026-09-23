@@ -1,0 +1,429 @@
+{
+ "sources": {
+  "conference_pages_exa": {
+   "documents": 33,
+   "events": 47,
+   "hosts": [
+    "api.exa.ai",
+    "seaairspace.org"
+   ],
+   "last_hash": "ec6536d5c008e19b17f2b2d42ca28d6161b3ac7f7599c0befbd1ce8d4630b22b",
+   "last_seen": "2026-09-23T04:15:02Z",
+   "newest_event": "2026-08-04"
+  },
+  "congress_gov_api": {
+   "documents": 1,
+   "events": 0,
+   "hosts": [
+    "api.congress.gov"
+   ],
+   "last_hash": "2d6f7e3d81846986074c5e39a1095cd2cfc5ab6184a7db59923749dad7a8fff5",
+   "last_seen": "2026-09-16T15:44:16Z",
+   "newest_event": ""
+  },
+  "dod_comptroller_budget_materials": {
+   "documents": 24,
+   "events": 0,
+   "hosts": [
+    "comptroller.defense.gov",
+    "comptroller.war.gov"
+   ],
+   "last_hash": "8c209bc2af590e460977649ba4e37645fd2ee8e3c8dbf61c227b7d3a27079c4d",
+   "last_seen": "2026-09-16T17:33:36Z",
+   "newest_event": ""
+  },
+  "dod_contract_announcements": {
+   "documents": 3,
+   "events": 0,
+   "hosts": [
+    "www.defense.gov",
+    "www.war.gov"
+   ],
+   "last_hash": "7e373115beace173b2262a6a2300c0cb3abb43f3f4301caa08a3df40160c892c",
+   "last_seen": "2026-09-16T17:30:09Z",
+   "newest_event": ""
+  },
+  "don_budget_justification_books": {
+   "documents": 6,
+   "events": 48,
+   "hosts": [
+    "www.secnav.navy.mil"
+   ],
+   "last_hash": "682b2d6b8ff9c6e44f6dcf385a6e7094a2a9dcf72e718d3e1620e16908f588c2",
+   "last_seen": "2026-09-16T16:10:34Z",
+   "newest_event": "2026-04-30"
+  },
+  "don_cio_chips": {
+   "documents": 8,
+   "events": 7,
+   "hosts": [
+    "www.doncio.navy.mil"
+   ],
+   "last_hash": "cd8442a169573fa354afca17bcc38f2d67a72a6755de63653d2e5c3670c9f547",
+   "last_seen": "2026-09-23T04:14:39Z",
+   "newest_event": "2025-08-27"
+  },
+  "don_osbp_lrae_index": {
+   "documents": 6,
+   "events": 0,
+   "hosts": [
+    "www.secnav.navy.mil"
+   ],
+   "last_hash": "682b2d6b8ff9c6e44f6dcf385a6e7094a2a9dcf72e718d3e1620e16908f588c2",
+   "last_seen": "2026-09-16T16:10:34Z",
+   "newest_event": ""
+  },
+  "dvids_navy_units": {
+   "documents": 15,
+   "events": 8,
+   "hosts": [
+    "www.dvidshub.net"
+   ],
+   "last_hash": "b28c5d54a7bd09cb28d1a0a56fb64e35d01a218a84a373d8a84908ec3d2222bd",
+   "last_seen": "2026-09-23T04:15:02Z",
+   "newest_event": "2026-05-11"
+  },
+  "federal_register": {
+   "documents": 1,
+   "events": 0,
+   "hosts": [
+    "www.federalregister.gov"
+   ],
+   "last_hash": "b66e81efa8df6ab371915bdaeab5722249a4b0bfc5f8e6ce7f9c082840b34e54",
+   "last_seen": "2026-09-16T15:44:11Z",
+   "newest_event": ""
+  },
+  "fpds_atom_feed": {
+   "documents": 1263,
+   "events": 3960,
+   "hosts": [
+    "www.fpds.gov"
+   ],
+   "last_hash": "04a96502c9e3876676869e6dee57ea148a2676a615ce60e876b0486bfb6d5261",
+   "last_seen": "2026-09-23T05:48:12Z",
+   "newest_event": "2026-06-23"
+  },
+  "gao_bid_protests": {
+   "documents": 11,
+   "events": 0,
+   "hosts": [
+    "www.gao.gov"
+   ],
+   "last_hash": "d6dbc5cfbcb366e6efb5950fcc91e00b101aacf5e85fa8cc5fd569d3ea411c6e",
+   "last_seen": "2026-09-22T08:00:49Z",
+   "newest_event": ""
+  },
+  "gao_reports": {
+   "documents": 11,
+   "events": 18,
+   "hosts": [
+    "www.gao.gov"
+   ],
+   "last_hash": "d6dbc5cfbcb366e6efb5950fcc91e00b101aacf5e85fa8cc5fd569d3ea411c6e",
+   "last_seen": "2026-09-22T08:00:49Z",
+   "newest_event": "2026-04-22"
+  },
+  "govinfo_api": {
+   "documents": 3,
+   "events": 0,
+   "hosts": [
+    "api.govinfo.gov"
+   ],
+   "last_hash": "6c34d0ec3a762a1f733c925e43c42c20b19472e68ac8f087caaaa77a064b7104",
+   "last_seen": "2026-09-17T01:48:49Z",
+   "newest_event": ""
+  },
+  "house_committee_repository": {
+   "documents": 40,
+   "events": 89,
+   "hosts": [
+    "docs.house.gov"
+   ],
+   "last_hash": "2b64c6f7557f68fe3db1cab9a5c662cc0b2d05869a7553a8df55b6808be2ea21",
+   "last_seen": "2026-09-22T08:51:47Z",
+   "newest_event": "2026-05-20"
+  },
+  "it_dashboard_it_collect": {
+   "documents": 1,
+   "events": 0,
+   "hosts": [
+    "www.itdashboard.gov"
+   ],
+   "last_hash": "6707a13c88e20e67e1ae7eda153b45e47c0626ff7410b6c9de5ebfa0bbf34773",
+   "last_seen": "2026-09-16T15:44:31Z",
+   "newest_event": ""
+  },
+  "lrae_as_sam_special_notice": {
+   "documents": 2554,
+   "events": 0,
+   "hosts": [
+    "sam.gov"
+   ],
+   "last_hash": "36858138ab6b5f9c9e77d5e9ec37a60bbb77ddf7293f8bca4557b2238607b849",
+   "last_seen": "2026-09-23T05:12:56Z",
+   "newest_event": ""
+  },
+  "navsea_lrae_annex25": {
+   "documents": 24,
+   "events": 862,
+   "hosts": [
+    "www.navsea.navy.mil"
+   ],
+   "last_hash": "c5866635a47d335ed9fba57e14aea655609f5da3d9a225317bc3d1dae2ad4df4",
+   "last_seen": "2026-09-22T06:53:08Z",
+   "newest_event": "2025-12-18"
+  },
+  "navsea_small_business_org_docs": {
+   "documents": 24,
+   "events": 0,
+   "hosts": [
+    "www.navsea.navy.mil"
+   ],
+   "last_hash": "c5866635a47d335ed9fba57e14aea655609f5da3d9a225317bc3d1dae2ad4df4",
+   "last_seen": "2026-09-22T06:53:08Z",
+   "newest_event": ""
+  },
+  "navwar_cso": {
+   "documents": 17,
+   "events": 0,
+   "hosts": [
+    "www.navwar.navy.mil"
+   ],
+   "last_hash": "74f1590cd93d3d0dec97c90fa9c426ee16c24eef21f645022e00ea13fd425a44",
+   "last_seen": "2026-09-21T13:39:39Z",
+   "newest_event": ""
+  },
+  "navwar_lrae_annex25": {
+   "documents": 17,
+   "events": 429,
+   "hosts": [
+    "www.navwar.navy.mil"
+   ],
+   "last_hash": "74f1590cd93d3d0dec97c90fa9c426ee16c24eef21f645022e00ea13fd425a44",
+   "last_seen": "2026-09-21T13:39:39Z",
+   "newest_event": "2025-06-19"
+  },
+  "navy_mil_speeches": {
+   "documents": 30,
+   "events": 39,
+   "hosts": [
+    "www.navy.mil"
+   ],
+   "last_hash": "a9410e0eeaa6c8c189ab349ac4a6648e8c97bbd3ac96d332a910851bcbf19a3b",
+   "last_seen": "2026-09-22T08:51:32Z",
+   "newest_event": "2026-08-27"
+  },
+  "navy_navwar_site": {
+   "documents": 17,
+   "events": 1,
+   "hosts": [
+    "www.navwar.navy.mil"
+   ],
+   "last_hash": "74f1590cd93d3d0dec97c90fa9c426ee16c24eef21f645022e00ea13fd425a44",
+   "last_seen": "2026-09-21T13:39:39Z",
+   "newest_event": "2023-05-23"
+  },
+  "navy_pae_press": {
+   "documents": 31,
+   "events": 11,
+   "hosts": [
+    "www.navy.mil",
+    "www.paemaritime.navy.mil"
+   ],
+   "last_hash": "a9410e0eeaa6c8c189ab349ac4a6648e8c97bbd3ac96d332a910851bcbf19a3b",
+   "last_seen": "2026-09-22T08:51:32Z",
+   "newest_event": "2026-08-05"
+  },
+  "navy_peoc4i_site": {
+   "documents": 23,
+   "events": 2,
+   "hosts": [
+    "www.peoc4i.navy.mil"
+   ],
+   "last_hash": "62b8208596c10347512c445564d03a0ad5190eaf04bb555ece2b4ae749dfaf58",
+   "last_seen": "2026-09-16T17:28:16Z",
+   "newest_event": "2025-08-19"
+  },
+  "navy_posture_testimony": {
+   "documents": 1,
+   "events": 0,
+   "hosts": [
+    "api.congress.gov"
+   ],
+   "last_hash": "2d6f7e3d81846986074c5e39a1095cd2cfc5ab6184a7db59923749dad7a8fff5",
+   "last_seen": "2026-09-16T15:44:16Z",
+   "newest_event": ""
+  },
+  "news_articles_exa": {
+   "documents": 43,
+   "events": 0,
+   "hosts": [
+    "api.exa.ai",
+    "www.washingtontimes.com"
+   ],
+   "last_hash": "cd65c04bc1c8bec1bb3c35a97f6e56a61d7906e3580ee56092469ae2a90815a2",
+   "last_seen": "2026-09-23T04:15:10Z",
+   "newest_event": ""
+  },
+  "onr_lrae_annex25": {
+   "documents": 2,
+   "events": 68,
+   "hosts": [
+    "www.onr.navy.mil"
+   ],
+   "last_hash": "29db4e9d73fb6c4bcbbd2238eeada54c17bee3281e21cdac018181d846aeb9b0",
+   "last_seen": "2026-09-16T15:16:35Z",
+   "newest_event": "2025-12-19"
+  },
+  "oversight_gov_reports": {
+   "documents": 42,
+   "events": 20,
+   "hosts": [
+    "www.oversight.gov"
+   ],
+   "last_hash": "e1369810db4f1c52644119e6ef4c0146c92e6647a267031007f88ba95332d7d1",
+   "last_seen": "2026-09-22T07:58:30Z",
+   "newest_event": "2026-09-14"
+  },
+  "pae_mission_systems_site": {
+   "documents": 2,
+   "events": 0,
+   "hosts": [
+    "www.missionsystems.navy.mil"
+   ],
+   "last_hash": "e0222161b887eaa30f731852ab75a468d2218f2bd8c01ea9f6d31f1d1c329f15",
+   "last_seen": "2026-09-16T17:36:31Z",
+   "newest_event": ""
+  },
+  "peo_digital_site": {
+   "documents": 5,
+   "events": 8,
+   "hosts": [
+    "www.peodigital.navy.mil"
+   ],
+   "last_hash": "5da0205c00dbf9ddc41a4ad361beddb185670d2e87c6b5f2305c387c09bbcc90",
+   "last_seen": "2026-09-17T01:49:28Z",
+   "newest_event": "2021-04-01"
+  },
+  "peo_mlb_site": {
+   "documents": 2,
+   "events": 0,
+   "hosts": [
+    "www.peomlb.navy.mil"
+   ],
+   "last_hash": "1869ded2700c1269c99c23f16cfa4adc96e64b1eddf52d3eeb05fb14b236f0a3",
+   "last_seen": "2026-09-16T18:16:38Z",
+   "newest_event": ""
+  },
+  "peoc4i_industry_engagement": {
+   "documents": 15,
+   "events": 0,
+   "hosts": [
+    "www.dvidshub.net"
+   ],
+   "last_hash": "b28c5d54a7bd09cb28d1a0a56fb64e35d01a218a84a373d8a84908ec3d2222bd",
+   "last_seen": "2026-09-23T04:15:02Z",
+   "newest_event": ""
+  },
+  "piee_solicitation_module": {
+   "documents": 3,
+   "events": 0,
+   "hosts": [
+    "piee.eb.mil",
+    "www.acq.osd.mil"
+   ],
+   "last_hash": "03b5e5bea4e88b75f60f075a1ef5488de06072cbb09774ca79a969a703ef3a6a",
+   "last_seen": "2026-09-21T13:22:37Z",
+   "newest_event": ""
+  },
+  "sam_archived_yearly_extracts": {
+   "documents": 2554,
+   "events": 0,
+   "hosts": [
+    "sam.gov"
+   ],
+   "last_hash": "36858138ab6b5f9c9e77d5e9ec37a60bbb77ddf7293f8bca4557b2238607b849",
+   "last_seen": "2026-09-23T05:12:56Z",
+   "newest_event": ""
+  },
+  "sam_gov_site_api": {
+   "documents": 2554,
+   "events": 310,
+   "hosts": [
+    "sam.gov"
+   ],
+   "last_hash": "36858138ab6b5f9c9e77d5e9ec37a60bbb77ddf7293f8bca4557b2238607b849",
+   "last_seen": "2026-09-23T05:12:56Z",
+   "newest_event": "2026-09-17"
+  },
+  "sam_opportunities_api": {
+   "documents": 0,
+   "events": 0,
+   "hosts": [
+    "api.sam.gov"
+   ],
+   "last_hash": "",
+   "last_seen": "",
+   "newest_event": ""
+  },
+  "sam_public_csv_extract": {
+   "documents": 2554,
+   "events": 0,
+   "hosts": [
+    "sam.gov"
+   ],
+   "last_hash": "36858138ab6b5f9c9e77d5e9ec37a60bbb77ddf7293f8bca4557b2238607b849",
+   "last_seen": "2026-09-23T05:12:56Z",
+   "newest_event": ""
+  },
+  "sbir_sttr_topics": {
+   "documents": 1192,
+   "events": 1100,
+   "hosts": [
+    "api.www.sbir.gov",
+    "www.dodsbirsttr.mil",
+    "www.navysbir.com",
+    "www.sbir.gov"
+   ],
+   "last_hash": "61322fa845a07849acde0a9619ea588a5b6b7896015e68c1f96f2529715aac9e",
+   "last_seen": "2026-09-22T16:49:17Z",
+   "newest_event": "2026-09-02"
+  },
+  "seaport_nxg": {
+   "documents": 0,
+   "events": 0,
+   "hosts": [
+    "www.seaport.navy.mil"
+   ],
+   "last_hash": "",
+   "last_seen": "",
+   "newest_event": ""
+  },
+  "usaspending_api": {
+   "documents": 23,
+   "events": 0,
+   "hosts": [
+    "api.usaspending.gov"
+   ],
+   "last_hash": "1a013e248839409c65e03fafd394a729e2c782ebb45933dfb95ef7dcdacc3e8f",
+   "last_seen": "2026-09-21T01:50:23Z",
+   "newest_event": ""
+  },
+  "wayback_machine": {
+   "documents": 23,
+   "events": 0,
+   "hosts": [
+    "www.peoc4i.navy.mil"
+   ],
+   "last_hash": "62b8208596c10347512c445564d03a0ad5190eaf04bb555ece2b4ae749dfaf58",
+   "last_seen": "2026-09-16T17:28:16Z",
+   "newest_event": ""
+  }
+ },
+ "unregistered_hosts": {
+  "westconference2026.eventscribe.net": 1,
+  "www.armed-services.senate.gov": 1,
+  "www.niwcatlantic.navy.mil": 1,
+  "www.niwcpacific.navy.mil": 1
+ }
+}

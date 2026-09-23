@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:29:30Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMS 425\",\"capability\":\"submarine combat and weapons control applications\",\"short_names\":[\"AN/BYG-1\"],\"aliases\":[\"AN/BYG-1 Applications\",\"Submarine Combat and Weapons Control Program Office\",\"solicitation N0002426R6222\"],\"capability_terms\":[\"submarine combat system software\",\"weapons control applications\",\"undersea combat system applications\"],\"confidence\":0.98}",
+ "request_key": "63d4ee35fc329422b466373e1021c669c539548b770c82071139e413f07065f3",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1707,
+  "output_tokens": 166
+ },
+ "user_sha256": "a1b56f0a9b755b02"
+}

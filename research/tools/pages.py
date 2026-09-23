@@ -1,0 +1,311 @@
+"""Object pages of the twin, on demand: an office, a vendor, a person or a requirement cell as text, each ending with the
+sources that speak about it, how much, when each last spoke, and which families are silent. Nothing is stored.
+
+    python research/tools/pages.py office "PMW 150"
+    python research/tools/pages.py vendor Leidos
+    python research/tools/pages.py person "Damon R Griffin"
+    python research/tools/pages.py cell N00039-23-RFPREQ-PMA/PMW-101-0010
+    python research/tools/pages.py --selfcheck
+"""
+from __future__ import annotations
+
+import json
+import re
+import sys
+from collections import Counter
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+from backtest import CORPUS, RESEARCH, chain, need_aliases, need_cell, recurring_tokens, scan, shift  # noqa: E402
+from buying_dna import PIID_RE  # noqa: E402
+from people import contacts_for  # noqa: E402
+from pulse import card, days_between, load_people, office_name, score  # noqa: E402
+from vendors import load as load_vendors, names_for  # noqa: E402
+
+DNA = RESEARCH / "results" / "buying_dna.json"
+TWO_YEARS = 730
+SHOWN = 8
+
+
+class Layer:
+    """The frozen corpus, the people file and the pulse, read as six views: search, office, cell, topics, people, neighbours."""
+
+    def __init__(self, corpus: dict, roster: list[dict], as_of: str | None = None):
+        self.corpus, self.orgs, self.events = corpus, corpus["orgs"], corpus["events"]
+        self.needs = corpus["needs"]
+        self.roster = roster
+        self.as_of = as_of or max(e["available_by"] for e in self.events)
+        self.recurring = recurring_tokens(self.needs)
+        self.by_acronym = {o["acronym"].lower(): oid for oid, o in self.orgs.items() if o.get("acronym")}
+        self.by_acronym.update({o["name"].lower(): oid for oid, o in self.orgs.items()})
+
+    def org_id(self, name: str) -> str | None:
+        key = re.sub(r"\s+", " ", name).strip().lower().replace("pmw-", "pmw ")
+        return self.by_acronym.get(key)
+
+    def brief(self, e: dict) -> dict:
+        row = {"id": e["id"], "date": e["available_by"], "family": e["family"], "type": e["event_type"], "stage": e.get("stage", ""),
+               "polarity": e.get("polarity", ""), "office": office_name(e["org"], self.orgs), "title": e["title"][:140]}
+        return row
+
+    def need_brief(self, n: dict) -> dict:
+        row = {"need_key": n["key"], "owner": n["owner"] or "no office named", "title": n["title"][:120],
+               "type": "notice with no forecast row" if n["key"].startswith("notice:") else "forecast row"}
+        return row
+
+    def search(self, term: str) -> dict:
+        hits = [e for e in scan([term], self.events) if e["available_by"] <= self.as_of]
+        offices = Counter(office_name(e["org"], self.orgs) or "-" for e in hits)
+        rows = sorted((n for n in self.needs if re.search(r"(?<![A-Za-z0-9])" + re.escape(term) + r"(?![A-Za-z0-9])", n["title"], re.I)),
+                      key=lambda n: n["key"])
+        return {"term": term, "statements": len(hits), "families": dict(Counter(e["family"] for e in hits).most_common()),
+                "offices": dict(offices.most_common(SHOWN)),
+                "newest": [self.brief(e) for e in sorted(hits, key=lambda e: e["available_by"], reverse=True)[:SHOWN]],
+                "forecast_rows": [self.need_brief(n) for n in rows[:SHOWN]], "forecast_rows_total": len(rows)}
+
+    def subtree(self, oid: str) -> set[str]:
+        return {o for o in self.orgs if oid in chain(o, self.orgs)}
+
+    def office(self, name: str) -> dict:
+        oid = self.org_id(name)
+        if not oid:
+            return {"office": name, "error": "no organization by that name; use neighbors or search to find one"}
+        tree = self.subtree(oid)
+        mine = [e for e in self.events if e["org"] in tree and e["available_by"] <= self.as_of]
+        owned = [n for n in self.needs if n["owner_id"] in tree]
+        vendors = Counter(e.get("vendor", "") for e in mine if e["family"] == "incumbent" and e.get("vendor"))
+        o = self.orgs[oid]
+        return {"office": o["acronym"] or o["name"], "name": o["name"], "type": o.get("org_type", ""),
+                "chain": [office_name(x, self.orgs) for x in chain(oid, self.orgs)[1:]],
+                "children": len(tree) - 1, "statements": len(mine), "families": dict(Counter(e["family"] for e in mine).most_common()),
+                "forecast_rows_total": len(owned), "forecast_rows": [self.need_brief(n) for n in owned[:SHOWN]],
+                "newest": [self.brief(e) for e in sorted(mine, key=lambda e: e["available_by"], reverse=True)[:SHOWN]],
+                "topics": [self.brief(e) for e in sorted((e for e in mine if e["family"] == "programs"), key=lambda e: e["available_by"], reverse=True)[:5]],
+                "vendors": dict(vendors.most_common(5)),
+                "people": contacts_for(chain(oid, self.orgs) or [oid], self.roster, self.as_of)[:5]}
+
+    def statement(self, e: dict) -> dict:
+        """One statement in full, with the forecast rows that share a name with it: the way from a topic or a notice to a cell."""
+        names = [a for a in need_aliases(e["title"], self.recurring) if len(a) >= 4][:6]
+        rows = [n for n in self.needs if any(re.search(r"(?<![A-Za-z0-9])" + re.escape(a) + r"(?![A-Za-z0-9])", n["title"], re.I) for a in names)]
+        return {**self.brief(e), "text": e["text"][:700], "vendor": e.get("vendor", ""), "names": names,
+                "forecast_rows": [self.need_brief(n) for n in rows[:SHOWN]], "forecast_rows_total": len(rows),
+                "people": contacts_for(chain(e["org"], self.orgs) or [e["org"]], self.roster, self.as_of)[:3] if e["org"] else []}
+
+    def cell(self, need_key: str) -> dict:
+        need = next((n for n in self.needs if n["key"] == need_key), None)
+        if need is None:
+            e = next((e for e in self.events if e["id"] == need_key), None)
+            if e is not None:
+                return self.statement(e)
+            return {"need_key": need_key, "error": "no forecast row or statement with that identifier"}
+        aliases, hits = need_cell(need, self.corpus, self.recurring)
+        hits = [e for e in hits if e["available_by"] <= self.as_of]
+        scored = score(hits, self.as_of)
+        cell = {"key": f"need:{need_key}", "org": need["owner_id"], "office": need["owner"], "name": need["title"], "aliases": aliases, "terms": [], **scored}
+        self.need_brief(need)
+        return {"need_key": need_key, "owner": need["owner"], "title": need["title"], "aliases": aliases, "score": scored["score"],
+                "families": scored["families"], "stage": scored["stage"], "next": scored["next"], "against": len(scored["against"]),
+                "evidence": {f: [self.brief(next(e for e in hits if e["id"] == r["id"])) for r in rows] for f, rows in scored["evidence"].items()},
+                "vendors": scored["vendors"], "card": card(cell, hits, self.as_of, self.orgs)}
+
+    def topics(self, term: str) -> dict:
+        hits = [e for e in scan([term], [e for e in self.events if e["family"] == "programs"]) if e["available_by"] <= self.as_of]
+        return {"term": term, "topics": len(hits), "offices": dict(Counter(office_name(e["org"], self.orgs) or "-" for e in hits).most_common(SHOWN)),
+                "newest": [self.brief(e) for e in sorted(hits, key=lambda e: e["available_by"], reverse=True)[:SHOWN]]}
+
+    def people(self, name: str) -> dict:
+        oid = self.org_id(name)
+        if not oid:
+            return {"office": name, "error": "no organization by that name"}
+        return {"office": office_name(oid, self.orgs), "people": contacts_for(chain(oid, self.orgs) or [oid], self.roster, self.as_of)[:SHOWN]}
+
+    def neighbors(self, name: str) -> dict:
+        oid = self.org_id(name)
+        if not oid:
+            near = [o["acronym"] or o["name"] for o in self.orgs.values() if name.lower() in (o["acronym"] + " " + o["name"]).lower()][:SHOWN]
+            return {"office": name, "error": "no organization by that name", "similar": near}
+        parent = self.orgs[oid]["parent"]
+        return {"office": office_name(oid, self.orgs), "parent": office_name(parent, self.orgs) if parent else "",
+                "siblings": sorted(office_name(o, self.orgs) for o, row in self.orgs.items() if row["parent"] == parent and o != oid and parent)[:SHOWN * 2],
+                "children": sorted(office_name(o, self.orgs) for o, row in self.orgs.items() if row["parent"] == oid)[:SHOWN * 2]}
+
+
+def sources(events: list[dict], as_of: str) -> list[dict]:
+    """Which sources speak about this object, how much, and how long each has been silent; the newest speaker first."""
+    by = {}
+    for e in events:
+        by.setdefault(e["provider"], []).append(e["available_by"])
+    rows = [{"source": p, "statements": len(d), "first": min(d), "last": max(d), "silent_days": days_between(max(d), as_of)} for p, d in by.items()]
+    return sorted(rows, key=lambda r: (r["last"], r["source"]), reverse=True)
+
+
+def source_lines(events: list[dict], layer: Layer) -> list[str]:
+    lines = ["sources speaking about this object:"]
+    lines += [f"  - {r['source']}: {r['statements']} statement(s), first {r['first']}, last {r['last']}, silent {r['silent_days']} day(s)" for r in sources(events, layer.as_of)]
+    silent = sorted({e["family"] for e in layer.events} - {e["family"] for e in events})
+    return lines + ["families silent: " + (", ".join(silent) or "none")]
+
+
+def book_line(book: dict) -> str:
+    v, comp = book["value"], book["competition"]
+    share = lambda rows, value: next((r["share"] for r in rows if r["value"] == value), 0)
+    return (f"buying book: {book['awards']} awards {book['first_signed']} to {book['last_signed']}; median ${v['median']:,}; "
+            f"{round(book['vehicle']['under_an_idv'] * 100)}% under a vehicle; full and open {round(share(comp['extent'], 'FULL AND OPEN COMPETITION') * 100)}%, "
+            f"not competed {round(share(comp['extent'], 'NOT COMPETED') * 100)}%; {book['pricing'][0]['value'].lower()} {round(book['pricing'][0]['share'] * 100)}%; "
+            f"{book['vendors']['distinct']} vendors, the largest at {round(book['vendors']['top_share'] * 100)}%")
+
+
+def office(layer: Layer, name: str, dna: dict) -> str:
+    o = layer.office(name)
+    if "error" in o:
+        return o["error"]
+    tree = layer.subtree(layer.org_id(name))
+    mine = [e for e in layer.events if e["org"] in tree and e["available_by"] <= layer.as_of]
+    lines = [f"{o['office']}: {o['name']} ({o['type'] or 'organization'}); above it: {' > '.join(o['chain']) or '-'}; {o['children']} organization(s) below",
+             f"{o['statements']} statement(s): " + (", ".join(f"{f} {n}" for f, n in o["families"].items()) or "none"),
+             f"forecast rows owned: {o['forecast_rows_total']}"]
+    lines += [f"  - {n['need_key']}: {n['title']}" for n in o["forecast_rows"]]
+    if o["newest"]:
+        lines.append("newest statements:")
+        lines += [f"  - {e['date']} {e['family']}/{e['type']} [{e['stage']}] {e['title']}" for e in o["newest"]]
+    if o["topics"]:
+        lines.append("topics:")
+        lines += [f"  - {e['date']} {e['title']}" for e in o["topics"]]
+    if o["vendors"]:
+        lines.append("vendors by contracts: " + ", ".join(f"{v} {n}" for v, n in o["vendors"].items()))
+    book = dna.get("offices", {}).get(o["office"]) or dna.get("contracting_offices", {}).get(o["office"])
+    if book:
+        lines.append(book_line(book))
+    if o["people"]:
+        lines.append("people: " + "; ".join(f"{p['name']} ({p['title'][:60]}, {p['observed_at']})" for p in o["people"]))
+    return "\n".join(lines + source_lines(mine, layer))
+
+
+def vendor(layer: Layer, name: str, resolved: dict | None = None) -> str:
+    spellings = [s.lower() for s in names_for(name, resolved if resolved is not None else load_vendors())]  # every spelling under the UEI
+    mine = [e for e in layer.events if e["family"] == "incumbent" and e["available_by"] <= layer.as_of
+            and any(s in (e.get("vendor") or "").lower() for s in spellings)]
+    if not mine:
+        return f"no contract in the record names a vendor matching {name!r}"
+    names = Counter(e["vendor"] for e in mine)
+    offices = Counter(office_name(e["org"], layer.orgs) or "-" for e in mine)
+    ends = sorted((m.group(2), m.group(1), e["title"].split(": ", 1)[-1]) for e in mine if (m := PIID_RE.search(e["title"])))
+    live = [x for x in ends if x[0] > layer.as_of]
+    lines = [f"{', '.join(names)}: {len(mine)} contract(s) in the record; offices: " + ", ".join(f"{o} {n}" for o, n in offices.most_common(5)),
+             f"live at {layer.as_of}: {len(live)}; ending within two years: {sum(1 for x in live if x[0] <= shift(layer.as_of, TWO_YEARS))}; next end {live[0][0] if live else '-'}"]
+    lines += [f"  - ends {d} {p}: {t[:90]}" for d, p, t in live[:8]]
+    return "\n".join(lines + source_lines(mine, layer))
+
+
+def person(layer: Layer, name: str, roster: list[dict]) -> str:
+    rows = [r for r in roster if name.lower() in r["name"].lower()]
+    if not rows:
+        return f"no person in the record matching {name!r}"
+    r = rows[0]
+    pos = sorted(r["positions"], key=lambda p: p["observed_at"], reverse=True)
+    where = lambda p: office_name(p["org"], layer.orgs) or p["office"]
+    lines = [f"{r['name']}: {len(pos)} dated position(s); offices: " + ", ".join(sorted({where(p) for p in pos}))]
+    lines += [f"  - {p['observed_at']} {where(p)}: {p['role_type']}, {p['raw_title'][:80]}" + (f" ({p['context'][:60]})" if p.get("context") else "") for p in pos[:10]]
+    last = {}
+    for p in pos:
+        last[p["source"]] = max(last.get(p["source"], ""), p["observed_at"])
+    lines.append("sources: " + "; ".join(f"{s} {n} position(s), last {last[s]}" for s, n in Counter(p["source"] for p in pos).most_common()))
+    if len(rows) > 1:
+        lines.append(f"{len(rows) - 1} other person(s) match {name!r}: " + ", ".join(x["name"] for x in rows[1:4]))
+    return "\n".join(lines)
+
+
+def cell(layer: Layer, key: str) -> str:
+    c = layer.cell(key)
+    if "error" in c:
+        return c["error"]
+    if "card" not in c:  # a single statement: the record's own brief and the forecast rows it shares a name with
+        return json.dumps(c, indent=1, ensure_ascii=False)
+    need = next(n for n in layer.needs if n["key"] == key)
+    _, hits = need_cell(need, layer.corpus, layer.recurring)
+    return "\n".join([c["card"]] + source_lines([e for e in hits if e["available_by"] <= layer.as_of], layer))
+
+
+def page(kind: str, name: str, layer: Layer, roster: list[dict], dna: dict) -> str:
+    if kind == "office":
+        return office(layer, name, dna)
+    if kind == "vendor":
+        return vendor(layer, name)
+    if kind == "person":
+        return person(layer, name, roster)
+    if kind == "cell":
+        return cell(layer, name)
+    raise SystemExit(f"unknown page kind {kind!r}; office, vendor, person or cell")
+
+
+def main(argv: list[str]) -> int:
+    if argv[:1] == ["--selfcheck"]:
+        return selfcheck()
+    if len(argv) != 2:
+        print(__doc__, file=sys.stderr)
+        return 2
+    corpus = json.loads(CORPUS.read_text(encoding="utf-8"))
+    dna = json.loads(DNA.read_text(encoding="utf-8")) if DNA.exists() else {}
+    roster = load_people()
+    print(page(argv[0], argv[1], Layer(corpus, roster), roster, dna))
+    return 0
+
+
+def selfcheck() -> int:
+    orgs = {"o1": {"acronym": "PMW 1", "name": "Office One", "parent": None, "org_type": "program_office", "claims": []}}
+    ev = lambda i, fam, typ, day, prov, title, vendor="": {"id": i, "event_type": typ, "date": day, "available_by": day, "provider": prov, "family": fam, "org": "o1",
+                                                          "title": title, "text": title, "slip": False, "stage": "execution", "polarity": "positive", "vendor": vendor}
+    events = [ev("e1", "incumbent", "contract_expires", "2026-01-10", "fpds", "Incumbent contract N1 ends 2027-03-01: WIDGET SUPPORT", "ACME & CO"),
+              ev("e2", "forecast", "forecast_created", "2026-06-19", "lrae", "WIDGET SUPPORT (C)"),
+              ev("e3", "notice", "rfi_released", "2026-08-01", "sam", "SAM.gov RFI 2026-08-01: WIDGET SUPPORT")]
+    corpus = {"orgs": orgs, "events": events, "needs": [{"key": "N-1", "title": "WIDGET SUPPORT (C)", "owner": "PMW 1", "owner_id": "o1"}]}
+    roster = [{"name": "Ann Example", "emails": [], "positions": [{"office": "pmw:1", "org": "o1", "role_type": "contract_specialist", "raw_title": "primary point of contact on RFI",
+                                                      "observed_at": "2026-08-01", "source": "sam", "source_ref": "x", "source_url": "", "confidence": "0.9", "context": "WIDGET SUPPORT"}]}]
+    layer = Layer(corpus, roster, as_of="2026-09-01")
+    v = vendor(layer, "acme", {})
+    assert "ACME & CO: 1 contract(s)" in v and "next end 2027-03-01" in v and "fpds: 1 statement(s)" in v and "families silent: forecast, notice" in v, v
+    o = office(layer, "PMW 1", {})
+    assert "3 statement(s)" in o and "forecast rows owned: 1" in o and "silent 31 day(s)" in o and "families silent: none" in o and "Ann Example" in o, o
+    p = person(layer, "ann", roster)
+    assert "1 dated position(s)" in p and "PMW 1" in p and "sam 1 position(s), last 2026-08-01" in p, p
+    assert "no person" in person(layer, "nobody", roster) and "no contract" in vendor(layer, "nobody", {})
+    resolved = {"vendors": [{"uei": "U1", "spellings": ["ACME & CO", "ACME AND CO"]}], "spelling_to_uei": {"ACME & CO": "U1", "ACME AND CO": "U1"}}
+    assert "ACME & CO: 1 contract(s)" in vendor(layer, "acme and co", resolved), "a spelling resolves to every spelling under its UEI"
+    c = cell(layer, "N-1")
+    assert "sources speaking about this object" in c and "lrae" in c, c
+    layer_views()
+    print("pages selfcheck ok")
+    return 0
+
+
+def layer_views() -> None:
+    orgs = {"peo": {"acronym": "PEO C4I", "name": "PEO C4I", "parent": "", "org_type": "program_executive_office"},
+            "pmw": {"acronym": "PMW 101", "name": "MIDS", "parent": "peo", "org_type": "program_office"},
+            "other": {"acronym": "PMW 160", "name": "Networks", "parent": "peo", "org_type": "program_office"}}
+    ev = lambda i, fam, day, org, text, et="forecast_created", **kw: {"id": i, "event_type": et, "date": day, "available_by": day, "provider": fam,
+                                                                      "family": fam, "org": org, "title": text, "text": text, **kw}
+    events = [ev("f1", "forecast", "2025-06-19", "pmw", "MIDS WDL SF3 Radio (C) N00039-25-RFPREQ-PMA/PMW-101-0046"),
+              ev("t1", "programs", "2025-04-02", "pmw", "N252-D11 Advanced Interference Mitigation for MIDS tactical data links", "sbir_topic"),
+              ev("i1", "incumbent", "2025-01-01", "pmw", "Incumbent contract N0003925F4027 ends 2027-07-16: MIDS SF1 radio development", "contract_expires", vendor="L3"),
+              ev("n1", "notice", "2026-08-12", "pmw", "SAM.gov presolicitation 2026-08-12: MIDS WDL SWARMM SF3 Radio", "presolicitation_posted")]
+    needs = [{"key": "N00039-25-RFPREQ-PMA/PMW-101-0046", "title": "MIDS WDL SF3 Radio (C)", "owner": "PMW 101", "owner_id": "pmw"},
+             {"key": "N00039-24-RFPREQ-PEO-C4I-0012", "title": "MIDS WDL SF2 Production (C)", "owner": "PEO C4I", "owner_id": "peo"}]  # MIDS and WDL recur: names
+    layer = Layer({"orgs": orgs, "events": events, "needs": needs, "outcomes": []}, roster=[])
+    s = layer.search("MIDS")
+    assert s["statements"] == 4 and s["offices"] == {"PMW 101": 4} and s["forecast_rows_total"] == 2, s
+    assert layer.search("stratospheric aerosol")["statements"] == 0
+    o = layer.office("pmw 101")
+    assert o["statements"] == 4 and o["vendors"] == {"L3": 1} and o["topics"][0]["id"] == "t1" and o["chain"] == ["PEO C4I"], o
+    assert layer.office("PEO C4I")["children"] == 2 and layer.office("nowhere")["error"]
+    c = layer.cell("N00039-25-RFPREQ-PMA/PMW-101-0046")
+    assert c["families"] == ["forecast", "incumbent", "notice", "programs"] and c["stage"] == "solicitation" and "Stage:" in c["card"], c["families"]
+    st = layer.cell("t1")
+    assert st["id"] == "t1" and "text" in st and st["forecast_rows_total"] == 2 and layer.cell("nothing")["error"], st
+    assert layer.topics("tactical data links")["topics"] == 1 and layer.neighbors("PMW 101")["siblings"] == ["PMW 160"]
+    assert layer.neighbors("PMW")["similar"] and layer.people("PMW 101") == {"office": "PMW 101", "people": []}
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv[1:]))

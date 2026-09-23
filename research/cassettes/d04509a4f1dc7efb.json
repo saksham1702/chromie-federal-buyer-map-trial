@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:36:49Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"ship repair and maintenance availability\",\"short_names\":[\"USS MAKIN ISLAND\",\"DSRA\"],\"aliases\":[\"USS MAKIN ISLAND (LHD 8) FY28 Docking Selected Restricted Availability (DSRA)\",\"USS MAKIN ISLAND (LHD 8) FY28 Docking Selected Restricted Availability\",\"N00024-26-R-4421\",\"N0002426R4421\",\"CNO Availability\",\"CNO-scheduled depot Availability\"],\"capability_terms\":[\"ship maintenance\",\"ship repair\",\"ship modernization\",\"depot availability\",\"docking availability\"],\"confidence\":0.97}",
+ "request_key": "d04509a4f1dc7efbb02374635d21f605fd8ad8f184507734dfb0a809b8eafe50",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1130,
+  "output_tokens": 219
+ },
+ "user_sha256": "4facf3ddc8e8744d"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T08:07:27Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "oversight_events",
+ "output_text": "{\"events\":[]}",
+ "request_key": "9783a105cdd334efc0f117cf604c9c3c3d1c9b725088e51f224f46994c494eba",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "7a0ca8613e9002a3",
+ "usage": {
+  "input_tokens": 7561,
+  "output_tokens": 54
+ },
+ "user_sha256": "e05a9f3c8f4bb1b6"
+}

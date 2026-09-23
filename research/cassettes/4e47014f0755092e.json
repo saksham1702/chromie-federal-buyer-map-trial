@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:14:10Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"SEA 21\",\"capability\":\"repair, maintain, and overhaul shipboard knuckle boom crane\",\"short_names\":[\"Allied Knuckle Boom Cranes\",\"knuckle boom crane\"],\"aliases\":[\"Repair, Maintenance, and Overhaul of Allied Systems Company Knuckle Boom Crane\",\"allied systems company knuckle boom crane\",\"portside knuckle boom crane\",\"MK II configuration\",\"N00024-26-R-4403\",\"San Antonio-class Amphibious Transport Dock (LPD 17) vessels\",\"LPD 17 class ships\"],\"capability_terms\":[\"shipboard crane overhaul\",\"marine knuckle boom crane repair\",\"crane maintenance and upgrade\",\"shipboard material handling crane\"],\"confidence\":0.94}",
+ "request_key": "4e47014f0755092eaa5171cf78d50a89aa6e8292a3c7b3c514978e2fa5fd4f71",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1118,
+  "output_tokens": 419
+ },
+ "user_sha256": "15f6f40fe1953016"
+}

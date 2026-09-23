@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:37:03Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"Electronic design agent and depot operations support\",\"short_names\":[\"MK41 VLS\"],\"aliases\":[\"MK 41 VLS Electronic Design Agent and Depot Operations\",\"Electronic Design Agent and Depot Operations requirements\",\"MK41 Vertical Launching System\",\"solicitation VLS009\"],\"capability_terms\":[\"vertical launching system\",\"depot operations\",\"electronic design agent\",\"missile launch system support\"],\"confidence\":0.98}",
+ "request_key": "c9a076f0340d9748eef2b426e79b21c3077f635666ac60a34933f0f3891de56d",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 780,
+  "output_tokens": 204
+ },
+ "user_sha256": "17f7e85406a45ac6"
+}

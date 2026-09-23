@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:28:00Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"dielectric and ferroelectric test systems\",\"short_names\":[],\"aliases\":[\"Purchase dielectric and ferroelectric test systems to update and expand current capabilities\",\"N0017326Q1301351425\"],\"capability_terms\":[\"dielectric testing\",\"ferroelectric testing\",\"materials characterization\",\"electrical property measurement\"],\"confidence\":0.9}",
+ "request_key": "ecb6ef0c6900dc8086af38e85a99d8428fbb9ba8add5edd38b3148dfe5791f82",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 2057,
+  "output_tokens": 245
+ },
+ "user_sha256": "90664f07acdad522"
+}

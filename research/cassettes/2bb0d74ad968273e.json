@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:14:27Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"AMD/Xilinx brand-name hardware\",\"short_names\":[\"AMD/Xilinx\"],\"aliases\":[\"AMD/Xilinx's Brand Name RFQ\",\"solicitation N0017326Q1301283452\"],\"capability_terms\":[\"reconfigurable logic hardware\",\"FPGA hardware\",\"AMD/Xilinx components\"],\"confidence\":0.32}",
+ "request_key": "2bb0d74ad968273e2c0d243e144b3119bb7beeaf926bfb0e6470422d2e1a34df",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 548,
+  "output_tokens": 252
+ },
+ "user_sha256": "9a8429421c06cba5"
+}

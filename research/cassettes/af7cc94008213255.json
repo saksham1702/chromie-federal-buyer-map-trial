@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:40:40Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMS 435\",\"capability\":\"Prototype low-profile mast and rotational module\",\"short_names\":[\"LPM\",\"RM\",\"LPM/RM\",\"LPM Type 24 Mod 1\"],\"aliases\":[\"Low Profile Mast (LPM)\",\"Rotational Module (RM)\",\"N00024-26-R-6215\",\"Submarine Electromagnetic Systems Program Office (PMS 435)\"],\"capability_terms\":[\"submarine mast system\",\"low-profile mast\",\"rotational module\",\"submarine electromagnetic system\"],\"confidence\":0.97}",
+ "request_key": "af7cc940082132554a2a9a70f46b8421d6b0eb29a886ddf5f3ccfd7faf04ce06",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1852,
+  "output_tokens": 273
+ },
+ "user_sha256": "fd04d8e75a35ac7d"
+}

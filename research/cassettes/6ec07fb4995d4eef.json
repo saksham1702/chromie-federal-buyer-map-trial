@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:22:58Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"Adobe software licensing and subscriptions\",\"short_names\":[\"ETLA\",\"Adobe Acrobat\",\"Creative Cloud\"],\"aliases\":[\"ADOBE AND CREATIVE CLOUD ETLA\",\"Adobe Acrobat and Creative Cloud 2026 ETLA\",\"solicitation N0017326Q5507\"],\"capability_terms\":[\"commercial software licensing\",\"PDF authoring and editing\",\"creative suite subscriptions\"],\"confidence\":0.92}",
+ "request_key": "6ec07fb4995d4eefcdc3adfef4c3aef7a87dedad76dcbbabda3848edc811d04e",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1656,
+  "output_tokens": 213
+ },
+ "user_sha256": "0b748fda3ed7d81b"
+}

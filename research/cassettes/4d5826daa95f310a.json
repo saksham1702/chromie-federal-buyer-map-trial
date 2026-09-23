@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:10:46Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PEO MLB\",\"capability\":\"organizational change management consulting\",\"short_names\":[\"OCM\"],\"aliases\":[\"PEO MLB Organizational Change Management Consulting Services\",\"N00039-24-Q-OCM1\",\"PEO MLB OCM BPA\",\"PEOMLB_OCM_BPA_AcquisitionUpdateForIndustry\",\"Distro_A_PEOMLB_OCM_BPA_AcquisitionUpdateForIndustry\",\"NAVWAR_Headquarters_MKTSVY_19722A\"],\"capability_terms\":[\"organizational change management\",\"change management consulting\",\"acquisition strategy support\",\"business process transition support\"],\"confidence\":0.91}",
+ "request_key": "4d5826daa95f310a7f44f8c121f30a6dcb1a7f07b5d4e1af4be835d6501765b3",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 908,
+  "output_tokens": 218
+ },
+ "user_sha256": "7722a8d40cf148af"
+}

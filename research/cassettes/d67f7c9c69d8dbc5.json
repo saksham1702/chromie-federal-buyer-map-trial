@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:15:03Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"sustain and maintain software application\",\"short_names\":[\"Nova Message Application\"],\"aliases\":[\"solicitation N000372825\"],\"capability_terms\":[\"software sustainment\",\"application maintenance\",\"message application support\"],\"confidence\":0.95}",
+ "request_key": "d67f7c9c69d8dbc5501a5fde48b843c9699b816ddc53ab1074e7137b21db018f",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 569,
+  "output_tokens": 122
+ },
+ "user_sha256": "a5b3c5a4ad1eead8"
+}

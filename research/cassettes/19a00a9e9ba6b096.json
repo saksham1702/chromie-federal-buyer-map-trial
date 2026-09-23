@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:31:49Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"satellite ground station and spacecraft command support\",\"short_names\":[\"BPTF\"],\"aliases\":[\"Mission and Facilities Support for BPTF\",\"RFP #N00173-26-R-HH02\"],\"capability_terms\":[\"satellite ground station operations\",\"spacecraft command and control\",\"mission support for space systems\",\"spacecraft operations support\"],\"confidence\":0.76}",
+ "request_key": "19a00a9e9ba6b09680ba59412004503a903244de9f1bb6f3f4d3e31dd9b9eec4",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1023,
+  "output_tokens": 221
+ },
+ "user_sha256": "8157f7f6589f5ead"
+}

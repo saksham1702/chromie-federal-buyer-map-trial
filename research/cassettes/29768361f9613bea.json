@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:20:39Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NAVSEA\",\"capability\":\"aircraft carrier material and repair support\",\"short_names\":[],\"aliases\":[\"N00024-26-I-4120\",\"Basic Ordering Agreements (BOAs)\",\"US Navy Aircraft Carrier specific shipbuilder coded stock and specialized material\",\"unique nuclear-powered carrier specific shipbuilder coded stock and specialized material\",\"US Navy Aircraft Carrier-specific Material and Repair Eff\",\"Navy nuclear-powered aircraft carrier material and parts\"],\"capability_terms\":[\"aircraft carrier material sourcing\",\"emergent carrier repair\",\"battle damage assessment and repair\",\"routine carrier maintenance\",\"carrier modernization support\",\"engineering support for carrier repairs\"],\"confidence\":0.94}",
+ "request_key": "29768361f9613bea23d7d1d86d30a018b0d29a9c4a82d8c1cee3c87c5352e687",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1423,
+  "output_tokens": 354
+ },
+ "user_sha256": "02942885423b8c91"
+}

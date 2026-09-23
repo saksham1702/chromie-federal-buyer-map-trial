@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:26:08Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMW 130\",\"capability\":\"shipboard cyber defense computing hardware\",\"short_names\":[\"SABER\",\"SABER Computing Hardware\"],\"aliases\":[\"Situational Awareness, Boundary Enforcement and Response (SABER)\",\"SABER Mid-Tier Acquisition (MTA)\",\"SABER equipment suite units\",\"Boundary Defense Capability (BDC)/Distributed Packet Collector (DPC) Variant \\\"A\\\" units with built-in displays\",\"Boundary Defense Capability (BDC)/Distributed Packet Collector (DPC) Variant \\\"B\\\" units without built-in displays\",\"Out of Band Network Switch (OOBNS) Units\"],\"capability_terms\":[\"shipboard cyber defense hardware\",\"defensive cyber operations capabilities\",\"boundary defense computing platforms\",\"rack-mounted mission computing hardware\",\"COTS electronics integration for shipboard racks\"],\"confidence\":0.95}",
+ "request_key": "658651fe671f57e169060c3c09f21af597a029595eeb1f5cfdbe45e2229727ab",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1653,
+  "output_tokens": 347
+ },
+ "user_sha256": "3d1aa56c85802cdc"
+}

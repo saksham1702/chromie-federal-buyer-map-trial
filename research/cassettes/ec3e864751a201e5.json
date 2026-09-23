@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:10:25Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"destroy classified and controlled materials\",\"short_names\":[\"Data Destruction Services\"],\"aliases\":[\"N00039-24-Q-1000\",\"RFQ Number N00039- 24-Q-1000\",\"combined synopsis/solicitation\",\"onsite collection services\",\"Destruction of material(s)\"],\"capability_terms\":[\"data destruction\",\"classified material destruction\",\"controlled unclassified material destruction\",\"controlled classified material destruction\",\"secure shredding\"],\"confidence\":0.89}",
+ "request_key": "ec3e864751a201e5aac8f3f562be70df1ad0f6a21ff18cc6d5ee1d5f1765e735",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 920,
+  "output_tokens": 280
+ },
+ "user_sha256": "dd526bd2f77dd8ae"
+}

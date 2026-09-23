@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:23:57Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMS 420\",\"capability\":\"Operations and sustainment of mission modules and sUSVs\",\"short_names\":[\"LCS MMs\",\"sUSVs\",\"LCS MM Program\"],\"aliases\":[\"Operations and Sustainment (O&S) for the Littoral Combat Ship Mission Modules (LCS MMs) and Small Unmanned Surface Vessels (sUSVs)\",\"Littoral Combat Ship (LCS) Mission Modules (MMs)\",\"Small Unmanned Surface Vessels (sUSVs)\",\"N00024-26-R-6311\",\"LCS MM & sUSV Site Visit Registration Form\"],\"capability_terms\":[\"littoral combat ship mission module sustainment\",\"small unmanned surface vessel support\",\"mission package storage and maintenance\",\"roll-on roll-off mission package logistics\",\"modular surface warfare payload support\"],\"confidence\":0.98}",
+ "request_key": "2736ceb1dd377255dfe97ecc7ba0b7fdb31f6e7ccff4f3107d91024063766d5f",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1851,
+  "output_tokens": 343
+ },
+ "user_sha256": "c746a93a741f2adc"
+}

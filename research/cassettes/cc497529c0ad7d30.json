@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:13:32Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"Schneider APC full-coverage agreement\",\"short_names\":[\"Schneider APC\",\"APC\"],\"aliases\":[\"Full Coverage Schneider APC Agreement\",\"solicitation N00173-26-Q-1301248783a2\"],\"capability_terms\":[\"uninterruptible power supply support\",\"power protection maintenance\",\"battery backup equipment coverage\"],\"confidence\":0.78}",
+ "request_key": "cc497529c0ad7d3076a8aa9252f5535740344b24d5a06ad1e65984afec612331",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 566,
+  "output_tokens": 200
+ },
+ "user_sha256": "7ba1b80f6027057b"
+}

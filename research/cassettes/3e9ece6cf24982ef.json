@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:21:52Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"submarine rescue system\",\"short_names\":[\"NextGen Submarine Rescue\"],\"aliases\":[\"NextGen Submarine Rescue Reverse Industry Day\",\"request for information (sources sought)\",\"solicitation N00024-25-R-6125-Updated\"],\"capability_terms\":[\"submarine rescue\",\"submersible rescue\",\"submerged crew recovery\",\"deep submergence rescue\"],\"confidence\":0.93}",
+ "request_key": "3e9ece6cf24982ef06716c3c7cef282e0d1c3788db5708babf29a01f668acd3b",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 557,
+  "output_tokens": 186
+ },
+ "user_sha256": "bbf5042a7a6e5908"
+}

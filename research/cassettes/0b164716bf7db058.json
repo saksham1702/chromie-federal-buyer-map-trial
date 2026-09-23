@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T09:14:29Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "remarks_events",
+ "output_text": "{\"speaker_name\":\"Adm. Daryl Caudle\",\"speaker_role\":\"Chief of Naval Operations\",\"event_name\":\"USS Intrepid Museum Salute to Freedom Gala\",\"event_host\":\"USS Intrepid Museum\",\"audience\":\"public\",\"events\":[{\"event_type\":\"conference_appearance\",\"statement\":\"Adm. Daryl Caudle spoke at the USS Intrepid Museum Salute to Freedom Gala.\",\"capability\":\"\",\"program\":\"\",\"organization\":\"\",\"person\":\"Adm. Daryl Caudle\",\"evidence_span\":\"CNO Remarks at USS Intrepid Museum Salute to Freedom Gala USS Intrepid Museum Chief of Naval Operations Adm. Daryl Caudle\",\"amounts\":[],\"confidence\":0.99},{\"event_type\":\"capability_priority\",\"statement\":\"He said the Navy must build battle-ready people and invest in training, quality of service, families, leadership, and conditions that let service members thrive.\",\"capability\":\"battle-ready people\",\"program\":\"\",\"organization\":\"\",\"person\":\"\",\"evidence_span\":\"If we want a battle-ready military, we must first build battle-ready people. That means investing in training. Investing in quality of service. Investing in families. Investing in leadership.\",\"amounts\":[],\"confidence\":0.95},{\"event_type\":\"capability_priority\",\"statement\":\"He said the Navy must build the fleet the nation requires.\",\"capability\":\"fleet\",\"program\":\"\",\"organization\":\"\",\"person\":\"\",\"evidence_span\":\"For me, that means three things. Building the people who will carry our mission forward. Building the fleet that our nation requires.\",\"amounts\":[],\"confidence\":0.96},{\"event_type\":\"capability_priority\",\"statement\":\"He said the Navy must build the warfighting capability needed to deter conflict and prevail in combat.\",\"capability\":\"warfighting capability\",\"program\":\"\",\"organization\":\"\",\"person\":\"\",\"evidence_span\":\"And building the warfighting capability necessary to deter conflict and, if necessary, prevail in combat.\",\"amounts\":[],\"confidence\":0.98}]}",
+ "request_key": "0b164716bf7db0583a3afd1e6442cf3a89f792960ca33b156fe624d982b63f37",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "9bdbe03afea8d63f",
+ "usage": {
+  "input_tokens": 3541,
+  "output_tokens": 616
+ },
+ "user_sha256": "1026a5b85e754b1e"
+}

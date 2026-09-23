@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:24:12Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"concept design for next-generation logistics ship\",\"short_names\":[\"NGLS\"],\"aliases\":[\"Next Generation Logistics Ship (NGLS) Concept Design Multiple Award Contract\",\"N0002425R2231\"],\"capability_terms\":[\"logistics ship design\",\"naval auxiliaries\",\"ship concept design\",\"fleet logistics ship\"],\"confidence\":0.96}",
+ "request_key": "52ef3f7962d8f6a92ca46f5e0734054d8c3c6c34506581b192f510071843a10e",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 679,
+  "output_tokens": 175
+ },
+ "user_sha256": "a40f56be47171b11"
+}

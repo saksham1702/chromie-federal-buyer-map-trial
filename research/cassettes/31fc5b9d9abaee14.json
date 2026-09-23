@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:22:49Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"microwave transceiver hardware\",\"short_names\":[\"Microwave Transceiver\"],\"aliases\":[\"Herrick Technology Lab - Microwave Transceiver\",\"solicitation N00173-26-Q-1301315669A\"],\"capability_terms\":[\"microwave communications\",\"radio frequency transceiver\",\"RF transceiver hardware\"],\"confidence\":0.93}",
+ "request_key": "31fc5b9d9abaee14d98ea24a36d9673c00b192ce5b8c9b057bc129b3a49edcf4",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1715,
+  "output_tokens": 221
+ },
+ "user_sha256": "82427d01f08528eb"
+}

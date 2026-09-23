@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:32:42Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"semiconductor die bonding and vacuum packaging\",\"short_names\":[],\"aliases\":[\"Semiconductor Die Bonding and Vacuum Packaging System\",\"N00173-26-RFI-KN02\"],\"capability_terms\":[\"semiconductor die bonding\",\"vacuum packaging\",\"die attach\",\"hermetic packaging\"],\"confidence\":0.91}",
+ "request_key": "75dc6e36602fde3c4a0ac39b2011597f31a6b289e0c8126bc87345df2ba49f5a",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1031,
+  "output_tokens": 268
+ },
+ "user_sha256": "1f357ba08cae52ca"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T09:42:52Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMW 740\",\"capability\":\"Autonomous intelligence system platform integration\",\"short_names\":[\"AINTS\"],\"aliases\":[\"Egyptian Navy Autonomous INTelligence System (AINTS) Platform Integration\",\"Autonomous INTelligence System (AINTS) platforms and capabilities\",\"Egypt AINTS Platform Integration\",\"N0003926RE014\",\"FMS case EG-P-LGQ\"],\"capability_terms\":[\"autonomous intelligence system\",\"platform integration\",\"mission system enhancement\",\"foreign military sales integration\",\"design, engineering, procurement, integration, testing, installation, training, and FSR services\"],\"confidence\":0.96}",
+ "request_key": "bea4f3f758d014d1f231f8d1f8c7e6e668573da83cf89f995a28c87196881441",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1237,
+  "output_tokens": 265
+ },
+ "user_sha256": "98390aae14ac9f33"
+}

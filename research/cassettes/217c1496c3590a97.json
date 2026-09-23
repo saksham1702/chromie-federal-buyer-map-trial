@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:11:17Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMW 240\",\"capability\":\"Personnel and pay system sustainment and integration\",\"short_names\":[\"NSIPS\",\"NP2\"],\"aliases\":[\"Personnel and Pay Integration and Sustainment\",\"PMW 240's Personnel & Pay Integration and Sustainment requirement\",\"Navy Standard Integrated Personnel System (NSIPS)\",\"Navy Personnel and Pay (NP2)\",\"N00039-24-R-4010\",\"N00039-23-C-0002\"],\"capability_terms\":[\"personnel-pay integration\",\"Navy HR system sustainment\",\"pay capability integration\",\"cloud-hosted HR systems\",\"personnel system operations\"],\"confidence\":0.98}",
+ "request_key": "217c1496c3590a9725c211e49e1fab99beeb077a7a589df28836b501469ffd66",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1667,
+  "output_tokens": 395
+ },
+ "user_sha256": "765862e59e77bb41"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:38:04Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"ONR Portfolio Management and Code 011\",\"capability\":\"strategy, policy, plans, assessment support services\",\"short_names\":[\"SPPA\",\"Code 011\"],\"aliases\":[\"ONR Portfolio Management and Code 011 Strategy, Policy, Plans, and Assessment (SPPA) Directorate Support Services\",\"solicitation N0001426R4003\",\"Amendment 0001\"],\"capability_terms\":[\"portfolio management support\",\"strategy and policy support\",\"plans and assessment support\",\"directorate support services\"],\"confidence\":0.94}",
+ "request_key": "d7e6416e1944393347430f3fbe2b052c3a514f0d82f06ea05d608dc0e6972ecd",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 605,
+  "output_tokens": 184
+ },
+ "user_sha256": "18cc35ffe988f580"
+}

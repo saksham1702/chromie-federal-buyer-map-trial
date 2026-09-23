@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:19:42Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"planning yard support for LCS modernization\",\"short_names\":[\"LCS\"],\"aliases\":[\"Littoral Combat Ship Planning Yard Support\",\"Planning Yard (PY) Support\",\"Littoral Combat Ships (LCS) Class\",\"solicitation N0002424R4313\"],\"capability_terms\":[\"planning yard support\",\"ship modernization support\",\"ship configuration support\",\"logistics lifetime support\",\"engineering and technical support\"],\"confidence\":0.94}",
+ "request_key": "2073dd041219a4d1aa0cc3225265e80ee7fd3cb56082dc841b05c1a077d5f684",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 566,
+  "output_tokens": 193
+ },
+ "user_sha256": "a76e99059d843e45"
+}

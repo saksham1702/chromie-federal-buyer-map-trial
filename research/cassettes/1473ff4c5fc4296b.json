@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:36:14Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"GPU accelerator hardware\",\"short_names\":[\"NVIDIA Liqid GPU\"],\"aliases\":[\"NVIDIA Liqid GPU solicitation\",\"solicitation N00173-26-Q-1301396903\",\"N00173-26-Q-1301396903\"],\"capability_terms\":[\"GPU computing\",\"accelerated computing\",\"high-performance computing\",\"graphics processing acceleration\"],\"confidence\":0.97}",
+ "request_key": "1473ff4c5fc4296bfba7634b83f91a33116f2cd8b850e3abe99f0c7bb937fe9a",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1688,
+  "output_tokens": 183
+ },
+ "user_sha256": "1d44b0369ea2e507"
+}

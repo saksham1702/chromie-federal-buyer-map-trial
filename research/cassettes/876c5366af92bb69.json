@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:31:35Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory\",\"capability\":\"install a metal space-frame radome\",\"short_names\":[\"M40\"],\"aliases\":[\"INSTALLATION OF M40 METAL SPACE FRAME RADOME\",\"M40 METAL SPACE FRAME RADOME\"],\"capability_terms\":[\"radome installation\",\"radome enclosure\",\"radar antenna enclosure\"],\"confidence\":0.94}",
+ "request_key": "876c5366af92bb69532ed08c8db21c2c2e987bd1094ba5990695cf7f5341b943",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1785,
+  "output_tokens": 167
+ },
+ "user_sha256": "08b1d2bb60b81bc1"
+}

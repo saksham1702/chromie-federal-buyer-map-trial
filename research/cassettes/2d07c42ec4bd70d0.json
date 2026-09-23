@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:27:57Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"concrete chiller pads\",\"short_names\":[\"Concert Chiller Pads\",\"Concrete Chiller Pad\"],\"aliases\":[\"N0017326P5609\",\"combined synopsis/solicitation\"],\"capability_terms\":[\"chiller equipment pads\",\"concrete equipment foundations\",\"HVAC pad construction\"],\"confidence\":0.81}",
+ "request_key": "2d07c42ec4bd70d0ead03484fc257e2b8a43697ad7ec21ce320243d9394f09ce",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1686,
+  "output_tokens": 236
+ },
+ "user_sha256": "a0244341b9c599b1"
+}

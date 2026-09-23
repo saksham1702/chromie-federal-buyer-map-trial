@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:34:14Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NRL\",\"capability\":\"commissioning and upgrading robotic system\",\"short_names\":[\"NRL Robotics Industry Day\"],\"aliases\":[\"N0017326RFIGF12\",\"request for information\",\"sources sought\"],\"capability_terms\":[\"robotic system\",\"robotics\",\"system commissioning\",\"system upgrade\"],\"confidence\":0.93}",
+ "request_key": "7707d9e897e942e909d03a20d9763f39b124ccd37288e2577d1ed8c57ddb9b1f",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 612,
+  "output_tokens": 191
+ },
+ "user_sha256": "59e9f5634c904438"
+}

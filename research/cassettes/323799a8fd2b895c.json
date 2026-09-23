@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:10:09Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NAVWAR PEO MLB\",\"capability\":\"enterprise resource planning solutions\",\"short_names\":[\"ERP\"],\"aliases\":[\"enterprise resource planning (ERP)\",\"NAVY PEO MLB Enterprise Resource Planning (ERP) Market Research\",\"NAVWAR_Headquarters_MKTSVY_19731E\"],\"capability_terms\":[\"enterprise resource planning\",\"ERP solutions\",\"business systems modernization\",\"market surveillance for ERP\"],\"confidence\":0.97}",
+ "request_key": "323799a8fd2b895c882a45f659be86704e10772e153aafc8c08551b354f68f95",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 698,
+  "output_tokens": 200
+ },
+ "user_sha256": "2584bc7c93e7d7fc"
+}

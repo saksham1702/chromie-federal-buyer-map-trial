@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:31:47Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NAVSEA\",\"capability\":\"Engineering support for Hammerhead mine system\",\"short_names\":[\"Hammerhead\",\"Hammerhead Program\",\"MOD 1\"],\"aliases\":[\"Hammerhead Program Engineering Services Increase\",\"Engineering Support Service (ESS)\",\"Contract No. N00024-21-C-6425\",\"solicitation N0002426R2263\",\"Technical Data Package (TDP)\",\"modified configuration(s)\"],\"capability_terms\":[\"moored-torpedo variant mine system\",\"anti-submarine warfare targets\",\"mine system engineering support\",\"technical data package development\",\"production transition\"],\"confidence\":0.95}",
+ "request_key": "95f5fbd2d79eb05520a847521a8c67381d2f26c050bc29ef279ce141a77ab936",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1105,
+  "output_tokens": 372
+ },
+ "user_sha256": "a394297df0d394f9"
+}

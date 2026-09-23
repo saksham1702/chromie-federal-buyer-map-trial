@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:14:52Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"MIDS Program Office (MPO)\",\"capability\":\"NSA-certified tactical data link radios\",\"short_names\":[\"MIDS WDL SF4 Radios\",\"SWARMM Family 4\"],\"aliases\":[\"Multifunctional Information Distribution System (MIDS)\",\"MIDS Weapons Data Link (WDL) Small Form Factor Weapons Attritable Radio Multi-Mode (SWARMM) Family 4 (SF4) Radios\",\"NAVWAR_Headquarters_MKTSVY_1A08B6\"],\"capability_terms\":[\"tactical data link radios\",\"Link 16 radios\",\"NSA-certified radios\",\"multi-mode weapons data link\",\"small form factor attritable radio\"],\"confidence\":0.94}",
+ "request_key": "2918aff00d21dd4f5ebbee31104d19fb068a9646858f3e7bc53c2a68a257afc9",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 626,
+  "output_tokens": 251
+ },
+ "user_sha256": "8b2341f47684afec"
+}

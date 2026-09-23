@@ -1,0 +1,4070 @@
+{
+ "cap_chars": 60000,
+ "documents": [
+  {
+   "audience": "industry",
+   "cassette": "cfb60c60c7e6bea8.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "",
+   "event_name": "Sea Air Space 2026",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.98,
+     "event_type": "conference_appearance",
+     "evidence_span": "According to Breaking Defense, the conference is expected to focus on Adm. Daryl Caudle's first appearance at the event as chief of naval operations, military-wide acquisition reform, and the Navy's role in the ongoing conflict in Iran.",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "Adm. Daryl Caudle",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "Adm. Daryl Caudle is expected to make his first appearance at Sea Air Space 2026 as chief of naval operations."
+    }
+   ],
+   "hearing_url": null,
+   "issued": "2026-04-17",
+   "kind": "conference",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/0d62802b2d71_sea-air-space-2026-navy-acquisition-reform-iran-focus",
+   "publisher": "developmentstoday.com",
+   "retrieved_at": "2026-09-22T08:42:52Z",
+   "sha256": "0d62802b2d71dfd67d0529082097aad78b5e43d0897687fdde4bb5bbe050e5ee",
+   "source_authority": "third_party",
+   "speaker_name": "Adm. Daryl Caudle",
+   "speaker_role": "chief of naval operations",
+   "text_chars": 11830,
+   "title": "Sea Air Space 2026 Focuses on Navy Leadership, Reform, and Iran | Developments Today",
+   "url": "https://developmentstoday.com/military/sea-air-space-2026-navy-acquisition-reform-iran-focus",
+   "witnesses": []
+  },
+  {
+   "audience": "congress",
+   "cassette": "7e092445758c05bf.json",
+   "date_basis": "page",
+   "dropped": {
+    "a second event of the same kind on the same passage": 4,
+    "evidence span is not on the saved page verbatim": 1
+   },
+   "event_host": "",
+   "event_name": "",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "Indo-Pacific balance of power",
+     "confidence": 0.95,
+     "event_type": "strategy_change",
+     "evidence_span": "In alignment with the 2026 National Defense Strategy, the Department of the Navy will provide the military strength for the President's vision by setting conditions for a balance of power in the Indo-Pacific that allows all of us—the United States, China, and others in the region—to enjoy a decent peace.",
+     "organization": "Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Department of the Navy says it is aligning with the 2026 National Defense Strategy to set conditions for a balance of power in the Indo-Pacific and to prepare denial defense and long-range strikes."
+    },
+    {
+     "amounts": [],
+     "capability": "shipbuilding industrial capacity",
+     "confidence": 0.98,
+     "event_type": "strategy_change",
+     "evidence_span": "The Department of the Navy is decisively moving towards implementing the President's new Maritime Golden Age strategy by building a resilient workforce and strengthening alliances that advance our strategic position and shipbuilding industrial capacity.",
+     "organization": "Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Department of the Navy says it is moving to implement the President's new Maritime Golden Age strategy by building a resilient workforce and strengthening alliances that support shipbuilding industrial capacity."
+    },
+    {
+     "amounts": [],
+     "capability": "submarine production",
+     "confidence": 0.97,
+     "event_type": "capability_priority",
+     "evidence_span": "Specifically for the Navy, submarine production will increase, reflecting the service's prioritization in bolstering our organic sustainment capabilities, growing nontraditional vendors, and partnering with traditional DIB vendors.",
+     "organization": "Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Navy says it will increase submarine production and prioritize organic sustainment, nontraditional vendors, and traditional DIB partners."
+    },
+    {
+     "amounts": [
+      "$377.5 billion",
+      "$70.9 billion"
+     ],
+     "capability": "budget funding",
+     "confidence": 0.99,
+     "event_type": "funding_change",
+     "evidence_span": "The Department's Fiscal Year (FY) 2027 budget request is a $377.5 billion strategic investment which represents a $70.9 billion increase, and a more than 23 percent growth over FY26—and signals a clear commitment to the Golden Fleet Initiative, modernization, and readiness.",
+     "organization": "Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Department of the Navy's fiscal year 2027 budget request is $377.5 billion, which is a $70.9 billion increase and more than 23 percent growth over FY26."
+    },
+    {
+     "amounts": [
+      "$338.7 billion",
+      "$38.8 billion"
+     ],
+     "capability": "budget funding",
+     "confidence": 0.99,
+     "event_type": "funding_change",
+     "evidence_span": "This budget request combines $338.7 billion in discretionary funding and $38.8 billion in mandatory funding to align resources with operational demand and industrial reality.",
+     "organization": "Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The budget request includes $338.7 billion in discretionary funding and $38.8 billion in mandatory funding."
+    },
+    {
+     "amounts": [],
+     "capability": "procurement funding",
+     "confidence": 0.97,
+     "event_type": "funding_change",
+     "evidence_span": "The request prioritizes the following funding lines: • Procurement: +45.1% - expanding capacity and accelerating delivery • Operations and Maintenance: +19.8% - restoring readiness and availability • Military Construction: +13.6% - rebuilding the infrastructure behind the Fleet • Military Personnel: +4.8% - investing in our Sailors and Marines • Research and Development: +4.5% - sustaining our technological edge",
+     "organization": "Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The request prioritizes procurement with a 45.1 percent increase."
+    },
+    {
+     "amounts": [],
+     "capability": "unmanned systems",
+     "confidence": 0.98,
+     "event_type": "capability_priority",
+     "evidence_span": "Modernization continues to gain momentum, shifting from experimentation to fielding, with a focus on precision fires, air defense, unmanned systems, resilient command and control, and electromagnetic warfare.",
+     "organization": "Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Department says modernization is shifting from experimentation to fielding, with emphasis on precision fires, air defense, unmanned systems, resilient command and control, and electromagnetic warfare."
+    },
+    {
+     "amounts": [],
+     "capability": "shipbuilding initiatives",
+     "confidence": 0.95,
+     "event_type": "capability_priority",
+     "evidence_span": "The Department of the Navy's enduring priorities are clear: • Take Care of Sailors and Marines • Advance Shipbuilding Initiatives • Defend Our Homeland",
+     "organization": "Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Department's enduring priorities include taking care of Sailors and Marines, advancing shipbuilding initiatives, and defending the homeland."
+    },
+    {
+     "amounts": [
+      "$350M",
+      "$375M"
+     ],
+     "capability": "barracks and UH improvements",
+     "confidence": 0.99,
+     "event_type": "funding_change",
+     "evidence_span": "Furthermore, the Navy received $375M and the Marine Corps $350M from the One Big Beautiful Bill Act (OBBBA) for restoration and modernization for barracks/UH improvements.",
+     "organization": "Navy and Marine Corps",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Navy and Marine Corps received $375M and $350M from the One Big Beautiful Bill Act for barracks and unaccompanied housing restoration and modernization."
+    },
+    {
+     "amounts": [],
+     "capability": "galley modernization",
+     "confidence": 0.98,
+     "event_type": "program_created",
+     "evidence_span": "In conjunction with military food transformation and modernization, the Navy is launching two ashore galley pilot sites in the third quarter of FY26, with the intention of expanding choice, increasing healthy options, expanding access, and increasing ashore galley utilization.",
+     "organization": "Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "ashore galley pilot sites",
+     "source_authority": "first_party",
+     "statement": "The Department plans to launch two ashore galley pilot sites in the third quarter of FY26."
+    },
+    {
+     "amounts": [],
+     "capability": "suicide prevention",
+     "confidence": 0.99,
+     "event_type": "program_created",
+     "evidence_span": "I have created a Suicide Prevention and Response Task Force to evaluate existing prevention and response capabilities, assess gaps, identify promising new programs, and provide recommendations to restore, strengthen, and sustain the mental, emotional, physical, and spiritual resilience of America's Navy and Marine Corps warriors.",
+     "organization": "Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "Suicide Prevention and Response Task Force",
+     "source_authority": "first_party",
+     "statement": "The Secretary says he has created a Suicide Prevention and Response Task Force to evaluate prevention and response capabilities and recommend improvements."
+    },
+    {
+     "amounts": [],
+     "capability": "combat ships",
+     "confidence": 0.97,
+     "event_type": "capability_priority",
+     "evidence_span": "That requires us to invest in current and new classes of combat ships, in new capabilities such as unmanned systems, and to recapitalize our auxiliary fleet.",
+     "organization": "Navy and Marine Corps",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Navy and Marine Corps are investing in current and new classes of combat ships, unmanned systems, and a recapitalized auxiliary fleet."
+    },
+    {
+     "amounts": [
+      "tens of billions of dollars"
+     ],
+     "capability": "shipyard capacity",
+     "confidence": 0.97,
+     "event_type": "capability_priority",
+     "evidence_span": "Next, we are revitalizing shipyards across America with tens of billions of dollars in stable, predictable, long-term investments to get more ships in the water, bolstering high-skill, high-wage American jobs.",
+     "organization": "Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Department is revitalizing shipyards across America with long-term investments to increase ship production."
+    },
+    {
+     "amounts": [],
+     "capability": "shipbuilding process",
+     "confidence": 0.98,
+     "event_type": "strategy_change",
+     "evidence_span": "Finally, we are moving Navy shipbuilding from a compliance-based bureaucracy to an outcome-focused warfighting enterprise - restoring accountability, rewarding performance, and embracing advanced technology to deliver capability at speed by enforcing discipline, leveraging distributed production, and enabling stable, repeatable workloads.",
+     "organization": "Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Navy says it is moving shipbuilding from a compliance-based bureaucracy to an outcome-focused warfighting enterprise."
+    },
+    {
+     "amounts": [],
+     "capability": "rapid acquisition",
+     "confidence": 0.98,
+     "event_type": "program_created",
+     "evidence_span": "To accelerate delivery of the new LSM, the Navy is using a rapid acquisition strategy with a commercial Vessel Construction Manager (VCM), with the expectation of fielding LSM at a higher rate.",
+     "organization": "Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Medium Landing Ship",
+     "source_authority": "first_party",
+     "statement": "The Navy says it is establishing a rapid acquisition strategy with a commercial Vessel Construction Manager to accelerate delivery of the new Medium Landing Ship."
+    },
+    {
+     "amounts": [],
+     "capability": "homeland defense",
+     "confidence": 0.97,
+     "event_type": "capability_priority",
+     "evidence_span": "Under the President's leadership, consistent with his vision and direction as laid out in the National Security Strategy (NSS), the Department is laserfocused on restoring peace through strength by defending our homeland and interests in the Western Hemisphere.",
+     "organization": "Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Department is laser-focused on defending the homeland and interests in the Western Hemisphere."
+    },
+    {
+     "amounts": [],
+     "capability": "maritime interdiction",
+     "confidence": 0.96,
+     "event_type": "capability_priority",
+     "evidence_span": "As part of Operation Southern Spear, our naval forces are providing domain awareness and regional maritime security through enhanced counternarcotics operations and maritime interdiction in the U.S. Northern Command and U.S. Southern Command areas of responsibility.",
+     "organization": "naval forces",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Operation Southern Spear",
+     "source_authority": "first_party",
+     "statement": "The naval force is providing domain awareness, regional maritime security, counternarcotics operations, and maritime interdiction in U.S. Northern Command and U.S. Southern Command areas."
+    },
+    {
+     "amounts": [
+      "$2.2B",
+      "several hundred million dollars"
+     ],
+     "capability": "Mawar recovery",
+     "confidence": 0.99,
+     "event_type": "funding_change",
+     "evidence_span": "The Department of the Navy has executed several hundred million dollars in emergent repairs related to Mawar damage to date; and the Fiscal Year 2025 (FY 25) Supplement provided $2.2B for Mawar recovery efforts.",
+     "organization": "Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Department has executed several hundred million dollars in emergent repairs for Typhoon Mawar, and FY25 supplemental funding provided $2.2B for recovery."
+    },
+    {
+     "amounts": [],
+     "capability": "procurement reform",
+     "confidence": 0.98,
+     "event_type": "strategy_change",
+     "evidence_span": "I am committed to restoring your faith in the Department of the Navy, delivering on the President's vision for the MIB, and investment in the MAP which will require adjustment to policies that modernize government procurement processes and streamline regulations to accelerate shipbuilding and reduce costs.",
+     "organization": "Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Secretary says the Department will adjust policies to modernize procurement processes and streamline regulations to accelerate shipbuilding and reduce costs."
+    }
+   ],
+   "hearing_url": "https://docs.house.gov/Committee/Calendar/ByEvent.aspx?EventID=119266",
+   "issued": "2026-05-12",
+   "kind": "statement",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [
+    "event_host",
+    "event_name",
+    "speaker_name",
+    "speaker_role"
+   ],
+   "path": "data/raw/ed623e2e4ac2_HHRG-119-AP02-Wstate-CaoH-20260512.pdf",
+   "publisher": "U.S. House of Representatives",
+   "retrieved_at": "2026-09-22T08:51:46Z",
+   "sha256": "ed623e2e4ac2ffabb32dabed4121424edbe36063b5317a1df23e8bb83e7f35f9",
+   "source_authority": "first_party",
+   "speaker_name": "",
+   "speaker_role": "",
+   "text_chars": 23317,
+   "title": "Hearing: Budget Hearing - The United States Navy and Marine Corps Subcommittee on Defense (Committee on Appropriations)",
+   "url": "https://docs.house.gov/meetings/AP/AP02/20260512/119266/HHRG-119-AP02-Wstate-CaoH-20260512.pdf",
+   "witnesses": [
+    {
+     "name": "The Honorable Hung Cao",
+     "position": "Acting Secretary of the Navy"
+    },
+    {
+     "name": "Admiral Daryl Caudle",
+     "position": "Chief of Naval Operations"
+    },
+    {
+     "name": "General Eric M. Smith",
+     "position": "Commandant of the Marine Corps"
+    }
+   ]
+  },
+  {
+   "audience": "congress",
+   "cassette": "9105c3b86b6998dd.json",
+   "date_basis": "page",
+   "dropped": {
+    "evidence span is not on the saved page verbatim": 2,
+    "person is not written so in the text": 1
+   },
+   "event_host": "",
+   "event_name": "",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "sea-based nuclear deterrent",
+     "confidence": 0.98,
+     "event_type": "capability_priority",
+     "evidence_span": "The Columbia-class program and supporting efforts are essential to maintaining this capability and remain the Navy's top acquisition priority.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Columbia-class program",
+     "source_authority": "first_party",
+     "statement": "The Columbia-class program and supporting efforts are the Navy's top acquisition priority for preserving the sea-based nuclear deterrent."
+    },
+    {
+     "amounts": [],
+     "capability": "warfighting investment",
+     "confidence": 0.92,
+     "event_type": "strategy_change",
+     "evidence_span": "To meet these challenges, the Navy is executing a disciplined, warfighting-focused investment strategy. We are protecting the core of our combat power - our Sailors, our strategic deterrent, and the Foundry that generates readiness - while accelerating the maritime kill chain capabilities",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Navy is executing a warfighting-focused investment strategy that prioritizes readiness and combat effects over other considerations."
+    },
+    {
+     "amounts": [],
+     "capability": "submarine delivery",
+     "confidence": 0.98,
+     "event_type": "program_delayed",
+     "evidence_span": "While the lead ship is projected to deliver 12 to 18 months late, the Navy is working with shipbuilders to recover schedule and investing in Ohio-class life extensions to manage the transition.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Columbia-class",
+     "source_authority": "first_party",
+     "statement": "The lead Columbia-class submarine is projected to deliver 12 to 18 months late."
+    },
+    {
+     "amounts": [
+      "$3.4B",
+      "$9.1B"
+     ],
+     "capability": "shore infrastructure",
+     "confidence": 0.99,
+     "event_type": "funding_change",
+     "evidence_span": "To do so, the Navy is investing $9.1B in Facilities, Sustainment, Restoration, and Modernization, a $3.4B (60%) increase from FY26.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The FY27 budget increases funding for Facilities, Sustainment, Restoration, and Modernization to $9.1B, a $3.4B increase from FY26."
+    },
+    {
+     "amounts": [
+      "$1.6B",
+      "$21.6B"
+     ],
+     "capability": "weapons inventory",
+     "confidence": 0.99,
+     "event_type": "funding_change",
+     "evidence_span": "For that reason, the Navy is committed to a historic investment of $21.6B in FY27 for 4,612 weapons, including 540 Standard Missiles and 785 Tomahawk missiles. The Navy is also investing another $1.6B in the weapons industrial base.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Navy plans a historic FY27 weapons investment of $21.6B and another $1.6B for the weapons industrial base."
+    },
+    {
+     "amounts": [],
+     "capability": "military justice",
+     "confidence": 0.96,
+     "event_type": "congressional_directive",
+     "evidence_span": "The Navy has implemented the military justice reforms mandated by the FY22-FY25 NDAAs, enhancing accountability and strengthening the force.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Navy says its military justice reforms were mandated by the FY22-FY25 NDAAs."
+    }
+   ],
+   "hearing_url": "https://docs.house.gov/Committee/Calendar/ByEvent.aspx?EventID=119266",
+   "issued": "2026-05-12",
+   "kind": "statement",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [
+    "event_host",
+    "event_name",
+    "speaker_name"
+   ],
+   "path": "data/raw/2b64c6f7557f_HHRG-119-AP02-Wstate-CaudleD-20260512.pdf",
+   "publisher": "U.S. House of Representatives",
+   "retrieved_at": "2026-09-22T08:51:47Z",
+   "sha256": "2b64c6f7557f68fe3db1cab9a5c662cc0b2d05869a7553a8df55b6808be2ea21",
+   "source_authority": "first_party",
+   "speaker_name": "",
+   "speaker_role": "CHIEF OF NAVAL OPERATIONS",
+   "text_chars": 60000,
+   "title": "Hearing: Budget Hearing - The United States Navy and Marine Corps Subcommittee on Defense (Committee on Appropriations)",
+   "url": "https://docs.house.gov/meetings/AP/AP02/20260512/119266/HHRG-119-AP02-Wstate-CaudleD-20260512.pdf",
+   "witnesses": [
+    {
+     "name": "The Honorable Hung Cao",
+     "position": "Acting Secretary of the Navy"
+    },
+    {
+     "name": "Admiral Daryl Caudle",
+     "position": "Chief of Naval Operations"
+    },
+    {
+     "name": "General Eric M. Smith",
+     "position": "Commandant of the Marine Corps"
+    }
+   ]
+  },
+  {
+   "audience": "congress",
+   "cassette": "90c50357ebf68de4.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "",
+   "event_name": "",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "shipbuilding industrial capacity",
+     "confidence": 0.99,
+     "event_type": "strategy_change",
+     "evidence_span": "The Department of the Navy is decisively moving towards implementing the President's new Maritime Golden Age strategy by building a resilient workforce and strengthening alliances that advance our strategic position and shipbuilding industrial capacity.",
+     "organization": "The Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Department of the Navy is moving to implement the President's new Maritime Golden Age strategy by building a resilient workforce and strengthening alliances that support its strategic position and shipbuilding industrial capacity."
+    },
+    {
+     "amounts": [
+      "$377.5 billion",
+      "$70.9 billion"
+     ],
+     "capability": "",
+     "confidence": 0.99,
+     "event_type": "funding_change",
+     "evidence_span": "The Department's Fiscal Year (FY) 2027 budget request is a $377.5 billion strategic investment which represents a $70.9 billion increase, and a more than 23 percent growth over FY26—and signals a clear commitment to the Golden Fleet Initiative, modernization, and readiness.",
+     "organization": "The Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The fiscal year 2027 budget request is $377.5 billion, which is a $70.9 billion increase and more than 23 percent growth over fiscal year 2026."
+    },
+    {
+     "amounts": [],
+     "capability": "readiness and modernization",
+     "confidence": 0.92,
+     "event_type": "capability_priority",
+     "evidence_span": "The request prioritizes the following funding lines: • Procurement: +45.1% - expanding capacity and accelerating delivery • Operations and Maintenance: +19.8% - restoring readiness and availability • Military Construction: +13.6% - rebuilding the infrastructure behind the Fleet • Military Personnel: +4.8% - investing in our Sailors and Marines • Research and Development: +4.5% - sustaining our technological edge",
+     "organization": "The Department's Fiscal Year (FY) 2027 budget request",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Department is prioritizing procurement, operations and maintenance, military construction, military personnel, and research and development to expand capacity, restore readiness, rebuild infrastructure, invest in personnel, and sustain its technological edge."
+    },
+    {
+     "amounts": [],
+     "capability": "modernization priorities",
+     "confidence": 0.98,
+     "event_type": "capability_priority",
+     "evidence_span": "Modernization continues to gain momentum, shifting from experimentation to fielding, with a focus on precision fires, air defense, unmanned systems, resilient command and control, and electromagnetic warfare.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "Modernization is being directed toward precision fires, air defense, unmanned systems, resilient command and control, and electromagnetic warfare."
+    },
+    {
+     "amounts": [],
+     "capability": "galley modernization",
+     "confidence": 0.97,
+     "event_type": "program_created",
+     "evidence_span": "In conjunction with military food transformation and modernization, the Navy is launching two ashore galley pilot sites in the third quarter of FY26, with the intention of expanding choice, increasing healthy options, expanding access, and increasing ashore galley utilization.",
+     "organization": "The Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Department is launching two ashore galley pilot sites in the third quarter of fiscal year 2026."
+    },
+    {
+     "amounts": [],
+     "capability": "suicide prevention",
+     "confidence": 0.99,
+     "event_type": "program_created",
+     "evidence_span": "I have created a Suicide Prevention and Response Task Force to evaluate existing prevention and response capabilities, assess gaps, identify promising new programs, and provide recommendations to restore, strengthen, and sustain the mental, emotional, physical, and spiritual resilience of America's Navy and Marine Corps warriors.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Suicide Prevention and Response Task Force",
+     "source_authority": "first_party",
+     "statement": "The Secretary has created a Suicide Prevention and Response Task Force to evaluate prevention and response capabilities and recommend improvements."
+    },
+    {
+     "amounts": [],
+     "capability": "combat ships and unmanned systems",
+     "confidence": 0.98,
+     "event_type": "capability_priority",
+     "evidence_span": "That requires us to invest in current and new classes of combat ships, in new capabilities such as unmanned systems, and to recapitalize our auxiliary fleet.",
+     "organization": "The Navy and Marine Corps",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Navy and Marine Corps are investing in current and new classes of combat ships, unmanned systems, and an auxiliary fleet recapitalization to meet competition and conflict across the spectrum."
+    }
+   ],
+   "hearing_url": "https://docs.house.gov/Committee/Calendar/ByEvent.aspx?EventID=119273",
+   "issued": "2026-05-14",
+   "kind": "statement",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [
+    "event_host",
+    "event_name",
+    "speaker_name",
+    "speaker_role"
+   ],
+   "path": "data/raw/158f299ac2a1_HHRG-119-AS00-20260514-SD004.pdf",
+   "publisher": "U.S. House of Representatives",
+   "retrieved_at": "2026-09-22T08:51:36Z",
+   "sha256": "158f299ac2a18947011f954650b05c4d82f54a0d498ab871306d2721cf6bd1ee",
+   "source_authority": "first_party",
+   "speaker_name": "",
+   "speaker_role": "",
+   "text_chars": 23268,
+   "title": "Hearing: Department of the Navy Fiscal Year 2027 Budget Request Committee on Armed Services",
+   "url": "https://docs.house.gov/meetings/AS/AS00/20260514/119273/HHRG-119-AS00-20260514-SD004.pdf",
+   "witnesses": [
+    {
+     "name": "The Honorable Hung Cao",
+     "position": "Acting Secretary of the Navy, Department of the Navy"
+    },
+    {
+     "name": "Admiral Daryl Caudle",
+     "position": "Chief of Naval Operations, United States Navy"
+    },
+    {
+     "name": "General Eric M. Smith",
+     "position": "Commandant, United States Marine Corps"
+    }
+   ]
+  },
+  {
+   "audience": "congress",
+   "cassette": "55b21d983042d502.json",
+   "date_basis": "page",
+   "dropped": {
+    "a second event of the same kind on the same passage": 1,
+    "evidence span is not on the saved page verbatim": 1
+   },
+   "event_host": "",
+   "event_name": "",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "investment strategy",
+     "confidence": 0.97,
+     "event_type": "strategy_change",
+     "evidence_span": "To meet these challenges, the Navy is executing a disciplined, warfighting-focused investment strategy. We are protecting the core of our combat power - our Sailors, our strategic deterrent, and the Foundry that generates readiness - while accelerating the maritime kill chain capabilities that convert readiness into combat effects: command and control, counter-targeting, sensing and scouting, precision payload delivery, terminal defense, and contested logistics.",
+     "organization": "the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Navy says it is executing a disciplined, warfighting-focused investment strategy."
+    },
+    {
+     "amounts": [],
+     "capability": "nuclear deterrent",
+     "confidence": 0.99,
+     "event_type": "capability_priority",
+     "evidence_span": "The Columbia-class program and supporting efforts are essential to maintaining this capability and remain the Navy's top acquisition priority.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Columbia-class program",
+     "source_authority": "first_party",
+     "statement": "The Columbia-class program remains the Navy's top acquisition priority for preserving the sea-based strategic deterrent."
+    },
+    {
+     "amounts": [],
+     "capability": "Sailor readiness",
+     "confidence": 0.95,
+     "event_type": "funding_change",
+     "evidence_span": "We are investing in housing, pay, training, and total Sailor wellness to ensure our people - the Navy's primary weapon system - are ready, resilient, and retained.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Navy says it is investing more in housing, pay, training, and total Sailor wellness to keep people ready and retained."
+    },
+    {
+     "amounts": [],
+     "capability": "maintenance and spares",
+     "confidence": 0.96,
+     "event_type": "funding_change",
+     "evidence_span": "Fully funding our global network of critical infrastructure, maintenance facilities, ship operations, flying hours, and spares is the fastest way to meaningfully increase combat power today.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Navy says it is fully funding critical infrastructure, maintenance facilities, ship operations, flying hours, and spares to increase combat power today."
+    },
+    {
+     "amounts": [
+      "$1.4B",
+      "$2.1B",
+      "$700M"
+     ],
+     "capability": "spares",
+     "confidence": 0.99,
+     "event_type": "funding_change",
+     "evidence_span": "The One Big Beautiful Bill Act made $2.1B available for spares: $1.4B for maritime spares and $700M for amphibious spares/rotatable pool establishment.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The One Big Beautiful Bill Act added $2.1B for spares, split between maritime and amphibious spares."
+    },
+    {
+     "amounts": [
+      "$3.4B",
+      "$9.1B"
+     ],
+     "capability": "shore infrastructure",
+     "confidence": 0.99,
+     "event_type": "funding_change",
+     "evidence_span": "Our FY27 budget prioritizes restoration and modernization investments in unaccompanied housing, ensuring our most critical warfighting advantage - our Sailors - are safe, secure, resilient, and missionfocused. To do so, the Navy is investing $9.1B in Facilities, Sustainment, Restoration, and Modernization, a $3.4B (60%) increase from FY26.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Navy's FY27 budget increases Facilities, Sustainment, Restoration, and Modernization funding to $9.1B, up $3.4B from FY26."
+    },
+    {
+     "amounts": [],
+     "capability": "food service",
+     "confidence": 0.95,
+     "event_type": "program_created",
+     "evidence_span": "In conjunction with military food transformation and modernization, the Navy is launching two ashore galley pilot sites in the third quarter of FY26, with the intention of expanding choice, increasing healthy options, expanding access, and increasing ashore galley utilization.",
+     "organization": "the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "two ashore galley pilot sites",
+     "source_authority": "first_party",
+     "statement": "The Navy is launching two ashore galley pilot sites in FY26."
+    },
+    {
+     "amounts": [],
+     "capability": "carrier aviation",
+     "confidence": 0.89,
+     "event_type": "program_delayed",
+     "evidence_span": "Failure to field next-generation carrier 22 aviation capability on schedule will introduce risk to air superiority, strike reach, and the longterm viability of carrier-based operations in contested environments.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "F/A-XX",
+     "source_authority": "first_party",
+     "statement": "The Navy says the F/A-XX will fail to field on schedule if development slips."
+    },
+    {
+     "amounts": [],
+     "capability": "F-35 procurement",
+     "confidence": 0.98,
+     "event_type": "funding_change",
+     "evidence_span": "To that end, PB27 procures 20 F-35s, an increase of 12 aircraft compared to FY26.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "F-35C",
+     "source_authority": "first_party",
+     "statement": "PB27 procures 20 F-35s, which is 12 more aircraft than FY26."
+    },
+    {
+     "amounts": [
+      "$1.6B",
+      "$21.6B"
+     ],
+     "capability": "missile and weapons procurement",
+     "confidence": 0.99,
+     "event_type": "funding_change",
+     "evidence_span": "For that reason, the Navy is committed to a historic investment of $21.6B in FY27 for 4,612 weapons, including 540 Standard Missiles and 785 Tomahawk missiles. The Navy is also investing another $1.6B in the weapons industrial base.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The FY27 budget includes $21.6B for 4,612 weapons and $1.6B for the weapons industrial base."
+    },
+    {
+     "amounts": [
+      "one billion dollars"
+     ],
+     "capability": "surface combatant procurement",
+     "confidence": 0.99,
+     "event_type": "funding_change",
+     "evidence_span": "PB-27 includes one billion dollars of advanced procurement for Battleship.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Battleship",
+     "source_authority": "first_party",
+     "statement": "PB-27 includes one billion dollars of advanced procurement for Battleship."
+    },
+    {
+     "amounts": [
+      "$1.4B"
+     ],
+     "capability": "surface combatant procurement",
+     "confidence": 0.99,
+     "event_type": "funding_change",
+     "evidence_span": "PB-27 includes $1.4B for Frigate.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Frigate",
+     "source_authority": "first_party",
+     "statement": "PB-27 includes $1.4B for Frigate."
+    },
+    {
+     "amounts": [
+      "$15.2B"
+     ],
+     "capability": "submarine procurement",
+     "confidence": 0.99,
+     "event_type": "funding_change",
+     "evidence_span": "PB-27 includes $15.2B for Columbia-class program full funding, advanced procurement, and industrial base investments.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Columbia-class program",
+     "source_authority": "first_party",
+     "statement": "PB-27 includes $15.2B for the Columbia-class program."
+    },
+    {
+     "amounts": [
+      "$14B"
+     ],
+     "capability": "submarine production",
+     "confidence": 0.99,
+     "event_type": "funding_change",
+     "evidence_span": "PB-27 includes $14B for the Virginia-class program across advanced procurement, procurement of two submarines, industrial base investments, and shipbuilder productivity and wage enhancements.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Virginia-class program",
+     "source_authority": "first_party",
+     "statement": "PB-27 includes $14B for the Virginia-class program."
+    },
+    {
+     "amounts": [
+      "$1.9B",
+      "$2.1B",
+      "$4.1B"
+     ],
+     "capability": "carrier procurement",
+     "confidence": 0.99,
+     "event_type": "funding_change",
+     "evidence_span": "PB-27 includes $4.1B for aircraft carriers: $1.9B for advanced procurement of CVN-82 and $2.1B of incremental funding for CVNs-80/81.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "aircraft carriers",
+     "source_authority": "first_party",
+     "statement": "PB-27 includes $4.1B for aircraft carriers, including advanced procurement of CVN-82 and incremental funding for CVNs-80/81."
+    },
+    {
+     "amounts": [],
+     "capability": "littoral mobility",
+     "confidence": 0.98,
+     "event_type": "capability_priority",
+     "evidence_span": "The Marine Corps and Navy are developing the new Medium Landing Ship (LSMs) to address a recognized littoral mobility gap in the Indo-Pacific and support the Marine Corps' Force Design.",
+     "organization": "The Marine Corps and Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Medium Landing Ship (LSMs)",
+     "source_authority": "first_party",
+     "statement": "The Navy is developing the Medium Landing Ship to close a littoral mobility gap in the Indo-Pacific."
+    }
+   ],
+   "hearing_url": "https://docs.house.gov/Committee/Calendar/ByEvent.aspx?EventID=119273",
+   "issued": "2026-05-14",
+   "kind": "statement",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [
+    "event_host",
+    "event_name",
+    "speaker_name",
+    "speaker_role"
+   ],
+   "path": "data/raw/924339f60a9a_HHRG-119-AS00-20260514-SD005.pdf",
+   "publisher": "U.S. House of Representatives",
+   "retrieved_at": "2026-09-22T08:51:37Z",
+   "sha256": "924339f60a9a7d571932822fc7ed1c5a7c74773f9278773201cc2201cd42d58b",
+   "source_authority": "first_party",
+   "speaker_name": "",
+   "speaker_role": "",
+   "text_chars": 60000,
+   "title": "Hearing: Department of the Navy Fiscal Year 2027 Budget Request Committee on Armed Services",
+   "url": "https://docs.house.gov/meetings/AS/AS00/20260514/119273/HHRG-119-AS00-20260514-SD005.pdf",
+   "witnesses": [
+    {
+     "name": "The Honorable Hung Cao",
+     "position": "Acting Secretary of the Navy, Department of the Navy"
+    },
+    {
+     "name": "Admiral Daryl Caudle",
+     "position": "Chief of Naval Operations, United States Navy"
+    },
+    {
+     "name": "General Eric M. Smith",
+     "position": "Commandant, United States Marine Corps"
+    }
+   ]
+  },
+  {
+   "audience": "congress",
+   "cassette": "bdebb98ef10e92d3.json",
+   "date_basis": "page",
+   "dropped": {
+    "evidence span is not on the saved page verbatim": 1
+   },
+   "event_host": "",
+   "event_name": "",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "homeland defense",
+     "confidence": 0.95,
+     "event_type": "capability_priority",
+     "evidence_span": "Defending the homeland and the American people—whether at the land borders or across the maritime approaches—remains the Marine Corps' top priority as the Nation's premier expeditionary force-in-readiness. At the same time the Indo-Pacific remains the region where military competition is most intense and where strategic risk is most concentrated.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Marine Corps says defending the homeland is its top priority, while also treating the Indo-Pacific as its most consequential theater."
+    },
+    {
+     "amounts": [],
+     "capability": "amphibious presence",
+     "confidence": 0.98,
+     "event_type": "capability_priority",
+     "evidence_span": "To ensure the Corps remains the Nation's premier expeditionary force in readiness—capable of deterring, responding, and winning in any clime or place—we are focused on: restoring a 3.0 Amphibious Ready Group and Marine Expeditionary Unit presence, setting the theater, accelerating modernization and lethality, and building and sustaining a lethal force.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Corps says it is focused on restoring a 3.0 ARG/MEU presence, setting the theater, accelerating modernization and lethality, and building and sustaining a lethal force."
+    },
+    {
+     "amounts": [],
+     "capability": "shipbuilding and modernization",
+     "confidence": 0.99,
+     "event_type": "funding_change",
+     "evidence_span": "This year's President's Budget allows us to sustain this momentum. A \"generational investment,\" the President's Budget for Fiscal Year 2027 (PB27) provides monumental investment in Amphibious Warfare Ships and Medium Landing Ships, revolutionizes our logistics enterprise to sustain distributed forces, accelerates our modernization and lethality efforts by years, and greatly enhances the Quality of Life for our Marines and Sailors.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "President's Budget for Fiscal Year 2027 (PB27)",
+     "source_authority": "first_party",
+     "statement": "The President's Budget for Fiscal Year 2027 is described as a generational investment that funds amphibious warfare ships, medium landing ships, logistics, modernization, and quality of life improvements."
+    },
+    {
+     "amounts": [],
+     "capability": "amphibious readiness",
+     "confidence": 0.95,
+     "event_type": "capability_priority",
+     "evidence_span": "My best military advice is that a continuous 3.0 ARG/MEU presence is required to provide Geographic Combatant Commanders, and our Nation, with the forces they need to meet the challenges presented across the globe. A 3.0 ARG/MEU presence means three continuously forward deployed ARG/MEU teams, one sourced from the East Coast, one from the West Coast, and one forward stationed from Okinawa.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "3.0 ARG/MEU presence",
+     "source_authority": "first_party",
+     "statement": "The Marine Corps says a continuous 3.0 ARG/MEU presence is required and that each team needs at least three amphibious warfare ships."
+    },
+    {
+     "amounts": [],
+     "capability": "littoral mobility",
+     "confidence": 0.97,
+     "event_type": "program_delayed",
+     "evidence_span": "While the Medium Landing Ship will arrive later than originally planned, recent decisions have restored momentum and set conditions for fielding the first vessels in the coming decade.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Medium Landing Ship",
+     "source_authority": "first_party",
+     "statement": "The Medium Landing Ship will arrive later than originally planned, though the Corps says recent decisions have restored momentum."
+    },
+    {
+     "amounts": [],
+     "capability": "littoral mobility",
+     "confidence": 0.98,
+     "event_type": "strategy_change",
+     "evidence_span": "Until the Medium Landing Ship is fielded in sufficient numbers, the Littoral Maneuver Bridging Strategy provides a necessary near-term solution to address critical mobility gaps. The strategy integrates contractor owned/contractor operated chartered vessels, hybrid-crewed expeditionary fast transport platforms, experimentation efforts, and selective modernization to sustain operational mobility for stand-in and forward-deployed forces.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Littoral Maneuver Bridging Strategy",
+     "source_authority": "first_party",
+     "statement": "Until the Medium Landing Ship is fielded in sufficient numbers, the Corps is using the Littoral Maneuver Bridging Strategy as a near-term workaround for mobility gaps."
+    },
+    {
+     "amounts": [],
+     "capability": "connectors",
+     "confidence": 0.93,
+     "event_type": "capability_priority",
+     "evidence_span": "A family of connectors remains essential to sustaining littoral mobility across diverse operational conditions. Platforms such as the Autonomous Low-Profile Vessel, Multi-Mission Reconnaissance Craft, and LCU 1710 provide complementary capabilities that enable tactical maneuver, logistics distribution, and reconnaissance in shallow and austere environments.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Autonomous Low-Profile Vessel, Multi-Mission Reconnaissance Craft, and LCU 1710",
+     "source_authority": "first_party",
+     "statement": "The Corps says it is working to field the Autonomous Low-Profile Vessel, Multi-Mission Reconnaissance Craft, and LCU 1710 to expand connector capacity."
+    }
+   ],
+   "hearing_url": "https://docs.house.gov/Committee/Calendar/ByEvent.aspx?EventID=119273",
+   "issued": "2026-05-14",
+   "kind": "statement",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [
+    "event_host",
+    "event_name",
+    "speaker_name",
+    "speaker_role"
+   ],
+   "path": "data/raw/f282c30e924f_HHRG-119-AS00-20260514-SD006.pdf",
+   "publisher": "U.S. House of Representatives",
+   "retrieved_at": "2026-09-22T08:51:38Z",
+   "sha256": "f282c30e924f00e5f0f45da85998ffb384fe0294ec62c9e15159115a43f6eae8",
+   "source_authority": "first_party",
+   "speaker_name": "",
+   "speaker_role": "",
+   "text_chars": 60000,
+   "title": "Hearing: Department of the Navy Fiscal Year 2027 Budget Request Committee on Armed Services",
+   "url": "https://docs.house.gov/meetings/AS/AS00/20260514/119273/HHRG-119-AS00-20260514-SD006.pdf",
+   "witnesses": [
+    {
+     "name": "The Honorable Hung Cao",
+     "position": "Acting Secretary of the Navy, Department of the Navy"
+    },
+    {
+     "name": "Admiral Daryl Caudle",
+     "position": "Chief of Naval Operations, United States Navy"
+    },
+    {
+     "name": "General Eric M. Smith",
+     "position": "Commandant, United States Marine Corps"
+    }
+   ]
+  },
+  {
+   "audience": "congress",
+   "cassette": "66fd9c6f21fe1663.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "",
+   "event_name": "",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "combat capability and capacity",
+     "confidence": 0.98,
+     "event_type": "strategy_change",
+     "evidence_span": "The Administration's Golden Fleet initiative is the strategic approach to deliver more combat capability and capacity to our warfighters than ever before.",
+     "organization": "The Administration's Golden Fleet initiative",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Department says the Administration's Golden Fleet initiative is its new strategic approach to deliver more combat capability and capacity to warfighters."
+    },
+    {
+     "amounts": [],
+     "capability": "unmanned systems",
+     "confidence": 0.94,
+     "event_type": "capability_priority",
+     "evidence_span": "The Navy is preparing to meet any foe throughout the spectrum of competition and conflict with a high-low mix of capabilities. That requires us to invest in current and new classes of combat ships at both the high and low ends, and in new capabilities such as unmanned systems that multiply the effects of the joint force.",
+     "organization": "The Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Navy says it needs a high-low mix of capabilities, including new unmanned systems, to prepare for competition and conflict."
+    },
+    {
+     "amounts": [
+      "$65.8 billion"
+     ],
+     "capability": "shipbuilding",
+     "confidence": 0.99,
+     "event_type": "funding_change",
+     "evidence_span": "The Budget requests $65.8 billion in shipbuilding funding for 18 battle force ships and 16 non-battle force ships.",
+     "organization": "The Budget",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Budget requests $65.8 billion in shipbuilding funding for 18 battle force ships and 16 non-battle force ships."
+    },
+    {
+     "amounts": [],
+     "capability": "shipbuilding",
+     "confidence": 0.82,
+     "event_type": "program_created",
+     "evidence_span": "The 2027 Budget, enables the Golden Fleet initiative, including initial funding for the Trump-class battleship and next generation frigates, as well as increasing the capacity of public shipyards and improving overall ship production.",
+     "organization": "The 2027 Budget",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Trump-class battleship",
+     "source_authority": "first_party",
+     "statement": "The Budget provides initial funding for the Trump-class battleship and next generation frigates."
+    },
+    {
+     "amounts": [],
+     "capability": "acquisition",
+     "confidence": 0.99,
+     "event_type": "strategy_change",
+     "evidence_span": "We are moving Navy shipbuilding acquisition from a compliance-based bureaucracy to an outcome-focused warfighting enterprise — restoring accountability, rewarding performance, and embracing advanced technology to deliver capability at speed by enforcing discipline, leveraging distributed production, and enabling stable, repeatable workloads.",
+     "organization": "Navy shipbuilding acquisition",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Department says it is changing Navy shipbuilding acquisition into an outcome-focused warfighting enterprise."
+    },
+    {
+     "amounts": [],
+     "capability": "acquisition management",
+     "confidence": 0.9,
+     "event_type": "program_created",
+     "evidence_span": "We have implemented Portfolio Acquisition Executives, specifically Maritime and Robotic Autonomous Systems, to streamline acquisition and more rapidly deliver capability to the fleet.",
+     "organization": "the Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "Portfolio Acquisition Executives",
+     "source_authority": "first_party",
+     "statement": "The Department says it has implemented Portfolio Acquisition Executives for Maritime and Robotic Autonomous Systems."
+    }
+   ],
+   "hearing_url": "https://docs.house.gov/Committee/Calendar/ByEvent.aspx?EventID=119209",
+   "issued": "2026-04-22",
+   "kind": "statement",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [
+    "event_host",
+    "event_name",
+    "speaker_name"
+   ],
+   "path": "data/raw/47d8ff986836_HHRG-119-AS28-20260422-SD006.pdf",
+   "publisher": "U.S. House of Representatives",
+   "retrieved_at": "2026-09-22T08:51:40Z",
+   "sha256": "47d8ff98683694b0a5cc4431c1e61ab1abff3dee6ecf28f6dc3ca705ede97f9d",
+   "source_authority": "first_party",
+   "speaker_name": "",
+   "speaker_role": "PRINCIPAL CIVILIAN DEPUTY ASSISTANT SECRETARY OF THE NAVY (RESEARCH, DEVELOPMENT AND ACQUISITION) PERFORMING THE DUTIES OF THE ASSISTANT SECRETARY OF THE NAVY (RESEARCH, DEVELOPMENT AND ACQUISITION)",
+   "text_chars": 5855,
+   "title": "Hearing: Revitalizing Shipbuilding and the Maritime Industrial Base Subcommittee on Seapower and Projection Forces (Committee on Armed Services)",
+   "url": "https://docs.house.gov/meetings/AS/AS28/20260422/119209/HHRG-119-AS28-20260422-SD006.pdf",
+   "witnesses": [
+    {
+     "name": "Rear Admiral Lower Half Mike Campbell",
+     "position": "Director of Systems Integration and Chief Acquisitions Officer, U.S. Coast Guard"
+    },
+    {
+     "name": "The Honorable Stephen Carmel",
+     "position": "Administrator, U.S. Maritime Administration"
+    },
+    {
+     "name": "Mr. Jason Potter",
+     "position": "Performing the Duties of Assistant Secretary of the Navy for Research, Defense, and Acquisition, Department of the Navy"
+    },
+    {
+     "name": "Dr. Eric Labs",
+     "position": "Senior Analyst for Naval Forces and Weapons, Congressional Budget Office"
+    },
+    {
+     "name": "Ms. Shelby Oakley",
+     "position": "Director of Contracting and National Security Acquisitions, Government Accountability Office"
+    }
+   ]
+  },
+  {
+   "audience": "congress",
+   "cassette": "c34dbf22de0df9c5.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "",
+   "event_name": "REVITALIZING SHIPBUILDING AND THE MARITIME INDUSTRIAL BASE",
+   "events": [],
+   "hearing_url": "https://docs.house.gov/Committee/Calendar/ByEvent.aspx?EventID=119209",
+   "issued": "2026-04-22",
+   "kind": "statement",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [
+    "event_host",
+    "speaker_name",
+    "speaker_role"
+   ],
+   "path": "data/raw/163167f3c6db_HHRG-119-AS28-20260422-SD007.pdf",
+   "publisher": "U.S. House of Representatives",
+   "retrieved_at": "2026-09-22T08:51:41Z",
+   "sha256": "163167f3c6dba65af0761d623ca71469dac7247fb4334e2cb05b20f1453138de",
+   "source_authority": "first_party",
+   "speaker_name": "",
+   "speaker_role": "",
+   "text_chars": 40832,
+   "title": "Hearing: Revitalizing Shipbuilding and the Maritime Industrial Base Subcommittee on Seapower and Projection Forces (Committee on Armed Services)",
+   "url": "https://docs.house.gov/meetings/AS/AS28/20260422/119209/HHRG-119-AS28-20260422-SD007.pdf",
+   "witnesses": [
+    {
+     "name": "Rear Admiral Lower Half Mike Campbell",
+     "position": "Director of Systems Integration and Chief Acquisitions Officer, U.S. Coast Guard"
+    },
+    {
+     "name": "The Honorable Stephen Carmel",
+     "position": "Administrator, U.S. Maritime Administration"
+    },
+    {
+     "name": "Mr. Jason Potter",
+     "position": "Performing the Duties of Assistant Secretary of the Navy for Research, Defense, and Acquisition, Department of the Navy"
+    },
+    {
+     "name": "Dr. Eric Labs",
+     "position": "Senior Analyst for Naval Forces and Weapons, Congressional Budget Office"
+    },
+    {
+     "name": "Ms. Shelby Oakley",
+     "position": "Director of Contracting and National Security Acquisitions, Government Accountability Office"
+    }
+   ]
+  },
+  {
+   "audience": "congress",
+   "cassette": "c5bd29161bec2db3.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "",
+   "event_name": "",
+   "events": [],
+   "hearing_url": "https://docs.house.gov/Committee/Calendar/ByEvent.aspx?EventID=119209",
+   "issued": "2026-04-22",
+   "kind": "statement",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/1e1890bc07bd_HHRG-119-AS28-20260422-SD008.pdf",
+   "publisher": "U.S. House of Representatives",
+   "retrieved_at": "2026-09-22T08:51:42Z",
+   "sha256": "1e1890bc07bd404c49aa57bb60c7099f2e47617ab12f680db2e4ce134f09aa35",
+   "source_authority": "first_party",
+   "speaker_name": "",
+   "speaker_role": "",
+   "text_chars": 6311,
+   "title": "Hearing: Revitalizing Shipbuilding and the Maritime Industrial Base Subcommittee on Seapower and Projection Forces (Committee on Armed Services)",
+   "url": "https://docs.house.gov/meetings/AS/AS28/20260422/119209/HHRG-119-AS28-20260422-SD008.pdf",
+   "witnesses": [
+    {
+     "name": "Rear Admiral Lower Half Mike Campbell",
+     "position": "Director of Systems Integration and Chief Acquisitions Officer, U.S. Coast Guard"
+    },
+    {
+     "name": "The Honorable Stephen Carmel",
+     "position": "Administrator, U.S. Maritime Administration"
+    },
+    {
+     "name": "Mr. Jason Potter",
+     "position": "Performing the Duties of Assistant Secretary of the Navy for Research, Defense, and Acquisition, Department of the Navy"
+    },
+    {
+     "name": "Dr. Eric Labs",
+     "position": "Senior Analyst for Naval Forces and Weapons, Congressional Budget Office"
+    },
+    {
+     "name": "Ms. Shelby Oakley",
+     "position": "Director of Contracting and National Security Acquisitions, Government Accountability Office"
+    }
+   ]
+  },
+  {
+   "audience": "congress",
+   "cassette": "78dd3ddf55ddfd40.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "United States Government Accountability Office",
+   "event_name": "Testimony Before the Subcommittees on Seapower and Projection Forces, Committee on Armed Services, and Coast Guard and Maritime Transportation, Committee on Transportation and Infrastructure, House of Representatives",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "acquisition leadership",
+     "confidence": 0.96,
+     "event_type": "strategy_change",
+     "evidence_span": "In March 2026, the Navy announced it was reorganizing its acquisition leadership by creating portfolio acquisition executives, who would be expected to make disciplined, data-driven trade-off decisions across cost, schedule, and performance; and hold programs accountable for delivering capabilities to the warfighter faster.",
+     "organization": "the Navy",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Navy announced a new acquisition leadership structure by creating portfolio acquisition executives to make disciplined, data-driven trade-off decisions across cost, schedule, and performance."
+    },
+    {
+     "amounts": [
+      "$3 billion",
+      "over $3 billion dollars"
+     ],
+     "capability": "frigate acquisition",
+     "confidence": 0.96,
+     "event_type": "strategy_change",
+     "evidence_span": "As a result, the Navy announced a strategic shift away from the program in 2025—having previously exercised contract options valued at over $3 billion dollars.",
+     "organization": "the Navy",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Constellation class frigate program",
+     "source_authority": "first_party",
+     "statement": "The Navy took a strategic shift away from the Constellation class frigate program after repeated problems."
+    },
+    {
+     "amounts": [],
+     "capability": "submarine delivery",
+     "confidence": 0.99,
+     "event_type": "program_delayed",
+     "evidence_span": "The Navy now projects that SSBN 826, the lead Columbia class submarine and the Navy's top acquisition priority, is at least 18 months behind its contract delivery date.",
+     "organization": "the Navy",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "SSBN 826",
+     "source_authority": "first_party",
+     "statement": "The Navy's lead Columbia class submarine is now projected to be at least 18 months late."
+    },
+    {
+     "amounts": [],
+     "capability": "submarine acquisition",
+     "confidence": 0.97,
+     "event_type": "capability_priority",
+     "evidence_span": "The Navy now projects that SSBN 826, the lead Columbia class submarine and the Navy's top acquisition priority, is at least 18 months behind its contract delivery date.",
+     "organization": "the Navy",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "SSBN 826",
+     "source_authority": "first_party",
+     "statement": "The Navy's top acquisition priority is the lead Columbia class submarine."
+    },
+    {
+     "amounts": [
+      "$65 billion",
+      "over $65 billion"
+     ],
+     "capability": "shipbuilding funding",
+     "confidence": 0.94,
+     "event_type": "funding_change",
+     "evidence_span": "For example, the President's Budget for fiscal year 2027—released in April 2026—requested over $65 billion in shipbuilding funding, in part to support recently announced plans for the Golden Fleet.",
+     "organization": "the Navy",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Golden Fleet",
+     "source_authority": "first_party",
+     "statement": "The President's Budget for fiscal year 2027 requested over $65 billion in shipbuilding funding, including support for the Navy's Golden Fleet plans."
+    },
+    {
+     "amounts": [],
+     "capability": "shipbuilding plan",
+     "confidence": 0.98,
+     "event_type": "congressional_directive",
+     "evidence_span": "Statute requires the Navy to produce the shipbuilding plan, which must include details on the construction of Navy ships over the next 30 fiscal years and information about the force structure needed to align with the most recent national security or defense strategy.",
+     "organization": "the Navy",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "Statute requires the Navy to produce a 30-year shipbuilding plan that details ship construction and aligns force structure with national security or defense strategy."
+    }
+   ],
+   "hearing_url": "https://docs.house.gov/Committee/Calendar/ByEvent.aspx?EventID=119209",
+   "issued": "2026-04-22",
+   "kind": "statement",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/5cbd7481f345_HHRG-119-AS28-20260422-SD009.pdf",
+   "publisher": "U.S. House of Representatives",
+   "retrieved_at": "2026-09-22T08:51:42Z",
+   "sha256": "5cbd7481f345c8f86ff40f7ed6c754ba58a291851deb5f51c698fab068cf1072",
+   "source_authority": "first_party",
+   "speaker_name": "Shelby S. Oakley",
+   "speaker_role": "Director, Contracting and National Security Acquisitions",
+   "text_chars": 60000,
+   "title": "Hearing: Revitalizing Shipbuilding and the Maritime Industrial Base Subcommittee on Seapower and Projection Forces (Committee on Armed Services)",
+   "url": "https://docs.house.gov/meetings/AS/AS28/20260422/119209/HHRG-119-AS28-20260422-SD009.pdf",
+   "witnesses": [
+    {
+     "name": "Rear Admiral Lower Half Mike Campbell",
+     "position": "Director of Systems Integration and Chief Acquisitions Officer, U.S. Coast Guard"
+    },
+    {
+     "name": "The Honorable Stephen Carmel",
+     "position": "Administrator, U.S. Maritime Administration"
+    },
+    {
+     "name": "Mr. Jason Potter",
+     "position": "Performing the Duties of Assistant Secretary of the Navy for Research, Defense, and Acquisition, Department of the Navy"
+    },
+    {
+     "name": "Dr. Eric Labs",
+     "position": "Senior Analyst for Naval Forces and Weapons, Congressional Budget Office"
+    },
+    {
+     "name": "Ms. Shelby Oakley",
+     "position": "Director of Contracting and National Security Acquisitions, Government Accountability Office"
+    }
+   ]
+  },
+  {
+   "audience": "congress",
+   "cassette": "4f0b6caf7295187e.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "Committee on Armed Services",
+   "event_name": "Joint Hearing Before the Subcommittee on Seapower and Projection Forces, Committee on Armed Services, and the Subcommittee on Coast Guard and Maritime Transportation, Committee on Transportation and Infrastructure, U.S. House of Representatives",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "shipbuilding plan",
+     "confidence": 0.97,
+     "event_type": "strategy_change",
+     "evidence_span": "The Trump Administration did not release a 2026 shipbuilding plan for the Navy, and the 2027 shipbuilding plan, sometimes called the Golden Fleet plan, is still forthcoming.",
+     "organization": "The Navy",
+     "organizations": [
+      "activity:newport",
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Navy has not released a 2026 shipbuilding plan, and its 2027 shipbuilding plan, called the Golden Fleet plan, is still forthcoming."
+    },
+    {
+     "amounts": [],
+     "capability": "larger fleet",
+     "confidence": 0.95,
+     "event_type": "strategy_change",
+     "evidence_span": "For more than 20 years, the Navy has endeavored to build a larger fleet. In that time, the Navy's goals for its manned fleet have ranged from 306 ships to, most recently, 381 ships.",
+     "organization": "the Navy",
+     "organizations": [
+      "activity:newport",
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Navy has repeatedly pursued larger fleet goals in its 30-year shipbuilding plans, ranging from 306 ships to 381 ships."
+    },
+    {
+     "amounts": [],
+     "capability": "frigate delivery",
+     "confidence": 0.99,
+     "event_type": "program_delayed",
+     "evidence_span": "The lead ship of the class was authorized in 2020 and was originally expected to enter service in 2026; now, it will not enter the fleet until at least 2029.",
+     "organization": "the Navy",
+     "organizations": [
+      "activity:newport",
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "FFG-62",
+     "source_authority": "first_party",
+     "statement": "The lead FFG-62 frigate is now expected to enter the fleet no earlier than 2029 instead of 2026."
+    },
+    {
+     "amounts": [],
+     "capability": "frigate program",
+     "confidence": 0.99,
+     "event_type": "program_cancelled",
+     "evidence_span": "In late 2025, the Navy announced that it would end the FFG-62 program: It would finish the 2 ships that were then (and still are) under construction but cancel 4 others that had been ordered.",
+     "organization": "the Navy",
+     "organizations": [
+      "activity:newport",
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "FFG-62",
+     "source_authority": "first_party",
+     "statement": "The Navy ended the FFG-62 program after finishing the two ships under construction and canceling four others that had been ordered."
+    },
+    {
+     "amounts": [],
+     "capability": "frigate program",
+     "confidence": 0.99,
+     "event_type": "program_created",
+     "evidence_span": "Shortly after the FFG-62 program was terminated last November, the Navy announced it would begin a program to build a new frigate, designated as the FF(X), that would be based on the Coast Guard's Legend class national security cutter.",
+     "organization": "the Navy",
+     "organizations": [
+      "activity:newport",
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "FF(X)",
+     "source_authority": "first_party",
+     "statement": "The Navy announced a new frigate program, the FF(X), based on the Coast Guard's Legend class national security cutter."
+    },
+    {
+     "amounts": [],
+     "capability": "guided missile battleship",
+     "confidence": 0.97,
+     "event_type": "program_created",
+     "evidence_span": "The Administration announced in 2025 that it was going to start a new guided missile battleship program, designated as the Trump class, the first ship of which will be named the Defiant and designated as BBG-1.",
+     "organization": "the Administration",
+     "organizations": [
+      "activity:newport",
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Trump class",
+     "source_authority": "first_party",
+     "statement": "The Administration announced a new guided missile battleship program named the Trump class, with the first ship to be called the Defiant and designated BBG-1."
+    },
+    {
+     "amounts": [],
+     "capability": "surface combatants",
+     "confidence": 0.96,
+     "event_type": "strategy_change",
+     "evidence_span": "The Navy's new Trump class battleship program is intended to replace the DDG(X) future destroyer that the 2025 shipbuilding plan called for.",
+     "organization": "The Navy",
+     "organizations": [
+      "activity:newport",
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Trump class",
+     "source_authority": "first_party",
+     "statement": "The Navy's new Trump class battleship program is intended to replace the future destroyer program previously planned as DDG(X)."
+    },
+    {
+     "amounts": [
+      "$10 billion",
+      "$8 billion"
+     ],
+     "capability": "submarine industrial base",
+     "confidence": 0.99,
+     "event_type": "funding_change",
+     "evidence_span": "To address those challenges, the Navy plans to invest a total of about $10 billion (some of which it has already invested) in the new-construction portion of the submarine industrial base. (The service intends to invest an additional $8 billion to support the maintenance portion.)",
+     "organization": "The Navy",
+     "organizations": [
+      "activity:newport",
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Navy plans to invest about $10 billion in the new-construction portion of the submarine industrial base and an additional $8 billion for maintenance support."
+    },
+    {
+     "amounts": [],
+     "capability": "producibility and stability",
+     "confidence": 0.95,
+     "event_type": "strategy_change",
+     "evidence_span": "Senior Navy leaders have said that they want to emphasize producibility and stability in future shipbuilding programs.",
+     "organization": "Navy leaders",
+     "organizations": [
+      "activity:newport",
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "Senior Navy leaders want future shipbuilding programs to emphasize producibility and stability in ship design and procurement."
+    },
+    {
+     "amounts": [],
+     "capability": "block-buy procurement",
+     "confidence": 0.9,
+     "event_type": "industry_engagement",
+     "evidence_span": "Using levers such as block-buy authority and multiyear procurement for ship programs that commit the government to purchasing a group of ships over several years can improve stability and provide those benefits.",
+     "organization": "the Navy",
+     "organizations": [
+      "activity:newport",
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Navy says it can improve shipbuilding stability by using block-buy authority and multiyear procurement for ship programs that commit the government to buying groups of ships over several years."
+    }
+   ],
+   "hearing_url": "https://docs.house.gov/Committee/Calendar/ByEvent.aspx?EventID=119209",
+   "issued": "2026-04-22",
+   "kind": "statement",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/3b0748827b4e_HHRG-119-AS28-20260422-SD010.pdf",
+   "publisher": "U.S. House of Representatives",
+   "retrieved_at": "2026-09-22T08:51:45Z",
+   "sha256": "3b0748827b4eef43dbea7d5a3e91e60e4d7096b167e1c8902784bcf6fc892f3f",
+   "source_authority": "first_party",
+   "speaker_name": "",
+   "speaker_role": "",
+   "text_chars": 41863,
+   "title": "Hearing: Revitalizing Shipbuilding and the Maritime Industrial Base Subcommittee on Seapower and Projection Forces (Committee on Armed Services)",
+   "url": "https://docs.house.gov/meetings/AS/AS28/20260422/119209/HHRG-119-AS28-20260422-SD010.pdf",
+   "witnesses": [
+    {
+     "name": "Rear Admiral Lower Half Mike Campbell",
+     "position": "Director of Systems Integration and Chief Acquisitions Officer, U.S. Coast Guard"
+    },
+    {
+     "name": "The Honorable Stephen Carmel",
+     "position": "Administrator, U.S. Maritime Administration"
+    },
+    {
+     "name": "Mr. Jason Potter",
+     "position": "Performing the Duties of Assistant Secretary of the Navy for Research, Defense, and Acquisition, Department of the Navy"
+    },
+    {
+     "name": "Dr. Eric Labs",
+     "position": "Senior Analyst for Naval Forces and Weapons, Congressional Budget Office"
+    },
+    {
+     "name": "Ms. Shelby Oakley",
+     "position": "Director of Contracting and National Security Acquisitions, Government Accountability Office"
+    }
+   ]
+  },
+  {
+   "audience": "congress",
+   "cassette": "36161fc9d88719ae.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "",
+   "event_name": "",
+   "events": [],
+   "hearing_url": "https://docs.house.gov/Committee/Calendar/ByEvent.aspx?EventID=119274",
+   "issued": "2026-05-13",
+   "kind": "statement",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/5aa05acd5814_HHRG-119-AS28-20260513-SD003.pdf",
+   "publisher": "U.S. House of Representatives",
+   "retrieved_at": "2026-09-22T08:51:39Z",
+   "sha256": "5aa05acd581401528247e73367571a34465f2d09233e4e92331765070d349ae7",
+   "source_authority": "first_party",
+   "speaker_name": "",
+   "speaker_role": "",
+   "text_chars": 20438,
+   "title": "Hearing: Department of the Air Force Fiscal Year 2027 Budget Request for Seapower and Projection Forces Subcommittee on Seapower and Projection Forces (Committee on Armed Services)",
+   "url": "https://docs.house.gov/meetings/AS/AS28/20260513/119274/HHRG-119-AS28-20260513-SD003.pdf",
+   "witnesses": [
+    {
+     "name": "Mr. William D. Bailey",
+     "position": "Performing the Temporary Duties of Assistant Secretary of the Air Force for Acquisition, Technology, and Logistics, Department of the Air Force"
+    },
+    {
+     "name": "Lieutenant General David H. Tabor",
+     "position": "Deputy Chief of Staff for Plans and Programs, Department of the Air Force"
+    }
+   ]
+  },
+  {
+   "audience": "congress",
+   "cassette": "7b96b94eebe1e752.json",
+   "date_basis": "page",
+   "dropped": {
+    "person is not written so in the text": 3,
+    "program is not written so in the text": 1
+   },
+   "event_host": "",
+   "event_name": "",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "shipbuilding industrial capacity",
+     "confidence": 0.98,
+     "event_type": "strategy_change",
+     "evidence_span": "The DON is decisively moving towards implementing the President's new Maritime Golden Age strategy by building a resilient workforce and strengthening alliances that advance our strategic position and shipbuilding industrial capacity.",
+     "organization": "The DON",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Department of the Navy says it is moving to implement the President's new Maritime Golden Age strategy."
+    },
+    {
+     "amounts": [],
+     "capability": "unmanned systems",
+     "confidence": 0.97,
+     "event_type": "capability_priority",
+     "evidence_span": "That requires us to invest in current and new classes of combat ships, in new capabilities such as unmanned systems, and to recapitalize our auxiliary fleet.",
+     "organization": "The Navy and Marine Corps",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Navy says it must invest in unmanned systems as part of its high-low mix of capabilities."
+    },
+    {
+     "amounts": [],
+     "capability": "littoral mobility",
+     "confidence": 0.98,
+     "event_type": "program_created",
+     "evidence_span": "The Marine Corps and Navy are developing the new Medium Landing Ship (LSMs) to address a recognized littoral mobility gap in the Indo-Pacific and support the Marine Corps' Force Design.",
+     "organization": "The Marine Corps and Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Medium Landing Ship (LSMs)",
+     "source_authority": "first_party",
+     "statement": "The Marine Corps and Navy are developing a new Medium Landing Ship to address a littoral mobility gap."
+    },
+    {
+     "amounts": [
+      "$377.5 billion",
+      "$70.9 billion"
+     ],
+     "capability": "readiness",
+     "confidence": 0.99,
+     "event_type": "funding_change",
+     "evidence_span": "The Department's Fiscal Year (FY) 2027 budget request is a $377.5 billion strategic investment which represents a $70.9 billion increase, and a more than 23 percent growth over FY26",
+     "organization": "The Department's Fiscal Year (FY) 2027 budget request",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The FY27 budget request increases to $377.5 billion, including a $70.9 billion increase over FY26."
+    },
+    {
+     "amounts": [
+      "$1.9B",
+      "$2.1B",
+      "$4.1B"
+     ],
+     "capability": "carrier force",
+     "confidence": 0.98,
+     "event_type": "funding_change",
+     "evidence_span": "PB-27 includes $4.1B for aircraft carriers: $1.9B for advanced procurement of CVN-82 and $2.1B of incremental funding for CVNs-80/81.",
+     "organization": "PB-27",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "aircraft carriers",
+     "source_authority": "first_party",
+     "statement": "The budget request includes $4.1B for aircraft carriers, with specific funding for CVN-82 and CVNs-80/81."
+    },
+    {
+     "amounts": [
+      "$15.2B"
+     ],
+     "capability": "strategic deterrent",
+     "confidence": 0.98,
+     "event_type": "funding_change",
+     "evidence_span": "PB-27 includes $15.2B for Columbia-class program full funding, advanced procurement, and industrial base investments.",
+     "organization": "PB-27",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Columbia-class program",
+     "source_authority": "first_party",
+     "statement": "The budget request includes $15.2B for the Columbia-class submarine program."
+    },
+    {
+     "amounts": [],
+     "capability": "sea-based strategic deterrent",
+     "confidence": 0.99,
+     "event_type": "capability_priority",
+     "evidence_span": "The Columbia-class Ballistic Missile Submarine (SSBN) is our Navy's number one acquisition priority, designed to recapitalize the nation's sea-based strategic deterrent as the Ohio-class SSBNs approach the end of their service life.",
+     "organization": "our Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Columbia-class Ballistic Missile Submarine (SSBN)",
+     "source_authority": "first_party",
+     "statement": "The Columbia-class ballistic missile submarine is identified as the Navy's number one acquisition priority."
+    },
+    {
+     "amounts": [],
+     "capability": "submarine delivery",
+     "confidence": 0.98,
+     "event_type": "program_delayed",
+     "evidence_span": "While the lead ship is projected to deliver 12 to 18 months late, the Navy is working with shipbuilders to recover schedule and investing in Ohio-class life extensions to manage the transition.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Columbia class",
+     "source_authority": "first_party",
+     "statement": "The lead Columbia-class ship is projected to deliver 12 to 18 months late."
+    },
+    {
+     "amounts": [
+      "$14B"
+     ],
+     "capability": "submarine production",
+     "confidence": 0.98,
+     "event_type": "funding_change",
+     "evidence_span": "This budget provides stable, multi-year funding essential for restoring the production cadence. Twenty-six Virginia-class submarines have been delivered to date, and an additional 14 are under contract and under construction. PB-27 includes $14B for the 11 Virginia-class program across advanced procurement, procurement of two submarines, industrial base investments, and shipbuilder productivity and wage enhancements.",
+     "organization": "PB-27",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Virginia-class",
+     "source_authority": "first_party",
+     "statement": "The budget provides stable, multi-year funding to restore Virginia-class production cadence and includes $14B for the program."
+    },
+    {
+     "amounts": [],
+     "capability": "oiler recapitalization",
+     "confidence": 0.97,
+     "event_type": "program_delayed",
+     "evidence_span": "Initial program delays have caused the Navy to have to extend legacy T-AO 187 class ships in previous years.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "T-AO 205 class",
+     "source_authority": "first_party",
+     "statement": "The next-generation submarine tender program includes initial program delays that forced extension of legacy T-AO 187 class ships."
+    },
+    {
+     "amounts": [
+      "$21.6B"
+     ],
+     "capability": "missile inventory",
+     "confidence": 0.99,
+     "event_type": "capability_priority",
+     "evidence_span": "Increasing magazine depth remains a top priority. For that reason, the Navy is committed to a historic investment of $21.6B in FY27 for 4,612 weapons, including 540 Standard Missiles and 785 Tomahawk missiles.",
+     "organization": "The Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Navy says increasing magazine depth is a top priority and commits to a historic investment in weapons in FY27."
+    },
+    {
+     "amounts": [
+      "$34.4 billion"
+     ],
+     "capability": "aviation modernization",
+     "confidence": 0.99,
+     "event_type": "funding_change",
+     "evidence_span": "The DON's budget request invests $34.4 billion for the procurement of 123 new aircraft, and modifications, spares, and support equipment to drive significant modernization and expansion across critical manned and unmanned aviation programs.",
+     "organization": "The DON's budget request",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Navy will invest $34.4 billion for procurement of 123 new aircraft and related support equipment."
+    }
+   ],
+   "hearing_url": "https://docs.house.gov/Committee/Calendar/ByEvent.aspx?EventID=119324",
+   "issued": "2026-05-20",
+   "kind": "statement",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [
+    "event_host",
+    "event_name",
+    "speaker_name",
+    "speaker_role"
+   ],
+   "path": "data/raw/c54304152ae0_HHRG-119-AS28-20260520-SD004.pdf",
+   "publisher": "U.S. House of Representatives",
+   "retrieved_at": "2026-09-22T08:51:35Z",
+   "sha256": "c54304152ae0e2e189b609bd9a9db5009caa71fd2ff52674aecfa4d25827a3a9",
+   "source_authority": "first_party",
+   "speaker_name": "",
+   "speaker_role": "",
+   "text_chars": 52489,
+   "title": "Hearing: Department of the Navy Fiscal Year 2027 Budget Request for Seapower and Projection Forces Subcommittee on Seapower and Projection Forces (Committee on Armed Services)",
+   "url": "https://docs.house.gov/meetings/AS/AS28/20260520/119324/HHRG-119-AS28-20260520-SD004.pdf",
+   "witnesses": [
+    {
+     "name": "Lieutenant Colonel Eric E. Austin",
+     "position": "Deputy Commandant of the Marine Corps for Combat Development and Integration, Department of the Navy"
+    },
+    {
+     "name": "Rear Admiral Upper Half Mark Behning",
+     "position": "Acting Deputy Chief of Naval Operations for Warfighting Requirements and Capabilities, United States Navy"
+    },
+    {
+     "name": "Mr. Jason Potter",
+     "position": "Performing the Duties of Assistant Secretary of the Navy for Research, Development, and Acquisition, Department of the Navy"
+    }
+   ]
+  },
+  {
+   "audience": "industry",
+   "cassette": "898915a5607f0f02.json",
+   "date_basis": "search_index",
+   "dropped": {
+    "a second event of the same kind on the same passage": 4
+   },
+   "event_host": "",
+   "event_name": "Sea-Air-Space 2026",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.98,
+     "event_type": "conference_appearance",
+     "evidence_span": "Speakers include ADM James Kilby, Vice Chief of Naval Operations, who will serve as moderator; RADM Joseph Cahill, Commander, Naval Surface Force Atlantic; VADM Richard \"Rick\" Seif, Commander, Submarine Forces; Commander, Submarine Force, U.S. Atlantic Fleet; and Commander, Allied Submarine Command; VADM Doug Verissimo, Commander, Naval Air Forces and Commander, Naval Air Force, U.S. Pacific Fleet; and VADM Michael Vernazza, Commander, Naval Information Forces.",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "ADM James Kilby",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "ADM James Kilby is scheduled to appear as moderator at Sea-Air-Space 2026."
+    }
+   ],
+   "hearing_url": null,
+   "issued": "2026-04-17",
+   "kind": "conference",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/1c5ad566b553_vcno-kilby-other-top-us-navy-leadership-to-headline-sea-air-space-keynote-panel",
+   "publisher": "militaryembedded.com",
+   "retrieved_at": "2026-09-22T08:42:31Z",
+   "sha256": "1c5ad566b55374be7ac5ecd7deef0be8dc488ad1c9f850a5edb25c045de59739",
+   "source_authority": "third_party",
+   "speaker_name": "ADM James Kilby",
+   "speaker_role": "Vice Chief of Naval Operations",
+   "text_chars": 4723,
+   "title": "VCNO Kilby, other top U.S. Navy leadership to headline Sea-Air-Space keynote panel - Military Embedded Systems",
+   "url": "https://militaryembedded.com/avionics/computers/vcno-kilby-other-top-us-navy-leadership-to-headline-sea-air-space-keynote-panel",
+   "witnesses": []
+  },
+  {
+   "audience": "public",
+   "cassette": "9c467783129cc62f.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "Sea-Air-Space 2026",
+   "event_name": "Sea Services Luncheon",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.99,
+     "event_type": "conference_appearance",
+     "evidence_span": "ADM Daryl L. Caudle, the 34th Chief of Naval Operations, will keynote the Sea Services Luncheon at Sea-Air-Space 2026 on Monday, April 20, at 12:00 PM in the Potomac AB Ballroom.",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "ADM Daryl L. Caudle",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "ADM Daryl L. Caudle is scheduled to keynote the Sea Services Luncheon at Sea-Air-Space 2026."
+    }
+   ],
+   "hearing_url": null,
+   "issued": "2026-03-26",
+   "kind": "conference",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/7cadcba5882b_cno-to-deliver-keynote-address-at-sea-services-luncheon",
+   "publisher": "seaairspace.org",
+   "retrieved_at": "2026-09-22T08:42:28Z",
+   "sha256": "7cadcba5882bad0416d85efd01f3a7a8ce83f3ae3a5a8c042b59e987fcf9903d",
+   "source_authority": "third_party",
+   "speaker_name": "ADM Daryl L. Caudle",
+   "speaker_role": "the 34th Chief of Naval Operations",
+   "text_chars": 2172,
+   "title": "CNO to Deliver Keynote Address at Sea Services Luncheon - Sea Air Space",
+   "url": "https://seaairspace.org/cno-to-deliver-keynote-address-at-sea-services-luncheon/",
+   "witnesses": []
+  },
+  {
+   "audience": "allies",
+   "cassette": "2734ee5578fb2572.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "",
+   "event_name": "",
+   "events": [],
+   "hearing_url": null,
+   "issued": "2026-01-23",
+   "kind": "conference",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/c6fa90542f26_sea-air-space-2026-registration-is-now-open",
+   "publisher": "seaairspace.org",
+   "retrieved_at": "2026-09-22T08:42:43Z",
+   "sha256": "c6fa90542f26c706d9c5c03839fc3f52319d204a8190b31705bb982bc9f2f22f",
+   "source_authority": "third_party",
+   "speaker_name": "",
+   "speaker_role": "",
+   "text_chars": 5236,
+   "title": "Registration for Sea-Air-Space 2026 is Now Open - Sea Air Space",
+   "url": "https://seaairspace.org/sea-air-space-2026-registration-is-now-open/",
+   "witnesses": []
+  },
+  {
+   "audience": "other",
+   "cassette": "b7b398763d33bd55.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "",
+   "event_name": "",
+   "events": [],
+   "hearing_url": null,
+   "issued": "2025-12-03",
+   "kind": "conference",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/4574d3a1b4c7_2026-agenda",
+   "publisher": "www.afa.org",
+   "retrieved_at": "2026-09-22T08:42:38Z",
+   "sha256": "4574d3a1b4c763fbd815d3b64b1a76821235de41774005fdc545e830815d3b51",
+   "source_authority": "third_party",
+   "speaker_name": "",
+   "speaker_role": "",
+   "text_chars": 18204,
+   "title": "2026 Warfare Symposium | Full Sessions - Air & Space Forces Association",
+   "url": "https://www.afa.org/afa-warfare-symposium/2026-agenda/",
+   "witnesses": []
+  },
+  {
+   "audience": "public",
+   "cassette": "971197672673e011.json",
+   "date_basis": "search_index",
+   "dropped": {},
+   "event_host": "Apex Defense",
+   "event_name": "Apex Conversations | Apex Defense",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.99,
+     "event_type": "conference_appearance",
+     "evidence_span": "Keynote Conversation with Admiral Daryl Caudle, Chief of Naval Operations, U.S. Navy",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "Admiral Daryl Caudle",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "Admiral Daryl Caudle is listed as a keynote conversation speaker for Apex Defense 2026."
+    },
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.99,
+     "event_type": "conference_appearance",
+     "evidence_span": "Keynote Address with Hon. Michael P. Duffey, Under Secretary of War for Acquisition and Sustainment, Office of the Under Secretary of War",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "Hon. Michael P. Duffey",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "Hon. Michael P. Duffey is listed as a keynote address speaker for Apex Defense 2026."
+    }
+   ],
+   "hearing_url": null,
+   "issued": "2026-03-04",
+   "kind": "conference",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/d8868a2003ed_apex-conversations",
+   "publisher": "www.apexdefense.org",
+   "retrieved_at": "2026-09-22T08:42:35Z",
+   "sha256": "d8868a2003ed31aa415871271b90a7665433ea87cd18cee0c93c32dfd0827dc3",
+   "source_authority": "third_party",
+   "speaker_name": "Admiral Daryl Caudle",
+   "speaker_role": "Chief of Naval Operations, U.S. Navy",
+   "text_chars": 6001,
+   "title": "Apex Conversations | Apex Defense",
+   "url": "https://www.apexdefense.org/program/apex-conversations",
+   "witnesses": []
+  },
+  {
+   "audience": "industry",
+   "cassette": "7f88460baaf4e508.json",
+   "date_basis": "search_index",
+   "dropped": {
+    "organization is not written so in the text": 1
+   },
+   "event_host": "American Conference Institute",
+   "event_name": "Unmanned Systems West Conference",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.98,
+     "event_type": "conference_appearance",
+     "evidence_span": "RDML David Cox , Director of Maritime Headquarters, U.S. Pacific Fleet (PACFLT), U.S. Navy",
+     "organization": "U.S. Pacific Fleet (PACFLT), U.S. Navy",
+     "organizations": [
+      "command:navwar",
+      "contracting:n00039",
+      "pae:mission-systems"
+     ],
+     "organizations_from": "document",
+     "person": "RDML David Cox",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "RDML David Cox is listed as a military expert appearing at the conference."
+    },
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.98,
+     "event_type": "conference_appearance",
+     "evidence_span": "Brigadier General Nick I. Brown , Commanding General Marine Corps Installations West-Marine Corps Base Camp Pendleton, U.S. Marine Corps",
+     "organization": "Marine Corps Installations West-Marine Corps Base Camp Pendleton, U.S. Marine Corps",
+     "organizations": [
+      "command:navwar",
+      "contracting:n00039",
+      "pae:mission-systems"
+     ],
+     "organizations_from": "document",
+     "person": "Brigadier General Nick I. Brown",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "Brigadier General Nick I. Brown is listed as a military expert appearing at the conference."
+    },
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.97,
+     "event_type": "conference_appearance",
+     "evidence_span": "Matt Rambo SES , Program Acquisition Executive Mission Systems (PAE MS) Chief Engineer (CHENG), Naval Information Warfare Systems Command (NAVWAR), U.S. Navy",
+     "organization": "Naval Information Warfare Systems Command (NAVWAR), U.S. Navy",
+     "organizations": [
+      "command:navwar",
+      "contracting:n00039",
+      "pae:mission-systems"
+     ],
+     "organizations_from": "event",
+     "person": "Matt Rambo SES",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "Matt Rambo SES is listed as a military expert appearing at the conference."
+    },
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.98,
+     "event_type": "conference_appearance",
+     "evidence_span": "CAPT Garrett H. Miller USN , Commodore Surface Development Group One (SURFDEVGRU ONE), U.S. Navy",
+     "organization": "Surface Development Group One (SURFDEVGRU ONE), U.S. Navy",
+     "organizations": [
+      "command:navwar",
+      "contracting:n00039",
+      "pae:mission-systems"
+     ],
+     "organizations_from": "document",
+     "person": "CAPT Garrett H. Miller USN",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "CAPT Garrett H. Miller USN is listed as a military expert appearing at the conference."
+    },
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.98,
+     "event_type": "conference_appearance",
+     "evidence_span": "Captain Joseph Burgon , Commanding Officer Naval Surface Warfare Center (NSWC) Corona Division, U.S. Navy",
+     "organization": "Naval Surface Warfare Center (NSWC) Corona Division, U.S. Navy",
+     "organizations": [
+      "command:navwar",
+      "contracting:n00039",
+      "pae:mission-systems"
+     ],
+     "organizations_from": "document",
+     "person": "Captain Joseph Burgon",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "Captain Joseph Burgon is listed as a military expert appearing at the conference."
+    },
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.95,
+     "event_type": "conference_appearance",
+     "evidence_span": "Nicholas Bergeron , Deputy PAE RAS, Assistant Secretary of the Navy for Research Development and Acquisition, U.S. Navy",
+     "organization": "Assistant Secretary of the Navy for Research Development and Acquisition, U.S. Navy",
+     "organizations": [
+      "command:navwar",
+      "contracting:n00039",
+      "pae:mission-systems"
+     ],
+     "organizations_from": "document",
+     "person": "Nicholas Bergeron",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "Nicholas Bergeron is listed as a military expert appearing at the conference."
+    },
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.96,
+     "event_type": "conference_appearance",
+     "evidence_span": "Lt Col Joshua A. Webb USAF , Response - NCR Lead, JIATF 401, U.S. Department of War",
+     "organization": "JIATF 401, U.S. Department of War",
+     "organizations": [
+      "command:navwar",
+      "contracting:n00039",
+      "pae:mission-systems"
+     ],
+     "organizations_from": "document",
+     "person": "Lt Col Joshua A. Webb USAF",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "Lt Col Joshua A. Webb USAF is listed as a military expert appearing at the conference."
+    },
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.94,
+     "event_type": "conference_appearance",
+     "evidence_span": "Larri Fish , Assistant Director, U.S. Government Accountability Office (GAO)",
+     "organization": "U.S. Government Accountability Office (GAO)",
+     "organizations": [
+      "command:navwar",
+      "contracting:n00039",
+      "pae:mission-systems"
+     ],
+     "organizations_from": "document",
+     "person": "Larri Fish",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "Larri Fish is listed as a military expert appearing at the conference."
+    },
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.95,
+     "event_type": "conference_appearance",
+     "evidence_span": "Bhavanjot Singh , Executive Director (A) Weapons and Software Engineering Center DEVCOM AC, U.S. Army",
+     "organization": "Weapons and Software Engineering Center DEVCOM AC, U.S. Army",
+     "organizations": [
+      "command:navwar",
+      "contracting:n00039",
+      "pae:mission-systems"
+     ],
+     "organizations_from": "document",
+     "person": "Bhavanjot Singh",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "Bhavanjot Singh is listed as a military expert appearing at the conference."
+    },
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.97,
+     "event_type": "conference_appearance",
+     "evidence_span": "CAPT Charles (Newt) McKissick USN , Navy Service Lead, Defense Innovation Unit (DIU) U.S. Department of War",
+     "organization": "Defense Innovation Unit (DIU) U.S. Department of War",
+     "organizations": [
+      "command:navwar",
+      "contracting:n00039",
+      "pae:mission-systems"
+     ],
+     "organizations_from": "document",
+     "person": "CAPT Charles (Newt) McKissick USN",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "CAPT Charles (Newt) McKissick USN is listed as a military expert appearing at the conference."
+    }
+   ],
+   "hearing_url": null,
+   "issued": "2026-07-09",
+   "kind": "conference",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/e8706f95cc79_event.asp",
+   "publisher": "www.asdevents.com",
+   "retrieved_at": "2026-09-22T08:42:45Z",
+   "sha256": "e8706f95cc79937401246f86e154c400a4baef2a984d1a6c1660d76581c86392",
+   "source_authority": "third_party",
+   "speaker_name": "RDML David Cox",
+   "speaker_role": "Director of Maritime Headquarters, U.S. Pacific Fleet (PACFLT), U.S. Navy",
+   "text_chars": 8155,
+   "title": "Unmanned Systems West Conference | ASDEvents",
+   "url": "https://www.asdevents.com/event.asp?id=26170",
+   "witnesses": []
+  },
+  {
+   "audience": "industry",
+   "cassette": "fa25536eb1150d14.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "Program Executive Office Integrated Warfare Systems (PEO IWS)",
+   "event_name": "PEO IWS Industry Day 2026",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.98,
+     "event_type": "industry_engagement",
+     "evidence_span": "This event is designed for representatives from large and small businesses, academia, consortiums, and other government organizations interested in collaborating with PEO IWS. To maintain a manageable environment, each company is requested to send no more than two representatives.",
+     "organization": "PEO IWS",
+     "organizations": [
+      "peo:iws"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "PEO IWS is inviting businesses, academia, consortiums, and other government organizations to attend its 2026 Industry Day and submit questions for the contracting panel."
+    },
+    {
+     "amounts": [],
+     "capability": "AI and machine learning",
+     "confidence": 0.97,
+     "event_type": "capability_priority",
+     "evidence_span": "The agenda focuses on strategic direction, technology adoption, and maritime applications for AI and machine learning, alongside discussions on cyber applications and SBIR/STTR success stories.",
+     "organization": "PEO IWS",
+     "organizations": [
+      "peo:iws"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "PEO IWS says its industry day will focus on AI and machine learning for maritime applications and on cyber applications."
+    }
+   ],
+   "hearing_url": null,
+   "issued": "2026-02-02",
+   "kind": "conference",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/9f84baf45873_peo-iws-industry-day-2026-x63q",
+   "publisher": "www.cleat.ai",
+   "retrieved_at": "2026-09-22T08:43:40Z",
+   "sha256": "9f84baf458736a6e8d945877c0cb4f6c8faf3b141b2e0cece73858600f686ed1",
+   "source_authority": "third_party",
+   "speaker_name": "",
+   "speaker_role": "",
+   "text_chars": 29719,
+   "title": "PEO IWS Industry Day 2026 - Department Of Defense | CLEATUS",
+   "url": "https://www.cleat.ai/government/contracts/peo-iws-industry-day-2026-x63q",
+   "witnesses": []
+  },
+  {
+   "audience": "industry",
+   "cassette": "ce998578dd64f49a.json",
+   "date_basis": "search_index",
+   "dropped": {},
+   "event_host": "GovEvents",
+   "event_name": "2026 Navy Summit",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.98,
+     "event_type": "conference_appearance",
+     "evidence_span": "Speaker Details VADM Brad Skillman Deputy Chief of Naval Operations for Integration of Capabilities and Resources, N8, Office of the Chief of Naval Operations U.S. Navy Event Topic Defense , IT , Technology Relevant Audiences All State and Local Government , All Federal Government Event Type Onsite Event Subtype Conference / Summit",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "VADM Brad Skillman",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "VADM Brad Skillman is listed as a speaker at the 2026 Navy Summit."
+    },
+    {
+     "amounts": [],
+     "capability": "autonomous systems",
+     "confidence": 0.95,
+     "event_type": "capability_priority",
+     "evidence_span": "The 2026 Navy Summit brings together senior Navy leaders, defense officials and industry executives to examine how emerging technologies are shaping the future of naval operations. From digital modernization and autonomous systems to cyber resilience and advanced platforms, the event will highlight how the Navy is prioritizing innovation while balancing readiness, sustainment and resources.",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "The summit says the Navy is prioritizing innovation in emerging technologies, including digital modernization, autonomous systems, cyber resilience and advanced platforms, while balancing readiness, sustainment and resources."
+    }
+   ],
+   "hearing_url": null,
+   "issued": "2026-01-12",
+   "kind": "conference",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/a013092dc306_2026-navy-summit",
+   "publisher": "www.govevents.com",
+   "retrieved_at": "2026-09-22T08:43:28Z",
+   "sha256": "a013092dc306c0867df8c2ebd53271bf1a058b43423cc210d2ee646ef59ac536",
+   "source_authority": "third_party",
+   "speaker_name": "VADM Brad Skillman",
+   "speaker_role": "Deputy Chief of Naval Operations for Integration of Capabilities and Resources, N8, Office of the Chief of Naval Operations U.S. Navy",
+   "text_chars": 1558,
+   "title": "",
+   "url": "https://www.govevents.com/event/24294/2026-navy-summit",
+   "witnesses": []
+  },
+  {
+   "audience": "industry",
+   "cassette": "72f30a667a5345b3.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "The Navy League of the United States",
+   "event_name": "Sea-Air-Space 2026",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "partnerships",
+     "confidence": 0.93,
+     "event_type": "industry_engagement",
+     "evidence_span": "\"It is where government and industry leaders engage candidly, challenge assumptions, and build the partnerships required to outpace evolving threats and secure the maritime domain.\"",
+     "organization": "Sea-Air-Space",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "The Navy League says the conference is where government and industry leaders engage candidly and build partnerships to outpace evolving threats."
+    },
+    {
+     "amounts": [],
+     "capability": "assets, personnel and logistical capabilities",
+     "confidence": 0.96,
+     "event_type": "capability_priority",
+     "evidence_span": "To project power and protect national interests, the U.S. Navy must be equipped with the right assets, personnel and logistical capabilities. This new panel at SAS 2026 focuses on defining strategic requirements, optimizing force structure, and ensuring that military planning drives industrial production.",
+     "organization": "U.S. Navy",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "A new panel says the U.S. Navy needs the right assets, personnel, and logistical capabilities to project power and protect national interests."
+    },
+    {
+     "amounts": [],
+     "capability": "force structure",
+     "confidence": 0.92,
+     "event_type": "strategy_change",
+     "evidence_span": "This new panel at SAS 2026 focuses on defining strategic requirements, optimizing force structure, and ensuring that military planning drives industrial production.",
+     "organization": "SAS 2026",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "The conference introduces a panel focused on defining strategic requirements, optimizing force structure, and making military planning drive industrial production."
+    },
+    {
+     "amounts": [],
+     "capability": "maritime strategy",
+     "confidence": 0.95,
+     "event_type": "strategy_change",
+     "evidence_span": "This panel will explore how the U.S. Navy's numbered fleets are executing the CNO's directives under the \"America First\" maritime strategy.",
+     "organization": "U.S. Navy's numbered fleets",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "A session says the U.S. Navy's numbered fleets are executing the CNO's directives under the \"America First\" maritime strategy."
+    }
+   ],
+   "hearing_url": null,
+   "issued": "2026-01-29",
+   "kind": "conference",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/4b6ec614eadb_article_66fa6b77-63e5-497f-a71e-e071d4832b32.html",
+   "publisher": "www.militarynews.com",
+   "retrieved_at": "2026-09-22T08:44:38Z",
+   "sha256": "4b6ec614eadbe2158ba252587b90b2e7ada760a852d372afa8fe1b2a40d8b013",
+   "source_authority": "third_party",
+   "speaker_name": "",
+   "speaker_role": "",
+   "text_chars": 13475,
+   "title": "Sea-Air-Space 2026, the Navy League's flagship event returns to D.C. April 19-22 | Community | militarynews.com",
+   "url": "https://www.militarynews.com/norfolk-navy-flagship/community/sea-air-space-2026-the-navy-league-s-flagship-event-returns-to-d-c-april/article_66fa6b77-63e5-497f-a71e-e071d4832b32.html",
+   "witnesses": []
+  },
+  {
+   "audience": "allies",
+   "cassette": "7cdf76ac5f01ef92.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "",
+   "event_name": "Inter-American Naval Conference",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.99,
+     "event_type": "conference_appearance",
+     "evidence_span": "CNO Remarks at Inter-American Naval Conference Panama City, Panama Chief of Naval Operations Adm. Daryl Caudle Share PRINT RSS",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "Adm. Daryl Caudle",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "Adm. Daryl Caudle appears and speaks at the Inter-American Naval Conference in Panama City, Panama."
+    },
+    {
+     "amounts": [],
+     "capability": "maritime domain awareness",
+     "confidence": 0.98,
+     "event_type": "capability_priority",
+     "evidence_span": "That is why maritime domain awareness, information sharing, and regional coordination are operational necessities - not optional activities.",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "He says maritime domain awareness, information sharing, and regional coordination are operational necessities."
+    },
+    {
+     "amounts": [],
+     "capability": "shared maritime awareness architectures",
+     "confidence": 0.97,
+     "event_type": "capability_priority",
+     "evidence_span": "That creates significant opportunities for partnership across this hemisphere - from shared maritime awareness architectures to resilient communications and interoperable data-sharing systems.",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "He says the Navy needs shared maritime awareness architectures, resilient communications, and interoperable data-sharing systems."
+    },
+    {
+     "amounts": [],
+     "capability": "industrial sustainment capacity",
+     "confidence": 0.97,
+     "event_type": "capability_priority",
+     "evidence_span": "Readiness is not generated only at sea. It also depends on shipyards, maintenance networks, logistics infrastructure, communications architecture, and the ability to repair and regenerate combat capability over time.",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "He says regional cooperation must strengthen shipyards, maintenance networks, logistics infrastructure, and communications architecture to regenerate combat capability."
+    },
+    {
+     "amounts": [],
+     "capability": "awareness, resilience, and deterrence",
+     "confidence": 0.96,
+     "event_type": "capability_priority",
+     "evidence_span": "For maritime forces, that means strengthening awareness, resilience, and deterrence across the approaches to our hemisphere - alongside allies and partners who share those interests.",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "He says the Navy must strengthen awareness, resilience, and deterrence across the approaches to the hemisphere."
+    }
+   ],
+   "hearing_url": null,
+   "issued": "2026-06-23",
+   "kind": "speech",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/3a945f8d4d62_cno-remarks-at-inter-american-naval-conference",
+   "publisher": "U.S. Navy",
+   "retrieved_at": "2026-09-22T08:35:20Z",
+   "sha256": "3a945f8d4d62e212fd7b0df1f5287e2d009fbc0979c4d5a685863bb56a231490",
+   "source_authority": "first_party",
+   "speaker_name": "Adm. Daryl Caudle",
+   "speaker_role": "Chief of Naval Operations",
+   "text_chars": 21352,
+   "title": "CNO Remarks at Inter-American Naval Conference",
+   "url": "https://www.navy.mil/Press-Office/Speeches/display-speech/Article/4529922/cno-remarks-at-inter-american-naval-conference/",
+   "witnesses": []
+  },
+  {
+   "audience": "public",
+   "cassette": "d38c20a14db5cd78.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "",
+   "event_name": "CNO Remarks Aboard USS Constitution",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.99,
+     "event_type": "conference_appearance",
+     "evidence_span": "Chief of Naval Operations Adm. Daryl Caudle Share PRINT RSS Good afternoon, everyone. It's great to be here in Boston with all of you!",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "Adm. Daryl Caudle",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "Adm. Daryl Caudle delivered remarks at CNO Remarks Aboard USS Constitution in Boston, Mass."
+    },
+    {
+     "amounts": [],
+     "capability": "combat-credible naval power",
+     "confidence": 0.98,
+     "event_type": "capability_priority",
+     "evidence_span": "Our responsibility remains the same as it was in 1797 - to generate combat-credible naval power, protect American interests, and provide our nation's leaders sovereign options from the sea.",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "He said the Navy's responsibility is to generate combat-credible naval power, protect American interests, and provide sovereign options from the sea."
+    }
+   ],
+   "hearing_url": null,
+   "issued": "2026-06-17",
+   "kind": "speech",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/f886aa193876_cno-remarks-aboard-uss-constitution",
+   "publisher": "U.S. Navy",
+   "retrieved_at": "2026-09-22T08:48:07Z",
+   "sha256": "f886aa193876b37fde9e04c644a0cb2042c05fbadc2192db5213e2952033ef43",
+   "source_authority": "first_party",
+   "speaker_name": "Adm. Daryl Caudle",
+   "speaker_role": "Chief of Naval Operations",
+   "text_chars": 12112,
+   "title": "CNO Remarks Aboard USS Constitution",
+   "url": "https://www.navy.mil/Press-Office/Speeches/display-speech/Article/4529930/cno-remarks-aboard-uss-constitution/",
+   "witnesses": []
+  },
+  {
+   "audience": "public",
+   "cassette": "d81d0456ac5b8e62.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "",
+   "event_name": "Naval War College Graduation",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.99,
+     "event_type": "conference_appearance",
+     "evidence_span": "CNO Remarks at Naval War College Graduation Newport, R.I. Chief of Naval Operation Adm. Daryl Caudle Share PRINT RSS Good morning.",
+     "organization": "",
+     "organizations": [
+      "activity:newport"
+     ],
+     "organizations_from": "event",
+     "person": "Adm. Daryl Caudle",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "Adm. Daryl Caudle appears and speaks at the Naval War College Graduation in Newport, R.I."
+    },
+    {
+     "amounts": [],
+     "capability": "readiness",
+     "confidence": 0.95,
+     "event_type": "capability_priority",
+     "evidence_span": "That is why readiness remains our north star. Not readiness as a slogan. Real readiness. Ready people. Ready platforms. Ready payloads. Ready logistics. Ready command and control.",
+     "organization": "",
+     "organizations": [
+      "activity:newport"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "He says readiness is the Navy's top priority and defines it as ready people, platforms, payloads, logistics, and command and control."
+    },
+    {
+     "amounts": [],
+     "capability": "trust and partnerships",
+     "confidence": 0.87,
+     "event_type": "capability_priority",
+     "evidence_span": "Keep learning. Keep sharpening your warfighting advantage. And keep building the trust and partnerships that make this force more capable, more credible, and more lethal.",
+     "organization": "",
+     "organizations": [
+      "activity:newport"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "He says the Navy must keep building trust and partnerships that make the force more capable, more credible, and more lethal."
+    }
+   ],
+   "hearing_url": null,
+   "issued": "2026-06-12",
+   "kind": "speech",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/c5b3b1d01a78_cno-remarks-at-naval-war-college-graduation",
+   "publisher": "U.S. Navy",
+   "retrieved_at": "2026-09-22T08:48:12Z",
+   "sha256": "c5b3b1d01a78ae78dba320754599652743df525e2357851b9a2683c4a27635ec",
+   "source_authority": "first_party",
+   "speaker_name": "Adm. Daryl Caudle",
+   "speaker_role": "Chief of Naval Operation",
+   "text_chars": 17648,
+   "title": "CNO Remarks at Naval War College Graduation",
+   "url": "https://www.navy.mil/Press-Office/Speeches/display-speech/Article/4529950/cno-remarks-at-naval-war-college-graduation/",
+   "witnesses": []
+  },
+  {
+   "audience": "public",
+   "cassette": "df91b30acf8eb643.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "",
+   "event_name": "CNO Remarks at INR 250 Closing Reception",
+   "events": [],
+   "hearing_url": null,
+   "issued": "2026-07-07",
+   "kind": "speech",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [
+    "event_host"
+   ],
+   "path": "data/raw/e6290b86ad2a_cno-remarks-at-inr-250-closing-reception",
+   "publisher": "U.S. Navy",
+   "retrieved_at": "2026-09-22T08:47:22Z",
+   "sha256": "e6290b86ad2a6410fddd9ffbc1e4e9b1d437d9e42085a2032e749c644de4f930",
+   "source_authority": "first_party",
+   "speaker_name": "Adm. Daryl Caudle",
+   "speaker_role": "Chief of Naval Operations",
+   "text_chars": 6587,
+   "title": "CNO Remarks at INR 250 Closing Reception",
+   "url": "https://www.navy.mil/Press-Office/Speeches/display-speech/Article/4539135/cno-remarks-at-inr-250-closing-reception/",
+   "witnesses": []
+  },
+  {
+   "audience": "public",
+   "cassette": "0b164716bf7db058.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "USS Intrepid Museum",
+   "event_name": "USS Intrepid Museum Salute to Freedom Gala",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.99,
+     "event_type": "conference_appearance",
+     "evidence_span": "CNO Remarks at USS Intrepid Museum Salute to Freedom Gala USS Intrepid Museum Chief of Naval Operations Adm. Daryl Caudle",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "Adm. Daryl Caudle",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "Adm. Daryl Caudle spoke at the USS Intrepid Museum Salute to Freedom Gala."
+    },
+    {
+     "amounts": [],
+     "capability": "battle-ready people",
+     "confidence": 0.95,
+     "event_type": "capability_priority",
+     "evidence_span": "If we want a battle-ready military, we must first build battle-ready people. That means investing in training. Investing in quality of service. Investing in families. Investing in leadership.",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "He said the Navy must build battle-ready people and invest in training, quality of service, families, leadership, and conditions that let service members thrive."
+    },
+    {
+     "amounts": [],
+     "capability": "fleet",
+     "confidence": 0.96,
+     "event_type": "capability_priority",
+     "evidence_span": "For me, that means three things. Building the people who will carry our mission forward. Building the fleet that our nation requires.",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "He said the Navy must build the fleet the nation requires."
+    },
+    {
+     "amounts": [],
+     "capability": "warfighting capability",
+     "confidence": 0.98,
+     "event_type": "capability_priority",
+     "evidence_span": "And building the warfighting capability necessary to deter conflict and, if necessary, prevail in combat.",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "He said the Navy must build the warfighting capability needed to deter conflict and prevail in combat."
+    }
+   ],
+   "hearing_url": null,
+   "issued": "2026-07-07",
+   "kind": "speech",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/cf1de200815e_cno-remarks-at-uss-intrepid-museum-salute-to-freedom-gala",
+   "publisher": "U.S. Navy",
+   "retrieved_at": "2026-09-22T08:47:14Z",
+   "sha256": "cf1de200815e9affcfe2181ad8b099eb6e3a97e747e325b5350537c5128d6432",
+   "source_authority": "first_party",
+   "speaker_name": "Adm. Daryl Caudle",
+   "speaker_role": "Chief of Naval Operations",
+   "text_chars": 13163,
+   "title": "CNO Remarks at USS Intrepid Museum Salute to Freedom Gala",
+   "url": "https://www.navy.mil/Press-Office/Speeches/display-speech/Article/4539142/cno-remarks-at-uss-intrepid-museum-salute-to-freedom-gala/",
+   "witnesses": []
+  },
+  {
+   "audience": "allies",
+   "cassette": "f6e9eaf9308a5a71.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "",
+   "event_name": "INR 250 Welcome Reception",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.99,
+     "event_type": "conference_appearance",
+     "evidence_span": "CNO Remarks at INR 250 Welcome Reception Aboard USS Arlington in New York City Chief of Naval Operations Adm. Daryl Caudle",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "Adm. Daryl Caudle",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "Adm. Daryl Caudle appears at the INR 250 Welcome Reception aboard USS Arlington in New York City."
+    }
+   ],
+   "hearing_url": null,
+   "issued": "2026-07-03",
+   "kind": "speech",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/7b3a47500e42_cno-remarks-at-inr-250-welcome-reception",
+   "publisher": "U.S. Navy",
+   "retrieved_at": "2026-09-22T08:47:41Z",
+   "sha256": "7b3a47500e421a16807a843519f5f43d28a7bf6586f3b6c890f46e54e1bb9bb3",
+   "source_authority": "first_party",
+   "speaker_name": "Adm. Daryl Caudle",
+   "speaker_role": "Chief of Naval Operations",
+   "text_chars": 7059,
+   "title": "CNO Remarks at INR 250 Welcome Reception",
+   "url": "https://www.navy.mil/Press-Office/Speeches/display-speech/Article/4539149/cno-remarks-at-inr-250-welcome-reception/",
+   "witnesses": []
+  },
+  {
+   "audience": "allies",
+   "cassette": "f235037b3cefa912.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "",
+   "event_name": "INR 250",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.95,
+     "event_type": "conference_appearance",
+     "evidence_span": "CNO Remarks at INR 250 Aboard USS Kearsarge Aboard USS Kearsarge in New York Harbor Chief of Naval Operations Adm. Daryl Caudle",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "Adm. Daryl Caudle",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "Adm. Daryl Caudle appeared and spoke at INR 250 aboard USS Kearsarge in New York Harbor."
+    }
+   ],
+   "hearing_url": null,
+   "issued": "2026-07-04",
+   "kind": "speech",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/40ea1769f2c8_cno-remarks-at-inr-250-aboard-uss-kearsarge",
+   "publisher": "U.S. Navy",
+   "retrieved_at": "2026-09-22T08:47:32Z",
+   "sha256": "40ea1769f2c80372c1b9a79603bd7c867ce850434325c6fce64412d9ea4a684b",
+   "source_authority": "first_party",
+   "speaker_name": "Adm. Daryl Caudle",
+   "speaker_role": "Chief of Naval Operations",
+   "text_chars": 5760,
+   "title": "CNO Remarks at INR 250 Aboard USS Kearsarge",
+   "url": "https://www.navy.mil/Press-Office/Speeches/display-speech/Article/4539162/cno-remarks-at-inr-250-aboard-uss-kearsarge/",
+   "witnesses": []
+  },
+  {
+   "audience": "industry",
+   "cassette": "d882f78bb2656cb7.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "New York Stock Exchange",
+   "event_name": "CNO Remarks at New York Stock Exchange NYSE during INR 250",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.98,
+     "event_type": "conference_appearance",
+     "evidence_span": "CNO Remarks at New York Stock Exchange NYSE during INR 250 New York City Chief of Naval Operations Adm. Daryl Caudle",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "Adm. Daryl Caudle",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "Adm. Daryl Caudle appears at the New York Stock Exchange to deliver remarks during INR 250."
+    }
+   ],
+   "hearing_url": null,
+   "issued": "2026-07-02",
+   "kind": "speech",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/a83f92e0644e_cno-remarks-at-new-york-stock-exchange-nyse-during-inr-250",
+   "publisher": "U.S. Navy",
+   "retrieved_at": "2026-09-22T08:48:02Z",
+   "sha256": "a83f92e0644e977c270e288ff16fb14d157f3e0d2c9c0cb28a84cba46ce9c0c6",
+   "source_authority": "first_party",
+   "speaker_name": "Adm. Daryl Caudle",
+   "speaker_role": "Chief of Naval Operations",
+   "text_chars": 7734,
+   "title": "CNO Remarks at New York Stock Exchange NYSE during INR 250",
+   "url": "https://www.navy.mil/Press-Office/Speeches/display-speech/Article/4539172/cno-remarks-at-new-york-stock-exchange-nyse-during-inr-250/",
+   "witnesses": []
+  },
+  {
+   "audience": "public",
+   "cassette": "95675ae6d806c602.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "",
+   "event_name": "NYSE Dinner during INR 250",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.99,
+     "event_type": "conference_appearance",
+     "evidence_span": "CNO Remarks at NYSE Dinner during INR 250 New York City Chief of Naval Operations Adm. Daryl Caudle",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "Adm. Daryl Caudle",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "Adm. Daryl Caudle spoke at the NYSE Dinner during INR 250 in New York City."
+    },
+    {
+     "amounts": [],
+     "capability": "readiness and integration",
+     "confidence": 0.96,
+     "event_type": "capability_priority",
+     "evidence_span": "That means our militaries must remain ready, modern, and integrated.",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "He said the militaries must stay ready, modern, and integrated."
+    },
+    {
+     "amounts": [],
+     "capability": "industrial resilience",
+     "confidence": 0.95,
+     "event_type": "capability_priority",
+     "evidence_span": "It means our industries must be resilient, innovative, and able to deliver at speed.",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "He said industries must be resilient, innovative, and able to deliver at speed."
+    },
+    {
+     "amounts": [],
+     "capability": "allied connectivity",
+     "confidence": 0.95,
+     "event_type": "capability_priority",
+     "evidence_span": "And it means our alliances must become even more connected - not only diplomatically, but operationally, economically, technologically, and industrially.",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "He said alliances must become more connected operationally, economically, technologically, and industrially."
+    },
+    {
+     "amounts": [],
+     "capability": "industrial base",
+     "confidence": 0.95,
+     "event_type": "capability_priority",
+     "evidence_span": "Strengthening the industrial base that underwrites deterrence.",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "He called for strengthening the industrial base that underwrites deterrence."
+    },
+    {
+     "amounts": [],
+     "capability": "maritime system",
+     "confidence": 0.92,
+     "event_type": "capability_priority",
+     "evidence_span": "Protecting the maritime system that connects the world.",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "He said the Navy must protect the maritime system that connects the world."
+    }
+   ],
+   "hearing_url": null,
+   "issued": "2026-07-02",
+   "kind": "speech",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/6ff1629464f3_cno-remarks-at-nyse-dinner-during-inr-250",
+   "publisher": "U.S. Navy",
+   "retrieved_at": "2026-09-22T08:47:54Z",
+   "sha256": "6ff1629464f32990fa115eeb6d78659ded3299b647325f0ac70c2faca165d997",
+   "source_authority": "first_party",
+   "speaker_name": "Adm. Daryl Caudle",
+   "speaker_role": "Chief of Naval Operations",
+   "text_chars": 14351,
+   "title": "CNO Remarks at NYSE Dinner during INR 250",
+   "url": "https://www.navy.mil/Press-Office/Speeches/display-speech/Article/4539176/cno-remarks-at-nyse-dinner-during-inr-250/",
+   "witnesses": []
+  },
+  {
+   "audience": "public",
+   "cassette": "4f4c2acc4042b621.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "Navy League of Hampton Roads",
+   "event_name": "Navy League State of the Navy Dinner",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.98,
+     "event_type": "conference_appearance",
+     "evidence_span": "CNO Remarks during Navy League State of the Navy Dinner Norfolk Hilton Chief of Naval Operations Adm. Daryl Caudle Share PRINT RSS Good evening, everyone.",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "Adm. Daryl Caudle",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "Adm. Daryl Caudle spoke at the Navy League State of the Navy Dinner."
+    },
+    {
+     "amounts": [],
+     "capability": "Sailors First",
+     "confidence": 0.98,
+     "event_type": "capability_priority",
+     "evidence_span": "That's why Sailors First became my number one priority. And I want to be very clear about what that means. Sailors First is not about making the Navy softer. Sailors First is about making the Navy more lethal.",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "He said Sailors First is his top priority and defined it as making the Navy more lethal by removing friction for Sailors."
+    },
+    {
+     "amounts": [
+      "$375 million"
+     ],
+     "capability": "quality of life",
+     "confidence": 0.97,
+     "event_type": "funding_change",
+     "evidence_span": "We are investing $375 million across 95 housing, barracks, galley, and fitness projects.",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "He said the Navy is investing $375 million in housing, barracks, galley, and fitness projects."
+    },
+    {
+     "amounts": [],
+     "capability": "unmanned systems",
+     "confidence": 0.97,
+     "event_type": "strategy_change",
+     "evidence_span": "We are taking unmanned systems out of perpetual experimentation and putting them alongside operational forces.",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "He said the Navy is taking unmanned systems out of experimentation and moving them alongside operational forces."
+    },
+    {
+     "amounts": [],
+     "capability": "undersea strike",
+     "confidence": 0.96,
+     "event_type": "capability_priority",
+     "evidence_span": "We're increasing the striking power of the undersea force. Virginia-class submarines equipped with the Virginia Payload Module provide significantly greater payload capacity and help preserve the guided-missile submarine capability historically provided by our Ohio-class SSGNS.",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Virginia-class submarines",
+     "source_authority": "first_party",
+     "statement": "He said the Navy is increasing undersea striking power with Virginia Payload Module submarines and other advanced systems."
+    },
+    {
+     "amounts": [],
+     "capability": "technology integration",
+     "confidence": 0.95,
+     "event_type": "strategy_change",
+     "evidence_span": "And we're changing the way all new technology enters the Fleet through our Fleet Introduction Operating System - or what we call \"FIOS.\" The idea behind FIOS is simple: The Fleet is not our integration laboratory.",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Fleet Introduction Operating System",
+     "source_authority": "first_party",
+     "statement": "He said the Navy is changing how new technology enters the Fleet through FIOS and wants all support elements to arrive on day one."
+    },
+    {
+     "amounts": [],
+     "capability": "deterrence",
+     "confidence": 0.94,
+     "event_type": "strategy_change",
+     "evidence_span": "And while the Navy Warfighting Concept describes how we intend to fight, we're also developing our Navy Deterrence Concept.",
+     "organization": "",
+     "organizations": [],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Navy Deterrence Concept",
+     "source_authority": "first_party",
+     "statement": "He said the Navy is developing a Navy Deterrence Concept as part of its new approach to deterrence."
+    }
+   ],
+   "hearing_url": null,
+   "issued": "2026-08-27",
+   "kind": "speech",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/dcf1a5a8bfa2_cno-remarks-during-navy-league-state-of-the-navy-dinner",
+   "publisher": "U.S. Navy",
+   "retrieved_at": "2026-09-22T08:47:07Z",
+   "sha256": "dcf1a5a8bfa275446952214dd93dd257d4a331d6493d681056c384989f8c8b3d",
+   "source_authority": "first_party",
+   "speaker_name": "Adm. Daryl Caudle",
+   "speaker_role": "Chief of Naval Operations",
+   "text_chars": 17877,
+   "title": "CNO Remarks during Navy League State of the Navy Dinner",
+   "url": "https://www.navy.mil/Press-Office/Speeches/display-speech/Article/4584409/cno-remarks-during-navy-league-state-of-the-navy-dinner/",
+   "witnesses": []
+  },
+  {
+   "audience": "congress",
+   "cassette": "9f825cfa55ea1e4c.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "",
+   "event_name": "Senate Appropriations Subcommittee on Defense Holds Hearing on Fiscal Year 2024 Budget Request for Navy and Marine Corps",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "maritime dominance",
+     "confidence": 0.95,
+     "event_type": "capability_priority",
+     "evidence_span": "This year's budget request supports our three enduring priorities: strengthening maritime dominance, building a culture of warfighting excellence, and enhancing our strategic partnerships around the globe.",
+     "organization": "Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Department of the Navy’s budget is built around three enduring priorities: strengthening maritime dominance, building a culture of warfighting excellence, and enhancing strategic partnerships."
+    },
+    {
+     "amounts": [],
+     "capability": "uncrewed surface vessels",
+     "confidence": 0.86,
+     "event_type": "strategy_change",
+     "evidence_span": "On the innovation front Task Force 59 in Bahrain, continues to test a wide range of uncrewed surface vessels. We look forward to bringing the capabilities that these platforms provide us to additional regions that we operate in around the globe.",
+     "organization": "Task Force 59",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Navy is shifting toward a more distributed, unmanned-enabled fleet as part of its innovation effort."
+    },
+    {
+     "amounts": [],
+     "capability": "ship modernization",
+     "confidence": 0.97,
+     "event_type": "strategy_change",
+     "evidence_span": "For example, we recently announced the modernization of the destroyer, USS Arleigh Burke DDG-51, to keep it sailing through 2031, five years beyond its estimated service life.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "USS Arleigh Burke DDG-51",
+     "source_authority": "first_party",
+     "statement": "The Navy says it is modernizing the destroyer USS Arleigh Burke DDG-51 to extend its service life."
+    },
+    {
+     "amounts": [],
+     "capability": "quality of life",
+     "confidence": 0.91,
+     "event_type": "capability_priority",
+     "evidence_span": "This year's budget request contains multiple investments to support them and their families with services, benefits, housing, and education.",
+     "organization": "Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Navy is prioritizing support for sailors, Marines, and their families through services, benefits, housing, and education."
+    },
+    {
+     "amounts": [
+      "$200 Million"
+     ],
+     "capability": "mental health",
+     "confidence": 0.98,
+     "event_type": "funding_change",
+     "evidence_span": "And the Department of the Navy's budget, we actually have additional funds upwards of $200 Million that are dedicated to this.",
+     "organization": "Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Department of the Navy says its budget includes more than $200 million in additional mental health funding."
+    },
+    {
+     "amounts": [
+      "$1 billion"
+     ],
+     "capability": "infrastructure",
+     "confidence": 0.98,
+     "event_type": "funding_change",
+     "evidence_span": "We've actually dedicated in this year's budget over $1 billion above last year to investments in the infrastructure.",
+     "organization": "Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Navy says its budget adds over $1 billion above last year for infrastructure investments."
+    },
+    {
+     "amounts": [],
+     "capability": "Arctic operations",
+     "confidence": 0.83,
+     "event_type": "capability_priority",
+     "evidence_span": "I think we've been challenged obviously with the current situation in Ukraine. As well as challenged by the current increasing threat of China as the pacing threat and the scenario with regards to Taiwan, which has demanded additional resources to be able to address those significant challenges. But nevertheless, the CNO, myself, and the Marine Corps, and General Berger are looking at trying to increase the number of operations that we have actually in the -- in the north",
+     "organization": "Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Secretary says the Arctic needs greater investment and more operations."
+    },
+    {
+     "amounts": [
+      "50 percent"
+     ],
+     "capability": "munitions",
+     "confidence": 0.99,
+     "event_type": "funding_change",
+     "evidence_span": "Our budget in this year's fiscal president's budget submission increases the investment in munitions by 50 percent, investing in Tomahawks SM-6, Mark-48 torpedoes, LRASM across the entire threshold of the missiles that are needed actually for the Navy to be able to accomplish its mission.",
+     "organization": "Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Secretary says the budget increases munitions investment by 50 percent."
+    },
+    {
+     "amounts": [
+      "$300 million"
+     ],
+     "capability": "dry dock repairs",
+     "confidence": 0.97,
+     "event_type": "funding_change",
+     "evidence_span": "There is a $300 million request in my unfunded list. As you know, that was a late add that that didn't make it into the budget. And so, I request your help there.",
+     "organization": "Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "",
+     "source_authority": "first_party",
+     "statement": "The Navy has a $300 million unfunded request for repairs and mitigation at the affected dry docks."
+    }
+   ],
+   "hearing_url": null,
+   "issued": "2023-03-28",
+   "kind": "testimony",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/f3c3bcc2e30e_senate-appropriations-subcommittee-on-defense-holds-hearing-on-fiscal-year-2024",
+   "publisher": "U.S. Navy",
+   "retrieved_at": "2026-09-22T08:35:27Z",
+   "sha256": "f3c3bcc2e30e029052fa49b6df705e2878d78d206f6b8b9fcf2c1c902cf4dd6b",
+   "source_authority": "first_party",
+   "speaker_name": "Carlos Del Toro",
+   "speaker_role": "Secretary of the Navy",
+   "text_chars": 60000,
+   "title": "Senate Appropriations Subcommittee on Defense Holds Hearing on Fiscal Year 2024 Budget Req",
+   "url": "https://www.navy.mil/Press-Office/Testimony/display-testimony/Article/3345644/senate-appropriations-subcommittee-on-defense-holds-hearing-on-fiscal-year-2024/",
+   "witnesses": []
+  },
+  {
+   "audience": "industry",
+   "cassette": "f8a99931fdc60b52.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "Potomac Officers Club",
+   "event_name": "2026 Navy Summit",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.99,
+     "event_type": "conference_appearance",
+     "evidence_span": "Top officials like Hung Cao, acting Navy secretary and a Wash100 awardee, will speak at the 2026 Navy Summit",
+     "organization": "",
+     "organizations": [
+      "office:nen",
+      "peo:digital"
+     ],
+     "organizations_from": "document",
+     "person": "Hung Cao",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "Hung Cao will speak at the 2026 Navy Summit as the acting Navy secretary."
+    },
+    {
+     "amounts": [
+      "$378 billion"
+     ],
+     "capability": "",
+     "confidence": 0.98,
+     "event_type": "funding_change",
+     "evidence_span": "The Navy is on track to receive a record-breaking $378 billion budget for FY 2027",
+     "organization": "The Navy",
+     "organizations": [
+      "office:nen",
+      "peo:digital"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "The Navy is on track to receive a record-breaking $378 billion budget for FY 2027."
+    },
+    {
+     "amounts": [],
+     "capability": "fleet modernization",
+     "confidence": 0.96,
+     "event_type": "capability_priority",
+     "evidence_span": "to help it rebuild and modernize the nation's fleet.",
+     "organization": "The Navy",
+     "organizations": [
+      "office:nen",
+      "peo:digital"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "The Navy says the FY 2027 budget will help it rebuild and modernize the nation's fleet."
+    },
+    {
+     "amounts": [],
+     "capability": "technology priorities",
+     "confidence": 0.95,
+     "event_type": "capability_priority",
+     "evidence_span": "Cao is actively reshaping Navy technology priorities, hearing from him directly will be the clearest signal contractors will get all year. Be the first to learn about Cao's initiatives for doing business with new and innovative contractors.",
+     "organization": "Navy",
+     "organizations": [
+      "office:nen",
+      "peo:digital"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "The summit says the Navy is reshaping its technology priorities and wants contractors to learn its new initiatives."
+    },
+    {
+     "amounts": [],
+     "capability": "cyber defense",
+     "confidence": 0.96,
+     "event_type": "capability_priority",
+     "evidence_span": "Attendees of the 2026 Navy Summit will examine strengthening cyber defense across shore and afloat environments and transforming enterprise networks into warfighting platforms",
+     "organization": "the Navy",
+     "organizations": [
+      "office:nen",
+      "peo:digital"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "The summit says attendees will examine strengthening cyber defense and transforming enterprise networks into warfighting platforms."
+    },
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.98,
+     "event_type": "conference_appearance",
+     "evidence_span": "Other keynotes include: NEW—Vice Adm. Rob Gaucher , Navy director of submarine programs",
+     "organization": "",
+     "organizations": [
+      "office:nen",
+      "peo:digital"
+     ],
+     "organizations_from": "document",
+     "person": "Vice Adm. Rob Gaucher",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "Vice Adm. Rob Gaucher will appear as a keynote speaker at the 2026 Navy Summit."
+    },
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.98,
+     "event_type": "conference_appearance",
+     "evidence_span": "Vice Adm. Brad Skillman , deputy chief of naval operations for the integration of capabilities and resources, N8",
+     "organization": "",
+     "organizations": [
+      "office:nen",
+      "peo:digital"
+     ],
+     "organizations_from": "document",
+     "person": "Vice Adm. Brad Skillman",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "Vice Adm. Brad Skillman will appear as a keynote speaker at the 2026 Navy Summit."
+    },
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.97,
+     "event_type": "conference_appearance",
+     "evidence_span": "Barry Tanner , Navy acting chief information officer",
+     "organization": "",
+     "organizations": [
+      "office:nen",
+      "peo:digital"
+     ],
+     "organizations_from": "document",
+     "person": "Barry Tanner",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "Barry Tanner will appear as a keynote speaker at the 2026 Navy Summit."
+    },
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.98,
+     "event_type": "conference_appearance",
+     "evidence_span": "Vice Adm. Michael Vernazza , commander of naval information forces",
+     "organization": "",
+     "organizations": [
+      "office:nen",
+      "peo:digital"
+     ],
+     "organizations_from": "document",
+     "person": "Vice Adm. Michael Vernazza",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "Vice Adm. Michael Vernazza will appear as a keynote speaker at the 2026 Navy Summit."
+    },
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.98,
+     "event_type": "conference_appearance",
+     "evidence_span": "Lt. Gen. Joseph Matos , Marine Corps deputy commandant for information",
+     "organization": "",
+     "organizations": [
+      "office:nen",
+      "peo:digital"
+     ],
+     "organizations_from": "document",
+     "person": "Lt. Gen. Joseph Matos",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "Lt. Gen. Joseph Matos will appear as a keynote speaker at the 2026 Navy Summit."
+    },
+    {
+     "amounts": [],
+     "capability": "information warfare",
+     "confidence": 0.94,
+     "event_type": "capability_priority",
+     "evidence_span": "Lt. Gen. Matos will also deliver exclusive investment insights on top priority information warfare efforts like Project Dynamis and Maven during his keynote address.",
+     "organization": "Marine Corps",
+     "organizations": [
+      "office:nen",
+      "peo:digital"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Project Dynamis",
+     "source_authority": "third_party",
+     "statement": "Lt. Gen. Matos will discuss Project Dynamis and Maven as top priority information warfare efforts."
+    },
+    {
+     "amounts": [],
+     "capability": "AI shipbuilding",
+     "confidence": 0.97,
+     "event_type": "capability_priority",
+     "evidence_span": "The Navy's Golden Fleet initiative is about more than just building new battleships. It's about paradigm-shifting advancements in how the service builds ships. Golden Fleet will help the Navy improve construction paradigms, including discovering ways to slash costs using AI.",
+     "organization": "The Navy",
+     "organizations": [
+      "office:nen",
+      "peo:digital"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Golden Fleet",
+     "source_authority": "third_party",
+     "statement": "The Navy's Golden Fleet initiative is presented as a major effort to change how the service builds ships and cut costs with AI."
+    },
+    {
+     "amounts": [],
+     "capability": "shipbuilding collaboration",
+     "confidence": 0.92,
+     "event_type": "capability_priority",
+     "evidence_span": "expanding industry collaboration across the shipbuilding ecosystem with top Navy officials on conversations guided by industry's top talents",
+     "organization": "the shipbuilding ecosystem",
+     "organizations": [
+      "office:nen",
+      "peo:digital"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "The summit promotes expanding industry collaboration across the shipbuilding ecosystem."
+    },
+    {
+     "amounts": [],
+     "capability": "network-centric warfare",
+     "confidence": 0.97,
+     "event_type": "capability_priority",
+     "evidence_span": "Network-centric warfare programs like Project Overmatch , the Navy's contribution to the Pentagon's Combined Joint All-Domain Command and Control , or CJADC2 , effort, is one of the service's top investment priorities.",
+     "organization": "the Navy",
+     "organizations": [
+      "office:nen",
+      "peo:digital"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Project Overmatch",
+     "source_authority": "third_party",
+     "statement": "Project Overmatch and CJADC2 are described as top investment priorities for the service."
+    }
+   ],
+   "hearing_url": null,
+   "issued": "2026-08-04",
+   "kind": "conference",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/a9fb3abd5e22_navy-summit-2026-govcon-golden-fleet-hung-cao",
+   "publisher": "www.potomacofficersclub.com",
+   "retrieved_at": "2026-09-22T08:42:49Z",
+   "sha256": "a9fb3abd5e22a686e666c64c65d2c53b2c546e5f1f32fa112e87b2aadf158113",
+   "source_authority": "third_party",
+   "speaker_name": "Hung Cao",
+   "speaker_role": "acting Navy secretary",
+   "text_chars": 8718,
+   "title": "Top 5 Reasons To Attend The 2026 Navy Summit",
+   "url": "https://www.potomacofficersclub.com/articles/navy-summit-2026-govcon-golden-fleet-hung-cao/",
+   "witnesses": []
+  },
+  {
+   "audience": "industry",
+   "cassette": "024f4e56c6da3fec.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "Potomac Officers Club",
+   "event_name": "2026 Navy Summit",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.98,
+     "event_type": "conference_appearance",
+     "evidence_span": "Potomac Officers Club, the nation's preeminent GovCon networking and events company, is pleased to announce that its 2026 Navy Summit will feature Vice Adm. Brad Skillman , deputy chief of naval operations for integration of capabilities and resources, N8, in the Office of the Chief of Naval Operations, as a keynote speaker on Aug. 27 in Falls Church, Virginia.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "Vice Adm. Brad Skillman",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "VADM Brad Skillman is announced as a keynote speaker at the 2026 Navy Summit on Aug. 27 in Falls Church, Virginia."
+    },
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.93,
+     "event_type": "conference_appearance",
+     "evidence_span": "Attendees will also hear from Acting Secretary of the Navy Hung Cao , who headlines the keynote lineup, along with Acting Chief Information Officer Barry Tanner and Vice Adm. Michael Vernazza, commander of Naval Information Forces.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "Acting Secretary of the Navy Hung Cao",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "Acting Secretary of the Navy Hung Cao is also listed as a keynote speaker at the 2026 Navy Summit."
+    }
+   ],
+   "hearing_url": null,
+   "issued": "2026-07-06",
+   "kind": "conference",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/007e9dde9837_skillman-navy-resources-keynote-govcon-summit",
+   "publisher": "www.potomacofficersclub.com",
+   "retrieved_at": "2026-09-22T08:42:58Z",
+   "sha256": "007e9dde9837f2b19bd10f21fe6b567be099ea5171aa366c04de9f188204bf29",
+   "source_authority": "third_party",
+   "speaker_name": "VADM Brad Skillman",
+   "speaker_role": "deputy chief of naval operations for integration of capabilities and resources, N8, in the Office of the Chief of Naval Operations",
+   "text_chars": 7808,
+   "title": "VADM Brad Skillman To Keynote 2026 Navy Summit",
+   "url": "https://www.potomacofficersclub.com/news/skillman-navy-resources-keynote-govcon-summit/",
+   "witnesses": []
+  },
+  {
+   "audience": "allies",
+   "cassette": "7af765cd7deb9075.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "The Washington Times' Threat Status national security team",
+   "event_name": "IndoPac 2026 | Naval Dominance: Shipbuilding, Autonomy & C2",
+   "events": [
+    {
+     "amounts": [],
+     "capability": "",
+     "confidence": 0.98,
+     "event_type": "conference_appearance",
+     "evidence_span": "Sen. Todd Young, Indiana Republican, co-sponsored that bill. He will be on stage at the Wednesday event.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "Sen. Todd Young",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "Sen. Todd Young is scheduled to appear on stage at the Wednesday event."
+    },
+    {
+     "amounts": [],
+     "capability": "unmanned forces",
+     "confidence": 0.92,
+     "event_type": "capability_priority",
+     "evidence_span": "\"A Taiwan scenario is not the only place where that type of capability would be needed. You might think of that in any choke point. That may be a capability I'd want in the [strait] there at the end of the Red Sea or in the Strait of Hormuz or anywhere else,\" Adm. Caudle said.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "Adm. Caudle said the Navy would need a tailored set of unmanned forces for choke points and contested maritime areas."
+    },
+    {
+     "amounts": [
+      "$65.8 billion"
+     ],
+     "capability": "shipbuilding",
+     "confidence": 0.95,
+     "event_type": "funding_change",
+     "evidence_span": "A key topic will be the Trump administration's Golden Fleet, an ambitious plan to build dozens of new vessels with $65.8 billion earmarked in the proposed fiscal 2027 budget.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Golden Fleet",
+     "source_authority": "third_party",
+     "statement": "The Trump administration's proposed fiscal 2027 budget earmarks $65.8 billion for the Golden Fleet shipbuilding plan."
+    },
+    {
+     "amounts": [
+      "$54.6 billion"
+     ],
+     "capability": "drone warfare",
+     "confidence": 0.93,
+     "event_type": "funding_change",
+     "evidence_span": "The Pentagon is seeking $54.6 billion for its Defense Autonomous Warfare Group, the umbrella initiative overseeing the effort to produce and field drones in large numbers.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "Defense Autonomous Warfare Group",
+     "source_authority": "third_party",
+     "statement": "The Pentagon is seeking $54.6 billion for the Defense Autonomous Warfare Group to produce and field drones in large numbers."
+    },
+    {
+     "amounts": [
+      "$2.3 billion"
+     ],
+     "capability": "drone weapons",
+     "confidence": 0.9,
+     "event_type": "funding_change",
+     "evidence_span": "In a recent report to Congress obtained by Threat Status, Adm. Paparo said he wants at least $2.3 billion specifically for maritime, underwater and ground-based drone weapons in the Pacific.",
+     "organization": "",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "Adm. Paparo wants at least $2.3 billion for maritime, underwater and ground-based drone weapons in the Pacific."
+    }
+   ],
+   "hearing_url": null,
+   "issued": "2026-06-22",
+   "kind": "conference",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/502ee157074e_americas-naval-power-transformation-spotlight-major-threat-status",
+   "publisher": "www.washingtontimes.com",
+   "retrieved_at": "2026-09-22T08:42:57Z",
+   "sha256": "502ee157074e7e9e67a4710209ebe608960d7e5e961db5d8a9620322b48dbe2d",
+   "source_authority": "third_party",
+   "speaker_name": "Sen. Todd Young",
+   "speaker_role": "Indiana Republican",
+   "text_chars": 14261,
+   "title": "America's naval power transformation to be in spotlight at major Threat Status event",
+   "url": "https://www.washingtontimes.com/news/2026/jun/22/americas-naval-power-transformation-spotlight-major-threat-status/",
+   "witnesses": []
+  },
+  {
+   "audience": "industry",
+   "cassette": "c2f19bbe9108330c.json",
+   "date_basis": "page",
+   "dropped": {},
+   "event_host": "The Washington Times' Threat Status",
+   "event_name": "IndoPac 2026",
+   "events": [
+    {
+     "amounts": [
+      "$65.8 billion",
+      "57%"
+     ],
+     "capability": "shipbuilding",
+     "confidence": 0.98,
+     "event_type": "funding_change",
+     "evidence_span": "On May 11, 2026, the Department released its Fiscal Year 2027 Shipbuilding Plan, requesting $65.8 billion — a nearly 57% increase over last year — and outlining a 30-year roadmap to expand fleet capacity, revitalize the maritime industrial base, and deliver a more capable, ready, and lethal naval force.",
+     "organization": "Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "The Department of the Navy said its Fiscal Year 2027 Shipbuilding Plan requests $65.8 billion, nearly 57% more than last year."
+    },
+    {
+     "amounts": [],
+     "capability": "modular shipbuilding",
+     "confidence": 0.94,
+     "event_type": "strategy_change",
+     "evidence_span": "The president is rightly recognizing that we need a renaissance and a resurgent sea and shipbuilding in our country,\" Admiral Caudle told Threat Status. \"You're going to see an all hands on deck approach with modular shipbuilding as the core of the design change.",
+     "organization": "the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "document",
+     "person": "",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "Chief of Naval Operations Admiral Daryl Caudle said the Navy will use an all-hands-on-deck approach with modular shipbuilding as the core of its future industrial strategy."
+    },
+    {
+     "amounts": [
+      "$65.8 billion",
+      "57%"
+     ],
+     "capability": "fleet capacity",
+     "confidence": 0.92,
+     "event_type": "capability_priority",
+     "evidence_span": "On May 11, 2026, the Department released its Fiscal Year 2027 Shipbuilding Plan, requesting $65.8 billion — a nearly 57% increase over last year — and outlining a 30-year roadmap to expand fleet capacity, revitalize the maritime industrial base, and deliver a more capable, ready, and lethal naval force.",
+     "organization": "Department of the Navy",
+     "organizations": [
+      "agency:don"
+     ],
+     "organizations_from": "event",
+     "person": "",
+     "program": "",
+     "source_authority": "third_party",
+     "statement": "The Navy said it needs to expand fleet capacity and revitalize the maritime industrial base to build a more capable, ready, and lethal naval force."
+    }
+   ],
+   "hearing_url": null,
+   "issued": "2026-05-04",
+   "kind": "conference",
+   "model": "gpt-5.4-mini-2026-03-17",
+   "not_verbatim": [],
+   "path": "data/raw/8bf6874e5cf3_washington-times-threat-status-announces-indopac-2026",
+   "publisher": "www.washingtontimes.com",
+   "retrieved_at": "2026-09-22T08:43:19Z",
+   "sha256": "8bf6874e5cf3ae7555753e9c83532eef2226f84c896ab65f2b472fbaeb45408a",
+   "source_authority": "third_party",
+   "speaker_name": "",
+   "speaker_role": "",
+   "text_chars": 8088,
+   "title": "The Washington Times' Threat Status Announces 'IndoPac 2026'",
+   "url": "https://www.washingtontimes.com/news/2026/may/4/washington-times-threat-status-announces-indopac-2026/",
+   "witnesses": []
+  }
+ ],
+ "dropped": {
+  "a second event of the same kind on the same passage": 9,
+  "evidence span is not on the saved page verbatim": 5,
+  "organization is not written so in the text": 1,
+  "person is not written so in the text": 4,
+  "program is not written so in the text": 1
+ },
+ "model": "gpt-5.4-mini",
+ "source": "chromie-federal-buyer-map-trial/research/tools/remarks.py"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:20:30Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NRL\",\"capability\":\"Cisco network switches\",\"short_names\":[\"CISCO Switch Order\"],\"aliases\":[\"solicitation N00173-26-Q-1301314772\",\"Naval Research Laboratory\",\"Washington, DC\",\"brand name or equal\"],\"capability_terms\":[\"network switching\",\"enterprise Ethernet switching\",\"LAN switching\",\"Cisco switching equipment\"],\"confidence\":0.93}",
+ "request_key": "f03a354ef4155bb40fd6cb4e03e102d110047c3f04c843c003afdf4248a1b768",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1660,
+  "output_tokens": 150
+ },
+ "user_sha256": "6af1361bf4eac28e"
+}

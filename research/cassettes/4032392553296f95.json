@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:40:04Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NRL\",\"capability\":\"advanced GNSS signal simulation\",\"short_names\":[\"Advanced GNSS Simulator\"],\"aliases\":[\"Advanced Global Navigation Satellite System (GNSS) Simulator suite\",\"request for information (sources sought)\",\"solicitation N0017326RFIMA01\",\"System 2 (Multi-Output & Secure PNT for CRPA Testing)\",\"Multi-Output & Secure PNT for CRPA Testing\",\"Integrated commercial low Earth orbit (LEO) production signals bundle software\"],\"capability_terms\":[\"GNSS simulation\",\"PNT testing\",\"M-code and SAASM signal generation\",\"LEO alternative navigation emulation\",\"CRPA wavefront testing\",\"multi-constellation satellite signal emulation\"],\"confidence\":0.95}",
+ "request_key": "4032392553296f95a4f2041bb5c2bf1c6f5642142ebd018cd66da378c1a3a27d",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1902,
+  "output_tokens": 212
+ },
+ "user_sha256": "179b510a293a7a41"
+}

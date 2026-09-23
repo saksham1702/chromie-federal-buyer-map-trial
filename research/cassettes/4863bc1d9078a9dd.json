@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:30:47Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Sea Systems Command (NAVSEA)\",\"capability\":\"Post Shakedown Availabilities for DDG 51 ships\",\"short_names\":[\"DDG 128\",\"DDG 130\"],\"aliases\":[\"DDG 128 and DDG 130 Post Shakedown Availabilities At Norfolk\",\"DDG 51 Class Post Shakedown Availabilities (PSAs)\",\"DDG 51 Class Ships at the homeport of Norfolk, VA\",\"N0002426R2300\"],\"capability_terms\":[\"post shakedown availabilities\",\"destroyer availability work\",\"DDG 51 class ship repair\",\"shipyard maintenance and repair\"],\"confidence\":0.95}",
+ "request_key": "4863bc1d9078a9dd8ba6b1bf6340d31734cb64aa584a1f6bae92bd11a8b6791b",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 878,
+  "output_tokens": 220
+ },
+ "user_sha256": "144593d0d22edfea"
+}

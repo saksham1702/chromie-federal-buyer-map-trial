@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:10:42Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMW 770\",\"capability\":\"in-line amplifiers for OE-315 system\",\"short_names\":[\"OE-315\",\"BCA AIS LNA\"],\"aliases\":[\"solicitation N00039-23-R-4101\",\"fabrication, assembly, and test of in-line amplifiers in the OE-315 system\",\"equipment, installation, test, and integration\"],\"capability_terms\":[\"in-line signal amplification\",\"amplifier fabrication\",\"amplifier installation\",\"amplifier test and integration\"],\"confidence\":0.81}",
+ "request_key": "306c89784ee3a17e2b8aab4a9ec0439f3d8cddf719f173eca8b9b6dcff05241f",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1235,
+  "output_tokens": 407
+ },
+ "user_sha256": "5ec8da1c24140966"
+}

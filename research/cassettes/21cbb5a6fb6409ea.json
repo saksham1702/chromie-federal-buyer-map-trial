@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:31:56Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory\",\"capability\":\"microwave signal analysis equipment\",\"short_names\":[\"Microwave Analyzer\"],\"aliases\":[\"Keysight Microwave Analyzer with Accessories\",\"solicitation N0017326Q1301353994\"],\"capability_terms\":[\"microwave analysis\",\"RF measurement\",\"spectrum analysis\",\"network analysis\"],\"confidence\":0.89}",
+ "request_key": "21cbb5a6fb6409ea4faa4e765765fa3e8b4afcd5a09441285e3b372d34410fc6",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1655,
+  "output_tokens": 210
+ },
+ "user_sha256": "c5437a1bb97b766d"
+}

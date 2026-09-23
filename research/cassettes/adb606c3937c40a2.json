@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:16:36Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMW/A 170\",\"capability\":\"tactical portable radios and parts\",\"short_names\":[\"PRP\"],\"aliases\":[\"N00039-22-D-0070\",\"N0003922D0070_SYNOPSIS\",\"L3Harris Technologies Incorporated\",\"Portable Radio Program\",\"Communications and Global Positioning System (GPS) Navigation Program Office (PMW/A 170)\"],\"capability_terms\":[\"tactical portable radios\",\"secure waveform communications\",\"portable shipboard emergency communications\",\"SATCOM\",\"command and control radios\"],\"confidence\":0.95}",
+ "request_key": "adb606c3937c40a2dbc80e1b6ce6c8dc530fc9067a46a6fbb1725f90203ae80f",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1195,
+  "output_tokens": 247
+ },
+ "user_sha256": "d1cdfa590cf1d2a3"
+}

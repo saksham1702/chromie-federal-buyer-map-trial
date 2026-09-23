@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:26:15Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"900 MHz sector antenna\",\"short_names\":[\"900 MHz 11.5 dbi Sector Antenna\"],\"aliases\":[\"900 MHz 11.5 dbi Sector Antenna\",\"solicitation N0017326Q1301348831\",\"Naval Research Laboratory\",\"US Naval Research Laboratory\"],\"capability_terms\":[\"900 MHz antenna\",\"sector antenna\",\"RF antenna\"],\"confidence\":0.95}",
+ "request_key": "862294524e26c5c43655c49e58d40f4bdc3ba2c5e35560d8f057240457e973c4",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1692,
+  "output_tokens": 170
+ },
+ "user_sha256": "e64fee514e5bec42"
+}

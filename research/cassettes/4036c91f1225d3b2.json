@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:24:17Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"GitLab software license renewal\",\"short_names\":[\"GITLAB\"],\"aliases\":[\"GITLAB RENEWAL\",\"N0017326Q0041\"],\"capability_terms\":[\"source code management platform\",\"DevOps collaboration platform\",\"version control platform\",\"software license renewal\"],\"confidence\":0.91}",
+ "request_key": "4036c91f1225d3b2f7b012cf6d7a22044f6790f99e80453a39eb610ec7ea1726",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1650,
+  "output_tokens": 208
+ },
+ "user_sha256": "5053dc17747a6dcd"
+}

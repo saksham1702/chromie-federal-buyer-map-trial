@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:20:36Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Cyber Operations Division\",\"capability\":\"modular power distribution units\",\"short_names\":[\"PDUs\"],\"aliases\":[\"Modular Power Distribution Units (PDUs)\",\"N00173-26-DS-02\"],\"capability_terms\":[\"power distribution units\",\"computer room power infrastructure\",\"increased power capacity\",\"energy-efficient power distribution\",\"scalable and reliable power infrastructure\"],\"confidence\":0.93}",
+ "request_key": "46fa8d05d28940a9d6864ded9d7d636055d45427e986fd1941fe2e1460738cda",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 660,
+  "output_tokens": 254
+ },
+ "user_sha256": "53304ad48a8bb044"
+}

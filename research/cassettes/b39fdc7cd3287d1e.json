@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:36:31Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMS 300\",\"capability\":\"special mission multi-mission vessel\",\"short_names\":[\"SMV\"],\"aliases\":[\"Special Mission Vessel (SMV)\",\"multi-mission vessel\",\"a versatile, modular maritime platform capable of sustained independent operations\",\"an afloat forward-deployed operations and staging base for UAS, USV, small boat, and U.S. / multi-national command and control (C2) missions\",\"solicitation N0002426RXXXX\"],\"capability_terms\":[\"maritime security platform\",\"UAS and USV support vessel\",\"helicopter-capable vessel\",\"small boat launch and recovery\",\"maritime command and control base\"],\"confidence\":0.91}",
+ "request_key": "b39fdc7cd3287d1e1733eb4fa3a63b97beb357b5608bf9ae65a15ab5fe2b727c",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1813,
+  "output_tokens": 261
+ },
+ "user_sha256": "b616de4952e648d1"
+}

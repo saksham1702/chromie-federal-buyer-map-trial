@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:25:58Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory\",\"capability\":\"Engineering support for RF and HF systems\",\"short_names\":[\"RF and HF Systems\"],\"aliases\":[\"N00173-26-SSN-TS07\",\"Engineering Support for Design, Development, and Integration of RF and HF Systems for the Advanced Radar Systems Branch\",\"Naval Research Laboratory\",\"Advanced Radar Systems Branch\",\"mobile over-the-horizon (OTH) radar\",\"HF surface wave radar\",\"arctic HF OTH radar\",\"homeland defense radar\",\"high power HF transmitter\",\"multifunctional RF\"],\"capability_terms\":[\"RF and HF systems engineering\",\"over-the-horizon radar\",\"HF surface-wave radar\",\"high-power HF transmitters\",\"multifunctional RF\"],\"confidence\":0.89}",
+ "request_key": "45686ab9923ecfe9ee5db51596f4585aa3f6e9c3637f35ea0c78b249829735f3",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1101,
+  "output_tokens": 395
+ },
+ "user_sha256": "f6bfd158a97451c0"
+}

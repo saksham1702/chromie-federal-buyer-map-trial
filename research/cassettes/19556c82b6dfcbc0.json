@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:14:39Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"submersible load cells\",\"short_names\":[\"Submersible Load Cells\"],\"aliases\":[\"N0017326Q5207\",\"Naval Research Laboratory\",\"U.S. Naval Research Laboratory\"],\"capability_terms\":[\"submersible force measurement\",\"underwater load sensing\",\"marine load cells\",\"submerged weighing sensors\"],\"confidence\":0.94}",
+ "request_key": "19556c82b6dfcbc02f000ca9ee85ffc677af18e8239c3160ec5238c7179cc557",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1690,
+  "output_tokens": 207
+ },
+ "user_sha256": "094c0fd158f4ead0"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:20:25Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NAVSEA\",\"capability\":\"BBG(X) ship design engineering\",\"short_names\":[\"BBG(X)\"],\"aliases\":[\"BBG(X) guided missile battleship design, engineering, and design analysis requirements\",\"shipbuilder engineering and design analysis\",\"Preliminary Design (PD)\",\"Contract Design (CD)\",\"Navy-led design for BBG(X)\"],\"capability_terms\":[\"guided missile battleship design\",\"ship design engineering\",\"ship design analysis\",\"preliminary ship design\",\"contract ship design\"],\"confidence\":0.94}",
+ "request_key": "272427be2d7eeb6c9e8e5c79646a5ab7e0a6eb700087a30fd4b2aa3ce9642edb",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 807,
+  "output_tokens": 248
+ },
+ "user_sha256": "3f178ab6041f7362"
+}

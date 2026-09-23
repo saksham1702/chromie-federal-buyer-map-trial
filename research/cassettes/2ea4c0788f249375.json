@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:30:18Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NAVAL SEA SYSTEMS COMMAND\",\"capability\":\"Littoral Combat Ship maintenance, repair, alterations\",\"short_names\":[\"USS WICHITA\",\"LCS 13\",\"FY27 DSRA\"],\"aliases\":[\"solicitation N0002426R4415\",\"Docking Selected Restricted Availability\",\"Chief of Naval Operations (CNO) availability\",\"coast-wide (East/Gulf Coast) solicitation\",\"USS WICHITA FY27 DSRA\"],\"capability_terms\":[\"LCS availability\",\"dry-dock and pier-side maintenance\",\"ship repair and alterations\",\"underwater hull preservation\",\"aluminum welding\",\"ship alterations\"],\"confidence\":0.98}",
+ "request_key": "2ea4c0788f249375d874668d51f79a2882924a0ef99ac7df878f12e145ea7011",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1702,
+  "output_tokens": 304
+ },
+ "user_sha256": "bde70304ad60e470"
+}

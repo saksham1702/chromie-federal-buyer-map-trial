@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:36:09Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NRL\",\"capability\":\"information technology support\",\"short_names\":[\"Space Science Information Technology Support\",\"Space Science Division\"],\"aliases\":[\"solicitation N0017326R0007\",\"NRL's Space Science Division\",\"Attachment 1-SOW\",\"Attachment 2-Personnel Qualifications\",\"Attachment 3- Price Proposal Format\"],\"capability_terms\":[\"information technology support\",\"system integration\",\"desktop/cluster-based computers\",\"office automation systems\",\"scientific software\",\"business management software\"],\"confidence\":0.94}",
+ "request_key": "90bbdcf4b3468d84639537eef137b48dac1060c241739aa5caafaf848ffd4f1f",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 833,
+  "output_tokens": 224
+ },
+ "user_sha256": "77dfa5a615ba3d73"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:33:46Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"enterprise flash storage arrays\",\"short_names\":[\"Pure Storage Flash Array\"],\"aliases\":[\"Pure Storage Flash Array Systems\",\"N0017326QTS10\",\"Brand Name Only\"],\"capability_terms\":[\"flash storage arrays\",\"enterprise data storage\",\"storage array systems\"],\"confidence\":0.93}",
+ "request_key": "9abd1c53f3d0d14ef4b54b6b3c1846b1ccc0b67f8c091afe02346e6edc2e60f7",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 832,
+  "output_tokens": 169
+ },
+ "user_sha256": "d97b65a092cde75e"
+}

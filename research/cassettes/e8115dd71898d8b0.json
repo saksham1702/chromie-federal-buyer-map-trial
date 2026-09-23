@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:23:06Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"shipboard vertical launch launcher production\",\"short_names\":[\"MK 41 VLS\",\"VLS\"],\"aliases\":[\"MK 41 VLS Launcher Production Request for Information (RFI)\",\"solicitation VLS006A\",\"Notice ID VLS007A\"],\"capability_terms\":[\"vertical launch system\",\"shipboard missile launcher\",\"launch tube production\",\"surface combatant missile launch\"],\"confidence\":0.98}",
+ "request_key": "e8115dd71898d8b06bb2227c3fa3e8ca86704b1ae24f5e71ed9bead9477fa909",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 578,
+  "output_tokens": 205
+ },
+ "user_sha256": "0618d95debcdadc9"
+}

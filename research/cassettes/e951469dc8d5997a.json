@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T09:42:21Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"logistics support for undersea surveillance\",\"short_names\":[\"IUSS\",\"PSF\"],\"aliases\":[\"Integrated Undersea Surveillance System (IUSS) Product Support Facility (PSF)\",\"IUSS PSF Logistics Support\",\"solicitation N00039-IUSS-PSF-SOURCES-SOUGHT\",\"SeaPort Next Generation (SeaPort-NxG) Task Order\"],\"capability_terms\":[\"undersea surveillance logistics\",\"product support facility support\",\"IUSS sustainment support\",\"SeaPort-NxG task order support\"],\"confidence\":0.95}",
+ "request_key": "e951469dc8d5997a3aaa9c00e4627d546e3cfaafbbfee99a7dac3ff2f871f0dc",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 696,
+  "output_tokens": 237
+ },
+ "user_sha256": "e952ba3b1e9bfaef"
+}

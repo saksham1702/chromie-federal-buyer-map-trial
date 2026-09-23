@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:35:57Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NAVSEA\",\"capability\":\"engineering maintenance support for carriers and surface ships\",\"short_names\":[\"CEMAT/SEMAT\"],\"aliases\":[\"Carrier/Surface Ship Engineering Maintenance Assist Team\",\"solicitation N0002426R4114\",\"engineering and technical support\",\"maintenance and planning for the overhaul and repair of equipment and systems associated with U.S. Navy Aircraft Carriers (CVN) and U.S. Navy Surface Ships\",\"Indefinite Delivery / Indefinite Quantity Contract (IDIQ)\"],\"capability_terms\":[\"carrier maintenance\",\"surface ship engineering support\",\"overhaul and repair\",\"shipboard technical support\",\"maintenance planning\"],\"confidence\":0.96}",
+ "request_key": "487e5307c944175e7e0f78a77778e02e9593a38b69deb8096d9bc6d9702557cd",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 774,
+  "output_tokens": 337
+ },
+ "user_sha256": "0a39a5e5d7d76ccc"
+}

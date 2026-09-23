@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:16:20Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PEO C4I\",\"capability\":\"multiband terminal upgrades for ESS interoperability\",\"short_names\":[\"NMT-X\",\"NMT\"],\"aliases\":[\"contract N00039-25-D-2002\",\"N0003925D\",\"N0003925D2002_0001\",\"Navy Multiband Terminal\",\"Evolved Strategic SATCOM (ESS)\",\"Advanced Extremely High Frequency (AEHF) satellite communications\",\"Raytheon Company (RTX)\",\"Collins Aerospace\"],\"capability_terms\":[\"multiband SATCOM terminal\",\"strategic satellite communications interoperability\",\"AEHF terminal modernization\",\"shipboard and submarine SATCOM\",\"hardware and software upgrades\"],\"confidence\":0.98}",
+ "request_key": "b8d2af4b5018fc7fa74d65630fe1eaaf299f722a8d6d7f4c3e11947794bde7a6",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1245,
+  "output_tokens": 285
+ },
+ "user_sha256": "7809b77d4a8caa2e"
+}

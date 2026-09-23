@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T08:54:28Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "remarks_events",
+ "output_text": "{\"speaker_name\":\"\",\"speaker_role\":\"\",\"event_name\":\"Sea-Air-Space 2026\",\"event_host\":\"Navy League of the United States\",\"audience\":\"industry\",\"events\":[{\"event_type\":\"capability_priority\",\"statement\":\"The Navy must have the right assets, personnel and logistical capabilities to project power and protect national interests.\",\"capability\":\"assets, personnel and logistical capabilities\",\"program\":\"\",\"organization\":\"U.S. Navy\",\"person\":\"\",\"evidence_span\":\"To project power and protect national interests, the U.S. Navy must be equipped with the right assets, personnel and logistical capabilities. This new panel at SAS 2026 focuses on defining strategic requirements, optimizing force structure, and ensuring that military planning drives industrial production.\",\"amounts\":[],\"confidence\":0.95},{\"event_type\":\"strategy_change\",\"statement\":\"The Navy's numbered fleets are executing the CNO's directives under the \\\"America First\\\" maritime strategy while aligning operations with national priorities.\",\"capability\":\"maritime operations\",\"program\":\"\",\"organization\":\"U.S. Navy's numbered fleets\",\"person\":\"\",\"evidence_span\":\"This panel will explore how the U.S. Navy's numbered fleets are executing the CNO's directives under the \\\"America First\\\" maritime strategy. From the Indo-Pacific to the Atlantic, fleet commanders are aligning operations with national priorities\u2014enhancing readiness, projecting power and defending sea lanes vital to American prosperity.\",\"amounts\":[],\"confidence\":0.93},{\"event_type\":\"strategy_change\",\"statement\":\"The executive order on Restoring America's Maritime Dominance introduced sweeping policy changes and led to the development of the Maritime Action Plan.\",\"capability\":\"maritime policy\",\"program\":\"Maritime Action Plan (MAP)\",\"organization\":\"\",\"person\":\"\",\"evidence_span\":\"Last year, the executive order on Restoring America's Maritime Dominance introduced sweeping policy changes, including the development of the Maritime Action Plan (MAP). Experts will examine the strategic role of Cargo Preference in national security, the regulatory landscape shaping U.S.-flag shipping, and how coordinated federal action is reshaping the maritime industrial base.\",\"amounts\":[],\"confidence\":0.97}]}",
+ "request_key": "ac6c77bf51419274c54af73e8179bbb01e0f1d39fbae915c09993bafeaddae89",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "9bdbe03afea8d63f",
+ "usage": {
+  "input_tokens": 3499,
+  "output_tokens": 596
+ },
+ "user_sha256": "bbce580aecf3b07c"
+}

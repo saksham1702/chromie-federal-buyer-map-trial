@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T09:14:40Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "remarks_events",
+ "output_text": "{\"speaker_name\":\"Adm. Daryl Caudle\",\"speaker_role\":\"Chief of Naval Operations\",\"event_name\":\"CNO Remarks at New York Stock Exchange NYSE during INR 250\",\"event_host\":\"New York Stock Exchange\",\"audience\":\"industry\",\"events\":[{\"event_type\":\"conference_appearance\",\"statement\":\"Adm. Daryl Caudle appears at the New York Stock Exchange to deliver remarks during INR 250.\",\"capability\":\"\",\"program\":\"\",\"organization\":\"\",\"person\":\"Adm. Daryl Caudle\",\"evidence_span\":\"CNO Remarks at New York Stock Exchange NYSE during INR 250 New York City Chief of Naval Operations Adm. Daryl Caudle\",\"amounts\":[],\"confidence\":0.98}]}",
+ "request_key": "d882f78bb2656cb77fd0038d4076a6927d8870eafe4c8e017f673e2eba62cb96",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "9bdbe03afea8d63f",
+ "usage": {
+  "input_tokens": 2482,
+  "output_tokens": 274
+ },
+ "user_sha256": "c07a532c5c4359f0"
+}

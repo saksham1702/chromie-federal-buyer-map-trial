@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:22:23Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PEO IWS 80.0\",\"capability\":\"Ship self-defense system software support\",\"short_names\":[\"SSDS\",\"SSDS ICS\"],\"aliases\":[\"Ship Self Defense System (SSDS) Legacy In Service\",\"Ship Self Defense System (SSDS)\",\"SSDS Integrated Combat System (ICS)\",\"In-Service SSDS Baselines 6, 9, and 10\"],\"capability_terms\":[\"ship self-defense software support\",\"combat system integration\",\"anti-ship cruise missile defense\",\"fleet software engineering\",\"system integration laboratory support\",\"battle management and test support\"],\"confidence\":0.98}",
+ "request_key": "50cb830c2d2f1bdffdd2c65c166edce2634021ce0a129c9b334a54aadf3c74e0",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1825,
+  "output_tokens": 258
+ },
+ "user_sha256": "d46f066cdd9cf57d"
+}

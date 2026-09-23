@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T09:41:55Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Information Warfare Systems Command (NAVWAR)\",\"capability\":\"autonomous intelligence systems platform integration\",\"short_names\":[\"AINTS\"],\"aliases\":[\"Egypt A2\",\"N0003925R4011\",\"Egyptian Navy Autonomous INTelligence Systems (AINTS) Platform Integration\",\"Foreign Military Sales (FMS) Procurement\"],\"capability_terms\":[\"autonomous intelligence systems integration\",\"platform integration\",\"foreign military sales procurement\",\"AI-enabled maritime systems\"],\"confidence\":0.92}",
+ "request_key": "73936d42f595d84b5df1dda77a9feb0d03fa2c9df5de03428b7d5837a1c71785",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 718,
+  "output_tokens": 218
+ },
+ "user_sha256": "35e49362dee3f93d"
+}

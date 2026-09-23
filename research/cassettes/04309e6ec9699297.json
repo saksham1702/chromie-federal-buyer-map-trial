@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:22:56Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NAVSEA\",\"capability\":\"surface electronic warfare system production and integration\",\"short_names\":[\"SEWIP\",\"AN/SLQ-32(V)\",\"SEWIP Lite\"],\"aliases\":[\"Surface Electronic Warfare Improvement Program (SEWIP)\",\"AN/SLQ-32(V) Full Rate Production, Design Agent Engineering, and Integration\",\"N00024-25-R-5504\",\"Indefinite Delivery Indefinite Quantity- Multiple Award Contract (IDIQ-MAC)\",\"AN/SLQ-32 Electronic Warfare (EW) system\",\"SEWIP Block 1B3\",\"SEWIP Block 2\",\"SEWIP Block 3\",\"AN/SLQ-32(V)6\",\"AN/SLQ-32C(V)6\",\"AN/SLQ-32(V)7\",\"SOEA\"],\"capability_terms\":[\"surface electronic warfare\",\"electronic support\",\"electronic attack\",\"threat warning\",\"anti-ship missile protection\",\"shipboard EW modernization\"],\"confidence\":0.98}",
+ "request_key": "04309e6ec96992977c3383e5b3a40f5d08c975d3b7003e873ecca36332532d2c",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1886,
+  "output_tokens": 468
+ },
+ "user_sha256": "5fda00fbdc5a93f1"
+}

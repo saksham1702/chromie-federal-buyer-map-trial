@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T08:54:07Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "remarks_events",
+ "output_text": "{\"speaker_name\":\"Admiral Daryl Caudle\",\"speaker_role\":\"Chief of Naval Operations, U.S. Navy\",\"event_name\":\"Apex Defense 2026\",\"event_host\":\"Apex Defense\",\"audience\":\"industry\",\"events\":[{\"event_type\":\"conference_appearance\",\"statement\":\"Admiral Daryl Caudle appears as a keynote conversation speaker at Apex Defense 2026.\",\"capability\":\"\",\"program\":\"\",\"organization\":\"\",\"person\":\"Admiral Daryl Caudle\",\"evidence_span\":\"Keynote Conversation with Admiral Daryl Caudle, Chief of Naval Operations, U.S. Navy Keynote Address with Hon. Michael P. Duffey, Under Secretary of War for Acquisition and Sustainment, Office of the Under Secretary of War\",\"amounts\":[],\"confidence\":0.98},{\"event_type\":\"conference_appearance\",\"statement\":\"Hon. Michael P. Duffey appears as a keynote address speaker at Apex Defense 2026.\",\"capability\":\"\",\"program\":\"\",\"organization\":\"\",\"person\":\"Hon. Michael P. Duffey\",\"evidence_span\":\"Keynote Address with Hon. Michael P. Duffey, Under Secretary of War for Acquisition and Sustainment, Office of the Under Secretary of War Operational Problem A: Sustaining forces in a contested and dispersed theatre of operations\",\"amounts\":[],\"confidence\":0.97},{\"event_type\":\"strategy_change\",\"statement\":\"The Navy is introducing a new naval warfighting plan called Fighting Instructions that will include the force's Hedge and tailored forces plans.\",\"capability\":\"naval warfighting\",\"program\":\"Fighting Instructions\",\"organization\":\"\",\"person\":\"\",\"evidence_span\":\"New Apex Defense: US Navy lays out new naval warfighting plan January 27, 2026 Olivia Savage - Editor in Chief of Clarion Defence & Security The new 'Fighting Instructions' strategy will include details on the force's Hedge and tailored forces plans.\",\"amounts\":[],\"confidence\":0.89}]}",
+ "request_key": "610dfec5073812a37166f231cb99999a12c8a2470a3802a9c4936fa50b326541",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "9bdbe03afea8d63f",
+ "usage": {
+  "input_tokens": 1974,
+  "output_tokens": 516
+ },
+ "user_sha256": "b98c97e6ff0060f3"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:24:54Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory (NRL)\",\"capability\":\"RF atmospheric exploration and antenna support\",\"short_names\":[\"WATER\"],\"aliases\":[\"solicitation N0017326R0002\",\"N00173-26-R-0002\",\"Government-owned 30-meter (PAM2) and 11-meter (PAM3) antennas\",\"Paumalu (PAM) site\",\"Opana facilities\"],\"capability_terms\":[\"radio frequency atmospheric exploration\",\"RF propagation assessment\",\"antenna system operations and maintenance\",\"space technology research antennas\",\"precision antenna pointing\"],\"confidence\":0.83}",
+ "request_key": "67bff506ce18cb6ef427d062b0085b56c8de2c8f8a46b7fbd2192092a2925785",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1072,
+  "output_tokens": 261
+ },
+ "user_sha256": "314fd64cbebc7178"
+}

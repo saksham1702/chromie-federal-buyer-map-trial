@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T09:42:49Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"AI performance support system\",\"short_names\":[\"GenAI EPSS\",\"EPSS\"],\"aliases\":[\"Generative Artificial Intelligence (GenAI) Electronic Performance Support System\",\"Generative Artificial Intelligence (GenAI) Electronic Performance Support System (EPSS)\",\"solicitation N0003926R9450\",\"CSO N0003925S001\"],\"capability_terms\":[\"generative AI decision support\",\"electronic performance support system\",\"AI-enabled workflow assistance\",\"human performance support software\"],\"confidence\":0.96}",
+ "request_key": "7cabde31f878ce0667dc52e25cb0b5fbb27387cedeef7741acd41aface910250",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 584,
+  "output_tokens": 204
+ },
+ "user_sha256": "1cfdea2735174802"
+}

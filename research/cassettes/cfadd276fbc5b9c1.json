@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:37:32Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"shipboard air and missile defense radar production\",\"short_names\":[\"AN/SPY-6(V)\"],\"aliases\":[\"AN/SPY-6(V) Production\",\"N00024-25-R-5510 AN/SPY-6(V) Production\",\"N00024-25-R-55XX\"],\"capability_terms\":[\"air and missile defense radar\",\"shipboard radar\",\"multifunction radar\",\"integrated air defense radar\"],\"confidence\":0.96}",
+ "request_key": "cfadd276fbc5b9c1d55fb1ab4e9765598cdf3cca2e84eab3c3c5c352e8b8c0a9",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 2051,
+  "output_tokens": 345
+ },
+ "user_sha256": "f8d0969bc55bea10"
+}

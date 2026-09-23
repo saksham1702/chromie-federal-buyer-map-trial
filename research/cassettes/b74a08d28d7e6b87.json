@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:35:47Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"supercomputer-grade workstations\",\"short_names\":[\"Super Computer Workstations\"],\"aliases\":[\"combined synopsis/solicitation 2026-08-10: Super Computer Workstations\",\"solicitation N0017326Q5836\",\"Puget Workstation Threadripper Pro Z890 C132-XL, custom\",\"Puget Workstation EPYC 9005 E211-XL, custom\",\"Puget Workstation Threadripper TRX50 T120-L, custom\",\"Puget Rackstation Threadripper Pro WRX90 T140-5U, custom\",\"Puget Workstation Core Ultra Z890 C132-XL, custom\",\"THINKMATE VSX R5 540CU, custom\"],\"capability_terms\":[\"high-performance computing workstations\",\"custom scientific workstations\",\"research computing workstations\",\"threadripper workstation systems\",\"EPYC workstation systems\"],\"confidence\":0.88}",
+ "request_key": "b74a08d28d7e6b877b48570b6114a41412ba6ff57ab5096193017246a85d6855",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1724,
+  "output_tokens": 385
+ },
+ "user_sha256": "c4b0340ba1bf5976"
+}

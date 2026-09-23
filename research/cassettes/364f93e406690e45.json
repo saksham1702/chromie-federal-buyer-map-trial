@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:36:25Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMS 435\",\"capability\":\"low-profile submarine photonics mast\",\"short_names\":[\"Low Profile Mast\",\"LPM\",\"LPM Photonics Mast\"],\"aliases\":[\"Low Profile Mast (LPM) Program\",\"LPM Photonics Mast Industry Day Registration Form\",\"LPM Photonics Mast and Components Industry Day\",\"solicitation N00024-26-R-6215A\",\"request for information (sources sought)\"],\"capability_terms\":[\"low-profile submarine mast\",\"photonics mast\",\"submarine mast and components\",\"submarine sensor mast\"],\"confidence\":0.95}",
+ "request_key": "364f93e406690e45729614485ee041bcf14bf0201f2eebeaf619271879c63a90",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1655,
+  "output_tokens": 258
+ },
+ "user_sha256": "6fe0f0b1ce7be1a1"
+}

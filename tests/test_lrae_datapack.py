@@ -17,7 +17,7 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-PACKS = sorted(p for p in (ROOT / "datapack").glob("lrae_navwar_*") if p.is_dir()) if (ROOT / "datapack").exists() else []
+PACKS = sorted(p for p in (ROOT / "datapack").glob("lrae_*") if p.is_dir()) if (ROOT / "datapack").exists() else []
 DECISIONS = {"included", "excluded", "unresolved"}
 JOIN_TYPES = {"office", "existing_contract", "notice", "contact"}
 METHODS = {"explicit", "inferred"}
@@ -64,7 +64,8 @@ def test_every_raw_row_has_one_decision_and_counts_reconcile(pack):
     assert set(decisions) <= DECISIONS
     assert sum(decisions.values()) == len(raw)
     assert all(c["reason"] for c in classified)
-    assert all(c["office_id"] for c in classified if c["include_decision"] == "included")
+    if _source(pack).get("scope", "peo_c4i") == "peo_c4i":
+        assert all(c["office_id"] for c in classified if c["include_decision"] == "included")
     assert all(c["sheet"] and c["record_key"] for c in classified)
     text = (pack / "reconciliation.md").read_text(encoding="utf-8")
     assert f"| raw | {len(raw)} |" in text
@@ -101,10 +102,18 @@ def test_every_row_is_its_own_record(pack):
 def test_joins_are_labelled_and_every_included_row_has_an_office_join(pack):
     classified, joins = _csv(pack, "rows_classified.csv"), _csv(pack, "joins.csv")
     included = {c["row_number"] for c in classified if c["include_decision"] == "included"}
+    resolved = {c["row_number"] for c in classified if c["include_decision"] == "included" and c["office_id"]}
     assert {j["join_type"] for j in joins} <= JOIN_TYPES
     assert {j["method"] for j in joins} <= METHODS
     office_rows = {j["row_number"] for j in joins if j["join_type"] == "office" and j["target_id"]}
-    assert included <= office_rows
+    # Every included row states what the office column resolved to, or that it resolved to nothing.
+    assert included <= {j["row_number"] for j in joins if j["join_type"] == "office"}
+    assert resolved == office_rows
+    if _source(pack).get("scope", "peo_c4i") == "peo_c4i":
+        assert included <= office_rows, "a PEO C4I row is included only when its office resolves"
+    else:
+        unresolved = [j for j in joins if j["join_type"] == "office" and not j["target_id"]]
+        assert all(j["note"] == "office string names no organization the memory knows" for j in unresolved)
     assert {j["row_number"] for j in joins} <= included, "joins exist only for included rows"
     assert all(j["record_key"] for j in joins)
     for j in joins:
@@ -122,7 +131,9 @@ def test_layers_reference_needs_and_evidence(pack):
     evidence = {e["id"] for e in _csv(pack, "layers/evidence.csv")}
     need_ids = {n["id"] for n in needs}
     assert len(need_ids) == len(needs)
-    assert all(n["evidence_id"] in evidence and n["office_id"] and n["valid_from"] for n in needs)
+    assert all(n["evidence_id"] in evidence and n["valid_from"] for n in needs)
+    if _source(pack).get("scope", "peo_c4i") == "peo_c4i":
+        assert all(n["office_id"] for n in needs)
     for name in ("need_requirements.csv", "funding_observations.csv", "procurement_refs.csv"):
         for row in _csv(pack, f"layers/{name}"):
             assert row["need_id"] in need_ids, (name, row)

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:28:14Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"ONR Code 543\",\"capability\":\"surface-launched hypersonic strike capability\",\"short_names\":[\"FLASH\"],\"aliases\":[\"Flight Advancement of Structures for Hypersonics (FLASH)\",\"Innovative Naval Prototype (INP) program\",\"N0001426SBC10\",\"Vertical Launch System (VLS)\",\"Virginia Payload Module (VPM)\"],\"capability_terms\":[\"hypersonic strike capability\",\"tactical-range hypersonic capability\",\"surface-launched hypersonic weapon\",\"hypersonic vehicle technologies\",\"launch system compatible hypersonic vehicle\"],\"confidence\":0.95}",
+ "request_key": "f08c5d007efcc07bd32579a4797abc8b099fa99a8f6be675f28b970ba6a9b881",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1026,
+  "output_tokens": 291
+ },
+ "user_sha256": "bcc1842d469c2019"
+}

@@ -26,7 +26,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 RAW = ROOT / "data" / "raw"
-MANIFEST = ROOT / "research" / "documents_manifest.jsonl"
+MANIFEST = ROOT / "research" / "sources" / "documents_manifest.jsonl"
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15"
 # ponytail: a plain browser UA; some .mil front ends reset connections for unfamiliar agents.
 

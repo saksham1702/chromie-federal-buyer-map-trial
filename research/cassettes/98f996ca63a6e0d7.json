@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:34:41Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"infrared spatial light modulator\",\"short_names\":[\"infrared spatial light modulator\"],\"aliases\":[\"Purchase a infrared spatial light modulator\",\"solicitation N0017326P1301394794\"],\"capability_terms\":[\"infrared beam shaping\",\"spatial light modulation\",\"optical wavefront control\"],\"confidence\":0.86}",
+ "request_key": "98f996ca63a6e0d74567a10435005bf4da9299489f37a79acb27288ec17ba7bf",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 2038,
+  "output_tokens": 283
+ },
+ "user_sha256": "48854209a97235d7"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:14:23Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMW 160\",\"capability\":\"Naval digital network system and upgrades\",\"short_names\":[\"ADNS MAC\",\"ADNS\",\"CaaS\"],\"aliases\":[\"Automated Digital Network System (ADNS) Multiple Award Contract (MAC)\",\"ADNS MAC\",\"Wide Area Networks (WAN) Multiple Award Contract (MAC)\",\"N00039-25-R-9510\",\"N0003925R9510\",\"Automated Digital Network System (ADNS)\",\"Communication as a Service (CaaS)\"],\"capability_terms\":[\"shipboard network connectivity\",\"wide-area tactical networking\",\"software-defined routing\",\"fleet communications routing\",\"network hardware and software upgrades\"],\"confidence\":0.97}",
+ "request_key": "5980fbef423fdc8fd3e924afddc0283d34f8d0dc115b767bb89bf28100f87ec1",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1874,
+  "output_tokens": 372
+ },
+ "user_sha256": "ac1d9b184f5a7f32"
+}

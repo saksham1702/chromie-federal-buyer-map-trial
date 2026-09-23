@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:13:57Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"sustain and integrate personnel system\",\"short_names\":[\"NSIPS\"],\"aliases\":[\"Navy Standard Integrated Personnel System\",\"NSIPS Sustainment and Integration Pr\",\"solicitation N00039-23-C-0002\"],\"capability_terms\":[\"personnel system sustainment\",\"personnel management information system\",\"integrated personnel records system\"],\"confidence\":0.94}",
+ "request_key": "b36c00b725eb1aa8428d1163ae3b2c459b078e1ee08581746c7573572d223953",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 558,
+  "output_tokens": 165
+ },
+ "user_sha256": "1de2fc2760534416"
+}

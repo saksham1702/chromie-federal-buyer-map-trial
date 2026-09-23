@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:10:06Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PMW 160\",\"capability\":\"Training virtual environment for CANES administration\",\"short_names\":[\"C4I TVE\",\"TVE\",\"CANES TVE\"],\"aliases\":[\"Command, Control, Communications, Computers, and Intelligence Training Virtual Environment\",\"C4I TVE\",\"Training Virtual Environment\",\"CANES TVE\",\"Consolidated Afloat Network Enterprise Services\",\"N00039-23-R-9002\"],\"capability_terms\":[\"network administration training\",\"cloud-hosted learning environment\",\"CANES system administrator training\",\"IT troubleshooting simulation\",\"virtualized fleet training\"],\"confidence\":0.96}",
+ "request_key": "dd24f57b1fde457109f57f1eef2ecf676271a70d2a9357934681a0ae55652ab4",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1309,
+  "output_tokens": 247
+ },
+ "user_sha256": "7fb62abb9b164c75"
+}

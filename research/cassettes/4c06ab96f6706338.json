@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T08:07:09Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "oversight_events",
+ "output_text": "{\"events\":[{\"event_type\":\"audit_finding\",\"problem\":\"The Navy, with USTRANSCOM and MARAD, had not recapitalized the surge sealift fleet and had only partially completed the planned service-life extensions, used-vessel purchases, and new-construction effort.\",\"affected_program\":\"surge sealift fleet\",\"affected_organization\":\"The Navy, USTRANSCOM, and MARAD\",\"possible_remediation\":\"conduct an annual review of the current recapitalization strategy, revise the strategy based on known limiting factors, and develop viable milestones based on those factors to ensure that the Navy is capable of meeting readiness requirements in the event of a contingency\",\"future_acquisition_need\":\"additional service-life extensions, used RO/RO vessel acquisitions, and new vessel construction to recapitalize the fleet\",\"evidence_span\":\"The Navy, in conjunction with USTRANSCOM and MARAD, was not able to recapitalize the surge sealift fleet as of February 2025. Specifically, from 2018 to 2025, the Navy, in conjunction with USTRANSCOM and MARAD, took the following actions.\",\"amounts\":[],\"confidence\":0.99},{\"event_type\":\"audit_finding\",\"problem\":\"The Navy, USTRANSCOM, and MARAD did not keep the required roll-on/roll-off cargo capacity available for a potential contingency.\",\"affected_program\":\"the RRF\",\"affected_organization\":\"The Navy, USTRANSCOM, and MARAD\",\"possible_remediation\":\"\",\"future_acquisition_need\":\"more capable surge sealift vessels to restore required RO/RO cargo capacity\",\"evidence_span\":\"The Navy, USTRANSCOM, and MARAD Did Not Maintain the Required RO/RO Cargo Capacity for a Potential Contingency\",\"amounts\":[],\"confidence\":0.88}]}",
+ "request_key": "4c06ab96f670633891a9d42be310cc120949f1c92b288c4515ff43c7ae00ed9e",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "7a0ca8613e9002a3",
+ "usage": {
+  "input_tokens": 13466,
+  "output_tokens": 466
+ },
+ "user_sha256": "51b1e9658568edac"
+}

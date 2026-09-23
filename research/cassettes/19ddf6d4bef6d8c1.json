@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T09:42:06Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"meteorological satellite data reception\",\"short_names\":[\"Meteorological Satellite Receiver\"],\"aliases\":[\"N0003926RE012\",\"N0003925S0001\",\"commercial solutions opening\",\"Area of Interest\",\"critical meteorological satellite information\"],\"capability_terms\":[\"meteorological satellite data reception\",\"weather satellite information receipt\",\"surface ship weather data feed\",\"shore site meteorological data reception\"],\"confidence\":0.94}",
+ "request_key": "19ddf6d4bef6d8c1dd4b26c85517785eb40149f198145a5701fb742d03e44b43",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 885,
+  "output_tokens": 258
+ },
+ "user_sha256": "63ac9aa8ab627393"
+}

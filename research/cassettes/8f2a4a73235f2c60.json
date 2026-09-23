@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:33:00Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory\",\"capability\":\"basic and applied research\",\"short_names\":[\"NRL Long Range BAA\"],\"aliases\":[\"N00173-24-S-BA01\",\"NRL Long Range Broad Agency Announcement (BAA) for Basic and Applied Research\",\"Broad Agency Announcement (BAA)\"],\"capability_terms\":[\"basic research\",\"applied research\",\"scientific research proposals\",\"technical topic areas\",\"research white papers\"],\"confidence\":0.89}",
+ "request_key": "8f2a4a73235f2c6080b78f8942377a24128523d091f52ac7e820bec0d45e6ea9",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1149,
+  "output_tokens": 232
+ },
+ "user_sha256": "6bf6bbf727ba75b0"
+}

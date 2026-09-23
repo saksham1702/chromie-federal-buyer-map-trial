@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:40:10Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"Replace exterior porches, roofs, and stairs\",\"short_names\":[],\"aliases\":[\"Exterior Porches, Roofs and Stairs (3) Replacement\",\"solicitation N0017326Q1904\",\"Request for Quotes (RFQ) N0017326Q1904\",\"demolition of three (3) existing exterior metal stair sets with porch roofs\",\"design, fabrication and installation of replacement sets\"],\"capability_terms\":[\"exterior stair replacement\",\"porch roof replacement\",\"building envelope repairs\",\"metal stair set demolition\",\"architectural site improvements\"],\"confidence\":0.97}",
+ "request_key": "37b7a95a38550c0be10e3018e9a49280ce32b6339ff3204eca5aba8ec7263691",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 779,
+  "output_tokens": 315
+ },
+ "user_sha256": "24a6cc51f63862dd"
+}

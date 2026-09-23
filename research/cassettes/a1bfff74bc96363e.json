@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:33:25Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"high-bandwidth oscilloscope\",\"short_names\":[\"UXR0404BP\",\"Infiniium UXR Series\"],\"aliases\":[\"Keysight Infiniium UXR Series Oscilloscope\",\"model UXR0404BP\",\"Brand Name Keysight Infiniium UXR Series Oscilloscope (model UXR0404BP)\",\"solicitation N0017326QTS09\",\"N0017326QTS09\"],\"capability_terms\":[\"precision signal measurement\",\"high-speed waveform capture\",\"RF and microwave testing\",\"electronic test and measurement\"],\"confidence\":0.97}",
+ "request_key": "a1bfff74bc96363e04239a8baa1275b3d062ef6196a6c58a99fa6c3c7a96ac94",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 878,
+  "output_tokens": 235
+ },
+ "user_sha256": "1f9f5564ec0968b1"
+}

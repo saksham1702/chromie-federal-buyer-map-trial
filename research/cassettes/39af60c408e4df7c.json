@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T02:52:35Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "explore_seed",
+ "output_text": "{\"terms\":[\"Link 16\",\"tactical data link\",\"tactical communications interoperability\",\"software-defined radio\",\"waveform optimization\",\"frequency hopping\",\"interference mitigation\",\"model-based systems engineering\"],\"relevant_when\":\"Relevant when a Navy notice, forecast row, SBIR topic, or buyer requirement calls for Link 16 or other tactical data link terminal software, waveform development/optimization, anti-jam or interference mitigation, or interoperability work for naval C4ISR and tactical communications systems.\"}",
+ "request_key": "39af60c408e4df7ca29f8d4831bed2f5b795f8efac7b68a1f41aef3aa6b93907",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "41859ea8fc606193",
+ "usage": {
+  "input_tokens": 229,
+  "output_tokens": 181
+ },
+ "user_sha256": "4dfe6117ca44e4a4"
+}

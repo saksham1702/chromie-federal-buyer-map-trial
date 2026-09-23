@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:22:39Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"endpoint management software subscription\",\"short_names\":[\"ManageEngine Endpoint\"],\"aliases\":[\"5 Year ManageEngine Endpoint Subscription\",\"N00173-26-Q-1301330111\"],\"capability_terms\":[\"endpoint management\",\"device management\",\"endpoint administration\",\"endpoint software licensing\"],\"confidence\":0.92}",
+ "request_key": "7535273d3f723eeed6c3c3b0c4b46a79343c70539186291d1e68c02aaffc7af0",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1673,
+  "output_tokens": 189
+ },
+ "user_sha256": "5ec3fee2c6119c41"
+}

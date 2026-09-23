@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:26:10Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Sea Systems Command\",\"capability\":\"eye-safe laser rangefinders\",\"short_names\":[\"MK 20 Mod 1\"],\"aliases\":[\"solicitation N00024-26-R-5391\",\"up to eye-safe laser rangefinders\"],\"capability_terms\":[\"laser rangefinding\",\"eye-safe rangefinders\",\"target distance measurement\"],\"confidence\":0.93}",
+ "request_key": "af013a5f49bf62863ebcb06f3ddc2788eb7a5aee1e1f5ecbc94638e27a7b3a16",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 720,
+  "output_tokens": 225
+ },
+ "user_sha256": "6cc7b51dc1d92b62"
+}

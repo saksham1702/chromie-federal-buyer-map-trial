@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T09:05:49Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "remarks_events",
+ "output_text": "{\"speaker_name\":\"VADM Brad Skillman\",\"speaker_role\":\"Deputy Chief of Naval Operations for Integration of Capabilities and Resources, N8, Office of the Chief of Naval Operations U.S. Navy\",\"event_name\":\"2026 Navy Summit\",\"event_host\":\"GovEvents\",\"audience\":\"industry\",\"events\":[{\"event_type\":\"conference_appearance\",\"statement\":\"VADM Brad Skillman is listed as a speaker at the 2026 Navy Summit.\",\"capability\":\"\",\"program\":\"\",\"organization\":\"\",\"person\":\"VADM Brad Skillman\",\"evidence_span\":\"Speaker Details VADM Brad Skillman Deputy Chief of Naval Operations for Integration of Capabilities and Resources, N8, Office of the Chief of Naval Operations U.S. Navy Event Topic Defense , IT , Technology Relevant Audiences All State and Local Government , All Federal Government Event Type Onsite Event Subtype Conference / Summit\",\"amounts\":[],\"confidence\":0.98},{\"event_type\":\"capability_priority\",\"statement\":\"The summit says the Navy is prioritizing innovation in emerging technologies, including digital modernization, autonomous systems, cyber resilience and advanced platforms, while balancing readiness, sustainment and resources.\",\"capability\":\"autonomous systems\",\"program\":\"\",\"organization\":\"\",\"person\":\"\",\"evidence_span\":\"The 2026 Navy Summit brings together senior Navy leaders, defense officials and industry executives to examine how emerging technologies are shaping the future of naval operations. From digital modernization and autonomous systems to cyber resilience and advanced platforms, the event will highlight how the Navy is prioritizing innovation while balancing readiness, sustainment and resources.\",\"amounts\":[],\"confidence\":0.95}]}",
+ "request_key": "ce998578dd64f49a34f54aa7d749e04085c92b4974936d5a680ffe507e3ba02c",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "9bdbe03afea8d63f",
+ "usage": {
+  "input_tokens": 1070,
+  "output_tokens": 659
+ },
+ "user_sha256": "d6a6bcb08813fb6f"
+}

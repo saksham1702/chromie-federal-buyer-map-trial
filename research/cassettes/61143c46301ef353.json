@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:21:44Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NAVSEA\",\"capability\":\"DDG-51 routine maintenance partnerships\",\"short_names\":[\"MSSP\",\"DDG-51\"],\"aliases\":[\"Multi-Ship Sustainment Partnerships\",\"surface ship maintenance, repair and modernization requirements\",\"consolidated routine maintenance\",\"Single Award IDIQ\",\"N00024-26-R-4439\",\"Emergent Maintenance (EM)\",\"Continuous Maintenance Availabilities (CMAV)\",\"Incremental Selected Restricted Availabilities (ISRAs)\"],\"capability_terms\":[\"destroyer maintenance availabilities\",\"routine ship maintenance\",\"continuous maintenance availabilities\",\"selected restricted availabilities\",\"surface ship modernization\"],\"confidence\":0.96}",
+ "request_key": "61143c46301ef35380c59c9d6dcec7ec3ca33545725b6b99099e6543153e1b89",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1723,
+  "output_tokens": 292
+ },
+ "user_sha256": "42baecd9f29375a9"
+}

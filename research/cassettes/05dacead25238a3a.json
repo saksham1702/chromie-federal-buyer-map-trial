@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:28:16Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory (NRL) Contracting Division\",\"capability\":\"aircraft repair, modification oversight, integration management\",\"short_names\":[],\"aliases\":[\"Aircraft Repair, Modification Oversight, and Integration Management Support\",\"solicitation N0017326RBZ01\"],\"capability_terms\":[\"aircraft repair oversight\",\"aircraft modification management\",\"integration management support\",\"aircraft maintenance oversight\"],\"confidence\":0.97}",
+ "request_key": "05dacead25238a3afbdd8b30a867a22d5d40780ceb6fc3f097c59b15256ae8b5",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 759,
+  "output_tokens": 158
+ },
+ "user_sha256": "195e31052e0ee206"
+}

@@ -1,0 +1,33 @@
+{
+  "activity": "Naval Research Laboratory",
+  "fetched_from": "https://www.onr.navy.mil/media/document/onr-and-nrl-long-range-acquisition-estimate",
+  "header_row": 7,
+  "joins_collected": false,
+  "method": "direct",
+  "outputs": {
+    "joins.csv": "0aa98ba10b7956a65f7ce7bf64a9257ada2976a930c1ff1fd4bdd52d7fa20454",
+    "layers/evidence.csv": "dc78a6bf659a3476b7049b6de370df3994f0231173e12d844fe17aa0d5b1381f",
+    "layers/funding_observations.csv": "652f1f6b2f127da693030a636146e8c068da0c82e2575352a0c257fdf6a9db38",
+    "layers/need_requirements.csv": "1308b9a36b3c8d2b222372920a400700ca5218e71e48479e9ec4ff1491be4647",
+    "layers/needs.csv": "f0aead4e91259366b2e3cecdf640cf29d5bda9cab9010e632e3a1e9e798a6d58",
+    "layers/procurement_refs.csv": "b744d998607e634814aab42dc01fb5b141087df7767aa013a99c4ded78f26b07",
+    "reconciliation.md": "050edcb94cb747f4246003dab0daf2f65ba82e6c25b2dc1dceb91e18b1572340",
+    "rows_classified.csv": "f78aae23643aac9b3b8249ef7724027ad7b1af3ac6b672a6d9897e1ed9073431",
+    "rows_raw.csv": "b9387bf7187006019605986ff9e14aaa8c26910ef955f800d78b4919e7af1174"
+  },
+  "raw_path": "data/raw/29db4e9d73fb_onr-and-nrl-long-range-acquisition-estimate",
+  "record_key": "pid, or the row itself (release key and row number) when the row has none; nothing is merged at import",
+  "refetch": "python research/tools/fetch.py 'https://www.onr.navy.mil/media/document/onr-and-nrl-long-range-acquisition-estimate' --wayback ",
+  "regenerate": "python research/tools/lrae_package.py build",
+  "release_date": "2025-12-19",
+  "release_date_as_written": "",
+  "release_key": "lrae_nrl_2025-12",
+  "release_note": "one workbook carries ONR and NRL as two sheets; each sheet is its own release",
+  "retrieved_at": "2026-09-16T15:16:35Z",
+  "scope": "all",
+  "sha256": "29db4e9d73fb6c4bcbbd2238eeada54c17bee3281e21cdac018181d846aeb9b0",
+  "sheet": "NRL",
+  "size": 223031,
+  "source_url": "https://www.onr.navy.mil/media/document/onr-and-nrl-long-range-acquisition-estimate",
+  "wayback_timestamp": ""
+}

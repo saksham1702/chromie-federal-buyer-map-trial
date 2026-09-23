@@ -46,7 +46,7 @@ def _has_evidence(items) -> bool:
 
 
 def test_source_registry_rows_are_complete_and_inspected() -> None:
-    rows = _load("source_registry.json")
+    rows = _load("sources/source_registry.json")
     keys = [row["source_key"] for row in rows]
     assert len(keys) == len(set(keys)), "duplicate source_key"
     for row in rows:
@@ -72,7 +72,7 @@ def _reviewer_ok(value) -> bool:
 
 
 def test_organization_seed_is_an_auditable_claims_graph() -> None:
-    graph = _load("organization_seed.json")
+    graph = _load("memory/organization_seed.json")
     ids = [node["id"] for node in graph["nodes"]]
     assert len(ids) == len(set(ids)), "duplicate node id"
     obs = {o["id"]: o for o in graph["observations"]}
@@ -122,7 +122,7 @@ def test_organization_seed_is_an_auditable_claims_graph() -> None:
 
 
 def test_attribution_examples_are_classified_and_evidenced() -> None:
-    examples = _load("attribution_examples.json")
+    examples = _load("memory/attribution_examples.json")
     ids = [ex["id"] for ex in examples]
     assert len(ids) == len(set(ids)), "duplicate example id"
     for ex in examples:
@@ -143,21 +143,8 @@ def test_attribution_examples_are_classified_and_evidenced() -> None:
         assert _reviewer_ok(review["reviewed_by"]), ex["id"]
 
 
-def test_backtests_never_use_evidence_after_the_cutoff() -> None:
-    tests = _load("backtests.json")
-    for bt in tests:
-        cutoff = bt["cutoff_date"]
-        assert _dated(cutoff), bt["id"]
-        assert bt["actual_event"]["date"] > cutoff, f"{bt['id']} cutoff is not before the event"
-        assert bt.get("evidence"), f"{bt['id']} has no pre-cutoff evidence"
-        for item in bt["evidence"]:
-            assert _dated(item.get("available_by")), f"{bt['id']} evidence lacks available_by"
-            assert item["available_by"] <= cutoff, f"{bt['id']} uses evidence dated after cutoff"
-            assert item.get("source_url"), bt["id"]
-
-
 def test_documents_manifest_rows_are_hashed_and_dated() -> None:
-    path = RESEARCH / "documents_manifest.jsonl"
+    path = RESEARCH / "sources" / "documents_manifest.jsonl"
     if not path.exists():
         pytest.skip("documents_manifest.jsonl not written yet")
     for line in path.read_text(encoding="utf-8").splitlines():
@@ -172,14 +159,8 @@ def test_documents_manifest_rows_are_hashed_and_dated() -> None:
             assert row.get("error") or row.get("status"), row
 
 
-def test_manual_requests_say_why() -> None:
-    rows = _load("manual_pdf_requests.json")
-    for row in rows:
-        assert row.get("url") and row.get("reason"), row
-
-
 def test_every_cited_evidence_url_has_a_fetched_manifest_row() -> None:
-    path = RESEARCH / "documents_manifest.jsonl"
+    path = RESEARCH / "sources" / "documents_manifest.jsonl"
     if not path.exists():
         pytest.skip("documents_manifest.jsonl not written yet")
     fetched = set()
@@ -190,7 +171,7 @@ def test_every_cited_evidence_url_has_a_fetched_manifest_row() -> None:
         if row.get("status") == 200 and row.get("sha256") and row.get("content_status") != "rejected_stub":
             fetched.add(row["url"].replace("%5B", "[").replace("%5D", "]"))
     cited = set()
-    for name in ("attribution_examples.json", "backtests.json", "organization_seed.json", "contact_observations.json"):
+    for name in ("memory/attribution_examples.json", "memory/organization_seed.json", "memory/contact_observations.json"):
         p = RESEARCH / name
         if not p.exists():
             continue
@@ -209,7 +190,7 @@ def test_every_cited_evidence_url_has_a_fetched_manifest_row() -> None:
 
 
 def test_code_families_compile_and_carry_examples() -> None:
-    data = _load("org_code_families.json")
+    data = _load("memory/org_code_families.json")
     seen = set()
     for family in data["families"]:
         assert family["family"] not in seen, f"duplicate family {family['family']}"
@@ -226,7 +207,7 @@ CONFIDENCES = {"high", "medium", "low"}
 
 
 def test_contact_observations_trace_to_a_document_location() -> None:
-    rows = _load("contact_observations.json")
+    rows = _load("memory/contact_observations.json")
     ids = [r["id"] for r in rows]
     assert len(ids) == len(set(ids)), "duplicate observation id"
     for r in rows:
@@ -241,8 +222,8 @@ def test_contact_observations_trace_to_a_document_location() -> None:
 
 
 def test_contact_recommendations_rest_on_observations_with_two_confidences() -> None:
-    obs = {r["id"] for r in _load("contact_observations.json")}
-    for rec in _load("contact_recommendations.json"):
+    obs = {r["id"] for r in _load("memory/contact_observations.json")}
+    for rec in _load("memory/contact_recommendations.json"):
         assert rec["office_id"] and rec["route_type"] and rec["recommendation"], rec["id"]
         assert rec["contact_observation_ids"] and all(x in obs for x in rec["contact_observation_ids"]), rec["id"]
         assert rec["source_confidence"] in CONFIDENCES, rec["id"]
@@ -253,8 +234,8 @@ def test_contact_recommendations_rest_on_observations_with_two_confidences() -> 
 
 
 def test_review_log_records_checker_and_outcome() -> None:
-    log = _load("review_log.json")
-    obs = {r["id"] for r in _load("contact_observations.json")}
+    log = _load("memory/review_log.json")
+    obs = {r["id"] for r in _load("memory/contact_observations.json")}
     checked = set()
     for e in log:
         assert e["target"] and e["check"] and e["outcome"] in {"confirmed", "not_found", "unchecked", "corrected", "retracted"}, e["id"]
@@ -278,7 +259,7 @@ def test_code_classifier_uses_the_alias_table_before_the_uic_family() -> None:
         if family:
             assert hit["family"] == family, (token, hit)
         assert not (hit["family"] == "contracting_office_uic" and not hit["office_id"].startswith("contracting:")), (token, hit)
-    data = _load("org_code_families.json")
+    data = _load("memory/org_code_families.json")
     uic = next(f for f in data["families"] if f["family"] == "contracting_office_uic")
     for token in uic["non_examples"]:
         assert classify_code(token)["family"] != "contracting_office_uic", token

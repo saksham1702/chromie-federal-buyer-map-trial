@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:11:13Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Multifunctional Information Distribution (MIDS) Program Office (MPO)\",\"capability\":\"Weapons data link radios\",\"short_names\":[\"MIDS\",\"WDL\",\"SWARMM\",\"SF2\"],\"aliases\":[\"Multifunctional Information Distribution System (MIDS) Weapons Data Link (WDL) Small Weapons Attritable (SWARMM) Family 2 (SF2) Radios\",\"MIDS WDL SF2 terminal\",\"solicitation N0003924R4100\",\"Multiple Award Contract (MAC) Indefinite Delivery/Indefinite Quantity (IDIQ) contract\",\"Systems Engineering and Integration (SE&I) sustainment and development support\"],\"capability_terms\":[\"tactical data link radios\",\"weapons data link terminals\",\"Link 16 radios\",\"attritable tactical radios\",\"terminal sustainment and development\"],\"confidence\":0.94}",
+ "request_key": "980d51d3e5a1f886c295b142daf0078a3f87110d813b6f23febb95348b3bcf70",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 757,
+  "output_tokens": 456
+ },
+ "user_sha256": "93357657c63425e2"
+}

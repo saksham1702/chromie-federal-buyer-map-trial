@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:15:05Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"multi-mission boats\",\"short_names\":[\"Composite Boat MAC\",\"IDIQ\",\"MAC\"],\"aliases\":[\"Composite Boat MAC IDIQ\",\"solicitation N0002425R2201\",\"FY 2026 - 2036 Indefinite Delivery / Indefinite Quantity (IDIQ) Multiple Award Contract (MAC)\",\"Rigid-Hull Inflatable Boats (RHIBs)\",\"Explosive Ordnance Disposal (EOD) Multi-use Expeditionary Response Craft (MERC)\"],\"capability_terms\":[\"rigid-hull inflatable boats\",\"explosive ordnance disposal craft\",\"expeditionary response craft\",\"multi-mission boat procurement\",\"fleet support boats\"],\"confidence\":0.9}",
+ "request_key": "1aac2f2d14b3080f8291322356804bd5c4dbd1338b5fbd3e362d365d0fd8309b",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 763,
+  "output_tokens": 240
+ },
+ "user_sha256": "1f6000f7035bd5c7"
+}

@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T08:06:37Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "oversight_events",
+ "output_text": "{\"events\":[{\"event_type\":\"program_delayed\",\"problem\":\"The evaluation started late and the report missed the congressional deadline because a lapse of Federal funding delayed the work.\",\"affected_program\":\"Evaluation of DoW Voting Assistance Programs for Calendar Year 2025\",\"affected_organization\":\"Department of the Navy\",\"possible_remediation\":\"\",\"future_acquisition_need\":\"\",\"evidence_span\":\"However, because of the lapse of Federal funding that occurred from October 1, 2025, through November 12, 2025, we did not announce this evaluation and begin project work until December 1, 2025. Consequently, we did not receive the Service IGs' assessment reports and supporting documentation until January and March 2026. Therefore, we issued this report after the congressional deadline.\",\"amounts\":[],\"confidence\":0.97},{\"event_type\":\"audit_finding\",\"problem\":\"The Navy's voting assistance program was only partially effective because some reviewed commands did not meet DoDI 1000.04 requirements and some installation voting assistance offices were inactive.\",\"affected_program\":\"the Navy's VAP\",\"affected_organization\":\"The Naval IG\",\"possible_remediation\":\"the SVAO is working to ensure all offices have an active installation VAO.\",\"future_acquisition_need\":\"\",\"evidence_span\":\"The Naval IG concluded that the Navy's VAP was partially effective in assisting eligible voters during 2025 because the commands reviewed did not always comply with DoDI 1000.04 requirements.14 The Naval IG reported on these instances of noncompliance and described them in general terms that did not always specify the total number of instances identified, the specific noncompliance identified, and whether corrective actions would be taken.\",\"amounts\":[],\"confidence\":0.98}]}",
+ "request_key": "926937f47fb714ce2f446e339c3051c2d04e6e1073acebab9f022c6bc9c8e10f",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "7a0ca8613e9002a3",
+ "usage": {
+  "input_tokens": 13210,
+  "output_tokens": 562
+ },
+ "user_sha256": "fa56de7b02a266c7"
+}

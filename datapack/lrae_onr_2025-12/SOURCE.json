@@ -1,0 +1,33 @@
+{
+  "activity": "Office of Naval Research",
+  "fetched_from": "https://www.onr.navy.mil/media/document/onr-and-nrl-long-range-acquisition-estimate",
+  "header_row": 7,
+  "joins_collected": false,
+  "method": "direct",
+  "outputs": {
+    "joins.csv": "f3a680ea8855ab7fbfa95b45d07db8af5e942c64992b58621d11eaedf09f4fbf",
+    "layers/evidence.csv": "7dda9d4edce78bbe535d2f83965d42b25c380b3c1b4c1d2900040777440fa15b",
+    "layers/funding_observations.csv": "00040f88d01c088b0f65f8346d8393fa2e01ca23c716c94aa2c9491169253300",
+    "layers/need_requirements.csv": "dbf567049ee0938b01e5841e0c577062f48645a6f6e544b017acf4df99044f8b",
+    "layers/needs.csv": "632713bd633c382055b07e8433117ced0cefdc00de306cbe2d45563366f94765",
+    "layers/procurement_refs.csv": "55c630dde77b5a76dc0bd7fea2baefe2b45b13f914074ac8ac1302a04b0f150c",
+    "reconciliation.md": "990eca535b583a76c6e581408ae0c6601f89096d9865a3b38d0374e83ac6c3cc",
+    "rows_classified.csv": "89ccae776ffa169c7a40a23939154f16b1129d9648a8f0553a95bab265a6e4f3",
+    "rows_raw.csv": "3e11fcf618ecd8e943f860163911bc5606dea1be66368f46220db56b4d068887"
+  },
+  "raw_path": "data/raw/29db4e9d73fb_onr-and-nrl-long-range-acquisition-estimate",
+  "record_key": "pid, or the row itself (release key and row number) when the row has none; nothing is merged at import",
+  "refetch": "python research/tools/fetch.py 'https://www.onr.navy.mil/media/document/onr-and-nrl-long-range-acquisition-estimate' --wayback ",
+  "regenerate": "python research/tools/lrae_package.py build",
+  "release_date": "2025-12-19",
+  "release_date_as_written": "",
+  "release_key": "lrae_onr_2025-12",
+  "release_note": "one workbook carries ONR and NRL as two sheets; each sheet is its own release",
+  "retrieved_at": "2026-09-16T15:16:35Z",
+  "scope": "all",
+  "sha256": "29db4e9d73fb6c4bcbbd2238eeada54c17bee3281e21cdac018181d846aeb9b0",
+  "sheet": "ONR",
+  "size": 223031,
+  "source_url": "https://www.onr.navy.mil/media/document/onr-and-nrl-long-range-acquisition-estimate",
+  "wayback_timestamp": ""
+}

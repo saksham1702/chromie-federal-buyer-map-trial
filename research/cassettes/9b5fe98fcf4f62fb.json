@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:24:35Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory (NRL)\",\"capability\":\"optoelectronics and power electronics research\",\"short_names\":[],\"aliases\":[\"Optoelectronics, Power Electronics, and Radiation Effects Research\",\"N00173-26-RFI-MR09\",\"Electronic Sciences and Technology Division (ESTD)\"],\"capability_terms\":[\"optoelectronics R&D\",\"power electronics research\",\"radiation effects modeling\",\"semiconductor device fabrication\",\"high-speed microwave devices\"],\"confidence\":0.93}",
+ "request_key": "9b5fe98fcf4f62fb19f590dd02d91dce39f672cef1818e038bc71fb0ea845248",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1361,
+  "output_tokens": 483
+ },
+ "user_sha256": "fcacf877f972758a"
+}

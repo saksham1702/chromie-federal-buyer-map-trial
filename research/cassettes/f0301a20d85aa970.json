@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:29:05Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"DRPM Submarines\",\"capability\":\"submarine parts and material supply\",\"short_names\":[\"SubPartsBOAs\",\"BOAs\"],\"aliases\":[\"Submarine Parts, Basic Ordering Agreements (BOAs)\",\"solicitation N00024-26-R-430SubPartsBOAs\",\"N00024-26-G-4306\",\"N00024-26-G-4307\",\"VIRGINIA, SEAWOLF and OHIO Class shipbuilder specific coded stock parts and material in support of emergent nuclear-powered submarine work\"],\"capability_terms\":[\"submarine spare parts\",\"shipbuilder-specific coded stock parts\",\"nuclear-powered submarine material support\",\"emergent submarine repair parts\"],\"confidence\":0.93}",
+ "request_key": "f0301a20d85aa97073f77c5898541b12d5ff872a1da68cd970913e476aff272a",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 828,
+  "output_tokens": 516
+ },
+ "user_sha256": "436ed2b32863f8cb"
+}

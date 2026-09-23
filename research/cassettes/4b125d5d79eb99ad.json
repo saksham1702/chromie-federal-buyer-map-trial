@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:25:46Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Office of Naval Research (ONR)\",\"capability\":\"procurement quality and retention support\",\"short_names\":[\"Contractor Incentives\"],\"aliases\":[\"N0001426SS7001\",\"Proposed Contractor Personnel Retention Incentive Language\",\"Request for Information (RFI) on Proposed Contractor Personnel Retention Incentive Language, N0001426SS7001\"],\"capability_terms\":[\"procurement package quality metrics\",\"purchase request quality metrics\",\"contractor retention incentives\",\"invoice-based performance incentives\"],\"confidence\":0.54}",
+ "request_key": "4b125d5d79eb99ad50536e7e84b3246373663741ba4660cdfe42e6249c7ae3a4",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1574,
+  "output_tokens": 336
+ },
+ "user_sha256": "93eebece6e848fab"
+}

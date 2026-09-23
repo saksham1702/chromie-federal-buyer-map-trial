@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T13:16:17Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NAVWAR\",\"capability\":\"cyber and engineering workforce support\",\"short_names\":[\"CREW\"],\"aliases\":[\"Cyber Resource and Engineering Workforce (CREW)\",\"Area of Interest (AoI): Cyber Resource and Engineering Workforce (CREW)\",\"NAVWAR HQCA02026-A-019_CREW_AOI 20260219.pdf\",\"N0003926RH001\",\"N0003925S0001\",\"NAVWAR CSO\"],\"capability_terms\":[\"cyber workforce augmentation\",\"engineering workforce support\",\"cyber resource management\",\"technical staffing support\"],\"confidence\":0.86}",
+ "request_key": "ab0ba01f94abd03b1d39c96a339e922cd56b5c1ebea7083af3466569867a599c",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1020,
+  "output_tokens": 260
+ },
+ "user_sha256": "296474d45fbbda85"
+}

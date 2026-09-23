@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:26:01Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"Surface electronic warfare systems IDIQ\",\"short_names\":[\"SEWIP\",\"SEWIP Family of Systems\",\"MAC-IDIQ\"],\"aliases\":[\"SEWIP Family of Systems MAC-IDIQ solicitation\",\"solicitation N0002426R5504\",\"N00024-26-R-5504\",\"N00024-26-R-5504 Amendment 4\",\"RFP_N0002426R5504.pdf\",\"N00024-26-R-5504 A0001.pdf\",\"N00024-26-R-5504 conformed through A0001.pdf\"],\"capability_terms\":[\"surface ship electronic warfare\",\"ship self-protection electronic warfare\",\"electronic support measures\",\"electronic attack systems\"],\"confidence\":0.98}",
+ "request_key": "3b53f08ce53b5e4f26e247cc395a77abd68fbb647c877e53514d3d1f834119d6",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1881,
+  "output_tokens": 350
+ },
+ "user_sha256": "b692659419c2a85c"
+}

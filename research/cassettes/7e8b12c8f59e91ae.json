@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:26:38Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Research Laboratory (NRL)\",\"capability\":\"de-ionized water system\",\"short_names\":[\"Gamble III\",\"GIII\"],\"aliases\":[\"Gamble III (GIII) De-Ionized Water System\",\"N00173-26-RFI-MF10\",\"Attachment 1- Gamble III (GIII) De-Ionized Water System\"],\"capability_terms\":[\"deionized water purification\",\"ultrapure water generation\",\"laboratory water treatment\"],\"confidence\":0.98}",
+ "request_key": "7e8b12c8f59e91aebd051102132d37770c6a5944def0c8d4c990960da3c0928a",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1270,
+  "output_tokens": 229
+ },
+ "user_sha256": "d9e3a6844711f3b3"
+}

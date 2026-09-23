@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:26:36Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"PAE RAS\",\"capability\":\"medium unmanned surface vessel autonomy\",\"short_names\":[\"MUSV\",\"MUSV FoS\"],\"aliases\":[\"Medium Unmanned Surface Vessel (MUSV) Family of Systems (FoS) program\",\"solicitation N00024-26-R-6326\",\"MUSV autonomy and vessel performance test\",\"Attachment J-1 MUSV SoW_rev_1\",\"Attachment J-5 MUSV Test Plan\"],\"capability_terms\":[\"unmanned surface vessel\",\"maritime autonomy\",\"vessel performance testing\",\"modular naval platform\",\"autonomy and perception systems\"],\"confidence\":0.98}",
+ "request_key": "55919f25c2279aea0dc982536e9e171c41d2756d02e5be89c4e043906f03544a",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1439,
+  "output_tokens": 299
+ },
+ "user_sha256": "4a15d84ddaa75101"
+}

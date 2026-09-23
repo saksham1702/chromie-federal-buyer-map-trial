@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:20:20Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Sea Systems Command (NAVSEA)\",\"capability\":\"strategy, communications, and change management\",\"short_names\":[],\"aliases\":[\"Strategy, Communications, and Change Management and Enablement Products\",\"strategy, communications and change management and enablement products\",\"N00024-26-R-4319\",\"Ink to Think, LLC\"],\"capability_terms\":[\"strategic communications\",\"change management\",\"enablement products\",\"strategy and planning communication support\"],\"confidence\":0.93}",
+ "request_key": "0e0d4fd78b56db66acd6b51d76711c63e7a1a0178958b45703ffe55412c2ae25",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 836,
+  "output_tokens": 198
+ },
+ "user_sha256": "00f00e51f450599c"
+}

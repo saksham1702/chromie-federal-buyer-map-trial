@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:26:33Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"Hydro test, paint, and refill gas cylinders\",\"short_names\":[],\"aliases\":[\"Hydro Testing, Painting and Refilling NRL owned Gas Cylinders\",\"Naval Research Laboratory owned gas cylinders\",\"Naval Research Laboratory\",\"NRL\"],\"capability_terms\":[\"gas cylinder hydrostatic testing\",\"gas cylinder painting\",\"gas cylinder refilling\",\"compressed gas cylinder maintenance\"],\"confidence\":0.9}",
+ "request_key": "151d211426ab1d2f5a5f6fb768cd0fa8d4c753abb06983a7ffe0ae8da572e2dc",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1691,
+  "output_tokens": 209
+ },
+ "user_sha256": "8e80af765b57e852"
+}

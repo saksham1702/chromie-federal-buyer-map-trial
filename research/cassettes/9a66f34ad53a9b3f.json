@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:23:09Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"NRL Space Science Division, Code 7600\",\"capability\":\"research and development support\",\"short_names\":[],\"aliases\":[\"solicitation N0017326RDS01\",\"request for information (sources sought)\"],\"capability_terms\":[\"research and development support\",\"space science R&D\",\"technical support for space science studies\",\"scientific and engineering support\"],\"confidence\":0.87}",
+ "request_key": "9a66f34ad53a9b3f47882e7d0b197cc1310d99937adbc67b6f57e7c4dbcb9668",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 859,
+  "output_tokens": 405
+ },
+ "user_sha256": "f9750ef6f03feffb"
+}

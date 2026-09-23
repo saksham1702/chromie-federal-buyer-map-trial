@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-22T08:53:57Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "remarks_events",
+ "output_text": "{\"speaker_name\":\"ADM Daryl L. Caudle\",\"speaker_role\":\"the 34th Chief of Naval Operations\",\"event_name\":\"Sea Services Luncheon\",\"event_host\":\"Sea-Air-Space 2026\",\"audience\":\"public\",\"events\":[{\"event_type\":\"conference_appearance\",\"statement\":\"ADM Daryl L. Caudle will keynote the Sea Services Luncheon at Sea-Air-Space 2026.\",\"capability\":\"\",\"program\":\"\",\"organization\":\"\",\"person\":\"ADM Daryl L. Caudle\",\"evidence_span\":\"ADM Daryl L. Caudle, the 34th Chief of Naval Operations, will keynote the Sea Services Luncheon at Sea-Air-Space 2026 on Monday, April 20, at 12:00 PM in the Potomac AB Ballroom.\",\"amounts\":[],\"confidence\":0.98}]}",
+ "request_key": "5bd428717d8aca710e7146367e78cfe258dc4c3552f8d7ff69957ff1d25675c3",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "9bdbe03afea8d63f",
+ "usage": {
+  "input_tokens": 1253,
+  "output_tokens": 329
+ },
+ "user_sha256": "76968ec0feed01cb"
+}

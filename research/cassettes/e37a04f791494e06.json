@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:35:29Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"\",\"capability\":\"programmable RF attenuation hardware\",\"short_names\":[\"Programmable Attenuators\",\"Attenuator and Switch Driver\"],\"aliases\":[\"Keysight Technologies - Programmable Attenuators and Attenuator and Switch Driver\",\"solicitation N00173-26-Q-1301391366\"],\"capability_terms\":[\"programmable attenuators\",\"attenuator control\",\"switch drive\",\"RF signal attenuation\"],\"confidence\":0.86}",
+ "request_key": "e37a04f791494e067b88a6c4ebcf978c68ccb4886c189eb4c020933ad4bc5329",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1694,
+  "output_tokens": 264
+ },
+ "user_sha256": "c81fdc41d8292ac6"
+}

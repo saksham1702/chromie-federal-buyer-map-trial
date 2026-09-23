@@ -1,0 +1,14 @@
+{
+ "called_at": "2026-09-23T17:19:55Z",
+ "model": "gpt-5.4-mini-2026-03-17",
+ "name": "backtest_label",
+ "output_text": "{\"program_office\":\"Naval Sea Systems Command (NAVSEA)\",\"capability\":\"LCAC propulsion engines and installation kits\",\"short_names\":[\"LCAC 100 Class\",\"MT7\"],\"aliases\":[\"Landing Craft, Air Cushion (LCAC) 100 Class MT7 Engines, Installation Kits, and Spares\",\"solicitation N00024-23-R-2460\",\"36 MT7 Turboshaft production engines\",\"1 MT7 Turboshaft spare engine\",\"9 MT7 Turboshaft engine installation kits\",\"MT7 Portable Test Tool Kit\",\"Ship to Shore Connector (SSC) program\"],\"capability_terms\":[\"landing craft propulsion engines\",\"air cushion craft powerplant\",\"turboshaft marine engines\",\"engine installation kits\",\"engine test tool kit\"],\"confidence\":0.98}",
+ "request_key": "140d2cd263485cdc6b507229e89339ad0ccc2ca5636aae001f3535fae0ad895f",
+ "requested_model": "gpt-5.4-mini",
+ "system_sha256": "df2f9d2a855c46a4",
+ "usage": {
+  "input_tokens": 1214,
+  "output_tokens": 430
+ },
+ "user_sha256": "939866b51fc80288"
+}
