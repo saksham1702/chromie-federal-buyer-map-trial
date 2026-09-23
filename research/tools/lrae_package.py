@@ -971,16 +971,14 @@ def selfcheck() -> int:
     assert len(pairs) == 1, pairs
     assert [(p["old"]["row_number"], p["new"]["row_number"]) for p in pairs] == [(1, 9)]
 
-    # A row a later key or a later stage paired is not also reported inside an ambiguous group.
-    changes, _ = diff_releases([r(1, "Alpha", "PMW-160", contract="N0003920D0061"),
-                                r(2, "Beta", "PMW-160", contract="N0003920D0061")],
-                               [r(9, "Alpha", "PMW-160", contract="N0003920D0061"),
-                                r(8, "Gamma", "PMW-160", contract="N0003920D0061")])
-    ambiguous = [c for c in changes if c["change"] == "ambiguous"]
-    paired_rows = {(c["old_row"], c["new_row"]) for c in changes if c["change"] in ("unchanged", "changed")}
-    assert ("1", "9") not in {(a["old_row"], a["new_row"]) for a in ambiguous}
-    assert all("1" not in a["old_row"].split(";") and "9" not in a["new_row"].split(";") for a in ambiguous), ambiguous
-    assert (1, 9) in {(int(o), int(n)) for o, n in paired_rows}, "the title still pairs Alpha across the releases"
+    # A row a later stage paired is not also reported inside an ambiguous group: the shared contract
+    # contests four rows, the title stage then pairs the reworded Shore Network row, and only the
+    # two rows still unpaired stay ambiguous.
+    shore = ("Shore Network Modernisation Support Services", "Shore Network Modernization Support Services")
+    changes, _ = diff_releases([r(1, shore[0], "PMW-160", contract="N0003920D0061"), r(2, "Beta", "PMW-160", contract="N0003920D0061")],
+                               [r(9, shore[1], "PMW-160", contract="N0003920D0061"), r(8, "Gamma", "PMW-160", contract="N0003920D0061")])
+    assert [(c["old_row"], c["new_row"]) for c in changes if c["change"] == "ambiguous"] == [("2", "8")], changes
+    assert any(c["key"] == "row 1->9" and c["key_method"] == "title~office" for c in changes), "the title stage still pairs the Shore Network row"
 
     # Two rows with one title under one office are two records. The June 2024 release
     # lists five "Order to Contract #N0003922D4001" rows at PMA/PMW-101 describing

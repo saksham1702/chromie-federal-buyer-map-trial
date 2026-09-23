@@ -747,6 +747,9 @@ def notice_offices(notice_id: str, ctx: dict) -> set[str]:
     return ctx["offices_of"][notice_id]
 
 
+RELATIONS = ("same office", "notice names the line's parent", "line filed under the notice office's parent code")
+
+
 def related_office(line_office: str, notice_office: str, parents: dict) -> str:
     if line_office == notice_office:
         return "same office"
@@ -755,6 +758,12 @@ def related_office(line_office: str, notice_office: str, parents: dict) -> str:
     if line_office in parents.get(notice_office, ()):
         return "line filed under the notice office's parent code"
     return ""
+
+
+def closest_relation(line_office: str, notice_offices_: set[str], parents: dict) -> str:
+    """The closest relation any of the notice's offices has to the line's, whatever order the set holds."""
+    relations = {related_office(line_office, o, parents) for o in notice_offices_}
+    return next((r for r in RELATIONS if r in relations), "")
 
 
 def candidate_notices(line: dict, hits: dict[str, dict], ctx: dict) -> list[dict]:
@@ -784,8 +793,7 @@ def candidate_notices(line: dict, hits: dict[str, dict], ctx: dict) -> list[dict
         offices = notice_offices(h["id"], ctx)
         relation = ""
         if offices:
-            relations = [related_office(line["office_id"], o, ctx["parents"]) for o in offices]
-            relation = next((r for r in relations if r), "")
+            relation = closest_relation(line["office_id"], offices, ctx["parents"])
             if not relation:
                 continue  # the notice names a current office unrelated to this line
         basis = "shared program tokens " + ", ".join(shared_codes or shared[:4])
@@ -1793,6 +1801,8 @@ def selfcheck() -> int:
     assert reading("FY26 Q1", [], [], "2025-12-08", "Delivery Order/Task Order", today, "2026-09-20") == \
         ("delayed: solicitation window FY26 Q1 closed 263 days ago; no public notice found in the saved SAM.gov searches as of 2026-09-20; "
          "SeaPort/GSA order competitions are not posted on SAM.gov; incumbent last acted 2025-12-08")
+    assert closest_relation("pmw:160", {"peo:c4i", "pmw:160"}, {"pmw:160": ["peo:c4i"]}) == "same office"
+    assert closest_relation("pmw:160", {"peo:c4i", "pmw:999"}, {"pmw:160": ["peo:c4i"]}) == "notice names the line's parent"
     r = reading("FY27 Q2", [], [], "", "", today, candidate="candidate: solicitation posted 2026-09-17 [N0003926RE014] (shared program tokens aints); a reviewer decides whether it is this line")
     assert r.endswith("; candidate: solicitation posted 2026-09-17 [N0003926RE014] (shared program tokens aints); a reviewer decides whether it is this line"), "a candidate is appended, never promoted"
     assert not_found("award", "the saved FPDS lookup", "2026-09-20") == "no award found in the saved FPDS lookup as of 2026-09-20"
