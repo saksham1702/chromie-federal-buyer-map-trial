@@ -12,7 +12,7 @@ Owners, grants, row-level-security policies and the `\\restrict` guard that psql
 cannot parse are dropped; nothing else is edited. Production identities, the other
 tables, RLS and the migration history stay where they are.
 
-Environment: `SANDBOX_DB_CONTAINER` (the Supabase Postgres container) and `SCHEMA_DSN`
+Environment: `SCHEMA_DB_CONTAINER` (the Supabase Postgres container) and `SCHEMA_DSN`
 (the same database over TCP, for the catalog queries).
 """
 
@@ -26,7 +26,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 LOADER = ROOT / "research" / "tools" / "agency_layers_sql.py"
-CONTAINER = os.environ.get("SANDBOX_DB_CONTAINER", "supabase_db_chromie-security-closeout")
+CONTAINER = os.environ.get("SCHEMA_DB_CONTAINER", "supabase_db_chromie-security-closeout")
 DSN = os.environ.get("SCHEMA_DSN", "postgresql://postgres:postgres@127.0.0.1:54322/postgres")
 # Filled by triggers on the loaded tables, never by the loader itself.
 TRIGGER_FILLED = {"gov_need_lifecycle_history", "brain_jobs"}
