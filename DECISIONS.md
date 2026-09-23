@@ -3,294 +3,150 @@
 Add dated technical and product decisions here.
 
 
-## 2026-09-16 - Phase one is research and planning, not the README prototype
-
-Phase one covers source discovery, data understanding, worked examples, and an implementation
-plan. The README's resolver, forecaster, PDF pipeline, and
-Supabase proposal move to the backlog. Code in this phase is limited to one artifact validator
-and a fetch-and-record helper.
-
-## 2026-09-16 - Deliverables live in research/, on branch trial/navy-navwar-peo-c4i
-
-`build/` is gitignored, so the reviewable package is committed under `research/` with the
-README's file names kept where they overlap (source_registry.json, organization_seed.json,
-manual_pdf_requests.json, documents_manifest.jsonl). Downloaded bytes stay in `data/raw/`.
-
 ## 2026-09-16 - Evidence rules
 
-Official public sources only. A Wayback Machine capture of an official page is a dated copy of
-that page and its capture timestamp is the "available by" date. Third-party mirrors are
-pointers, never evidence. Chromie's production schema is used as column-level shape only; no
-production identifiers or data appear in these artifacts.
-
-## 2026-09-16 - Access paths for Akamai-blocked Navy sites
-
-navwar, peoc4i, navsea, navair, niwc, navy.mil, gao and dodig return HTTP 403 to curl and to
-headless Chrome from this machine; secnav's budget library closes the TLS handshake;
-comptroller.defense.gov interrupts. Egress is Cloudflare WARP. Approved fallbacks, in order:
-Wayback capture, a WARP-off fetch session, Browserbase remote browser, manual retrieval queue.
+Official public sources only. A Wayback Machine capture of an official page is a dated copy of that page, and its
+capture timestamp is the "available by" date. Third-party mirrors are pointers, never evidence.
 
 ## 2026-09-16 - "PAE" is a reorganization, not a data system
 
-The README asks for an investigation of the "Navy PAE system". Official releases show PAE means
-Portfolio Acquisition Executive: the Department of the Navy stood up PAE Mission Systems on
-2026-05-11, consolidating mission-systems elements of PEO C4I, PEO Digital, PEO IWS, PEO MLB,
-three DRPMs, Minotaur, NAVWAR, NAVSEA, NAVAIR and MCSC. The organization map models this as a
-dated reorganization; there is no PAE record system to crosswalk.
+PAE means Portfolio Acquisition Executive: the Department of the Navy stood up PAE Mission Systems on 2026-05-11,
+consolidating mission-systems elements of PEO C4I, PEO Digital, PEO IWS, PEO MLB, three DRPMs, Minotaur, NAVWAR,
+NAVSEA, NAVAIR and MCSC. The organization map models it as a dated reorganization.
 
 ## 2026-09-16 - The Navy LRAE is the primary forecast source and the anchor for attribution
 
-NAVWAR's Long-Range Acquisition Estimate (sheet "LRAE Annex 25", release 2025-06-19) carries an
-"Associated Program or Requirement Office" column, the contracting UIC, the existing contract
-number and the incumbent on one row, and its PID numbers embed the office code. ONR/NRL publish
-the same template, so one adapter covers Navy activities. Every row is an estimate and is
-recorded as such; a forecast never counts as ownership evidence on its own.
+The Long-Range Acquisition Estimate carries the associated program office, the contracting UIC, the existing
+contract and the incumbent on one row, and its PIDs embed the office code. Every row is recorded as an estimate;
+a forecast never counts as ownership evidence on its own.
 
 ## 2026-09-16 - Conflicting official statements are kept side by side
 
-The NAVWAR acquisition-pathways page captured 2026-09-01 still lists PEO C4I, PEO MLB and PEO
-Digital as NAVWAR components, while the 2026-05-11 release consolidates them into PAE Mission
-Systems. The seed graph keeps both edges, dates the consolidation, and flags the pair for
-review rather than choosing one.
+When two official sources place an office differently, the organization memory keeps both claims with their dates
+and flags the pair for review rather than choosing one.
 
-## 2026-09-16 - Department of the Navy budget library is an access gap for automation
+## 2026-09-16 - Registry records use the source-table vocabulary and four statuses
 
-secnav.navy.mil/fmc returns a "Request Rejected" firewall stub to the Wayback crawler as well
-as to this machine. Budget exhibits will be retrieved in a WARP-off session or manually and
-recorded in manual_pdf_requests.json until then.
-
-## 2026-09-16 - Registry records use Chromie's source-table vocabulary and four statuses
-
-`source_registry.json` uses the `gov_procurement_sources` field names where they exist and
-records each source as `verified` (an inspected example with a hashed document), `blocked` (every
-approved access path failed), `restricted` (login or key required) or `not_inspected`. The
-Wayback Machine is listed as a retrieval path, not as a source of record: a capture is a dated
-copy of an official URL and is always cited with its original URL and capture timestamp.
+`research/sources/source_registry.json` uses the `gov_procurement_sources` field names and records each source as `verified`,
+`blocked`, `restricted` or `not_inspected`. The Wayback Machine is a retrieval path, not a source of record.
 
 ## 2026-09-16 - DoD contract announcements are monitored through the RSS feed
 
-The defense.gov/war.gov article pages return 403 to automation, but the ArticleCS RSS endpoint
-answers directly with titles, dates and links. The registry treats the feed as the trigger and
-the article body as a fallback-path fetch.
+The ArticleCS RSS endpoint is the trigger; the article body is fetched through the hosted browser.
 
 ## 2026-09-16 - Attribution evidence classes and the modification rule
 
-Every reviewed attribution carries one of four classes: directly_documented (an official record
-of the action names the office), inferred (only a corroborating official document names it: an
-LRAE follow-on row, a tear-sheet program list, an article naming the awarding office), ambiguous
-(candidates without a document tying program to office) or unresolved (no signal; the path to
-resolution is recorded). Modifications are attributed through their base award. Multi-office
-descriptions keep every named office and never collapse to one.
+Every attribution carries one of four classes: directly_documented, inferred, ambiguous or unresolved.
+Modifications are attributed through their base award, and a description naming several offices keeps every one.
 
-## 2026-09-16 - Alerts always carry the evidence class and the ancestry as of the event date
+## 2026-09-16 - Alerts carry the evidence class and the ancestry as of the event date
 
-An alert names what changed, the office and its parent chain as of the event date (PEO C4I under
-NAVWAR before 2026-05-11, under PAE Mission Systems from that date), the documents with dates, the
-uncertainty, and why it matters. A forecast alert says it is a forecast; a budget alert says the
-office link is an inference by program name.
+An alert names what changed, the office and its parent chain as of the event date, the documents with dates, the
+uncertainty and why it matters. A forecast alert says it is a forecast; a budget alert says the office link is an
+inference by program name.
 
-## 2026-09-16 - The SAM.gov full public extract is the notice history for backtests
+## 2026-09-16 - SAM.gov notices come from the keyless site API
 
-The daily ContractOpportunitiesFullCSV.csv (about 230 MB, range requests supported) carries notice
-id, solicitation number, office and AAC code, posted date, type and award fields, so it provides
-first-notice dates without an API key. Inspection showed it holds the current dataset only
-(84,504 rows, almost all 2025-2026); older years are separate archived files in the same extract
-service and are the next retrieval. The file stays in data/raw/ (not committed) and is referenced
-by hash.
+The JSON endpoints behind the SAM.gov web application answer without a key, return full description text and
+attachments, and reach archived notices; the documented Opportunities API is not used.
 
-## 2026-09-16 - Backtest cutoff rule
+## 2026-09-16 - Navy hosts are fetched through a hosted browser with a United States address
 
-A backtest's cutoff is the day before the first public RFI or solicitation, or, for SeaPort-NxG
-task orders and sole-source actions that never appear on SAM.gov, the day before award. Evidence
-counts only if its "available by" date is on or before the cutoff: a document's release date, an
-archive capture timestamp when the page is undated, or for FPDS records the signed date plus about
-90 days of DoD publication lag. Later documents are recorded as post-cutoff checks, never as
-evidence. The validator enforces the date rule and the rule that every cited evidence URL has a
-fetched, hashed manifest row.
+Navy hosts refuse non-United States addresses. Live pages are fetched through a hosted browser with United States
+egress and recorded with method "browserbase".
 
-## 2026-09-16 - SAM.gov notices come from the keyless site API, not the documented public API
+## 2026-09-16 - The PAE publishes portfolios, not offices
 
-The documented Opportunities API host (api.sam.gov) returned HTTP 404 with an empty body for
-every path from two different networks, and its documentation issues keys from a SAM.gov
-account, not api.data.gov. The JSON endpoints behind the SAM.gov web application
-(`/api/prod/opps/v2/opportunities/{id}`, `/opps/v3/.../resources`, `/sgs/v1/search/`) answer
-without a key, return full description text and attachments, and reach archived notices back to
-2014; Chromie's runner already uses them. The operator's api.data.gov key is kept in the ignored
-`.env` for other api.data.gov-fronted services (govinfo, congress.gov) and is not sent to SAM.
-
-## 2026-09-16 - The Navy web block is geographic; Browserbase is the standing live-fetch path
-
-Turning Cloudflare WARP off moved the egress to an Indian ISP address and every .mil host still
-returned 403 or dropped the connection, so the block is on non-US addresses, not on WARP. A
-Browserbase hosted browser (US egress) returned the live PEO C4I, NAVWAR, PEO Digital, PEO MLB,
-NIWC, navy.mil, war.gov, DON CIO and DoD Comptroller pages and files; secnav.navy.mil still
-resets. Live pages are recorded with method "browserbase". The Comptroller's P-1 and R-1 display
-tables are the source of record for line and program-element amounts; the DoN exhibit narratives
-remain queued for the text that names programs and milestones.
-
-## 2026-09-16 - The PEO C4I web presence is gone; the PAE publishes portfolios, not offices
-
-Every path on peoc4i.navy.mil now serves the PAE Mission Systems site (missionsystems.navy.mil),
-which names five capability portfolios and no program offices. The April 2026 archive captures of
-the office pages and tear sheets are the last public record of the PMW inventory in that form. The
-organization map keeps the PEO C4I parentage with the dated consolidation edge and records the
-office-to-portfolio mapping only as a candidate until the PAE publishes it.
+The PAE Mission Systems site names capability portfolios and no program offices. The organization map keeps the
+PEO C4I parentage with the dated consolidation edge and records an office-to-portfolio mapping only as a candidate.
 
 ## 2026-09-17 - Organization memory is a dated graph that holds PEO and PAE structures together
 
-No reliable org chart exists for Navy acquisition offices, and the PAE reorganization is in
-progress. The memory therefore stores offices as nodes with dated relationships and an alias table
-fed by a registry of code families (`org_code_families.json`); records resolve to the ancestry
-valid on their own date; PAE consolidations are added as dated edges and never overwrite PEO
-history. Specification in `08_org_memory_format.md`.
+Offices are nodes with dated relationships and an alias table fed by a registry of code families
+(`research/memory/org_code_families.json`). A record resolves to the ancestry valid on its own date, and a consolidation is a dated
+edge that never overwrites earlier history. Specification in `research/docs/08_org_memory_format.md`.
 
-## 2026-09-17 - Manual first, then monitor
+## 2026-09-17 - Candidates over silence for offices and contacts
 
-Each source is worked by hand once and the steps written down (`09_manual_collection_runbook.md`)
-so the source list can be verified before automation; the monitor design then replaces each manual
-step with a scheduled diff.
+Where ownership is ambiguous, a weak attribution lists ranked candidate offices and public contacts with a
+confidence label; alerts surface uncertainty rather than suppress it.
 
-## 2026-09-17 - Recall over precision for offices and contacts
+## 2026-09-18 - A package regenerates from saved bytes
 
-Because PEO and PAE ownership is ambiguous and a wrong first contact only costs a redirect, weak
-attributions still list ranked candidate offices and public contacts with a confidence label
-(`contact_candidates.json`); alerts surface uncertainty rather than suppress it.
-
-## 2026-09-18 - A manual cycle becomes a package only when it regenerates from saved bytes
-
-The reviewer's request for accurate, traceable data is met by `datapack/`: the source hash is the
-contract, the build reads only bytes recorded in the manifest, every row of the sheet gets one
-decision with a reason, every join is labelled explicit or inferred with unmatched rows kept, and
-the output hashes are recorded so a second run proves idempotence. Network lookups are a separate
-`collect` step so the build never depends on what a host answers today. Rows are also written in
-the layers of the proposed production model (needs, requirements, funding observations,
-procurement references, evidence) so nothing is reshaped later.
+The source hash is the contract: the build reads only bytes recorded in the manifest, every row gets one decision
+with a reason, every join is labelled explicit or inferred, and output hashes are recorded so a second run proves
+idempotence. Network lookups are a separate `collect` step.
 
 ## 2026-09-18 - Observations, relationships and interpretations are stored apart; corrections are retractions
 
-After review, `organization_seed.json` separates what a source states (observations with the exact
-words, revision and date) from the dated claims resting on them (relationships) and from our own
-readings (interpretations). Effective dates exist only when a source gives them; otherwise they are
-`unknown`, and currency is a separate field, so an open end date never reads as "confirmed
-current". A wrong claim is retracted with a reason and a pointer to its replacement; only a
-real-world change documented by a source gets an end date. The reviewer's identity and date are
-recorded apart from the assistant's draft. Contacts follow the same split: `contact_observations.json`
-holds what a source says about a person or channel (with sheet, row and PID for the forecast),
-`contact_recommendations.json` holds routes with a source confidence and a currency confidence, and
-`review_log.json` records every check against saved bytes.
+What a source states, the dated claims resting on it and our own readings are stored separately. Effective dates
+exist only when a source gives them. A wrong claim is retracted with a reason and a pointer to its replacement;
+only a documented real-world change gets an end date. Contacts follow the same split between observations and
+recommendations.
 
 ## 2026-09-18 - Every LRAE release is its own package; diffs never merge rows
 
-Three NAVWAR releases are now saved (2023 export, June 2024, June 2025). Each is packaged
-separately from its own bytes, and a diff between releases is written into the newer package. The
-diff keys on the PID where both rows have one and on title plus office code otherwise, because
-the June 2024 release has no PID column and PIDs turned out to be only partly stable. Weak matches
-are reported as such rather than forced; a record that cannot be followed across releases reads as
-removed and added, and the reviewer sees it.
+Each release is packaged from its own bytes, and a diff between releases is written into the newer package. A weak
+match is reported as such rather than forced.
 
 ## 2026-09-20 - An office's former parents stay in the relationship table
 
-`parent_organization_id` holds one edge, so the loader skipped `child_of` rows for any office
-that had a single live parent. That dropped the office's history with its present: NEN under
-PEO EIS until 2020-05-13 disappeared behind NEN under PEO Digital. The skip now applies only
-to the one live claim the column actually carries; every ended or superseded parent loads with
-its dates. The PEO/PAE migration depends on this, since every office it moves will have both.
+Every ended or superseded parent loads with its dates; only the one live claim fills the parent column.
 
 ## 2026-09-20 - Following a requirement across releases is staged, and a weak match is a candidate
 
-No single key follows an LRAE line between releases. The June 2024 release has no PID column,
-31 of the 2023 export's 643 PIDs survive to June 2025, and titles get rewritten on rows whose
-PID did hold. `pair_releases()` therefore runs PID, then exact title under the same office,
-then incumbent contract number under the same office, and each stage claims a pair only when
-it is 1:1. What survives gets one greedy pass of title similarity within the office at 0.85 or
-better, and those are labelled `candidate`, never `match`: the score and the earlier wording
-travel with the row for a reviewer. A key that hits several rows on either side and is never
-resolved is reported as `ambiguous` with the counts. Every diff row now carries `key_method`,
-`confidence` and `reason`.
+Releases are paired by PID, then exact title under the same office, then incumbent contract under the same office,
+each stage claiming a pair only when it is one to one. Title similarity yields `candidate`, never `match`, and
+every diff row carries `key_method`, `confidence` and `reason`.
 
-## 2026-09-20 - An alert names every office still claimed, and never one per release
+## 2026-09-20 - An alert names every office still claimed
 
-Office observations are per release, so joining them straight into an alert produced one copy
-of the alert per release the requirement appeared in. The monitors now take the office from
-the newest observation nothing has superseded, and count the live ones: where two releases
-name different offices both stay live by design, and the alert says the owner is contested and
-lists them with their dates rather than picking the one that sorted last.
+The office comes from the newest observation nothing has superseded. Where two releases name different offices, the
+alert says the owner is contested and lists both with their dates.
 
-## 2026-09-20 - A spreadsheet row is a source record; nothing is marked duplicate at import
+## 2026-09-20 - A spreadsheet row is a source record
 
-The June 2024 LRAE release has no PID column, and the package keyed those rows on a hash of title
-and office code. Rows 406 and 408-411 all read "Order to Contract #N0003922D4001" under PMA/PMW-101
-and describe different work (a Lot 7 order, terminal destruction, terminal shipment, a French MIS
-buy, a feasibility study); four were marked `duplicate` and never reached the layers. A row without
-a PID is now keyed as its release and row number, the `duplicate` decision is gone, a PID that
-repeats within one release stops the build rather than merging, and the reconciliation lists rows
-that share a title under one office with what tells them apart. Identity across releases stays
-with the staged matcher, which reports a shared key as a candidate for a reviewer.
-
+Nothing is marked duplicate at import. A row without a PID is keyed by its release and row number, and a PID that
+repeats within one release stops the build rather than merging.
 
 ## 2026-09-20 - A notice or an award reaches a forecast line explicitly or as a labelled candidate
 
-`research/tools/trace.py` ties SAM.gov notices and FPDS awards to LRAE lines two ways. Explicit: the
-notice text contains the line's PID or its incumbent contract number, or the line's own title
-carries the solicitation number. Candidate: a solicitation-stage notice shares a program name or
-code the source wrote in capitals or with a digit, either one that three or fewer lines carry or
-two of them, posted within three fiscal years of the line's window, and the notice names the same
-office, its parent, or no office the memory knows; a notice naming an unrelated current office is
-dropped. Generic procurement words and bare numbers never count. A candidate is printed with the
-shared tokens and the office comparison and never read as "solicited" or "awarded"; the reading
-says a reviewer decides. Estimates, ceilings and obligations print in separate columns and are
-never added.
+Explicit: the notice carries the line's PID or incumbent contract, or the line's title carries the solicitation
+number. Candidate: a shared program name or code under a compatible office within three fiscal years. A candidate
+is never read as solicited or awarded, and estimates, ceilings and obligations are never added together.
 
-## 2026-09-21 - The loaded-table schema subset goes to the contributor; production identities do not
+## 2026-09-21 - A local database is built from the loaded-table schema subset
 
-Until now the platform's schema stayed company-side and every load was owner-side, which left a
-contributor unable to run `trace.py notice` or `need` or to test an importer change against the
-same constraints we test against. `research/tools/sandbox_schema.py` now emits the subset the loader
-fills: those tables with their constraints, indexes, trigger functions and triggers (so a row
-production rejects is rejected locally too), every table a trigger function names, and the
-foreign-key targets outside that set as stubs carrying only the referenced columns. Owners, grants,
-row-level security, the migration history, the other tables and any production identity are not
-emitted. The kit handed over on 2026-09-21 pairs it with the generated INSERT transaction, the
-datapack inputs and CSV exports of the loaded tables ordered by every column, so two loads from the
-same inputs diff empty. Promotion onto production identities stays owner-side.
+`schema_subset.py` emits the tables the loader fills with their constraints, indexes and triggers, so a row
+production rejects is rejected locally. Owners, grants, row-level security and production identities are not
+emitted.
 
-## 2026-09-21 - A negative is scoped, a connection is sourced, a related buy is not a candidate, a reorganization stays at its level
+## 2026-09-21 - A negative is scoped and a connection is sourced
 
-Four rules from the review of 2026-09-20, applied to `trace.py`, the monitor and `research/12`.
-A negative names the records searched and their retrieval date ("no award found in the saved FPDS
-lookup as of 2026-09-20"); "nothing awarded" and "none yet" are gone, because the saved bytes
-support only the first. Every connection prints its source: the SAM.gov link and the manifest
-record (URL, retrieval date, hash) for a notice; the release URL, sheet, row and hash for a
-forecast line; the FPDS or USAspending record behind every ceiling and obligation; the observation
-ids, dates and URLs behind every office name, parent hop and reorganization; and the loaded row
-ids. The loader now writes `source_url` on offices, edges and spreadsheet-row evidence (producer
-version 3). Two titles stating different lots, families or generations are related procurements in
-one program and never candidates for the same requirement: SF2 is context for SF3, not its
-forecast, and the status reading ignores a related notice. A successor edge is reported for the
-organization it is documented against, with the source's scope wording; an office is placed under
-the successor only when its own source says so, otherwise its parent claim prints with the date it
-was last confirmed. The "succeeded by" line, which drew the PEO's consolidation onto every office
-beneath it, is removed from both tools.
+A negative names the records searched and their retrieval date. Every connection prints its source record. Two
+titles stating different lots or generations are related procurements, never candidates for the same requirement.
+A successor edge applies to the organization it is documented against.
 
-## 2026-09-21 - The accepted connections load, the third matcher stage only nominates, and a reading opens with its outcome
+## 2026-09-21 - Confirmed pairs load as one requirement, and a reading opens with its outcome
 
-Three findings from the review of 2026-09-21. First, the walkthrough showed the NTCDL line in three
-releases while the database held two revisions: the June 2024 release has no PID column, so its row
-loaded as a separate need, and the title match that tied it lived only in the release diff. The loader
-(producer version 4) now reads the confirmed pairs from the diffs through `lrae_package.fold_map`,
-chains them, and loads every row of a chain under one key: its PID, or its earliest row key. A row tied
-without carrying the PID writes its requirement, office and value assertions with basis `inferred` and
-the tie (the basis, the two rows, the diff file) in the rationale, and the need's description names it,
-so a tool reading the tables alone retrieves the whole history and how each row was tied. A chain that
-would join two PIDs, or two rows of one release, is not folded and is reported on stderr. Second, the
-same office and the same incumbent do not make two rows one requirement: a production follow-on and an
-engineering-support bridge share both. The `office+incumbent` stage now yields candidates, a notice
-citing an incumbent that several lines cite is a candidate for each of them, and a notice or action on
-the incumbent posted before the line first appeared in a forecast is the incumbent's history, not the
-line's. Third, `trace.py status` and `need` open every reading with one outcome word: awarded,
-solicited, cancelled (marked so on SAM.gov), review (an award notice, J&A or special notice on the
-incumbent after the line appeared; a row missing from the latest release), restructured (a stated
-method, instrument, type or value changed between two stated values; a sibling line citing the same
-incumbent, or calling itself a bridge, appeared), delayed, open, not yet due, not dated. States that also
-hold follow "also"; a candidate is appended and never promoted. The 120 rows of June 2024 with no row in
-June 2025 print as review.
+Rows tied across releases load under one key, with an `inferred` basis where the tie does not carry the PID. The
+same office and incumbent make a candidate, not a match. Every reading opens with one outcome word: awarded,
+solicited, cancelled, review, restructured, delayed, open, not yet due or not dated.
+
+## 2026-09-21 - A notice is an entry point
+
+Every notice is a signal on a requirement keyed by its solicitation number. It resolves to a forecast line only
+when exactly one line of the latest release names it explicitly; a shared program name stays a candidate. A notice
+posted by an organization the memory lacks and naming no office it knows is not this agency's need.
+
+## 2026-09-21 - News is a signal of its own kind
+
+An article is an observation: each claim quotes the sentence it rests on and is read against the stored record as a
+new signal, a corroboration or a conflict. Nothing an article says is promoted into the organization memory.
+Specification in `research/docs/13_news_as_a_signal.md`.
+
+## 2026-09-21 - One pipeline builds the agency from nothing
+
+`research/tools/pipeline.py` runs every stage in the order the records depend on each other. Collection stages touch
+the network and run only with `--collect`; every other stage reads saved bytes, so a rebuild repeats byte for byte,
+and the database is built from nothing on every run. Nothing in the pipeline holds agency knowledge.

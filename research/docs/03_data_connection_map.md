@@ -1,9 +1,8 @@
 # 03 - Data-connection map: identifiers, joins, and where the chain breaks
 
-Written 2026-09-16. Field names are as observed in the documents listed in
-`documents_manifest.jsonl` (FPDS ATOM feeds, the NAVWAR LRAE, USAspending award detail, the
-PEO C4I pages). Budget identifiers are described from their public definitions and are marked
-"to confirm" until a Department of the Navy justification book has been retrieved (see gap table).
+Field names are as observed in the documents listed in `research/sources/documents_manifest.jsonl` (FPDS ATOM
+feeds, the NAVWAR LRAE, USAspending award detail, the PEO C4I pages). Budget identifiers are
+described from their public definitions.
 
 ## In plain terms
 
@@ -23,15 +22,15 @@ is joinable at every step except the first, where the link is an inference by pr
 | Referenced IDV PIID | `N0017819D7264` (SeaPort-NxG, issued by `N00178`) | issuing office of the vehicle | FPDS `referencedIDVID`; USAspending `parent_award_piid`; LRAE PALT codes `K-S - Contract - SeaPort TO` | Order -> vehicle; groups task orders competed inside a vehicle | Orders under SeaPort-NxG are issued by NAVWAR (`N00039…F…`) against a Dahlgren-issued IDV; the vehicle's RFPs live in the SeaPort portal, not SAM |
 | Solicitation number | `N0003919R0002`, `N0003921R3015` | contracting office | FPDS `solicitationID`; SAM `solicitationNumber`; NAVWAR CSO page links | Notice <-> award | Absent from the LRAE, which uses PIDs instead |
 | SAM notice id | 32-hex opportunity id (e.g. the notice linked from the NAVWAR CSO page) | SAM.gov | SAM only | Notice versions, amendments, attachments | Not present in FPDS or the LRAE |
-| LRAE PID number | `N00039-24-RFPREQ-PMW-160-0002` | Navy contracting activity | LRAE only | Forecast row -> office code -> contracting office; the same requirement across LRAE releases (to confirm with a second release) | Not resolvable in any public system; internal to the activity |
+| LRAE PID number | `N00039-24-RFPREQ-PMW-160-0002` | Navy contracting activity | LRAE only | Forecast row -> office code -> contracting office | Not resolvable in any public system; internal to the activity |
 | LRAE requirement-office code | `PMW-160`, `PMW/A-170`, `PMA/PMW-101`, `PMS-485`, `LSUBP00035`, `NP-41200`, `Pf007NERP`, `C4IEXEC`, `DRPM-NOA` | Navy activity | LRAE "Associated Program or Requirement Office" | Forecast row -> organization (via alias table) | Three code families on one sheet: PEO program offices, NIWC competencies, NAVWAR HQ and PEO front-office codes; PEO Digital and PEO MLB do not use PMW codes here |
 | Program-office code in free text | "PMW 160 PROGRAM OFFICE", "TACTICAL NETWORKS PROGRAM OFFICE (PMW 160)" | author of the text | FPDS/USAspending `descriptionOfContractRequirement`; SAM titles, descriptions and attachments; tear sheets; DVIDS | Award or notice -> program office (the resolver's decisive evidence) | "PEO C4I" alone is a portfolio, not an office; lists of several offices mean multi-office support; negations and "formerly" clauses |
 | Program or system name | CANES, ADNS, NMT, CSRR, MIDS-LVT, CLTS | program office | tear sheets (official program -> office mapping); award descriptions; LRAE titles; budget line-item titles | Budget line -> program -> office (inference); award -> program | A platform or program name is candidate evidence only; ownership needs an official mapping and a date |
-| Appropriation, budget activity, line item, program element, project | e.g. RDT&E,N program elements `06xxxxxN`; OPN line items; O&M,N sub-activity groups (to confirm against a retrieved J-book) | DoN budget office | DoN justification books (RDT&E R-2/R-2A, Procurement P-1/P-40, O&M OP-5); congressional funding tables and explanatory statements | Request -> enacted mark -> program | No public source ties a program element to a contract; the join to a PMW is by program name in the exhibit narrative |
+| Appropriation, budget activity, line item, program element, project | e.g. RDT&E,N program elements `06xxxxxN`; OPN line items; O&M,N sub-activity groups | DoN budget office | DoN justification books (RDT&E R-2/R-2A, Procurement P-1/P-40, O&M OP-5); congressional funding tables and explanatory statements | Request -> enacted mark -> program | No public source ties a program element to a contract; the join to a PMW is by program name in the exhibit narrative |
 | NAICS / PSC | `541330`, `R408`, `5845` | Census / GSA | FPDS, USAspending, LRAE, SAM | Candidate generation and category coverage | Never ownership evidence |
 | UEI / CAGE / vendor name | Booz Allen Hamilton, BAE Systems | SAM entity registration | FPDS, USAspending, SAM; LRAE "Incumbent Contractor" (name only) | Incumbent -> follow-on forecast; award history | Names differ across sources; the LRAE has no UEI |
 | Notice type and lifecycle | Sources Sought, Presolicitation, Solicitation, Award, Special Notice, amendment | SAM.gov | SAM | Stage of the acquisition | LRAEs are sometimes posted as SAM Special Notices (NAVSUP, NAWCAD) |
-| Dates | LRAE anticipated solicitation/award FY+quarter; SAM posted/response dates; FPDS `signedDate`, period of performance; budget fiscal-year columns; Wayback capture timestamp | each source | each source | Timing, advance-notice measurement, backtest cutoffs | Fiscal quarters, not dates, in the LRAE; DoD FPDS records are published about 90 days after signature |
+| Dates | LRAE anticipated solicitation/award FY+quarter; SAM posted/response dates; FPDS `signedDate`, period of performance; budget fiscal-year columns; Wayback capture timestamp | each source | each source | Timing, advance-notice measurement | Fiscal quarters, not dates, in the LRAE; DoD FPDS records are published about 90 days after signature |
 | People | program manager names on tear sheets and DVIDS releases; contracting POC names and `.mil` emails in the LRAE | each source | tear sheets, DVIDS, LRAE, SAM POC fields | Person -> role -> office with an observation date | LRAE POCs are contracting staff, not requirement owners |
 
 ## 2. How the sources join
@@ -57,7 +56,7 @@ flowchart LR
 Solid joins (an identifier shared by both sides): LRAE row -> award (existing contract number);
 notice -> award (solicitation number); order -> vehicle (referenced IDV); award -> contracting
 and funding office (DoDAACs); LRAE row -> office (requirement-office code, via the alias table in
-`organization_seed.json`).
+`research/memory/organization_seed.json`).
 
 Text joins (evidence must be quoted): award -> office and notice -> office through an office code
 or explicit ownership language; person -> office through a dated official statement.
@@ -69,7 +68,7 @@ by title, office, NAICS and timing when no solicitation number has been publishe
 
 | Category | Meaning | Source that holds it | Not to be confused with |
 | --- | --- | --- | --- |
-| Requested funding | what the Department asked Congress for, by fiscal year, appropriation and line | DoN justification books (not yet retrieved; see gap) | enacted amounts |
+| Requested funding | what the Department asked Congress for, by fiscal year, appropriation and line | DoN justification books | enacted amounts |
 | Enacted appropriation and marks | what Congress funded, added, cut or directed, by line | appropriations acts, explanatory statements and committee reports on govinfo and congress.gov | obligations |
 | Anticipated total value | the LRAE's value range for a future procurement, including options | LRAE "Anticipated Total Value (Including Options)" | a budget line or a ceiling; it is an estimate with a disclaimer |
 | Obligation | money placed on a contract action | FPDS `obligatedAmount` per action; USAspending `total_obligation` per award | the award ceiling |

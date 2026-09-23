@@ -1,48 +1,42 @@
 # 00 - Existing work, verified organization, and pilot definition
 
-Written 2026-09-16. Every claim below cites a document in `documents_manifest.jsonl`
-(appendix at the end); bracketed tags like [A] point at that appendix.
+Every claim below cites a document in `research/sources/documents_manifest.jsonl` (appendix at the end);
+bracketed tags like [A] point at that appendix.
 
 ## In plain terms
 
 Chromie already has a production Agency Brain and a program-office resolver, and the Navy's
-PEO C4I offices are already in its organization graph. What is missing is the Navy-specific
+PEO C4I offices are already in its organization graph. The pilot adds the Navy-specific
 source layer: the forecasts, budget books, notices and awards that show what each office is
 about to buy. The pilot portfolio is mid-reorganization: on 2026-05-11 the Department of the
 Navy stood up a Portfolio Acquisition Executive for Mission Systems that absorbs PEO C4I, so the
-organization map has to carry dates, not just a tree. The single most useful public source found
-so far is NAVWAR's Long-Range Acquisition Estimate spreadsheet, because it names the requirement
+organization map has to carry dates, not just a tree. The single most useful public source is
+NAVWAR's Long-Range Acquisition Estimate spreadsheet, because it names the requirement
 office, the contracting office, the incumbent and the existing contract on the same row.
 
-## 1. What exists, what is usable, what is missing
+## 1. What exists and what is usable
 
-### 1.1 The trial repository (`chromie-federal-buyer-map-trial`)
+### 1.1 The prototype repository (`chromie-federal-buyer-map-trial`)
 
-One commit (2026-09-06). `README.md` is the full one-week prototype specification. `src/buyer_map/`
-holds a synthetic graph validator and an edge ranker over a five-node example; nothing in it is
-Navy-specific. `PROJECT_BRIEF.md`, `AGENTS.md`, `SECURITY.md`, `DECISIONS.md` are short stubs.
+`README.md` is the prototype specification. `src/buyer_map/` holds a synthetic graph validator
+and an edge ranker over a five-node example; nothing in it is Navy-specific.
 Usable: the working agreement (evidence is part of the data model; facts, inferences and
 recommendations stay separate) and the output-package file names, which this package reuses.
 
-### 1.2 Production scaffolding already in Chromie (read-only review)
+### 1.2 Production scaffolding already in Chromie
 
 | Component | Where | State | Reusable for this pilot |
 | --- | --- | --- | --- |
 | Agency Brain pipeline: locate documents, fetch, chunk by page, extract claims per section, compile a page | `chromie-runner/orchestration/gov/agency_brain/` (`documents.py`, `extract.py`, `items.py`, `rollups.py`, `worker.py`) | Production; per-agency ingest modules for DHS, DOJ, VA, HHS, DOT, Treasury, USDA, NIH, DHA and a manual DoD loader (`dod_ingest.py`) | Yes: claim sections `budget`, `forecast`, `procurement_patterns`, `people`, `industry_engagement` fit the Navy signals; items can be scoped to an organization (`scope_organization_id`), so PMW-level claims are representable |
-| Program-office resolver | `program_office_resolver.py` v7.10.0; `program_office_resolution_service.py` | Production; DB-independent pure function; evidence-gated (an office code or explicit ownership language is required; contracting office, platform, NAICS, vendor cannot create ownership); statuses include abstention | Yes: the attribution rulebook in section 04 follows the same evidence classes so examples can later be replayed through it |
-| Canonical organization graph | tables `gov_organizations`, `gov_organization_relationships` (temporal `valid_from`/`valid_to`, provenance columns); `scripts/onboard_resolver_reference_organizations.py` | PEO C4I and its 11 PMWs are already rows, sourced from NAVWAR's 2023 anniversary article; PAE Maritime, Aviation, Munitions and Marine Corps transitions are modeled with dates | Yes, with updates: 2025-2026 office names differ from the 2023 article (see 3.2), and no PAE Mission Systems organization was found in the scripts read |
-| Source registry table | `gov_procurement_sources` (`source_key`, `access_mode`, `refresh_cadence`, `last_verified_at`, `verification_status`, `known_access_gaps`) | Production, used for SLED portals | Yes: `source_registry.json` uses these field names so it can be loaded later |
+| Program-office resolver | `program_office_resolver.py`; `program_office_resolution_service.py` | Production; DB-independent pure function; evidence-gated (an office code or explicit ownership language is required; contracting office, platform, NAICS, vendor cannot create ownership); statuses include abstention | Yes: the attribution rulebook in section 04 follows the same evidence classes so examples can be replayed through it |
+| Canonical organization graph | tables `gov_organizations`, `gov_organization_relationships` (temporal `valid_from`/`valid_to`, provenance columns); `scripts/onboard_resolver_reference_organizations.py` | PEO C4I and its 11 PMWs are already rows, sourced from NAVWAR's 2023 anniversary article; PAE Maritime, Aviation, Munitions and Marine Corps transitions are modeled with dates | Yes: 2025-2026 office names differ from the 2023 article (see 3.2) |
+| Source registry table | `gov_procurement_sources` (`source_key`, `access_mode`, `refresh_cadence`, `last_verified_at`, `verification_status`, `known_access_gaps`) | Production, used for SLED portals | Yes: `research/sources/source_registry.json` uses these field names so it can be loaded into that table |
 | Procurement records and documents | `gov_procurement_records` (solicitation/predecessor/resulting-contract links, lineage), `gov_procurement_documents` (hash, retrieval and extraction status), `gov_procurement_organizations` (organization to notice/award edges) | Production | Yes: the natural home for attribution edges and notice lineage |
 | Intel facts and links | `gov_intel_records/facts/links` (event type, effective date, conflict status, superseding, review status) | Production | Yes: the natural home for alerts and signals |
 | SAM notice amendment tracking | chromie-runner PRs #233, #234, #241 | Production | Yes: change detection for notices exists |
-| Hidden blind evaluator for the resolver | `chromie-runner/docs/hidden_program_office_eval.md` | Production | Later: worked examples here are gold candidates, not evaluator cases |
+| Hidden blind evaluator for the resolver | `chromie-runner/docs/hidden_program_office_eval.md` | Production | Worked examples here are gold candidates, not evaluator cases |
 
-Missing for the Navy pilot: adapters for the Navy Long-Range Acquisition Estimates, Department of
-the Navy budget justification books, congressional marks, DVIDS releases and FPDS; PMW-level
-budget and forecast claims; a forecast-row entity (an LRAE row has no table today); and a
-backtest harness that enforces cutoff dates.
-
-## 2. Verified organization as of 2026-09-16
+## 2. Verified organization
 
 ### 2.1 Ancestry
 
@@ -85,19 +79,19 @@ as consolidated into PAE Mission Systems from 2026-05-11, and flags the pair for
 | 2026-05-11 | DoN launches PAE Mission Systems (interim PAE Jim Day), consolidating the organizations listed in 2.1, under the Warfighting Acquisition System | [E] |
 | 2026-05-19 | `peoc4i.navy.mil` front page rebranded to PAE Mission Systems, "Site Under Construction" | [D] |
 | 2026-09-01 | NAVWAR navigation no longer lists PEOs; the acquisition-pathways page still describes them as NAVWAR components | [G][H] |
-| 2026-09-16 | Live check through a US browser: every path on `peoc4i.navy.mil` returns the PAE Mission Systems home page (new domain `missionsystems.navy.mil`, organized as "capability portfolios"); PEO Digital's site carries the notice "PEO Digital is now part of the PAE Mission Systems"; NAVWAR's Work-With-Us footer still lists PEO C4I, PEO Digital, PEO MLB | live captures in the manifest (`method: browserbase`) |
+| 2026-09-16 | Live captures through a US browser: every path on `peoc4i.navy.mil` returns the PAE Mission Systems home page (new domain `missionsystems.navy.mil`, organized as "capability portfolios"); PEO Digital's site carries the notice "PEO Digital is now part of the PAE Mission Systems"; NAVWAR's Work-With-Us footer still lists PEO C4I, PEO Digital, PEO MLB | live captures in the manifest (`method: browserbase`) |
 
-Earlier history (SPAWAR renamed NAVWAR; PEO EIS split into PEO Digital and PEO MLB) is common
-knowledge but is not yet cited to an official document here; it is verified in `02_organization_map.md`.
+Earlier history (SPAWAR renamed NAVWAR; PEO EIS split into PEO Digital and PEO MLB) is cited to
+official documents in `research/docs/02_organization_map.md`.
 
 ### 2.3 "PAE" is not a data system
 
-The README asks for an investigation of "the Navy PAE system". In official material PAE means
+In official material PAE means
 Portfolio Acquisition Executive, an organization type created by the 2026 reorganization [E][F].
 There is no PAE record system with public identifiers to crosswalk. The identifiers that do
 connect forecast to award are the LRAE's `PID Number` (for example
 `N00039-24-RFPREQ-PMW-160-0002`: contracting UIC, fiscal year, office code, sequence) and the
-`Existing Contract Number` column [I]; see `03_data_connection_map.md`.
+`Existing Contract Number` column [I]; see `research/docs/03_data_connection_map.md`.
 
 ## 3. Program offices, contracting offices, technical centers, supporting organizations
 
@@ -126,7 +120,7 @@ the change-of-command release [K].
 | Code | Name (2026 official page) | Top programs named on tear sheet | Program manager (as of date) | LRAE rows |
 | --- | --- | --- | --- | ---: |
 | PMA/PMW 101 | Multifunctional Information Distribution Systems (MIDS) | MIDS-LVT, MIDS JTRS, Link 16 waveform, FMS to 58 nations and NATO | not printed | 22 |
-| PMW 120 | Battlespace Awareness and Information Operations ("creates and breaks kill webs") | tear sheet not retrievable (404 in archive) | not printed | 2 |
+| PMW 120 | Battlespace Awareness and Information Operations ("creates and breaks kill webs") | no archived tear sheet | not printed | 2 |
 | PMW 130 | Cybersecurity | crypto and key management, maritime cybersecurity products | not printed (2023 sheet) | 3 |
 | PMW 150 | Naval Command and Control Systems | C2 modernization, Link 16/Link 22, TTNT afloat | CAPT Raphael R. Castillejo (from 2025-08-19, relieved Mr. Baron Jolie) | 18 |
 | PMW 160 | Tactical Networks | CANES (ACAT IAC), ADNS | CAPT Katy Boehme (2023-05-01 sheet); CAPT Nicole Nigro (2025-01-01 sheet) | 17 |
@@ -150,26 +144,10 @@ USAspending descriptions write `PMW 160` [J]; PID numbers embed `PMW-160` [I].
 2. Lifecycle: for each PMW, at least one inspected source per stage where a public source exists:
    organization page; budget line; LRAE row; SAM notice; FPDS/USAspending action.
 3. Forecast universe: every LRAE row whose requirement office is a PEO C4I PMW (144 rows in the
-   June 2025 release) is tracked to its solicitation and award or marked not yet observed.
+   June 2025 release) is tracked to its solicitation and award or marked as not observed.
 4. Award universe: every FPDS action with contracting office N00039 in the review window is
    attributed to a PMW with an evidence class, or abstained with a stated reason; NIWC actions
    are attributed only when funding office or text names a PMW.
-5. Gaps are listed, not silently dropped (section 5).
-
-## 5. Known public-data gaps and access constraints
-
-| Gap | Effect | Evidence |
-| --- | --- | --- |
-| PIEE Solicitation Module replaced NAVWAR eCommerce for solicitations | Solicitation documents sit behind a PIEE login while SAM.gov shows only the synopsis: the 2026 NILE ISS 6 RFI and AINTS presolicitation attach no files on SAM.gov, only PIEE Solicitation Module links | [G]; SAM.gov attachment lists in `documents_manifest.jsonl` |
-| SeaPort-NxG task orders (IDVs `N00178…`) | Task-order RFPs are issued inside the SeaPort portal; only awards surface in FPDS | LRAE rows list `N0017819D…` as existing contracts [I]; portal unreachable from this machine |
-| DoD contract actions reach FPDS/USAspending after a delay of roughly 90 days | Award and recompete signals arrive late | FPDS feeds show June 2026 actions in September 2026 [J] |
-| Department of the Navy budget library (`secnav.navy.mil/fmc`) rejects automated and archived requests | Budget exhibits need a WARP-off or manual retrieval | [P] |
-| Geographic block on `navwar`, `peoc4i`, `navsea`, `navair`, `niwc*`, `navy.mil`, `war.gov`, `comptroller` | Any client from a non-US address gets 403 (confirmed with Cloudflare WARP on and off); archive captures lag the live page; a US-egress hosted browser (Browserbase) passes and was used on 2026-09-16 | manifest rows with `method: wayback` and `method: browserbase` |
-| LRAE is an estimate | Many rows carry `TBD`; the disclaimer says nothing is a commitment | [I] |
-| PEO Digital and PEO MLB do not appear under PMW codes in the LRAE | Sibling offices use codes like `Pf007NERP`; identifier crosswalk needed before they can be used as hard negatives | [I] |
-| PID numbers are internal | They connect forecast rows to office codes but cannot be looked up publicly | [I] |
-| Tear sheets lag leadership changes, and are no longer published | PMW 760 and PMW 150 program managers changed on 2025-08-19 while the 2025 tear sheets still name the prior holder; as of 2026-09-16 the tear-sheet URLs return the PAE Mission Systems home page, so the April 2026 archive copies are the last available | [K][M]; live capture |
-| Classified and CUI requirements | Absent from every public source | by construction |
 
 ## Appendix: evidence
 
@@ -195,16 +173,14 @@ USAspending descriptions write `PMW 160` [J]; PID numbers embed `PMW-160` [I].
 | [O] | ONR and NRL LRAE document | direct | retrieved 2026-09-16 | `29db4e9d73fb` |
 | [H] | NAVWAR home | wayback | capture 2026-09-01 | `1c6dd971e695` |
 | [G] | NAVWAR CSO opportunities / acquisition pathways (README link) | wayback | capture 2026-09-01 | `1e97effb2e65` |
-| [P] | DoN FY2027 budget materials page; body is a 245-byte 'Request Rejected' WAF stub, not the page | wayback | capture 2026-07-16 | `19880a1fd474` |
-| [P] | DoN FY2026 budget materials page; body is a 245-byte 'Request Rejected' WAF stub, not the page | wayback | capture 2026-08-30 | `8ba3f5b14d95` |
 | [M] | PMW 760 tear sheet 2025 | wayback | capture 2026-01-21 | `c0a13af26e4c` |
 | [M] | PMW 770 tear sheet 2025 | wayback | capture 2026-01-21 | `0a1b2c3042e0` |
 | [M] | PMW 790 tear sheet 2025 | wayback | capture 2025-11-13 | `606a844eca01` |
 | [M] | PMW 740 tear sheet 2025 | wayback | capture 2026-01-21 | `5895f2f9ec87` |
-| [M] | PMW 160 tear sheet 2025 (retry) | wayback | capture 2026-01-21 | `480faf1f0f8a` |
+| [M] | PMW 160 tear sheet 2025 | wayback | capture 2026-01-21 | `480faf1f0f8a` |
 | [J] | FPDS ATOM: contracting office N00039 (NAVWAR HQ) actions Jun-Sep 2026, page 1 | direct | retrieved 2026-09-16 | `742559fc0a5e` |
 | [J] | FPDS ATOM: contracting office N66001 (NIWC Pacific) actions Mar-Sep 2026, page 1 | direct | retrieved 2026-09-16 | `19ae269fecf1` |
 | [J] | FPDS ATOM: contracting office N65236 (NIWC Atlantic) actions Mar-Sep 2026, page 1 | direct | retrieved 2026-09-16 | `9fbf76db76a9` |
 | [J] | FPDS ATOM: BAE LTS/CLTS N0003919C0002, contracted by N00039, funded by NAVSEA HQ | direct | retrieved 2026-09-16 | `7b19068d8642` |
 
-Full rows, including failures and the original URLs, are in `documents_manifest.jsonl`.
+Full rows and the original URLs are in `research/sources/documents_manifest.jsonl`.

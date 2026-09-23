@@ -1,77 +1,81 @@
-# Research package: Navy (NAVWAR / PEO C4I) acquisition source map
+# Navy agency intelligence: the research package
 
-Deliverables for the Federal Program Office Intelligence Trial: source discovery, data
-understanding, worked examples, and an implementation plan for the NAVWAR / PEO C4I pilot.
-The package also loads into the production agency-intelligence tables, replays its own
-attributions through the production resolver, and produces one of the designed alerts from
-the loaded rows. No production writes and no outreach: everything runs against a local
-database, and the promotion statements are written to a file for a person to run.
+An intelligence layer over the Department of the Navy's acquisition record: which office wants what, when, and on
+what evidence. The package collects official public sources, models them into a dated organization memory and
+dated events, loads them into the agency-intelligence tables in one transaction, and reads them back as a weekly
+pulse, office books and object pages. Nothing is written to production; every run builds a local database from
+nothing.
+
+## Layout
+
+| Folder | What it holds |
+| --- | --- |
+| `docs/` | The write-ups, in review order below, and `architecture.txt` (the whole chain in plain text) |
+| `sources/` | `source_registry.json` (every source: publisher, access route, cadence, what it answers), `documents_manifest.jsonl` (every document fetched: URL, hash, method, time, outcome), `coverage_matrix.json` and `source_status.json` (which source covers each command and family, and what each has collected) |
+| `memory/` | `organization_seed.json` (offices, codes, parent claims, each with dated observations), `org_code_families.json`, `org_page_statements.json`, `attribution_examples.json` (reviewed contract-to-office attributions), `review_log.json`, `contact_observations.json` and `contact_recommendations.json`, `people.json` (dated positions), `vendors.json` (one vendor per UEI) |
+| `events/` | Dated statements by family: `oversight_events.json`, `remarks_events.json`, `remarks_discovered.json`, `protest_events.json`, `congress_events.json`, `fedreg_events.json`, `sbir_topics.json`, `budget_lines.json`, `news_observations.json` |
+| `results/` | What the layer reads back: `corpus.json` (every dated event and outcome frozen from the database), `outcome_labels.json` (the office and names each outcome goes by, in its own words), `pulse.json`, `buying_dna.json` |
+| `tools/` | Every stage as a command-line tool with `--selfcheck`; `pipeline.py` runs them in order |
+| `cassettes/` | Recorded model answers, so a rebuild replays byte for byte and costs nothing |
+| `../datapack/` | The forecast releases (LRAE) as regenerable packages: `SOURCE.json` hashes and `reconciliation.md` committed, CSV tables rebuilt with `tools/lrae_package.py build` |
 
 ## Review order
 
-1. `00_existing_work_and_pilot.md` - what exists, what the pilot covers, verified organization
-2. `01_source_registry.md` + `source_registry.json` - every source, inspected once
-3. `02_organization_map.md` + `organization_seed.json`
-4. `03_data_connection_map.md`
-5. `04_attribution_process_and_examples.md` + `attribution_examples.json`
-6. `05_early_signals_and_backtests.md` + `backtests.json`
-7. `06_continuous_monitor_design.md`
-8. `07_implementation_backlog.md`
-9. `08_org_memory_format.md` + `org_code_families.json` - the dated PEO-plus-PAE organization memory and the code registry a parser uses
-10. `09_manual_collection_runbook.md` - each source worked by hand once, with what a monitor replaces
-11. `11_worked_examples_end_to_end.md` - one organization change, one forecast revision and one ambiguous match followed from the spreadsheet row to the alert, with what is deliberately left incomplete
-12. `12_three_use_cases_navy.md` - the three uses of the data (a requirement before solicitation, an active notice traced to its office, a past requirement with its award and funding), each walked on a Navy example with every hop cited, plus the forecast-status table; produced by `tools/trace.py`
-13. `contact_observations.json` and `contact_recommendations.json` - likely public contacts per office with confidence labels
-14. `../datapack/lrae_navwar_*/` - the NAVWAR LRAE releases (2023 export, June 2024, June 2025) as regenerable packages. Committed: `SOURCE.json` (source hash, output hashes) and `reconciliation.md`. The CSV tables (rows, decisions, joins, layers, diffs) are regenerated locally with `python research/tools/lrae_package.py build` and shared out of band; their hashes are in `SOURCE.json`
-15. `navy-sources-map.md` - prose companion to the registry: every source once, what it can and cannot establish, how they join, evidence-strength rules (contributed; the registry and manifest stay the authorities)
+1. `docs/00_existing_work_and_pilot.md`: what existed, what the pilot covers
+2. `docs/01_source_registry.md`: every source, inspected once
+3. `docs/02_organization_map.md` and `docs/08_org_memory_format.md`: the dated organization memory
+4. `docs/03_data_connection_map.md`: how the sources join
+5. `docs/04_attribution_process_and_examples.md`: from a contract to the office that wanted it
+6. `docs/06_continuous_monitor_design.md`: the monitor, its alerts and the weekly pulse
+7. `docs/12_three_use_cases_navy.md`: a requirement before solicitation, a notice traced to its office, a past requirement with its award and funding
+8. `docs/13_news_as_a_signal.md`: an article as a dated observation
+9. `docs/17_one_requirement_told_in_order.md`: one requirement as an analyst reads it, every statement in the order it appeared
+10. `docs/14_reusing_this_for_another_agency.md`: what travels to the next agency and what is written once for it
 
-Supporting files: `documents_manifest.jsonl` (every document fetched: URL, hash, retrieval
-method and time), `manual_pdf_requests.json` (documents that still need a human to fetch),
-`tools/fetch.py` (the fetch-and-record helper), `tools/lrae_package.py` (rebuilds the LRAE
-data package from saved bytes; `collect` records the lookups it needs).
+## Running it
 
-Tools that run against the production schema, all offline apart from read-only lookups and
-all carrying a `--selfcheck`:
+    .venv/bin/python research/tools/pipeline.py --list
+    .venv/bin/python research/tools/pipeline.py --db navy            # offline rebuild from saved sources
+    .venv/bin/python research/tools/pipeline.py --db navy --collect  # also takes what is new from every source
+    .venv/bin/python research/tools/pipeline.py --db navy --collect --refresh  # and rewrites the saved results
+
+Collection stages touch the network and run only with `--collect`; each takes only what is new. Build stages read
+what is saved, so an offline rebuild repeats byte for byte. The read-back stages compare with the saved results
+and fail on any difference unless `--refresh` is given.
+
+## Tools
 
 | Tool | What it does |
 | --- | --- |
-| `tools/agency_layers_sql.py` | turns the organization memory and the LRAE packages into one transaction of SQL for the agency-intelligence tables |
-| `tools/replay_attributions.py` | feeds each reviewed attribution's own passages to the production `resolve_program_office()` and reports where it agrees |
-| `tools/monitor_forecast_revision.py` | alert C from `06`: LRAE lines whose forecast award window moved between releases |
-| `tools/promote_plan.py` | matches the loaded offices against production, and writes the promotion statements to a file for review |
-| `tools/trace.py` | the three questions from one data set: `status` (which forecast lines whose window has arrived show a notice or an award), `need` (one requirement across releases, offices, contracts, notices and awards), `notice` (an active notice traced to its office, history and candidate lines), `award` (a contract read back to the forecast and forward to what followed); estimates, ceilings and obligations always in separate columns |
-| `tools/sandbox_schema.py` | the schema subset the loader fills (tables, constraints, indexes, trigger functions, triggers; FK-only targets as stubs), dumped from the local database with owners, grants and RLS dropped, so a contributor builds the database locally and runs `trace.py notice` / `need` against it |
-
-## Status
-
-| Deliverable | Status |
-| --- | --- |
-| 00 existing work + pilot definition | done (2026-09-16) |
-| 01 source registry | done (2026-09-16); budget books pending manual retrieval |
-| 02 organization map | done (2026-09-16) |
-| 03 data-connection map | done (2026-09-16) |
-| 04 attribution process + examples | done (2026-09-16); 19 reviewed examples, 17 directly documented after reading SAM.gov notices |
-| 05 early signals + backtests | done; 10 backtests, 5 with public first-notice dates; budget-line table from Comptroller P-1/R-1; House FY2027 marks |
-| 06 continuous-monitor design | done (2026-09-16); forecast-revision alert pattern confirmed against the 2024-to-2025 LRAE release diff (2026-09-18) |
-| 07 implementation backlog | done (2026-09-16) |
-| 08 organization memory format + code families | restructured 2026-09-18: observations, relationships, interpretations; retractions instead of end dates; reviewer fields |
-| 09 manual collection runbook | done (2026-09-17) |
-| contacts | split 2026-09-18 into observations (what a source says) and recommendations (routes with two confidences); every observation checked against saved bytes in `review_log.json` |
-| 11 worked examples end to end (reviewer request 2026-09-20) | done (2026-09-20); organization change, forecast revision and ambiguous match traced source row to alert |
-| LRAE data packages (reviewer request 2026-09-17) | done (2026-09-18); three releases packaged (2023 export, June 2024, June 2025), every sheet reconciled, joins labelled for 2025, release diffs in the newer packages. 2026-09-20: a row is a source record and nothing is marked duplicate at import (June 2024 rows 406, 408-411 recovered) |
-| 12 three use cases on Navy examples (reviewer request 2026-09-20) | done (2026-09-20); NTCDL follow-on (upcoming), MIDS WDL SF3 presolicitation traced to the TDL Program Office, PMW 160 ESS with three generations of awards; forecast-status table over every FY26-or-earlier line; `tools/trace.py` reproduces each from the loaded tables and saved lookups |
+| `fetch.py`, `browserbase_fetch.py` | One address saved under `data/raw/` and recorded in the manifest; the second through a hosted browser with a United States address |
+| `fpds_sweep.py` | FPDS awards by contracting office and signed-date window; `histories` follows each running award through its modifications |
+| `sam_notices.py` | SAM.gov notices by number, and every notice a contracting office posted since FY22 |
+| `protests.py` | GAO's docket of Navy bid protests into dated protest events |
+| `congress.py` | NDAA and defense appropriations committee reports into the directives that name the Navy |
+| `fedreg.py` | The Department of the Navy's Federal Register documents |
+| `news.py` | Articles as dated observations, with the changes of charge they state |
+| `oversight.py`, `remarks.py` | Oversight reports and leaders' words read into dated events by one recorded model call each |
+| `budget.py` | Budget justification books into P-1 line items with their fiscal-year amounts |
+| `sbir.py` | Navy SBIR/STTR topics from the DoD portal |
+| `people.py` | Every contact, speaker and witness the sources name, merged into people with dated positions |
+| `lrae_package.py`, `org_memory_lrae.py` | The forecast releases into the datapack and the organization memory |
+| `agency_layers_sql.py` | The memory, the datapack and every family's events as one transaction of SQL for the agency-intelligence tables |
+| `backtest.py`, `baselines.py` | The frozen corpus and the outcome labels; the back-test and its baselines are computed into `build/` |
+| `pulse.py`, `vocabulary.py` | Every requirement cell scored as of a date, the week's changes and the actions with evidence; the stage and polarity vocabulary |
+| `buying_dna.py`, `vendors.py` | Office books from the saved awards; vendors resolved by UEI |
+| `pages.py`, `trace.py` | Object pages (office, vendor, person, cell) and the traced questions (`status`, `need`, `notice`, `award`) |
+| `coverage.py` | The command by family coverage grid and the per-source status |
+| `graph_export.py`, `schema_subset.py` | The organization graph as the program-office resolver reads it; the schema subset for a local database |
+| `llm.py`, `reader.py` | The recorded model call every reader shares, and the rules a reading must pass (verbatim passage, registry authority) |
+| `replay_attributions.py`, `monitor_forecast_revision.py`, `promote_plan.py` | Attributions replayed through the production resolver, the forecast-revision alert, and promotion SQL written to a file for review |
 
 ## Evidence rules
 
-- Official public sources only. A Wayback Machine capture of an official page counts as a dated
-  copy of that page; the capture timestamp is recorded and is the "available by" date.
-- Third-party mirrors (GovTribe, HigherGov, GovWin) may be cited as pointers, never as evidence.
-- Every claim carries a source URL and an observation date. Inferences are labelled as such.
-- Downloaded bytes live in `data/raw/` (not committed); their hashes are in
-  `documents_manifest.jsonl`.
+- Official public sources only. A Wayback Machine capture of an official page counts as a dated copy of that page.
+- Third-party mirrors may be cited as pointers, never as evidence.
+- Every claim carries a source URL, an observation date and the passage; inferences are labelled as such.
+- Downloaded bytes live in `data/raw/` (not committed); their hashes are in `sources/documents_manifest.jsonl`.
 
 ## Check
 
-```bash
-python -m pytest tests/
-```
+    python -m pytest tests/

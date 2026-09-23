@@ -1,6 +1,6 @@
 # 04 - Contract-to-program-office attribution: process and reviewed examples
 
-Written 2026-09-16. Machine-readable examples: `attribution_examples.json` (one record per
+Machine-readable examples: `research/memory/attribution_examples.json` (one record per
 reviewed contract, order, vehicle or modification, with quoted passages and source URLs). The
 table below is generated from that file.
 
@@ -28,7 +28,7 @@ in a fixed order and records how strong the result is, including when it is "we 
    command is strong evidence against the pilot portfolio (EX09).
 3. **Look for an office code or explicit ownership language in the description** ("PMW 160",
    "PMW/A 170", "PROGRAM MANAGER, WARFARE TACTICAL NETWORKS (PMW 160)", "IN SUPPORT OF PEO MLB
-   PMW 220"). A match against the alias table in `organization_seed.json` yields
+   PMW 220"). A match against the alias table in `research/memory/organization_seed.json` yields
    `directly_documented`. Lists of several offices yield a multi-office result with a primary and
    supporting offices; unknown tokens stay unresolved inside it (EX07). A PEO-level mention
    ("PEO C4I") resolves to the portfolio or its front office, not to a PMW (EX17).
@@ -64,7 +64,7 @@ in a fixed order and records how strong the result is, including when it is "we 
 
 Likely contacts per office, from published sources only (tear sheets, change-of-command releases,
 the LRAE's published contracting points of contact, official small-business and industry pages),
-are in `contact_observations.json` and `contact_recommendations.json` with a confidence label and the reason for it.
+are in `research/memory/contact_observations.json` and `research/memory/contact_recommendations.json` with a confidence label and the reason for it.
 
 ## 2. Evidence classes
 
@@ -96,7 +96,7 @@ vehicle, NAICS, PSC, platform or system name, or a semantic resemblance.
 | EX12 | `N0003920D0054` | Leidos, Inc. | N00039 | office:nen | directly_documented | Program-name case resolved through an official article that names the awarding office. Ownership changed parent twice (PEO EIS to PEO Digital in 2020; |
 | EX13 | `N0003915D0042` | Data Link Solutions LLC (com | N00039 | pmw:101 | directly_documented | Attribution at vehicle level is acceptable here because the IDV is single-purpose (MIDS-LVT), unlike SeaPort-NxG. Modification P00029 (2026-05-14) fal |
 | EX14 | `N0003920F9504` | Serco Inc. | N00039 | pmw:160 | directly_documented | Program-name inference with recorded counterevidence: production buys of ADNS enclaves through NAVWAR HQ fit the program office of record; in-service  |
-| EX15 | `N0003919F9520 (modification P00019)` | L3 Technologies, Inc. | N00039 | pmw:101 | directly_documented | Process point: a modification is attributed through its base award, never from the modification text alone. Upgraded 2026-09-16: the 2014 presolicitat |
+| EX15 | `N0003919F9520 (modification P00019)` | L3 Technologies, Inc. | N00039 | pmw:101 | directly_documented | Process point: a modification is attributed through its base award, never from the modification text alone. The 2014 presolicitat |
 | EX16 | `N0003920D0021` | Raytheon Company | N00039 | pmw:170 | directly_documented | Ambiguous by rule: a functional match between a program name and an office mission is candidate generation, not ownership evidence. Resolution path: t |
 | EX17 | `N0003921F3014` | XST Inc. | N00039 | peo:c4i | directly_documented | Portfolio-level owner. The resolver must stop at PEO C4I here rather than pick PMW 750 or PMW 760 because the work is integration for the portfolio; t |
 | EX18 | `N0003917F3010` | Booz Allen Hamilton Inc. | N00039 | pmw:170 | directly_documented | SAM.gov search for the order's solicitation number returned no notice (SeaPort-NxG task-order competitions are not posted on SAM.gov). |
@@ -128,10 +128,10 @@ from the base award (EX13).
   the same program (ADNS) appears both as a PMW 160 production buy and as NIWC Pacific
   in-service engineering work (EX14).
 - SAM.gov notice text resolved every `inferred` and `ambiguous` case that had a notice: six
-  examples moved to `directly_documented` on 2026-09-16 once the site API was used. What remains
-  inferred or unresolved are SeaPort-NxG orders and an NIWC vehicle whose task orders were not
-  pulled. The notices' attachment lists hold no documents, only PIEE Solicitation Module links,
-  so the statement of work itself stays behind the PIEE login; the notice synopsis is what SAM.gov
+  examples moved to `directly_documented` once the site API was used. What remains
+  inferred or unresolved are SeaPort-NxG orders and an NIWC vehicle. The notices' attachment
+  lists hold no documents, only PIEE Solicitation Module links, so the statement of work
+  itself stays behind the PIEE login; the notice synopsis is what SAM.gov
   publishes and it is enough to name the office.
 - The documented public API host (api.sam.gov) answered 404 from two networks; the keyless site
   API that the SAM.gov web application uses (and that Chromie's runner already uses) worked for
@@ -144,8 +144,7 @@ The classes above line up with the production resolver's evidence rules
 contracting office, platform, NAICS and vendor cannot create ownership; abstention is a result).
 Each record here is a gold candidate: `directly_documented` rows as positives, EX09-EX12 as
 hard negatives for the PEO C4I portfolio, EX07 as a multi-program case, EX12 and EX13 as
-reorganization cases, EX16 and EX19 as abstentions. Replaying them is a one-hour task once the
-seed graph is loaded as organization rows; it is not done in this phase.
+reorganization cases, EX16 and EX19 as abstentions.
 
 ## Replay against the production resolver
 
@@ -154,37 +153,24 @@ in a local database. It feeds each example's own passages to
 `resolve_program_office()` and compares the answer with the office recorded here.
 Offline, no network.
 
-| Outcome | Examples |
-| --- | --- |
-| Match | 13 |
-| Correctly unresolved (EX19, no office named anywhere) | 1 |
-| Right office surfaced but not asserted (EX12) | 1 |
-| Partial (EX07, two of three offices) | 1 |
-| Out of scope (EX17 owner is a PEO; the resolver only asserts program offices) | 1 |
-| Declined (EX03, EX06) | 2 |
-
-Fourteen of nineteen agree outright and one more is a correct abstention, which is the
-result the evidence gating is meant to produce.
-
 Three things the replay established that reading the resolver would not have:
 
 **An office with no confidence value is invisible to it.** `_organization_has_provenance`
 requires `source`, `source_ref`, `observed_at` *and* `confidence`. Loaded with a null
-confidence - which is what this research holds, since no source states a number -
-every office was skipped and all nineteen examples declined. A confidence is part of
-the interface, not a source value. The loader now sets 1.0 where a source states the
+confidence (which is what this research holds, since no source states a number),
+every office was skipped. A confidence is part of the interface, not a source value.
+The loader sets 1.0 where a source states the
 claim outright and 0.5 where it was derived; 0.5 sits below the resolver's
 `MIN_HIERARCHY_CONFIDENCE` of 0.8, so a derived edge cannot drive an ancestry walk.
 
 **EX03 and EX06 decline on the same shape.** Both rest on a requirement title that
-leads with the office code and says nothing else - "PMW 160 PROFESSIONAL SUPPORT
+leads with the office code and says nothing else: "PMW 160 PROFESSIONAL SUPPORT
 SERVICES", "PMW/A 170 CYBERSECURITY, ENGINEERING, AND TECHNICAL SUPPORT SERVICES."
 The resolver wants an ownership clause around the alias and a bare title has none. It
 declines identically whether the text arrives as an attachment fragment or as the
 record's own `award_description`, so this is the rule and not an artefact of how the
-replay passes evidence. Whether a code-prefixed requirement title on a NAVWAR task
-order should count as ownership is a judgement for the resolver's owner; this package
-reads it as directly documented and the resolver does not.
+replay passes evidence. This package reads a code-prefixed requirement title on a
+NAVWAR task order as directly documented and the resolver does not.
 
 **EX17 is not a miss.** `PROGRAM_OFFICE_TYPES` is `{"program_office"}`, so a PEO can
 never be a candidate. An example whose owner is a PEO is outside what the resolver

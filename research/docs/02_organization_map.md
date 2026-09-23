@@ -1,9 +1,9 @@
 # 02 - Organization and program-office map
 
-Written 2026-09-16. The machine-readable graph is `organization_seed.json` (nodes, edges,
-validity dates, one or more dated official citations each). This document explains the shape of
-the map, the reorganization timeline it encodes, the alias problem, and how the map should be
-maintained when the Navy moves offices around.
+The machine-readable graph is `research/memory/organization_seed.json` (nodes, edges, validity dates, one or
+more dated official citations each). This document explains the shape of the map, the
+reorganization timeline it encodes, the alias problem, and how the map is maintained when the
+Navy moves offices around.
 
 ## In plain terms
 
@@ -58,7 +58,7 @@ SHARKCAGE -> PMW 130; force-level platform integration -> PMW 750/760.
 | 2020-05-13 | DASN(IW&ET) directs the disestablishment of PEO EIS and the realignment of its programs into PEO Digital and PEO MLB; NEN awarded the SMIT contract the same year | DON CIO CHIPS article (April-June 2020, retrieved live 2026-09-16); PEO Digital legacy article |
 | 2023-05-23 | PEO C4I marks 20 years; 11 program offices listed; PEO Rear Adm. Kurt Rothenhaus | NAVWAR article (Wayback 2025-12-31) |
 | 2023-05 | Dr. William Luebke acting PEO C4I | PEO C4I leadership page (Wayback 2026-04-12) |
-| by 2025-05-13 | PMS 485 (Maritime Surveillance Systems) appears under "PEO Undersea Warfare Systems" in a NAVWAR presolicitation; the 2019 J&A had placed it under PEO Submarines. Two relationships in the seed graph with effective dates unknown (the earlier day-before dates were retracted, see 08 section 6); the realignment date itself is not published | SAM.gov notices N0003925R1006 (2025-05-13) and N00039-19-R-0002 (2019-07-03) |
+| by 2025-05-13 | PMS 485 (Maritime Surveillance Systems) appears under "PEO Undersea Warfare Systems" in a NAVWAR presolicitation; the 2019 J&A had placed it under PEO Submarines. Two relationships in the seed graph with effective dates unknown; the realignment date itself is not published | SAM.gov notices N0003925R1006 (2025-05-13) and N00039-19-R-0002 (2019-07-03) |
 | 2025-08-19 | PMW 150 and PMW 760 change program managers | DVIDS release |
 | 2026-03-15 | Five PAEs established (Industrial Operations, Marine Corps, Maritime, Strategic Systems Programs, Undersea) | paemaritime.navy.mil release |
 | 2026-05-11 | PAE Mission Systems established; PEO C4I among the consolidated organizations | DVIDS release |
@@ -75,32 +75,36 @@ SHARKCAGE -> PMW 130; force-level platform integration -> PMW 750/760.
 | FPDS and USAspending descriptions | `PMW 160`, `PMW/A 170`, `PEOC4I`, `PEO C4I`, `PROGRAM MANAGER, WARFARE TACTICAL NETWORKS (PMW 160)` | regex over the alias table; PEO-level mentions resolve to the portfolio, not an office |
 | Office names over time | PMW 150 "Navy" vs "Naval" Command and Control Systems; PMW 790 with and without "Tactical" | both names kept with dates |
 | SAM.gov notice text | "Navy Command and Control Program Office (PMW 150)", "International Integration Program Office (PMW 740)", "MIDS International Program Office (IPO)", "Naval Enterprise Networks Program Office (PMW 205)" | first-sentence office names; IPO/MPO map to PMA/PMW 101, NEN to PMW 205 |
-| PEO Digital and PEO MLB in the LRAE | `Pf007NERP`, `Pf004MNHR`, `Pf005NABS`, `Pf008MLBFO`, `Digital TD`, `PEO-MLB`, `PCE` instead of PMW codes | recorded as HQ/PEO codes; office-level crosswalk needs the PEO Digital and PEO MLB pages (blocked hosts, manual queue) |
+| PEO Digital and PEO MLB in the LRAE | `Pf007NERP`, `Pf004MNHR`, `Pf005NABS`, `Pf008MLBFO`, `Digital TD`, `PEO-MLB`, `PCE` instead of PMW codes | recorded as HQ/PEO codes |
 | NIWC requirement offices | `LSUBP000xx - <division> - NIWCLANT`, `NP-xxxxx - <competency> - NIWCPAC` | technical-center divisions, never program offices |
 | Contracting offices | `N00039 - NAVWAR` (LRAE), `NAVAL INFORMATION WARFARE SYSTEMS` (FPDS), `N00039` (PIID prefix) | one node with all three |
 | Command name in old records | award descriptions written after 2019 say "NAVWAR" even for 2016 awards | descriptions are re-authored at modification time; never date an organization from an award description |
 
-### 3a. Where the PMWs sit in the new portfolio structure (candidate mapping, not yet documented)
+### 3a. Where the PMWs sit in the new portfolio structure (candidate mapping)
 
-The PAE Mission Systems site names five capability portfolios but has not published which former
+The PAE Mission Systems site names five capability portfolios without listing which former
 offices belong to each. Reading the portfolio names against the PEO C4I tear sheets suggests:
 PMW 120, PMW 130 and PMW 150 under "Naval Intelligence, C2, Cyber Warfare & Information
 Operations"; PMA/PMW 101, PMW/A 170 and PMW 770 under "Sensors, PNT, EW & Communications
 Systems"; PEO Digital's offices under "Digital Infrastructure & Services"; PEO MLB's under
 "Warfighter Enterprise Business Services"; PEO IWS under "Combat Systems & Fires"; PMW 740, 750,
-760 and 790 (integration and international offices) unplaced. This is an inference and is
-recorded only here until an official page lists the offices; the seed graph keeps the PEO C4I
-parentage with the dated consolidation edge.
+760 and 790 (integration and international offices) unplaced. This is an inference; the seed
+graph keeps the PEO C4I parentage with the dated consolidation edge.
 
-## 4. What is not yet in the map
+## 4. NAVSEA, ONR and NRL organizations
 
-- PEO Digital and PEO MLB office inventories: their live sites (About, Offerings, Portfolio and
-  Industry pages, reached through a US browser on 2026-09-16 and 2026-09-17) describe solution
-  areas and carry the consolidation notice but name no offices; the LRAE codes stay the public handle.
-- Office-level detail of what moved into PAE Mission Systems; the release lists organizations,
-  not program offices.
-- NIWC Pacific and Atlantic division inventories beyond the codes observed in the LRAE.
-- PMS 485's current parent after the 2026 reorganization (the 2019 J&A places it under PEO Submarines, NAVSEA).
+NAVSEA, ONR and NRL organizations are in the memory as their sources print them
+(`org_memory_lrae.py`): the LRAE office and contracting columns, the NAVSEA HQ deputy program
+manager list of July 2025 (PMS offices under PEO CARRIERS, PEO SHIPS, SEA 21, PEO IWS, PEO USC
+and the directorates, 50 parent edges) and twelve statements read off the official NSWC Corona
+and NSWC Indian Head department pages (`research/memory/org_page_statements.json`, passages checked
+against the saved pages). The 168 generated nodes are all `draft` and carry the sheet's names
+(`NSWCPD`, `Newport`) rather than full names. Department placements that the generator infers
+from the row's contracting office say so (`evidence_class: inferred`). Rows that no source
+places (`TBD`, cells naming several organizations, unplaced free text, organizations outside the
+Department of the Navy, fleet units) stay unresolved. Shipyard pages name no codes publicly; the
+Corona and Indian Head pages spell several departments differently from the sheet, so the
+statements file records each reading as the agent's judgment.
 
 ## 5. Maintaining the map when the Navy changes
 
@@ -118,5 +122,6 @@ parentage with the dated consolidation edge.
 
 Mapping to Chromie: nodes are `gov_organizations` rows (with `org_type`, aliases,
 `valid_from/valid_to`, provenance columns); edges are `gov_organization_relationships` rows; the
-existing PEO C4I rows created from the 2023 article need the 2026 names added as aliases and a
-`consolidated_into` relationship to a new PAE Mission Systems organization dated 2026-05-11.
+2026 names map to aliases on the existing PEO C4I rows created from the 2023 article, and the
+consolidation maps to a `consolidated_into` relationship to a PAE Mission Systems organization
+dated 2026-05-11.

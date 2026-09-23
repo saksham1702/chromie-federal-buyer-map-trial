@@ -1,8 +1,8 @@
 # 06 - Continuous monitor: design, schedules, change detection, review, metrics, sample alerts
 
-Written 2026-09-16. This is a design, not an implementation. It separates the reusable core from
-the Navy-specific adapters, names the existing Chromie tables each part would use, and gives four
-sample alerts built from evidence gathered in this package.
+This document separates the reusable core from the Navy-specific adapters, names the existing
+Chromie tables each part would use, and gives four sample alerts built from evidence gathered in
+this package.
 
 ## In plain terms
 
@@ -70,7 +70,7 @@ the PEO and command web pages, the budget-book exhibits) and the alias table of 
 
 | Layer | Reusable core | Navy-specific adapter |
 | --- | --- | --- |
-| Source registry | `gov_procurement_sources` rows with `access_mode`, `refresh_cadence`, `verification_status`, `last_verified_at`, `known_access_gaps` | the 29 records in `source_registry.json` |
+| Source registry | `gov_procurement_sources` rows with `access_mode`, `refresh_cadence`, `verification_status`, `last_verified_at`, `known_access_gaps` | the 29 records in `research/sources/source_registry.json` |
 | Fetch and preserve | one fetch-and-record helper (direct, archive capture, browser, manual) writing a manifest row per retrieval, including failures and firewall stubs | fallback order per host (Wayback, WARP-off, Browserbase, manual) |
 | Extract | PDF page-addressable text; spreadsheet row-addressable with a stable key; HTML text with link list | Annex 25 parser (header on row 6 or 7, PID as key); P-40/R-2 exhibit parser (line item, P-1 line, related PE, cost profile); tear-sheet parser (office, programs, PM) |
 | Organization graph | `gov_organizations` + `gov_organization_relationships` with validity dates and provenance | alias table for PMW/PMA/PMS codes, LRAE HQ codes, NIWC competency codes; reorg-release reader |
@@ -141,7 +141,7 @@ per PID across LRAE releases; one organization per canonical id with aliases.
 
 ## 5. Keeping ownership mappings current
 
-See `02_organization_map.md` section 5. In monitor terms: a hash change on an organization page
+See `research/docs/02_organization_map.md` section 5. In monitor terms: a hash change on an organization page
 or a reorganization release opens a review item; approved changes add dated edges and never
 delete history; unknown codes seen in the LRAE or award text enter the alias table as
 `unverified` and block automatic attribution until confirmed.
@@ -168,7 +168,7 @@ single source. Reviewers confirm, correct or reject; confirmed results become re
 | Coverage | share of NAVWAR HQ (and NIWC) actions in the window with an attribution or a reasoned abstention; share of PEO C4I LRAE rows tracked to a notice or award | FPDS, LRAE, attribution table |
 | Attribution accuracy | precision by evidence class against reviewed examples; abstention correctness | review queue outcomes |
 | Alert usefulness | reviewer rating per alert; share acted on | review queue |
-| Advance notice | days between the earliest recorded signal and the first notice or award for the same requirement | backtests in `05_early_signals_and_backtests.md` |
+| Advance notice | days between the earliest recorded signal and the first notice or award for the same requirement | backtests |
 | Source health | share of sources verified within cadence | source registry |
 
 ## 8a. Alerting posture: recall first
@@ -238,24 +238,6 @@ Format: what changed; affected office and ancestry; evidence; uncertainty; why i
 - Why it matters: a recompete of a five-year support order is the most predictable event in the
   portfolio and the one a competitor can prepare for earliest.
 
-## 10. Gaps against the existing Chromie model
-
-- No entity for a forecast row (LRAE) or a budget line; both would be `gov_intel_facts` with
-  structured `data` today, which is queryable but not typed. A typed row-keyed table for
-  forecasts (PID, release, office, existing contract) and for budget lines (appropriation, line
-  item, PE, fiscal-year columns) would make revisions and deltas first-class.
-- `agency_brain_documents.doc_type` lacks LRAE, tear sheet, RFI and industry-day types; the
-  Python model already lists some of them.
-- Organization-scoped Agency Brain items exist (`scope_organization_id`), so PMW-level budget,
-  forecast and people claims fit without schema change.
-- Attribution edges (`gov_procurement_organizations`) have a relationship type and confidence but
-  no evidence-class field; the class can live in `source_ref` or `match_basis` until a column exists.
-
-Update 2026-09-18: a layered production model was proposed that adds exactly these entities
-(programs, needs, need requirements, procurement references, funding observations, evidence
-references) on top of `gov_organizations`. The LRAE package under `datapack/` already writes its
-rows in those layers (`layers/`), so the pilot data loads without reshaping once the tables exist.
-
 ## 11. Reusable versus Navy-specific, and expansion
 
 Reusable without change: fetch-and-record, document versioning, FPDS/USAspending/SAM/govinfo/
@@ -268,6 +250,47 @@ PEO MLB, PEO IWS) using the same LRAE and FPDS adapters; NAVSEA and NAVAIR portf
 LRAEs; other military departments by swapping the budget-book parser's exhibit conventions;
 civilian agencies through the existing Agency Brain per-agency ingest pattern.
 
+## 12. Oversight reports as findings
+
+GAO and the inspectors general state, in dated documents, what a command cannot do yet, what slipped and what
+it agreed to fix. The oversight chain (finding, problem, affected program, remediation, the acquisition
+need that may follow) is read by an agent, not a rule: `research/tools/oversight.py` makes one structured call
+per report (`llm.py`, gpt-5.4-mini, strict JSON schema, low reasoning) and records it as a cassette under
+`research/cassettes/`, so a rebuild replays for free and `extract --check` fails when a replay would change
+the file. Rules check the agent afterwards and drop what they cannot verify: the evidence span, the program,
+organization and remediation names must sit on the saved text verbatim (after one flattening both sides see:
+one space, straight quotes, ASCII hyphens); a money figure must be inside the span; the event type must be one of
+the schema's; the source authority is the registry's word for the host, never the model's. Organizations are
+linked through the memory's aliases, from the event's own words first and the report's opening pages second.
+
+Connector: oversight.gov's federal listing for the queries `Navy` and `Naval` (a relevance search, so a date cut
+applies after the page is read; investigations of a named person are left), the report page and its PDF, and the
+GAO report feed; gao.gov product pages come through Browserbase because the site refuses this address, and older
+GAO products are found by search discovery (Exa, `includeDomains gao.gov`, `discover --fetch`). Pipeline stages:
+`audits` (network) and `oversight` (agent, replays). Loader: one `narrative` item per report with findings, one
+`narrative` item per finding carrying `event_type`, `published_at` (the issue date), `official` tier, the registry
+provider and the linked organization, and one evidence row per finding with the passage.
+
+## 13. Leaders' words as events: speeches, testimony, conferences
+
+`research/tools/remarks.py` reads all three as one family, on the same agent-and-rules pattern as
+the oversight family (section 12), with `reader.py` holding the rules both use. Connectors: the navy.mil speech
+and testimony archives (index pages and articles through Browserbase, since the site refuses this address),
+the House Committee Repository feeds for Armed Services and Appropriations (direct and keyless: hearing page,
+witness panel, witness statement PDFs; the feed's plain-http links are requested as https because the redirect
+answers a shell), and Exa discovery for conference pages that name Navy officials (direct fetch, Browserbase
+on refusal, a Cloudflare challenge stays unread). The agent states, per document, who spoke, in what role, at
+which event and host, to which audience, and the events: a capability named as a priority, a strategy stated,
+industry asked, an official's appearance at a named event, a congressional directive, a funding change, a
+program delayed, created or cancelled. The rules keep an event when the passage, the program, organization and
+person are on the flattened text verbatim; the speaker, role, venue and host fields are kept as the text writes
+them or blanked. A conference page is `editorial` tier and `third_party` authority; the government's own words
+are `official` and `first_party`. Loader: one item per document, one per event, one evidence row per event;
+pipeline stages `podium` (network) and `remarks` (agent, replays). Every event carries the document's date and
+the record says where it came from: a navy.mil article's own "Presented on" field (the dateline is the place),
+a hearing page's stated date, and for a conference page its meta or JSON-LD date, else the search index's date,
+else the retrieval date (`date_basis`).
+
 ## 10. Alert C, implemented
 
 `python research/tools/monitor_forecast_revision.py` produces alert C from the loaded
@@ -278,7 +301,7 @@ moved produces nothing.
 Against the three NAVWAR releases it reports **14 forecast revisions, 13 of them
 slips**. Each alert carries the five parts section 9 specifies. One example, abridged:
 
-> **N00039-23-RFPREQ-PMW/A-170-0173** - All SATCOM Multi Award Contract (C)
+> **N00039-23-RFPREQ-PMW/A-170-0173**: All SATCOM Multi Award Contract (C)
 > - What changed: anticipated award slips FY24 Q2 -> FY27 Q2 between the 2023-06-20
 >   and 2025-06-19 releases.
 > - Office: PMW/A 170 Communications and GPS Navigation Program Office. Ancestry:
@@ -294,10 +317,159 @@ fiscal period. Across these three releases that count is zero: five estimates ar
 restated in a later release and every one restates the identical range, so the alert
 stays quiet rather than reporting a re-publication as news.
 
-Two details worth keeping when the other alerts are built. The ancestry walk has to
+Two details of the implementation. The ancestry walk has to
 climb `parent_organization_id` **and** then look for a documented successor of each
 office on that path: the 2026-05-11 reorganisation is a `successor_to` edge, not a
 parent, so a parent-only walk reports the pre-reorganisation chain as though nothing
 had happened. And a fiscal quarter has to be read back from the calendar date rather
 than the calendar quarter, or every October-to-December award window is reported a
 year early.
+
+## 14. Temporal engine, weekly pulse and actions
+
+`research/tools/pulse.py` reads the frozen back-test corpus and its labels, never a live pull, and treats every
+cell (an office and the names and capability terms one requirement goes by: the labelled outcomes and the 309
+forecast rows the pilot offices own) the same way. A cell's score as of a date has four named parts, each 0 to 1,
+weighted 40/20/20/20 and summed in decimal arithmetic so the stored score recomputes exactly from the stored parts
+(T4.2, T4.3): families, the distinct document families among the events available by that date,
+over five; recency, one at 0 days and zero at 365 for the newest event; persistence, how many of the last eight
+calendar quarters carried an event; and procurement proximity, 1.0 for a notice in the last year or an incumbent
+ending within two years, 0.5 for a forecast row touched in the last year, halved when a forecast revision moved
+the solicitation or award date later (the slip flag). Families
+and quarters drive the score, never event counts, so five events from one speech weigh as one (T4.4), and with no
+new events the score never rises as the clock moves (T4.5). Each scored cell lists one or two events per family.
+
+The pulse for a week is exactly the events that became available in it, per office, in the counting register
+("PMW 740: 1 event across 1 family; rfp released: 1") and never a forecast of a release (T5.4). Actions come from
+a closed list (meet office, attend event, research program, find partner, monitor forecast, watch expiration,
+track person) and every row points at the events behind it (T7.1, T7.2): a cell with three families asks for a
+meeting with one event per family attached; a forecast row touched in the last year is monitored; an incumbent
+ending within two years is watched; an appearance this quarter is an event to attend.
+
+Over the swept corpus: 466 cells, of which 48 of the top 50 hold three families
+(MIDS rows at the top on forecast, incumbent and notice) and two hold five (PMW 740's CIIS rows: forecast,
+incumbent, notice, an organization page and a news claim); 518 actions (283 meet office, 201 watch expiration,
+20 monitor forecast, 12 find partner, 2 attend event), one row per action, office and evidence, so ten MIDS cells
+sharing one expiring terminal contract watch it once; the last week carried 19 events, 15 of them base awards
+NAVWAR HQ signed. `pipeline.py` stages `backtest` and `pulse` replay and recompute both files
+and fail on drift; `tests/test_pulse.py` holds T4.2 to T4.6, T5.4, T7.1 and T7.2 on the real files.
+
+## 15. People, money and programs; coverage and the pulse's reports
+
+People, money and programs each come from a connector or a merge with no judgment in it, and three reporting
+fields sit on the pulse without touching its score.
+
+People (T2.4). `research/tools/people.py` merges every named person the saved sources carry into
+one file: the primary and secondary points of contact on every SAM.gov notice detail (402 observations), the
+contracting and secondary contacts on the forecast rows (97), the speakers of the navy.mil speeches and the
+witnesses of the House hearings (57), and the officials the conference pages name (9). Two observations are one
+person when they share an e-mail address, else when the normalised name and the office agree; a person the
+organization memory already holds keeps the memory's contact id. Every position carries the office it was resolved
+to, the date of the document, the source, its reference and a confidence from a fixed table by source. A SAM.gov
+point of contact follows the office the notice names when it names exactly one, else the notice's organization; a
+speaker follows the office the event's organizer states, else the Department. 565 observations give 173 people with
+564 dated positions, loaded into gov_contacts and gov_contact_positions on the schema's role vocabulary. Contacts
+attach to the meet-office action, never to the evidence and never as a scoring family: 312 of 315 meetings name
+whom the record ties to the office.
+
+Money. `research/tools/budget.py` reads the FY2027 Other Procurement, Navy budget activity 2
+justification book with pdftotext in layout mode, splits pages on the form feed, and takes each Exhibit P-40 as one
+P-1 line item with the twelve resource-summary columns the book prints. A line whose FY2027 total differs from
+FY2026 is a funding_change event and a flat line a budget_line; the event date is the end of the book's month
+(2026-04-30), the office is the program office the justification prose names when it names one, else the
+Department, and the prose is the evidence text. 48 line items (45 changes) load as the budget family; MIDS sits in
+line 2614 and CANES in 2915 and 2925.
+
+Programs. `research/tools/sbir.py` reads the DoD SBIR/STTR portal's public topics API. Every SBIR
+host refuses this machine's address and the portal refuses the hosted browser's request context, so each page is
+fetched from inside a loaded portal page; the API ignores every filter and honours the sort, so the sweep reads all
+components newest first and stops at the FY2020 window (seven index pages of 500), then saves the detail of every
+Navy topic in the window. A topic is an sbir_topic event dated the day it was first shown to industry (the
+pre-release date), under the program office its text names, else the sponsoring command (NAVSEA, NAVAIR, NAVWAR),
+else the Department: 1,100 Navy topics since FY2020, 34 of them naming a program office.
+
+Coverage and status (T1.5). `research/sources/coverage_matrix.json` is a hand-written grid of five
+commands (NAVSEA, NAVAIR, NAVWAR, ONR, NIWC) by twelve families; a cell names the registered sources that cover it
+or states why none does, from a closed list (no public source, blocked, restricted, not started) with a note.
+`research/tools/coverage.py check` refuses a source the registry lacks, a source that has collected nothing, an
+empty cell without a reason, or a hole in the grid. `coverage.py status` writes
+`research/sources/source_status.json`: per registered source the events in the frozen corpus, the newest event date, the documents on disk, the newest retrieval and its hash; hosts
+the registry does not own are listed, not hidden (four one-off pages). The registry carries a row for the news
+articles the search sweep finds.
+
+The pulse's reports. Each scored cell also states which families first appeared in
+the last 90 days (novel_families), how many events landed in the last quarter against the quarter before
+(momentum), and which vendors hold its contracts by count of incumbent awards (vendors, from the frozen rows'
+vendor field). None of the three is a score part: every score recomposes from
+the four named parts. As of the corpus end, 45 of 467 cells gained a family in the last 90
+days, 64 carry more events this quarter than last, and 326 name an incumbent vendor.
+
+## 16. One vocabulary for events; the card and the office book
+
+Vocabulary. Every frozen event carries a stage and a polarity, set at freeze by
+`research/tools/vocabulary.py` from its type and its statement. Ten stages: strategy, budget, program, research,
+engagement, forecast, market research, solicitation, award, execution; the procurement path runs forecast, market
+research, solicitation, award. Polarity is positive, negative or neutral. A forecast that slipped, a justification for
+other than full and open competition, a bridge or extension modification, a delay and a cancellation are negative; a
+funding line whose amounts fall by half or to zero is negative and one that dips is neutral; the amounts are read from
+the statement, not the narrative, because the P-1 justification prose names cuts elsewhere in the account. The corpus
+holds 6,752 positive, 197 neutral and 81 negative statements: 40 justifications, 24 forecast slips, 10 delays, 4
+renewals, 2 cuts and 1 cancellation. A cell's stage is its newest non-negative path event within two years, else
+shaping when the record spoke outside the path, else dormant; `next` names the milestones after that stage; `for`
+counts the statements for it and `against` lists the negative statements of the last year, and any statement against
+halves the proximity part, which generalises the slip rule of section 14. Among the top fifty cells, forty stand at
+solicitation, five at market research, three at forecast and two at award, and none carries a statement against.
+`pulse.py card <cell>` prints the Why-Now card: stage, next milestones, for and against, the four score parts, one
+statement per family and the people the record ties to the office. The weekly diff groups by command as well as by
+office and states which areas moved: in the week ending 2026-09-21, the Naval Information Warfare Systems Command
+gained sixteen statements in execution and solicitation at N00039 and PMW 740, and no command recorded a negative.
+
+Office book. `research/tools/buying_dna.py` reads the 4,061 base awards N00039 signed from
+fiscal year 2020 from the saved FPDS pages, with their coded fields. The datapack's joins carry the vehicle, parsed
+from the nested vehicle identifier, on 3,826 of the awards. The book: median
+$326,021 (quartiles $58,826 and $2,830,394); 94 percent under a vehicle, of which Idc 86 percent; Bpa 8 percent, 82 percent single
+award; 86 percent of actions are delivery orders; 53 percent full and open and 33 percent not competed; 86 percent
+with no set-aside and 9 percent total small business set-asides; 83 percent firm fixed price and 15 percent cost plus
+fixed fee; NAICS 541512 and 334220 at 31 and 30 percent; median duration 7 months; 340 vendors, the largest at
+25 percent of awards and the top three at 46 percent, concentration index 0.091. Only 4 requirement lines were awarded again as a
+contract or vehicle, 5.5 months apart at the median: an office that buys through orders shows its recompetes as new orders, which
+text alone cannot tell from repeat orders. Thirteen program offices have a
+book of their own, each of one to nine awards, because only an award a forecast line names by requirement number
+reaches an office in the frozen corpus; 3,893 of the 3,960 incumbent statements sit at the contracting office. The
+attribution process itself is document 04, and the layer loader applies it to every swept award: the office code in the
+description, then the one office a saved notice under the same solicitation names, then the funding office, then the
+contracting office (70, 1,242, 5,571 and 490 of 7,373 awards). Every one of the fifty positions
+states the lead vendor and since when, the next contract end and the contracts ending within two years: the MIDS engineering and logistics line holds 175 contracts, 28 live,
+Data Link Solutions L.L.C. on 66 of them since 2019-11-25, the next end 2026-09-30, and the reading is a recompete environment.
+
+Object pages. The layer wraps the twin, so every object of the twin can be read on demand with the sources
+that speak about it. `research/tools/pages.py` prints an office, a vendor, a person or a requirement cell as text from
+the frozen corpus, the people file and the office book, and ends every page the same way: the sources speaking about
+this object, with statements, first and last date and days silent, and the families that have never spoken about it.
+PMW 150 on 2026-09-21: 74 statements from five sources, the forecast annex silent 459 days and the topics 593, and
+six families silent, budget, conference, congress, leaders, news and oversight. A vendor page lists the contracts,
+the offices, the live count and the ends within two years; a person page lists the dated positions and the sources
+that named the person; a cell page is the Why-Now card with the sources under it. Nothing is stored: a page is the
+record read at one point.
+
+Vendors by identifier. The record names a vendor as the feed spelled it on the day, so the same
+company appears under two strings when its registration changed. `research/tools/vendors.py` reads the 4,061 saved
+awards and resolves them by Unique Entity Identifier: 297 vendors, 24 of them spelled two or more ways, 111 under a
+parent entity, 11 spellings seen under two identifiers (a re-registration), and every award carries an identifier.
+A vendor page reads through the identifier, so a query for either spelling of Data Link Solutions returns the 117
+awards under both. The feed's HTML escaping (an ampersand written as an entity) is
+undone where the feed and the notices are read, with a check on the frozen record.
+
+Program managers from the record's news. The public documents that name a program manager are the Navy's
+own change-of-charge articles (DVIDS, the DON CIO's CHIPS magazine, the outlets that carry a Portfolio Acquisition
+Executive appointment). `research/tools/news.py` reads every saved article for a change of charge as those outlets
+write it: who relieved whom as what, and the office the same clause goes on to name, resolved through the organization
+memory's aliases. The reading is deterministic and replays; a page that states the same change three times (a teaser, a
+caption, the body) yields one row, the one whose clause names the office. `people.py` turns each row into a dated
+position with the article as its source, so the PMW 770 change of command of 2025-05-07 and the PEO C4I ceremony of
+2025-08-19 give nine program managers, and the PAE Mission Systems head of
+2026-05-11 an acquisition leader. A change the memory cannot place, a subject named by surname alone or an office with
+no alias (Project Overmatch is known to the memory as DRPM Project Overmatch; PAE Aviation, Maritime and Munitions sit
+outside the pilot), is written to research/memory/people.json as an unplaced row rather than dropped. Discovery ran as five
+Exa queries; the DVIDS feed the watch stage polls carries no unit filter, so a later
+change of charge that names an office is taken there without a query.
