@@ -7,7 +7,6 @@ data/raw/
 *.pyc
 
 ._*
-datapack/**/*.csv
 research/**/*.json
 research/**/*.jsonl
-datapack/**/*.json
+datapack/

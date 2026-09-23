@@ -17,10 +17,10 @@ nothing.
 | `results/` | What the layer reads back: `corpus.json` (every dated event and outcome frozen from the database), `outcome_labels.json` (the office and names each outcome goes by, in its own words), `pulse.json`, `buying_dna.json` |
 | `tools/` | Every stage as a command-line tool with `--selfcheck`; `pipeline.py` runs them in order |
 | `cassettes/` | Recorded model answers, so a rebuild replays byte for byte and costs nothing |
-| `../datapack/` | The forecast releases (LRAE) as regenerable packages: `reconciliation.md` committed, `SOURCE.json` hashes and CSV tables rebuilt with `tools/lrae_package.py build` |
+| `../datapack/` | The forecast releases (LRAE) as regenerable packages, rebuilt with `tools/lrae_package.py build` |
 
-The JSON and JSONL data files and the cassettes are shared separately and are not kept in the repository; place
-them at the paths above before running the pipeline or the tests.
+The JSON and JSONL data files, the cassettes and the datapack are shared separately and are not kept in the
+repository; place them at the paths above before running the pipeline or the tests.
 
 ## Review order
 
@@ -30,10 +30,9 @@ them at the paths above before running the pipeline or the tests.
 4. `docs/03_data_connection_map.md`: how the sources join
 5. `docs/04_attribution_process_and_examples.md`: from a contract to the office that wanted it
 6. `docs/06_continuous_monitor_design.md`: the monitor, its alerts and the weekly pulse
-7. `docs/12_three_use_cases_navy.md`: a requirement before solicitation, a notice traced to its office, a past requirement with its award and funding
-8. `docs/13_news_as_a_signal.md`: an article as a dated observation
-9. `docs/17_one_requirement_told_in_order.md`: one requirement as an analyst reads it, every statement in the order it appeared
-10. `docs/14_reusing_this_for_another_agency.md`: what travels to the next agency and what is written once for it
+7. `docs/13_news_as_a_signal.md`: an article as a dated observation
+8. `docs/17_one_requirement_told_in_order.md`: one requirement as an analyst reads it, every statement in the order it appeared
+9. `docs/14_reusing_this_for_another_agency.md`: what travels to the next agency and what is written once for it
 
 ## Running it
 
