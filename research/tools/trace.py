@@ -936,9 +936,11 @@ def line_status(line: dict, rows: list[dict], hits: dict[str, dict], examples: d
     if candidates:
         c = candidates[-1]
         candidate = f"candidate: {c['type'].lower()} posted {c['posted']} [{c['solicitation'] or c['id'][:12]}] ({c['key']})"
-        if candidate_awards:
-            first = min(a["signed"] for a in candidate_awards)
-            candidate += f"; {len(candidate_awards)} award action(s) under that solicitation, first signed {first}"
+        # Only the named candidate's own awards: the others' solicitations are not "that solicitation".
+        named = [a for a in candidate_awards if a["via"] == compact(c["solicitation"] or "")]
+        if named:
+            first = min(a["signed"] for a in named)
+            candidate += f"; {len(named)} award action(s) under that solicitation, first signed {first}"
         candidate += "; a reviewer decides whether it is this line"
     verdict = reading(sol_window, notices, awards, incumbent_last, line["procurement_instrument"], today, searched,
                       incumbent_actions=incumbent_actions, award_windows=award_windows, restructured=restructure_notes(chain, ctx),
