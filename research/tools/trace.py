@@ -7,7 +7,7 @@
     python research/tools/trace.py award   <PIID>
     python research/tools/trace.py --selfcheck
 
-The three questions the reviewer asked for, answered from the same rows:
+Three questions, answered from the same rows:
 
   status  - where every forecast line whose solicitation window has arrived stands, one
             outcome word first: awarded, solicited, cancelled (marked so on SAM.gov),
@@ -53,10 +53,12 @@ import subprocess
 import sys
 from collections import defaultdict
 from datetime import date
+from functools import lru_cache
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from fetch import MANIFEST, ROOT  # noqa: E402
+from fpds_sweep import OFFICES as SWEPT_OFFICES, fiscal_year as fiscal_year_of, saved_pages, windows  # noqa: E402
 from lrae_package import alias_map, contract_tokens, fold_map, norm_code, norm_title  # noqa: E402
 
 DEFAULT_DSN = "postgresql://postgres:postgres@127.0.0.1:54322/postgres"
@@ -167,9 +169,47 @@ def fpds_by_piid(rows: list[dict], piid: str) -> tuple[list[dict], dict | None, 
     return actions, (pages[0] if pages else None), bool(bodies) and 'rel="next"' not in bodies[-1]
 
 
+@lru_cache(maxsize=1)
+def swept_by_solicitation() -> dict[str, list[dict]]:
+    """The base awards on the saved FPDS office sweep pages (fpds_sweep.py) by solicitation number, one per
+    PIID, each carrying the page it was read from under "source"."""
+    pages = {r["url"]: r for r in manifest() if r.get("status") == 200 and r.get("path") and "CONTRACTING_OFFICE_ID:" in r.get("url", "")
+             and "+MODIFICATION_NUMBER:0&start=" in r["url"] and (ROOT / r["path"]).exists()}
+    by_piid: dict[str, dict] = {}
+    for page in pages.values():
+        for a in fpds_actions((ROOT / page["path"]).read_text(encoding="utf-8", errors="replace")):
+            if a["piid"] and a["solicitation"]:
+                by_piid.setdefault(a["piid"], {**a, "source": page})
+    out: dict[str, list[dict]] = defaultdict(list)
+    for a in sorted(by_piid.values(), key=lambda a: (a["signed"], a["piid"])):
+        out[compact(a["solicitation"])].append(a)
+    return dict(out)
+
+
 def fpds_by_solicitation(rows: list[dict], sol: str) -> tuple[list[dict], dict | None]:
+    """The actions under a solicitation number: the saved lookup by that number, then any base award the office
+    sweep saved under it that the lookup lacks (the sweep can be the later retrieval). Each action names its page
+    under "source"; the second value is the lookup's row, else the first swept page."""
     row = saved(rows, lambda u: f"SOLICITATION_ID:{compact(sol)}" in u)
-    return (fpds_actions((ROOT / row["path"]).read_text(encoding="utf-8", errors="replace")) if row else []), row
+    actions = [{**a, "source": row} for a in fpds_actions((ROOT / row["path"]).read_text(encoding="utf-8", errors="replace"))] if row else []
+    have = {a["piid"] for a in actions}
+    actions += [a for a in swept_by_solicitation().get(compact(sol), []) if a["piid"] not in have]
+    return actions, row or (actions[0]["source"] if actions else None)
+
+
+def sweep_scope(rows: list[dict], sol: str, posted: str) -> str:
+    """The office sweep a number no saved award carries was checked against: its issuing office's base awards
+    from the notice's fiscal year on, each year saved to its last page; empty when the sweep does not cover it."""
+    office = compact(sol)[:6]
+    if office not in SWEPT_OFFICES or not posted:
+        return ""
+    years = [w for w in windows(date.today()) if w["fy"] >= fiscal_year_of(date.fromisoformat(posted))]
+    taken = [saved_pages(rows, office, w) for w in years]
+    if not years or not all(complete for _, complete in taken):
+        return ""
+    retrieved = max(p["retrieved_at"][:10] for pages, _ in taken for p in pages)
+    return (f"the saved FPDS sweep of {office} base awards signed FY{years[0]['fy']}"
+            + (f" to FY{years[-1]['fy']}, each year" if len(years) > 1 else "") + f" saved to its last page, retrieved to {retrieved}")
 
 
 def sgs_hits(rows: list[dict]) -> dict[str, dict]:
@@ -1306,7 +1346,7 @@ def print_need(dsn: str, key: str) -> int:
         print("- " + not_found("notice joined to this line", "the saved SAM.gov searches", searched) + "; "
               + ("SeaPort/GSA order competitions are not posted on SAM.gov" if any("order" in l["procurement_instrument"].lower() for l in lines) else "no saved search hit contains the PID or the incumbent contract"))
     sols |= {s for s in candidate_sols if s not in sols}
-    print("\n## Awards under solicitations tied to this line (saved FPDS SOLICITATION_ID lookups; ~ = reached through a candidate notice)")
+    print("\n## Awards under solicitations tied to this line (saved FPDS lookups by solicitation number, else the office sweep; ~ = reached through a candidate notice)")
     found = False
     for sol in sorted(sols):
         actions, atom = fpds_by_solicitation(rows, sol)
@@ -1316,9 +1356,9 @@ def print_need(dsn: str, key: str) -> int:
             found = True
             for a in base:
                 print(f"- {mark}{sol}: {a['piid']} signed {a['signed']} to {a['vendor']}; base and all options ${float(a['base_and_all_options'] or 0):,.0f}; obligated at award ${float(a['obligated'] or 0):,.0f}; {a['description'][:80]}")
-                print(f"    source FPDS {cite(atom)}")
+                print(f"    source FPDS {cite(a['source'])}")
                 ceilings.append((a["piid"], a["base_and_all_options"])); obligations.append((a["piid"] + " at award", a["obligated"]))
-                sources[a["piid"]] = f"FPDS {cite(atom)}"
+                sources[a["piid"]] = f"FPDS {cite(a['source'])}"
                 u = usaspending(rows, a["piid"])
                 if u:
                     obligations[-1] = (a["piid"], u["obligated"])
@@ -1602,7 +1642,7 @@ def cmd_notice(args) -> int:
                 u = usaspending(rows, a["piid"])
                 print(f"- {sol}: {a['piid']} signed {a['signed']} to {a['vendor']}; base and all options ${float(a['base_and_all_options'] or 0):,.0f}; obligated at award ${float(a['obligated'] or 0):,.0f}; {a['description'][:60]}"
                       + (f"; PoP {u['pop_start']} -> {u['pop_end']}; obligated to date ${float(u['obligated'] or 0):,.0f}; awarding office {u['awarding_office']}" if u else ""))
-                print(f"    source FPDS {cite(atom)}" + (f"; USAspending {u['url']} retrieved {u['retrieved']} sha {u['sha']}" if u else ""))
+                print(f"    source FPDS {cite(a['source'])}" + (f"; USAspending {u['url']} retrieved {u['retrieved']} sha {u['sha']}" if u else ""))
             if not base:
                 print(f"- {sol}: " + (not_found("award", "the saved FPDS lookup by solicitation number", atom["retrieved_at"][:10]) + f"; source FPDS {cite(atom)}" if atom is not None
                                       else f"not collected (python research/tools/fetch.py 'https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=SOLICITATION_ID:{sol}&start=0')"))
@@ -1633,15 +1673,19 @@ def cmd_notice(args) -> int:
             print("- none: no related notice with a saved detail names an office the memory knows")
     if detail["solicitation"]:
         actions, atom = fpds_by_solicitation(rows, detail["solicitation"])
-        print("\n## Awards under this solicitation number (saved FPDS lookup by solicitation)")
+        print("\n## Awards under this solicitation number (saved FPDS lookup by solicitation number, else the office sweep)")
         base = [a for a in actions if a["mod"] in ("0", "")]
         for a in base:
             u = usaspending(rows, a["piid"])
             print(f"- {a['piid']} signed {a['signed']} to {a['vendor']}; base and all options ${float(a['base_and_all_options'] or 0):,.0f}; obligated at award ${float(a['obligated'] or 0):,.0f}")
-            print(f"    source FPDS {cite(atom)}" + (f"; USAspending {u['url']} retrieved {u['retrieved']} sha {u['sha']}" if u else ""))
+            print(f"    source FPDS {cite(a['source'])}" + (f"; USAspending {u['url']} retrieved {u['retrieved']} sha {u['sha']}" if u else ""))
         if not base:
+            scope = sweep_scope(rows, detail["solicitation"], detail["posted"])
             if atom is not None:
-                print(f"- {not_found('award', 'the saved FPDS lookup by solicitation number', atom['retrieved_at'][:10])}; source FPDS {cite(atom)}")
+                print(f"- {not_found('award', 'the saved FPDS lookup by solicitation number', atom['retrieved_at'][:10])}; source FPDS {cite(atom)}"
+                      + (f"; nor in {scope}" if scope else ""))
+            elif scope:
+                print(f"- {not_found('base award under this number', scope, '')}")
             else:
                 print(f"- not collected (python research/tools/fetch.py 'https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=SOLICITATION_ID:{compact(detail['solicitation'])}&start=0')")
     return 0
@@ -1738,7 +1782,7 @@ def selfcheck() -> int:
     assert a["description"] == "MIDS WDL SE&I" and a["base_and_all_options"] == "82061676.54"
 
     today = date(2026, 9, 20)
-    # One outcome word first; every state the reviewer asked to tell apart has its own.
+    # One outcome word first; every state it tells apart has its own.
     assert reading("FY26 Q2", [], [{"piid": "N1", "signed": "2026-04-13"}], "", "", today).startswith("awarded: 1 action")
     assert reading("FY26 Q2", [{"type": "Presolicitation", "posted": "2026-08-12"}], [], "", "", today).startswith("solicited: presolicitation posted 2026-08-12")
     assert reading("FY26 Q2", [{"type": "Award Notice", "posted": "2026-06-01", "solicitation": "N0003926R0001"}], [], "", "", today) == \

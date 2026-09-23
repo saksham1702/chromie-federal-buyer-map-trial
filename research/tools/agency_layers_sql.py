@@ -1278,7 +1278,7 @@ def emit_lrae(org_ids: dict[str, str], out: list[str], uics: dict[str, str] | No
 # ------------------------------------------------------------ SAM.gov notices
 
 NOTICE_SOURCE = "chromie-federal-buyer-map-trial/data/raw/sam_notices"
-# The lifecycle a notice type states for its requirement; the latest notice under a number sets it.
+# The lifecycle a notice type states for its requirement; the latest notice under a number sets it, and a base award under it fulfils it.
 NOTICE_LIFECYCLE = {"sources sought": "identified", "special notice": "identified", "presolicitation": "planned",
                     "solicitation": "in_procurement", "combined synopsis/solicitation": "in_procurement",
                     "justification (J&A)": "in_procurement", "intent to bundle": "planned", "award notice": "fulfilled"}
@@ -1297,6 +1297,12 @@ def notice_event(notice_type: str, kind: str) -> str | None:
     return NOTICE_EVENT.get(notice_type)
 
 
+def outdates_forecast(stated: str, chain: list[dict]) -> bool:
+    """A notice or award tied to a forecast line says where the line stands only when dated after the line's latest
+    release; one the latest release already follows is history the forecast outlived."""
+    return stated > max((l["release_date"] or "" for l in chain), default="")
+
+
 def notice_group_key(detail: dict) -> str:
     return f"notice:{(detail['solicitation'] or '').upper().replace('-', '').replace(' ', '') or detail['id']}"
 
@@ -1312,8 +1318,8 @@ def emit_notices(org_ids: dict[str, str], out: list[str], revisions_by_need: dic
     lacks and naming no office it knows is not this agency's need and is counted, not loaded.
     Candidates never load: a reviewer accepts them first.
     """
-    from trace import (NOTICES, SAM_ORG_NODES, SAM_VIEW, manifest, match_context, notice_detail, notice_source,  # noqa: E402
-                       place_notice, resolve_offices, signal_kind, specific_offices)
+    from trace import (NOTICES, SAM_ORG_NODES, SAM_VIEW, compact, manifest, match_context, notice_detail, notice_source,  # noqa: E402
+                       place_notice, resolve_offices, signal_kind, specific_offices, swept_by_solicitation)
 
     ctx, rows = match_context(), manifest()
     groups: dict[str, list[dict]] = {}
@@ -1332,24 +1338,33 @@ def emit_notices(org_ids: dict[str, str], out: list[str], revisions_by_need: dic
 
     items, evidence, needs, assertions, links, requirements = [], [], [], [], [], []
     details: dict[str, list] = {"need_organization": [], "requirement": []}
+    advanced: dict[str, tuple[str, str]] = {}
     for group_key, notices in sorted(groups.items()):
         notices.sort(key=lambda d: (d["posted"], d["id"]))
         latest = notices[-1]
         place = place_notice(latest, ctx, notices[:-1])
         key = place["key"]
         need_id, req_id = uid("need", key), uid("requirement", key)
+        # A base award the FPDS office sweep saved under the number fulfils it; an order names its vehicle's solicitation.
+        awarded = swept_by_solicitation().get(compact(latest["solicitation"] or ""), [])
+        lifecycle = "cancelled" if latest["cancelled"] else "fulfilled" if awarded else NOTICE_LIFECYCLE.get(latest["type"], "unknown")
         if place["how"] == "created":
             kinds = ", ".join(dict.fromkeys(f"{d['type']} {d['posted']}" for d in notices))
             offices = sorted({o for d in notices for o in d["offices"]})
             description = (f"SAM.gov {group_key.split(':', 1)[1]}: {len(notices)} notice(s) ({kinds}); {place['note']}"
                            + (f"; office named in the text: {', '.join(offices)}" if offices else "; no office the memory knows is named in the text")
-                           + (f"; {', '.join(r['key'] for r in place['ambiguous'])} each claim it and a reviewer decides" if place["ambiguous"] else ""))
-            lifecycle = "cancelled" if latest["cancelled"] else NOTICE_LIFECYCLE.get(latest["type"], "unknown")
+                           + (f"; {', '.join(r['key'] for r in place['ambiguous'])} each claim it and a reviewer decides" if place["ambiguous"] else "")
+                           + (f"; {len(awarded)} base award(s) under the number on the FPDS office sweep, first {awarded[0]['piid']} signed "
+                              f"{awarded[0]['signed']} to {awarded[0]['vendor']}" if awarded else ""))
             needs.append([lit(need_id), lit(AGENCY_NAVY), lit(latest["title"]), lit(description), lit(lifecycle), lit(NOTICE_SOURCE), lit(key)])
             requirements.append([lit(req_id), lit(need_id), lit(key), lit("scope")])
             prior_revision = None
         else:
             prior_revision = (revisions_by_need.get(key) or [None])[-1]
+            # The forecast line loaded its need as identified; the newest tied group that outdates the forecast moves it.
+            stated = max([latest["posted"], *(a["signed"] for a in awarded)])
+            if outdates_forecast(stated, ctx["chains"].get(key, [])) and stated >= advanced.get(need_id, ("", ""))[0]:
+                advanced[need_id] = (stated, lifecycle)
         last_office: dict[str, tuple[str, str]] = {}
         for d in notices:
             claim_key = f"sam-notice:{d['id']}"
@@ -1408,6 +1423,12 @@ def emit_notices(org_ids: dict[str, str], out: list[str], revisions_by_need: dic
     insert("public.agency_brain_items", ITEM_COLUMNS, items, out)
     insert("public.gov_intelligence_evidence", ["id", "brain_item_id", "excerpt", "source_url", "published_at", "provider", "source_key"], evidence, out)
     insert("public.gov_needs", ["id", "agency_id", "title", "description", "lifecycle", "source", "source_key"], needs, out)
+    moved = sorted((need, lc) for need, (_, lc) in advanced.items() if lc != "identified")
+    if moved:  # an update, so the lifecycle history trigger records the step from identified
+        out.append("update public.gov_needs set lifecycle = v.lifecycle from (values\n"
+                   + ",\n".join(f"  ({lit(need)}, {lit(lc)})" for need, lc in moved)
+                   + "\n) as v(id, lifecycle) where public.gov_needs.id = v.id::uuid;")
+        out.append("")
     insert("public.gov_intelligence_assertions", ASSERTION_COLUMNS, assertions, out)
     insert("public.gov_need_organizations", ["assertion_id", "need_id", "organization_id", "role"], details["need_organization"], out)
     insert("public.gov_need_requirements", ["id", "need_id", "requirement_key", "kind"], requirements, out)
@@ -1791,6 +1812,9 @@ def selfcheck() -> int:
     assert notice_group_key({"solicitation": "N00039-26-R-E017", "id": "abc"}) == "notice:N0003926RE017"
     assert notice_group_key({"solicitation": "", "id": "abc"}) == "notice:abc"
     assert set(NOTICE_LIFECYCLE.values()) <= {"identified", "planned", "in_procurement", "fulfilled", "cancelled", "unknown"}
+    # an award of 2024 does not fulfil a line the June 2025 release still forecasts; award notices of June 2026 do
+    releases = [{"release_date": "2023-06-20"}, {"release_date": "2025-06-19"}]
+    assert not outdates_forecast("2024-05-21", releases) and outdates_forecast("2026-06-10", releases) and outdates_forecast("2026-06-10", [])
 
     # Every event a map can write is one the schema names, and the maps say what the schema accepts.
     assert len(EVENT_TYPES) == 27  # the canonical 24, plus presolicitation_posted, justification_posted and budget_line

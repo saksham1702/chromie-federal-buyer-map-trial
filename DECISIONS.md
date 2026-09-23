@@ -162,3 +162,10 @@ bytes as served.
 Every meeting action carries the office's routes from the contact recommendations: the program manager on the
 requirement side, the contracting points of contact on the acquisition side, and the published channels, each
 dated by the observations it rests on and marked when the review log shows them checked against the saved file.
+
+## 2026-09-24 - The latest notice or award sets where a requirement stands
+
+A requirement's awards are read from the lookup by its solicitation number and from the contracting office's base
+awards, which carry the orders a multiple award solicitation produces; a base award under the number makes it
+fulfilled. A forecast line moves from identified only on a tied notice or award dated after its latest release,
+recorded as a step in its lifecycle history.
