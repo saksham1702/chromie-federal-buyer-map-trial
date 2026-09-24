@@ -292,13 +292,15 @@ def guess_offices(corpus: dict, read: dict) -> dict[str, list[tuple[str, float, 
 
 def model_reads(corpus: dict) -> dict[str, tuple[str, str, str]]:
     """Record id -> (office, record words, page line) from the model's saved readings, where the rules held, of the kinds
-    whose masked trial holds (READ_KINDS)."""
+    whose masked trial holds (READ_KINDS). A reading holds only while its record is still filed at a contracting office:
+    a rebuild that files it at an office of its own leaves the saved reading behind."""
     if not READS.exists():
         return {}
     by_name = {office_name(oid, corpus["orgs"]): oid for oid, o in corpus["orgs"].items() if o.get("org_type") in OWNER_TYPES}
+    unplaced = {e["id"] for e in corpus["events"] if corpus["orgs"].get(e["org"], {}).get("org_type") == "contracting_office"}
     saved = json.loads(READS.read_text(encoding="utf-8"))
     return {rid: (by_name[a["office"]], a["notice_words"].replace('"', "'"), a["page_line"].replace('"', "'"))
-            for kind in READ_KINDS for rid, a in saved.get(kind, {}).items() if a["office"] in by_name and not a["problems"]}
+            for kind in READ_KINDS for rid, a in saved.get(kind, {}).items() if a["office"] in by_name and not a["problems"] and rid in unplaced}
 
 
 def pointed(e: dict) -> str:
