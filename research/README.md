@@ -60,6 +60,7 @@ and fail on any difference unless `--refresh` is given.
 | `budget.py` | Budget justification books into P-1 line items with their fiscal-year amounts |
 | `sbir.py` | Navy SBIR/STTR topics from the DoD portal |
 | `people.py` | Every contact, speaker and witness the sources name, merged into people with dated positions; the routes into each office (requirement side, contracting side, published channels) |
+| `small_business.py` | The small business office of the department and each command, from the Department of War's directory and each office page |
 | `lrae_package.py`, `org_memory_lrae.py` | The forecast releases into the datapack and the organization memory |
 | `agency_layers_sql.py` | The memory, the datapack and every family's events as one transaction of SQL for the agency-intelligence tables |
 | `backtest.py`, `baselines.py` | The frozen corpus and the outcome labels; the back-test and its baselines are computed into `build/` |

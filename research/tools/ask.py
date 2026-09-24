@@ -35,7 +35,7 @@ sys.path.insert(0, str(HERE))
 from backtest import CORPUS, GENERIC, RESEARCH, alias_pattern, chain, need_cell, scan, shift, wide  # noqa: E402
 from fetch import MANIFEST  # noqa: E402
 from pages import DNA, PIID_TEXT_RE, SOLICITATION_RE, Layer, book_line, compact, person, place, pointed  # noqa: E402
-from people import contacts_for, routes_for  # noqa: E402
+from people import contacts_for, first_routes, routes_for  # noqa: E402
 from pulse import CONTRACT_RE, ENDS_RE, PULSE, days_between, load_people, office_name, polarity_of, queue  # noqa: E402
 from vendors import load as load_vendors, names_for  # noqa: E402
 from vocabulary import RENEWAL_RE, capability_terms  # noqa: E402
@@ -171,7 +171,7 @@ def match(layer: Layer, capabilities: list[str], naics: list[str], dna: dict, to
                      + (f"; {round(r['fit'] * 100)}% of its awards under the NAICS given" if r["fit"] is not None else ""))
         lines += [f"     {x['key']}: {x['title'][:90]}" for x in r["rows"][:3]]
         lines += [f"     {e['available_by']} {e['event_type'].replace('_', ' ')}: {plain(e['title'])[:100]}" for e in (r["notices"][:2] or r["newest"])]
-        way = [f"{x['side']}: {x['recommendation'][:80]}" for x in routes_for(up or [r["org"]], layer.routes, layer.as_of)[:2]]
+        way = [f"{x['side']}: {x['recommendation'][:80]}" for x in first_routes(routes_for(up or [r["org"]], layer.routes, layer.routes_by), 2)]
         way += [f"{p['name']} ({p['title'][:60]}, {p['observed_at']})" for p in contacts_for(up or [r["org"]], layer.roster, layer.as_of, limit=2)]
         if way:
             lines.append("     in: " + "; ".join(way))
@@ -516,8 +516,8 @@ def prep(layer: Layer, name: str, since: str | None = None, pulse: dict | None =
     people = contacts_for(up or [oid], layer.roster, layer.as_of, limit=6)
     if people:
         lines.append("people: " + "; ".join(f"{p['name']} ({p['title'][:50]}, {p['observed_at']})" for p in people))
-    ways = {r["recommendation"]: r for r in routes_for(up or [oid], layer.routes, layer.as_of)}
-    lines += [f"route in, {r['side']}: {r['recommendation'][:120]} (observed {r['observed_at']})" for r in list(ways.values())[:3]]
+    ways = {r["recommendation"]: r for r in routes_for(up or [oid], layer.routes, layer.routes_by)}
+    lines += [f"route in, {r['side']}: {r['recommendation'][:120]} (observed {r['observed_at']})" for r in first_routes(list(ways.values()), 3)]
     asked = questions(layer, oid, tree, ending, cited([e for e in layer.events if e["available_by"] <= layer.as_of]))
     lines += ["questions to ask:"] + [f"  - {q}" for q in asked] if asked else []
     if who:

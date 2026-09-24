@@ -52,6 +52,7 @@ class Layer:
         self.roster = roster
         self.routes = load_routes() if routes is None else routes
         self.as_of = as_of or max(e["available_by"] for e in self.events)
+        self.routes_by = as_of  # a replay hides a route observed after its date; the live view shows every route known
         self.recurring = recurring_tokens(self.needs)
         self.by_acronym = {o["acronym"].lower(): oid for oid, o in self.orgs.items() if o.get("acronym")}
         self.by_acronym.update({o["name"].lower(): oid for oid, o in self.orgs.items()})
@@ -114,7 +115,7 @@ class Layer:
                 "vendors": dict(vendors.most_common(5)),
                 "guessed_total": len(guessed), "guessed": [self.brief(e) for e in guessed[:5]],
                 "people": contacts_for(chain(oid, self.orgs) or [oid], self.roster, self.as_of)[:5],
-                "routes": routes_for(chain(oid, self.orgs) or [oid], self.routes, self.as_of)}
+                "routes": routes_for(chain(oid, self.orgs) or [oid], self.routes, self.routes_by)}
 
     def statement(self, e: dict) -> dict:
         """One statement in full, with the forecast rows that share a name with it: the way from a topic or a notice to a cell."""

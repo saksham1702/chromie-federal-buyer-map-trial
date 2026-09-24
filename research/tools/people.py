@@ -23,7 +23,8 @@ e-mail and sit in different offices stay two people. Nobody is invented: every p
 Routes come from contact_recommendations.json: per office, the requirement side (the program manager), the
 acquisition side (the contracting points of contact on its forecast rows), the published channels (an office
 mailbox, the small business office, an intake portal) and the portfolio executive, each resting on the
-observations it names and dated by the newest of them.
+observations it names and dated by the newest of them. The small business offices small_business.py reads from the
+Department of War's directory join them, and an office with none of its own, or above it, falls back to the department's.
 """
 from __future__ import annotations
 
@@ -44,6 +45,7 @@ REVIEWS = ROOT / "research" / "memory" / "review_log.json"
 REMARKS = ROOT / "research" / "events" / "remarks_events.json"
 NEWS = ROOT / "research" / "events" / "news_observations.json"
 SEED = ROOT / "research" / "memory" / "organization_seed.json"
+SMALL_BUSINESS = ROOT / "research" / "memory" / "small_business_offices.json"
 SOURCE = "chromie-federal-buyer-map-trial/research/memory/people.json"
 DEPARTMENT = "agency:don"
 
@@ -282,9 +284,10 @@ def contacts_for(org_ids: list[str], people: list[dict], as_of: str | None = Non
             for _, _, person, p in rows[:limit]]
 
 
-ROUTE_ORDER = ("program_manager", "contracting_poc", "office_channel", "industry_intake_channel", "executive")
+SMALL_BUSINESS_ROUTE = "small_business_office"
+ROUTE_ORDER = ("program_manager", "contracting_poc", "office_channel", SMALL_BUSINESS_ROUTE, "industry_intake_channel", "executive")
 SIDE = {"program_manager": "requirement", "contracting_poc": "acquisition", "office_channel": "channel",
-        "industry_intake_channel": "channel", "executive": "executive"}
+        SMALL_BUSINESS_ROUTE: "small business office", "industry_intake_channel": "channel", "executive": "executive"}
 
 
 def load_routes() -> list[dict]:
@@ -306,6 +309,11 @@ def load_routes() -> list[dict]:
                      "confidence": rec["source_confidence"], "currency": rec["currency_confidence"],
                      "review_status": rec["review_status"], "observed_at": newest["observed_at"], "source_url": newest["source_url"],
                      "checked": all(o["id"] in checked for o in basis)})
+    for sb in json.loads(SMALL_BUSINESS.read_text(encoding="utf-8")) if SMALL_BUSINESS.exists() else []:
+        rows.append({"org": uid("org", sb["office_id"]), "office_id": sb["office_id"], "route": SMALL_BUSINESS_ROUTE,
+                     "side": SIDE[SMALL_BUSINESS_ROUTE], "recommendation": "; ".join([f"{sb['name']}, {sb['url']}", *sb["lines"]]),
+                     "confidence": "high", "currency": "unknown", "review_status": "draft", "observed_at": sb["observed_at"],
+                     "source_url": sb["url"] if sb["page_saved"] else sb["source_url"], "checked": False})
     return rows
 
 
@@ -314,9 +322,17 @@ def routes_for(org_ids: list[str], routes: list[dict], as_of: str | None = None)
     manager and the contracting side of the office itself before its parent's channels."""
     rank = {org: i for i, org in enumerate(org_ids)}
     fits = [r for r in routes if r["org"] in rank and (not as_of or r["observed_at"] <= as_of)]
+    if not any(r["route"] == SMALL_BUSINESS_ROUTE for r in fits):  # any office can start at the department's small business office
+        fits += [r for r in routes if r["office_id"] == DEPARTMENT and r["route"] == SMALL_BUSINESS_ROUTE and (not as_of or r["observed_at"] <= as_of)]
     order = {route: i for i, route in enumerate(ROUTE_ORDER)}
-    fits.sort(key=lambda r: (rank[r["org"]], order.get(r["route"], len(order)), r["recommendation"]))
+    fits.sort(key=lambda r: (rank.get(r["org"], len(rank)), order.get(r["route"], len(order)), r["recommendation"]))
     return [{k: v for k, v in r.items() if k != "org"} for r in fits]
+
+
+def first_routes(routes: list[dict], n: int) -> list[dict]:
+    """The first n routes, and the small business office after them when it is not among them: a small company's first
+    contact at a command."""
+    return routes[:n] + [r for r in routes[n:] if r["route"] == SMALL_BUSINESS_ROUTE][:1]
 
 
 def show(argv: list[str]) -> int:
@@ -358,6 +374,11 @@ def selfcheck() -> int:
     chain_ = [uid("org", "pmw:160"), uid("org", "peo:c4i"), uid("org", "command:navwar")]
     assert [r["route"] for r in routes_for(chain_, routes)] == ["program_manager", "contracting_poc", "industry_intake_channel"]
     assert [r["route"] for r in routes_for(chain_, routes, "2025-03-01")] == ["program_manager"]  # nothing observed later
+    routes += [route(DEPARTMENT, SMALL_BUSINESS_ROUTE, "2026-09-24")]
+    assert [r["route"] for r in routes_for(chain_, routes)][-1] == SMALL_BUSINESS_ROUTE        # the department's, after the chain's own
+    assert [r["route"] for r in first_routes(routes_for(chain_, routes), 2)] == ["program_manager", "contracting_poc", SMALL_BUSINESS_ROUTE]
+    own = routes_for([uid("org", "command:navwar")], routes + [route("command:navwar", SMALL_BUSINESS_ROUTE, "2026-09-16")])
+    assert [r["office_id"] for r in own if r["route"] == SMALL_BUSINESS_ROUTE] == ["command:navwar"]  # a command's own office replaces it
     legacy = ('Point of Contact - Clayton R Thomas, Contract Specialist,  619-524-7199; Stephen R Beckner, Contracting Officer, '
               '619-524-7389\n\n<a href="mailto:clayton.r.thomas@navy.mil">Contract Specialist</a>')
     assert split_pocs(legacy, "") == [("Clayton R Thomas", "clayton.r.thomas@navy.mil"), ("Stephen R Beckner", "")]

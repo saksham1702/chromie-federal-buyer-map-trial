@@ -59,6 +59,8 @@ STAGES = [
      [PY, str(TOOLS / "congress.py"), "sweep", "--fetch"]),
     ("register", "take the Department of the Navy's Federal Register documents", True,
      [PY, str(TOOLS / "fedreg.py"), "sweep", "--fetch"]),
+    ("outreach", "take the Department of War's directory of small business offices and each office page it links to not yet saved", True,
+     [PY, str(TOOLS / "small_business.py"), "collect"]),
     ("memory", "read the activity-wide forecast releases into the organization memory", False,
      [PY, str(TOOLS / "org_memory_lrae.py"), "build"]),
     ("datapack", "read the forecast releases into the datapack and compare them", False,
@@ -73,6 +75,9 @@ STAGES = [
      [PY, str(TOOLS / "news.py"), "build"]),
     ("people", "merge every point of contact, forecast POC, speaker and witness the saved sources name into people.json", False,
      [PY, str(TOOLS / "people.py"), "build"]),
+    ("small_business", "the small business office of the department and each command from the saved directory and office pages, "
+                       "compared with the saved file", False,
+     [PY, str(TOOLS / "small_business.py"), "build", "--check"]),
     ("programs", "model every saved Navy SBIR/STTR topic as a dated programs event with the office it names", False,
      [PY, str(TOOLS / "sbir.py"), "build"]),
     ("protests", "read every saved GAO case page into a protest dated the day it was filed", False,
@@ -114,7 +119,7 @@ def refreshed(db: str) -> dict[str, list[list[str]]]:
     results, pulse, books and status follow."""
     tool = lambda name, *rest: [PY, str(TOOLS / name), *rest]
     return {"backtest": [tool("backtest.py", "freeze", "--db", db), tool("backtest.py", "label"), tool("backtest.py", "run")],
-            "offices": [tool("office_wiki.py", "build")], "pulse": [tool("pulse.py", "build")], "dna": [tool("buying_dna.py", "build")],
+            "offices": [tool("office_wiki.py", "build")], "small_business": [tool("small_business.py", "build")], "pulse": [tool("pulse.py", "build")], "dna": [tool("buying_dna.py", "build")],
             "vendors": [tool("vendors.py", "build")], "coverage": [tool("coverage.py", "status")]}
 
 
@@ -242,7 +247,7 @@ def selfcheck() -> int:
     assert names.index("database") < names.index("revisions"), "the revision alert reads the loaded database"
     assert names.index("backtest") < names.index("offices"), "the office reads are made over the frozen corpus"
     assert NETWORK == {"watch", "sweep", "audits", "podium", "contracts", "solicitations", "topics", "changes", "dockets", "reports",
-                       "register"}, "only collection touches the network"
+                       "register", "outreach"}, "only collection touches the network"
     assert set(refreshed("x")) <= set(names), "every refreshed stage is a stage"
     assert max(names.index(n) for n in NETWORK) < names.index("memory"), "collection runs before any build stage"
     assert all(c is None or c[0] == PY for _, _, _, c in STAGES), "every stage runs this interpreter"

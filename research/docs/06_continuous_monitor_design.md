@@ -377,7 +377,11 @@ whom the record ties to the office. The same action carries the routes in from t
 program manager on the requirement side, the contracting points of contact on the office's forecast rows on the
 acquisition side, and the published channels (an office mailbox, the small business office, an intake portal), for
 the office itself before its parents, each dated by the observations it rests on and marked when the review log shows those observations checked
-against the saved file. The office page lists them too.
+against the saved file. The office page lists them too. The small business office of the department and of each
+command comes from the Department of War's directory of small business offices and the office page it links to, only
+the lines of that page that carry an address or a telephone number kept as written; an office with no small business
+office of its own or above it reaches the department's. `match` and `prep` show it beside the first routes, since it is
+a small company's first contact at a command.
 
 Money. `research/tools/budget.py` reads the FY2027 Other Procurement, Navy budget activity 2
 justification book with pdftotext in layout mode, splits pages on the form feed, and takes each Exhibit P-40 as one
