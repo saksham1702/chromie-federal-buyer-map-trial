@@ -45,3 +45,9 @@ def test_the_record_holds_no_html_entities():
     bad = [e["id"] for e in corpus["events"] if "&amp;" in e["title"] or "&amp;" in (e.get("vendor") or "")]
     bad += [n["key"] for n in corpus["needs"] if "&amp;" in n["title"]]
     assert not bad, f"{len(bad)} rows carry &amp;: unescape at the source reader, not here ({bad[:3]})"
+
+
+def test_a_short_name_the_seed_observed_finds_its_organization(layer):
+    lay, _ = layer
+    assert lay.orgs[lay.org_id("NAVWAR")]["name"] == "Naval Information Warfare Systems Command"
+    assert lay.orgs[lay.org_id("PEO C4I")]["name"].startswith("Program Executive Office Command, Control")

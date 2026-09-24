@@ -246,6 +246,7 @@ def card(cell: dict, events: list[dict], as_of: str, orgs: dict, window_days: in
     lines = [f"{cell['office']}: {cell['name'][:90]}",
              f"{len(recent)} statement(s) in the last {days_between(first_recent, as_of)} day(s) from {len(families)} famil{'y' if len(families) == 1 else 'ies'} "
              f"({', '.join(families) or 'none'}) under {len(offices)} organization(s); {len(seen)} statement(s) in all since {min((e['available_by'] for e in seen), default=as_of)}.",
+             *radar(cell),
              f"Stage: {cell['stage']}. Next on the path: {'; '.join(cell['next']) or 'nothing, the award is the last step'}.",
              f"For ({len(forward)}): " + ("; ".join(f"{e['available_by']} {e['event_type'].replace('_', ' ')}, {e['title'][:70]}" for e in forward[-3:]) or "nothing in the window"),
              f"Against ({len(against)}): " + ("; ".join(f"{e['available_by']} {e['event_type'].replace('_', ' ')}, {e['title'][:70]}" for e in against[-3:]) or "nothing in the window")]
@@ -258,6 +259,18 @@ def card(cell: dict, events: list[dict], as_of: str, orgs: dict, window_days: in
     else:
         lines.append("Reading: too few families in the window to call this live; the older record carries it.")
     return "\n".join(lines)
+
+
+def radar(cell: dict) -> list[str]:
+    """The score's parts as the card shows them, and whether the cell is gathering pace: the recency part decays over a
+    year from the newest statement, and a quarter with more statements than the one before reinforces it."""
+    if "parts" not in cell:
+        return []
+    parts, m = cell["parts"], cell["momentum"]
+    return [f"Radar: {cell['score']} of 100 from families {parts['families']}, recency {parts['recency']}, persistence {parts['persistence']}, "
+            f"proximity {parts['proximity']} (weights {', '.join(f'{k} {v}' for k, v in cell['weights'].items())}); "
+            f"{m['quarter']} statement(s) this quarter against {m['prior']} the quarter before"
+            + (f"; new in the last {NOVEL_DAYS} days: {', '.join(cell['novel_families'])}" if cell.get("novel_families") else "") + "."]
 
 
 def card_cmd(argv: list[str]) -> int:
@@ -478,7 +491,7 @@ def selfcheck() -> int:
     assert Decimal(d["parts"]["proximity"]) == Decimal(a["parts"]["proximity"]) / 2 and [x["id"] for x in d["against"]] == ["d"], d["against"]
     assert d["for"] == a["for"] and a["against"] == [] and a["stage"] == "forecast" and a["next"][0].startswith("a sources sought"), (a["stage"], a["next"])
     text = card({"key": "cell:a", "office": "NAVAIR", "name": "Autonomous aircraft", **d}, delayed, as_of, {"navair": {"acronym": "NAVAIR", "name": "NAVAIR", "parent": ""}})
-    assert "Against (1)" in text and "mixed" in text and "Stage: forecast" in text, text
+    assert "Against (1)" in text and "mixed" in text and "Stage: forecast" in text and "this quarter against" in text, text
     # What is new, whether the cell is speeding up, who holds the contracts; none of it moves the score
     assert a["novel_families"] == ["conference", "forecast", "notice"] and a["momentum"] == {"quarter": 3, "prior": 2}, (a["novel_families"], a["momentum"])
     assert a["vendors"] == [{"vendor": "Acme", "contracts": 1}] and b["vendors"] == [] and b["novel_families"] == []

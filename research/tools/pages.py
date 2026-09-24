@@ -19,7 +19,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from backtest import CORPUS, RESEARCH, chain, need_aliases, need_cell, recurring_tokens, scan, shift  # noqa: E402
 from buying_dna import PIID_RE  # noqa: E402
-from people import contacts_for, load_routes, routes_for  # noqa: E402
+from people import SEED, contacts_for, load_routes, routes_for  # noqa: E402
 from pulse import card, days_between, load_people, office_name, score  # noqa: E402
 from vendors import load as load_vendors, names_for  # noqa: E402
 
@@ -40,6 +40,7 @@ class Layer:
         self.recurring = recurring_tokens(self.needs)
         self.by_acronym = {o["acronym"].lower(): oid for oid, o in self.orgs.items() if o.get("acronym")}
         self.by_acronym.update({o["name"].lower(): oid for oid, o in self.orgs.items()})
+        self.by_acronym.update(seed_names(self.by_acronym))
 
     def org_id(self, name: str) -> str | None:
         key = re.sub(r"\s+", " ", name).strip().lower().replace("pmw-", "pmw ")
@@ -132,6 +133,19 @@ class Layer:
         return {"office": office_name(oid, self.orgs), "parent": office_name(parent, self.orgs) if parent else "",
                 "siblings": sorted(office_name(o, self.orgs) for o, row in self.orgs.items() if row["parent"] == parent and o != oid and parent)[:SHOWN * 2],
                 "children": sorted(office_name(o, self.orgs) for o, row in self.orgs.items() if row["parent"] == oid)[:SHOWN * 2]}
+
+
+def seed_names(known: dict[str, str]) -> dict[str, str]:
+    """The short names the seed observed for an organization (NAVWAR, PEO C4I), each to its id; a short name observed
+    for two organizations, or already an acronym or a full name, is left out."""
+    if not SEED.exists():
+        return {}
+    seen: dict[str, set[str]] = {}
+    for node in json.loads(SEED.read_text(encoding="utf-8")).get("nodes", []):
+        oid = known.get(node.get("name", "").lower())
+        for a in node.get("aliases", []) if oid else []:
+            seen.setdefault(a["text"].lower(), set()).add(oid)
+    return {a: ids.pop() for a, ids in seen.items() if len(ids) == 1 and a not in known}
 
 
 def sources(events: list[dict], as_of: str) -> list[dict]:

@@ -66,6 +66,7 @@ and fail on any difference unless `--refresh` is given.
 | `pulse.py`, `vocabulary.py` | Every requirement cell scored as of a date, the week's changes and the actions with evidence; the stage and polarity vocabulary |
 | `buying_dna.py`, `vendors.py` | Office books from the saved awards; vendors resolved by UEI |
 | `pages.py`, `trace.py` | Object pages (office, vendor, person, cell) and the traced questions (`status`, `need`, `notice`, `award`) |
+| `ask.py` | Questions put to the twin: what changed inside an organization on a topic, which offices buy a capability, a meeting brief, how long past buys took, what weakens each incumbent, a competitor's moves, meeting notes kept apart, and the evidence room for one requirement |
 | `coverage.py` | The command by family coverage grid and the per-source status |
 | `graph_export.py`, `schema_subset.py` | The organization graph as the program-office resolver reads it; the schema subset for a local database |
 | `llm.py`, `reader.py` | The recorded model call every reader shares, and the rules a reading must pass (verbatim passage, registry authority) |

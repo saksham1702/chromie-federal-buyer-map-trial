@@ -46,6 +46,41 @@ AMOUNT_RE = re.compile(r"FY\d{4} \$(\d[\d,]*\.?\d*)M")
 CUT_SHARE = 0.5  # a line that falls to under half of the year before, or to nothing, is a cut; a smaller dip moves nothing
 
 
+# A capability a company names, with the words Navy records use for it. A topic outside the list is searched as written.
+# Words that name a command as well as a field (space, as in Space and Naval Warfare) stay out.
+CAPABILITIES = {
+    "autonomy": ("autonomous", "autonomy", "unmanned", "uncrewed", "UUV", "USV", "UAS", "UAV", "robotic", "swarm"),
+    "undersea": ("undersea", "underwater", "subsea", "sonar", "acoustic", "UUV", "seabed", "anti-submarine"),
+    "cyber": ("cyber", "cybersecurity", "zero trust", "encryption", "cryptographic", "intrusion detection"),
+    "artificial intelligence": ("artificial intelligence", "machine learning", "AI/ML", "neural network", "computer vision", "deep learning"),
+    "communications": ("communications", "radio", "SATCOM", "data link", "datalink", "Link 16", "waveform", "antenna"),
+    "satellites": ("satellite", "spacecraft", "orbital", "space-based", "SATCOM"),
+    "electronic warfare": ("electronic warfare", "jamming", "jammer", "SIGINT", "electronic attack", "decoy"),
+    "sensors": ("radar", "sensor", "electro-optical", "infrared", "EO/IR", "lidar", "sonar"),
+    "command and control": ("command and control", "C2", "C4I", "battle management", "common operational picture", "mission planning"),
+    "networks": ("network", "cloud", "enterprise services", "data center", "CANES", "ADNS", "NMCI", "NGEN"),
+    "training": ("training", "simulation", "simulator", "trainer", "live virtual constructive", "LVC"),
+    "logistics": ("logistics", "sustainment", "maintenance", "supply chain", "depot"),
+    "positioning and timing": ("positioning", "navigation", "timing", "PNT", "GPS", "inertial"),
+    "directed energy": ("directed energy", "laser", "high power microwave"),
+    "counter unmanned": ("counter-UAS", "counter UAS", "C-UAS", "counter-drone", "counter unmanned"),
+    "hypersonics": ("hypersonic",),
+}
+CAPABILITY_NAMES = {"autonomous systems": "autonomy", "unmanned systems": "autonomy", "ai": "artificial intelligence",
+                    "machine learning": "artificial intelligence", "ew": "electronic warfare", "c2": "command and control",
+                    "pnt": "positioning and timing", "c-uas": "counter unmanned", "asw": "undersea", "anti-submarine warfare": "undersea",
+                    "space": "satellites"}
+
+
+def capability_terms(topic: str) -> list[str]:
+    """A topic's search words: a named capability's words, else the words as written; topics split on ; and ,."""
+    out = []
+    for part in (p.strip() for p in re.split(r"[;,]", topic)):
+        name = CAPABILITY_NAMES.get(part.lower(), part.lower())
+        out += CAPABILITIES.get(name, (part,) if part else ())
+    return list(dict.fromkeys(out))
+
+
 def stage(event_type: str) -> str:
     return STAGE.get(event_type, "strategy")
 
@@ -130,6 +165,8 @@ def selfcheck() -> int:
         "a slip does not move the requirement back along the path"
     assert next_milestones("market_research") == [MILESTONE["solicitation"], MILESTONE["award"]]
     assert next_milestones("shaping") == [MILESTONE[s] for s in PATH] and next_milestones("award") == []
+    assert "UUV" in capability_terms("autonomous systems") and capability_terms("Link 22; ai")[0] == "Link 22"
+    assert "machine learning" in capability_terms("Link 22; ai") and capability_terms(" ; ") == []
     print("vocabulary selfcheck ok")
     return 0
 

@@ -459,6 +459,34 @@ the offices, the live count and the ends within two years; a person page lists t
 that named the person; a cell page is the Why-Now card with the sources under it. Nothing is stored: a page is the
 record read at one point.
 
+Questions of the twin. `research/tools/ask.py` puts the questions a capture team asks to the same record, and every
+answer lists the statements behind it. `changed` reads what changed inside an organization and everything under it on
+a topic in a window, against the window before. A topic is read through the capability vocabulary in `vocabulary.py`,
+so autonomy is searched as autonomous, unmanned, uncrewed, UUV, USV and their kin; contract rows fold into one line by
+their work, and the people observed in the window close the answer. `match` maps a company's capabilities and NAICS
+codes, or a profile file for one customer, to the offices whose statements and forecast rows use those words, ranked
+by the families that spoke in the last two years, then the notices of the last year, the forecast rows and the share
+of the office's awards under the codes, each office with its routes in. `prep` is a meeting brief for an office: how
+it buys, what changed since a given day, the open actions from the pulse, the contracts ending, the people and routes,
+and questions each drawn from a dated statement (a slipped forecast row, a request for information, a justification,
+a reorganization above the office, a contract ending within a year for which no notice names a follow-on).
+
+`analogs` groups the notices by solicitation number into dated paths and reads how long past buys took from the step
+a requirement has reached to an award notice, in the narrowest part of the tree that holds five of them. For the
+Egyptian Navy AINTS request for proposal of 17 September 2026, eight past buys under PEO C4I went from a solicitation
+to an award notice in a median of 284 days, which places the award between 6 April and 29 July 2027. A forecast
+row's own notices carry its line or a number its title names; when only a notice sharing the row's name is found,
+the answer states that the tie is a reading. `incumbents` lists the contracts ending within two years under an office,
+each with what weakens the incumbent's hold (an extension, a follow-on forecast row, a follow-on notice) and what
+keeps it (options exercised, a sole-source or bridge notice, the vendor's share of the office's contracts), and one
+reading. A follow-on notice whose solicitation has an award notice is settled; one older than two years with none is
+a question for the office. `moves` reads a competitor's window: the contracts that became public against the window
+before, the offices entered for the first time, extensions and options, what ends next, and every other statement that
+names the vendor. `note` and `notes` keep a vendor's own meeting notes in `build/`, apart from the record, and show
+each note beside the later records that share its names without merging them. `export` writes the evidence room for
+one requirement: the card, every statement behind it with its public source, and a copy of each saved document a
+statement cites by its hash.
+
 Vendors by identifier. The record names a vendor as the feed spelled it on the day, so the same
 company appears under two strings when its registration changed. `research/tools/vendors.py` reads the 4,061 saved
 awards and resolves them by Unique Entity Identifier: 297 vendors, 24 of them spelled two or more ways, 111 under a
