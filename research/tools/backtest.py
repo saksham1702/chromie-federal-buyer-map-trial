@@ -209,7 +209,8 @@ def freeze(argv: list[str]) -> int:
                "provider": provider, "family": family, "org": org or (need or {}).get("owner_id", ""),
                "title": f"{need['title']} ({title})" if need else title, "text": flatten(text)[:8000], "slip": slip,
                **classify(event_type, flatten(f"{need['title']} ({title})" if need else title), slip),
-               **({"vendor": data["vendor"]} if data.get("vendor") else {})}
+               **({"vendor": data["vendor"]} if data.get("vendor") else {}),
+               **({"url": source["url"]} if str(source.get("url") or "").startswith("http") else {})}
         events.append(row)
         if event_type in NOTICE_TYPES and row["date"] >= FY24_START:
             outcomes.append({"id": iid, "kind": "notice", "event_type": event_type, "date": row["date"], "org": org,

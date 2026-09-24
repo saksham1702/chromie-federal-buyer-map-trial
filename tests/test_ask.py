@@ -9,7 +9,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "research" / "tools"))
-from ask import analogs, changed, fixture, incumbents, match, moves, prep, team  # noqa: E402
+from ask import analogs, changed, fixture, incumbents, match, moves, prep, team, where_from  # noqa: E402
 from backtest import CORPUS, register_problems  # noqa: E402
 from pages import Layer  # noqa: E402
 
@@ -35,3 +35,12 @@ def test_the_questions_run_on_the_frozen_corpus():
     answers = [changed(layer, "NAVSEA", "autonomy"), analogs(layer, "N0003926RE014"), incumbents(layer, "PMW 160"), prep(layer, "PMW 740", pulse={}, dna={}),
                team(layer, ["communications"], "PEO C4I")]
     assert "incumbent contract(s) end within" in answers[2] and all(not register_problems(a) for a in answers), [register_problems(a) for a in answers]
+
+
+def test_a_statement_is_published_where_its_source_recorded_it():
+    """A news body can end on the publisher's copyright link; the page the source recorded is where the statement is."""
+    news = {"text": "PEO C4I at WEST 2026 ... must comply with the restrictions shown on https://www.dvidshub.net/about/copyright.",
+            "title": "industry_engagement", "family": "organization", "provider": "dvids_navy_units",
+            "url": "https://www.dvidshub.net/news/558082/peo-c4i-highlights-industry-engagement"}
+    assert where_from(news) == news["url"]
+    assert where_from({k: v for k, v in news.items() if k != "url"}).endswith("/about/copyright."), "without a recorded page the text is all there is"

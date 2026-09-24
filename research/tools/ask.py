@@ -591,11 +591,14 @@ def manifest() -> dict[str, dict]:
 
 def where_from(e: dict) -> str:
     """The public place a statement comes from: the SAM.gov page for a notice, the sheet row for a forecast row, the
-    link the text gives, else the source."""
+    page the source recorded, the link the text gives, else the source. The recorded page comes before the text: a
+    news body can end on a publisher's copyright link."""
     if m := SAM_RECORD_RE.search(e["text"]):
         return f"https://sam.gov/opp/{m.group(1)}/view"
     if m := ROW_RE.search(e["text"]):
         return m.group(1)
+    if e.get("url"):
+        return e["url"]
     if m := URL_RE.search(e["text"]):
         return m.group(0)
     contract = CONTRACT_RE.search(e["title"]) if e["family"] == "incumbent" else None
