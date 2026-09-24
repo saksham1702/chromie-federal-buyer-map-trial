@@ -92,6 +92,11 @@ table or the ancestry walk unless human review promotes them to relationships wi
    competency is never mistaken for a program office and a contracting UIC never for an owner.
 3. An unknown code becomes an `unresolved` decision with the code kept verbatim (see the LRAE
    package reconciliation) and a review item; it does not become a node until a source names it.
+   A contracting office is its UIC: releases that print one office two ways (`N00167: NSWC Carderock`,
+   `N00167 - NSWCCD`) resolve to one node, and a bare department code under a site (`102 - 102 - NSWCIHD`)
+   resolves to the department a release already named with that code at the site.
+   A code matches an office by its name, aliases and office codes only; FPDS's agency id is a field of
+   award records, so NRL's department 1700 is never read as the Department of the Navy.
 4. Walk `child_of` and `consolidated_into` relationships whose observations are dated on or
    before the record's date, skipping retracted ones, to produce the ancestry as of that date.
    A 2019 award resolves to PMW 160 under PEO C4I under NAVWAR; a June 2026 modification of the

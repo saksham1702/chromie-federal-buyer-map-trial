@@ -10,7 +10,7 @@ A small business office is a first contact for a small company selling to a comm
 mission and requirements and point to the office that owns a need. The directory names the offices and links their
 pages. A link resolves to an organization when its text is the organization's name or one of its aliases (a military
 department's name also without "Department of the"), or else when the organization's one-word name is a word of the
-link's address (navsea.aspx, www.onr.navy.mil); a link that fits two organizations, or one a name already took, is
+link's host or page name (www.onr.navy.mil, navsea.aspx; never a folder such as /HQ/); a link that fits two organizations, or one a name already took, is
 dropped. From an office page only the lines that carry an e-mail address or a telephone number are kept, as written, and
 never the webmaster's.
 A command that already has a small business route from a page it published keeps that route and gets no row here.
@@ -23,6 +23,7 @@ import html
 import json
 import re
 import sys
+import urllib.parse
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -63,7 +64,8 @@ def resolve(pairs: list[tuple[str, str]], nodes: list[dict]) -> list[dict]:
     out, seen = [], set()
     for url, text, ids in by_name:
         if len(ids) != 1:
-            tokens = set(re.split(r"[^a-z0-9]+", url.lower()))
+            parts = urllib.parse.urlsplit(url.lower())
+            tokens = set(re.split(r"[^a-z0-9]+", parts.netloc)) | set(re.split(r"[^a-z0-9]+", parts.path.rstrip("/").rsplit("/", 1)[-1]))
             ids = {i for w, group in words.items() if w in tokens for i in group} - taken
         if len(ids) == 1 and (oid := next(iter(ids))) not in seen:
             seen.add(oid)
@@ -138,14 +140,15 @@ def selfcheck() -> int:
     seed = [{"id": "agency:don", "name": "Department of the Navy", "aliases": [{"text": "DoN"}]},
             {"id": "command:navwar", "name": "Naval Information Warfare Systems Command",
              "aliases": [{"text": "NAVWAR"}, {"text": "Space and Naval Warfare Systems Command (SPAWAR), name valid to 2019-06-02"}]},
-            {"id": "command:navsea", "name": "NAVSEA", "aliases": []}, {"id": "command:onr", "name": "ONR", "aliases": []}]
+            {"id": "command:navsea", "name": "NAVSEA", "aliases": []}, {"id": "command:onr", "name": "ONR", "aliases": []},
+            {"id": "activity:hq", "name": "HQ", "aliases": []}]
     page = (f'<a href="/Programs/">Programs</a><p>{MARKER} are included below.</p>'
             '<a href="https://www.secnav.navy.mil/smallbusiness/Pages/default.aspx">Navy</a>'
             '<a href="http://www.secnav.navy.mil/smallbusiness/Pages/navsea.aspx">Naval Sea Systems Command</a>'
             '<a href="https://www.onr.navy.mil/work-with-us/small-business">Office of Naval Research</a>'
             '<a href="http://www.public.navy.mil/spawar/Pages/SmallBusiness.aspx">Space and Naval Warfare Systems Command</a>'
             '<a href="https://www.public.navy.mil/navwar/Atlantic/Pages/Home.aspx">Naval Information Warfare Center</a>'
-            '<a href="http://osbp.army.mil/">Army</a>')
+            '<a href="http://www.dla.mil/HQ/SmallBusiness/">Defense Logistics Agency</a><a href="http://osbp.army.mil/">Army</a>')
     got = resolve(links(page), seed)
     assert [(o["office_id"], o["name"]) for o in got] == [
         ("agency:don", "Navy"), ("command:navsea", "Naval Sea Systems Command"), ("command:onr", "Office of Naval Research"),

@@ -299,24 +299,28 @@ build. One `psql` read, no network, no file diffing: the
 supersession chain already records which revision replaced which, so a line that never
 moved produces nothing.
 
-Against the three NAVWAR releases it reports **14 forecast revisions, 13 of them
-slips**. Each alert carries the five parts section 9 specifies. One example, abridged:
+Against the NAVWAR, NAVSEA and ONR releases it reports every award window that moved,
+slips and pull-forwards alike. Each alert carries the five parts section 9 specifies.
+One example, abridged:
 
 > **N00039-23-RFPREQ-PMW/A-170-0173**: All SATCOM Multi Award Contract (C)
 > - What changed: anticipated award slips FY24 Q2 -> FY27 Q2 between the 2023-06-20
->   and 2025-06-19 releases.
+>   and 2024-06-20 releases.
 > - Office: PMW/A 170 Communications and GPS Navigation Program Office. Ancestry:
->   PMW/A 170 -> PEO C4I; succeeded by Portfolio Acquisition Executive Mission Systems
->   (from 2026-05-11).
+>   PMW/A 170 -> PAE Mission Systems Capability Portfolio Executive (Comms, Sensor, EW
+>   and PNT) -> Portfolio Acquisition Executive Mission Systems -> Department of the Navy.
 > - Evidence: the two spreadsheet rows, each with its release and source hash.
 > - Uncertainty: the LRAE is an estimate; a move may be strategy or a clerical
 >   correction and the release does not say which.
 > - Why it matters: the award window is what a capture timeline is built on.
 
 It also checks the other half of alert C, a value range that changed for the same
-fiscal period. Across these three releases that count is zero: five estimates are
-restated in a later release and every one restates the identical range, so the alert
-stays quiet rather than reporting a re-publication as news.
+fiscal period. A later release that restates the identical range produces nothing, so
+a re-publication is not reported as news; a changed range is, such as the MIDS
+Follow-On estimate for FY27 moving from $0.0M-$2.0M to $50.0M-$100.0M between the
+2025-06-19 and 2026-07-13 releases. Releases write one fiscal year as "FY27" or as
+"2027", so an estimate's lineage is read from the parsed year and quarter, never from
+the text as written.
 
 Two details of the implementation. The ancestry walk has to
 climb `parent_organization_id` **and** then look for a documented successor of each

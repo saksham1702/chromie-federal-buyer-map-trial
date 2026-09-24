@@ -734,6 +734,14 @@ def quarter_bounds(fy: int | None, quarter: str) -> tuple[str | None, str | None
     return f"{fy + offset:04d}-{month:02d}-01", f"{fy + end_offset:04d}-{end_month:02d}-{end_day:02d}"
 
 
+def funding_lineage(key: str, fy_text: str, quarter: str) -> str:
+    """The chain key of a funding estimate, read from the parsed period: the database refuses a supersession across
+    lineages, and releases spell one fiscal year "FY28" and "2028"."""
+    fy = fiscal_year(fy_text)
+    period = (quarter or "").strip().upper() if quarter_bounds(fy, quarter)[0] else "unstated"
+    return f"funding:{key}:{fy or 'unstated'}:{period}"
+
+
 # What a release states about a line; a later release that moves one of these moved the forecast.
 FORECAST_FIELDS = ("procurement_method", "contract_type", "instrument", "solicitation_fy",
                    "solicitation_quarter", "award_fy", "award_quarter", "as_stated")
@@ -1234,11 +1242,10 @@ def emit_lrae(org_ids: dict[str, str], out: list[str], uics: dict[str, str] | No
             # the same need for the same fiscal period chains and only the latest
             # stays current. A move to a different fiscal year is a different
             # measurement, not a correction, and both remain on the record.
-            scope = (key, "procurement_estimate", fy, start, end)
-            prior = funding_scope.get(scope)
-            funding_scope[scope] = ident
-            assertion(assertions, ident, "funding",
-                      f"funding:{key}:{row['fiscal_year'] or 'unstated'}:{row['period'] or 'unstated'}",
+            lineage = funding_lineage(key, row["fiscal_year"], row["period"])
+            prior = funding_scope.get(lineage)
+            funding_scope[lineage] = ident
+            assertion(assertions, ident, "funding", lineage,
                       basis_of(tie),
                       tie_note(tie) + f"{release} states an anticipated total value of {row['as_stated'] or 'an unstated range'}.",
                       f"{LRAE_SOURCE}:{release}:{row['id']}", stated_on.get((release, key)), prior)
@@ -1654,6 +1661,8 @@ def main() -> int:
 
 
 def selfcheck() -> int:
+    assert funding_lineage("K", "FY28", "q1 ") == funding_lineage("K", "2028", "Q1") == "funding:K:2028:Q1"
+    assert funding_lineage("K", "TBD", "Q1") == funding_lineage("K", "", "") == "funding:K:unstated:unstated"
     ix, ux = {("PMW", "160"): "pmw:160"}, {"N00039": "contracting:n00039", "N66001": "center:niwc-pacific"}
     aw = lambda desc, sol="", fund="": {"description": desc, "solicitation": sol, "funding_office": fund, "contracting_office": "N00039"}
     assert award_office(aw("SERVICES FOR PMW-160"), ix, ux, {}) == ("pmw:160", "the office code in the description")

@@ -39,6 +39,8 @@ PACK_BASE = Path(os.environ.get("LRAE_PACK_DIR") or ROOT / "datapack")  # overri
 # Oldest first within an activity. `match` identifies the manifest row; `release_date` is the fallback when the
 # sheet gives none; `scope` is which rows load: PEO C4I's offices only (the NAVWAR trial) or the whole activity.
 # Releases are diffed and chained within one activity; a NAVSEA line is never a NAVWAR line's revision.
+# The Department's combined forecast carries every activity as its own sheet, each with its own release date.
+COMBINED = "the Department of the Navy's combined forecast, one sheet per activity; each sheet is its own release"
 RELEASES = [
     {"key": "lrae_navwar_2023-06", "activity": "navwar", "match": "NAVWAR_LRAE_Report.xlsx", "release_date": "2023-06-20",
      "release_note": "sheet says '20 June 2023 / TDB'; the report was exported 2023-05-25 (Filters sheet)", "sheet": "LRAE Annex 25", "header_row": 8, "scope": "peo_c4i"},
@@ -46,10 +48,16 @@ RELEASES = [
      "release_note": '', "sheet": "LRAE Annex 25", "header_row": 8, "scope": "peo_c4i"},
     {"key": "lrae_navwar_2025-06", "activity": "navwar", "match": "HQCA-2025-A-037", "release_date": "2025-06-19",
      "release_note": '', "sheet": "LRAE Annex 25", "header_row": 8, "scope": "peo_c4i"},
+    {"key": "lrae_navwar_2026-07", "activity": "navwar", "match": "DON_Combined_LRAE_Report_20260713", "release_date": "2026-07-13",
+     "release_note": COMBINED, "sheet": "NAVWAR", "header_row": 8, "scope": "peo_c4i"},
     {"key": "lrae_navsea_2025-12", "activity": "navsea", "match": "LRAE-NAVSEA_Enterprise_LRAE_18DECEMBER2025", "release_date": "2025-12-18",
      "release_note": '', "sheet": "Annex 25 Template", "header_row": 8, "scope": "all"},
+    {"key": "lrae_navsea_2026-07", "activity": "navsea", "match": "DON_Combined_LRAE_Report_20260713", "release_date": "2026-07-13",
+     "release_note": COMBINED, "sheet": "NAVSEA", "header_row": 8, "scope": "all"},
     {"key": "lrae_onr_2025-12", "activity": "onr", "match": "onr-and-nrl-long-range-acquisition-estimate", "release_date": "2025-12-19",
      "release_note": 'one workbook carries ONR and NRL as two sheets; each sheet is its own release', "sheet": "ONR", "header_row": 7, "scope": "all"},
+    {"key": "lrae_onr_2026-07", "activity": "onr", "match": "DON_Combined_LRAE_Report_20260713", "release_date": "2026-07-13",
+     "release_note": COMBINED, "sheet": "ONR", "header_row": 8, "scope": "all"},
     {"key": "lrae_nrl_2025-12", "activity": "nrl", "match": "onr-and-nrl-long-range-acquisition-estimate", "release_date": "2025-12-19",
      "release_note": 'one workbook carries ONR and NRL as two sheets; each sheet is its own release', "sheet": "NRL", "header_row": 7, "scope": "all"},
 ]
@@ -175,16 +183,21 @@ def norm_code(text: str) -> str:
     return re.sub(r"[\s\-]", "", text.split("(")[0]).upper()
 
 
+def handles(node: dict) -> list[str]:
+    """The texts an office cell can name a node by: its name, aliases and codes, but not FPDS's agency id, a field of
+    award records that NRL's department 1700 would otherwise match as the Department of the Navy."""
+    texts = [node["name"]] + [a["text"] if isinstance(a, dict) else a for a in node.get("aliases") or []]
+    return [str(t) for t in texts] + [str(v) for k, v in (node.get("codes") or {}).items() if k != "fpds_agency_id"]
+
+
 def alias_map() -> dict[str, str]:
     seed = json.loads((RESEARCH / "memory" / "organization_seed.json").read_text(encoding="utf-8"))
     aliases: dict[str, str] = {}
     for node in seed["nodes"]:
         if node["type"] == "person":
             continue
-        texts = [node["name"]] + [a["text"] if isinstance(a, dict) else a for a in node.get("aliases") or []]
-        texts += list((node.get("codes") or {}).values())
-        for text in texts:
-            aliases.setdefault(norm_code(str(text)), node["id"])
+        for text in handles(node):
+            aliases.setdefault(norm_code(text), node["id"])
     return aliases
 
 
@@ -885,6 +898,8 @@ def collect(limit: int) -> int:
 
 
 def selfcheck() -> int:
+    assert handles({"name": "Department of the Navy", "aliases": [{"text": "DoN"}], "codes": {"fpds_agency_id": "1700", "uic": "N00039"}}) \
+        == ["Department of the Navy", "DoN", "N00039"]
     blank = {c: "" for c in COLUMNS}
 
     def r(number, title, office, pid="", contract="", value="No Range Specified"):

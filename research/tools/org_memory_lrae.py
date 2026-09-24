@@ -14,7 +14,7 @@ where the office cell states the parent (`PMS-392 - PMS-392 - NAVSEA`), and ever
 spelling as an alias, so lrae_package.classify_code resolves the row through the alias table
 with no new logic.
 
-What becomes a node: a contracting office (`N00164: NSWC Crane`); a program office, PEO,
+What becomes a node: a contracting office (`N00164: NSWC Crane`), one per UIC however a release spells it; a program office, PEO,
 directorate or DRPM whose code is its public handle (PMS 392, IWS 3.0, SEA 21C, PEO SHIPS,
 DRPM-MIB); a department the sheet names (`ONR Code 34, Warfighter Performance`,
 `7600 - Space Science DIV - NRL`); and a handful of cells that are a name as printed (NAMED).
@@ -50,7 +50,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from fetch import ROOT  # noqa: E402
-from lrae_package import RELEASES, RESEARCH, fpds_entries, manifest_rows, norm_code, read_sheet, saved  # noqa: E402
+from lrae_package import RELEASES, RESEARCH, fpds_entries, handles, manifest_rows, norm_code, read_sheet, saved  # noqa: E402
 from fpds_sweep import OFFICES as SWEPT_OFFICES, saved_pages, windows  # noqa: E402
 
 SEED = RESEARCH / "memory" / "organization_seed.json"
@@ -63,7 +63,7 @@ CENTER_SUFFIX = re.compile(r"^([A-Z]{2,4}-[A-Z0-9]+)-((?:NSWC|NUWC)[A-Z]+)$")
 ONR_CODE = re.compile(r"^ONR (Code \d+|PMR-\d+),\s*(.+)$")
 PMS_CODE = re.compile(r"\bPMS[- ]?(\d{3}[A-Z]?)\b")
 IWS_CODE = re.compile(r"^(?:NAVSEA\s+)?IWS[- ]?(\d{1,2})(?:\.(\d))?$")
-IWS_LETTERS = re.compile(r"^IWS\s+([A-Z]{1,3})$")
+IWS_LETTERS = re.compile(r"^IWS[\s-]+([A-Z]{1,3})$")
 SEA_CODE = re.compile(r"^(?:NAVSEA|SEA)\s?(\d{2})([A-Z]{0,2})$")
 PEO_CODE = re.compile(r"^PEO[ _]([A-Z]+)$")
 DRPM_CODE = re.compile(r"^DRPM-([A-Z]+)$")
@@ -134,7 +134,7 @@ def contracting_node(cell: str) -> tuple[dict, str] | None:
     if not m:
         return None
     uic, name = m.group(1), m.group(2).strip()
-    if not name:
+    if not name or name == "HQ":  # `N00019 - HQ`: the headquarters contracting office of the code, no name of its own
         return spec(f"contracting:{uic.lower()}", "contracting_office", uic, uic=uic), ""
     if name.startswith(("NSWC", "NUWC")) or name == "NRL":
         return spec(f"center:{slug(name)}", "technical_center", name, contracting_uic=uic), name
@@ -179,6 +179,11 @@ def coded(code: str, name: str, org: dict, table: dict) -> dict:
     if name:
         return found(spec(f"dept:{slug(org['name'])}-{slug(code)}", "department", f"{org['name']} Code {code}, {name}", office_code=code),
                      org, code, "named department")
+    dept = next((n for n in table.values() if n["id"] == f"dept:{org['id'].split(':', 1)[1]}-{slug(code)}"), None)
+    if dept:  # `102 - 102 - NSWCIHD` in one release, `Infrastructure Division (102)` at N00174 in another
+        return found(dept, org, code, f"department of {org['name']} with this code")
+    if org["type"] == "command":  # `SURFMEPP - SURFMEPP - NAVSEA`: an office the rules cannot read is never the command's alias
+        return found(org, None, "", f"code under {org['name']} the rules do not read; the code stays on the record")
     return found(org, None, code, f"department code of {org['name']}; the code stays on the record")
 
 
@@ -201,10 +206,12 @@ def resolve(text: str, table: dict, by_uic: dict, here: dict | None = None) -> d
             parts = [parts[2], parts[2], parts[3]]
         code, org_name, name = parts[0], parts[-1], (parts[2] if len(parts) == 4 else "")
         org = table.get(norm_code(org_name)) or (spec(*COMMANDS[org_name]) if org_name in COMMANDS else None)
+        if org is None and known:  # `NNSY - Norfolk Naval Shipyard - HQ`: the code is known, the last part names no organization
+            return found(known, None, head, "alias table; the cell's last part names no organization")
         if org is None:
             return miss(f"parent organization {org_name} is not in the contracting column or the command list")
         hit = coded(code, name, org, table)
-        hit["alias"] = head
+        hit["alias"] = head if hit["alias"] else ""
         return hit
     if known:
         return found(known, None, head, "alias table")
@@ -259,10 +266,8 @@ def hand_table(seed: dict) -> dict[str, dict]:
     for node in seed["nodes"]:
         if node["type"] == "person" or node.get("generator"):
             continue
-        texts = [node["name"]] + [a["text"] if isinstance(a, dict) else a for a in node.get("aliases") or []]
-        texts += list((node.get("codes") or {}).values())
-        for text in texts:
-            table.setdefault(norm_code(str(text)), spec(node["id"], node["type"], node["name"], **(node.get("codes") or {})))
+        for text in handles(node):
+            table.setdefault(norm_code(text), spec(node["id"], node["type"], node["name"], **(node.get("codes") or {})))
     return table
 
 
@@ -363,6 +368,16 @@ class Memory:
         self.nodes[node["id"]] = node
         self.table.setdefault(norm_code(node["name"]), node)
 
+    def contracting(self, cell: str) -> tuple[dict, str] | None:
+        """The node a contracting cell names and the name as printed. The office code is the identity: a code already
+        known keeps its node, so `N00167: NSWCCD` in one release and `N00167: NSWC Carderock` in another are one office."""
+        hit = contracting_node(cell)
+        if not hit:
+            return None
+        node, name = hit
+        uic = node["codes"].get("uic") or node["codes"].get("contracting_uic")
+        return self.by_uic.get(uic) or self.table.get(norm_code(uic)) or node, name
+
     def register(self, node: dict, alias: str, obs_id: str) -> None:
         self.node_obs[node["id"]].add(obs_id)
         if alias and norm_code(alias) and norm_code(alias) != norm_code(node["name"]):
@@ -410,13 +425,15 @@ class Memory:
 
     def read_fpds_offices(self, manifest: list[dict], today: date) -> None:
         """A contracting office the FPDS sweep covers and no other source names: the office ID and the name the feed
-        prints on the newest saved sweep page, so that office's awards bind to a node and not to nothing. A headquarters
-        office is printed under its command's own name, so the node leads with the ID: a document naming the command
-        must not resolve to its contracting office."""
+        prints on the newest saved sweep page, so that office's awards bind to a node and not to nothing; a release that
+        printed only the ID (`N00019 - HQ`) leaves the node for the feed to name. A headquarters office is printed under
+        its command's own name, so the node leads with the ID: a document naming the command must not resolve to its
+        contracting office."""
         known = set(self.by_uic) | {code for n in list(self.table.values()) + list(self.nodes.values())
                                     for code in ((n.get("codes") or {}).get("uic"), (n.get("codes") or {}).get("contracting_uic")) if code}
+        bare = {n["id"]: n for n in self.nodes.values() if n["name"] == (n.get("codes") or {}).get("uic")}
         for uic in SWEPT_OFFICES:
-            if uic in known:
+            if uic in known and f"contracting:{uic.lower()}" not in bare:
                 continue
             page = next((p for w in reversed(windows(today)) for p in saved_pages(manifest, uic, w)[0]), None)
             names = [e["contracting_office_name"] for e in fpds_entries((ROOT / page["path"]).read_bytes())
@@ -424,6 +441,9 @@ class Memory:
             if not names:
                 continue
             node = spec(f"contracting:{uic.lower()}", "contracting_office", f"{uic} - {names[0]}", uic=uic)
+            if node["id"] in bare:
+                bare[node["id"]]["name"] = node["name"]
+                node = bare[node["id"]]
             self.add_node(node)
             self.from_fpds.add(node["id"])
             self.register(node, "", self.observe(f"obs:fpds:{uic.lower()}", "existence", f'contractingOfficeID name="{names[0]}": {uic}',
@@ -475,7 +495,7 @@ class Memory:
         # Contracting offices first: the office rules need them as parents and as UIC targets.
         contracting: dict[str, Counter] = defaultdict(Counter)
         for r in rows:
-            hit = contracting_node(r["contracting_office_uic"])
+            hit = self.contracting(r["contracting_office_uic"])
             if hit:
                 node, name = hit
                 self.add_node(node)
@@ -487,8 +507,10 @@ class Memory:
             passage = f"column '{UIC_COLUMN}': " + "; ".join(f"'{c}' ({n} rows)" for c, n in sorted(cells.items()))
             obs_id = observe(f"obs:lrae:{key}:{slug(node_id)}:contracting", "existence", passage, [node_id])
             for cell in cells:
-                m = UIC_CELL.match(cell)
-                self.register(node, m.group(2).strip() if m else "", obs_id)
+                name = contracting_node(cell)[1]
+                # `N00039: NAVWAR` prints the command's name for its contracting office: the observation quotes the
+                # cell, and the name stays the command's alias.
+                self.register(node, name if self.table.get(norm_code(name), node)["id"] == node["id"] else "", obs_id)
         for text in NAMED.values():
             if isinstance(text, str):
                 assert text in self.nodes or text in {n["id"] for n in self.table.values()}, f"NAMED points at {text}, which no cell creates"
@@ -503,7 +525,7 @@ class Memory:
         context: dict[str, str] = {}  # cell -> the contracting cell it was placed by, for inferred hits
         for r in rows:
             cell = " ".join(r["office_code_string"].split())
-            site = contracting_node(r["contracting_office_uic"])
+            site = self.contracting(r["contracting_office_uic"])
             here = self.node_by_id(site[0]["id"]) if site else None
             hit = resolve(cell, self.table, self.by_uic, here)
             if "unresolved" in hit:
@@ -578,9 +600,8 @@ def collisions(seed: dict) -> list[str]:
     for node in seed["nodes"]:
         if node["type"] == "person":
             continue
-        texts = [node["name"]] + [a["text"] for a in node.get("aliases") or []] + list((node.get("codes") or {}).values())
-        for text in texts:
-            key = norm_code(str(text))
+        for text in handles(node):
+            key = norm_code(text)
             if key and owner.setdefault(key, node["id"]) != node["id"]:
                 clashes.append(f"{text!r} -> {owner[key]} and {node['id']}")
     return clashes
@@ -673,11 +694,23 @@ def selfcheck() -> int:
     assert r("VIRGINIA Class Program Office PMS 450")["node"]["id"] == "pms:450"
     assert r("PMS408 JEOD")["node"]["id"] == "pms:408" and r("PMS-400D - PMS-400D - NAVSEA")["node"]["id"] == "pms:400d"
     assert r("PD-102 - PD-102 - NSWCPD")["node"]["id"] == "center:nswcpd" and r("PD-102 - PD-102 - NSWCPD")["alias"] == "PD-102"
+    table[norm_code("Infrastructure Division (102)")] = spec("dept:nswcpd-102", "department", "Infrastructure Division (102)", office_code="102")
+    assert r("102 - 102 - NSWCPD")["node"]["id"] == "dept:nswcpd-102" and r("102 - 102 - NSWCPD")["parent"]["id"] == "center:nswcpd"
+    memory = Memory({"nodes": []})
+    memory.by_uic.update(by_uic)
+    assert memory.contracting("N00164 - NSWCCR")[0]["id"] == "center:nswc-crane"  # the code, not the spelling, is the office
+    assert contracting_node("N00019 - HQ") == (spec("contracting:n00019", "contracting_office", "N00019", uic="N00019"), "")
+    table[norm_code("NNSY")] = spec("activity:nnsy", "field_activity", "NNSY")
+    assert r("IWS-X - IWS-X - NAVSEA")["node"]["id"] == "iws:x"
+    assert r("SURFMEPP - SURFMEPP - NAVSEA")["node"]["id"] == "command:navsea" and r("SURFMEPP - SURFMEPP - NAVSEA")["alias"] == ""
+    assert r("NNSY - Norfolk Naval Shipyard - HQ")["node"]["id"] == "activity:nnsy" and r("NNSY - Norfolk Naval Shipyard - HQ")["parent"] is None
     assert r("KPT - 20 - KPT-20 - NUWCKPT")["node"]["id"] == "center:nuwckpt" and r("KPT - 20 - KPT-20 - NUWCKPT")["alias"] == "KPT"
     assert r("NSWCPHD - NSWC Port Hueneme - NSWCPHD")["node"]["id"] == "center:nswcphd"
     assert r("PHD-E60-NSWCPHD")["node"]["id"] == "center:nswcphd"
     hit = r("7600 - 7600 - Space Science DIV - NRL")
     assert (hit["node"]["id"], hit["node"]["name"], hit["parent"]["id"]) == ("dept:nrl-7600", "NRL Code 7600, Space Science DIV", "center:nrl"), hit
+    table.update(hand_table({"nodes": [{"id": "agency:don", "type": "agency", "name": "Department of the Navy", "codes": {"fpds_agency_id": "1700"}}]}))
+    assert r("1700 - 1700 - Laboratory for Autonomous Systems Research DIV - NRL")["node"]["id"] == "dept:nrl-1700", "FPDS's agency id is no office code"
     hit = r("ONR Code 34, Warfighter Performance")
     assert (hit["node"]["id"], hit["node"]["type"], hit["parent"]["id"]) == ("dept:onr-code-34", "department", "command:onr"), hit
     assert r("ONR PMR-51, Office of Low Observable")["node"]["id"] == "dept:onr-pmr-51"
