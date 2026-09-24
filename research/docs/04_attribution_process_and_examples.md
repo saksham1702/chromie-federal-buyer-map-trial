@@ -88,6 +88,28 @@ words. The reading is printed with both quotes beside the guesses and never move
 on the notices that do name their office, with every office name masked and every record under the same
 solicitation left out of the pages.
 
+The same reading covers three more kinds of record, each with its own prompt and the same rules: a live
+contract award signed at an office that owns no requirement, read from its description; an SBIR topic a
+command published; and a committee statement addressed to the department. A kind is checked on the
+records that do name their office, with the office names masked, and the views use it only once that
+check holds: award readings are used; topic readings are saved and not used, since on the topics that
+name their office the model often names a neighbouring office; committee statements name no program
+office to check against, so their readings are saved and not used. A special notice, SAM.gov's catch-all
+type, is read by `research/tools/notice_kinds.py`: the model names what it announces from a fixed list
+(an industry day, an intent to award a sole source, a request for information, a draft solicitation and
+others) or none, and copies the words that state it. The kind is kept only when those words are in the
+notice verbatim; otherwise the title's keywords type the notice as before.
+
+`research/tools/outreach.py` starts from what a company sells and ends with one letter. A model chooses
+every move through the views the object pages use and rates how promising each one is; the walk takes the
+most promising move of any branch next, so one branch cannot spend the step budget. The model then names
+the chain from the agency to the program office, the requirements under that office and the initiatives above it, and the people to write to, and
+writes the letter from that evidence alone. The rules choose nothing. They refuse an answer when a hop is
+not above the one below it in the organization tree, a record was not shown or its quote is not verbatim,
+a person is not tied to the chain, or the letter carries a number, date, identifier or name the evidence
+does not. One repair is allowed; a run that still fails is kept and marked refused. A profile the record
+holds nothing for comes back with no chain and no letter.
+
 Likely contacts per office, from published sources only (tear sheets, change-of-command releases,
 the LRAE's published contracting points of contact, official small-business and industry pages),
 are in `research/memory/contact_observations.json` and `research/memory/contact_recommendations.json` with a confidence label and the reason for it.

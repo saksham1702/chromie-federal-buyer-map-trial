@@ -169,3 +169,11 @@ A requirement's awards are read from the lookup by its solicitation number and f
 awards, which carry the orders a multiple award solicitation produces; a base award under the number makes it
 fulfilled. A forecast line moves from identified only on a tied notice or award dated after its latest release,
 recorded as a step in its lifecycle history.
+
+## 2026-09-24 - A model reads where a rule used to decide, and a rule checks the reading
+
+Awards, SBIR topics and committee statements are read to a program office the way notices are, and the views use a
+kind only once its masked check holds; a special notice's kind and an LRAE pair a title or an incumbent links are read
+by the model too. Each reading quotes the record verbatim,
+replays from its recorded call, and never moves a record from the office that filed it. The outreach agent walks from a
+capability to a letter the same way: the model chooses, the rules only refuse.

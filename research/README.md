@@ -68,7 +68,9 @@ and fail on any difference unless `--refresh` is given.
 | `buying_dna.py`, `vendors.py` | Office books from the saved awards; vendors resolved by UEI |
 | `pages.py`, `trace.py` | Object pages (office, vendor, person, cell) and the traced questions (`status`, `need`, `notice`, `award`) |
 | `ask.py` | Questions put to the twin: what changed inside an organization on a topic, which offices buy a capability, a meeting brief, how long past buys took, what weakens each incumbent, a competitor's moves, whom to team with for a capability, meeting notes kept apart, and the evidence room for one requirement |
-| `office_wiki.py` | A page per program office written from the record, and the model's reading, against those pages, of a notice filed at a contracting office that names no office |
+| `office_wiki.py` | A page per program office written from the record, and the model's reading, against those pages, of a notice filed at a contracting office that names no office, a live award signed at an office that owns no requirement, an SBIR topic a command published and a committee statement addressed to the department; the views use the kinds a masked check holds |
+| `notice_kinds.py` | What a SAM.gov special notice announces (an industry day, an intent to award a sole source, a request for information, a draft solicitation), read by one recorded model call and kept only when the words that state it are in the notice |
+| `outreach.py` | From what a company sells to one outreach letter: a model walks the object pages to the agency, command, program executive office and program office, that office's requirements, the initiatives above it and the people tied to it, and the rules refuse whatever the record does not carry |
 | `coverage.py` | The command by family coverage grid and the per-source status |
 | `graph_export.py`, `schema_subset.py` | The organization graph as the program-office resolver reads it; the schema subset for a local database |
 | `llm.py`, `reader.py` | The recorded model call every reader shares, and the rules a reading must pass (verbatim passage, registry authority) |
