@@ -9,9 +9,9 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "research" / "tools"))
-from backtest import CORPUS  # noqa: E402
+from backtest import CORPUS, register_problems  # noqa: E402
 from pages import Layer  # noqa: E402
-from pages import DNA, cell, office, person, sources, vendor  # noqa: E402
+from pages import DNA, OWNER_TYPES, cell, office, person, place, sources, vendor  # noqa: E402
 from pulse import load_people  # noqa: E402
 
 pytestmark = pytest.mark.skipif(not CORPUS.exists(), reason="no frozen corpus on disk")
@@ -51,3 +51,13 @@ def test_a_short_name_the_seed_observed_finds_its_organization(layer):
     lay, _ = layer
     assert lay.orgs[lay.org_id("NAVWAR")]["name"] == "Naval Information Warfare Systems Command"
     assert lay.orgs[lay.org_id("PEO C4I")]["name"].startswith("Program Executive Office Command, Control")
+
+
+def test_a_notice_filed_at_a_contracting_office_is_read_to_a_program_office_with_its_basis(layer):
+    lay, _ = layer
+    read = [e for e in lay.events if e.get("read_as")]
+    assert read and all(lay.orgs[e["filed"]]["org_type"] == "contracting_office" and lay.orgs[e["org"]]["org_type"] in OWNER_TYPES for e in read)
+    adns = [e for e in read if "N0003925R9510" in e["text"]]
+    assert adns and all(lay.orgs[e["org"]]["acronym"] == "PMW 160" and "N00039-23-RFPREQ-PMW-160-0108" in e["read_as"] for e in adns)
+    lines = [place(e, lay.orgs) for e in read]
+    assert all("office not stated" in s and "filed at" in s and not register_problems(s) for s in lines), lines[:3]

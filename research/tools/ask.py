@@ -34,7 +34,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from backtest import CORPUS, GENERIC, RESEARCH, alias_pattern, chain, need_cell, scan, shift, wide  # noqa: E402
 from fetch import MANIFEST  # noqa: E402
-from pages import DNA, Layer, book_line, person  # noqa: E402
+from pages import DNA, PIID_TEXT_RE, SOLICITATION_RE, Layer, book_line, compact, person, place  # noqa: E402
 from people import contacts_for, routes_for  # noqa: E402
 from pulse import CONTRACT_RE, ENDS_RE, PULSE, days_between, load_people, office_name, polarity_of, queue  # noqa: E402
 from vendors import load as load_vendors, names_for  # noqa: E402
@@ -44,8 +44,6 @@ NOTES = RESEARCH.parent / "build" / "notes.jsonl"
 SHOWN = 8
 TWO_YEARS = 730
 MIN_ANALOGS = 5  # the narrowest part of the tree with this many past buys sets the analogs
-SOLICITATION_RE = re.compile(r"; solicitation ([A-Za-z0-9_-]+);")
-PIID_TEXT_RE = re.compile(r"\bN\d{5}-?\d{2}-?[A-Z]-?\d{4}\b")
 SOLICITATION_IN_TITLE_RE = re.compile(r"\bN\d{5}-?\d{2}-?[A-Z]-?[A-Z0-9]{4}\b")
 SHA_RE = re.compile(r"sha256 ([0-9a-f]{12,64})")
 URL_RE = re.compile(r"https?://[^\s;,]+")
@@ -58,17 +56,13 @@ OPEN_NOTICES = tuple(STEPS)
 NOTE_STOP = {"they", "we", "our", "their", "this", "that", "office", "meeting", "said", "will", "the"}
 
 
-def compact(token: str) -> str:
-    return re.sub(r"[^A-Z0-9]", "", token.upper())
-
-
 def plain(title: str) -> str:
     """A statement's title without the source prefix ("SAM.gov presolicitation 2026-05-22: ")."""
     return title.split(": ", 1)[-1]
 
 
 def listed(e: dict, orgs: dict) -> str:
-    return (f"  - {e['available_by']} {office_name(e['org'], orgs) or '-'} {e['event_type'].replace('_', ' ')}: {plain(e['title'])[:100]}"
+    return (f"  - {e['available_by']} {place(e, orgs)} {e['event_type'].replace('_', ' ')}: {plain(e['title'])[:100]}"
             + (" [against]" if polarity_of(e) == "negative" else ""))
 
 
@@ -468,12 +462,13 @@ def questions(layer: Layer, oid: str, tree: set[str], ending: list[dict], naming
     out = []
     for e in recent:
         t, d = plain(e["title"])[:80], e["available_by"]
+        read = f" (the notice names no office; {e['read_as']})" if e.get("read_as") else ""
         if e["event_type"] == "forecast_changed" and e.get("slip") and e["org"] in tree:
             out.append(f"The forecast moved \"{t}\" later ({d}): what is the award window now, and what moved it?")
         elif e["event_type"] == "rfi_released" and d > half and e["org"] in tree:
-            out.append(f"The request for information of {d}, \"{t}\": when is the solicitation planned, and what did the responses change?")
+            out.append(f"The request for information of {d}, \"{t}\": when is the solicitation planned, and what did the responses change?{read}")
         elif e["event_type"] == "justification_posted" and e["org"] in tree:
-            out.append(f"The justification of {d}, \"{t}\": what has to be in place before the follow-on is competed?")
+            out.append(f"The justification of {d}, \"{t}\": what has to be in place before the follow-on is competed?{read}")
         elif e["event_type"] in ("audit_finding", "program_delayed") and e["org"] in tree:
             out.append(f"\"{t}\" ({d}): how does it change the schedule or the requirement?")
         elif e["event_type"] == "leadership_change":

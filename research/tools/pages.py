@@ -20,12 +20,18 @@ sys.path.insert(0, str(HERE))
 from backtest import CORPUS, RESEARCH, chain, need_aliases, need_cell, recurring_tokens, scan, shift  # noqa: E402
 from buying_dna import PIID_RE  # noqa: E402
 from people import SEED, contacts_for, load_routes, routes_for  # noqa: E402
-from pulse import card, days_between, load_people, office_name, score  # noqa: E402
+from pulse import CONTRACT_RE, card, days_between, load_people, office_name, score  # noqa: E402
+from trace import distinctive_tokens  # noqa: E402
 from vendors import load as load_vendors, names_for  # noqa: E402
 
 DNA = RESEARCH / "results" / "buying_dna.json"
 TWO_YEARS = 730
 SHOWN = 8
+OWNER_TYPES = ("program_office", "program_executive_office")
+OFFICE_CODE_RE = re.compile(r"\b(?:PMW|PMS|PMA|IWS)[ /-]*(?:A[ -]*)?\d{2,3}(?:\.\d)?\b|\bPEO [A-Z][A-Za-z0-9]+")
+HULL_RE = re.compile(r"\bUSS\s+[A-Z][A-Za-z .'-]*?\s*\(?[A-Z]{2,4}[\s-]*\d{1,4}\)?|\b[A-Z]{2,4}[\s-]+\d{1,4}\b")
+SOLICITATION_RE = re.compile(r"; solicitation ([A-Za-z0-9_-]+);")
+PIID_TEXT_RE = re.compile(r"\bN\d{5}-?\d{2}-?[A-Z]-?\d{4}\b")
 
 
 class Layer:
@@ -41,6 +47,11 @@ class Layer:
         self.by_acronym = {o["acronym"].lower(): oid for oid, o in self.orgs.items() if o.get("acronym")}
         self.by_acronym.update({o["name"].lower(): oid for oid, o in self.orgs.items()})
         self.by_acronym.update(seed_names(self.by_acronym))
+        # A notice filed at a contracting office is read to the office other records place it with, so an office's
+        # questions see it; the filed office and the basis travel with it, and the corpus itself is not changed.
+        read = read_offices(corpus, self.org_id)
+        self.events = [{**e, "org": read[e["id"]][0], "filed": e["org"], "read_as": read[e["id"]][1]} if e["id"] in read else e
+                       for e in self.events]
 
     def org_id(self, name: str) -> str | None:
         key = re.sub(r"\s+", " ", name).strip().lower().replace("pmw-", "pmw ")
@@ -48,7 +59,7 @@ class Layer:
 
     def brief(self, e: dict) -> dict:
         row = {"id": e["id"], "date": e["available_by"], "family": e["family"], "type": e["event_type"], "stage": e.get("stage", ""),
-               "polarity": e.get("polarity", ""), "office": office_name(e["org"], self.orgs), "title": e["title"][:140]}
+               "polarity": e.get("polarity", ""), "office": place(e, self.orgs), "title": e["title"][:140]}
         return row
 
     def need_brief(self, n: dict) -> dict:
@@ -146,6 +157,78 @@ def seed_names(known: dict[str, str]) -> dict[str, str]:
         for a in node.get("aliases", []) if oid else []:
             seen.setdefault(a["text"].lower(), set()).add(oid)
     return {a: ids.pop() for a, ids in seen.items() if len(ids) == 1 and a not in known}
+
+
+def compact(token: str) -> str:
+    return re.sub(r"[^A-Z0-9]", "", token.upper())
+
+
+def read_offices(corpus: dict, org_id) -> dict[str, tuple[str, str]]:
+    """Notice id -> (office, basis) for a notice filed at a contracting office because it names no program office there.
+    The office other records place it with, strongest first: the notice's own text names one; a forecast row carries its
+    solicitation number; it cites a contract a program office holds; its title carries a program name that two or more
+    forecast rows of one office use and no other office's rows do. A reading travels with its basis and the filed office."""
+    orgs = corpus["orgs"]
+    owner = lambda oid: orgs.get(oid, {}).get("org_type") in OWNER_TYPES
+    needs = [n for n in corpus["needs"] if owner(n["owner_id"])]
+    by_sol: dict[str, set[tuple[str, str]]] = {}
+    rows_with: dict[str, Counter] = {}
+    for n in needs:
+        for t in re.findall(r"\bN\d{5}\S*", n["title"]):
+            if len(compact(t)) >= 12:
+                by_sol.setdefault(compact(t), set()).add((n["owner_id"], n["key"]))
+        for t in names_in(n["title"]):
+            rows_with.setdefault(t.upper(), Counter())[n["owner_id"]] += 1
+    names = {t: next(iter(c.items())) for t, c in rows_with.items() if len(c) == 1 and max(c.values()) >= 2}
+    held: dict[str, set[str]] = {}
+    for e in corpus["events"]:
+        if e["family"] == "incumbent" and owner(e["org"]) and (m := CONTRACT_RE.search(e["title"])):
+            held.setdefault(compact(m.group(1)), set()).add(e["org"])
+    out = {}
+    for e in corpus["events"]:
+        if e["family"] != "notice" or orgs.get(e["org"], {}).get("org_type") != "contracting_office":
+            continue
+        named = {oid: code for code in OFFICE_CODE_RE.findall(e["text"]) if owner(oid := org_id(code) or "")}
+        named = {o: c for o, c in named.items() if not any(o != x and o in chain(x, orgs) for x in named)}  # PEO C4I ... PMW 760 names PMW 760
+        sol = SOLICITATION_RE.search(e["text"])
+        rows = by_sol.get(compact(sol.group(1)), set()) if sol else set()
+        cites = {(o, p) for p in PIID_TEXT_RE.findall(e["text"]) for o in held.get(compact(p), ())}
+        carried = {names[t.upper()][0]: t for t in names_in(plain_title(e["title"])) if t.upper() in names}
+        if len(named) == 1:
+            (oid, code), = named.items()
+            out[e["id"]] = (oid, f"the notice names {code}")
+        elif len({o for o, _ in rows}) == 1:
+            oid, key = min(rows)
+            out[e["id"]] = (oid, f"forecast row {key} carries solicitation {sol.group(1)}")
+        elif len({o for o, _ in cites}) == 1:
+            oid, piid = min(cites)
+            out[e["id"]] = (oid, f"it cites contract {piid}, which {office_name(oid, orgs)} holds")
+        elif len(carried) == 1:
+            (oid, token), = carried.items()
+            out[e["id"]] = (oid, f"its title carries {token}, a program name {names[token.upper()][1]} forecast rows of {office_name(oid, orgs)} use and no other office's do")
+    return out
+
+
+def bare(title: str) -> str:
+    """A title without its ship names and hull numbers (USS TRUXTUN (DDG 103), LPD 30): the platform, not the program."""
+    return HULL_RE.sub(" ", re.sub(r"\s*\((?:C|N|O)\)\s*$", "", title))
+
+
+def names_in(title: str) -> set[str]:
+    """Program names a title writes in capitals; in a title written all in capitals only a code with a digit counts, since
+    every word there is capitalised (INDUSTRY DAY names no program)."""
+    tokens = distinctive_tokens(bare(title))
+    return {t for t in tokens if re.search(r"\d", t)} if title.upper() == title else tokens
+
+
+def plain_title(title: str) -> str:
+    return title.split(": ", 1)[-1]
+
+
+def place(e: dict, orgs: dict) -> str:
+    """The office a statement sits with; when it was read rather than stated, how, and where the record filed it."""
+    where = office_name(e["org"], orgs) or "-"
+    return f"{where} (office not stated; {e['read_as']}; filed at {office_name(e['filed'], orgs)})" if e.get("read_as") else where
 
 
 def sources(events: list[dict], as_of: str) -> list[dict]:
@@ -334,6 +417,30 @@ def layer_views() -> None:
     assert st["id"] == "t1" and "text" in st and st["forecast_rows_total"] == 2 and layer.cell("nothing")["error"], st
     assert layer.topics("tactical data links")["topics"] == 1 and layer.neighbors("PMW 101")["siblings"] == ["PMW 160"]
     assert layer.neighbors("PMW")["similar"] and layer.people("PMW 101") == {"office": "PMW 101", "people": []}
+    read_views(orgs)
+
+
+def read_views(orgs: dict) -> None:
+    orgs = {**orgs, "kt": {"acronym": "NAVWAR 2.0", "name": "Contracts", "parent": "", "org_type": "contracting_office"}}
+    ev = lambda i, org, title, text="", fam="notice": {"id": i, "event_type": "rfp_released", "date": "2026-08-01", "available_by": "2026-08-01",
+                                                        "provider": "sam", "family": fam, "org": org, "title": title, "text": text or title}
+    events = [ev("i1", "pmw", "Incumbent contract N0003924C0001 ends 2027-01-01: RADIO SUSTAINMENT", fam="incumbent"),
+              ev("k1", "kt", "SAM.gov RFP: PEO C4I PMW 101 Radio"),
+              ev("k2", "kt", "SAM.gov RFP: NETWORK SERVICES", "SAM.gov RFP; solicitation N0003925R9510; network services"),
+              ev("k3", "kt", "SAM.gov notice of intent: RADIO SUSTAINMENT", "follow-on to N00039-24-C-0001"),
+              ev("k4", "kt", "SAM.gov sources sought: SWARMM Radio Upgrade"),
+              ev("k5", "kt", "SAM.gov RFP: PMW 101 and PMW 160 joint radio"),
+              ev("k6", "kt", "SAM.gov RFI: INDUSTRY DAY")]
+    needs = [{"key": "R1", "title": "ADNS MAC N0003925R9510 (C)", "owner": "PMW 160", "owner_id": "other"},
+             {"key": "R2", "title": "SWARMM radio lot 1 (C)", "owner": "PMW 101", "owner_id": "pmw"},
+             {"key": "R3", "title": "SWARMM radio lot 2 (C)", "owner": "PMW 101", "owner_id": "pmw"}]
+    layer = Layer({"orgs": orgs, "events": events, "needs": needs, "outcomes": []}, roster=[])
+    read = {e["id"]: (e["org"], e["read_as"]) for e in layer.events if e.get("read_as")}
+    assert read == {"k1": ("pmw", "the notice names PMW 101"), "k2": ("other", "forecast row R1 carries solicitation N0003925R9510"),
+                    "k3": ("pmw", "it cites contract N00039-24-C-0001, which PMW 101 holds"),
+                    "k4": ("pmw", "its title carries swarmm, a program name 2 forecast rows of PMW 101 use and no other office's do")}, read
+    k1 = next(e for e in layer.events if e["id"] == "k1")
+    assert place(k1, layer.orgs) == "PMW 101 (office not stated; the notice names PMW 101; filed at NAVWAR 2.0)", place(k1, layer.orgs)
 
 
 if __name__ == "__main__":

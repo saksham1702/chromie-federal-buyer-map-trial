@@ -62,6 +62,15 @@ in a fixed order and records how strong the result is, including when it is "we 
    counterevidence, and, when unresolved, what would resolve it (EX19). Every record goes to a
    reviewer when the class is `inferred`, `ambiguous` or `unresolved`.
 
+A notice filed at a contracting office that names no program office is read the same way by
+`research/tools/pages.py`, strongest step first: an office code in its own text, a forecast row that
+carries its solicitation number, a contract it cites that one program office holds, then a program name
+in its title that two or more forecast rows of one office use and no other office's rows do. Each step
+must point to a single office, otherwise the notice stays at the contracting office. The object pages
+and every answer print a reading as office not stated, with its basis and the office that filed it: the
+ADNS notices under solicitation N0003925R9510 are read to PMW 160 because forecast row
+N00039-23-RFPREQ-PMW-160-0108 carries that number.
+
 Likely contacts per office, from published sources only (tear sheets, change-of-command releases,
 the LRAE's published contracting points of contact, official small-business and industry pages),
 are in `research/memory/contact_observations.json` and `research/memory/contact_recommendations.json` with a confidence label and the reason for it.

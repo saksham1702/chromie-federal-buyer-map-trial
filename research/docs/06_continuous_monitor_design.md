@@ -473,8 +473,8 @@ a reorganization above the office, a contract ending within a year for which no 
 
 `analogs` groups the notices by solicitation number into dated paths and reads how long past buys took from the step
 a requirement has reached to an award notice, in the narrowest part of the tree that holds five of them. For the
-Egyptian Navy AINTS request for proposal of 17 September 2026, eight past buys under PEO C4I went from a solicitation
-to an award notice in a median of 284 days, which places the award between 6 April and 29 July 2027. A forecast
+Egyptian Navy AINTS request for proposal of 17 September 2026, nine past buys under PEO C4I went from a solicitation
+to an award notice in a median of 307 days, which places the award between 13 April and 19 September 2027. A forecast
 row's own notices carry its line or a number its title names; when only a notice sharing the row's name is found,
 the answer states that the tie is a reading. `incumbents` lists the contracts ending within two years under an office,
 each with what weakens the incumbent's hold (an extension, a follow-on forecast row, a follow-on notice) and what
