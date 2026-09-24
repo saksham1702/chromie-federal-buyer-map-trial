@@ -66,7 +66,7 @@ def cells(corpus: dict, labels: dict) -> list[dict]:
         row = by_id.get(outcome["id"])
         if not row:
             continue
-        cell = outcome_cell(outcome, row, corpus)
+        cell = outcome_cell(outcome, row, corpus, replay=False)
         out.append({"key": f"outcome:{outcome['id']}", "org": cell["org"], "office": office_name(cell["org"], orgs),
                     "name": row.get("capability") or outcome["title"], "aliases": specific(row["aliases"], events, orgs), "terms": cell["terms"]})
     for need in pilot_needs(corpus):

@@ -403,7 +403,7 @@ def reached_on(events: list[dict], minimum: int) -> str | None:
 def cell_org_for(label_row: dict, outcome: dict, orgs: dict, events: list[dict] = ()) -> str:
     """The cell's office: the one the label names when it is a known office; else, when the notice hangs off a
     contracting office, the single owner of the forecast rows the aliases reach; else the linked office."""
-    office = re.sub(r"\s+", " ", label_row.get("program_office", "")).replace("PMW-", "PMW ").strip()
+    office = re.sub(r"\b(PM[ASW])-(?=\d)", r"\1 ", re.sub(r"\s+", " ", label_row.get("program_office", ""))).strip()
     if office:
         for oid, o in orgs.items():
             if o["acronym"] and o["acronym"].lower() == office.lower():
@@ -472,10 +472,13 @@ def specific(names: list[str], events: list[dict], orgs: dict) -> list[str]:
 EMPTY_LABEL = {"aliases": [], "capability_terms": [], "program_office": "", "capability": ""}
 
 
-def outcome_cell(outcome: dict, row: dict, corpus: dict, max_term_hits: int = MAX_TERM_HITS) -> dict:
+def outcome_cell(outcome: dict, row: dict, corpus: dict, max_term_hits: int = MAX_TERM_HITS, replay: bool = True) -> dict:
     """One outcome's cell: its office, the names kept, the capability terms kept and dropped, the events matched by
-    name alone (`strict`) and by name or term (`hits`); the outcome's own row never counts toward itself."""
-    orgs, events = corpus["orgs"], corpus["events"]
+    name alone (`strict`) and by name or term (`hits`); the outcome's own row never counts toward itself. A replay
+    reads only the events available by the outcome's date: a later release neither names the office nor makes a
+    name common. The live view (`replay` False) reads every event."""
+    orgs = corpus["orgs"]
+    events = [e for e in corpus["events"] if not replay or e["available_by"] <= outcome["date"]]
     cell_org = cell_org_for(row, outcome, orgs, events)
     aliases, strict = with_lines(cell_org, specific(row["aliases"], events, orgs), events, orgs, exclude=outcome["id"])
     terms = [t for t in row.get("capability_terms") or [] if not too_common(t, events, max_term_hits, orgs)]
@@ -720,6 +723,12 @@ def selfcheck() -> int:
     al, hits = with_lines("pmw", ["Front Office Recompete"], line_events, orgs)
     assert [e["id"] for e in hits] == ["i1", "f1"] and al[-1] == "N00039-26-RFPREQ-PMW-160-0009", (al, [e["id"] for e in hits])
     assert cell_org_for({"program_office": "", "aliases": ["Front Office Recompete"]}, {"org": "hq"}, orgs, line_events) == "pmw"
+    assert cell_org_for({"program_office": "PMS-404"}, {"org": "hq"}, {**orgs, "pms": {"acronym": "PMS 404"}}) == "pms"
+    front, later = {"program_office": "", "aliases": ["Front Office Recompete"]}, line_events + [ev("f2", "forecast", "2026-07-13", "pms", "Front Office Recompete")]
+    pms_orgs = {**orgs, "pms": {**orgs["pmw"], "acronym": "PMS 404", "name": "PMS 404"}}
+    assert outcome_cell({"id": "n", "org": "hq", "date": "2025-07-01"}, front, {"orgs": pms_orgs, "events": later})["org"] == "pmw", \
+        "a release after the outcome neither names its office nor counts toward it"
+    assert outcome_cell({"id": "n", "org": "hq", "date": "2026-08-01"}, front, {"orgs": pms_orgs, "events": later})["org"] == "hq"
     print("backtest selfcheck ok")
     return 0
 
