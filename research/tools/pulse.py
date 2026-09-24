@@ -417,13 +417,20 @@ def build(argv: list[str]) -> int:
     return 0
 
 
+def saved_pulse(as_of: str) -> dict:
+    """The built pulse when it was built for this day: its ranking and actions without scoring every cell again."""
+    saved = json.loads(PULSE.read_text(encoding="utf-8")) if PULSE.exists() else {}
+    return saved if saved.get("as_of") == as_of else {}
+
+
 def rank_cmd(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(prog="pulse.py rank")
     ap.add_argument("--as-of", default=None)
     ap.add_argument("--top", type=int, default=20)
     args = ap.parse_args(argv)
     corpus, labels = load()
-    ranked = rank(corpus, labels, args.as_of or corpus_end(corpus))
+    as_of = args.as_of or corpus_end(corpus)
+    ranked = (saved_pulse(as_of).get("ranking") if args.top <= 50 else None) or rank(corpus, labels, as_of)
     print(rank_text(ranked, args.top))
     for c in ranked[: min(3, args.top)]:
         print(f"\n{c['office']}: {c['name'][:90]} = {c['score']} as of {c['as_of']}" + (" (slip)" if c["slip"] else ""))
@@ -449,7 +456,8 @@ def actions_cmd(argv: list[str]) -> int:
     args = ap.parse_args(argv)
     corpus, labels = load()
     as_of = args.as_of or corpus_end(corpus)
-    for a in queue(actions(rank(corpus, labels, as_of), corpus, as_of, roster=load_people(), routes=load_routes())):
+    acts = saved_pulse(as_of).get("actions") or actions(rank(corpus, labels, as_of), corpus, as_of, roster=load_people(), routes=load_routes())
+    for a in queue(acts):
         print(f"{a['by'] or '':10} #{a['priority']:<4} {a['type']:17} {a['office'][:12]:12} {a['name'][:60]:60} {a['why']} [{len(a['evidence'])} event(s)]")
         for r in a.get("routes", [])[:3]:
             print(f"{'':30} {r['side']}: {r['recommendation'][:100]}")

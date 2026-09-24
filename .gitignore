@@ -10,3 +10,4 @@ data/raw/
 research/**/*.json
 research/**/*.jsonl
 datapack/
+research/results/outreach/
