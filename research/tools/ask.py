@@ -34,7 +34,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from backtest import CORPUS, GENERIC, RESEARCH, alias_pattern, chain, need_cell, scan, shift, wide  # noqa: E402
 from fetch import MANIFEST  # noqa: E402
-from pages import DNA, PIID_TEXT_RE, SOLICITATION_RE, Layer, book_line, compact, person, place  # noqa: E402
+from pages import DNA, PIID_TEXT_RE, SOLICITATION_RE, Layer, book_line, compact, person, place, pointed  # noqa: E402
 from people import contacts_for, routes_for  # noqa: E402
 from pulse import CONTRACT_RE, ENDS_RE, PULSE, days_between, load_people, office_name, polarity_of, queue  # noqa: E402
 from vendors import load as load_vendors, names_for  # noqa: E402
@@ -475,6 +475,11 @@ def questions(layer: Layer, oid: str, tree: set[str], ending: list[dict], naming
             out.append(f"{t}: what has the new leadership set as priorities?")
         elif e["event_type"] == "reorganization":
             out.append(f"The reorganization stated on {d} at {office_name(e['org'], layer.orgs)} (\"{t[:70]}\"): where does the office sit now, and who decides its buys?")
+    guessed = sorted((e for e in layer.events if pointed(e) in tree and e["event_type"] in STEPS and year < e["available_by"] <= layer.as_of),
+                     key=lambda e: e["available_by"], reverse=True)
+    out += [f"The {STEPS[e['event_type']]} of {e['available_by']} filed at {office_name(e['org'], layer.orgs)}, \"{plain(e['title'])[:70]}\", names no "
+            f"office, and " + (f"the model reads it here from \"{e['model_read'][1][:60]}\"" if e.get("model_read") else
+                               f"its words ({', '.join(e['guesses'][0][2])}) point here first") + ": is it this office's buy?" for e in guessed[:2]]
     out += [f"Contract {c['contract']} ({c['vendor'] or 'vendor not stated'}, {c['work'][:50]}) ends {c['end']} and no notice names a follow-on: "
             f"will it be competed, extended or bridged?" for c in expiring_unannounced(ending, naming, layer.as_of)[:3]]
     return list(dict.fromkeys(out))[:SHOWN]

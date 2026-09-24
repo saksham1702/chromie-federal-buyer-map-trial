@@ -11,7 +11,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "research" / "tools"))
 from backtest import CORPUS, register_problems  # noqa: E402
 from pages import Layer  # noqa: E402
-from pages import DNA, OWNER_TYPES, cell, office, person, place, sources, vendor  # noqa: E402
+from pages import DNA, OWNER_TYPES, cell, guess_trial, office, person, place, sources, vendor  # noqa: E402
+from pulse import office_name  # noqa: E402
 from pulse import load_people  # noqa: E402
 
 pytestmark = pytest.mark.skipif(not CORPUS.exists(), reason="no frozen corpus on disk")
@@ -61,3 +62,21 @@ def test_a_notice_filed_at_a_contracting_office_is_read_to_a_program_office_with
     assert adns and all(lay.orgs[e["org"]]["acronym"] == "PMW 160" and "N00039-23-RFPREQ-PMW-160-0108" in e["read_as"] for e in adns)
     lines = [place(e, lay.orgs) for e in read]
     assert all("office not stated" in s and "filed at" in s and not register_problems(s) for s in lines), lines[:3]
+
+
+def test_a_notice_no_record_places_keeps_its_filed_office_and_carries_guesses(layer):
+    lay, _ = layer
+    guessed = [e for e in lay.events if e.get("guesses")]
+    assert guessed and all(lay.orgs[e["org"]]["org_type"] == "contracting_office" and not e.get("read_as") for e in guessed)
+    assert all(lay.orgs[oid]["org_type"] in OWNER_TYPES for e in guessed for oid, _, _ in e["guesses"])
+    lines = [place(e, lay.orgs) for e in guessed]
+    assert all("guessed from the words its records share" in s and not register_problems(s) for s in lines), lines[:3]
+    iuss = [e for e in guessed if "IUSS" in e["title"]]
+    assert iuss and all(office_name(e["guesses"][0][0], lay.orgs).startswith("PMS 485") for e in iuss), "IUSS is the maritime surveillance office's"
+
+
+def test_the_guess_is_right_where_the_office_is_known():
+    trial = guess_trial(json.loads(CORPUS.read_text(encoding="utf-8")))
+    guessed = trial["first"] + trial["top three"] + trial["missed"]
+    lead = trial["clear lead, first"] + trial["clear lead, not first"]
+    assert guessed >= 100 and trial["first"] >= 0.85 * guessed and trial["clear lead, first"] >= 0.9 * lead, trial

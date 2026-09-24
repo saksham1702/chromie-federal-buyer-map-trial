@@ -71,6 +71,23 @@ and every answer print a reading as office not stated, with its basis and the of
 ADNS notices under solicitation N0003925R9510 are read to PMW 160 because forecast row
 N00039-23-RFPREQ-PMW-160-0108 carries that number.
 
+A notice no record places keeps the office that filed it and carries up to three guesses, best first: the
+program offices whose own forecast rows, notices, contract rows and topics share a word the notice writes
+as a program name, each word weighed by how rare it is across the record and by how much of its use is
+that office's. A program name is a word the titles mostly write in capitals or with a digit (AEGIS,
+IUSS, SF2), so a title of plain words guesses nothing. A guess is printed as a guess with the words behind
+it, never moves the notice, and becomes a question in the guessed office's meeting brief: the AEGIS
+notices NAVSEA filed with no office carry IWS 1.0 first, and the IUSS notices carry PMS 485.
+
+`research/tools/office_wiki.py` writes a page per program office from the record: where it sits, the
+program names its records use, and its newest forecast rows, notices, contract work and topics, with one
+directory line per office. A model reads each notice no record places against the directory and the pages
+of the offices its program names point to, and names one office or none. The rules keep the answer only
+when the notice words and the page line it quotes are verbatim and the notice words are more than generic
+words. The reading is printed with both quotes beside the guesses and never moves the notice. It is checked
+on the notices that do name their office, with every office name masked and every record under the same
+solicitation left out of the pages.
+
 Likely contacts per office, from published sources only (tear sheets, change-of-command releases,
 the LRAE's published contracting points of contact, official small-business and industry pages),
 are in `research/memory/contact_observations.json` and `research/memory/contact_recommendations.json` with a confidence label and the reason for it.

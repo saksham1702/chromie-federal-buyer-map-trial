@@ -10,6 +10,7 @@ sources that speak about it, how much, when each last spoke, and which families 
 from __future__ import annotations
 
 import json
+import math
 import re
 import sys
 from collections import Counter
@@ -17,14 +18,15 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-from backtest import CORPUS, RESEARCH, chain, need_aliases, need_cell, recurring_tokens, scan, shift  # noqa: E402
+from backtest import CORPUS, GENERIC, RESEARCH, chain, need_aliases, need_cell, recurring_tokens, scan, shift  # noqa: E402
 from buying_dna import PIID_RE  # noqa: E402
 from people import SEED, contacts_for, load_routes, routes_for  # noqa: E402
 from pulse import CONTRACT_RE, card, days_between, load_people, office_name, score  # noqa: E402
-from trace import distinctive_tokens  # noqa: E402
+from trace import STOP, distinctive_tokens  # noqa: E402
 from vendors import load as load_vendors, names_for  # noqa: E402
 
 DNA = RESEARCH / "results" / "buying_dna.json"
+READS = RESEARCH / "results" / "office_reads.json"  # office_wiki.py build: the model's reading of each notice no record places
 TWO_YEARS = 730
 SHOWN = 8
 OWNER_TYPES = ("program_office", "program_executive_office")
@@ -32,6 +34,13 @@ OFFICE_CODE_RE = re.compile(r"\b(?:PMW|PMS|PMA|IWS)[ /-]*(?:A[ -]*)?\d{2,3}(?:\.
 HULL_RE = re.compile(r"\bUSS\s+[A-Z][A-Za-z .'-]*?\s*\(?[A-Z]{2,4}[\s-]*\d{1,4}\)?|\b[A-Z]{2,4}[\s-]+\d{1,4}\b")
 SOLICITATION_RE = re.compile(r"; solicitation ([A-Za-z0-9_-]+);")
 PIID_TEXT_RE = re.compile(r"\bN\d{5}-?\d{2}-?[A-Z]-?\d{4}\b")
+# Words any notice title may carry whoever buys: the notice kind, the instrument and the parts vocabulary.
+NOTICE_WORDS = {"day", "industry", "request", "information", "report", "summary", "notice", "intent", "sources", "sought", "synopsis",
+                "solicitation", "presolicitation", "amendment", "draft", "special", "announcement", "justification", "approval", "sole",
+                "source", "brand", "name", "only", "purchase", "repair", "parts", "part", "equipment", "items", "item", "various", "kit",
+                "kits", "material", "delivery", "requirement", "requirements", "acquisition", "event", "session", "questions", "answers",
+                "update", "extension", "modification", "exercise", "letter", "direction", "technical", "phase", "sbir", "sttr", "vessel", "vessels",
+                "usn", "fms", "uca", "lrae", "rfpreq", "peo", "pae", "c4i", "iii", "cno"}
 
 
 class Layer:
@@ -50,8 +59,13 @@ class Layer:
         # A notice filed at a contracting office is read to the office other records place it with, so an office's
         # questions see it; the filed office and the basis travel with it, and the corpus itself is not changed.
         read = read_offices(corpus, self.org_id)
-        self.events = [{**e, "org": read[e["id"]][0], "filed": e["org"], "read_as": read[e["id"]][1]} if e["id"] in read else e
-                       for e in self.events]
+        # A notice no record places keeps its filed office and carries the offices whose records share its program names,
+        # and the model's reading of it against the office pages when that reading quotes both verbatim.
+        guessed, modelled = guess_offices(corpus, read), model_reads(corpus)
+        self.events = [{**e, "org": read[e["id"]][0], "filed": e["org"], "read_as": read[e["id"]][1]} if e["id"] in read
+                       else {**e, **({"guesses": guessed[e["id"]]} if e["id"] in guessed else {}),
+                             **({"model_read": modelled[e["id"]]} if e["id"] in modelled else {})} if e["id"] in guessed or e["id"] in modelled
+                       else e for e in self.events]
 
     def org_id(self, name: str) -> str | None:
         key = re.sub(r"\s+", " ", name).strip().lower().replace("pmw-", "pmw ")
@@ -88,6 +102,8 @@ class Layer:
         mine = [e for e in self.events if e["org"] in tree and e["available_by"] <= self.as_of]
         owned = [n for n in self.needs if n["owner_id"] in tree]
         vendors = Counter(e.get("vendor", "") for e in mine if e["family"] == "incumbent" and e.get("vendor"))
+        guessed = sorted((e for e in self.events if pointed(e) in tree and e["available_by"] <= self.as_of),
+                         key=lambda e: e["available_by"], reverse=True)
         o = self.orgs[oid]
         return {"office": o["acronym"] or o["name"], "name": o["name"], "type": o.get("org_type", ""),
                 "chain": [office_name(x, self.orgs) for x in chain(oid, self.orgs)[1:]],
@@ -96,6 +112,7 @@ class Layer:
                 "newest": [self.brief(e) for e in sorted(mine, key=lambda e: e["available_by"], reverse=True)[:SHOWN]],
                 "topics": [self.brief(e) for e in sorted((e for e in mine if e["family"] == "programs"), key=lambda e: e["available_by"], reverse=True)[:5]],
                 "vendors": dict(vendors.most_common(5)),
+                "guessed_total": len(guessed), "guessed": [self.brief(e) for e in guessed[:5]],
                 "people": contacts_for(chain(oid, self.orgs) or [oid], self.roster, self.as_of)[:5],
                 "routes": routes_for(chain(oid, self.orgs) or [oid], self.routes, self.as_of)}
 
@@ -209,6 +226,106 @@ def read_offices(corpus: dict, org_id) -> dict[str, tuple[str, str]]:
     return out
 
 
+def title_words(title: str) -> set[str]:
+    """The words of a title that can tell whose buy it is: no stop word, notice vocabulary, contract or topic number."""
+    return {w for w in re.findall(r"[a-z][a-z0-9]{2,}", bare(title).lower())
+            if w not in STOP and w not in GENERIC and w not in NOTICE_WORDS and not re.match(r"n\d{3}|fy\d\d$|oy\d+$", w) and not re.search(r"\d{4}", w)}
+
+
+def office_words(corpus: dict) -> tuple[dict[str, Counter], dict[str, set[str]], set[str]]:
+    """Word -> program office -> how many of its records use it, over its forecast rows and the notices, contract rows,
+    forecast statements and topics filed at it; each record's words, so a trial can take records out; and the program
+    names: words the titles not written all in capitals mostly write in capitals or with a digit (AEGIS, MIDS, SF2; Class
+    and Total are written both ways and name nothing)."""
+    owner = lambda oid: corpus["orgs"].get(oid, {}).get("org_type") in OWNER_TYPES
+    records = [(f"need:{n['key']}", n["owner_id"], n["title"]) for n in corpus["needs"]]
+    records += [(e["id"], e["org"], plain_title(e["title"])) for e in corpus["events"] if e["family"] in ("notice", "incumbent", "forecast", "programs")]
+    by_word: dict[str, Counter] = {}
+    words_of: dict[str, set[str]] = {}
+    for rid, oid, title in records:
+        if owner(oid):
+            words_of[rid] = title_words(title)
+            for w in words_of[rid]:
+                by_word.setdefault(w, Counter())[oid] += 1
+    capital, seen = Counter(), Counter()
+    for title in [n["title"] for n in corpus["needs"]] + [plain_title(e["title"]) for e in corpus["events"]]:
+        for part in re.findall(r"[A-Za-z0-9]{3,}", bare(title)) if title.upper() != title else ():
+            seen[part.lower()] += 1
+            capital[part.lower()] += part.isupper() or bool(re.search(r"\d", part))
+    return by_word, words_of, {w for w, n in seen.items() if 2 * capital[w] > n}
+
+
+def rank_offices(title: str, by_word: dict[str, Counter], records: int, known: set[str], top: int = 3) -> list[tuple[str, float, list[str]]]:
+    """Offices by the words they share with a title: each word weighs by how rare it is across the record and by the share
+    of its uses that are the office's (MIDS is PMA/PMW 101's own; a word every office uses weighs next to nothing). Only an
+    office sharing a word the title writes as a program name ranks: plain words alone (department, research) guess nothing."""
+    words = title_words(title)
+    ranked = {oid for w in words & known for oid, n in by_word.get(w, Counter()).items() if n > 0}
+    scores: Counter = Counter()
+    why: dict[str, Counter] = {}
+    for w in sorted(words):
+        uses = +by_word.get(w, Counter())
+        total = sum(uses.values())
+        for oid in sorted(ranked & set(uses)):
+            why.setdefault(oid, Counter())[w] = math.log(records / total) * uses[oid] / total
+            scores[oid] += why[oid][w]
+    best = lambda counts: sorted(counts.items(), key=lambda x: (-round(x[1], 6), x[0]))  # ties by name, so a rerun reads the same
+    return [(oid, round(s, 2), [w for w, _ in best(why[oid])[:3]]) for oid, s in best(scores)[:top]]
+
+
+def guess_offices(corpus: dict, read: dict) -> dict[str, list[tuple[str, float, list[str]]]]:
+    """Notice id -> the program offices whose own records share its telling words, best first, for a notice filed at a
+    contracting office that no record places. A guess never moves the notice: it stays at the office that filed it."""
+    by_word, words_of, known = office_words(corpus)
+    out = {}
+    for e in corpus["events"]:
+        if e["family"] == "notice" and e["id"] not in read and corpus["orgs"].get(e["org"], {}).get("org_type") == "contracting_office":
+            if ranked := rank_offices(plain_title(e["title"]), by_word, len(words_of), known):
+                out[e["id"]] = ranked
+    return out
+
+
+def model_reads(corpus: dict) -> dict[str, tuple[str, str, str]]:
+    """Notice id -> (office, notice words, page line) from the model's saved readings, where the rules held."""
+    if not READS.exists():
+        return {}
+    by_name = {office_name(oid, corpus["orgs"]): oid for oid, o in corpus["orgs"].items() if o.get("org_type") in OWNER_TYPES}
+    return {nid: (by_name[a["office"]], a["notice_words"].replace('"', "'"), a["page_line"].replace('"', "'"))
+            for nid, a in json.loads(READS.read_text(encoding="utf-8"))["notices"].items() if a["office"] in by_name and not a["problems"]}
+
+
+def pointed(e: dict) -> str:
+    """The office a notice no record places points to: the model's reading, else the first guess from the words."""
+    return e["model_read"][0] if e.get("model_read") else e["guesses"][0][0] if e.get("guesses") else ""
+
+
+def guess_trial(corpus: dict) -> Counter:
+    """How the guess fares where the office is known: each notice filed at a program office under a solicitation number is
+    guessed with every record under that number taken out, and counted as first, in the top three, or missed."""
+    by_word, words_of, known = office_words(corpus)
+    under: dict[str, list[dict]] = {}
+    for e in corpus["events"]:
+        if e["family"] == "notice" and (m := SOLICITATION_RE.search(e["text"])):
+            under.setdefault(compact(m.group(1)), []).append(e)
+    out: Counter = Counter()
+    for group in under.values():
+        stated = [e for e in group if corpus["orgs"].get(e["org"], {}).get("org_type") in OWNER_TYPES]
+        if not stated:
+            continue
+        trimmed, out_ids = dict(by_word), [e for e in group if e["id"] in words_of]
+        for e in out_ids:
+            for w in words_of[e["id"]]:
+                trimmed[w] = trimmed[w].copy() if trimmed[w] is by_word[w] else trimmed[w]
+                trimmed[w][e["org"]] -= 1
+        for e in stated:
+            ranked = rank_offices(plain_title(e["title"]), trimmed, len(words_of) - len(out_ids), known)
+            top = [oid for oid, _, _ in ranked]
+            out["first" if top[:1] == [e["org"]] else "top three" if e["org"] in top else "no guess" if not top else "missed"] += 1
+            if ranked and (len(ranked) == 1 or ranked[0][1] >= 2 * ranked[1][1]):
+                out["clear lead, first" if top[0] == e["org"] else "clear lead, not first"] += 1
+    return out
+
+
 def bare(title: str) -> str:
     """A title without its ship names and hull numbers (USS TRUXTUN (DDG 103), LPD 30): the platform, not the program."""
     return HULL_RE.sub(" ", re.sub(r"\s*\((?:C|N|O)\)\s*$", "", title))
@@ -228,7 +345,16 @@ def plain_title(title: str) -> str:
 def place(e: dict, orgs: dict) -> str:
     """The office a statement sits with; when it was read rather than stated, how, and where the record filed it."""
     where = office_name(e["org"], orgs) or "-"
-    return f"{where} (office not stated; {e['read_as']}; filed at {office_name(e['filed'], orgs)})" if e.get("read_as") else where
+    if e.get("read_as"):
+        return f"{where} (office not stated; {e['read_as']}; filed at {office_name(e['filed'], orgs)})"
+    parts = []
+    if e.get("model_read"):
+        oid, words, line = e["model_read"]
+        parts.append(f"the model reads {office_name(oid, orgs)} from \"{words}\" against its page line \"{line}\"")
+    if e.get("guesses"):
+        parts.append("guessed from the words its records share, best first: "
+                     + "; ".join(f"{office_name(oid, orgs)} ({', '.join(w)})" for oid, _, w in e["guesses"]))
+    return f"{where} (office not stated; {'; '.join(parts)})" if parts else where
 
 
 def sources(events: list[dict], as_of: str) -> list[dict]:
@@ -274,6 +400,9 @@ def office(layer: Layer, name: str, dna: dict) -> str:
         lines += [f"  - {e['date']} {e['title']}" for e in o["topics"]]
     if o["vendors"]:
         lines.append("vendors by contracts: " + ", ".join(f"{v} {n}" for v, n in o["vendors"].items()))
+    if o["guessed_total"]:
+        lines.append(f"notices filed at a contracting office that name no office and point to this office: {o['guessed_total']}")
+        lines += [f"  - {e['date']} {e['title']}" for e in o["guessed"]]
     book = dna.get("offices", {}).get(o["office"]) or dna.get("contracting_offices", {}).get(o["office"])
     if book:
         lines.append(book_line(book))
@@ -425,12 +554,14 @@ def read_views(orgs: dict) -> None:
     ev = lambda i, org, title, text="", fam="notice": {"id": i, "event_type": "rfp_released", "date": "2026-08-01", "available_by": "2026-08-01",
                                                         "provider": "sam", "family": fam, "org": org, "title": title, "text": text or title}
     events = [ev("i1", "pmw", "Incumbent contract N0003924C0001 ends 2027-01-01: RADIO SUSTAINMENT", fam="incumbent"),
+              ev("i2", "other", "Incumbent contract N0003923C0002 ends 2027-01-01: TACNET ROUTERS", fam="incumbent"),
               ev("k1", "kt", "SAM.gov RFP: PEO C4I PMW 101 Radio"),
               ev("k2", "kt", "SAM.gov RFP: NETWORK SERVICES", "SAM.gov RFP; solicitation N0003925R9510; network services"),
               ev("k3", "kt", "SAM.gov notice of intent: RADIO SUSTAINMENT", "follow-on to N00039-24-C-0001"),
               ev("k4", "kt", "SAM.gov sources sought: SWARMM Radio Upgrade"),
               ev("k5", "kt", "SAM.gov RFP: PMW 101 and PMW 160 joint radio"),
-              ev("k6", "kt", "SAM.gov RFI: INDUSTRY DAY")]
+              ev("k6", "kt", "SAM.gov RFI: INDUSTRY DAY"),
+              ev("k7", "kt", "SAM.gov RFI: TACNET Router Refresh")]
     needs = [{"key": "R1", "title": "ADNS MAC N0003925R9510 (C)", "owner": "PMW 160", "owner_id": "other"},
              {"key": "R2", "title": "SWARMM radio lot 1 (C)", "owner": "PMW 101", "owner_id": "pmw"},
              {"key": "R3", "title": "SWARMM radio lot 2 (C)", "owner": "PMW 101", "owner_id": "pmw"}]
@@ -441,6 +572,11 @@ def read_views(orgs: dict) -> None:
                     "k4": ("pmw", "its title carries swarmm, a program name 2 forecast rows of PMW 101 use and no other office's do")}, read
     k1 = next(e for e in layer.events if e["id"] == "k1")
     assert place(k1, layer.orgs) == "PMW 101 (office not stated; the notice names PMW 101; filed at NAVWAR 2.0)", place(k1, layer.orgs)
+    guessed = {e["id"]: [g[0] for g in e["guesses"]] for e in layer.events if e.get("guesses")}
+    assert guessed == {"k7": ["other"]}, f"only a program name one office's records use guesses: {guessed}"
+    k7 = next(e for e in layer.events if e["id"] == "k7")
+    assert k7["org"] == "kt" and place(k7, layer.orgs) == "NAVWAR 2.0 (office not stated; guessed from the words its records share, best first: PMW 160 (tacnet))", place(k7, layer.orgs)
+    assert layer.office("PMW 160")["guessed_total"] == 1 and layer.office("PMW 101")["guessed_total"] == 0
 
 
 if __name__ == "__main__":

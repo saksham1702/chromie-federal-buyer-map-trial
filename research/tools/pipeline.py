@@ -90,6 +90,9 @@ STAGES = [
     ("revisions", "the forecast-revision alert: every forecast line whose award window or value moved between releases, into build/", False, None),
     ("backtest", "replay the outcome labels and compute the back-test from the frozen corpus into build/", False,
      [PY, str(TOOLS / "backtest.py"), "check"]),
+    ("offices", "read every notice filed at a contracting office that no record places against the office pages (cassettes replay; "
+                "a new notice is one model call), compared with the saved file", False,
+     [PY, str(TOOLS / "office_wiki.py"), "build", "--check"]),
     ("pulse", "score every cell as of the corpus end, list the week's changes and the actions, and compare with the saved pulse", False,
      [PY, str(TOOLS / "pulse.py"), "check"]),
     ("baselines", "the bar against the dumb baselines, recall by period and the family combinations, into build/", False,
@@ -111,7 +114,7 @@ def refreshed(db: str) -> dict[str, list[list[str]]]:
     results, pulse, books and status follow."""
     tool = lambda name, *rest: [PY, str(TOOLS / name), *rest]
     return {"backtest": [tool("backtest.py", "freeze", "--db", db), tool("backtest.py", "label"), tool("backtest.py", "run")],
-            "pulse": [tool("pulse.py", "build")], "dna": [tool("buying_dna.py", "build")],
+            "offices": [tool("office_wiki.py", "build")], "pulse": [tool("pulse.py", "build")], "dna": [tool("buying_dna.py", "build")],
             "vendors": [tool("vendors.py", "build")], "coverage": [tool("coverage.py", "status")]}
 
 
@@ -237,6 +240,7 @@ def selfcheck() -> int:
         "the rows are emitted before they are loaded, and read back after"
     assert names.index("news") < names.index("layers"), "articles are modelled before they are emitted"
     assert names.index("database") < names.index("revisions"), "the revision alert reads the loaded database"
+    assert names.index("backtest") < names.index("offices"), "the office reads are made over the frozen corpus"
     assert NETWORK == {"watch", "sweep", "audits", "podium", "contracts", "solicitations", "topics", "changes", "dockets", "reports",
                        "register"}, "only collection touches the network"
     assert set(refreshed("x")) <= set(names), "every refreshed stage is a stage"

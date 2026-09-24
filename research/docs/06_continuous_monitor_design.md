@@ -469,7 +469,8 @@ by the families that spoke in the last two years, then the notices of the last y
 of the office's awards under the codes, each office with its routes in. `prep` is a meeting brief for an office: how
 it buys, what changed since a given day, the open actions from the pulse, the contracts ending, the people and routes,
 and questions each drawn from a dated statement (a slipped forecast row, a request for information, a justification,
-a reorganization above the office, a contract ending within a year for which no notice names a follow-on).
+a reorganization above the office, a notice filed with no office whose program names or model reading point to this
+office, a contract ending within a year for which no notice names a follow-on).
 
 `analogs` groups the notices by solicitation number into dated paths and reads how long past buys took from the step
 a requirement has reached to an award notice, in the narrowest part of the tree that holds five of them. For the
