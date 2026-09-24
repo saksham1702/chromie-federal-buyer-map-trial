@@ -230,7 +230,8 @@ def read_out(name: str, d: dict) -> str:
     fmt = lambda rows: ", ".join(f"{r['value']} {r['share']:.0%}" for r in rows[:3]) or "-"
     return "\n".join([
         f"{name}: {d['awards']} base award(s) signed {d['first_signed']} to {d['last_signed']}",
-        f"  value: median ${v['median']:,} (p25 ${v['p25']:,}, p75 ${v['p75']:,}) over {v['stated']} stated" if v["median"] is not None else "  value: not stated",
+        (f"  value: median ${v['median']:,}" + (f" (p25 ${v['p25']:,}, p75 ${v['p75']:,})" if v["p25"] is not None else "") + f" over {v['stated']} stated")
+        if v["median"] is not None else "  value: not stated",
         f"  vehicle: {d['vehicle']['under_an_idv']:.0%} under an IDV; {fmt(d['vehicle']['idv_types'])}; {fmt(d['vehicle']['multiple_or_single'])}",
         f"  competition: {fmt(c['extent'])}; set-aside {fmt(c['set_aside'])}; offers median {c['offers']['median']} over {c['offers']['stated']}",
         f"  pricing: {fmt(d['pricing'])}",
@@ -291,6 +292,7 @@ def selfcheck() -> int:
     assert dna(orders)["recompete"] == {"lines_awarded_again": 0, "median_gap_months": None}, "orders under one vehicle are not recompetes"
     assert d["duration_months"]["median"] == 24
     assert dna([]) == {"awards": 0}
+    assert "value: median $20,000,000 over 1 stated" in read_out("PMS 1", dna(rows[3:])), "one stated value has no quartiles"
     assert award_events({"2020-01-01", "2020-01-20", "2020-03-01", "2022-01-01"}) == ["2020-01-01", "2022-01-01"]  # a multiple award spread over weeks
     ev = [{"family": "incumbent", "title": "Incumbent contract A2 ends 2024-01-01", "vendor": "Acme", "available_by": "2022-04-01", "event_type": "contract_expires"},
           {"family": "incumbent", "title": "Incumbent contract B1 ends 2026-06-01", "vendor": "Bolt", "available_by": "2023-09-01", "event_type": "contract_expires"},
