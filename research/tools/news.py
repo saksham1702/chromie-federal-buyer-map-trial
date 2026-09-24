@@ -90,7 +90,7 @@ FEEDS = [
 STATEMENT_PATTERNS = [
     ("naming", re.compile(r"\b(renamed|rename[sd]?|change[sd]? its name|now known as|formerly known as|redesignat)", re.I)),
     ("consolidation", re.compile(r"\b(consolidat|merg(?:e|ed|ing)|disestablish|establish(?:es|ed|ing|ment)|stood up"
-                                 r"|stand(?:s|ing)? up|activat(?:es|ed|ion)|realign)", re.I)),
+                                 r"|stand(?:s|ing)? up|activat(?:es|ed|ion)|realign|transition(?:s|ed|ing)? to)", re.I)),
     ("parentage", re.compile(r"\b(reports? to|reporting to|under the|part of|assigned to|falls under|aligned under|transferred to)\b", re.I)),
     ("leadership", re.compile(r"\b(assumed (?:command|the duties)|relieved|was named|has been named|appointed"
                               r"|takes? over as|becomes? (?:the )?program manager|will (?:serve|lead)"
@@ -115,6 +115,13 @@ NEGATION_RE = re.compile(r"\b(has not|have not|had not|did not|does not|will not
 # the reorganization" are prepositions, not places in an org chart.
 PARENTAGE_TAIL = re.compile(r"\b(?:reports? to|reporting to|part of|assigned to|falls under|aligned under"
                             r"|transferred to|under)\s+(?:the|its|a|an)?\s*(?P<tail>[A-Z0-9][^.;]{0,140})")
+# A consolidation verb counts only when an organization is what was established, merged or
+# realigned, named just after the verb or as its subject: "this form establishes a clear pathway"
+# and "establishing the foundation for" are not reorganizations. A capitalised verb inside a
+# sentence belongs to a name or a quoted title ("Consolidated Afloat Network").
+ORG_HEAD_RE = re.compile(r"\b(?:offices?|commands?|organi[sz]ations?|executives?|directorates?|centers?|portfolios?"
+                         r"|elements|PEOs?|PAEs?|DRPMs?|PMW|PMA|PMS|SYSCOMs?)\b", re.I)
+PASSIVE_RE = re.compile(r"\b(?:was|were|is|are|has been|have been|had been|will be|being)\s+(?:\w+ly\s+)?$", re.I)
 # "May" is a month here as often as it is a hedge, so the hedge has to carry its verb.
 HEDGE_RE = re.compile(r"\b(expected to|expects to|plans to|could|may (?:be|have|not|also|still)|would|is likely|sources said|reportedly|according to (?:people|sources)|anticipates)\b", re.I)
 INTERVIEW_RE = re.compile(r"\b(told (?:reporters|[A-Z][a-z]+)|in an interview|said in an interview|speaking (?:at|to))\b")
@@ -451,9 +458,24 @@ def states_parentage(passage: str, mem: dict) -> bool:
     return False
 
 
+def states_consolidation(passage: str) -> bool:
+    """True when an establish, merge or realign verb has an organization as its object or subject."""
+    for match in dict(STATEMENT_PATTERNS)["consolidation"].finditer(passage):
+        before = passage[:match.start()]
+        if match.group(0)[0].isupper() and before.strip(" \"'“‘–—-"):
+            continue
+        after = re.split(r"[.;,:]", passage[match.end():], maxsplit=1)[0].split()[:10]
+        subject = re.split(r"[.;,:]", before)[-1].split()[-8:] if PASSIVE_RE.search(before) else []
+        if ORG_HEAD_RE.search(" ".join(after + subject)):
+            return True
+    return False
+
+
 def statement_type_of(passage: str, ents: dict, mem: dict | None = None) -> str:
     for kind, pattern in STATEMENT_PATTERNS:
         if not pattern.search(passage):
+            continue
+        if kind == "consolidation" and not states_consolidation(passage):
             continue
         if NEGATION_RE.search(passage) and kind in ("parentage", "leadership", "consolidation", "naming"):
             return "no change stated"
@@ -1269,6 +1291,16 @@ def selfcheck() -> int:
     assert named_people("The Department of the Navy announced a new office.") == []
     assert statement_type_of("The Department established the new portfolio manager this month.",
                              {"organizations": ["a"], "people": []}, None) == "consolidation"
+    assert statement_type_of("As part of the realignment, the existing PEO EIS programs will transition to PEO Digital and PEO MLB.",
+                             {"organizations": ["a"], "people": []}, None) == "consolidation", "programs moving to an office"
+    assert statement_type_of("The effort will transition to production in the fourth quarter of the year.",
+                             {"organizations": ["a"], "people": []}, None) != "consolidation"
+    assert statement_type_of("PEO EIS was disestablished to make way for two new PEOs.",
+                             {"organizations": ["a"], "people": []}, None) == "consolidation", "the subject is the office"
+    for loose in ("This new form establishes a clear, structured pathway to the PEO C4I program offices.",
+                  "She served in PMW-160 as the Consolidated Afloat Network and Enterprise Services APM.",
+                  'Please see "Navy Establishes Two New IT Delivery Offices" for more information.'):
+        assert statement_type_of(loose, {"organizations": ["a"], "people": []}, None) != "consolidation", loose
     stand_up = {"organizations": ["drpm:ras"], "people": []}
     held = {"node_ids": {"drpm:ras"}, "parents": {}, "leads": {}, "known_contracts": set(), "known_sols": set()}
     assert relate("consolidation", stand_up, held)[0] == "corroborates", "the memory holds the office being announced"

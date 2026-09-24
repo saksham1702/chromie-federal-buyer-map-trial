@@ -9,6 +9,7 @@ with the statements behind the answer. A vendor's own meeting notes are kept apa
     python research/tools/ask.py analogs N0003926RE014                       how long past buys took from the same step to an award
     python research/tools/ask.py incumbents "PMW 160"                        contracts ending within two years, what weakens or holds each
     python research/tools/ask.py moves Leidos --days 90                      what a competitor did in the window
+    python research/tools/ask.py team "undersea" --org NAVSEA                whom to team with: vendors whose contracts do the work
     python research/tools/ask.py note "PMW 740" "what was said" --person NAME --date 2026-09-20
     python research/tools/ask.py notes "PMW 740"                             each note beside the later records that share its names
     python research/tools/ask.py export N00039-25-RFPREQ-PMW/A-170-0001 DIR  the evidence room for one requirement
@@ -414,6 +415,42 @@ def moves(layer: Layer, name: str, days: int = 90, resolved: dict | None = None)
     return "\n".join(lines)
 
 
+# ------------------------------------------------------------------ teaming: who already does the work
+
+def team(layer: Layer, capabilities: list[str], name: str = "", top: int = 10, resolved: dict | None = None) -> str:
+    """Whom to team with for a capability a company lacks: the vendors whose contracts' stated work carries its words,
+    one per UEI, under an organization's tree when one is named; ranked by running contracts, contracts held, newest."""
+    terms = capability_terms("; ".join(capabilities))
+    if not terms:
+        return "no capability given"
+    oid = layer.org_id(name) if name else None
+    if name and not oid:
+        return f"no organization named {name!r}"
+    tree = layer.subtree(oid) if oid else None
+    resolved = resolved if resolved is not None else load_vendors()
+    uei_of, name_of = resolved.get("spelling_to_uei", {}), {v["uei"]: v["name"] for v in resolved.get("vendors", [])}
+    by: dict[str, list[dict]] = {}
+    for e in scan(terms, layer.events):
+        if e["family"] == "incumbent" and e.get("vendor") and e["available_by"] <= layer.as_of and (tree is None or e["org"] in tree):
+            by.setdefault(uei_of.get(e["vendor"], e["vendor"]), []).append(e)
+    ranked = []
+    for key, evs in by.items():
+        held = list(contracts(evs).values())
+        running = sorted((c for c in held if c["end"] > layer.as_of), key=lambda c: c["end"])
+        ranked.append((len(running), len(held), max(e["available_by"] for e in evs), key, held, running))
+    ranked.sort(reverse=True)
+    lines = [f"{f'Under {name}: ' if oid else ''}{len(ranked)} vendor(s) hold {sum(r[1] for r in ranked)} contract(s) "
+             f"whose stated work names {'; '.join(capabilities)}; searched for: {', '.join(terms)}"]
+    for n, (_, _, last, key, held, running) in enumerate(ranked[:top], start=1):
+        offices = Counter(office_name(c["org"], layer.orgs) or "-" for c in held)
+        soon = [c for c in running if c["end"] <= shift(layer.as_of, 365)]
+        lines.append(f"{n}. {name_of.get(key, key)}: {len(held)} contract(s) under {', '.join(o for o, _ in offices.most_common(3))}; "
+                     f"{len(running)} running; newest public {last}"
+                     + (f"; ends within a year: {soon[0]['contract']} {soon[0]['end']} ({soon[0]['work'][:50] or 'work not stated'})" if soon else ""))
+        lines += [f"     {w}" for w, _ in Counter(c["work"][:90] for c in held if c["work"]).most_common(2)]
+    return "\n".join(lines)
+
+
 # ------------------------------------------------------------------ meeting prep
 
 def expiring_unannounced(ending: list[dict], naming: dict[str, list[dict]], as_of: str) -> list[dict]:
@@ -606,6 +643,7 @@ def main(argv: list[str]) -> int:
     p = sub.add_parser("analogs"); p.add_argument("key")
     p = sub.add_parser("incumbents"); p.add_argument("org"); p.add_argument("--within", type=int, default=TWO_YEARS)
     p = sub.add_parser("moves"); p.add_argument("vendor"); p.add_argument("--days", type=int, default=90)
+    p = sub.add_parser("team"); p.add_argument("capabilities"); p.add_argument("--org", default=""); p.add_argument("--top", type=int, default=10)
     p = sub.add_parser("note"); p.add_argument("org"); p.add_argument("text"); p.add_argument("--person", default=""); p.add_argument("--date", default="")
     p = sub.add_parser("notes"); p.add_argument("org")
     p = sub.add_parser("export"); p.add_argument("key"); p.add_argument("dir")
@@ -627,6 +665,8 @@ def main(argv: list[str]) -> int:
         print(incumbents(layer, a.org, a.within))
     elif a.cmd == "moves":
         print(moves(layer, a.vendor, a.days))
+    elif a.cmd == "team":
+        print(team(layer, [x.strip() for x in a.capabilities.split(";") if x.strip()], a.org, a.top))
     elif a.cmd == "note":
         print(note(layer, a.org, a.text, a.person, a.date))
     elif a.cmd == "notes":
@@ -703,6 +743,10 @@ def selfcheck() -> int:
         "sole-source" in weak_points(c0, [sole], 0.1, {}, layer.as_of)[0][-2], "a sole-source notice keeps the incumbent; it opens nothing"
     v = moves(layer, "acme", 90, {})
     assert "1 contract(s) or order(s) became public" in v and "offices entered for the first time: PMW 1" in v, v
+    t = team(layer, ["autonomy"], "", 10, {"spelling_to_uei": {"ACME INC": "U1"}, "vendors": [{"uei": "U1", "name": "ACME"}]})
+    assert "1 vendor(s) hold 1 contract(s)" in t and "\n1. ACME: 1 contract(s) under PMS 406; 1 running" in t \
+        and "ends within a year: N0002420C0001 2027-01-31 (USV SUSTAINMENT)" in t, t
+    assert team(layer, ["autonomy"], "PMW 1", 10, {}).startswith("Under PMW 1: 0 vendor(s)"), "radio spares are not autonomy work"
     p = prep(layer, "PMS 406", "2026-05-01", {"actions": [{"type": "watch_expiration", "office": "PMS 406", "name": "USV", "why": "ends", "by": "2027-01-31", "priority": 1}]})
     assert "open actions from the pulse (1)" in p and "moved \"USV Sustainment Follow-On (C)\" later" in p and "new leadership" in p, p
     assert "N0002420C0001 (ACME INC" in p and "Ann Example" in p, "a contract ending within a year with no follow-on notice is a question"

@@ -53,6 +53,10 @@ One record per source statement. The wording is the source's, not ours.
 | `passage` | the exact words, or a description of the table or list when the statement is structural |
 | `subject_ids` | nodes the statement is about |
 
+A sentence from an article is typed `parentage` only when an office the memory knows follows the phrase, and
+`consolidation` only when an organization is what was established, merged or realigned: "the form establishes a
+pathway" and the program name "Consolidated Afloat Network" are not reorganizations.
+
 ## 3. Relationships
 
 One record per dated claim. A relationship never exists without observations.

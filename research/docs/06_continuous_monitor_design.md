@@ -349,13 +349,13 @@ ending within two years is watched; an appearance this quarter is an event to at
 rank as its priority, and a watch carries the day the contract ends, so the queue reads dated actions first, soonest
 first, then the rest by rank (`pulse.py actions`).
 
-Over the swept corpus: 466 cells, of which 48 of the top 50 hold three families
-(MIDS rows at the top on forecast, incumbent and notice) and two hold five (PMW 740's CIIS rows: forecast,
-incumbent, notice, an organization page and a news claim); 518 actions (283 meet office, 201 watch expiration,
-20 monitor forecast, 12 find partner, 2 attend event), one row per action, office and evidence, so ten MIDS cells
-sharing one expiring terminal contract watch it once; the last week carried 19 events, 15 of them base awards
-NAVWAR HQ signed. `pipeline.py` stages `backtest` and `pulse` replay and recompute both files
-and fail on drift; `tests/test_pulse.py` holds T4.2 to T4.6, T5.4, T7.1 and T7.2 on the real files.
+Over the swept corpus: 915 cells; every one of the top 50 holds five families or more and seven hold six (PMW 150's
+Link 22 COMSEC devices row among them: budget, congress, forecast, incumbent, notice and a research topic), and the
+top cell is NAVSEA's Aegis combat system integration and testing (forecast, incumbent, notice, an organization page
+and a research topic); 883 actions (438 meet office, 284 watch expiration, 86 find partner, 63 monitor forecast,
+9 attend event, 3 research program), one row per action, office and evidence, so cells sharing one expiring contract
+watch it once; the last week carried 34 events. `pipeline.py` stages `backtest` and `pulse` replay and recompute both
+files and fail on drift, and `tests/test_pulse.py` checks both on the real files.
 
 ## 15. People, money and programs; coverage and the pulse's reports
 
@@ -482,7 +482,9 @@ keeps it (options exercised, a sole-source or bridge notice, the vendor's share 
 reading. A follow-on notice whose solicitation has an award notice is settled; one older than two years with none is
 a question for the office. `moves` reads a competitor's window: the contracts that became public against the window
 before, the offices entered for the first time, extensions and options, what ends next, and every other statement that
-names the vendor. `note` and `notes` keep a vendor's own meeting notes in `build/`, apart from the record, and show
+names the vendor. `team` answers whom to team with for a capability a company lacks: the vendors whose contracts'
+stated work carries its words, one per UEI, under an organization's tree when one is named, ranked by running
+contracts, each with its offices and the first contract ending within a year. `note` and `notes` keep a vendor's own meeting notes in `build/`, apart from the record, and show
 each note beside the later records that share its names without merging them. `export` writes the evidence room for
 one requirement: the card, every statement behind it with its public source, and a copy of each saved document a
 statement cites by its hash.
