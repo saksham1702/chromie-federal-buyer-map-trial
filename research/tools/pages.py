@@ -302,8 +302,19 @@ def pointed(e: dict) -> str:
 
 def guess_trial(corpus: dict) -> Counter:
     """How the guess fares where the office is known: each notice filed at a program office under a solicitation number is
-    guessed with every record under that number taken out, and counted as first, in the top three, or missed."""
+    guessed with every record under that number taken out, and counted as first, in the top three, or missed. A guess of
+    an office under the one that filed it counts as that office: SM-6 filed at PEO IWS and guessed as IWS 3.0 is right."""
     by_word, words_of, known = office_words(corpus)
+
+    def under_filer(oid: str, filer: str) -> bool:
+        seen = set()
+        while oid and oid not in seen:
+            if oid == filer:
+                return True
+            seen.add(oid)
+            oid = corpus["orgs"].get(oid, {}).get("parent")
+        return False
+
     under: dict[str, list[dict]] = {}
     for e in corpus["events"]:
         if e["family"] == "notice" and (m := SOLICITATION_RE.search(e["text"])):
@@ -321,9 +332,10 @@ def guess_trial(corpus: dict) -> Counter:
         for e in stated:
             ranked = rank_offices(plain_title(e["title"]), trimmed, len(words_of) - len(out_ids), known)
             top = [oid for oid, _, _ in ranked]
-            out["first" if top[:1] == [e["org"]] else "top three" if e["org"] in top else "no guess" if not top else "missed"] += 1
+            hit = [under_filer(oid, e["org"]) for oid in top]
+            out["first" if hit[:1] == [True] else "top three" if any(hit) else "no guess" if not top else "missed"] += 1
             if ranked and (len(ranked) == 1 or ranked[0][1] >= 2 * ranked[1][1]):
-                out["clear lead, first" if top[0] == e["org"] else "clear lead, not first"] += 1
+                out["clear lead, first" if hit[0] else "clear lead, not first"] += 1
     return out
 
 

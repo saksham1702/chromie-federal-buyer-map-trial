@@ -358,6 +358,7 @@ class Memory:
         self.unresolved: Counter = Counter()
         self.resolved_rows = 0
         self.inferred: dict[tuple[str, str], str] = {}  # edge -> why the generator, not a source, states it
+        self.stated: set[tuple[str, str]] = set()  # edges a source states; one release stating it outweighs another's inference
         self.from_fpds: set[str] = set()
 
     def add_node(self, node: dict) -> None:
@@ -420,6 +421,7 @@ class Memory:
             for cell in st.get("resolves", []):
                 self.table.setdefault(norm_code(cell), node)
             if st.get("parent"):
+                self.stated.add((node["id"], st["parent"]))
                 self.parent_of(node, {"id": st["parent"]},
                                self.observe(f"obs:page:{slug(node['id'])}:parent", "parentage", passage, [node["id"], st["parent"]], source, source["retrieved_at"][:10]))
 
@@ -543,6 +545,8 @@ class Memory:
                 parents[(node["id"], hit["parent"]["id"])][cell] += 1
                 if hit["inferred"]:
                     self.inferred[(node["id"], hit["parent"]["id"])] = INFERRED_SITE
+                else:
+                    self.stated.add((node["id"], hit["parent"]["id"]))
 
         def cited(cells: Counter) -> str:
             return f"column '{OFFICE_COLUMN}': " + "; ".join(
@@ -575,7 +579,8 @@ class Memory:
         relationships = []
         observed = {o["id"]: o["observed_at"] for o in self.observations}
         for (child, parent), obs_ids in sorted(self.parents.items()):
-            if (child, parent) in self.inferred:
+            inferred = (child, parent) in self.inferred and (child, parent) not in self.stated
+            if inferred:
                 note = self.inferred[(child, parent)]
             elif all(o.startswith("obs:dpm:") for o in obs_ids):
                 note = "the NAVSEA deputy program manager list of July 2025 names this parent; not re-verified since"
@@ -586,7 +591,7 @@ class Memory:
             relationships.append({
                 "id": f"rel:lrae:{slug(child)}:{slug(parent)}", "type": "child_of", "from": child, "to": parent,
                 "effective_from": None, "effective_to": None, "effective_dates_status": "unknown", "scope_as_stated": None,
-                "observation_ids": sorted(obs_ids), "evidence_class": "inferred" if (child, parent) in self.inferred else "directly_documented",
+                "observation_ids": sorted(obs_ids), "evidence_class": "inferred" if inferred else "directly_documented",
                 "current_status": {"state": "last_confirmed", "as_of": max(observed[o] for o in obs_ids), "note": note},
                 "review_status": "draft", "drafted_by": {"actor": "assistant", "on": self.latest},
                 "reviewed_by": None, "reviewed_on": None, "retraction": None, "generator": GENERATOR})
