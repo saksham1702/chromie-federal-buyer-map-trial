@@ -23,6 +23,7 @@ import os
 import re
 import sys
 import tempfile
+from functools import cache
 import time
 import urllib.parse
 from collections import Counter, defaultdict
@@ -218,7 +219,9 @@ def classify_code(token: str, aliases: dict[str, str] | None = None, fams: list 
     aliases = aliases if aliases is not None else alias_map()
     fams = fams if fams is not None else families()
     code = token.split(" - ")[0].strip()
-    office_id = aliases.get(norm_code(code), "")
+    # The whole cell first: `Code 032 - Code 032/Ocean Battlespace Sensing - ONR` and `PSNS-1100 - 1100 - Executive Department`
+    # are aliases whole, and their head alone is a number other activities print too.
+    office_id = aliases.get(norm_code(token), "") or aliases.get(norm_code(code), "")
     family = next((name for name, pattern, _ in fams if pattern.match(code)), "")
     if office_id and family == "contracting_office_uic" and not office_id.startswith("contracting:"):
         family = ""  # an alias-resolved organization name is never a UIC, whatever its length
@@ -509,6 +512,19 @@ def office_code(r: dict) -> str:
     return (r["office_code_string"] or "").split(" - ")[0].strip().upper()
 
 
+_OFFICES: dict[str, str] = {}
+_alias_cache = cache(alias_map)  # ponytail: one seed per process; a build that rewrites the seed runs in its own process
+
+
+def pair_office(r: dict) -> str:
+    """The office two releases' rows are compared under: the node the cell resolves to, else its head token. ONR writes
+    `ONR Code 32, ...` in one release and `Code 032 - Code 032/... - ONR` in the next, one department."""
+    cell = r["office_code_string"] or ""
+    if cell not in _OFFICES:
+        _OFFICES[cell] = classify_code(cell, _alias_cache())["office_id"] or office_code(r)
+    return _OFFICES[cell]
+
+
 # Strongest signal first. Each entry is (basis, confidence, why, key function). A stage
 # claims a pair only when the key hits exactly one row on each side; anything else is
 # left for the next stage and, if nothing later resolves it, reported as ambiguous.
@@ -516,11 +532,11 @@ MATCH_STAGES = [
     ("pid", "confirmed", "same PID number in both releases",
      lambda r: [r["pid"]] if r["pid"] else []),
     ("title+office", "confirmed", "same requirement title under the same office code",
-     lambda r: [norm_title(r["requirement_title"]) + "|" + office_code(r)] if norm_title(r["requirement_title"]) else []),
+     lambda r: [norm_title(r["requirement_title"]) + "|" + pair_office(r)] if norm_title(r["requirement_title"]) else []),
     # A production follow-on and an engineering-support bridge share an office and an incumbent,
     # so this stage still claims a 1:1 pair but hands it to a reviewer.
     ("office+incumbent", "candidate", "same incumbent contract number under the same office code; a follow-on and a bridge can share both, so a reviewer decides",
-     lambda r: [office_code(r) + "|" + t for t in contract_tokens(r["existing_contract_number"])]),
+     lambda r: [pair_office(r) + "|" + t for t in contract_tokens(r["existing_contract_number"])]),
 ]
 
 
@@ -572,10 +588,10 @@ def pair_releases(old_rows: list[dict], new_rows: list[dict]) -> tuple[list[dict
 
     by_office: dict[str, list[dict]] = defaultdict(list)
     for r in left_new:
-        by_office[office_code(r)].append(r)
+        by_office[pair_office(r)].append(r)
     scored = []
     for r in left_old:
-        for s in by_office.get(office_code(r), ()):
+        for s in by_office.get(pair_office(r), ()):
             ratio = SequenceMatcher(None, norm_title(r["requirement_title"]), norm_title(s["requirement_title"])).ratio()
             if ratio >= MATCH_MIN_RATIO:
                 scored.append((round(ratio, 4), r, s))
@@ -594,11 +610,70 @@ def pair_releases(old_rows: list[dict], new_rows: list[dict]) -> tuple[list[dict
     return pairs, contested, left_old, left_new
 
 
+# ---------------------------------------------------------------- the model reads a candidate pair
+
+PAIR_FIELDS = ("requirement_title", "requirement_description", "office_code_string", "existing_contract_number", "incumbent_contractor",
+               "follow_on_or_new", "contract_type", "procurement_instrument", "anticipated_total_value", "solicitation_fy",
+               "solicitation_quarter", "award_fy", "award_quarter", "psc", "naics")
+SYSTEM_PAIR = ("You compare two rows of the U.S. Navy's long range acquisition forecast under one office, one from an earlier release "
+               "and one from a later release, and say whether the later row carries the same planned acquisition forward (retitled, "
+               "re-dated or re-valued) or states a different one (a follow-on, a bridge, another phase, lot or product). Answer with: "
+               "same, true or false; earlier_words, a few words copied exactly from the earlier row's requirement_title or "
+               "requirement_description that name the acquisition; later_words, the same from the later row; reason, at most 25 "
+               "words. A shared office, incumbent, contract number, vehicle, NAICS code or value range alone never makes two rows "
+               "the same acquisition.")
+SCHEMA_PAIR = {"type": "object", "additionalProperties": False, "required": ["same", "earlier_words", "later_words", "reason"],
+               "properties": {"same": {"type": "boolean"}, "earlier_words": {"type": "string"}, "later_words": {"type": "string"},
+                              "reason": {"type": "string"}}}
+
+
+def row_text(r: dict) -> str:
+    return "\n".join(f"{f}: {' '.join(str(r.get(f) or '').split())[:400]}" for f in PAIR_FIELDS if r.get(f))
+
+
+def pair_problems(answer: dict, old: dict, new: dict) -> list[str]:
+    """A 'same' the rows do not support: words not copied verbatim from each row's title or description."""
+    from reader import flatten
+    if not answer["same"]:
+        return []
+    out = []
+    for side, row, words in (("earlier", old, answer["earlier_words"]), ("later", new, answer["later_words"])):
+        own = flatten(f"{row['requirement_title']} {row.get('requirement_description') or ''}").lower()
+        if not words.strip() or flatten(words).lower() not in own:
+            out.append(f"{side} words are not in the row's title or description verbatim")
+    return out
+
+
+def review(pairs: list[dict], replay_only: bool = False, workers: int = 8) -> None:
+    """Each candidate pair read by the model: one it reads as the same acquisition, quoting both rows, is confirmed and
+    folds like a PID match; one it reads as two acquisitions stays a candidate with the model's reason."""
+    from concurrent.futures import ThreadPoolExecutor
+    from llm import structured
+    todo = [p for p in pairs if p["confidence"] == "candidate"]
+
+    def one(p):
+        user = f"Earlier release row:\n{row_text(p['old'])}\n\nLater release row:\n{row_text(p['new'])}"
+        answer, _ = structured(SYSTEM_PAIR, user, SCHEMA_PAIR, "lrae_pair", replay_only=replay_only)
+        return answer, pair_problems(answer, p["old"], p["new"])
+
+    with ThreadPoolExecutor(workers) as pool:
+        answers = list(pool.map(one, todo))
+    for p, (a, problems) in zip(todo, answers):
+        if a["same"] and not problems:
+            p.update(confidence="confirmed", basis=f"{p['basis']}, read by the model",
+                     reason=f'{p["reason"]}; the model reads one acquisition: "{a["earlier_words"]}", then "{a["later_words"]}"')
+        else:
+            p["reason"] += f"; the model reads {'one acquisition, but ' + problems[0] if a['same'] else 'two acquisitions: ' + a['reason']}"
+
+
 # ---------------------------------------------------------------- release diff
 
-def diff_releases(old_rows: list[dict], new_rows: list[dict]) -> tuple[list[dict], str]:
-    """Added, removed, changed and candidate records between two releases, from `pair_releases`."""
+def diff_releases(old_rows: list[dict], new_rows: list[dict], read: bool = False) -> tuple[list[dict], str]:
+    """Added, removed, changed and candidate records between two releases, from `pair_releases`; with `read`, the model
+    reads each candidate pair (`review`)."""
     pairs, contested, only_old, only_new = pair_releases(old_rows, new_rows)
+    if read:
+        review(pairs)
     matched_old = {p["old"]["row_number"] for p in pairs}
     matched_new = {p["new"]["row_number"] for p in pairs}
 
@@ -656,9 +731,10 @@ def fold_map(pack_base: Path = PACK_BASE) -> tuple[dict[tuple[str, str], dict], 
     """(release, record key) -> the key its chain loads under, for rows the release diffs tie with `confirmed`.
 
     A chain is the rows one requirement occupies across releases, joined by PID or by exact title
-    under the same office code. A candidate pair (a similar title, a shared incumbent) never joins
-    one. The chain loads under its PID, or under its earliest row key when no release gave it one,
-    and every folded row carries its tie: the basis, the two rows and the diff that paired them.
+    under the same office. A candidate pair (a similar title, a shared incumbent) joins one only
+    when the model read it as one acquisition and quoted both rows (`review`). The chain loads
+    under its PID, or under its earliest row key when no release gave it one, and every folded
+    row carries its tie: the basis, the two rows and the diff that paired them.
     The loader writes that tie into the assertion it emits for the row, so a tool reading the
     database alone sees the full history. A chain that would join two different PIDs, or two rows
     of one release, is left unfolded and named in the second value: those are a reviewer's call.
@@ -815,7 +891,7 @@ def build() -> int:
                 write_csv(pack / "layers" / f"{name}.csv", table)
         notes = []
         for prev_release, prev_rows in earlier.get(release["activity"], []):
-            changes, method = diff_releases(prev_rows, rows)
+            changes, method = diff_releases(prev_rows, rows, read=True)
             name = f"diff_{prev_release['key']}_{release['key']}.csv"
             if changes:
                 write_csv(pack / name, changes)
@@ -900,6 +976,14 @@ def collect(limit: int) -> int:
 def selfcheck() -> int:
     assert handles({"name": "Department of the Navy", "aliases": [{"text": "DoN"}], "codes": {"fpds_agency_id": "1700", "uic": "N00039"}}) \
         == ["Department of the Navy", "DoN", "N00039"]
+    old_row, new_row = {"requirement_title": "MIDS JTRS Production Lot 12"}, {"requirement_title": "MIDS JTRS Lot 12 Production", "requirement_description": ""}
+    same = {"same": True, "earlier_words": "MIDS JTRS Production Lot 12", "later_words": "MIDS JTRS Lot 12", "reason": ""}
+    assert pair_problems(same, old_row, new_row) == []
+    assert pair_problems({**same, "later_words": "N0003920D0061"}, old_row, new_row) == ["later words are not in the row's title or description verbatim"]
+    assert pair_problems({**same, "same": False, "later_words": ""}, old_row, new_row) == [], "two acquisitions is an answer"
+    onr = {norm_code("Code 032 - Code 032/Ocean Battlespace Sensing - ONR"): "dept:onr-code-32", norm_code("1100"): "dept:nrl-1100"}
+    assert classify_code("Code 032 - Code 032/Ocean Battlespace Sensing - ONR", onr, [])["office_id"] == "dept:onr-code-32", "the whole cell first"
+    assert classify_code("1100 - 1100 - Institute of Science DIV - NRL", onr, [])["office_id"] == "dept:nrl-1100", "then its head"
     blank = {c: "" for c in COLUMNS}
 
     def r(number, title, office, pid="", contract="", value="No Range Specified"):

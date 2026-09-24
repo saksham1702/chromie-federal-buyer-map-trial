@@ -13,7 +13,7 @@ Sources, all already on disk:
     office, dated by the article and placed by the office its own clause names.
   - organization_seed.json person nodes, so a person the memory already knows keeps the memory's contact id.
 
-Merge rule: one person per e-mail; without an e-mail, one person per normalised name and office (ranks and
+Merge rule: one person per e-mail, and one person for two e-mails under one name at a shared office; without an e-mail, one person per normalised name and office (ranks and
 honorifics dropped, "Last, First" turned around, middle initials dropped). Two people who share a name, have no
 e-mail and sit in different offices stay two people. Nobody is invented: every position points at the document.
 
@@ -64,9 +64,18 @@ REMARKS_PROVIDER = {"speech": "navy_mil_speeches", "statement": "navy_mil_speech
                     "conference": "conference_pages_exa"}
 
 
+def person_name(name: str) -> str:
+    """The name without what a form appends to it: 'Kerry Payne (Contract Specialist)' and 'Frederick Mitchell, Contract
+    Specialist' give the name; 'Marsh, Stephanie L.' stays, since one word before the comma is a surname."""
+    # ponytail: a two-word surname written first ('De Vera, Jennifer') loses the given name; read the e-mail if that bites
+    name = " ".join(re.sub(r"\(.*?\)", " ", name or "").split())
+    head, comma, _ = name.partition(",")
+    return head.strip() if comma and len(head.split()) > 1 else name
+
+
 def norm_name(name: str) -> str:
     """'CAPT Raphael R. Castillejo' and 'Castillejo, Raphael' both give 'raphael castillejo'."""
-    name = re.sub(r"\(.*?\)", " ", name or "")
+    name = person_name(name)
     if "," in name:
         last, _, first = name.partition(",")
         name = f"{first} {last}"
@@ -237,8 +246,27 @@ def merge(rows: list[tuple[str, str, dict]], seed: dict[str, dict] | None = None
         if email:
             person["emails"].add(email)
         person["positions"].append(pos)
-    # One person per e-mail even when a name-keyed row later turns out to carry that e-mail elsewhere: nothing to
-    # do here, the e-mail rows already merged; name-only rows stay apart by office as the rule says.
+    # One person under two e-mails when the name is the same and an office is shared: the move from navy.mil to
+    # us.navy.mil gave staff a second address. Name-only rows stay apart by office as the rule says.
+    clusters: dict[str, list[dict]] = {}
+    for key in sorted(by_key):
+        person = by_key[key]
+        if not key.startswith("email:"):
+            continue
+        offices = {p["office"] for p in person["positions"]}
+        group = clusters.setdefault(norm_name(person["names"].most_common(1)[0][0]), [])
+        into = [c for c in group if c["offices"] & offices]
+        if not into:
+            group.append({"person": person, "offices": offices})
+            continue
+        keep = into[0]
+        for other in [person] + [c["person"] for c in into[1:]]:
+            keep["person"]["names"].update(other["names"])
+            keep["person"]["emails"] |= other["emails"]
+            keep["person"]["positions"] += other["positions"]
+            keep["offices"] |= {p["office"] for p in other["positions"]}
+            del by_key[other["key"]]
+        group[:] = [c for c in group if c not in into[1:]]
     out = []
     for person in by_key.values():
         positions = sorted(person["positions"], key=lambda p: (p["observed_at"], p["source_ref"]), reverse=True)
@@ -249,7 +277,7 @@ def merge(rows: list[tuple[str, str, dict]], seed: dict[str, dict] | None = None
                 seen.add(k)
                 unique.append(p)
         out.append({"id": person["id"], "key": person["key"], "seed_id": person["seed_id"],
-                    "name": max(person["names"], key=lambda n: ("," not in n, person["names"][n], len(n))),
+                    "name": person_name(max(person["names"], key=lambda n: ("," not in person_name(n), person["names"][n], len(n)))),
                     "emails": sorted(person["emails"]), "positions": unique,
                     "offices": sorted({p["office"] for p in unique}), "last_seen": unique[0]["observed_at"]})
     return sorted(out, key=lambda p: (p["last_seen"], p["name"]), reverse=True)
@@ -349,6 +377,8 @@ def selfcheck() -> int:
     assert norm_name("CAPT Raphael R. Castillejo") == norm_name("Castillejo, Raphael") == "raphael castillejo"
     assert norm_name("The Honorable Hung Cao") == "hung cao" and norm_name("Mr. Eric Andalis") == "eric andalis"
     assert norm_name("Ashley, Megan") == "megan ashley" and norm_name("") == "" and norm_name("A.") == ""
+    assert norm_name("Frederick Mitchell, Contract Specialist") == norm_name("Frederick Mitchell") == "frederick mitchell"
+    assert person_name("Kerry Payne (Contract Specialist)") == "Kerry Payne" and person_name("Marsh, Stephanie L.") == "Marsh, Stephanie L."
     assert role_of("Chief of Naval Operations") == "acquisition_leader" and role_of("Program Manager, PMW 150") == "program_manager"
     assert role_of("Deputy Program Manager") == "deputy_program_manager" and role_of("liaison") == "other"
     assert role_of("portfolio acquisition executive") == "acquisition_leader"
@@ -363,6 +393,9 @@ def selfcheck() -> int:
     assert by["Megan Ashley"]["offices"] == ["peo:c4i", "pmw:101"] and by["Megan Ashley"]["last_seen"] == "2026-02-01"
     assert sum(p["name"] == "Jim Day" for p in people) == 2
     assert by["Mr. Eric Andalis"]["seed_id"] == "person:andalis" and by["Mr. Eric Andalis"]["id"] == uid("person", "seed:person:andalis")
+    moved = merge([("Kimberly Ellis", "kimberly.ellis3@navy.mil", pos("pmw:740", "a")), ("Kimberly Ellis", "kimberly.a.ellis10.civ@us.navy.mil", pos("pmw:740", "b")),
+                   ("Kimberly Ellis", "kimberly.ellis@nrl.navy.mil", pos("center:nrl", "c"))])
+    assert len(moved) == 2 and moved[0]["emails"] == ["kimberly.a.ellis10.civ@us.navy.mil", "kimberly.ellis3@navy.mil"], moved  # one office: one person
     got = contacts_for([uid("org", "pmw:101"), uid("org", "peo:c4i")], people)
     assert [c["name"] for c in got] == ["Megan Ashley"] and got[0]["office"] == "pmw:101" and got[0]["email"] == "megan@navy.mil"
     assert contacts_for([uid("org", "pmw:101")], people, as_of="2025-12-31") == []

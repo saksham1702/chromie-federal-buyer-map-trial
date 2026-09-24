@@ -60,6 +60,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from fetch import MANIFEST, ROOT  # noqa: E402
 from fpds_sweep import OFFICES as SWEPT_OFFICES, fiscal_year as fiscal_year_of, saved_pages, windows  # noqa: E402
 from lrae_package import alias_map, contract_tokens, fold_map, norm_code, norm_title  # noqa: E402
+from notice_kinds import kept  # noqa: E402
 
 DEFAULT_DSN = "postgresql://postgres:postgres@127.0.0.1:54322/postgres"
 RESEARCH = ROOT / "research"
@@ -268,7 +269,8 @@ def notice_detail(notice_id: str) -> dict | None:
         return None
     text = ""
     for candidate in re.findall(r'"((?:[^"\\]|\\.){300,})"', json.dumps(d)):
-        text = max(text, candidate.encode().decode("unicode_escape", "ignore"), key=len)
+        # unicode_escape decodes an escaped emoji as two lone surrogates; the utf-16 round trip joins them into one character
+        text = max(text, candidate.encode().decode("unicode_escape", "ignore").encode("utf-16", "surrogatepass").decode("utf-16", "replace"), key=len)
     text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", text)).strip()
     return {"id": notice_id, "title": html.unescape(o.get("title") or "" or ""), "solicitation": o.get("solicitationNumber") or "",
             "type": NOTICE_TYPE.get(str(o.get("type") or ""), str(o.get("type") or "")), "posted": str(d.get("postedDate") or o.get("postedDate") or "")[:10],
@@ -289,11 +291,14 @@ SIGNAL_OF = {"sources sought": "request for information (sources sought)", "pres
 
 
 def signal_kind(detail: dict) -> str:
-    """What kind of signal a notice is: its SAM.gov type, and for a special notice what its title says it announces."""
+    """What kind of signal a notice is: its SAM.gov type, and for a special notice what the model read it announces, else
+    what its title's keywords say."""
     kind = SIGNAL_OF.get(detail["type"], detail["type"] or "notice")
     if detail["type"] in SOL_KINDS and ("area of interest" in detail["title"].lower() or "commercial solutions opening" in detail["text"][:800].lower()):
         kind = f"area of interest under a commercial solutions opening ({detail['type']})"
-    if detail["type"] == "special notice":
+    if detail["type"] == "special notice" and (read := kept(detail["id"])):
+        kind = f"{read} (special notice)"  # notice_kinds.py: the model's reading, its words in the notice verbatim
+    elif detail["type"] == "special notice":
         low = detail["title"].lower()
         if "industry day" in low or "industry engagement" in low or "industry event" in low:
             kind = "industry day (special notice)"

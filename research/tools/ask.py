@@ -145,6 +145,8 @@ def match(layer: Layer, capabilities: list[str], naics: list[str], dna: dict, to
     for e in scan(terms, layer.events):
         if e["org"] and e["available_by"] <= layer.as_of:
             by.setdefault(e["org"], []).append(e)
+            if e.get("model_read") and e["model_read"][0] != e["org"]:  # read to a program office; it also stays where it was filed
+                by.setdefault(e["model_read"][0], []).append(e)
     rows: dict[str, list[dict]] = {}
     for n in layer.needs:
         if n["owner_id"] and pat.search(n["title"]):
@@ -157,6 +159,7 @@ def match(layer: Layer, capabilities: list[str], naics: list[str], dna: dict, to
         acronym = office_name(oid, layer.orgs)
         book = dna.get("offices", {}).get(acronym) or dna.get("contracting_offices", {}).get(acronym)
         ranked.append({"org": oid, "office": acronym, "statements": len(ev), "rows": rows.get(oid, []), "fit": naics_fit(book, naics),
+                       "read": sum(1 for e in ev if e["org"] != oid),
                        "families": sorted({e["family"] for e in ev if e["available_by"] > two_years}),
                        "notices": [e for e in ev if e["family"] == "notice" and e["available_by"] > year], "newest": ev[:2]})
     ranked.sort(key=lambda r: (-len(r["families"]), -len(r["notices"]), -len(r["rows"]), -(r["fit"] or 0), -r["statements"], r["office"]))
@@ -166,7 +169,8 @@ def match(layer: Layer, capabilities: list[str], naics: list[str], dna: dict, to
         up = chain(r["org"], layer.orgs)
         above = " > ".join(office_name(x, layer.orgs) for x in up[1:])
         kind = ", a contracting office" if layer.orgs.get(r["org"], {}).get("org_type") == "contracting_office" else ""
-        lines.append(f"{n}. {r['office']}{f' (under {above}{kind})' if above else f' ({kind[2:]})' if kind else ''}: {r['statements']} statement(s); last two years "
+        read = f" ({r['read']} read here by the model)" if r["read"] else ""
+        lines.append(f"{n}. {r['office']}{f' (under {above}{kind})' if above else f' ({kind[2:]})' if kind else ''}: {r['statements']} statement(s){read}; last two years "
                      f"{', '.join(r['families']) or 'nothing'}; {len(r['notices'])} notice(s) in the last year; {len(r['rows'])} forecast row(s)"
                      + (f"; {round(r['fit'] * 100)}% of its awards under the NAICS given" if r["fit"] is not None else ""))
         lines += [f"     {x['key']}: {x['title'][:90]}" for x in r["rows"][:3]]
@@ -513,6 +517,12 @@ def prep(layer: Layer, name: str, since: str | None = None, pulse: dict | None =
     if ending:
         lines.append(f"incumbent contracts ending within two years: {len(ending)}")
         lines += [f"  - {c['end']} {c['contract']} {c['vendor'] or '-'}: {c['work'][:70]}" for c in ending[:5]]
+    read_here = sorted((e for e in layer.events if e.get("model_read") and e["model_read"][0] in tree and e["org"] not in tree
+                        and e["available_by"] <= layer.as_of), key=lambda e: (e["available_by"], e["id"]), reverse=True)
+    if read_here:
+        lines.append(f"records filed elsewhere that the model reads to this office: {len(read_here)} ("
+                     + ", ".join(f"{f} {n}" for f, n in Counter(e["family"] for e in read_here).most_common()) + ")")
+        lines += [f"  - {e['available_by']} {e['family']}: {plain(e['title'])[:80]} (from \"{e['model_read'][1][:50]}\")" for e in read_here[:5]]
     people = contacts_for(up or [oid], layer.roster, layer.as_of, limit=6)
     if people:
         lines.append("people: " + "; ".join(f"{p['name']} ({p['title'][:50]}, {p['observed_at']})" for p in people))
@@ -723,6 +733,10 @@ def selfcheck() -> int:
     assert "Leadership change" in changed(layer, "NAVSEA") and "no organization" in changed(layer, "NOWHERE")
     m = match(layer, ["autonomy"], ["3366"], {"offices": {"PMS 406": {"naics": [{"value": "336611 SHIP BUILDING AND REPAIRING", "share": 0.6}]}}})
     assert "\n1. PMS 406 (under NAVSEA)" in m and "60% of its awards" in m and "     N00024-26-RFPREQ-PMS-406-0001: Unmanned" in m, m
+    read = Layer({**layer.corpus, "events": [*layer.corpus["events"], {**layer.corpus["events"][0], "id": "ask-r1", "title": "SAM.gov award notice: autonomy kit",
+                                                                            "text": "autonomy kit", "model_read": ("pms", "autonomy kit", "PMS 406 buys autonomy")}]},
+                 layer.roster, as_of=layer.as_of, routes=[])
+    assert "1. PMS 406 (under NAVSEA): 4 statement(s) (1 read here by the model)" in match(read, ["autonomy"], [], {}), match(read, ["autonomy"], [], {})
     a = analogs(layer, "N00024-26-R-0001")
     assert "solicitation on 2026-03-01; no award notice yet" in a and "5 past buy(s) under N00024" in a and "median 300 day(s), middle half 150 to 450" in a, a
     assert "between 2026-07-29 and 2027-05-25" in a, a

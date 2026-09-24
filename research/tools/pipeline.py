@@ -86,6 +86,8 @@ STAGES = [
      [PY, str(TOOLS / "congress.py"), "build"]),
     ("federal", "read the saved Federal Register pages into dated documents, typed where the text says what happened", False,
      [PY, str(TOOLS / "fedreg.py"), "build"]),
+    ("kinds", "read what every saved special notice announces (cassettes replay; a new notice is one model call), compared with the saved file", False,
+     [PY, str(TOOLS / "notice_kinds.py"), "build", "--check"]),
     ("schema", "write the loaded-table subset of the production schema", False,
      [PY, str(TOOLS / "schema_subset.py"), str(BUILD / "schema.sql")]),
     ("layers", "emit the rows: needs, assertions, evidence, organizations, brain items", False,
@@ -95,8 +97,9 @@ STAGES = [
     ("revisions", "the forecast-revision alert: every forecast line whose award window or value moved between releases, into build/", False, None),
     ("backtest", "replay the outcome labels and compute the back-test from the frozen corpus into build/", False,
      [PY, str(TOOLS / "backtest.py"), "check"]),
-    ("offices", "read every notice filed at a contracting office that no record places against the office pages (cassettes replay; "
-                "a new notice is one model call), compared with the saved file", False,
+    ("offices", "read every notice filed at a contracting office that no record places, every live award a contracting office signed, and "
+                "every topic and committee statement no program office was named for, against the office pages (cassettes replay; a new "
+                "record is one model call), compared with the saved file", False,
      [PY, str(TOOLS / "office_wiki.py"), "build", "--check"]),
     ("pulse", "score every cell as of the corpus end, list the week's changes and the actions, and compare with the saved pulse", False,
      [PY, str(TOOLS / "pulse.py"), "check"]),
@@ -119,7 +122,7 @@ def refreshed(db: str) -> dict[str, list[list[str]]]:
     results, pulse, books and status follow."""
     tool = lambda name, *rest: [PY, str(TOOLS / name), *rest]
     return {"backtest": [tool("backtest.py", "freeze", "--db", db), tool("backtest.py", "label"), tool("backtest.py", "run")],
-            "offices": [tool("office_wiki.py", "build")], "small_business": [tool("small_business.py", "build")], "pulse": [tool("pulse.py", "build")], "dna": [tool("buying_dna.py", "build")],
+            "kinds": [tool("notice_kinds.py", "build")], "offices": [tool("office_wiki.py", "build")], "small_business": [tool("small_business.py", "build")], "pulse": [tool("pulse.py", "build")], "dna": [tool("buying_dna.py", "build")],
             "vendors": [tool("vendors.py", "build")], "coverage": [tool("coverage.py", "status")]}
 
 

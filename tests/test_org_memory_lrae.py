@@ -12,7 +12,8 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "research" / "tools"))
-from org_memory_lrae import GENERATOR, ROOT as TRIAL, SEED, STATEMENTS, collisions, page_text, saved, squash  # noqa: E402
+from org_memory_lrae import (GENERATOR, INFERRED_CENTER, INFERRED_DEPARTMENT, INFERRED_HQ, INFERRED_SITE, ROOT as TRIAL, SEED,  # noqa: E402
+                              STATEMENTS, collisions, page_text, saved, squash)
 
 
 def _seed() -> dict:
@@ -38,8 +39,12 @@ def test_generated_records_are_draft_and_cite_the_sheet() -> None:
         assert all(obs[i]["statement_type"] == "parentage" for i in rel["observation_ids"]), rel["id"]
         if rel["evidence_class"] == "inferred":
             assert "inference" in rel["current_status"]["note"], rel["id"]
-            for i in rel["observation_ids"]:  # the two columns the inference rests on, or the HQ list's heading
-                assert "Contracting Office UIC" in obs[i]["passage"] or i.startswith("obs:dpm:"), rel["id"]
+            # What each inference rests on: the site's two columns, the HQ list's heading, the command's own sheet
+            # naming the center or activity, or the department's combined report carrying the command's sheet.
+            rests_on = {INFERRED_SITE: lambda i: "Contracting Office UIC" in obs[i]["passage"], INFERRED_HQ: lambda i: i.startswith("obs:dpm:"),
+                        INFERRED_CENTER: lambda i: obs[i]["passage"].startswith("column '"),
+                        INFERRED_DEPARTMENT: lambda i: "combined LRAE report" in obs[i]["passage"]}[rel["current_status"]["note"]]
+            assert all(rests_on(i) for i in rel["observation_ids"]), rel["id"]
 
 
 def test_an_office_drafted_from_fpds_does_not_take_its_commands_name() -> None:

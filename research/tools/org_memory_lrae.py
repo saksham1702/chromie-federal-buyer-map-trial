@@ -50,7 +50,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from fetch import ROOT  # noqa: E402
-from lrae_package import RELEASES, RESEARCH, fpds_entries, handles, manifest_rows, norm_code, read_sheet, saved  # noqa: E402
+from lrae_package import COMBINED, RELEASES, RESEARCH, fpds_entries, handles, manifest_rows, norm_code, read_sheet, saved  # noqa: E402
 from fpds_sweep import OFFICES as SWEPT_OFFICES, saved_pages, windows  # noqa: E402
 
 SEED = RESEARCH / "memory" / "organization_seed.json"
@@ -61,6 +61,8 @@ UIC_CELL = re.compile(r"^([A-Z]\d{4}[A-Z0-9])\s*[:\-]?\s*(.*)$")
 UIC_PREFIX = re.compile(r"^([A-Z]\d{4}[A-Z0-9])-(.+)$")
 CENTER_SUFFIX = re.compile(r"^([A-Z]{2,4}-[A-Z0-9]+)-((?:NSWC|NUWC)[A-Z]+)$")
 ONR_CODE = re.compile(r"^ONR (Code \d+|PMR-\d+),\s*(.+)$")
+ONR_SLASH = re.compile(r"^Code (\d+) - Code \1/(.+) - ONR$")  # the combined release: `Code 032 - Code 032/Ocean Battlespace Sensing - ONR`
+SITE_DEPT = re.compile(r"^([A-Z&]+)-(\d+(?:\.\d+)?) - \2(?: - |\s+)(.+)$")  # `PSNS-290 - 290 - Combat Systems ...`, `PSNS-101.1 - 101.1 NWRMC Everett`
 PMS_CODE = re.compile(r"\bPMS[- ]?(\d{3}[A-Z]?)\b")
 IWS_CODE = re.compile(r"^(?:NAVSEA\s+)?IWS[- ]?(\d{1,2})(?:\.(\d))?$")
 IWS_LETTERS = re.compile(r"^IWS[\s-]+([A-Z]{1,3})$")
@@ -107,6 +109,11 @@ DPM_HEADINGS: dict[str, list[tuple[str, str, str]]] = {
 }
 DPM_SKIP = ("Deputy Program Manager List - UPDATED", "Page ")
 INFERRED_SITE = "the row's contracting office; the sheet does not state the parent, so this is the generator's inference from the two columns"
+DEPARTMENT = "agency:don"
+INFERRED_CENTER = ("the command's own forecast sheet names this center, or lists this activity as the office owning rows; "
+                   "the sheet does not state the reporting line, so the parent is the generator's inference")
+INFERRED_DEPARTMENT = ("the Department of the Navy's combined forecast carries this command's sheet as one of its activities; "
+                       "the report does not state the reporting line in words, so the parent is the generator's inference")
 INFERRED_HQ = ("the NAVSEA headquarters deputy program manager list groups this office's programs; the list does not state "
                "the reporting line, so the parent is the generator's inference")
 # Statements an agent read off saved official pages: a node the page names, its parent, verbatim
@@ -187,6 +194,25 @@ def coded(code: str, name: str, org: dict, table: dict) -> dict:
     return found(org, None, code, f"department code of {org['name']}; the code stays on the record")
 
 
+def site_department(cell: str, table: dict) -> dict | None:
+    """A department a site prefixes with its own name and names after the code: `PSNS-290 - 290 - Combat Systems ...`.
+    Its code keeps the prefix, as `NNSY-220` does, since shipyards and NRL share bare numbers."""
+    m = SITE_DEPT.match(cell)
+    if not m or not table.get(norm_code(m.group(1))):
+        return None
+    site, code = table[norm_code(m.group(1))], f"{m.group(1)}-{m.group(2)}"
+    return found(spec(f"dept:{slug(site['name'])}-{slug(code)}", "department", f"{site['name']} Code {code}, {m.group(3)}", office_code=code),
+                 site, cell, "department of the site the cell names")
+
+
+def onr_department(code: str, name: str, alias: str) -> dict:
+    """An ONR department, one node however a release pads its code: `ONR Code 32` and `Code 032` are one department,
+    and a PMR code keeps its letters."""
+    code = f"Code {int(code):02d}" if code.isdigit() else code
+    return found(spec(f"dept:onr-{slug(code)}", "department", f"ONR {code}, {name}", office_code=f"ONR {code}"),
+                 spec(*COMMANDS["ONR"]), alias, "ONR department")
+
+
 def resolve(text: str, table: dict, by_uic: dict, here: dict | None = None) -> dict:
     """What one requirement-office cell names. `table` maps norm_code(alias) to a node spec; `here`
     is the row's contracting office, the site a named department or a bare code belongs to by
@@ -200,6 +226,9 @@ def resolve(text: str, table: dict, by_uic: dict, here: dict | None = None) -> d
     known = table.get(norm_code(cell)) or table.get(norm_code(head)) if norm_code(head) else None
     if known and " - " not in cell:
         return found(known, None, head, "alias table")
+    m = ONR_SLASH.match(cell) or ONR_CODE.match(cell)
+    if m:
+        return onr_department(m.group(1) if m.re is ONR_SLASH else m.group(1).removeprefix("Code "), m.group(2), cell if m.re is ONR_SLASH else head)
     parts = [p.strip() for p in cell.split(" - ")]
     if len(parts) >= 3:
         if len(parts) == 4 and parts[2] == f"{parts[0]}-{parts[1]}":  # `KPT - 20 - KPT-20 - NUWCKPT`
@@ -209,7 +238,7 @@ def resolve(text: str, table: dict, by_uic: dict, here: dict | None = None) -> d
         if org is None and known:  # `NNSY - Norfolk Naval Shipyard - HQ`: the code is known, the last part names no organization
             return found(known, None, head, "alias table; the cell's last part names no organization")
         if org is None:
-            return miss(f"parent organization {org_name} is not in the contracting column or the command list")
+            return site_department(cell, table) or miss(f"parent organization {org_name} is not in the contracting column or the command list")
         hit = coded(code, name, org, table)
         hit["alias"] = head if hit["alias"] else ""
         return hit
@@ -221,11 +250,6 @@ def resolve(text: str, table: dict, by_uic: dict, here: dict | None = None) -> d
     m = CENTER_SUFFIX.match(cell)
     if m and table.get(norm_code(m.group(2))):
         return found(table[norm_code(m.group(2))], None, head, "center named after the department code")
-    m = ONR_CODE.match(cell)
-    if m:
-        onr = spec(*COMMANDS["ONR"])
-        return found(spec(f"dept:onr-{slug(m.group(1))}", "department", f"ONR {m.group(1)}, {m.group(2)}", office_code=f"ONR {m.group(1)}"),
-                     onr, head, "ONR department")
     if IWS_CODE.match(cell) or IWS_LETTERS.match(cell) or SEA_CODE.match(cell) or PEO_CODE.match(cell) or DRPM_CODE.match(cell):
         hit = coded(cell, "", spec(*COMMANDS["NAVSEA"]), table)
         hit["parent"] = None  # a bare code states no parent
@@ -257,7 +281,7 @@ def resolve(text: str, table: dict, by_uic: dict, here: dict | None = None) -> d
         return miss("outside the Department of the Navy")
     if cell.upper() in FLEET or cell.startswith("USS "):
         return miss("fleet unit, not an acquisition organization")
-    return miss("free text the rules do not read")
+    return site_department(cell, table) or miss("free text the rules do not read")
 
 
 def hand_table(seed: dict) -> dict[str, dict]:
@@ -360,6 +384,8 @@ class Memory:
         self.inferred: dict[tuple[str, str], str] = {}  # edge -> why the generator, not a source, states it
         self.stated: set[tuple[str, str]] = set()  # edges a source states; one release stating it outweighs another's inference
         self.from_fpds: set[str] = set()
+        self.sheet_of: dict[str, dict[str, set[str]]] = defaultdict(lambda: defaultdict(set))  # center -> command whose sheet names it -> observations
+        self.hand_children = {r["from"] for r in seed.get("relationships", []) if r.get("type") == "child_of" and r.get("generator") != GENERATOR}
 
     def add_node(self, node: dict) -> None:
         if node["id"] in self.nodes:
@@ -508,6 +534,7 @@ class Memory:
             node = self.nodes.get(node_id) or next(n for n in self.table.values() if n["id"] == node_id)
             passage = f"column '{UIC_COLUMN}': " + "; ".join(f"'{c}' ({n} rows)" for c, n in sorted(cells.items()))
             obs_id = observe(f"obs:lrae:{key}:{slug(node_id)}:contracting", "existence", passage, [node_id])
+            self.named(release, node, obs_id)
             for cell in cells:
                 name = contracting_node(cell)[1]
                 # `N00039: NAVWAR` prints the command's name for its contracting office: the observation quotes the
@@ -555,11 +582,41 @@ class Memory:
         for node_id, cells in sorted(offices.items()):
             node = self.node_by_id(node_id)
             obs_id = observe(f"obs:lrae:{key}:{slug(node_id)}", "existence", cited(cells), [node_id])
+            self.named(release, node, obs_id, owner=True)
             for cell in cells:
                 self.register(node, aliases[node_id][cell], obs_id)
         for (child, parent), cells in sorted(parents.items()):
             passage = cited(cells)
             self.parent_of({"id": child}, {"id": parent}, observe(f"obs:lrae:{key}:{slug(child)}:parent", "parentage", passage, [child, parent]))
+        self.department(release, source, release_date)
+
+    def named(self, release: dict, node: dict, obs_id: str, owner: bool = False) -> None:
+        command = COMMANDS.get(release["activity"].upper())
+        if command and (node["type"] == "technical_center" or owner and node["type"] == "field_activity"):
+            self.sheet_of[node["id"]][command[0]].add(obs_id)
+
+    def place_centers(self) -> None:
+        """A technical center one command's own forecast sheet names, and no source places, sits under that command; so
+        does a field activity that sheet lists as the office owning rows. A field activity named only as a contracting
+        site does not: the NAVSEA sheet also names fleet units and stations that are not NAVSEA's."""
+        placed = {child for child, _ in self.parents} | self.hand_children
+        said = {o["id"]: o for o in self.observations}
+        for center, by in sorted(self.sheet_of.items()):
+            if len(by) == 1 and center not in placed:
+                (command, obs_ids), = by.items()
+                self.inferred[(center, command)] = INFERRED_CENTER
+                for obs_id in sorted(obs_ids):  # the parentage rests on the same cells of the command's sheet
+                    self.observations.append({**said[obs_id], "id": f"{obs_id}:command", "statement_type": "parentage", "subject_ids": [center, command]})
+                    self.parent_of({"id": center}, {"id": command}, f"{obs_id}:command")
+
+    def department(self, release: dict, source: dict, release_date: str) -> None:
+        """A command whose sheet the department's combined forecast carries sits under the department."""
+        command = COMMANDS.get(release["activity"].upper())
+        if release["release_note"] == COMBINED and command and command[0] in self.nodes:
+            self.inferred[(command[0], DEPARTMENT)] = INFERRED_DEPARTMENT
+            self.parent_of({"id": command[0]}, {"id": DEPARTMENT}, self.observe(
+                f"obs:lrae:{release['key']}:{slug(command[0])}:department", "parentage",
+                f"sheet '{release['sheet']}' of the Department of the Navy's combined LRAE report", [command[0], DEPARTMENT], source, release_date))
 
     def records(self) -> tuple[list[dict], list[dict], list[dict]]:
         nodes = []
@@ -631,6 +688,7 @@ def build_seed(seed: dict) -> tuple[dict, Memory]:
         raise SystemExit("the NAVSEA deputy program manager list is not under data/raw")
     memory.read_dpm(dpm)
     memory.read_fpds_offices(manifest, date.today())
+    memory.place_centers()
     nodes, observations, relationships = memory.records()
     out = dict(seed)
     out["nodes"] = [n for n in seed["nodes"] if n.get("generator") != GENERATOR] + nodes
@@ -702,6 +760,28 @@ def selfcheck() -> int:
     table[norm_code("Infrastructure Division (102)")] = spec("dept:nswcpd-102", "department", "Infrastructure Division (102)", office_code="102")
     assert r("102 - 102 - NSWCPD")["node"]["id"] == "dept:nswcpd-102" and r("102 - 102 - NSWCPD")["parent"]["id"] == "center:nswcpd"
     memory = Memory({"nodes": []})
+    memory.add_node(spec(*COMMANDS["NAVSEA"]))
+    sheet = {"url": "https://example.test/x.xlsx", "sha256": "0" * 64, "retrieved_at": "2026-07-13T00:00:00Z"}
+    memory.department({"key": "k", "activity": "navsea", "release_note": COMBINED, "sheet": "NAVSEA"}, sheet, "2026-07-13")
+    assert memory.parents[("command:navsea", DEPARTMENT)] == {"obs:lrae:k:command-navsea:department"} \
+        and memory.inferred[("command:navsea", DEPARTMENT)] == INFERRED_DEPARTMENT, "the combined forecast places its commands under the department"
+    memory.sheet_of["center:x"]["command:navsea"].add("obs:x")
+    memory.sheet_of["center:y"]["command:navsea"].add("obs:y")
+    memory.sheet_of["center:y"]["command:onr"].add("obs:y2")
+    memory.hand_children.add("center:z")
+    memory.sheet_of["center:z"]["command:navsea"].add("obs:z")
+    navsea = {"activity": "navsea"}
+    memory.named(navsea, spec("activity:owner", "field_activity", "Owner"), "obs:o", owner=True)
+    memory.named(navsea, spec("activity:site", "field_activity", "Site"), "obs:s")
+    for obs_id in ("obs:x", "obs:y", "obs:y2", "obs:z", "obs:o", "obs:s"):
+        memory.observe(obs_id, "existence", "column 'X': 'cell' (1 rows)", [], sheet, "2026-07-13")
+    memory.place_centers()
+    assert memory.parents[("center:x", "command:navsea")] == {"obs:x:command"} and memory.inferred[("center:x", "command:navsea")] == INFERRED_CENTER
+    assert next(o for o in memory.observations if o["id"] == "obs:x:command")["statement_type"] == "parentage", "a placed edge cites a parentage statement"
+    assert ("activity:owner", "command:navsea") in memory.parents and not any(c == "activity:site" for c, _ in memory.parents), \
+        "an activity the sheet lists as owning rows sits under the command; one named only as a contracting site does not"
+    assert not any(c in ("center:y", "center:z") for c, _ in memory.parents), "two commands' sheets, or a stated parent, leave a center alone"
+    memory = Memory({"nodes": []})
     memory.by_uic.update(by_uic)
     assert memory.contracting("N00164 - NSWCCR")[0]["id"] == "center:nswc-crane"  # the code, not the spelling, is the office
     assert contracting_node("N00019 - HQ") == (spec("contracting:n00019", "contracting_office", "N00019", uic="N00019"), "")
@@ -719,6 +799,12 @@ def selfcheck() -> int:
     hit = r("ONR Code 34, Warfighter Performance")
     assert (hit["node"]["id"], hit["node"]["type"], hit["parent"]["id"]) == ("dept:onr-code-34", "department", "command:onr"), hit
     assert r("ONR PMR-51, Office of Low Observable")["node"]["id"] == "dept:onr-pmr-51"
+    assert r("Code 032 - Code 032/Ocean Battlespace Sensing - ONR")["node"]["id"] == "dept:onr-code-32", "the combined release pads ONR codes"
+    assert r("Code 0332 - Code 0332/Materials - ONR")["node"]["id"] == "dept:onr-code-332" and r("ONR Code 02, Contracts")["node"]["id"] == "dept:onr-code-02"
+    table[norm_code("PSNS")] = spec("activity:psns-imf", "field_activity", "PSNS&IMF", contracting_uic="N4523A")
+    hit = r("PSNS-1100 - 1100 - Executive Department")
+    assert (hit["node"]["id"], hit["parent"]["id"], hit["node"]["codes"]["office_code"]) == ("dept:psns-imf-psns-1100", "activity:psns-imf", "PSNS-1100"), hit
+    assert r("PSNS-101.3 - 101.3 NWRMC Everett")["node"]["id"] == "dept:psns-imf-psns-101-3"
     assert r("N66604-Code 25")["node"]["id"] == "activity:newport" and r("N66604-Code 25")["alias"] == "N66604-Code 25"
     assert r("N00167-NSWC CARDEROCK - Code 70")["unresolved"], "a UIC the contracting column never printed stays unresolved"
     assert r("SWRMC Code 300")["node"]["id"] == "activity:swrmc" and r("SWRMC Code 300")["alias"] == "SWRMC Code 300"

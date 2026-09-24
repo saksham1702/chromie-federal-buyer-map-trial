@@ -5,11 +5,13 @@ office directory (one line per program office: its name and the program names it
 the offices whose records share the notice's program names. The model names one office or none, and quotes the
 notice words and the page line that tie them; the rules keep an answer only when both quotes are verbatim and the
 notice words are more than generic words. A reading stays a reading: it never moves the notice from the office that filed it.
+The same reading, each kind with its own prompt, places the live contract awards a contracting office signed, the SBIR/STTR
+topics a command published and the committee statements addressed to the department.
 
     python research/tools/office_wiki.py page "PMW 160"
     python research/tools/office_wiki.py read NOTICE_ID
     python research/tools/office_wiki.py build [--check]
-    python research/tools/office_wiki.py trial [--limit N]
+    python research/tools/office_wiki.py trial [--kind notices|awards|topics] [--limit N]
     python research/tools/office_wiki.py --selfcheck
 """
 from __future__ import annotations
@@ -27,7 +29,7 @@ sys.path.insert(0, str(HERE))
 from backtest import CORPUS, chain  # noqa: E402
 from llm import structured  # noqa: E402
 from pages import OFFICE_CODE_RE, OWNER_TYPES, READS, SOLICITATION_RE, Layer, compact, office_words, plain_title, rank_offices, read_offices, title_words  # noqa: E402
-from pulse import office_name  # noqa: E402
+from pulse import ENDS_RE, office_name  # noqa: E402
 from reader import flatten  # noqa: E402
 
 SHOWN = 6
@@ -38,6 +40,33 @@ SYSTEM = ("You read one U.S. Navy procurement notice that its contracting office
           "notice that tie it to that office; page_line, one line copied exactly from that office's directory entry or "
           "page that names the same program or work; reason, at most 25 words. A contracting office, a vehicle, a NAICS "
           "code or a generic word (support, engineering, services, training) never ties a notice to an office.")
+
+def system_for(record: str, basis: str, tie: str, never: str) -> str:
+    return (f"You read one {record} and name the program office {tie}, using only the office directory and the office pages "
+            "given. Answer with: office, copied exactly from the directory (the text before the first colon of a line), or "
+            f"empty when nothing given ties it to one office; notice_words, a few words copied exactly from the {basis} that "
+            "tie it to that office; page_line, one line copied exactly from that office's directory entry or page that names "
+            f"the same program or work; reason, at most 25 words. The page line names the same program, system, platform or "
+            "product the words name, by its name, acronym or number; an office's name or mission area alone (ship, aircraft, "
+            f"undersea, networks, communications) never ties it. {never} or a generic word (support, engineering, services, "
+            "training) never ties it to an office.")
+
+
+# kind -> (the prompt, how the record is introduced, whose program names the pages share)
+KINDS = {
+    "notices": (SYSTEM, "Notice filed at", "the notice's"),
+    "awards": (system_for("U.S. Navy contract award that its contracting office signed, as its description states it", "award description",
+                          "whose program or work the award buys", "A contracting office, a funding office, a vendor, a vehicle, a NAICS code"),
+               "Contract award signed at", "the award's"),
+    "topics": (system_for("U.S. Navy SBIR or STTR topic that its command published", "topic",
+                          "whose program the topic's work serves or would transition to", "The command that published it, the SBIR program, a phase"),
+               "Topic published by", "the topic's"),
+    "directives": (system_for("statement a congressional committee report addresses to the Department of the Navy", "statement",
+                              "that manages the program or work the statement addresses", "The department, a committee, a fiscal year, an account"),
+                   "Committee statement addressed to", "the statement's"),
+}
+FAMILY = {"notices": "notice", "awards": "incumbent", "topics": "programs", "directives": "congress"}
+
 SCHEMA = {"type": "object", "additionalProperties": False, "required": ["office", "notice_words", "page_line", "reason"],
           "properties": {"office": {"type": "string"}, "notice_words": {"type": "string"}, "page_line": {"type": "string"},
                          "reason": {"type": "string"}}}
@@ -91,14 +120,15 @@ def masked(text: str, orgs: dict) -> str:
 
 
 def ask(title: str, text: str, filed: str, corpus: dict, by_word: dict[str, Counter], known: set[str], records: int,
-        skip: frozenset = frozenset(), replay_only: bool = False) -> dict:
-    """The model's reading of one notice, kept only when the rules hold; the answer, how it was had, and what failed."""
+        skip: frozenset = frozenset(), replay_only: bool = False, kind: str = "notices") -> dict:
+    """The model's reading of one record, kept only when the rules hold; the answer, how it was had, and what failed."""
+    system, lead, whose = KINDS[kind]
     listing = directory(corpus, by_word, known)
     shortlist = [oid for oid, _, _ in rank_offices(title, by_word, records, known)]
     pages_ = {office_name(oid, corpus["orgs"]): page(corpus, oid, by_word, known, skip) for oid in shortlist}
-    user = (f"Notice filed at {filed}:\n{title}\n{text[:2500]}\n\nOffice directory:\n" + "\n".join(listing.values())
-            + ("\n\nPages of the offices whose records share the notice's program names:\n\n" + "\n\n".join(pages_.values()) if pages_ else ""))
-    answer, how = structured(SYSTEM, user, SCHEMA, "office_read", replay_only=replay_only)
+    user = (f"{lead} {filed}:\n{title}\n{text[:2500]}\n\nOffice directory:\n" + "\n".join(listing.values())
+            + (f"\n\nPages of the offices whose records share {whose} program names:\n\n" + "\n\n".join(pages_.values()) if pages_ else ""))
+    answer, how = structured(system, user, SCHEMA, "office_read", replay_only=replay_only)
     return {**answer, "problems": problems(answer, f"{title} {text}", listing, pages_), "cassette": how["cassette"]}
 
 
@@ -121,28 +151,47 @@ def problems(answer: dict, notice: str, listing: dict[str, str], pages_: dict[st
     return out
 
 
+def unread(corpus: dict, kind: str, read: dict) -> list[dict]:
+    """The records of a kind the model reads: notices filed at a contracting office no record places, the live awards a
+    contracting office signed, and the topics and committee statements no program office was named for."""
+    orgs = corpus["orgs"]
+    kind_of = lambda e: orgs.get(e["org"], {}).get("org_type")  # noqa: E731
+    mine = [e for e in corpus["events"] if e["family"] == FAMILY[kind] and kind_of(e) not in OWNER_TYPES]
+    if kind == "notices":
+        return [e for e in mine if e["id"] not in read and kind_of(e) == "contracting_office"]
+    if kind == "awards":
+        as_of = max(e["available_by"] for e in corpus["events"])
+        return [e for e in mine if (m := ENDS_RE.search(e["title"])) and m.group(1) >= as_of]
+    return mine
+
+
 def build(corpus: dict, replay_only: bool = False, workers: int = 8) -> dict:
-    """The model's reading of every notice filed at a contracting office that no record places, each with its quotes and
-    what the rules found; an answer the rules refuse is kept with its problems and places nothing."""
+    """The model's reading of every unread record of each kind, each with its quotes and what the rules found; an answer
+    the rules refuse is kept with its problems and places nothing."""
     by_word, words_of, known = office_words(corpus)
     read = read_offices(corpus, Layer(corpus, [], routes=[]).org_id)
-    todo = [e for e in corpus["events"] if e["family"] == "notice" and e["id"] not in read
-            and corpus["orgs"].get(e["org"], {}).get("org_type") == "contracting_office"]
-    one = lambda e: ask(plain_title(e["title"]), e["text"], office_name(e["org"], corpus["orgs"]), corpus, by_word, known, len(words_of),
-                        replay_only=replay_only)
+    todo = [(kind, e) for kind in KINDS for e in unread(corpus, kind, read)]
+    one = lambda job: ask(plain_title(job[1]["title"]), job[1]["text"], office_name(job[1]["org"], corpus["orgs"]) or "the department", corpus,
+                          by_word, known, len(words_of), replay_only=replay_only, kind=job[0])
     with ThreadPoolExecutor(workers) as pool:
         answers = list(pool.map(one, todo))
-    return {"notices": {e["id"]: {k: a[k] for k in ("office", "notice_words", "page_line", "problems", "cassette")} for e, a in zip(todo, answers)}}
+    out: dict[str, dict] = {kind: {} for kind in KINDS}
+    for (kind, e), a in zip(todo, answers):
+        out[kind][e["id"]] = {k: a[k] for k in ("office", "notice_words", "page_line", "problems", "cassette")}
+    return out
 
 
-def trial(corpus: dict, limit: int = 0, workers: int = 8, replay_only: bool = False) -> dict:
-    """Each notice filed at a program office under a solicitation number, with its office names masked and every record
-    under that number left out of the pages: does the model name the office the notice named?"""
+def trial(corpus: dict, limit: int = 0, workers: int = 8, replay_only: bool = False, kind: str = "notices") -> dict:
+    """Each record that names its program office, with its office names masked and the records tied to it left out of the
+    pages: does the model name the office the record named? Notices are grouped by solicitation number; an award counts
+    when its description or the notice under its solicitation named the office, a topic when its text did."""
     by_word, words_of, known = office_words(corpus)
     under: dict[str, list[dict]] = {}
     for e in corpus["events"]:
-        if e["family"] == "notice" and (m := SOLICITATION_RE.search(e["text"])):
+        if kind == "notices" and e["family"] == "notice" and (m := SOLICITATION_RE.search(e["text"])):
             under.setdefault(compact(m.group(1)), []).append(e)
+        elif kind != "notices" and e["family"] == FAMILY[kind] and (kind != "awards" or "placed by the office" in e["text"]):
+            under[e["id"]] = [e]
     jobs = []
     for group in under.values():
         stated = [e for e in group if corpus["orgs"].get(e["org"], {}).get("org_type") in OWNER_TYPES]
@@ -161,7 +210,8 @@ def trial(corpus: dict, limit: int = 0, workers: int = 8, replay_only: bool = Fa
     def one(job):
         e, trimmed, records, skip = job
         title = masked(plain_title(e["title"]), orgs)
-        got = ask(title, masked(e["text"], orgs), "the contracting office", corpus, trimmed, known, records, skip, replay_only)
+        got = ask(title, masked(e["text"], orgs), "the command" if kind == "topics" else "the contracting office", corpus, trimmed, known, records,
+                  skip, replay_only, kind)
         guess = rank_offices(title, trimmed, records, known)
         return e, got, guess[0][0] if guess else ""
 
@@ -179,8 +229,8 @@ def trial(corpus: dict, limit: int = 0, workers: int = 8, replay_only: bool = Fa
         if got["problems"]:
             tally["model answers refused by the rules"] += 1
         if verdict["model"] == "wrong":
-            misses.append({"notice": plain_title(e["title"])[:90], "office": office_name(e["org"], orgs), "model": got["office"], "quote": got["notice_words"]})
-    return {"notices": len(done), "tally": dict(sorted(tally.items())), "misses": misses}
+            misses.append({"record": plain_title(e["title"])[:90], "office": office_name(e["org"], orgs), "model": got["office"], "quote": got["notice_words"]})
+    return {kind: len(done), "tally": dict(sorted(tally.items())), "misses": misses}
 
 
 def selfcheck() -> int:
@@ -208,6 +258,7 @@ def main(argv: list[str]) -> int:
     sub.add_parser("build").add_argument("--check", action="store_true", help="replay the saved answers and compare with the saved file")
     t = sub.add_parser("trial")
     t.add_argument("--limit", type=int, default=0)
+    t.add_argument("--kind", choices=[k for k in KINDS if k != "directives"], default="notices")
     args = ap.parse_args(argv)
     corpus = json.loads(CORPUS.read_text(encoding="utf-8"))
     by_word, words_of, known = office_words(corpus)
@@ -223,15 +274,16 @@ def main(argv: list[str]) -> int:
     elif args.cmd == "build":
         out = build(corpus, replay_only=args.check)
         text = json.dumps(out, indent=1, sort_keys=True) + "\n"
-        placed = sum(1 for a in out["notices"].values() if a["office"] and not a["problems"])
-        print(f"{len(out['notices'])} notice(s) read, {placed} placed by the model with both quotes verbatim")
+        for kind, reads in out.items():
+            placed = sum(1 for a in reads.values() if a["office"] and not a["problems"])
+            print(f"{kind}: {len(reads)} read, {placed} placed by the model with both quotes verbatim")
         if args.check:
             same = READS.exists() and READS.read_text(encoding="utf-8") == text
             print("office reads match the saved file" if same else "office reads differ from the saved file", file=sys.stderr)
             return 0 if same else 1
         READS.write_text(text, encoding="utf-8")
     else:
-        print(json.dumps(trial(corpus, args.limit), indent=1))
+        print(json.dumps(trial(corpus, args.limit, kind=args.kind), indent=1))
     return 0
 
 

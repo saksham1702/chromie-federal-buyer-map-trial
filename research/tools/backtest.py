@@ -104,7 +104,7 @@ def sql(db: str, query: str) -> list[list[str]]:
            f"@{env.get('PGHOST', '127.0.0.1')}:{env.get('PGPORT', '54322')}/{db}")
     out = subprocess.run(["psql", dsn, "-At", "-F", "\x1f", "-R", "\x1e", "-c", query],
                          capture_output=True, text=True, check=True, env=env)
-    return [rec.split("\x1f") for rec in out.stdout.split("\x1e") if rec.strip()]
+    return [rec.split("\x1f") for rec in out.stdout.removesuffix("\n").split("\x1e") if rec.strip()]  # psql ends its output with a newline
 
 
 def as_day(value: str) -> str:

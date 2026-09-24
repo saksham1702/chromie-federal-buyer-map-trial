@@ -1295,7 +1295,9 @@ NOTICE_EVENT = {"sources sought": "rfi_released", "presolicitation": "presolicit
                 "solicitation": "rfp_released", "combined synopsis/solicitation": "rfp_released",
                 "award notice": "contract_awarded", "justification (J&A)": "justification_posted"}
 SPECIAL_EVENT = {"industry day": "industry_engagement", "action on an existing contract": "contract_modified",
-                 "forecast": "forecast_created"}
+                 "forecast": "forecast_created", "intent to award a sole source": "justification_posted",
+                 "commercial solutions opening": "rfp_released", "request for information": "rfi_released",
+                 "draft solicitation": "presolicitation_posted", "award announcement": "contract_awarded"}
 
 
 def notice_event(notice_type: str, kind: str) -> str | None:
@@ -1834,6 +1836,7 @@ def selfcheck() -> int:
     assert set(NEWS_TIER.values()) <= {"official", "licensed_secondary", "derived", "editorial"}
     assert notice_event("sources sought", "sources sought") == "rfi_released"
     assert notice_event("special notice", "industry day (special notice)") == "industry_engagement"
+    assert notice_event("special notice", "intent to award a sole source (special notice)") == "justification_posted"
     assert notice_event("special notice", "special notice") is None and notice_event("j", "j") is None
 
     # A line restated as it was is no event; a moved award quarter is, and it reads as the same

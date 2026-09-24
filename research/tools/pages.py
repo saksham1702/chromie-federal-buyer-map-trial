@@ -26,7 +26,11 @@ from trace import STOP, distinctive_tokens  # noqa: E402
 from vendors import load as load_vendors, names_for  # noqa: E402
 
 DNA = RESEARCH / "results" / "buying_dna.json"
-READS = RESEARCH / "results" / "office_reads.json"  # office_wiki.py build: the model's reading of each notice no record places
+READS = RESEARCH / "results" / "office_reads.json"  # office_wiki.py build: the model's reading of each record no program office holds
+# The readings the views use: those whose masked trial (office_wiki.py trial) names the office a record states. Topics are
+# read and saved but not used, since on topics that name their office the model names a neighbour too often; committee
+# statements name no program office to test against, so their readings are saved and not used either.
+READ_KINDS = ("notices", "awards")
 TWO_YEARS = 730
 SHOWN = 8
 OWNER_TYPES = ("program_office", "program_executive_office")
@@ -287,12 +291,14 @@ def guess_offices(corpus: dict, read: dict) -> dict[str, list[tuple[str, float, 
 
 
 def model_reads(corpus: dict) -> dict[str, tuple[str, str, str]]:
-    """Notice id -> (office, notice words, page line) from the model's saved readings, where the rules held."""
+    """Record id -> (office, record words, page line) from the model's saved readings, where the rules held, of the kinds
+    whose masked trial holds (READ_KINDS)."""
     if not READS.exists():
         return {}
     by_name = {office_name(oid, corpus["orgs"]): oid for oid, o in corpus["orgs"].items() if o.get("org_type") in OWNER_TYPES}
-    return {nid: (by_name[a["office"]], a["notice_words"].replace('"', "'"), a["page_line"].replace('"', "'"))
-            for nid, a in json.loads(READS.read_text(encoding="utf-8"))["notices"].items() if a["office"] in by_name and not a["problems"]}
+    saved = json.loads(READS.read_text(encoding="utf-8"))
+    return {rid: (by_name[a["office"]], a["notice_words"].replace('"', "'"), a["page_line"].replace('"', "'"))
+            for kind in READ_KINDS for rid, a in saved.get(kind, {}).items() if a["office"] in by_name and not a["problems"]}
 
 
 def pointed(e: dict) -> str:
@@ -414,7 +420,7 @@ def office(layer: Layer, name: str, dna: dict) -> str:
     if o["vendors"]:
         lines.append("vendors by contracts: " + ", ".join(f"{v} {n}" for v, n in o["vendors"].items()))
     if o["guessed_total"]:
-        lines.append(f"notices filed at a contracting office that name no office and point to this office: {o['guessed_total']}")
+        lines.append(f"records filed elsewhere that name no program office and point to this office: {o['guessed_total']}")
         lines += [f"  - {e['date']} {e['title']}" for e in o["guessed"]]
     book = dna.get("offices", {}).get(o["office"]) or dna.get("contracting_offices", {}).get(o["office"])
     if book:

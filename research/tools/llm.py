@@ -76,7 +76,7 @@ def structured(system: str, user: str, schema: dict, name: str, model: str = MOD
                 time.sleep(5 * (attempt + 1))
                 continue
             raise RuntimeError(f"model call failed: HTTP {exc.code} {exc.read()[:300]!r}") from None
-        except urllib.error.URLError:
+        except (urllib.error.URLError, TimeoutError):  # a read that stalls past the timeout is retried like a lookup
             if attempt < 2:
                 time.sleep(5 * (attempt + 1))
                 continue

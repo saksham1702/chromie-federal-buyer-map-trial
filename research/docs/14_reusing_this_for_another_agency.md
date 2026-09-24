@@ -35,7 +35,7 @@ repeats byte for byte.
 | `fetch.py`, `context_fetch.py`, `browserbase_fetch.py`, `research/sources/documents_manifest.jsonl` | every retrieval is recorded with its bytes, SHA-256 and retrieval time, whatever the host; a page rendered from a United States address (context.dev) or a US-egress browser for files is the answer to any host that refuses this address |
 | `sam_notices.py` | SAM.gov is the single notice system for the whole federal government, so the notice reader, the attachment handling and the office-code extraction are agency-independent |
 | the award readers (FPDS, USAspending) | both are government-wide, keyed by contract and solicitation number |
-| the staged matcher in `lrae_package.py` | identifier, then title under the same office, then incumbent contract, then title similarity, with a candidate that is never promoted; the stages are about records, not about the Navy |
+| the staged matcher in `lrae_package.py` | identifier, then title under the same office, then incumbent contract, then title similarity; a candidate is promoted only when a model reading both rows quotes each verbatim and names them one acquisition; the stages are about records, not about the Navy |
 | the reading vocabulary in `trace.py` | awarded, solicited, cancelled, review, restructured, delayed, open, not yet due, not dated, with one outcome word and the rest appended |
 | `news.py` | the article model, the source types, the claim passage, and the reading against the record as new signal, corroboration or conflict; the provider behind discovery is a flag |
 | `agency_layers_sql.py` | emits into the production tables (`gov_needs`, `gov_intelligence_assertions`, `gov_intelligence_evidence`, `agency_brain_items`), which are agency-independent |
