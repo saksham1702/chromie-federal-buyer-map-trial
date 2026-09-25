@@ -43,7 +43,8 @@ VIEWS = {
     "cell": "KEY: one forecast row or statement in full, with the evidence around it and its stage",
     "topics": "TERM: SBIR/STTR topics that carry a term, by office",
     "people": "OFFICE: the people the record ties to an office and the offices above it",
-    "neighbors": "OFFICE: the parent, siblings and children of an office",
+    "neighbors": "OFFICE: the parent, siblings and children of an office, and the organization graph's other edges in its chain: who "
+                 "contracts for it, who leads it (current or ended), what it was consolidated into, each with its sources",
     "initiatives": "OFFICE: what leaders, Congress, the budget, oversight, conferences, news and reorganizations say in an office's chain",
 }
 ASK = ("changed", "match", "prep", "analogs", "incumbents", "moves", "team")
@@ -286,6 +287,9 @@ def selfcheck() -> int:
         assert "Forecast requirement" in out.getvalue() and re.search(r"https?://", out.getvalue()), out.getvalue()[:400]
         near = json.loads(call("office", {"args": "PMA/PMW 101"}))["beside"]  # the other layers come with the office
         assert {"wiki page", "buying book", "next actions", "incumbents ending"} <= set(near) and "bid protests" not in near, sorted(near)
+        graph = json.loads(call("neighbors", {"args": "PMW 120"}))["relationships"]  # who buys for the office and who leads above it
+        assert any("contracts for PMW 120" in r["relation"] for r in graph) and any(r["relation"].split(" leads ")[1:] and r["sources"] for r in graph), graph
+        assert json.loads(call("neighbors", {"args": "NRL Code 7600"})).get("parent") == "NRL", "an office answers to its name before the comma"
     assert [t["name"] for t in tools()] == ["help", *HELP] and tools()[-2]["inputSchema"]["required"] == ["answer"]
     assert "not above" in call("check", {"answer": {**good, "peo": "NAVSEA"}}) or not CORPUS.exists()
     print("navy selfcheck ok")

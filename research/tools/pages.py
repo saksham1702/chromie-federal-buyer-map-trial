@@ -33,6 +33,7 @@ READS = RESEARCH / "results" / "office_reads.json"  # office_wiki.py build: the 
 READ_KINDS = ("notices", "awards")
 TWO_YEARS = 730
 SHOWN = 8
+SAM_API_RE = re.compile(r"https://sam\.gov/api/prod/opps/v2/opportunities/(\w+)\S*")  # the API link to a notice, whose page is /opp/ID/view
 OWNER_TYPES = ("program_office", "program_executive_office")
 OFFICE_CODE_RE = re.compile(r"\b(?:PMW|PMS|PMA|IWS)[ /-]*(?:A[ -]*)?\d{2,3}(?:\.\d)?\b|\bPEO [A-Z][A-Za-z0-9]+")
 HULL_RE = re.compile(r"\bUSS\s+[A-Z][A-Za-z .'-]*?\s*\(?[A-Z]{2,4}[\s-]*\d{1,4}\)?|\b[A-Z]{2,4}[\s-]+\d{1,4}\b")
@@ -58,9 +59,13 @@ class Layer:
         self.as_of = as_of or max(e["available_by"] for e in self.events)
         self.routes_by = as_of  # a replay hides a route observed after its date; the live view shows every route known
         self.recurring = recurring_tokens(self.needs)
+        self.edges = seed_edges(self.orgs, self.as_of)
         self.by_acronym = {o["acronym"].lower(): oid for oid, o in self.orgs.items() if o.get("acronym")}
         self.by_acronym.update({o["name"].lower(): oid for oid, o in self.orgs.items()})
         self.by_acronym.update(seed_names(self.by_acronym))
+        head = lambda o: o["name"].split(",")[0].strip().lower()  # "NRL Code 7600" for "NRL Code 7600, Space Science DIV"
+        heads = Counter(head(o) for o in self.orgs.values())
+        self.by_acronym.update({head(o): oid for oid, o in self.orgs.items() if heads[head(o)] == 1 and head(o) not in self.by_acronym})
         # A notice filed at a contracting office is read to the office other records place it with, so an office's
         # questions see it; the filed office and the basis travel with it, and the corpus itself is not changed.
         read = read_offices(corpus, self.org_id)
@@ -155,7 +160,7 @@ class Layer:
         oid = self.org_id(name)
         if not oid:
             return {"office": name, "error": "no organization by that name"}
-        return {"office": office_name(oid, self.orgs), "people": contacts_for(chain(oid, self.orgs) or [oid], self.roster, self.as_of)[:SHOWN]}
+        return {"office": office_name(oid, self.orgs), "people": contacts_for(chain(oid, self.orgs) or [oid], self.roster, self.as_of, limit=SHOWN)}
 
     def neighbors(self, name: str) -> dict:
         oid = self.org_id(name)
@@ -163,9 +168,41 @@ class Layer:
             near = [o["acronym"] or o["name"] for o in self.orgs.values() if name.lower() in (o["acronym"] + " " + o["name"]).lower()][:SHOWN]
             return {"office": name, "error": "no organization by that name", "similar": near}
         parent = self.orgs[oid]["parent"]
+        up = {o: i for i, o in enumerate([oid, *chain(oid, self.orgs)])}  # the office first, then each level above it
+        near = sorted((e for e in self.edges if e["from"]["oid"] in up or e["to"]["oid"] in up),
+                      key=lambda e: min(up.get(e["from"]["oid"], len(up)), up.get(e["to"]["oid"], len(up))))
         return {"office": office_name(oid, self.orgs), "parent": office_name(parent, self.orgs) if parent else "",
                 "siblings": sorted(office_name(o, self.orgs) for o, row in self.orgs.items() if row["parent"] == parent and o != oid and parent)[:SHOWN * 2],
-                "children": sorted(office_name(o, self.orgs) for o, row in self.orgs.items() if row["parent"] == oid)[:SHOWN * 2]}
+                "children": sorted(office_name(o, self.orgs) for o, row in self.orgs.items() if row["parent"] == oid)[:SHOWN * 2],
+                "relationships": [{"relation": f"{e['from']['name']} {e['relation']} {e['to']['name']}",
+                                   **{k: e[k] for k in ("evidence", "status", "from_date", "to_date", "note") if e.get(k)}, "sources": e["sources"]}
+                                  for e in near[:SHOWN * 2]]}
+
+
+def seed_edges(orgs: dict[str, dict], as_of: str) -> list[dict]:
+    """The organization graph's edges other than the tree: who contracts for an office, who leads it, what it was
+    consolidated into, what it is part of or listed with. Each joins record offices, or a person and one, and carries the
+    passages that document it, newest first; an edge no passage documents by the as-of date is left out."""
+    if not SEED.exists():
+        return []
+    seed = json.loads(SEED.read_text(encoding="utf-8"))
+    by_name = {o["name"].lower(): oid for oid, o in orgs.items()}
+    nodes = {n["id"]: {"name": n["name"], "oid": by_name.get(n["name"].lower(), "")} for n in seed.get("nodes", [])}
+    obs = {o["id"]: o for o in seed.get("observations", [])}
+    out = []
+    for r in seed.get("relationships", []):
+        seen = sorted((obs[i] for i in r.get("observation_ids", []) if i in obs and (obs[i].get("observed_at") or "") <= as_of),
+                      key=lambda o: o.get("observed_at") or "", reverse=True)
+        if r["type"] == "child_of" or not seen or r["from"] not in nodes or r["to"] not in nodes:
+            continue
+        status, ended = r.get("current_status") or {}, r.get("effective_to") or ""
+        out.append({"from": nodes[r["from"]], "to": nodes[r["to"]], "relation": r["type"].replace("_", " "), "evidence": r.get("evidence_class", ""),
+                    "status": status.get("state", "") if (status.get("as_of") or "") <= as_of else "last_confirmed",
+                    **({"from_date": r["effective_from"]} if (r.get("effective_from") or "9") <= as_of else {}),
+                    **({"to_date": ended} if ended and ended <= as_of else {}), "note": r.get("notes") or "",
+                    "sources": [{"observed_at": o.get("observed_at"), "url": SAM_API_RE.sub(r"https://sam.gov/opp/\1/view", o.get("source_url") or ""),
+                                 "passage": o.get("passage", "")[:240]} for o in seen[:2]]})
+    return out
 
 
 def seed_names(known: dict[str, str]) -> dict[str, str]:

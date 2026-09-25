@@ -64,13 +64,21 @@ REMARKS_PROVIDER = {"speech": "navy_mil_speeches", "statement": "navy_mil_speech
                     "conference": "conference_pages_exa"}
 
 
+TITLE_WORDS = {"contract", "contracting", "contracts", "specialist", "officer", "manager", "director", "deputy", "assistant", "chief",
+               "head", "lead", "buyer", "analyst", "engineer", "program", "procurement", "purchasing", "agent", "representative",
+               "coordinator", "administrator", "branch", "division", "code", "pco", "aco", "cor", "ph", "phd", "jr", "sr", "ii", "iii",
+               "usn", "usmc", "ret", "ses"}  # words that make what follows a comma a title or suffix, not a given name
+
+
 def person_name(name: str) -> str:
     """The name without what a form appends to it: 'Kerry Payne (Contract Specialist)' and 'Frederick Mitchell, Contract
-    Specialist' give the name; 'Marsh, Stephanie L.' stays, since one word before the comma is a surname."""
-    # ponytail: a two-word surname written first ('De Vera, Jennifer') loses the given name; read the e-mail if that bites
+    Specialist' give the name; 'Marsh, Stephanie L.' stays, since one word before the comma is a surname; a two-word
+    surname written first ('ST DENIS, DANIEL') is turned around, since no title follows its comma."""
     name = " ".join(re.sub(r"\(.*?\)", " ", name or "").split())
-    head, comma, _ = name.partition(",")
-    return head.strip() if comma and len(head.split()) > 1 else name
+    head, comma, tail = name.partition(",")
+    if not comma or len(head.split()) < 2:
+        return name
+    return head.strip() if not tail.strip() or set(re.findall(r"[a-z]+", tail.lower())) & TITLE_WORDS else f"{tail.strip()} {head.strip()}"
 
 
 def norm_name(name: str) -> str:
@@ -379,6 +387,8 @@ def selfcheck() -> int:
     assert norm_name("Ashley, Megan") == "megan ashley" and norm_name("") == "" and norm_name("A.") == ""
     assert norm_name("Frederick Mitchell, Contract Specialist") == norm_name("Frederick Mitchell") == "frederick mitchell"
     assert person_name("Kerry Payne (Contract Specialist)") == "Kerry Payne" and person_name("Marsh, Stephanie L.") == "Marsh, Stephanie L."
+    assert norm_name("ST DENIS, DANIEL") == norm_name("Daniel St. Denis") == "daniel st denis" and person_name("De Vera, Jennifer") == "Jennifer De Vera"
+    assert person_name("William H. Luebke, Ph.D.") == "William H. Luebke", "a suffix after the comma is no given name"
     assert role_of("Chief of Naval Operations") == "acquisition_leader" and role_of("Program Manager, PMW 150") == "program_manager"
     assert role_of("Deputy Program Manager") == "deputy_program_manager" and role_of("liaison") == "other"
     assert role_of("portfolio acquisition executive") == "acquisition_leader"

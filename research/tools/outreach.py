@@ -58,7 +58,10 @@ DESCRIBED = 400  # characters of a forecast row's description shown with it
 ROW_FIELDS = {"procurement_method": "procurement method", "contract_type": "contract type", "anticipated_total_value": "value",
               "solicitation_fy": "solicitation FY", "solicitation_quarter": "solicitation quarter", "award_fy": "award FY",
               "award_quarter": "award quarter", "follow_on_or_new": "new or follow-on", "existing_contract_number": "existing contract",
-              "incumbent_contractor": "incumbent", "contracting_poc_name": "contracting POC", "secondary_poc_name": "secondary POC"}
+              "incumbent_contractor": "incumbent", "contracting_poc_name": "contracting POC", "contracting_poc_contact": "contracting POC contact",
+              "secondary_poc_name": "secondary POC", "secondary_poc_contact": "secondary POC contact", "naics": "NAICS", "psc": "PSC",
+              "procurement_instrument": "instrument", "contracting_office_uic": "contracting office", "period_of_performance_months": "months of performance",
+              "place_of_performance": "place of performance", "facility_clearance": "facility clearance", "personnel_clearance": "personnel clearance"}
 REPAIRS = 2  # each repair is checked again; a fix for one refusal can trip another
 SHOWN = 12
 TOKEN_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9/.-]*\d[A-Za-z0-9/.-]*")
@@ -208,6 +211,8 @@ class Walk:
                                  for n, c in answer["offices"].items()]
         if tool in ("office", "initiatives") and "error" not in answer:
             self.opened.add(self.layer.org_id(argument))
+        if tool == "people" and "error" not in answer:
+            answer["people"] = self.row_people(argument, answer["people"])
         self.note(answer)
         return answer
 
@@ -231,15 +236,31 @@ class Walk:
             for v in found.values():
                 self.note(v)
 
-    def named(self, key: str, row: dict[str, str]) -> None:
-        """The contacts a shown row names, as the record holds them in the chain of the office that owns the row: the
-        chain may write to them, and they answer for this row rather than whoever the office's newest notice named."""
+    def row_contacts(self, key: str, row: dict[str, str]) -> list[dict]:
+        """The contacts a row names, as the record holds them in the chain of the office that owns the row: they answer
+        for this row rather than whoever the office's newest notice named."""
         owner = self.needs[key]["owner_id"]
         up = chain(owner, self.layer.orgs) or [owner]
-        for label in ("contracting POC", "secondary POC"):
-            person = self.by_name.get(norm_name(row.get(label, "")))
-            for c in contacts_for(up, [person], self.layer.as_of, limit=1) if person else []:
-                self.people[c["name"]] = {**c, "named_on": f"{label} on forecast row {key}"}
+        people = [(label, self.by_name.get(norm_name(row.get(label, "")))) for label in ("contracting POC", "secondary POC")]
+        return [{**c, "named_on": f"{label} on forecast row {key}"} for label, person in people if person
+                for c in contacts_for(up, [person], self.layer.as_of, limit=1)]
+
+    def named(self, key: str, row: dict[str, str]) -> None:
+        """The contacts a shown row names: the chain may write to them."""
+        for c in self.row_contacts(key, row):
+            self.people[c["name"]] = c
+
+    def row_people(self, name: str, shown: list[dict]) -> list[dict]:
+        """The contacts an office's own forecast rows name, newest release first, before the others the record ties to
+        its chain: a laboratory's division names its buyer on its rows, where the laboratory above it has dozens."""
+        mine = self.layer.subtree(self.layer.org_id(name) or "")
+        rows = sorted((k for k, n in self.needs.items() if n["owner_id"] in mine and k in self.details),
+                      key=lambda k: (self.details[k].get("release", ""), k), reverse=True)
+        named: dict[str, dict] = {}
+        for k in rows:  # the newest row names a person first; the contracting POC comes before the secondary
+            for c in self.row_contacts(k, self.details[k]):
+                named.setdefault(c["name"], c)
+        return [*named.values(), *(p for p in shown if p["name"] not in named)][:SHOWN]
 
     def initiatives(self, name: str) -> dict:
         """What leaders, Congress, the budget, oversight, conferences, news and reorganizations say in an office's chain
