@@ -2,6 +2,7 @@
 """Read the activity-wide LRAE releases into the organization memory.
 
     python research/tools/org_memory_lrae.py build      # rewrite the generated records in organization_seed.json
+    python research/tools/org_memory_lrae.py collect    # fetch the pages the statements cite and the pages still wanted
     python research/tools/org_memory_lrae.py --check    # exit 1 when a build would change the file
     python research/tools/org_memory_lrae.py --selfcheck
 
@@ -88,6 +89,9 @@ NAMED = {
     "NavalX - DoN SBIR/Special Programs Division": ("office:navalx", "department", "NavalX - DoN SBIR/Special Programs Division"),
     "ONR Global": ("activity:onr-global", "field_activity", "ONR Global"),
 }
+# The node a release's activity is, so the full name its heading prints ('Activity Name: Office of Naval Research')
+# becomes that node's alias.
+ACTIVITY_NODE = {"onr": "command:onr", "nrl": "center:nrl"}
 NON_DON = {"USMC", "OSD", "USSOCOM", "USAF", "USA", "USCG", "MDA", "DARPA", "DOD EA", "COAST GUARD", "FMS"}
 FLEET = {"USN", "U.S. PACIFIC FLEET", "COMPACFLT"}
 NO_OFFICE = {"", "TBD", "MULTIPLE", "N/A"}
@@ -385,6 +389,8 @@ class Memory:
         self.stated: set[tuple[str, str]] = set()  # edges a source states; one release stating it outweighs another's inference
         self.from_fpds: set[str] = set()
         self.sheet_of: dict[str, dict[str, set[str]]] = defaultdict(lambda: defaultdict(set))  # center -> command whose sheet names it -> observations
+        self.buys_for: dict[tuple[str, str], set[str]] = defaultdict(set)  # (contracting office, office) -> observations
+        self.named_at: dict[str, tuple[str, str]] = {}  # office -> (release date, release key) that named it
         self.hand_children = {r["from"] for r in seed.get("relationships", []) if r.get("type") == "child_of" and r.get("generator") != GENERATOR}
 
     def add_node(self, node: dict) -> None:
@@ -513,7 +519,7 @@ class Memory:
             if parent is not None:
                 self.parent_of(node, parent, self.observe(f"obs:dpm:{slug(node_id)}:parent", "parentage", passage, [node_id, parent["id"]], source, DPM_DATE))
 
-    def read(self, release: dict, source: dict, rows: list[dict], release_date: str) -> None:
+    def read(self, release: dict, source: dict, rows: list[dict], release_date: str, activity_name: str = "") -> None:
         key = release["key"]
         self.latest = max(self.latest, release_date)
 
@@ -549,6 +555,7 @@ class Memory:
             self.table.setdefault(norm_code(cell), node)  # the node itself is created when a cell resolves to it
 
         offices: dict[str, Counter] = defaultdict(Counter)
+        buys: dict[tuple[str, str], Counter] = defaultdict(Counter)  # (contracting office, office) -> contracting cells
         parents: dict[tuple[str, str], Counter] = defaultdict(Counter)
         aliases: dict[str, dict[str, str]] = defaultdict(dict)
         context: dict[str, str] = {}  # cell -> the contracting cell it was placed by, for inferred hits
@@ -563,8 +570,11 @@ class Memory:
             self.resolved_rows += 1
             node = hit["node"]
             self.add_node(node)
+            self.rename(node, key, release_date)
             offices[node["id"]][cell] += 1
             aliases[node["id"]][cell] = hit["alias"]
+            if site and site[0]["id"] != node["id"]:
+                buys[(site[0]["id"], node["id"])][" ".join(r["contracting_office_uic"].split())] += 1
             if hit["inferred"]:
                 context[cell] = " ".join(r["contracting_office_uic"].split())
             if hit["parent"]:
@@ -585,10 +595,32 @@ class Memory:
             self.named(release, node, obs_id, owner=True)
             for cell in cells:
                 self.register(node, aliases[node_id][cell], obs_id)
+        for (buyer, office), cells in sorted(buys.items()):
+            passage = f"rows whose column '{OFFICE_COLUMN}' names {self.node_by_id(office)['name']} carry column '{UIC_COLUMN}': " + \
+                "; ".join(f"'{c}' ({n} rows)" for c, n in sorted(cells.items()))
+            self.buys_for[(buyer, office)].add(observe(f"obs:lrae:{key}:{slug(office)}:bought-by:{slug(buyer)}", "contracting", passage, [buyer, office]))
         for (child, parent), cells in sorted(parents.items()):
             passage = cited(cells)
             self.parent_of({"id": child}, {"id": parent}, observe(f"obs:lrae:{key}:{slug(child)}:parent", "parentage", passage, [child, parent]))
         self.department(release, source, release_date)
+        node = self.node_by_id(ACTIVITY_NODE.get(release["activity"], ""))
+        if node and activity_name:
+            obs_id = observe(f"obs:lrae:{key}:{slug(node['id'])}:activity", "existence", f"sheet heading 'Activity Name: {activity_name}'", [node["id"]])
+            self.register(node, activity_name, obs_id)
+
+    def rename(self, node: dict, key: str, release_date: str) -> None:
+        """The newest release's name for an office wins; the name an older release printed stays its alias, citing that
+        release's observation. ONR Code 32 was 'Ocean Battlespace and Expeditionary Access' in December 2025 and is
+        'Ocean Battlespace Sensing' in July 2026."""
+        kept = self.nodes.get(node["id"])
+        if kept is None:
+            return  # a hand-written node keeps its name
+        was = self.named_at.setdefault(node["id"], (release_date, key))
+        if kept is not node and kept["name"] != node["name"] and release_date > was[0]:
+            self.aliases[node["id"]][kept["name"]].add(f"obs:lrae:{was[1]}:{slug(node['id'])}")
+            kept["name"] = node["name"]
+            self.table.setdefault(norm_code(kept["name"]), kept)
+            self.named_at[node["id"]] = (release_date, key)
 
     def named(self, release: dict, node: dict, obs_id: str, owner: bool = False) -> None:
         command = COMMANDS.get(release["activity"].upper())
@@ -652,6 +684,16 @@ class Memory:
                 "current_status": {"state": "last_confirmed", "as_of": max(observed[o] for o in obs_ids), "note": note},
                 "review_status": "draft", "drafted_by": {"actor": "assistant", "on": self.latest},
                 "reviewed_by": None, "reviewed_on": None, "retraction": None, "generator": GENERATOR})
+        for (buyer, office), obs_ids in sorted(self.buys_for.items()):
+            relationships.append({
+                "id": f"rel:lrae:contracts:{slug(buyer)}:{slug(office)}", "type": "contracts_for", "from": buyer, "to": office,
+                "effective_from": None, "effective_to": None, "effective_dates_status": "unknown", "scope_as_stated": None,
+                "observation_ids": sorted(obs_ids), "evidence_class": "directly_documented",
+                "current_status": {"state": "last_confirmed", "as_of": max(observed[o] for o in obs_ids),
+                                   "note": "the contracting column of the latest cited release names this office for the office's rows; not re-verified since"},
+                "notes": "the forecast rows this office owns name this contracting office", "review_status": "draft",
+                "drafted_by": {"actor": "assistant", "on": self.latest}, "reviewed_by": None, "reviewed_on": None, "retraction": None,
+                "generator": GENERATOR})
         return nodes, sorted(self.observations, key=lambda o: o["id"]), relationships
 
 
@@ -682,7 +724,7 @@ def build_seed(seed: dict) -> tuple[dict, Memory]:
             raise SystemExit(f"{release['key']}: spreadsheet bytes not found under data/raw")
         meta, rows = read_sheet(ROOT / source["path"], release["key"], release["sheet"], release["header_row"])
         release_date = meta.get("Release Date", "")[:10] if re.match(r"\d{4}-\d{2}-\d{2}", meta.get("Release Date", "")) else release["release_date"]
-        memory.read(release, source, rows, release_date)
+        memory.read(release, source, rows, release_date, meta.get("Activity Name", ""))
     dpm = saved(manifest, lambda m: DPM_LIST in m.get("url", "") and m.get("mime") == "application/pdf")
     if dpm is None:
         raise SystemExit("the NAVSEA deputy program manager list is not under data/raw")
@@ -901,10 +943,22 @@ def selfcheck() -> int:
     return 0
 
 
+def collect() -> int:
+    """The official pages the page statements cite, and the pages the memory still wants read (`wanted` in the
+    statements file: a leadership listing, a department directory, an office no source names yet), not yet saved.
+    A statement is written from a saved page, its passages checked verbatim against the bytes, so collecting comes first."""
+    from fetch import collect_missing  # noqa: E402
+    d = json.loads(STATEMENTS.read_text(encoding="utf-8"))
+    wanted = [(st["source_url"], f"organization page for {st['node']['id']}") for st in d["statements"]]
+    return 1 if collect_missing(wanted + [(w["url"], w["why"]) for w in d.get("wanted", [])]) else 0
+
+
 if __name__ == "__main__":
     args = sys.argv[1:]
     if "--selfcheck" in args:
         sys.exit(selfcheck())
+    if args == ["collect"]:
+        sys.exit(collect())
     if args == ["build"] or args == ["--check"]:
         sys.exit(build(check=args == ["--check"]))
     print(__doc__)

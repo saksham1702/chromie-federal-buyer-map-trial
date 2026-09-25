@@ -18,9 +18,10 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
+from agency import P  # noqa: E402
 from backtest import CORPUS, GENERIC, RESEARCH, chain, need_aliases, need_cell, recurring_tokens, scan, shift  # noqa: E402
 from buying_dna import PIID_RE  # noqa: E402
-from people import SEED, contacts_for, load_routes, routes_for  # noqa: E402
+from people import SEED, contacts_for, load_routes, norm_name, routes_for  # noqa: E402
 from pulse import CONTRACT_RE, card, days_between, load_people, office_name, score  # noqa: E402
 from trace import STOP, distinctive_tokens  # noqa: E402
 from vendors import load as load_vendors, names_for  # noqa: E402
@@ -34,11 +35,12 @@ READ_KINDS = ("notices", "awards")
 TWO_YEARS = 730
 SHOWN = 8
 SAM_API_RE = re.compile(r"https://sam\.gov/api/prod/opps/v2/opportunities/(\w+)\S*")  # the API link to a notice, whose page is /opp/ID/view
-OWNER_TYPES = ("program_office", "program_executive_office")
-OFFICE_CODE_RE = re.compile(r"\b(?:PMW|PMS|PMA|IWS)[ /-]*(?:A[ -]*)?\d{2,3}(?:\.\d)?\b|\bPEO [A-Z][A-Za-z0-9]+")
-HULL_RE = re.compile(r"\bUSS\s+[A-Z][A-Za-z .'-]*?\s*\(?[A-Z]{2,4}[\s-]*\d{1,4}\)?|\b[A-Z]{2,4}[\s-]+\d{1,4}\b")
+OWNER_TYPES = ("program_office", "program_executive_office", *P.get("owner_types", ()))  # a profile adds the types that own its programs
+# How the agency writes an office code and a hull designator (the profile's `reading`), and a contract number (`piid_re`).
+OFFICE_CODE_RE = re.compile(P["reading"]["office_code_re"])
+HULL_RE = re.compile(P["reading"]["hull_re"])
 SOLICITATION_RE = re.compile(r"; solicitation ([A-Za-z0-9_-]+);")
-PIID_TEXT_RE = re.compile(r"\bN\d{5}-?\d{2}-?[A-Z]-?\d{4}\b")
+PIID_TEXT_RE = re.compile(P["piid_re"])
 # Words any notice title may carry whoever buys: the notice kind, the instrument and the parts vocabulary.
 NOTICE_WORDS = {"day", "industry", "request", "information", "report", "summary", "notice", "intent", "sources", "sought", "synopsis",
                 "solicitation", "presolicitation", "amendment", "draft", "special", "announcement", "justification", "approval", "sole",
@@ -76,6 +78,14 @@ class Layer:
                        else {**e, **({"guesses": guessed[e["id"]]} if e["id"] in guessed else {}),
                              **({"model_read": modelled[e["id"]]} if e["id"] in modelled else {})} if e["id"] in guessed or e["id"] in modelled
                        else e for e in self.events]
+
+    def reach(self, oid: str) -> list[str]:
+        """The office, the offices above it, then each contracting office the graph documents buying for one of them:
+        whose people answer for the office. ONR holds no contact of its own; its contracting office N00014 does."""
+        up = chain(oid, self.orgs) or [oid]
+        buyers = [e["from"]["oid"] for e in self.edges if e["relation"] == "contracts for" and e["to"]["oid"] in up
+                  and e["from"]["oid"] and e["from"]["oid"] not in up]
+        return up + list(dict.fromkeys(buyers))
 
     def org_id(self, name: str) -> str | None:
         key = re.sub(r"\s+", " ", name).strip().lower().replace("pmw-", "pmw ")
@@ -116,15 +126,20 @@ class Layer:
                          key=lambda e: e["available_by"], reverse=True)
         o = self.orgs[oid]
         return {"office": o["acronym"] or o["name"], "name": o["name"], "type": o.get("org_type", ""),
-                "chain": [office_name(x, self.orgs) for x in chain(oid, self.orgs)[1:]],
+                "chain": [office_name(x, self.orgs) for x in upward(oid, self.orgs)[1:]],
                 "children": len(tree) - 1, "statements": len(mine), "families": dict(Counter(e["family"] for e in mine).most_common()),
                 "forecast_rows_total": len(owned), "forecast_rows": [self.need_brief(n) for n in owned[:SHOWN]],
                 "newest": [self.brief(e) for e in sorted(mine, key=lambda e: e["available_by"], reverse=True)[:SHOWN]],
                 "topics": [self.brief(e) for e in sorted((e for e in mine if e["family"] == "programs"), key=lambda e: e["available_by"], reverse=True)[:5]],
                 "vendors": dict(vendors.most_common(5)),
                 "guessed_total": len(guessed), "guessed": [self.brief(e) for e in guessed[:5]],
-                "people": contacts_for(chain(oid, self.orgs) or [oid], self.roster, self.as_of)[:5],
-                "routes": routes_for(chain(oid, self.orgs) or [oid], self.routes, self.routes_by)}
+                "people": contacts_for(self.reach(oid), self.roster, self.as_of)[:5],
+                "routes": routes_for(self.reach(oid), self.routes, self.routes_by),
+                # What the office was consolidated into, is part of, is listed with and who leads it, each with its source
+                "relations": [{"edge": f"{e['from']['name']} {e['relation']} {e['to']['name']}", "status": e["status"],
+                               **({"from_date": e["from_date"]} if e.get("from_date") else {}),
+                               "source": e["sources"][0]["url"] if e["sources"] else ""}
+                              for e in self.edges if oid in (e["from"]["oid"], e["to"]["oid"]) and e["relation"] != "contracts for"][:SHOWN]}
 
     def statement(self, e: dict) -> dict:
         """One statement in full, with the forecast rows that share a name with it: the way from a topic or a notice to a cell."""
@@ -132,7 +147,7 @@ class Layer:
         rows = [n for n in self.needs if any(re.search(r"(?<![A-Za-z0-9])" + re.escape(a) + r"(?![A-Za-z0-9])", n["title"], re.I) for a in names)]
         return {**self.brief(e), "text": e["text"][:700], "vendor": e.get("vendor", ""), "names": names,
                 "forecast_rows": [self.need_brief(n) for n in rows[:SHOWN]], "forecast_rows_total": len(rows),
-                "people": contacts_for(chain(e["org"], self.orgs) or [e["org"]], self.roster, self.as_of)[:3] if e["org"] else []}
+                "people": contacts_for(self.reach(e["org"]), self.roster, self.as_of)[:3] if e["org"] else []}
 
     def cell(self, need_key: str) -> dict:
         need = next((n for n in self.needs if n["key"] == need_key), None)
@@ -160,7 +175,7 @@ class Layer:
         oid = self.org_id(name)
         if not oid:
             return {"office": name, "error": "no organization by that name"}
-        return {"office": office_name(oid, self.orgs), "people": contacts_for(chain(oid, self.orgs) or [oid], self.roster, self.as_of, limit=SHOWN)}
+        return {"office": office_name(oid, self.orgs), "people": contacts_for(self.reach(oid), self.roster, self.as_of, limit=SHOWN)}
 
     def neighbors(self, name: str) -> dict:
         oid = self.org_id(name)
@@ -172,11 +187,35 @@ class Layer:
         near = sorted((e for e in self.edges if e["from"]["oid"] in up or e["to"]["oid"] in up),
                       key=lambda e: min(up.get(e["from"]["oid"], len(up)), up.get(e["to"]["oid"], len(up))))
         return {"office": office_name(oid, self.orgs), "parent": office_name(parent, self.orgs) if parent else "",
-                "siblings": sorted(office_name(o, self.orgs) for o, row in self.orgs.items() if row["parent"] == parent and o != oid and parent)[:SHOWN * 2],
-                "children": sorted(office_name(o, self.orgs) for o, row in self.orgs.items() if row["parent"] == oid)[:SHOWN * 2],
+                "siblings": sorted(named_office(o, self.orgs) for o, row in self.orgs.items() if row["parent"] == parent and o != oid and parent)[:SHOWN * 2],
+                "children": sorted(named_office(o, self.orgs) for o, row in self.orgs.items() if row["parent"] == oid),
                 "relationships": [{"relation": f"{e['from']['name']} {e['relation']} {e['to']['name']}",
                                    **{k: e[k] for k in ("evidence", "status", "from_date", "to_date", "note") if e.get(k)}, "sources": e["sources"]}
                                   for e in near[:SHOWN * 2]]}
+
+
+def named_office(oid: str, orgs: dict) -> str:
+    """An office as a reader needs it: the short name with the full one when they differ ("ONR Code 32" alone says nothing)."""
+    o = orgs.get(oid) or {}
+    short, full = o.get("acronym") or "", o.get("name") or ""
+    return full if not short or full.startswith(short) else f"{short} ({full})"
+
+
+def row_contacts(layer: Layer, owner: str, key: str, row: dict[str, str], by_name: dict[str, dict]) -> list[dict]:
+    """The contacts a forecast row names, as the record holds them in the reach of the office that owns the row: they
+    answer for this row rather than whoever the office's newest notice named."""
+    people = [(label, by_name.get(norm_name(row.get(label, "")))) for label in ("contracting POC", "secondary POC")]
+    return [{**c, "named_on": f"{label} on forecast row {key}"} for label, person in people if person
+            for c in contacts_for(layer.reach(owner), [person], layer.as_of, limit=1)]
+
+
+def upward(oid: str, orgs: dict) -> list[str]:
+    """The office and every organization above it, the agency included (`backtest.chain` leaves the agency out for matching)."""
+    out = []
+    while oid and oid in orgs and oid not in out:
+        out.append(oid)
+        oid = orgs[oid]["parent"]
+    return out
 
 
 def seed_edges(orgs: dict[str, dict], as_of: str) -> list[dict]:
@@ -448,7 +487,8 @@ def office(layer: Layer, name: str, dna: dict) -> str:
     mine = [e for e in layer.events if e["org"] in tree and e["available_by"] <= layer.as_of]
     lines = [f"{o['office']}: {o['name']} ({o['type'] or 'organization'}); above it: {' > '.join(o['chain']) or '-'}; {o['children']} organization(s) below",
              f"{o['statements']} statement(s): " + (", ".join(f"{f} {n}" for f, n in o["families"].items()) or "none"),
-             f"forecast rows owned: {o['forecast_rows_total']}"]
+             # An agency without a forecast owns requirements the notices created, not forecast rows.
+             f"{'forecast rows owned' if P['forecast']['pack_glob'] else 'requirements owned (created by the notices)'}: {o['forecast_rows_total']}"]
     lines += [f"  - {n['need_key']}: {n['title']}" for n in o["forecast_rows"]]
     if o["newest"]:
         lines.append("newest statements:")
@@ -602,7 +642,7 @@ def layer_views() -> None:
     assert c["families"] == ["forecast", "incumbent", "notice", "programs"] and c["stage"] == "solicitation" and "Stage:" in c["card"], c["families"]
     st = layer.cell("t1")
     assert st["id"] == "t1" and "text" in st and st["forecast_rows_total"] == 2 and layer.cell("nothing")["error"], st
-    assert layer.topics("tactical data links")["topics"] == 1 and layer.neighbors("PMW 101")["siblings"] == ["PMW 160"]
+    assert layer.topics("tactical data links")["topics"] == 1 and layer.neighbors("PMW 101")["siblings"] == ["PMW 160 (Networks)"]
     assert layer.neighbors("PMW")["similar"] and layer.people("PMW 101") == {"office": "PMW 101", "people": []}
     read_views(orgs)
 

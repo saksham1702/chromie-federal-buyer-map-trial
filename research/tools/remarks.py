@@ -35,23 +35,28 @@ TOOLS = Path(__file__).resolve().parent
 sys.path.insert(0, str(TOOLS))
 from context_fetch import fetch as hosted  # noqa: E402
 from llm import MODEL, env_value, structured  # noqa: E402
+from markdown import html_to_markdown  # noqa: E402
 from news import as_date, feed_items, host_of, manifest_rows, origin_url, post_json, record_answer  # noqa: E402
 from oversight import take  # noqa: E402
-from reader import authority_of, flatten, lint as check, link, normalized, pdf_text, verbatim  # noqa: E402
+from reader import authority_of, flatten, flatten_lines, lint as check, link, normalized, pdf_text, verbatim  # noqa: E402
 
 MANIFEST = RESEARCH / "sources" / "documents_manifest.jsonl"
-EVENTS = RESEARCH / "events" / "remarks_events.json"
-DISCOVERED = RESEARCH / "events" / "remarks_discovered.json"
-SPEECHES = "https://www.navy.mil/Press-Office/Speeches/"
-TESTIMONY = "https://www.navy.mil/Press-Office/Testimony/"
+from agency import EVENTS as EVENTS_DIR, NOTE_TAG, P  # noqa: E402
+
+EVENTS = EVENTS_DIR / "remarks_events.json"
+DISCOVERED = EVENTS_DIR / "remarks_discovered.json"
+# The agency's speech and testimony archives (None where it keeps none) and the pages that list its testimony as files.
+SPEECHES = P["remarks"]["speeches"]
+TESTIMONY = P["remarks"]["testimony"]
+TESTIMONY_PAGES = P["remarks"]["testimony_pages"]
 HOUSE_FEEDS = {"AS00": "https://docs.house.gov/Committee/RSS.ashx?Code=AS00", "AP00": "https://docs.house.gov/Committee/RSS.ashx?Code=AP00"}
-NAVY_ARTICLE = re.compile(r"^https://www\.navy\.mil/Press-Office/(Speeches/display-speech|Testimony/display-testimony)/Article/\d+/[^?#]+$")
+NAVY_ARTICLE = re.compile(P["remarks"]["article_re"])  # an archive article of this agency; matches nothing where there is no archive
 HOUSE_EVENT = re.compile(r"^https?://docs\.house\.gov/Committee/Calendar/ByEvent\.aspx\?EventID=(\d+)$")
-NAMES_RE = re.compile(r"\b(Navy|Naval|NAVSEA|NAVAIR|NAVWAR|NAVSUP|NAVFAC|Marine Corps|Seapower|shipbuilding|submarine)\b", re.I)
+NAMES_RE = re.compile(P["remarks"]["names_re"], re.I)
 DATE_RE = re.compile(r"\b(\d{1,2} [A-Z][a-z]+ \d{4})\b")
-NOTE, FILE_NOTE = "remarks watch", "remarks watch file"
+NOTE, FILE_NOTE = f"remarks watch{NOTE_TAG}", f"remarks watch file{NOTE_TAG}"
 CAP = 60_000
-AGENCY = "Department of the Navy (the Navy and the Marine Corps, their systems commands, program offices and field activities)"
+AGENCY = P["remarks"]["agency"]
 EVENT_TYPES = ("capability_priority", "strategy_change", "industry_engagement", "conference_appearance", "congressional_directive",
                "funding_change", "program_delayed", "program_created", "program_cancelled")
 VERBATIM = ("program", "organization", "person")
@@ -133,12 +138,15 @@ def navy_article(body: bytes) -> dict:
 
     presented, published = DATE_RE.search(field("Presented on")), DATE_RE.search(field("Date Published"))
     place = re.search(r'class="[^"]*press-release__dateline[^"]*"[^>]*>(.*?)</h\d>', text, re.S)
-    start = text.find('class="article-view"')
+    marker = text.find('class="article-view"')
+    start = text.rfind("<", 0, marker) if marker >= 0 else -1  # the element that carries the class, from its opening bracket
     body_html = text[start:] if start >= 0 else text
     body_html = re.split(r'<footer|class="footer', body_html)[0]
-    body_html = re.sub(r"<(script|style|nav)[^>]*>.*?</\1>", " ", body_html, flags=re.S)
+    # The article as Markdown (markdown.py drops script, style and nav itself); the page's own
+    # fields above are read from the HTML, not from the rendering.
     return {"title": html.unescape(title.group(1)) if title else "", "issued": as_date((presented or published).group(1)) if (presented or published) else "",
-            "speaker": field("Speech by") or field("Testimony by"), "place": strip_tags(place.group(1)) if place else "", "text": strip_tags(body_html)}
+            "speaker": field("Speech by") or field("Testimony by"), "place": strip_tags(place.group(1)) if place else "",
+            "text": flatten_lines(html_to_markdown(body_html))}
 
 
 def house_event(body: bytes) -> dict:
@@ -178,7 +186,7 @@ def watch(argv: list[str]) -> int:
     seen = {origin_url(r) for r in rows} | {r.get("url") for r in rows}
     new_total = 0
     # navy.mil: the index pages first (context.dev), then the documents they list.
-    indexes = [f"{base}?Page={n}" if n > 1 else base for base in (SPEECHES, TESTIMONY) for n in range(1, args.pages + 1)]
+    indexes = [f"{base}?Page={n}" if n > 1 else base for base in (SPEECHES, TESTIMONY) if base for n in range(1, args.pages + 1)]
     if args.fetch:
         hosted(indexes)
         rows = manifest_rows()
@@ -190,7 +198,8 @@ def watch(argv: list[str]) -> int:
         else:
             print(f"navy.mil index not saved yet: {url}" + ("" if args.fetch else " (needs --fetch)"))
     fresh = sorted({r["url"]: r for r in listed if r["url"] not in seen and r["issued"] >= args.since}.values(), key=lambda r: r["issued"], reverse=True)
-    print(f"navy.mil archives: {len(listed)} document(s) listed, {len(fresh)} issued since {args.since} and not saved yet")
+    if indexes:
+        print(f"navy.mil archives: {len(listed)} document(s) listed, {len(fresh)} issued since {args.since} and not saved yet")
     for r in fresh[: args.limit]:
         print(f"  {r['issued']}  {r['title'][:90]}")
     if args.fetch and fresh:
@@ -235,8 +244,45 @@ def watch(argv: list[str]) -> int:
                 seen.add(doc["url"])
                 print(f"    {got.get('status')} {doc['label'][:40]} {got.get('size', '')}b")
         new_total += len(hearings)
+    # An agency without an archive lists its testimony as files on a page: every statement linked there is a document.
+    for page_url in TESTIMONY_PAGES:
+        page = take(page_url, f"{NOTE}: testimony page {page_url}")
+        if page.get("status") != 200 or not page.get("path"):
+            print(f"testimony page {page_url}: {page.get('error') or page.get('status')}")
+            continue
+        links = testimony_links((ROOT / page["path"]).read_bytes(), page_url)
+        # A file refused before is not saved: it is asked for again, and through the hosted browser if refused again
+        # (the Senate committee sites refuse this address).
+        have = {origin_url(r) for r in rows if r.get("status") == 200 and r.get("path")}
+        fresh_files, refused = [u for u in links if u not in have], []
+        print(f"testimony page {page_url}: {len(links)} statement file(s) linked, {len(fresh_files)} not saved yet")
+        for url in fresh_files[: args.limit]:
+            print(f"  {url}")
+            if args.fetch:
+                got = take(url, f"{FILE_NOTE}: {page_url}")
+                print(f"    {got.get('status')} {got.get('size', '')}b")
+                if got.get("status") in (401, 403):
+                    refused.append(url)
+        if refused:
+            from browserbase_fetch import main as browserbase
+            browserbase(refused, {u: f"{FILE_NOTE}: {page_url}" for u in refused})
+        new_total += len(fresh_files)
     print(f"{new_total} document(s) not yet in the manifest" + ("" if args.fetch else "; rerun with --fetch, then `remarks.py extract`"))
     return 0
+
+
+TESTIMONY_LINK = re.compile(r'href="([^"]+\.pdf)"', re.I)
+
+
+def testimony_links(body: bytes, base_url: str) -> list[str]:
+    """The PDF files a testimony page links, absolute, in page order, once each."""
+    import urllib.parse
+    out: list[str] = []
+    for href in TESTIMONY_LINK.findall(body.decode("utf-8", errors="replace")):
+        url = urllib.parse.urljoin(base_url, href.replace("&amp;", "&"))
+        if url not in out:
+            out.append(url)
+    return out
 
 
 def discover(argv: list[str]) -> int:
@@ -245,14 +291,14 @@ def discover(argv: list[str]) -> int:
     parser.add_argument("--fetch", action="store_true")
     parser.add_argument("--days", type=int, default=480)
     parser.add_argument("--results", type=int, default=15)
-    parser.add_argument("--query", default='defense conference agenda speakers Navy "Chief of Naval Operations" OR "Program Executive Officer" OR "Naval Sea Systems Command" keynote panel')
+    parser.add_argument("--query", default=P["remarks"]["conference_query"])
     args = parser.parse_args(argv)
     key = env_value("EXA_API_KEY")
     if not key:
         raise SystemExit("EXA_API_KEY is not set")
     start = date.fromordinal(date.today().toordinal() - args.days).isoformat()
     payload = {"query": args.query, "numResults": args.results, "type": "auto", "startPublishedDate": start + "T00:00:00.000Z",
-               "contents": {"text": False}, "excludeDomains": ["navy.mil", "dvidshub.net", "linkedin.com", "youtube.com", "x.com", "facebook.com"]}
+               "contents": {"text": False}, "excludeDomains": [*P["remarks"]["own_domains"], "linkedin.com", "youtube.com", "x.com", "facebook.com"]}
     body = post_json("https://api.exa.ai/search", payload, {"x-api-key": key, "Content-Type": "application/json"})
     record_answer("https://api.exa.ai/search", args.query, body)
     known = json.loads(DISCOVERED.read_text(encoding="utf-8")) if DISCOVERED.exists() else {}
@@ -299,8 +345,51 @@ def documents(rows: list[dict]) -> list[dict]:
     for doc in latest.values():
         if doc["kind"] == "statement":
             page = latest_saved(rows, doc["hearing_url"])
-            doc["hearing"] = house_event((ROOT / page["path"]).read_bytes()) if page else {"title": "", "committee": "", "issued": "", "witnesses": [], "documents": []}
+            if page and host_of(doc["hearing_url"]) == "docs.house.gov":
+                doc["hearing"] = house_event((ROOT / page["path"]).read_bytes())
+            else:
+                # A file linked from an agency's testimony page: its title and date are what the page's link says,
+                # else what the file name carries; no committee, no witness list.
+                doc["hearing"] = testimony_link_meta((ROOT / page["path"]).read_bytes() if page else b"", doc["url"])
     return sorted(latest.values(), key=lambda d: d["url"])
+
+
+FILE_DATE_RES = (re.compile(r"(20\d{2})(\d{2})(\d{2})"), re.compile(r"(20\d{2})-(\d{2})-(\d{2})"), re.compile(r"(\d{1,2})-(\d{1,2})-(20\d{2})"),
+                 re.compile(r"(20\d{2})-(\d{2})(?!\d)"))
+
+
+def file_date(name: str) -> str:
+    """A date the file name carries (20180314, 2016-04-01, 4-1-2016, 2024-11), as YYYY-MM-DD or YYYY-MM; else ''."""
+    for i, rx in enumerate(FILE_DATE_RES):
+        m = rx.search(name)
+        if not m:
+            continue
+        if i == 2:
+            month, day, year = m.groups()
+            return f"{year}-{int(month):02d}-{int(day):02d}"
+        if i == 3:
+            return f"{m.group(1)}-{m.group(2)}"
+        year, month, day = m.groups()
+        if 1 <= int(month) <= 12 and 1 <= int(day) <= 31:
+            return f"{year}-{month}-{day}"
+    return ""
+
+
+def testimony_link_meta(page: bytes, url: str) -> dict:
+    """The hearing-shaped record for a statement file linked from a testimony page: the link's own text as the
+    title, a date the link text or the file name states, and where the date came from."""
+    text = page.decode("utf-8", errors="replace")
+    name = url.rsplit("/", 1)[-1]
+    anchor = re.search(r'<a[^>]+href="[^"]*' + re.escape(name) + r'"[^>]*>(.*?)</a>', text, re.S | re.I)
+    title = " ".join(strip_tags(anchor.group(1)).split()) if anchor else ""
+    issued, basis = "", ""
+    if anchor:
+        m = re.search(r"\b(January|February|March|April|May|June|July|August|September|October|November|December) (\d{1,2}), (20\d{2})\b", anchor.group(1))
+        if m:
+            issued, basis = as_date(m.group(0)) or "", "link text"
+    if not issued and file_date(name):
+        issued, basis = file_date(name), "file name"
+    return {"title": title, "committee": "", "issued": issued, "date_basis": basis, "witnesses": [], "documents": []}
 
 
 def document_text(doc: dict) -> tuple[str, dict]:
@@ -312,7 +401,10 @@ def document_text(doc: dict) -> tuple[str, dict]:
         text = art["text"]
     elif doc["kind"] == "statement":
         h = doc["hearing"]
-        meta = {"title": h["title"], "issued": h["issued"], "publisher": h["committee"] or "U.S. House of Representatives", "witnesses": h["witnesses"]}
+        # A statement reached from a House hearing page is the committee's; one linked from an agency's testimony
+        # page has no hearing page here, and its publisher is the host that serves the file.
+        publisher = h["committee"] or ("U.S. House of Representatives" if host_of(doc.get("hearing_url") or "") == "docs.house.gov" else host_of(doc["url"]))
+        meta = {"title": h["title"], "issued": h["issued"], "publisher": publisher, "witnesses": h["witnesses"]}
         text = pdf_text(ROOT / doc["row"]["path"])
     else:
         text = body.decode("utf-8", "replace")
@@ -323,11 +415,12 @@ def document_text(doc: dict) -> tuple[str, dict]:
             issued, basis = (known.get(doc["url"]) or {}).get("published") or "", "search_index"
         if not issued:
             issued, basis = doc["row"]["retrieved_at"][:10], "retrieved"
-        text = re.sub(r"<(script|style|nav|footer)[^>]*>.*?</\1>", " ", text, flags=re.S)
         meta = {"title": strip_tags(title.group(1)) if title else "", "issued": issued, "date_basis": basis, "publisher": host_of(doc["url"]), "witnesses": []}
-        text = strip_tags(text)
+        text = html_to_markdown(text)
     meta.setdefault("date_basis", "page")
-    return flatten(text)[:CAP], meta
+    # A webpage reaches the agent as Markdown, block structure kept; a PDF statement stays the one-line
+    # text it always was, so its recorded cassette still answers.
+    return (flatten(text) if doc["kind"] == "statement" else flatten_lines(text))[:CAP], meta
 
 
 def page_date(text: str) -> tuple[str, str]:
@@ -366,10 +459,18 @@ def extract(argv: list[str]) -> int:
     if args.limit:
         docs = docs[: args.limit]
     records, dropped_total, cost = [], Counter(), {"input_tokens": 0, "output_tokens": 0, "calls": 0}
+    unread = 0
     for doc in docs:
         text, meta = document_text(doc)
-        answer, how = ask(text, meta, doc, args.model, replay_only=args.check)
-        if not how["replayed"]:
+        try:
+            answer, how = ask(text, meta, doc, args.model, replay_only=args.check)
+        except LookupError as why:
+            # No cassette and no way to make the call (no model key): the document is recorded as unread with the
+            # reason, so the build carries the gap instead of stopping on it. `--check` keeps failing, as it must.
+            if args.check:
+                raise
+            answer, how, unread = {"events": [], "unread": str(why)}, {"replayed": False, "cassette": None, "model": None, "usage": {}}, unread + 1
+        if not how["replayed"] and how["cassette"]:
             cost["calls"] += 1
             for k in ("input_tokens", "output_tokens"):
                 cost[k] += how["usage"].get(k) or 0
@@ -380,6 +481,7 @@ def extract(argv: list[str]) -> int:
         head = {k: verbatim(answer.get(k) or "", text) for k in ("speaker_name", "speaker_role", "event_name", "event_host")}
         blanked = sorted(k for k in head if (answer.get(k) or "") and not head[k])
         records.append({
+            **({"unread": answer["unread"]} if answer.get("unread") else {}),
             "url": doc["url"], "kind": doc["kind"], "publisher": meta["publisher"], "title": meta["title"], "issued": meta["issued"],
             "date_basis": meta["date_basis"], "hearing_url": doc.get("hearing_url"), "witnesses": meta["witnesses"], **head, "audience": answer.get("audience") or "other",
             "not_verbatim": blanked, "sha256": doc["row"]["sha256"], "path": doc["row"]["path"], "retrieved_at": doc["row"]["retrieved_at"],
@@ -387,7 +489,8 @@ def extract(argv: list[str]) -> int:
             "events": [dict(e, source_authority=authority) for e in events], "dropped": dict(sorted(dropped.items())),
         })
         print(f"{meta['issued'] or '          '}  {doc['kind']:10} {len(events)} event(s)" + (f", {sum(dropped.values())} dropped" if dropped else "")
-              + ("  (replayed)" if how["replayed"] else "") + f"  {meta['title'][:70]}")
+              + ("  (replayed)" if how["replayed"] else "") + ("  (unread: " + answer["unread"] + ")" if answer.get("unread") else "")
+              + f"  {meta['title'][:70]}")
     if args.verify:
         agree = 0
         for doc in docs[: args.verify]:
@@ -402,7 +505,7 @@ def extract(argv: list[str]) -> int:
             print(f"verify {meta['title'][:50]}: {'same' if a == b else 'differs'} ({len(a)} vs {len(b)} events, {len(set(a) & set(b))} shared)")
         print(f"verify: {agree} of {min(args.verify, len(docs))} document(s) gave the same normalized event set twice")
     out = {"source": "chromie-federal-buyer-map-trial/research/tools/remarks.py", "model": args.model, "cap_chars": CAP,
-           "documents": records, "dropped": dict(sorted(dropped_total.items()))}
+           "documents": records, "dropped": dict(sorted(dropped_total.items())), **({"unread": unread} if unread else {})}
     text_out = json.dumps(out, indent=1, sort_keys=True, ensure_ascii=False) + "\n"
     if args.check:
         if EVENTS.exists() and EVENTS.read_text(encoding="utf-8") == text_out:
@@ -413,7 +516,8 @@ def extract(argv: list[str]) -> int:
     EVENTS.write_text(text_out, encoding="utf-8")
     n = sum(len(r["events"]) for r in records)
     print(f"{len(records)} document(s) read, {n} event(s) kept, {sum(dropped_total.values())} dropped; {cost['calls']} live call(s), "
-          f"{cost['input_tokens']} in / {cost['output_tokens']} out tokens; written to {EVENTS.relative_to(ROOT)}")
+          f"{cost['input_tokens']} in / {cost['output_tokens']} out tokens; written to {EVENTS.relative_to(ROOT)}"
+          + (f"; {unread} document(s) unread (no cassette and no model key)" if unread else ""))
     for reason, count in sorted(dropped_total.items()):
         print(f"  dropped: {reason} x{count}")
     return 0
@@ -442,6 +546,7 @@ def selfcheck() -> int:
     art = navy_article(article)
     assert art["title"] == "CNO Remarks at X" and art["issued"] == "2026-06-23" and art["speaker"] == "Adm. Daryl Caudle" and art["place"] == "Panama City, Panama", art
     assert "autonomous systems on-watch now" in art["text"] and "Privacy" not in art["text"] and "Home Press" not in art["text"], art["text"]
+    assert art["text"].startswith("#### Panama City, Panama\n\nGood morning.") and "## Speech by\n\nAdm. Daryl Caudle" in art["text"], art["text"]
     hearing = b'''<h1>Department of the Navy Fiscal Year 2027 Budget Request</h1>
     <p>Subcommittee on Seapower and Projection Forces (Committee on Armed Services)</p><p>Wednesday, May 20, 2026 (3:30 PM)</p>
     <h2>Witnesses</h2><div class="witnessPanel"><p><strong>Mr. Jason Potter </strong><br><small class="text-small">Performing the Duties of ASN RDA</small></p></div>

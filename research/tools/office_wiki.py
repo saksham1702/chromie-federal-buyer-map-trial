@@ -26,14 +26,16 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
+from agency import NEED_ROW, P  # noqa: E402
 from backtest import CORPUS, chain  # noqa: E402
 from llm import structured  # noqa: E402
-from pages import OFFICE_CODE_RE, OWNER_TYPES, READS, SOLICITATION_RE, Layer, compact, office_words, plain_title, rank_offices, read_offices, title_words  # noqa: E402
+from pages import Layer, OFFICE_CODE_RE, OWNER_TYPES, READS, SOLICITATION_RE, compact, office_words, plain_title, rank_offices, read_offices, seed_edges, title_words, upward  # noqa: E402
 from pulse import ENDS_RE, office_name  # noqa: E402
 from reader import flatten  # noqa: E402
 
 SHOWN = 6
-SYSTEM = ("You read one U.S. Navy procurement notice that its contracting office filed without naming the program office "
+# The prompts name the profile's agency ("U.S. Navy", "Department of the Navy" under the Navy's, as they always read).
+SYSTEM = (f"You read one {P['short']} procurement notice that its contracting office filed without naming the program office "
           "behind it, and name the program office it comes from, using only the office directory and the office pages "
           "given. Answer with: office, copied exactly from the directory (the text before the first colon of a line), or "
           "empty when nothing given ties the notice to one office; notice_words, a few words copied exactly from the "
@@ -55,13 +57,13 @@ def system_for(record: str, basis: str, tie: str, never: str) -> str:
 # kind -> (the prompt, how the record is introduced, whose program names the pages share)
 KINDS = {
     "notices": (SYSTEM, "Notice filed at", "the notice's"),
-    "awards": (system_for("U.S. Navy contract award that its contracting office signed, as its description states it", "award description",
+    "awards": (system_for(f"{P['short']} contract award that its contracting office signed, as its description states it", "award description",
                           "whose program or work the award buys", "A contracting office, a funding office, a vendor, a vehicle, a NAICS code"),
                "Contract award signed at", "the award's"),
-    "topics": (system_for("U.S. Navy SBIR or STTR topic that its command published", "topic",
+    "topics": (system_for(f"{P['short']} SBIR or STTR topic that its command published", "topic",
                           "whose program the topic's work serves or would transition to", "The command that published it, the SBIR program, a phase"),
                "Topic published by", "the topic's"),
-    "directives": (system_for("statement a congressional committee report addresses to the Department of the Navy", "statement",
+    "directives": (system_for(f"statement a congressional committee report addresses to the {P['label']}", "statement",
                               "that manages the program or work the statement addresses", "The department, a committee, a fiscal year, an account"),
                    "Committee statement addressed to", "the statement's"),
 }
@@ -92,21 +94,31 @@ def directory(corpus: dict, by_word: dict[str, Counter], known: set[str]) -> dic
     return out
 
 
-def page(corpus: dict, oid: str, by_word: dict[str, Counter], known: set[str], skip: frozenset = frozenset()) -> str:
+def page(corpus: dict, oid: str, by_word: dict[str, Counter], known: set[str], skip: frozenset = frozenset(), whole: bool = False,
+         reader: bool = False) -> str:
     """One office's page from the record: where it sits, its program names, and its newest forecast rows, notices,
-    contract work and topics, each a line of the record's own words. `skip` leaves records out, as a trial must."""
+    contract work and topics, each a line of the record's own words. `skip` leaves records out, as a trial must.
+    `whole` reads the office with everything under it, for a command, a laboratory or a division a reader opens; the
+    model's pages stay the office's own records. `reader` adds what the office was consolidated into, is part of or sits
+    beside, with the source of each; the model's pages leave it out so the recorded readings replay."""
     orgs = corpus["orgs"]
-    mine = [e for e in corpus["events"] if e["org"] == oid and e["id"] not in skip]
+    tree = {o for o in orgs if oid in chain(o, orgs)} | {oid} if whole else {oid}
+    mine = [e for e in corpus["events"] if e["org"] in tree and e["id"] not in skip]
     newest = lambda fam: sorted((e for e in mine if e["family"] == fam), key=lambda e: e["available_by"], reverse=True)
-    rows = [n for n in corpus["needs"] if n["owner_id"] == oid and f"need:{n['key']}" not in skip]
+    rows = [n for n in corpus["needs"] if n["owner_id"] in tree and f"need:{n['key']}" not in skip]
     work = Counter(plain_title(e["title"])[:80] for e in mine if e["family"] == "incumbent" and ": " in e["title"])
     lines = [f"## {office_name(oid, orgs)}: {orgs[oid]['name']}",
-             "above it: " + (" > ".join(office_name(x, orgs) for x in chain(oid, orgs)[1:]) or "-"),
+             "above it: " + (" > ".join(office_name(x, orgs) for x in (upward(oid, orgs) if whole or reader else chain(oid, orgs))[1:]) or "-"),
              "program names: " + (", ".join(program_names(by_word, known, oid)) or "none")]
-    lines += [f"forecast row: {n['title'][:100]}" for n in rows[-SHOWN:]]
+    lines += [f"{NEED_ROW}: {n['title'][:100]}" for n in rows[-SHOWN:]]
     lines += [f"notice {e['available_by']}: {plain_title(e['title'])[:100]}" for e in newest("notice")[:SHOWN]]
     lines += [f"contract work ({n}): {w}" for w, n in sorted(work.items(), key=lambda x: (-x[1], x[0]))[:SHOWN]]
     lines += [f"topic: {plain_title(e['title'])[:100]}" for e in newest("programs")[:3]]
+    if reader:
+        edges = seed_edges(orgs, max(e["available_by"] for e in corpus["events"]))
+        lines += [f"{e['from']['name']} {e['relation']} {e['to']['name']}" + (f" from {e['from_date']}" if e.get("from_date") else "")
+                  + (f" ({e['sources'][0]['url']})" if e["sources"] and e["sources"][0]["url"] else "")
+                  for e in edges if oid in (e["from"]["oid"], e["to"]["oid"]) and e["relation"] != "contracts for"]
     return "\n".join(lines)
 
 
@@ -128,7 +140,13 @@ def ask(title: str, text: str, filed: str, corpus: dict, by_word: dict[str, Coun
     pages_ = {office_name(oid, corpus["orgs"]): page(corpus, oid, by_word, known, skip) for oid in shortlist}
     user = (f"{lead} {filed}:\n{title}\n{text[:2500]}\n\nOffice directory:\n" + "\n".join(listing.values())
             + (f"\n\nPages of the offices whose records share {whose} program names:\n\n" + "\n\n".join(pages_.values()) if pages_ else ""))
-    answer, how = structured(system, user, SCHEMA, "office_read", replay_only=replay_only)
+    try:
+        answer, how = structured(system, user, SCHEMA, "office_read", replay_only=replay_only)
+    except LookupError as exc:
+        if replay_only:
+            raise  # a check may not call the model: a missing cassette fails it, as everywhere else
+        # No cassette and no key: the record stands unread, with the reason, and places nothing until the key is present.
+        return {"office": "", "notice_words": "", "page_line": "", "problems": [], "cassette": None, "unread": str(exc)}
     return {**answer, "problems": problems(answer, f"{title} {text}", listing, pages_), "cassette": how["cassette"]}
 
 
@@ -177,7 +195,7 @@ def build(corpus: dict, replay_only: bool = False, workers: int = 8) -> dict:
         answers = list(pool.map(one, todo))
     out: dict[str, dict] = {kind: {} for kind in KINDS}
     for (kind, e), a in zip(todo, answers):
-        out[kind][e["id"]] = {k: a[k] for k in ("office", "notice_words", "page_line", "problems", "cassette")}
+        out[kind][e["id"]] = {k: a[k] for k in ("office", "notice_words", "page_line", "problems", "cassette", "unread") if k in a}
     return out
 
 
@@ -263,8 +281,8 @@ def main(argv: list[str]) -> int:
     corpus = json.loads(CORPUS.read_text(encoding="utf-8"))
     by_word, words_of, known = office_words(corpus)
     if args.cmd == "page":
-        oid = next((oid for oid in owners(corpus) if office_name(oid, corpus["orgs"]).lower() == args.office.lower()), None)
-        print(page(corpus, oid, by_word, known) if oid else f"no program office named {args.office!r}")
+        oid = Layer(corpus, []).org_id(args.office)  # any organization the record holds, by its short or full name
+        print(page(corpus, oid, by_word, known, whole=oid not in owners(corpus), reader=True) if oid else f"no organization named {args.office!r}")
     elif args.cmd == "read":
         e = next((e for e in corpus["events"] if e["id"].startswith(args.notice_id)), None)
         if e is None:

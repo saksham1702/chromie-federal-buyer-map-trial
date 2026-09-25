@@ -28,7 +28,9 @@ def _events():
 
 
 def _saved_text():
-    return {d["url"]: document_text(d)[0] for d in documents(manifest_rows())}
+    """The one-line form of what the agent read: a webpage reaches it as Markdown, and the verbatim rule
+    compares in flatten() form, so the spans are looked for there."""
+    return {d["url"]: flatten(document_text(d)[0]) for d in documents(manifest_rows())}
 
 
 def test_every_kept_span_and_name_is_on_the_saved_bytes_verbatim() -> None:

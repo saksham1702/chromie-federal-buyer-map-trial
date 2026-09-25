@@ -26,26 +26,28 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from agency import P  # noqa: E402
 from navy import HELP  # noqa: E402
 from outreach import OUT, S, arr, obj  # noqa: E402
 from outreach_compare import ALLOWED, ANSWER, BASELINE_REPO, NAVY, PLATFORM, TOOLS, VERDICT, claude, features, saved, tool_uses  # noqa: E402
 
 DOSSIER = OUT / "dossier"
+LABEL, SHORT = P["label"], P["short"].removeprefix("U.S. ")  # "Navy", "DARPA": the word the section titles use for the buyer
 BUDGET = {"ask": "25", "verify": "8"}
 ARMS = ("platform", "web")
 # section -> (the platform feature it calls on, what it asks, the parts it must cover)
 SECTIONS = {
-    "buyers": ("ask match", "the Navy offices that buy what the company could sell",
-               ["the five best-fitting offices, ranked", "for each, the records that show it buys this", "for each, its chain up to the systems command"]),
+    "buyers": ("ask match", f"the {SHORT} offices that buy what the company could sell",
+               ["the five best-fitting offices, ranked", "for each, the records that show it buys this", ("for each, its chain up to the systems command" if SHORT == "Navy" else "for each, its chain up to the agency")]),
     "org_graph": ("neighbors", "the chosen program office's place in the organization",
-                  ["every level above it up to the Department of the Navy", "its sibling offices", "the contracting office that buys for it",
+                  [f"every level above it up to the {LABEL}", "its sibling offices", "the contracting office that buys for it",
                    "who leads each level, current or ended", "reorganizations affecting the chain"]),
     "people": ("people", "the people tied to the chosen office and the offices above it",
                ["name", "title", "office", "e-mail if public", "the source that ties them to it"]),
     "wiki": ("wiki", "what the chosen office buys, in its own words", ["what it buys or researches, quoted", "the notices or forecast rows that say it"]),
-    "changed": ("ask changed", "what changed in the 90 days before {as_of} in Navy buying that touches the company's line",
+    "changed": ("ask changed", f"what changed in the 90 days before {{as_of}} in {SHORT} buying that touches the company's line",
                 ["new forecast rows, notices or topics", "rows dropped or moved", "awards made"]),
-    "incumbents": ("ask incumbents", "Navy contracts in the company's line that end within 18 months of {as_of}",
+    "incumbents": ("ask incumbents", f"{SHORT} contracts in the company's line that end within 18 months of {{as_of}}",
                    ["contract number", "holder", "office", "end date", "value"]),
     "buying_book": ("dna", "how the contracting office that buys for the chosen office buys",
                     ["the contracting office and its code", "award count and value", "vehicles and contract types",
@@ -53,10 +55,10 @@ SECTIONS = {
     "vendors": ("vendor", "the vendors that hold the chosen office's or its contracting office's contracts in the company's line",
                 ["vendor", "unique entity identifier", "other spellings", "contracts and values"]),
     "teaming": ("ask team", "the companies to approach as a prime or teaming partner for this work",
-                ["company", "the Navy contract that shows it does this work", "office", "why it fits"]),
+                ["company", f"the {SHORT} contract that shows it does this work", "office", "why it fits"]),
     "competitor_moves": ("ask moves", "what the companies that win this work did in the 12 months before {as_of}",
                          ["company", "the move (award, notice, protest, new office)", "date", "record"]),
-    "analogs": ("ask analogs", "past Navy requirements most like the work the company would bid on, and how each ended",
+    "analogs": ("ask analogs", f"past {SHORT} requirements most like the work the company would bid on, and how each ended",
                 ["requirement", "office", "outcome (award, holder, value)", "time from forecast to award"]),
     "trace": ("trace", "the requirement you rank first, traced across forecast releases, notices and awards",
               ["the release it first appeared in", "what each later release changed", "any notice or award tied to it", "where it stands on {as_of}"]),

@@ -16,9 +16,11 @@ from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-REGISTRY = ROOT / "research" / "sources" / "source_registry.json"
 TOOLS = Path(__file__).resolve().parent
 sys.path.insert(0, str(TOOLS))
+from agency import SOURCES  # noqa: E402
+
+REGISTRY = SOURCES / "source_registry.json"  # the layer's own registry: a host's authority is its word for that host
 from news import host_of  # noqa: E402
 from org_memory_lrae import squash  # noqa: E402
 
@@ -31,6 +33,14 @@ def flatten(text: str) -> str:
     An IG PDF prints `on‑hand` with a non-breaking hyphen; the model writes it back as `on-hand`, and a
     verbatim rule that saw the two as different would drop a true finding."""
     return squash(text.replace("­", "").translate(HYPHENS))
+
+
+def flatten_lines(text: str) -> str:
+    """flatten() applied line by line: a Markdown rendering keeps its blocks, and inside every line the
+    same normalization holds, so `flatten(flatten_lines(md)) == flatten(md)` and the verbatim rule sees
+    one text whether it reads the rendering or its one-line form."""
+    lines = [flatten(line) for line in text.split("\n")]
+    return re.sub(r"\n{3,}", "\n\n", "\n".join(lines)).strip()
 
 
 def pdf_text(path: Path) -> str:
@@ -128,6 +138,8 @@ def selfcheck() -> int:
                                "a second event of the same kind on the same passage": 1}), dropped
     assert normalized(kept) == [("audit_finding", "", "did not recover $2.6 million from the contractor")]
     assert flatten("on‑hand  quan­tities – “yes”") == 'on-hand quantities - "yes"'
+    md = "# Title\n\n\n\nThe  on‑hand   count.\n- item"
+    assert flatten_lines(md) == "# Title\n\nThe on-hand count.\n- item" and flatten(flatten_lines(md)) == flatten(md)
     plain = dict(good, evidence_span="the on-hand quantities", affected_organization="", possible_remediation="")
     assert lint([plain], "the on‑hand quantities", ("audit_finding",), fields)[0], "a unicode hyphen must not drop a true span"
     assert verbatim("Adm. Daryl Caudle", "remarks by Adm. Daryl Caudle, Chief") == "Adm. Daryl Caudle" and verbatim("Admiral Caudle", "Adm. Caudle") == ""

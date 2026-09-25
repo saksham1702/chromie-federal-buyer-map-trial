@@ -20,11 +20,11 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
+from agency import P, RESULTS  # noqa: E402
 from llm import structured  # noqa: E402
 from reader import flatten  # noqa: E402
 
-ROOT = HERE.parents[1]
-KINDS_FILE = ROOT / "research" / "results" / "notice_kinds.json"
+KINDS_FILE = RESULTS / "notice_kinds.json"  # the profile's results folder: each agency's notices are read on their own
 # The kinds a special notice announces, each as trace.signal_kind prints it before "(special notice)".
 KINDS = {"industry day": "an industry day, industry engagement, one-on-one sessions or a conference with industry",
          "action on an existing contract": "a ceiling increase, modification, extension, bridge or option on a named running contract",
@@ -35,7 +35,7 @@ KINDS = {"industry day": "an industry day, industry engagement, one-on-one sessi
          "draft solicitation": "a draft request for proposals or a draft statement of work for a planned buy, released for comment",
          "draft specification": "a draft military specification, standard or handbook circulated for comment, not a buy",
          "award announcement": "a contract, order or agreement that was awarded"}
-SYSTEM = ("You read one U.S. Navy special notice from SAM.gov and say what it announces, choosing one kind from the list, or "
+SYSTEM = (f"You read one {P['short']} special notice from SAM.gov and say what it announces, choosing one kind from the list, or "
           "none when it announces none of them. Kinds:\n" + "\n".join(f"- {k}: {v}" for k, v in KINDS.items())
           + "\nAnswer with: kind, copied exactly from the list, or empty; words, a few words copied exactly from the notice's "
           "title or text that state it; reason, at most 20 words. Judge by what the notice says it is, not by the product it buys.")
@@ -54,7 +54,13 @@ def problems(answer: dict, notice: str) -> list[str]:
 
 def ask(detail: dict, replay_only: bool = False) -> dict:
     notice = f"{detail['title']}\n{detail['text'][:3000]}"
-    answer, how = structured(SYSTEM, f"Special notice posted {detail['posted']}:\n{notice}", SCHEMA, "notice_kind", replay_only=replay_only)
+    try:
+        answer, how = structured(SYSTEM, f"Special notice posted {detail['posted']}:\n{notice}", SCHEMA, "notice_kind", replay_only=replay_only)
+    except LookupError as exc:
+        if replay_only:
+            raise  # a check may not call the model: a missing cassette fails it, as everywhere else
+        # No cassette and no key: the notice stands unread with the reason; trace.signal_kind falls back to the title's keywords.
+        return {"kind": "", "words": "", "problems": [], "cassette": None, "unread": str(exc)}
     return {"kind": answer["kind"], "words": answer["words"], "problems": problems(answer, notice), "cassette": how["cassette"]}
 
 
@@ -101,7 +107,8 @@ def main(argv: list[str]) -> int:
     out = build(replay_only=check)
     text = json.dumps(out, indent=1, sort_keys=True) + "\n"
     read = sum(1 for a in out.values() if a["kind"] and not a["problems"])
-    print(f"{len(out)} special notice(s), {read} with a kind the model read and quoted verbatim")
+    unread = sum(1 for a in out.values() if a.get("unread"))
+    print(f"{len(out)} special notice(s), {read} with a kind the model read and quoted verbatim" + (f", {unread} unread (no key)" if unread else ""))
     if check:
         same = KINDS_FILE.exists() and KINDS_FILE.read_text(encoding="utf-8") == text
         print("notice kinds match the saved file" if same else "notice kinds differ from the saved file", file=sys.stderr)

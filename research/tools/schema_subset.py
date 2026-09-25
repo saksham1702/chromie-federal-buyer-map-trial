@@ -194,14 +194,65 @@ def selfcheck() -> int:
     assert "CREATE TABLE public.t" in got and "CREATE TRIGGER t_trg" in got and "client_encoding" in got, got
     assert loader_tables() >= {"public.gov_organizations", "public.gov_needs", "public.gov_intelligence_assertions", "public.brain_jobs"}
     assert qualified("agencies") == "public.agencies" and qualified("private.usa_awards") == "private.usa_awards"
+    stub = "CREATE TABLE public.gov_procurement_sources (\n    id uuid,\n    UNIQUE (id)\n);"
+    assert re.search(STUB_RE.format(table=re.escape("public.gov_procurement_sources")), stub), "the kit's stub shape is what is replaced"
     print("schema_subset selfcheck ok")
     return 0
+
+
+# A machine without the platform database can build from an exported kit (the folder handed over on 2026-09-21
+# holds `schema.sql` as this tool wrote it then). That export stubs `gov_procurement_sources` to its id, and the
+# loader has since filled the table; the stand-in below carries the columns the loader writes, typed from the values
+# it writes, so the rows load. It is a local stand-in for a proof database, not the platform's definition of the
+# table, and the header of the written file says so.
+KIT_STAND_INS = {
+    "public.gov_procurement_sources": """CREATE TABLE public.gov_procurement_sources (
+    id uuid NOT NULL,
+    source_key text NOT NULL,
+    provider_name text,
+    portal_name text,
+    jurisdiction_code text,
+    jurisdiction_path text[],
+    government_level text,
+    official_url text,
+    adapter_key text,
+    access_mode text,
+    capabilities jsonb,
+    refresh_cadence text,
+    last_verified_at date,
+    verification_status text,
+    coverage_notes text,
+    known_access_gaps jsonb,
+    metadata jsonb,
+    UNIQUE (id),
+    UNIQUE (source_key)
+);"""}
+STUB_RE = r"CREATE TABLE {table} \(\n    id uuid,\n    UNIQUE \(id\)\n\);"
+
+
+def from_kit(kit: Path) -> str:
+    """The kit's exported schema with the stubs the loader has since filled replaced by their stand-ins."""
+    text = (kit / "schema.sql").read_text(encoding="utf-8")
+    replaced = []
+    for table, ddl in KIT_STAND_INS.items():
+        text, n = re.subn(STUB_RE.format(table=re.escape(table)), lambda _m, ddl=ddl: ddl, text, count=1)
+        if n:
+            replaced.append(table)
+    head = (f"-- Built by research/tools/schema_subset.py --from-kit from {kit.name}/schema.sql (the platform export of that\n"
+            f"-- date), not from the platform database. Stand-in definitions replace the export's stubs for the tables the\n"
+            f"-- loader has since filled: {', '.join(replaced) or 'none'}. A proof database only; not the platform's schema.\n\n")
+    return head + text
 
 
 def main(argv: list[str]) -> int:
     if "--selfcheck" in argv:
         return selfcheck()
-    text = build()
+    if "--from-kit" in argv:
+        kit = Path(argv[argv.index("--from-kit") + 1])
+        argv = [a for i, a in enumerate(argv) if a != "--from-kit" and argv[i - 1] != "--from-kit"]
+        text = from_kit(kit)
+    else:
+        text = build()
     if argv:
         Path(argv[0]).write_text(text, encoding="utf-8")
         print(f"wrote {argv[0]} ({len(text.splitlines())} lines)", file=sys.stderr)

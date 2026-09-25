@@ -3,7 +3,7 @@
 small business offices and from each office's own page.
 
     python research/tools/small_business.py collect [--limit N]   # the directory and the office pages it links to
-    python research/tools/small_business.py build [--check]       # writes research/memory/small_business_offices.json
+    python research/tools/small_business.py build [--check]       # writes <agency memory>/small_business_offices.json
     python research/tools/small_business.py --selfcheck
 
 A small business office is a first contact for a small company selling to a command: its staff explain the command's
@@ -27,13 +27,17 @@ import urllib.parse
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from agency import MEMORY  # noqa: E402
 from fetch import ROOT  # noqa: E402
 from lrae_package import manifest_rows, saved  # noqa: E402
+from agency import MEMORY  # noqa: E402
 
+# One directory for every military department and defense agency; the profile's seed decides which links are this
+# agency's organizations, and the file lands in the profile's memory folder.
 DIRECTORY = "https://business.defense.gov/Work-with-us/Military-Departments-and-Defense-Agencies/"
-OUT = ROOT / "research" / "memory" / "small_business_offices.json"
-SEED = ROOT / "research" / "memory" / "organization_seed.json"
-RECOMMENDATIONS = ROOT / "research" / "memory" / "contact_recommendations.json"
+OUT = MEMORY / "small_business_offices.json"
+SEED = MEMORY / "organization_seed.json"
+RECOMMENDATIONS = MEMORY / "contact_recommendations.json"
 ROUTE = "small_business_office"
 EMAIL = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
 PHONE = re.compile(r"\(?\b\d{3}\)?[-. ]\d{3}[-.]\d{4}\b")

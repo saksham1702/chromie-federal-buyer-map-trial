@@ -35,16 +35,18 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from agency_layers_sql import SEED, release_source_url, uid  # noqa: E402
 from ask import ROW_RE, where_from  # noqa: E402
+from agency import P  # noqa: E402
 from backtest import CORPUS, RESEARCH, ROOT, alias_pattern, chain, register_problems  # noqa: E402
 from llm import structured  # noqa: E402
 from lrae_package import DIFF_NAME  # noqa: E402
-from pages import SHOWN, Layer  # noqa: E402
+from pages import SHOWN, Layer, row_contacts, upward  # noqa: E402
 from people import contacts_for, norm_name, routes_for  # noqa: E402
 from pulse import load_people, office_name  # noqa: E402
 from reader import flatten  # noqa: E402
 from trace import pack_rows  # noqa: E402
 
 OUT = RESEARCH / "results" / "outreach"
+AGENCY_NAME = P["label"]  # the record walked is the profile's
 MODEL = "gpt-5.5"  # fit is judged from thin evidence, a few dozen calls a run: the larger model, not the readers' mini
 TOOLS = ("search", "office", "cell", "topics", "people", "neighbors", "initiatives")
 INITIATIVE_FAMILIES = ("leaders", "congress", "budget", "oversight", "conference", "news", "organization")
@@ -83,18 +85,18 @@ def arr(item: dict) -> dict:
 S, N, B = {"type": "string"}, {"type": "number"}, {"type": "boolean"}
 CITED = arr(obj(identifier=S, quote=S, why=S))
 
-SYSTEM_SEED = ("You find where the U.S. Navy buys what one company sells, in a record of dated, sourced statements. From the "
-               "profile, name up to eight search terms a Navy forecast row, SBIR topic, notice, award or congressional statement "
+SYSTEM_SEED = (f"You find where the {AGENCY_NAME} buys what one company sells, in a record of dated, sourced statements. From the "
+               "profile, name up to eight search terms a forecast row, SBIR topic, notice, award or congressional statement "
                "would use for it: capability words, not marketing words; two may be the broader mission areas it serves; "
                + SEARCHED + "; each with its promise (0 to 1), how likely the term leads to the office that buys it. Then "
                "state in one sentence what would count as a requirement this company could bid on or team for. Terms are words "
                "to look up, never programs or offices you assume exist.")
 SCHEMA_SEED = obj(terms=arr(obj(term=S, promise=N)), relevant_when=S)
-SYSTEM_RESEED = ("A walk of a record of U.S. Navy procurement statements for one company ran out of moves with steps left. From "
+SYSTEM_RESEED = (f"A walk of a record of {AGENCY_NAME} procurement statements for one company ran out of moves with steps left. From "
                  "the profile and what each move returned, name up to eight new search terms the walk has not tried: broader words "
                  "for the capability, the science or the mission it serves, and the kind of office that would buy it, each with its "
                  "promise from 0 to 1. " + SEARCHED + ". Keep relevant_when as given.")
-SYSTEM_STEP = ("You walk a record of U.S. Navy procurement statements for one company to find the one program "
+SYSTEM_STEP = (f"You walk a record of {AGENCY_NAME} procurement statements for one company to find the one program "
                "office that buys what it sells, that office's requirements, the initiatives that make the capability matter "
                "there (leaders' priorities, congressional directives, budget lines, oversight findings), and the people and "
                "routes into it. You see the profile, the path so far and the record's answer to your last move. Judge the "
@@ -112,7 +114,7 @@ SYSTEM_STEP = ("You walk a record of U.S. Navy procurement statements for one co
                "OFFICE. " + SEARCHED + ". " + PLAIN)
 SCHEMA_STEP = obj(relevance=N, findings=CITED, next=arr(obj(tool={"type": "string", "enum": list(TOOLS)}, argument=S, reason=S, promise=N)),
                   stop_branch=B, note=S)
-SYSTEM_CHAIN = ("From the walk below, name the one buying chain in the U.S. Navy for this company's capability, each office "
+SYSTEM_CHAIN = (f"From the walk below, name the one buying chain in the {AGENCY_NAME} for this company's capability, each office "
                 "written exactly as the record writes it: the agency; the command; the program executive office; and the "
                 "program office that owns the requirement, which must be one the walk opened. The levels above it are the ones "
                 "the office view lists in its chain; leave a level empty only when that chain holds none. Then the requirements of that program office or under it that the company could bid on or team for "
@@ -239,11 +241,7 @@ class Walk:
     def row_contacts(self, key: str, row: dict[str, str]) -> list[dict]:
         """The contacts a row names, as the record holds them in the chain of the office that owns the row: they answer
         for this row rather than whoever the office's newest notice named."""
-        owner = self.needs[key]["owner_id"]
-        up = chain(owner, self.layer.orgs) or [owner]
-        people = [(label, self.by_name.get(norm_name(row.get(label, "")))) for label in ("contracting POC", "secondary POC")]
-        return [{**c, "named_on": f"{label} on forecast row {key}"} for label, person in people if person
-                for c in contacts_for(up, [person], self.layer.as_of, limit=1)]
+        return row_contacts(self.layer, self.needs[key]["owner_id"], key, row, self.by_name)
 
     def named(self, key: str, row: dict[str, str]) -> None:
         """The contacts a shown row names: the chain may write to them."""
@@ -552,15 +550,6 @@ VERIFY = """Every claim below carries the record text it rests on and where that
 4. every number, date and identifier in the letter is in the evidence or the profile, and the letter claims nothing
    about the company beyond the profile and forecasts nothing;
 5. no step shows an office, record, person or route the chain uses before the walk had been shown it."""
-
-
-def upward(oid: str, orgs: dict) -> list[str]:
-    """The office and every organization above it, the agency included."""
-    out = []
-    while oid and oid in orgs and oid not in out:
-        out.append(oid)
-        oid = orgs[oid]["parent"]
-    return out
 
 
 def org_path(oid: str, orgs: dict) -> str:

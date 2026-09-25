@@ -23,6 +23,7 @@ from functools import cache
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from agency import KEY as AGENCY_KEY, P  # noqa: E402  (the record read is the profile's; the Navy's server keeps its name)
 import ask  # noqa: E402
 import buying_dna  # noqa: E402
 import monitor_forecast_revision  # noqa: E402
@@ -30,6 +31,7 @@ import office_wiki  # noqa: E402
 import pulse  # noqa: E402
 import trace  # noqa: E402
 import vendors  # noqa: E402
+from agency import P  # noqa: E402
 from backtest import CORPUS  # noqa: E402
 from outreach import Walk, fixture, record_entry, row_details  # noqa: E402
 from outreach_compare import record_checks, resolve, seeing  # noqa: E402
@@ -53,7 +55,7 @@ HELP = {
     "page": "office|vendor|person|cell NAME: the object page with its pulse card, buying book and sources",
     "ask": f"{'|'.join(ASK)} ...: the twin's questions (run 'ask QUESTION -h' for the arguments of one)",
     "pulse": "rank [--top N] | week [--days N] | actions [TERM]: the temporal engine's ranked requirements, the week's changes and next actions",
-    "protests": "[TERM]: GAO bid protests against the Department of the Navy in the record",
+    "protests": f"[TERM]: GAO bid protests against the {P['label']} in the record",
     "wiki": "OFFICE: the office's wiki page: what it buys, in its own words, and the notices read to it",
     "dna": "OFFICE: a contracting office's buying book: awards, vehicles, competition, small business share, top vendors",
     "vendor": "NAME: a vendor resolved by its unique entity identifier, with every spelling and its contracts",
@@ -202,7 +204,7 @@ def run(command: str, args: list[str]) -> int:
 
 
 def help_text() -> str:
-    return (f"Commands, each answered from the Navy record as of {as_of()}:\n"
+    return (f"Commands, each answered from the {P['short'].removeprefix('U.S. ')} record as of {as_of()}:\n"
             + "\n".join(f"  navy.py {name} {what}" for name, what in HELP.items()))
 
 
@@ -242,7 +244,7 @@ def serve() -> int:
             continue
         if method == "initialize":
             result = {"protocolVersion": params.get("protocolVersion", "2025-06-18"), "capabilities": {"tools": {}},
-                      "serverInfo": {"name": "navy", "version": "1"}}
+                      "serverInfo": {"name": AGENCY_KEY, "version": "1"}}  # "navy" for the Navy (outreach_compare names its tools so)
         elif method == "tools/list":
             result = {"tools": tools()}
         elif method == "tools/call":

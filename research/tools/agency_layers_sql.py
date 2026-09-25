@@ -54,21 +54,35 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from lrae_package import JOINS_COLLECTED_FOR, fold_map, fpds_history, manifest_rows, url_index  # noqa: E402
+from lrae_package import fold_map, fpds_history, manifest_rows, url_index  # noqa: E402
 from fpds_sweep import awards as swept_awards  # noqa: E402
 
+from agency import EVENTS as EVENTS_DIR, KEY as AGENCY_KEY, MEMORY, P, PROFILES, ROOT as AGENCY_ROOT, SAM_NOTICES, SOURCES  # noqa: E402
+
+# Provenance strings name the file each row was read from, relative to the repository, under the trial's prefix.
+PROVENANCE = "chromie-federal-buyer-map-trial"
+# The organization memory's claim keys, evidence ids and contact identity keys are namespaced by the profile that
+# wrote the seed: the Navy's stay `navy-org-memory` (the loaded ids depend on it), another agency's carry its key.
+MEMORY_NS = f"{AGENCY_KEY}-org-memory"
+
+
+def provenance(path: Path) -> str:
+    return f"{PROVENANCE}/{path.relative_to(AGENCY_ROOT).as_posix()}"
+
 ROOT = Path(__file__).resolve().parents[2]
-SEED = ROOT / "research" / "memory" / "organization_seed.json"
+SEED = MEMORY / "organization_seed.json"
 # Every packaged release, oldest first within an activity (the key sorts that way). A line's revisions
 # chain within its activity; the NAVSEA, ONR and NRL sheets each stand alone until a second release lands.
-RELEASES = sorted(p.name for p in (ROOT / "datapack").glob("lrae_*") if (p / "layers").is_dir())
+# An agency without a forecast has no releases, and the forecast layer is not emitted.
+RELEASES = sorted(p.name for p in (ROOT / "datapack").glob(P["forecast"]["pack_glob"]) if (p / "layers").is_dir()) if P["forecast"]["pack_glob"] else []
 
 
 def activity_of(release: str) -> str:
-    return release.split("_")[1]
+    """The activity a release key names, the word before its date: lrae_navwar_2025-06 and amc_2026-05."""
+    return release.rsplit("_", 1)[0].rsplit("_", 1)[-1]
 
 NS = uuid.UUID("7c3d1f5a-9b24-4f8e-8c61-2a0d5e7b41c3")
-SEED_SOURCE = "chromie-federal-buyer-map-trial/research/memory/organization_seed.json"
+SEED_SOURCE = provenance(MEMORY / "organization_seed.json")
 LRAE_SOURCE = "chromie-federal-buyer-map-trial/datapack"
 PRODUCER = "chromie-federal-buyer-map-trial/agency_layers_sql.py"
 PRODUCER_VERSION = "14"
@@ -125,8 +139,8 @@ def insert(table: str, columns: list[str], rows: list[list[str]], out: list[str]
 
 # ------------------------------------------------------------- source registry
 
-REGISTRY = ROOT / "research" / "sources" / "source_registry.json"
-REGISTRY_SOURCE = "chromie-federal-buyer-map-trial/research/sources/source_registry.json"
+REGISTRY = SOURCES / "source_registry.json"
+REGISTRY_SOURCE = provenance(SOURCES / "source_registry.json")
 # The registry's words for how a source is reached and whether it answered, in the table's.
 ACCESS_MODE = {"api": "public_api", "webpage": "public_web", "spreadsheet": "download", "pdf": "download",
                "export": "download", "manual": "manual"}
@@ -136,7 +150,9 @@ VERIFICATION = {"verified": "verified", "blocked": "blocked", "not_inspected": "
 # shape are known, a browser where the host refuses plain fetches, an agent where a person had to look.
 ADAPTER = {"api": "api_connector", "manual": "research_agent"}
 NOTICE_PROVIDER, FPDS_PROVIDER = "sam_gov_site_api", "fpds_atom_feed"
-LRAE_PROVIDERS = {"navwar": "navwar_lrae_annex25", "navsea": "navsea_lrae_annex25", "onr": "onr_lrae_annex25", "nrl": "onr_lrae_annex25"}
+USASPENDING_PROVIDER = "usaspending_api"
+LRAE_PROVIDERS = P["forecast"]["providers"]
+FORECAST_LABEL, FORECAST_SHORT = P["forecast"]["label"], P["forecast"]["short"]
 
 
 def source_row(entry: dict) -> list[str]:
@@ -208,18 +224,21 @@ def event_columns(event: str | None, published: str | None, tier: str | None, pr
 
 # -------------------------------------------------------------------- agencies
 
-AGENCY_DOD = uid("agency", "097")
-AGENCY_NAVY = uid("agency", "097:1700")
+SUBTIER = P["agency"]  # the agency this layer is built for, as the profile states it
+AGENCY_DOD = uid("agency", SUBTIER["toptier_code"])
+AGENCY_NAVY = uid("agency", f"{SUBTIER['toptier_code']}:{SUBTIER['subtier_code']}")  # the subtier agency's id (the name predates the second agency)
+AGENCY_NAME = SUBTIER["subtier_name"]
+DEPARTMENT_NODE = SUBTIER["node"]
 
 
 def emit_agencies(out: list[str]) -> None:
     insert("public.agencies",
            ["id", "parent_agency_id", "level", "canonical_name", "normalized_name",
             "abbreviation", "toptier_code", "subtier_code"],
-           [[lit(AGENCY_DOD), "null", lit("toptier"), lit("Department of Defense"),
-             lit("department of defense"), lit("DOD"), lit("097"), "null"],
-            [lit(AGENCY_NAVY), lit(AGENCY_DOD), lit("subtier"), lit("Department of the Navy"),
-             lit("department of the navy"), lit("DON"), lit("097"), lit("1700")]],
+           [[lit(AGENCY_DOD), "null", lit("toptier"), lit(SUBTIER["toptier_name"]),
+             lit(norm(SUBTIER["toptier_name"])), lit(SUBTIER["toptier_abbreviation"]), lit(SUBTIER["toptier_code"]), "null"],
+            [lit(AGENCY_NAVY), lit(AGENCY_DOD), lit("subtier"), lit(AGENCY_NAME),
+             lit(norm(AGENCY_NAME)), lit(SUBTIER["subtier_abbreviation"]), lit(SUBTIER["toptier_code"]), lit(SUBTIER["subtier_code"])]],
            out)
 
 
@@ -450,7 +469,7 @@ def leadership_events(seed: dict, org_ids: dict[str, str], hosts: dict[str, str]
                 change["dates"].append(status)
     rows = []
     for (office, day), change in sorted(changes.items()):
-        claim_key = f"navy-org-memory:leadership:{office}:{day}"
+        claim_key = f"{MEMORY_NS}:leadership:{office}:{day}"
         url = first_url(change["observations"], urls)
         said = "; ".join(f"{p['name']} {verb} as {p['role'] or 'leader'}"
                          for verb, side in (("ended", "departed"), ("began", "arrived")) for p in change[side])
@@ -460,15 +479,15 @@ def leadership_events(seed: dict, org_ids: dict[str, str], hosts: dict[str, str]
                      *event_columns("leadership_change", day, "derived", hosts.get(urlparse(url or "").netloc), org_ids[office],
                                     {"office": office, "arrived": change["arrived"], "departed": change["departed"],
                                      "dates_status": sorted(change["dates"]),
-                                     "evidence_ids": [uid("evidence", f"navy-org-memory:{o}") for o in change["observations"]]})])
+                                     "evidence_ids": [uid("evidence", f"{MEMORY_NS}:{o}") for o in change["observations"]]})])
     return rows
 
 
 def emit_people(seed: dict, org_ids: dict[str, str], out: list[str], hosts: dict[str, str]) -> None:
     people = {n["id"]: n for n in seed["nodes"] if n["type"] == "person"}
     insert("public.gov_contacts", ["id", "identity_key", "name", "agency", "role", "source"],
-           [[lit(uid("contact", node_id)), lit(f"navy-org-memory:{node_id}"), lit(node["name"]),
-             lit("Department of the Navy"), lit("program"), lit(SEED_SOURCE)]
+           [[lit(uid("contact", node_id)), lit(f"{MEMORY_NS}:{node_id}"), lit(node["name"]),
+             lit(AGENCY_NAME), lit("program"), lit(SEED_SOURCE)]
             for node_id, node in people.items()], out)
 
     rows = []
@@ -514,7 +533,7 @@ def emit_contacts(org_ids: dict[str, str], out: list[str]) -> None:
         newest = person["positions"][0]
         if not person["seed_id"]:
             contacts.append([lit(contact_id), lit(f"people:{person['key']}"), lit(person["name"]), lit(newest["raw_title"][:200] or None),
-                             lit((person["emails"] or [None])[0]), lit("Department of the Navy"), lit(CONTACT_ROLE.get(newest["role_type"], "other")),
+                             lit((person["emails"] or [None])[0]), lit(AGENCY_NAME), lit(CONTACT_ROLE.get(newest["role_type"], "other")),
                              lit(PEOPLE_SOURCE), lit(newest["source_url"] or None), lit(person["last_seen"])])
         for pos in person["positions"]:
             if pos["office"] not in org_ids:
@@ -528,8 +547,8 @@ def emit_contacts(org_ids: dict[str, str], out: list[str]) -> None:
                                             "source", "source_ref", "source_url"], positions, out)
 
 
-BUDGET_LINES = ROOT / "research" / "events" / "budget_lines.json"
-BUDGET_PROVIDER = "don_budget_justification_books"
+BUDGET_LINES = EVENTS_DIR / "budget_lines.json"
+BUDGET_PROVIDER = P["budget"]["provider"]
 
 
 def emit_budget(out: list[str], org_ids: dict[str, str], offices: dict[tuple[str, str], str]) -> None:
@@ -546,16 +565,18 @@ def emit_budget(out: list[str], org_ids: dict[str, str], offices: dict[tuple[str
         book = books[row["book"]]
         claim_key = f"budget:pb{book['pb']}:{row['appropriation']}:{row['li']}"
         item_id, ev_id = uid("brainitem", claim_key), uid("evidence", claim_key)
-        m = OFFICE_CODE_RE.search(row["text"])
-        office = offices.get((m.group(1), m.group(2))) if m else None
+        office = office_of(row["text"], offices)
+        # A P-40 book is one budget activity; an R-2 book states the activity per program element.
+        activity = row.get("budget_activity") or book.get("budget_activity") or ""
         items.append([lit(item_id), lit(AGENCY_NAVY), lit("budget"), lit("narrative"), lit(claim_key), lit(row["event_title"][:200]),
-                      lit(f"{book['budget_activity']}; {row['pages']} page(s); {row['text'][:6000]}"),
+                      lit(f"{activity}; {row['pages']} page(s); {row['text'][:6000]}"),
                       jsonb({"url": book["url"], "sha256": book["sha256"], "retrieved_at": book["retrieved_at"], "path": book["path"], "book_date": book["date"]}),
                       lit(row["published"]),
-                      *event_columns(row["event_type"], row["published"], "official", BUDGET_PROVIDER, org_ids.get(office) if office else org_ids.get("agency:don"),
-                                     {"li": row["li"], "title": row["title"], "appropriation": row["appropriation"], "budget_activity": book["budget_activity"],
+                      *event_columns(row["event_type"], row["published"], "official", BUDGET_PROVIDER, org_ids.get(office) if office else org_ids.get(DEPARTMENT_NODE),
+                                     {"li": row["li"], "title": row["title"], "appropriation": row["appropriation"], "budget_activity": activity,
                                       "amounts": row["amounts"], "pb": book["pb"], "office_named": office or ""})])
-        evidence.append([lit(ev_id), lit(item_id), lit(row["text"][:300] or row["event_title"]), lit(book["url"]), lit(row["published"]), lit("secnav.navy.mil"), lit(claim_key)])
+        evidence.append([lit(ev_id), lit(item_id), lit(row["text"][:300] or row["event_title"]), lit(book["url"]), lit(row["published"]),
+                         lit(P["budget"].get("evidence_host") or urlparse(book["url"]).netloc), lit(claim_key)])
     insert("public.agency_brain_items", ITEM_COLUMNS, items, out)
     insert("public.gov_intelligence_evidence", ["id", "brain_item_id", "excerpt", "source_url", "published_at", "provider", "source_key"], evidence, out)
 
@@ -564,7 +585,7 @@ def emit_budget(out: list[str], org_ids: dict[str, str], offices: dict[tuple[str
 SECTIONS = frozenset({"mission_priorities", "budget", "forecast", "procurement_patterns", "vendors_incumbents", "people", "industry_engagement"})
 SBIR_SECTION = "mission_priorities"
 assert SBIR_SECTION in SECTIONS
-SBIR_TOPICS = ROOT / "research" / "events" / "sbir_topics.json"
+SBIR_TOPICS = EVENTS_DIR / "sbir_topics.json"
 SBIR_PROVIDER = "sbir_sttr_topics"
 
 
@@ -587,7 +608,7 @@ def emit_programs(out: list[str], org_ids: dict[str, str]) -> None:
                       lit(f"{t['program']} topic {t['code']}, {t['solicitation'] or t['cycle']}, {t['status']}; opens {t['open']}, closes {t['close']}; {t['text'][:6000]}"),
                       jsonb({"url": t["url"], "sha256": t["sha256"], "retrieved_at": t["retrieved_at"], "path": t["path"], "portal": "https://www.dodsbirsttr.mil/topics-app/"}),
                       lit(t["pre_release"]),
-                      *event_columns("sbir_topic", t["pre_release"], "official", SBIR_PROVIDER, org_ids.get(office or t["org"]) or org_ids.get("agency:don"),
+                      *event_columns("sbir_topic", t["pre_release"], "official", SBIR_PROVIDER, org_ids.get(office or t["org"]) or org_ids.get(DEPARTMENT_NODE),
                                      {"topic_code": t["code"], "program": t["program"], "command": t["command"], "cycle": t["cycle"], "open": t["open"],
                                       "close": t["close"], "keywords": t["keywords"], "offices_named": t["offices"]})])
         evidence.append([lit(ev_id), lit(item_id), lit((t["text"][:300] or t["title"])), lit(t["url"]), lit(t["pre_release"]), lit("dodsbirsttr.mil"), lit(claim_key)])
@@ -669,7 +690,7 @@ def emit_seed_evidence(seed: dict, out: list[str], hosts: dict[str, str]) -> dic
     """Returns observation id -> evidence uuid."""
     by_obs, items, evidence = {}, [], []
     for obs in seed["observations"]:
-        claim_key = f"navy-org-memory:{obs['id']}"
+        claim_key = f"{MEMORY_NS}:{obs['id']}"
         item_id = uid("brainitem", claim_key)
         ev_id = uid("evidence", claim_key)
         by_obs[obs["id"]] = ev_id
@@ -688,7 +709,7 @@ def emit_seed_evidence(seed: dict, out: list[str], hosts: dict[str, str]) -> dic
         evidence.append([
             lit(ev_id), lit(item_id), lit(passage),
             lit(url) if url.startswith("http") else "null",
-            lit(obs.get("observed_at")), lit("navy-org-memory"), lit(claim_key),
+            lit(obs.get("observed_at")), lit(MEMORY_NS), lit(claim_key),
         ])
     insert("public.agency_brain_items", ITEM_COLUMNS, items, out)
     insert("public.gov_intelligence_evidence",
@@ -789,70 +810,99 @@ def latest_end(entries: list[dict]) -> dict | None:
     return max(dated, key=lambda e: (e["completion"], e["signed"])) if dated else None
 
 
+def incumbent_end(manifest: list[dict], piid: str, usaspending) -> dict | None:
+    """When an incumbent contract ends, and what says so: the completion date FPDS last stated, when the saved history
+    reaches its last page (the feed runs oldest first, ten actions a page, so an earlier page does not hold the last
+    word); else the period of performance on the award's saved USAspending page; else nothing, and the reason counted."""
+    pages, actions, complete = fpds_history(manifest, piid)
+    entries = [e for e in actions if e["piid"] == piid]
+    end = latest_end(entries) if pages and complete else None
+    if end:
+        latest = max(entries, key=lambda e: e["signed"])
+        return {"source": "fpds", "expires_on": end["completion"], "signed": end["signed"], "vendor": latest["vendor"],
+                "contracting_office": latest["contracting_office"], "idv": latest["idv"], "actions": len(entries), "pages": len(pages),
+                "capture": next(p for p in pages if p["sha256"] == end["page"])}  # the page carrying the deciding action
+    award = usaspending(manifest, piid)
+    if award and award.get("pop_end"):
+        return {"source": "usaspending", "expires_on": award["pop_end"][:10], "signed": (award["last_modified"] or award["signed"] or "")[:10],
+                "vendor": award["recipient"] or "", "contracting_office": award["awarding_office"] or "", "idv": award["parent"] or "",
+                "capture": {"url": award["url"], "sha256": award["sha256"], "retrieved_at": award["retrieved"]}}
+    note_skip("incumbent contract's FPDS response is not on disk" if not pages
+              else "incumbent contract's saved FPDS history stops before its last page; end date not stated" if not complete
+              else "FPDS states no completion date for the incumbent contract")
+    return None
+
+
 def contract_expiries(org_ids: dict[str, str], canon) -> list[list[str]]:
-    """One derived item per incumbent contract a forecast line names and FPDS resolved: the contract
-    ends on the completion date FPDS last stated, which is what the follow-on is timed against. Read
-    from the joins collected for the newest release and the FPDS pages saved beside them. The feed is
-    oldest first, ten actions a page, so a history whose last page is not saved does not hold the last
-    word on the date; that contract is counted, not dated."""
-    release = JOINS_COLLECTED_FOR
-    with (ROOT / "datapack" / release / "joins.csv").open(newline="") as handle:
-        joins = [j for j in csv.DictReader(handle) if j["join_type"] == "existing_contract"]
+    """One derived item per incumbent contract a forecast line of any release names: the contract ends on the date
+    `incumbent_end` reads, which is what the follow-on is timed against. The newest release that cites the contract
+    names its office; every line citing it is listed."""
+    from trace import usaspending  # noqa: E402  (trace reads the datapack this module writes beside)
     manifest = manifest_rows()
-    office_of = {n["record_key"]: n["office_id"] for n in read_layer(release, "needs")}
-    contracts: dict[str, dict] = {}
-    for join in joins:
-        pages, actions, complete = fpds_history(manifest, join["key_used"])
-        if not pages:
-            note_skip("incumbent contract's FPDS response is not on disk")
+    contracts: dict[str, dict | None] = {}
+    for release in sorted(RELEASES, key=lambda r: (r.rsplit("_", 1)[-1], r), reverse=True):
+        path = ROOT / "datapack" / release / "joins.csv"
+        if not path.exists():
             continue
-        if not complete:
-            note_skip("incumbent contract's saved FPDS history stops before its last page; end date not stated")
-            continue
-        entries = [e for e in actions if e["piid"] == join["key_used"]]
-        end = latest_end(entries)
-        if not end:
-            note_skip("FPDS states no completion date for the incumbent contract")
-            continue
-        key, _ = canon(release, join["record_key"])
-        contract = contracts.setdefault(join["key_used"], {"end": end, "entries": entries, "pages": pages,
-                                                           "lines": [], "office": office_of.get(join["record_key"])})
-        if key not in contract["lines"]:
-            contract["lines"].append(key)
+        with path.open(newline="") as handle:
+            joins = [j for j in csv.DictReader(handle) if j["join_type"] == "existing_contract"]
+        office_of = {n["record_key"]: n["office_id"] for n in read_layer(release, "needs")}
+        for join in joins:
+            piid = join["key_used"]
+            if piid not in contracts:
+                contracts[piid] = incumbent_end(manifest, piid, usaspending)
+                if contracts[piid]:
+                    contracts[piid].update(lines=[], office=office_of.get(join["record_key"]))
+            key, _ = canon(release, join["record_key"])
+            if contracts[piid] and key not in contracts[piid]["lines"]:
+                contracts[piid]["lines"].append(key)
     rows = []
-    for piid, contract in sorted(contracts.items()):
-        end, claim_key = contract["end"], f"fpds:{piid}:expires"
-        expires_on, signed = end["completion"], end["signed"]
-        latest = max(contract["entries"], key=lambda e: e["signed"])
-        capture = next(p for p in contract["pages"] if p["sha256"] == end["page"])  # the page carrying the deciding action
+    for piid, c in sorted((k, v) for k, v in contracts.items() if v):
+        fpds = c["source"] == "fpds"
+        claim_key, capture = f"{'fpds' if fpds else 'usaspending'}:{piid}:expires", c["capture"]
+        how = (f"{c['actions']} FPDS action(s), the completion date stated by the action signed {c['signed']}" if fpds
+               else f"the USAspending period of performance, the award record last modified {c['signed']}")
         rows.append([lit(uid("brainitem", claim_key)), lit(AGENCY_NAVY), lit("vendors_incumbents"), lit("narrative"), lit(claim_key),
-                     lit(f"Incumbent contract {piid} ends {expires_on}"),
-                     lit(f"{latest['vendor'] or 'vendor unstated'}; contracting office {latest['contracting_office'] or 'unstated'}; "
-                         f"{len(contract['entries'])} FPDS action(s), the completion date stated by the action signed {signed}; "
-                         f"incumbent on forecast line(s) {', '.join(contract['lines'])}"),
+                     lit(f"Incumbent contract {piid} ends {c['expires_on']}"),
+                     lit(f"{c['vendor'] or 'vendor unstated'}; contracting office {c['contracting_office'] or 'unstated'}; {how}; "
+                         f"incumbent on forecast line(s) {', '.join(c['lines'])}"),
                      jsonb({"url": capture["url"], "sha256": capture["sha256"], "retrieved_at": capture["retrieved_at"], "piid": piid,
-                            "pages": len(contract["pages"])}),
-                     lit(signed),
-                     *event_columns("contract_expires", signed, "official", FPDS_PROVIDER, org_ids.get(contract["office"]),
-                                    {"piid": piid, "expires_on": expires_on, "vendor": latest["vendor"],
-                                     "contracting_office": latest["contracting_office"], "idv": latest["idv"], "lines": contract["lines"]})])
+                            **({"pages": c["pages"]} if fpds else {})}),
+                     lit(c["signed"]),
+                     *event_columns("contract_expires", c["signed"], "official", FPDS_PROVIDER if fpds else USASPENDING_PROVIDER, org_ids.get(c["office"]),
+                                    {"piid": piid, "expires_on": c["expires_on"], "vendor": c["vendor"],
+                                     "contracting_office": c["contracting_office"], "idv": c["idv"], "lines": c["lines"]})])
     return rows
 
 
-OFFICE_CODE_RE = re.compile(r"\b(PM[WSA])(?:/A)?[ -]?(\d{3})\b")
+OFFICE_CODE_RE = re.compile(P["office_key_re"])
 
 
-def office_index(seed: dict) -> dict[tuple[str, str], str]:
-    """(family, digits) -> node id over `codes.office_code`, so "PMW-160", "PMW160" and "PMW 160" in a
-    contract description all name pmw:160, and "PMA 101" or "PMW 101" both name the joint office."""
-    index: dict[tuple[str, str], str] = {}
+def office_key(match: re.Match) -> str:
+    return "".join(match.groups())
+
+
+def office_index(seed: dict, code_re: re.Pattern = OFFICE_CODE_RE) -> dict[str, str]:
+    """Office key -> node id over `codes.office_code`, so "PMW-160", "PMW160" and "PMW 160" in a contract
+    description all name pmw:160, and "PMA 101" or "PMW 101" both name the joint office. An office the agency
+    writes by an acronym the profile's pattern reads (DARPA's "STO", written "STO3" too) is indexed by that code."""
+    index: dict[str, str] = {}
     for node in seed["nodes"]:
         code = (node.get("codes") or {}).get("office_code") or ""
         digits = re.search(r"\d{3}", code)
         if digits:
             for family in re.findall(r"PM[WSA]", code):
-                index.setdefault((family, digits.group(0)), node["id"])
+                index.setdefault(family + digits.group(0), node["id"])
+        whole = code_re.fullmatch(code)
+        if whole:
+            index.setdefault(office_key(whole), node["id"])
     return index
+
+
+def office_of(text: str, offices: dict[str, str], code_re: re.Pattern = OFFICE_CODE_RE) -> str | None:
+    """The node the first office code in `text` names, if the memory has one."""
+    m = code_re.search(text)
+    return offices.get(office_key(m)) if m else None
 
 
 def solicitation_key(number: str) -> str:
@@ -879,9 +929,9 @@ def award_office(award: dict, offices: dict[tuple[str, str], str], uics: dict[st
     """Where a swept award sits, in the order research/04 fixes: the office code its description names (step 3), else
     the one office the saved notice under its solicitation names (step 4), else the funding office's node, else the
     contracting office's. Two offices on the notice leave the award at the contracting office for a reviewer."""
-    match = OFFICE_CODE_RE.search(" ".join(award["description"].split()).upper())
-    if match and offices.get((match.group(1), match.group(2))):
-        return offices[(match.group(1), match.group(2))], "the office code in the description"
+    coded = office_of(" ".join(award["description"].split()).upper(), offices)
+    if coded:
+        return coded, "the office code in the description"
     named = by_solicitation.get(solicitation_key(award.get("solicitation") or ""), [])
     if len(named) == 1:
         return named[0], f"the office the notice under solicitation {award['solicitation']} names"
@@ -934,7 +984,7 @@ MOD_REASONS = {"G": "exercised an option", "A": "added work outside its scope", 
 SBIR_PHASE = {"SR1": ("sbir_selection", "SBIR Phase I"), "ST1": ("sbir_selection", "STTR Phase I"),
               "SR2": ("sbir_selection", "SBIR Phase II"), "ST2": ("sbir_selection", "STTR Phase II"),
               "SR3": ("prototype_transition", "SBIR Phase III"), "ST3": ("prototype_transition", "STTR Phase III")}
-TOPIC_RE = re.compile(r"\bN\d{2}[0-9AB]-T?\d{3}\b")
+TOPIC_RE = re.compile(P["topic_re"])
 
 
 def award_changes(award: dict, actions: list[dict]) -> list[tuple[dict, str, str]]:
@@ -992,7 +1042,8 @@ def emit_award_changes(out: list[str], org_ids: dict[str, str], uics: dict[str, 
 
 # The connectors that write the shared row shape (claim_key, event_type, published, title, body, section, url,
 # sha256, retrieved_at, path, excerpt, uic, data), each with the registry row it is filed under.
-RECORDS = (("protest_events.json", "gao_bid_protests"), ("congress_events.json", "govinfo_api"), ("fedreg_events.json", "federal_register"))
+RECORDS = (("protest_events.json", "gao_bid_protests"), ("congress_events.json", "govinfo_api"), ("fedreg_events.json", "federal_register"),
+           ("assistance_awards.json", "usaspending_api"))
 
 
 def record_office(row: dict, uics: dict[str, str], offices: dict[tuple[str, str], str], by_solicitation: dict[str, list[str]]) -> str:
@@ -1003,8 +1054,7 @@ def record_office(row: dict, uics: dict[str, str], offices: dict[tuple[str, str]
         return named[0]
     if uics.get((row.get("uic") or "").upper()):
         return uics[row["uic"].upper()]
-    m = OFFICE_CODE_RE.search(" ".join(f"{row['title']} {row['excerpt']}".split()).upper())
-    return (offices.get((m.group(1), m.group(2))) if m else None) or "agency:don"
+    return office_of(" ".join(f"{row['title']} {row['excerpt']}".split()).upper(), offices) or DEPARTMENT_NODE
 
 
 def emit_records(out: list[str], org_ids: dict[str, str], uics: dict[str, str], offices: dict[tuple[str, str], str]) -> None:
@@ -1012,7 +1062,7 @@ def emit_records(out: list[str], org_ids: dict[str, str], uics: dict[str, str], 
     left without an event type (a routine Federal Register form, say) stays in its file for review and is not loaded."""
     by_solicitation = notice_offices_by_solicitation()
     for name, provider in RECORDS:
-        path = ROOT / "research" / "events" / name
+        path = EVENTS_DIR / name
         if not path.exists():
             note_skip(f"{name} not built; run the connector's build")
             continue
@@ -1046,6 +1096,24 @@ def assertion(rows: list, ident: str, kind: str, lineage: str, basis: str, ratio
     ])
 
 
+def after_priors(rows: list) -> list:
+    """The assertion rows in an order the supersession trigger accepts: each after the row it supersedes, where that row
+    is among them (notices under two solicitation numbers can state one requirement, the later group sorting first)."""
+    by_id, placed, ordered = {r[0]: r for r in rows}, set(), []
+
+    def place(row: list) -> None:
+        if row[0] in placed:
+            return
+        placed.add(row[0])
+        if row[9] in by_id:
+            place(by_id[row[9]])
+        ordered.append(row)
+
+    for row in rows:
+        place(row)
+    return ordered
+
+
 ASSERTION_COLUMNS = ["id", "assertion_kind", "lineage_key", "basis", "rationale", "producer",
                      "producer_version", "source_key", "observed_at", "supersedes_id",
                      "valid_from", "valid_to"]
@@ -1066,6 +1134,11 @@ def uic_index(seed: dict) -> dict[str, str]:
 def emit_lrae(org_ids: dict[str, str], out: list[str], uics: dict[str, str] | None = None,
               offices: dict[tuple[str, str], str] | None = None) -> None:
     uics = uics or {}
+    if not RELEASES:
+        note_skip("no forecast releases for this agency; the forecast layer is not emitted")
+        # The swept awards are no forecast's: the incumbent book stands without one.
+        insert("public.agency_brain_items", ITEM_COLUMNS, swept_expiries(org_ids, uics, offices or {}, []), out)
+        return {}
     # The accepted connections between releases (lrae_package.fold_map): a row the diffs
     # tie with `confirmed` loads under its chain's key, and carries how it was tied.
     folded, refused = fold_map(ROOT / "datapack")
@@ -1086,7 +1159,7 @@ def emit_lrae(org_ids: dict[str, str], out: list[str], uics: dict[str, str] | No
             event, data, office = events[row["id"]]
             items.append([
                 lit(item_id), lit(AGENCY_NAVY), lit("forecast"), lit("narrative"), lit(claim_key),
-                lit(f"LRAE {release} {row['locator']}"), lit(body),
+                lit(f"{FORECAST_SHORT} {release} {row['locator']}"), lit(body),
                 jsonb({"release": release, "locator": row["locator"],
                        "sha256": row["source_sha256"], "release_date": row["release_date"]}),
                 lit(row["release_date"]),
@@ -1133,7 +1206,7 @@ def emit_lrae(org_ids: dict[str, str], out: list[str], uics: dict[str, str] | No
 
     insert("public.gov_needs", ["id", "agency_id", "title", "description", "lifecycle", "source", "source_key"],
            [[lit(uid("need", key)), lit(AGENCY_NAVY), lit(row["title"]),
-             lit(f"{activity_of(need_releases[key][0]).upper()} Long Range Acquisition Estimate line {key}, first seen {first_seen.get(key) or 'undated'}, "
+             lit(f"{activity_of(need_releases[key][0]).upper()} {FORECAST_LABEL} line {key}, first seen {first_seen.get(key) or 'undated'}, "
                  f"released in {', '.join(need_releases[key])}"
                  + (f"; {'; '.join(tied_rows[key])}" if key in tied_rows else "")),
              lit("identified"), lit(LRAE_SOURCE), lit(key)]
@@ -1166,7 +1239,7 @@ def emit_lrae(org_ids: dict[str, str], out: list[str], uics: dict[str, str] | No
             for local_id, role in ((row["office_id"], "requirement_owner"),
                                    (uics.get(row["contracting_office_uic"].upper(), "contracting:" + row["contracting_office_uic"].lower()), "contracting")):
                 if local_id not in org_ids:
-                    note_skip(f"LRAE office {local_id or '(code the memory does not resolve)'} has no node in the org memory")
+                    note_skip(f"{FORECAST_SHORT} office {local_id or '(code the memory does not resolve)'} has no node in the org memory")
                     continue
                 ident = uid("assert", f"needorg:{release}:{key}:{local_id}:{role}")
                 if not cite(ident, ev_id, True):
@@ -1253,7 +1326,7 @@ def emit_lrae(org_ids: dict[str, str], out: list[str], uics: dict[str, str] | No
                 lit(ident), lit(uid("need", key)), lit("procurement_estimate"),
                 "null", lit(low), lit(high),
                 str(fy) if fy else "null", lit(start), lit(end),
-                lit(f"{activity_of(release).upper()} LRAE {release} anticipated total contract value, "
+                lit(f"{activity_of(release).upper()} {FORECAST_SHORT} {release} anticipated total contract value, "
                     f"stated as {stated}"),
             ])
 
@@ -1284,7 +1357,7 @@ def emit_lrae(org_ids: dict[str, str], out: list[str], uics: dict[str, str] | No
 
 # ------------------------------------------------------------ SAM.gov notices
 
-NOTICE_SOURCE = "chromie-federal-buyer-map-trial/data/raw/sam_notices"
+NOTICE_SOURCE = provenance(SAM_NOTICES)
 # The lifecycle a notice type states for its requirement; the latest notice under a number sets it, and a base award under it fulfils it.
 NOTICE_LIFECYCLE = {"sources sought": "identified", "special notice": "identified", "presolicitation": "planned",
                     "solicitation": "in_procurement", "combined synopsis/solicitation": "in_procurement",
@@ -1296,6 +1369,7 @@ NOTICE_EVENT = {"sources sought": "rfi_released", "presolicitation": "presolicit
                 "award notice": "contract_awarded", "justification (J&A)": "justification_posted"}
 SPECIAL_EVENT = {"industry day": "industry_engagement", "action on an existing contract": "contract_modified",
                  "forecast": "forecast_created", "intent to award a sole source": "justification_posted",
+                 "intent to award without full competition": "justification_posted",
                  "commercial solutions opening": "rfp_released", "request for information": "rfi_released",
                  "draft solicitation": "presolicitation_posted", "award announcement": "contract_awarded"}
 
@@ -1348,15 +1422,32 @@ def emit_notices(org_ids: dict[str, str], out: list[str], revisions_by_need: dic
     items, evidence, needs, assertions, links, requirements = [], [], [], [], [], []
     details: dict[str, list] = {"need_organization": [], "requirement": []}
     advanced: dict[str, tuple[str, str]] = {}
+    placed = []
     for group_key, notices in sorted(groups.items()):
         notices.sort(key=lambda d: (d["posted"], d["id"]))
+        placed.append((group_key, notices, place_notice(notices[-1], ctx, notices[:-1])))
+    # The groups tied to one requirement state one history: each notice supersedes the one posted before it, whichever
+    # solicitation number it came under, and the first supersedes the forecast line's latest revision.
+    tied: dict[str, list[dict]] = {}
+    for _, notices, place in placed:
+        tied.setdefault(place["key"], []).extend(notices)
+    prior_of: dict[str, str | None] = {}
+    for key, stated in tied.items():
+        prior = (revisions_by_need.get(key) or [None])[-1]
+        for d in sorted(stated, key=lambda d: (d["posted"], d["id"])):
+            prior_of[d["id"]], prior = prior, uid("assert", f"requirement:{key}:notice:{d['id']}")
+    for group_key, notices, place in placed:
         latest = notices[-1]
-        place = place_notice(latest, ctx, notices[:-1])
         key = place["key"]
         need_id, req_id = uid("need", key), uid("requirement", key)
         # A base award the FPDS office sweep saved under the number fulfils it; an order names its vehicle's solicitation.
         awarded = swept_by_solicitation().get(compact(latest["solicitation"] or ""), [])
-        lifecycle = "cancelled" if latest["cancelled"] else "fulfilled" if awarded else NOTICE_LIFECYCLE.get(latest["type"], "unknown")
+        # A special notice's lifecycle is its type's (identified) unless the model's reading or its title says it is an
+        # intent to award without full competition, which states the same stage as a justification: in procurement.
+        lifecycle = ("cancelled" if latest["cancelled"]
+                     else "fulfilled" if awarded
+                     else "in_procurement" if signal_kind(latest).startswith(("intent to award without full competition", "intent to award a sole source"))
+                     else NOTICE_LIFECYCLE.get(latest["type"], "unknown"))
         if place["how"] == "created":
             kinds = ", ".join(dict.fromkeys(f"{d['type']} {d['posted']}" for d in notices))
             offices = sorted({o for d in notices for o in d["offices"]})
@@ -1367,9 +1458,7 @@ def emit_notices(org_ids: dict[str, str], out: list[str], revisions_by_need: dic
                               f"{awarded[0]['signed']} to {awarded[0]['vendor']}" if awarded else ""))
             needs.append([lit(need_id), lit(AGENCY_NAVY), lit(latest["title"]), lit(description), lit(lifecycle), lit(NOTICE_SOURCE), lit(key)])
             requirements.append([lit(req_id), lit(need_id), lit(key), lit("scope")])
-            prior_revision = None
         else:
-            prior_revision = (revisions_by_need.get(key) or [None])[-1]
             # The forecast line loaded its need as identified; the newest tied group that outdates the forecast moves it.
             stated = max([latest["posted"], *(a["signed"] for a in awarded)])
             if outdates_forecast(stated, ctx["chains"].get(key, [])) and stated >= advanced.get(need_id, ("", ""))[0]:
@@ -1391,8 +1480,11 @@ def emit_notices(org_ids: dict[str, str], out: list[str], revisions_by_need: dic
                           jsonb({"url": view, "record_url": record.get("url"), "retrieved_at": record.get("retrieved_at"), "sha256": record.get("sha256"),
                                  "notice_id": d["id"], "solicitation": d["solicitation"], "type": d["type"]}),
                           lit(d["posted"]),
+                          # The statement carries its requirement's key, and a notice tied to a forecast line is filed at the line's office.
                           *event_columns(event, d["posted"], "official", NOTICE_PROVIDER,
-                                         org_ids.get(d["offices"][0] if len(d["offices"]) == 1 else d["contracting"]))])
+                                         org_ids.get(place["line"]["office_id"] if place["how"] == "resolved"
+                                                     else d["offices"][0] if len(d["offices"]) == 1 else d["contracting"]),
+                                         {"line": key, **({"responses_due": d["deadline"]} if d.get("deadline") else {})})])
             evidence.append([lit(ev_id), lit(item_id), lit((named or {}).get("context") or d["title"][:300]), lit(view), lit(d["posted"]), lit("sam.gov"), lit(claim_key)])
             if not record:
                 note_skip("notice detail has no manifest row; loaded with its SAM.gov link only")
@@ -1403,9 +1495,8 @@ def emit_notices(org_ids: dict[str, str], out: list[str], revisions_by_need: dic
             how = f" Tied to the forecast line because {place['why']}." if place["how"] == "resolved" else ""
             assertion(assertions, ident, "requirement", f"requirement:{key}", place["basis"] or "documented",
                       f"SAM.gov {d['type']} posted {d['posted']} ({signal_kind(d)}) states the requirement.{how}",
-                      f"{NOTICE_SOURCE}:{d['id']}", d["posted"], prior_revision)
+                      f"{NOTICE_SOURCE}:{d['id']}", d["posted"], prior_of[d["id"]])
             details["requirement"].append([lit(ident), lit(req_id), lit(f"{d['type']} {d['posted']}: {d['title']}"), "null", "null"])
-            prior_revision = ident
             if place["how"] == "resolved":
                 continue  # the line already carries its offices; the notice adds the requirement's later statement
             offices = [(o, "requirement_owner", f"the text names it: '{(named or {}).get('context', '')[:160]}'") for o in d["offices"]] if len(d["offices"]) == 1 else []
@@ -1438,15 +1529,15 @@ def emit_notices(org_ids: dict[str, str], out: list[str], revisions_by_need: dic
                    + ",\n".join(f"  ({lit(need)}, {lit(lc)})" for need, lc in moved)
                    + "\n) as v(id, lifecycle) where public.gov_needs.id = v.id::uuid;")
         out.append("")
-    insert("public.gov_intelligence_assertions", ASSERTION_COLUMNS, assertions, out)
+    insert("public.gov_intelligence_assertions", ASSERTION_COLUMNS, after_priors(assertions), out)
     insert("public.gov_need_organizations", ["assertion_id", "need_id", "organization_id", "role"], details["need_organization"], out)
     insert("public.gov_need_requirements", ["id", "need_id", "requirement_key", "kind"], requirements, out)
     insert("public.gov_requirement_revisions", ["assertion_id", "requirement_id", "statement", "expected_from", "expected_to"], details["requirement"], out)
     insert("public.gov_assertion_evidence", ["assertion_id", "evidence_id", "relationship", "is_direct"], links, out)
 
 
-NEWS_RECORDS = ROOT / "research" / "events" / "news_observations.json"
-NEWS_SOURCE = "chromie-federal-buyer-map-trial/research/events/news_observations.json"
+NEWS_RECORDS = EVENTS_DIR / "news_observations.json"
+NEWS_SOURCE = provenance(EVENTS_DIR / "news_observations.json")
 # What a news statement is about, in the sections the brain items table allows.
 NEWS_SECTION = {"leadership": "people", "funding": "budget", "performance": "vendors_incumbents",
                 "industry_engagement": "industry_engagement", "recompete": "procurement_patterns",
@@ -1523,7 +1614,7 @@ def emit_news(out: list[str], hosts: dict[str, str], org_ids: dict[str, str]) ->
            ["id", "brain_item_id", "excerpt", "source_url", "published_at", "provider", "source_key"], evidence, out)
 
 
-OVERSIGHT_RECORDS = ROOT / "research" / "events" / "oversight_events.json"
+OVERSIGHT_RECORDS = EVENTS_DIR / "oversight_events.json"
 OVERSIGHT_SECTION = {"funding_change": "budget", "program_delayed": "procurement_patterns", "program_cancelled": "procurement_patterns"}
 # The registry row for each kind of report, named outright: gao.gov also carries the bid-protest row, so the
 # first-webpage-row-on-the-host rule that serves news would name the wrong source for a report.
@@ -1580,8 +1671,8 @@ def emit_oversight(out: list[str], hosts: dict[str, str], org_ids: dict[str, str
            ["id", "brain_item_id", "excerpt", "source_url", "published_at", "provider", "source_key"], evidence, out)
 
 
-REMARKS_RECORDS = ROOT / "research" / "events" / "remarks_events.json"
-REMARKS_PROVIDERS = {"speech": "navy_mil_speeches", "testimony": "navy_mil_speeches", "statement": "house_committee_repository", "conference": "conference_pages_exa"}
+REMARKS_RECORDS = EVENTS_DIR / "remarks_events.json"
+REMARKS_PROVIDERS = P["remarks"]["providers"]  # the registry row each kind of remarks document is filed under
 REMARKS_SECTION = {"industry_engagement": "industry_engagement", "conference_appearance": "industry_engagement", "funding_change": "budget",
                    "congressional_directive": "budget", "program_delayed": "procurement_patterns", "program_cancelled": "procurement_patterns"}
 REMARKS_TIER = {"speech": "official", "testimony": "official", "statement": "official", "conference": "editorial"}
@@ -1663,9 +1754,12 @@ def main() -> int:
 
 
 def selfcheck() -> int:
+    rows = [["'b'", *[None] * 8, "'a'"], ["'c'", *[None] * 8, "'b'"], ["'a'", *[None] * 8, "null"]]
+    assert [r[0] for r in after_priors(rows)] == ["'a'", "'b'", "'c'"], "a superseded row is inserted first"
     assert funding_lineage("K", "FY28", "q1 ") == funding_lineage("K", "2028", "Q1") == "funding:K:2028:Q1"
+    assert activity_of("lrae_navwar_2025-06") == "navwar" and activity_of("amc_2026-05") == "amc"
     assert funding_lineage("K", "TBD", "Q1") == funding_lineage("K", "", "") == "funding:K:unstated:unstated"
-    ix, ux = {("PMW", "160"): "pmw:160"}, {"N00039": "contracting:n00039", "N66001": "center:niwc-pacific"}
+    ix, ux = {"PMW160": "pmw:160"}, {"N00039": "contracting:n00039", "N66001": "center:niwc-pacific"}
     aw = lambda desc, sol="", fund="": {"description": desc, "solicitation": sol, "funding_office": fund, "contracting_office": "N00039"}
     assert award_office(aw("SERVICES FOR PMW-160"), ix, ux, {}) == ("pmw:160", "the office code in the description")
     assert award_office(aw("SERVICES", "N00039-20-R-0011"), ix, ux, {"N0003920R0011": ["pmw:150"]})[0] == "pmw:150"
@@ -1704,11 +1798,14 @@ def selfcheck() -> int:
     assert uid("org", "pmw:160") == uid("org", "pmw:160") != uid("need", "pmw:160")
     codes = office_index({"nodes": [{"id": "pmw:160", "codes": {"office_code": "PMW 160"}}, {"id": "pmw:101", "codes": {"office_code": "PMA/PMW 101"}},
                                     {"id": "pmw:170", "codes": {"office_code": "PMW/A 170"}}, {"id": "x", "codes": {}}]})
-    assert codes[("PMW", "160")] == "pmw:160" and codes[("PMA", "101")] == codes[("PMW", "101")] == "pmw:101" and codes[("PMW", "170")] == "pmw:170"
+    assert codes["PMW160"] == "pmw:160" and codes["PMA101"] == codes["PMW101"] == "pmw:101" and codes["PMW170"] == "pmw:170"
     for text in ("ESS FOR PMW-160", "PMW160 SUPPORT", "PMW/A 170 GPS", "SUPPORT TO PMW 160."):
-        m = OFFICE_CODE_RE.search(text)
-        assert m and (m.group(1), m.group(2)) in {("PMW", "160"), ("PMW", "170")}, text
+        assert office_of(text, codes) in {"pmw:160", "pmw:170"}, text
     assert OFFICE_CODE_RE.search("N0003925R4011 PMW 16") is None, "two digits are not an office code"
+    darpa_re = re.compile(PROFILES["darpa"]["office_key_re"])
+    darpa = office_index({"nodes": [{"id": "office:sto", "codes": {"office_code": "STO"}}, {"id": "office:cso", "codes": {"office_code": "CSO"}}]}, darpa_re)
+    assert office_of("DARPA STO ALBATROSS PROGRAM", darpa, darpa_re) == office_of("OFFICE (STO3) TECHNICAL", darpa, darpa_re) == "office:sto"
+    assert office_of("CSO PHASE 1", darpa, darpa_re) is None and office_of("STORAGE", darpa, darpa_re) is None
 
     def rel(ident, kind, src, dst, state="last_confirmed", review="draft", to=None):
         return {"id": ident, "type": kind, "from": src, "to": dst, "review_status": review,
@@ -1837,6 +1934,8 @@ def selfcheck() -> int:
     assert notice_event("sources sought", "sources sought") == "rfi_released"
     assert notice_event("special notice", "industry day (special notice)") == "industry_engagement"
     assert notice_event("special notice", "intent to award a sole source (special notice)") == "justification_posted"
+    assert notice_event("special notice", "request for information (special notice)") == "rfi_released"
+    assert notice_event("special notice", "intent to award without full competition (special notice)") == "justification_posted"
     assert notice_event("special notice", "special notice") is None and notice_event("j", "j") is None
 
     # A line restated as it was is no event; a moved award quarter is, and it reads as the same

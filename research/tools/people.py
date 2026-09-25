@@ -38,36 +38,41 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from agency_layers_sql import POSITION_ROLES, role_type, uid  # noqa: E402
 
-PEOPLE = ROOT / "research" / "memory" / "people.json"
-OBSERVATIONS = ROOT / "research" / "memory" / "contact_observations.json"
-RECOMMENDATIONS = ROOT / "research" / "memory" / "contact_recommendations.json"
-REVIEWS = ROOT / "research" / "memory" / "review_log.json"
-REMARKS = ROOT / "research" / "events" / "remarks_events.json"
-NEWS = ROOT / "research" / "events" / "news_observations.json"
-SEED = ROOT / "research" / "memory" / "organization_seed.json"
-SMALL_BUSINESS = ROOT / "research" / "memory" / "small_business_offices.json"
-SOURCE = "chromie-federal-buyer-map-trial/research/memory/people.json"
-DEPARTMENT = "agency:don"
+from agency import EVENTS as EVENTS_DIR, MEMORY, P  # noqa: E402
+
+PEOPLE = MEMORY / "people.json"
+OBSERVATIONS = MEMORY / "contact_observations.json"
+RECOMMENDATIONS = MEMORY / "contact_recommendations.json"
+REVIEWS = MEMORY / "review_log.json"
+REMARKS = EVENTS_DIR / "remarks_events.json"
+NEWS = EVENTS_DIR / "news_observations.json"
+SEED = MEMORY / "organization_seed.json"
+SMALL_BUSINESS = MEMORY / "small_business_offices.json"  # written by small_business.py; a layer without it has no such routes
+STAFF_LISTING = P["people"]["staff_listing"]  # an agency that publishes its staff with role, office and start date
+SOURCE = f"chromie-federal-buyer-map-trial/{(MEMORY / 'people.json').relative_to(ROOT).as_posix()}"
+DEPARTMENT = P["agency"]["node"]
 
 HONORIFICS = {"mr", "mrs", "ms", "dr", "hon", "the", "honorable", "capt", "cdr", "lcdr", "lt", "ltjg", "ens", "adm", "vadm",
               "radm", "rdml", "gen", "ltgen", "maj", "col", "ltcol", "sgt", "phd", "ph", "d", "jr", "sr", "ii", "iii", "iv",
               "ret", "usn", "usmc", "sc", "esq"}
-EXECUTIVE = ("secretary of the navy", "assistant secretary", "chief of naval operations", "commandant", "vice chief",
-             "under secretary", "deputy secretary", "executive officer", "commander,", "commander of", "director",
-             "portfolio acquisition executive")
+EXECUTIVE = P["people"]["executive"]
 # A SAM.gov point of contact is the contracting shop's named contact; the schema has no finer word for it.
 POC_ROLE = "contract_specialist"
 # The read text gets a lower confidence than a structured field: the model named the person, a lint checked the span.
-CONFIDENCE = {"sam_gov_site_api": "0.90", "contact_observations": "0.90", "organization_seed": "0.90",
-              "navy_mil_speeches": "0.70", "house_committee_repository": "0.70", "conference_pages_exa": "0.60", "news_articles": "0.80"}
-REMARKS_PROVIDER = {"speech": "navy_mil_speeches", "statement": "navy_mil_speeches", "testimony": "house_committee_repository",
-                    "conference": "conference_pages_exa"}
+CONFIDENCE = {"sam_gov_site_api": "0.90", "contact_observations": "0.90", "organization_seed": "0.90", "agency_staff_listing": "0.90",
+              "navy_mil_speeches": "0.70", "house_committee_repository": "0.70", "conference_pages_exa": "0.60", "news_articles": "0.80",
+              "darpa_site": "0.70"}
+REMARKS_PROVIDER = P["people"].get("remarks_providers") or P["remarks"]["providers"]
+STAFF_BASE_URL = P["people"].get("staff_base_url") or ""
 
 
 TITLE_WORDS = {"contract", "contracting", "contracts", "specialist", "officer", "manager", "director", "deputy", "assistant", "chief",
                "head", "lead", "buyer", "analyst", "engineer", "program", "procurement", "purchasing", "agent", "representative",
                "coordinator", "administrator", "branch", "division", "code", "pco", "aco", "cor", "ph", "phd", "jr", "sr", "ii", "iii",
                "usn", "usmc", "ret", "ses"}  # words that make what follows a comma a title or suffix, not a given name
+# A name made only of these is a mailbox's role ("BAA Coordinator", DARPA's one per program), not a person's name.
+ROLE_WORDS = TITLE_WORDS | {"baa", "solicitation", "team", "desk", "help", "mailbox", "inbox", "office", "support", "sbir", "sttr",
+                            "general", "questions", "info", "information", "contact", "contacts", "point", "of", "the", "and", "for"}
 
 
 def person_name(name: str) -> str:
@@ -78,7 +83,22 @@ def person_name(name: str) -> str:
     head, comma, tail = name.partition(",")
     if not comma or len(head.split()) < 2:
         return name
-    return head.strip() if not tail.strip() or set(re.findall(r"[a-z]+", tail.lower())) & TITLE_WORDS else f"{tail.strip()} {head.strip()}"
+    return head.strip() if not tail.strip() or names_office(tail) else f"{tail.strip()} {head.strip()}"
+
+
+def names_office(tail: str) -> bool:
+    """True when what follows the comma is a title or an office, not a given name: a title word, a slash or a digit
+    ('DARPA/BTO', 'PMW 160'), the agency's own short name or an office code as the profile writes it."""
+    words = set(re.findall(r"[a-z]+", tail.lower()))
+    return bool(words & TITLE_WORDS or "/" in tail or re.search(r"\d", tail) or P["short"].removeprefix("U.S. ").lower() in words
+                or re.search(P["reading"]["office_code_re"], tail))
+
+
+def is_person(name: str) -> bool:
+    """A name that can stand for one person across e-mail addresses: two words or more, none a title word. 'BAA
+    Coordinator' or 'Solicitation Coordinator' is a role a mailbox carries, and each address is its own contact."""
+    tokens = norm_name(name).split()
+    return "@" not in name and len(tokens) >= 2 and not set(tokens) & TITLE_WORDS  # an address written as the name is no name
 
 
 def norm_name(name: str) -> str:
@@ -182,7 +202,7 @@ def remarks_people() -> list[tuple[str, str, dict]]:
     for doc in json.loads(REMARKS.read_text(encoding="utf-8"))["documents"]:
         if not doc.get("issued"):
             continue
-        source = REMARKS_PROVIDER.get(doc["kind"], "navy_mil_speeches")
+        source = REMARKS_PROVIDER.get(doc["kind"], REMARKS_PROVIDER.get("speech", "other"))
         orgs = Counter(o for e in doc.get("events") or [] for o in (e.get("organizations") or []) if o != DEPARTMENT)
         office = orgs.most_common(1)[0][0] if len(orgs) == 1 else DEPARTMENT
         people = []
@@ -197,6 +217,43 @@ def remarks_people() -> list[tuple[str, str, dict]]:
             named = [o["office"] for o in resolve_offices(role) if not o["former"]]
             where = named[0] if len(named) == 1 else office
             out.append((name, "", position(where, role_of(role), role, doc["issued"], source, doc["url"], doc["url"], context)))
+    return out
+
+
+def staff_people() -> list[tuple[str, str, dict]]:
+    """An agency that publishes its staff: each record's role and office as the listing states them, dated by the
+    retrieval, with the start date the listing states kept as context. One record per person; the listing repeats a
+    person per research topic. A role is a stated role, not authority."""
+    if not STAFF_LISTING:
+        return []
+    import html
+    from lrae_package import manifest_rows, saved  # noqa: E402
+    row = saved(manifest_rows(), lambda r: r.get("url") == STAFF_LISTING)
+    if not row or not (ROOT / row["path"]).exists():
+        return []
+    seed = json.loads(SEED.read_text(encoding="utf-8")) if SEED.exists() else {"nodes": []}
+    by_name = {}
+    for n in seed["nodes"]:
+        if n["type"] != "person":
+            for text in [n["name"]] + [a["text"] for a in n.get("aliases", [])]:
+                by_name.setdefault(text.lower(), n["id"])
+    out, seen = [], set()
+    for rec in json.loads((ROOT / row["path"]).read_text(encoding="utf-8")):
+        key = rec.get("view_node") or rec.get("nid")
+        if key in seen:
+            continue
+        seen.add(key)
+        name = " ".join(html.unescape(str(rec.get(k) or "")).strip() for k in ("field_first_name", "field_last_name")).strip()
+        role = html.unescape(str(rec.get("field_role") or "")).strip()
+        office_name = html.unescape(str(rec.get("field_taxonomy_office") or "")).strip()
+        if not norm_name(name) or not role:
+            continue
+        office = by_name.get(office_name.lower(), DEPARTMENT)
+        mapped = "acquisition_leader" if role.lower() == "director" else role_of(role)
+        start = str(rec.get("field_start_date__raw") or "")[:10]
+        context = f"{role}, {office_name}" + (f"; start date {start} as listed" if start else "")
+        url = STAFF_BASE_URL + str(rec.get("view_node") or "")
+        out.append((name, "", position(office, mapped, role, row["retrieved_at"][:10], "agency_staff_listing", str(rec.get("nid") or key), url, context)))
     return out
 
 
@@ -255,12 +312,14 @@ def merge(rows: list[tuple[str, str, dict]], seed: dict[str, dict] | None = None
             person["emails"].add(email)
         person["positions"].append(pos)
     # One person under two e-mails when the name is the same and an office is shared: the move from navy.mil to
-    # us.navy.mil gave staff a second address. Name-only rows stay apart by office as the rule says.
+    # us.navy.mil gave staff a second address. Name-only rows stay apart by office as the rule says, and a role
+    # written where a name goes ('BAA Coordinator' on a program mailbox) never joins two addresses into one person.
     clusters: dict[str, list[dict]] = {}
     for key in sorted(by_key):
         person = by_key[key]
-        if not key.startswith("email:"):
-            continue
+        first = person["names"].most_common(1)[0][0]
+        if not key.startswith("email:") or not is_person(first) or set(norm_name(first).split()) <= ROLE_WORDS:
+            continue  # a role mailbox under one title, or an address written as the name, is as many contacts as addresses
         offices = {p["office"] for p in person["positions"]}
         group = clusters.setdefault(norm_name(person["names"].most_common(1)[0][0]), [])
         into = [c for c in group if c["offices"] & offices]
@@ -292,7 +351,7 @@ def merge(rows: list[tuple[str, str, dict]], seed: dict[str, dict] | None = None
 
 
 def build(argv: list[str]) -> int:
-    rows = sam_contacts() + observed_contacts() + remarks_people() + news_people()
+    rows = sam_contacts() + observed_contacts() + remarks_people() + news_people() + staff_people()
     people = merge(rows, seed_people())
     payload = {"source": SOURCE, "observations": len(rows), "people": len(people),
                "by_source": dict(Counter(p["source"] for r in rows for p in [r[2]]).most_common()),
@@ -403,9 +462,15 @@ def selfcheck() -> int:
     assert by["Megan Ashley"]["offices"] == ["peo:c4i", "pmw:101"] and by["Megan Ashley"]["last_seen"] == "2026-02-01"
     assert sum(p["name"] == "Jim Day" for p in people) == 2
     assert by["Mr. Eric Andalis"]["seed_id"] == "person:andalis" and by["Mr. Eric Andalis"]["id"] == uid("person", "seed:person:andalis")
+    assert len(merge([("BAA Coordinator", "a@darpa.mil", pos("office:dso", "a")), ("BAA Coordinator", "b@darpa.mil", pos("office:dso", "b"))])) == 2, \
+        "two program mailboxes under one role stay two contacts"
     moved = merge([("Kimberly Ellis", "kimberly.ellis3@navy.mil", pos("pmw:740", "a")), ("Kimberly Ellis", "kimberly.a.ellis10.civ@us.navy.mil", pos("pmw:740", "b")),
                    ("Kimberly Ellis", "kimberly.ellis@nrl.navy.mil", pos("center:nrl", "c"))])
     assert len(moved) == 2 and moved[0]["emails"] == ["kimberly.a.ellis10.civ@us.navy.mil", "kimberly.ellis3@navy.mil"], moved  # one office: one person
+    assert person_name("Dr. Pedro Irazoqui, DARPA/BTO") == "Dr. Pedro Irazoqui" and person_name("Jane Roe, PMW 160") == "Jane Roe", "an office after the comma is no given name"
+    boxes = merge([("BAA Coordinator", "a3ml@darpa.mil", pos("office:bto", "x")), ("BAA Coordinator", "abc@darpa.mil", pos("office:bto", "y"))])
+    assert len(boxes) == 2 and not is_person("BAA Coordinator") and not is_person("DARPA-SN-23-85@darpa.mil") and is_person("Kimberly Ellis"), \
+        "a role or an address on two mailboxes is two contacts"
     got = contacts_for([uid("org", "pmw:101"), uid("org", "peo:c4i")], people)
     assert [c["name"] for c in got] == ["Megan Ashley"] and got[0]["office"] == "pmw:101" and got[0]["email"] == "megan@navy.mil"
     assert contacts_for([uid("org", "pmw:101")], people, as_of="2025-12-31") == []

@@ -7,7 +7,7 @@ Uses the keyless endpoints the SAM.gov web application itself calls (`api_key=nu
 Chromie's runner also uses; the documented public host api.sam.gov answered 404 from every
 network tried on 2026-09-16. For each notice: saves the detail JSON (description text included),
 lists attachments, downloads PDF/DOCX/TXT attachments under a size cap, extracts their text,
-and records every retrieval in research/documents_manifest.jsonl. Prints office-code mentions.
+and records every retrieval in research/sources/documents_manifest.jsonl. Prints office-code mentions.
 """
 
 from __future__ import annotations
@@ -26,7 +26,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-OUT = ROOT / "data" / "raw" / "sam_notices"
+from agency import P, SAM_NOTICES, NOTE_TAG  # noqa: E402
+
+OUT = SAM_NOTICES  # one folder of notice details per agency: every reader takes the folder as this agency's
 MANIFEST = ROOT / "research" / "sources" / "documents_manifest.jsonl"
 SGS = "https://sam.gov/api/prod/sgs/v1/search/"
 OPPS = "https://sam.gov/api/prod/opps"
@@ -72,11 +74,11 @@ def search(query: str) -> list[dict]:
             status, body, _ = get(url)
             path = OUT / f"search_{hashlib.sha256(url.encode()).hexdigest()[:12]}.json"
             path.write_bytes(body)
-            record(url, body, path, f"SAM search {query} active={active}", status, "application/json")
+            record(url, body, path, f"SAM search{NOTE_TAG} {query} active={active}", status, "application/json")
             hits += json.loads(body).get("_embedded", {}).get("results", [])
         except Exception as exc:  # noqa: BLE001
             print(f"  search error {query} active={active}: {exc}")
-            record(url, None, None, f"SAM search {query} active={active}", None, error=str(exc)[:120])
+            record(url, None, None, f"SAM search{NOTE_TAG} {query} active={active}", None, error=str(exc)[:120])
         time.sleep(0.8)
     seen, out = set(), []
     for h in hits:
@@ -118,7 +120,7 @@ def harvest_notice(notice_id: str, label: str, attachments: bool = True) -> dict
     status, body, _ = get(url)
     detail = json.loads(body)
     path = OUT / f"{notice_id}.json"; path.write_bytes(body)
-    record(url, body, path, f"SAM notice detail {label}: {detail.get('data2', {}).get('title', '')[:80]}", status, "application/json")
+    record(url, body, path, f"SAM notice detail{NOTE_TAG} {label}:{detail.get('data2', {}).get('title', '')[:80]}", status, "application/json")
     d2 = detail.get("data2", {})
     desc = re.sub(r"<[^>]+>", " ", " ".join(x.get("body", "") for x in detail.get("description", []) if isinstance(x, dict)))
     desc = re.sub(r"\s+", " ", desc)
@@ -133,7 +135,7 @@ def harvest_notice(notice_id: str, label: str, attachments: bool = True) -> dict
     try:
         rstatus, rbody, _ = get(rurl)
         rpath = OUT / f"{notice_id}.resources.json"; rpath.write_bytes(rbody)
-        record(rurl, rbody, rpath, f"SAM notice attachment list {label}", rstatus, "application/json")
+        record(rurl, rbody, rpath, f"SAM notice attachment list{NOTE_TAG} {label}", rstatus, "application/json")
         rows = []
         def walk(o):
             if isinstance(o, dict):
@@ -165,22 +167,21 @@ def harvest_notice(notice_id: str, label: str, attachments: bool = True) -> dict
             dstatus, dbody, dh = get(durl, timeout=180)
             safe = re.sub(r"[^A-Za-z0-9._-]+", "_", name)[:90]
             dpath = OUT / notice_id / safe; dpath.parent.mkdir(parents=True, exist_ok=True); dpath.write_bytes(dbody)
-            record(durl, dbody, dpath, f"SAM attachment {label}: {name[:70]}", dstatus, dh.get("Content-Type", ""))
+            record(durl, dbody, dpath, f"SAM attachment{NOTE_TAG} {label}: {name[:70]}", dstatus, dh.get("Content-Type", ""))
             txt = text_of(name, dbody)
             entry.update(bytes=len(dbody), text_chars=len(txt), mentions=mentions(txt))
         except Exception as exc:  # noqa: BLE001
             entry["error"] = str(exc)[:120]
-            record(durl, None, None, f"SAM attachment {label}: {name[:70]}", None, error=str(exc)[:120])
+            record(durl, None, None, f"SAM attachment{NOTE_TAG} {label}: {name[:70]}", None, error=str(exc)[:120])
         result["attachments"].append(entry)
     return result
 
 
 # The SAM.gov organizations the sweep keeps, by the id the site search filters on (`organization_id`) and the
 # level-5 office code a hit's hierarchy carries; a legacy hit may carry the id and no code.
-SWEEP_ORGS = {"100076586": "N00039", "100076491": "N00024", "100076476": "N00014", "100255323": "N00173",
-              "100076487": "N66001", "100076484": "N65236"}  # SAM.gov organization ids at the office level
+SWEEP_ORGS = P["sam_orgs"]  # SAM.gov organization ids at the office level, per agency profile
 # Offices swept by code whose SAM.gov id is read off a search for the code at sweep time (NAVAIR HQ, NAWCAD).
-SWEEP_CODES = ("N00019", "N00421", "N68335")
+SWEEP_CODES = P["sam_codes"]
 SWEEP_SINCE = "2021-10-01"  # FY22 on: two years of prior notices before the first back-test outcome
 
 
@@ -252,7 +253,7 @@ def sweep(argv: list[str]) -> int:
                 else:
                     status, body, _ = get(url)
                     path.write_bytes(body)
-                    record(url, body, path, f"SAM sweep organization {org} ({orgs.get(org, org)}) active={active} page {page + 1}", status, "application/json")
+                    record(url, body, path, f"SAM sweep organization{NOTE_TAG} {org} ({orgs.get(org, org)}) active={active} page {page + 1}", status, "application/json")
                     time.sleep(0.8)
                 d = json.loads(body)
                 results = d.get("_embedded", {}).get("results", [])

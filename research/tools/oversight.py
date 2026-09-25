@@ -39,23 +39,26 @@ TOOLS = Path(__file__).resolve().parent
 sys.path.insert(0, str(TOOLS))
 from context_fetch import fetch as hosted  # noqa: E402
 from llm import MODEL, env_value, structured  # noqa: E402
+from markdown import html_to_markdown  # noqa: E402
 from news import as_date, feed_items, host_of, manifest_rows, origin_url, post_json, record_answer  # noqa: E402
-from org_memory_lrae import page_text, squash  # noqa: E402
-from reader import REGISTRY, authority_of, flatten, link, normalized, pdf_text  # noqa: E402,F401
+from org_memory_lrae import squash  # noqa: E402
+from reader import REGISTRY, authority_of, flatten, flatten_lines, link, normalized, pdf_text  # noqa: E402,F401
 from reader import lint as check  # noqa: E402
 
 MANIFEST = RESEARCH / "sources" / "documents_manifest.jsonl"
-EVENTS = RESEARCH / "events" / "oversight_events.json"
+from agency import EVENTS as EVENTS_DIR, NOTE_TAG, P, note_is_ours  # noqa: E402
+
+EVENTS = EVENTS_DIR / "oversight_events.json"
 LISTING = "https://www.oversight.gov/reports/federal?search_api_fulltext={query}&items_per_page=50&page={page}"
 GAO_RSS = "https://www.gao.gov/rss/reports.xml"
 GAO_PRODUCT_RE = re.compile(r"^https?://www\.gao\.gov/products/([a-z]+-\d{2}-\d+[a-z]*)/?$", re.I)
 OVERSIGHT_HOST, GAO_HOST = "www.oversight.gov", "www.gao.gov"
 # The department's names as oversight.gov's full-text search and the GAO feed print them.
-AGENCY = "Department of the Navy (the Navy and the Marine Corps, their systems commands, program offices and field activities)"
-QUERIES = ("Navy", "Naval")
-REVIEWED_RE = re.compile(r"Department of (War|Defense|the Navy)\b|\bNavy\b", re.I)
-NAMES_RE = re.compile(r"\b(Navy|Naval|NAVSEA|NAVAIR|NAVWAR|NAVSUP|NAVFAC|ONR|Marine Corps|shipbuilding|submarine|carrier)\b", re.I)
-NOTE, FILE_NOTE, FEED_NOTE = "oversight watch", "oversight watch file", "oversight feed"
+AGENCY = P["oversight"]["agency"]
+QUERIES = P["oversight"]["queries"]
+REVIEWED_RE = re.compile(P["oversight"]["reviewed_re"], re.I)
+NAMES_RE = re.compile(P["oversight"]["names_re"], re.I)
+NOTE, FILE_NOTE, FEED_NOTE = f"oversight watch{NOTE_TAG}", f"oversight watch file{NOTE_TAG}", f"oversight feed{NOTE_TAG}"
 CAP = 60_000  # characters of a report the agent reads: the summary, results in brief and findings come first
 EVENT_TYPES = ("audit_finding", "program_delayed", "funding_change", "capability_priority", "program_cancelled")
 
@@ -219,7 +222,7 @@ def discover(argv: list[str]) -> int:
     parser.add_argument("--fetch", action="store_true")
     parser.add_argument("--days", type=int, default=540)
     parser.add_argument("--results", type=int, default=25)
-    parser.add_argument("--query", default="GAO report Navy shipbuilding acquisition program")
+    parser.add_argument("--query", default=P["oversight"]["gao_query"])
     args = parser.parse_args(argv)
     key = env_value("EXA_API_KEY")
     if not key:
@@ -262,7 +265,7 @@ def documents(rows: list[dict]) -> list[dict]:
             files[note.split(":", 1)[1].strip()] = r
         elif host_of(url) == OVERSIGHT_HOST and "/reports/" in url and "?" not in url and note.startswith(NOTE + ":"):
             latest[url] = {"kind": "oversight", "url": url, "row": r}
-        elif host_of(url) == GAO_HOST and GAO_PRODUCT_RE.match(url.rstrip("/")) and r.get("mime") == "text/html":
+        elif host_of(url) == GAO_HOST and GAO_PRODUCT_RE.match(url.rstrip("/")) and r.get("mime") == "text/html" and note_is_ours(note):
             latest[url.rstrip("/")] = {"kind": "gao", "url": url.rstrip("/"), "row": r}
     for doc in latest.values():
         doc["file"] = files.get(doc["url"])
@@ -279,16 +282,19 @@ def document_text(doc: dict) -> tuple[str, dict]:
             text += "\n\n" + pdf_text(ROOT / doc["file"]["path"])
         meta["publisher"] = meta["submitting_oig"] or "oversight.gov"
     else:
-        page = page_text(ROOT / doc["row"]["path"])
+        # A GAO product page is a webpage: rendered as Markdown, block structure kept.
+        page = html_to_markdown(body.decode("utf-8", "replace"))
         title = re.search(r"<title>(.*?)</title>", body.decode("utf-8", "replace"), re.S)
-        published = re.search(r"Published:\s*([A-Z][a-z]{2} \d{1,2}, \d{4})", page)
+        published = re.search(r"Published:\s*([A-Z][a-z]{2} \d{1,2}, \d{4})", flatten(page))
         m = GAO_PRODUCT_RE.match(doc["url"])
         meta = {"title": squash(html.unescape(title.group(1))).split(" | U.S. GAO")[0] if title else "", "description": "",
                 "issued": as_date(published.group(1)) if published else "", "submitting_oig": "", "agency_reviewed": "",
                 "report_number": m.group(1).upper() if m else "", "report_type": "GAO report", "recommendations": "",
                 "questioned_costs": "", "funds_for_better_use": "", "file_url": "", "publisher": "GAO"}
         text = page
-    return flatten(text)[:CAP], meta
+    # oversight.gov reports read as their stated fields plus the PDF, one line as before, so the recorded
+    # cassettes still answer; the GAO webpage reaches the agent as Markdown.
+    return (flatten_lines(text) if doc["kind"] == "gao" else flatten(text))[:CAP], meta
 
 
 VERBATIM = ("affected_program", "affected_organization", "possible_remediation")
@@ -315,10 +321,24 @@ def extract(argv: list[str]) -> int:
     if args.limit:
         docs = docs[: args.limit]
     records, dropped_total, cost = [], Counter(), {"input_tokens": 0, "output_tokens": 0, "calls": 0}
+    unread, not_about = 0, 0
     for doc in docs:
         text, meta = document_text(doc)
-        answer, how = ask(text, meta, doc["url"], args.model, replay_only=args.check)
-        if not how["replayed"]:
+        # The listing's rule, applied again at reading time: an oversight.gov report is this agency's when the agency
+        # reviewed or the title names it. A report saved under a wider rule is left, and counted.
+        if doc["kind"] == "oversight" and not (REVIEWED_RE.search(meta["agency_reviewed"] or "") or NAMES_RE.search(meta["title"] or "")):
+            not_about += 1
+            print(f"{meta['issued'] or '          '}  not about this agency (agency reviewed: {meta['agency_reviewed'] or '?'})  {meta['report_number'] or meta['title'][:60]}")
+            continue
+        try:
+            answer, how = ask(text, meta, doc["url"], args.model, replay_only=args.check)
+        except LookupError as why:
+            # No cassette and no way to make the call (no model key): the report is recorded as unread with the
+            # reason, so the build carries the gap instead of stopping on it. `--check` keeps failing, as it must.
+            if args.check:
+                raise
+            answer, how, unread = {"events": [], "unread": str(why)}, {"replayed": False, "cassette": None, "model": None, "usage": {}}, unread + 1
+        if not how["replayed"] and how["cassette"]:
             cost["calls"] += 1
             for k in ("input_tokens", "output_tokens"):
                 cost[k] += how["usage"].get(k) or 0
@@ -327,6 +347,7 @@ def extract(argv: list[str]) -> int:
         events = link(kept, text)
         authority = authority_of(doc["url"])
         records.append({
+            **({"unread": answer["unread"]} if answer.get("unread") else {}),
             "url": doc["url"], "kind": doc["kind"], "publisher": meta["publisher"], "title": meta["title"], "issued": meta["issued"],
             "report_number": meta["report_number"], "report_type": meta["report_type"], "submitting_oig": meta["submitting_oig"],
             "agency_reviewed": meta["agency_reviewed"], "recommendations": meta["recommendations"],
@@ -337,7 +358,8 @@ def extract(argv: list[str]) -> int:
             "events": [dict(e, source_authority=authority) for e in events], "dropped": dict(sorted(dropped.items())),
         })
         print(f"{meta['issued'] or '          '}  {len(events)} event(s)" + (f", {sum(dropped.values())} dropped" if dropped else "")
-              + ("  (replayed)" if how["replayed"] else "") + f"  {meta['report_number'] or meta['title'][:60]}")
+              + ("  (replayed)" if how["replayed"] else "") + ("  (unread: " + answer["unread"] + ")" if answer.get("unread") else "")
+              + f"  {meta['report_number'] or meta['title'][:60]}")
     if args.verify:
         agree = 0
         for doc in docs[: args.verify]:
@@ -354,7 +376,7 @@ def extract(argv: list[str]) -> int:
             print(f"verify {meta['report_number'] or doc['url'][-40:]}: {'same' if same else 'differs'} ({len(a)} vs {len(b)} events, {overlap} shared)")
         print(f"verify: {agree} of {min(args.verify, len(docs))} report(s) gave the same normalized event set twice")
     out = {"source": "chromie-federal-buyer-map-trial/research/tools/oversight.py", "model": args.model, "cap_chars": CAP,
-           "documents": records, "dropped": dict(sorted(dropped_total.items()))}
+           "documents": records, "dropped": dict(sorted(dropped_total.items())), **({"unread": unread} if unread else {})}
     text_out = json.dumps(out, indent=1, sort_keys=True, ensure_ascii=False) + "\n"
     if args.check:
         if EVENTS.exists() and EVENTS.read_text(encoding="utf-8") == text_out:
@@ -365,7 +387,9 @@ def extract(argv: list[str]) -> int:
     EVENTS.write_text(text_out, encoding="utf-8")
     n_events = sum(len(r["events"]) for r in records)
     print(f"{len(records)} report(s) read, {n_events} event(s) kept, {sum(dropped_total.values())} dropped; "
-          f"{cost['calls']} live call(s), {cost['input_tokens']} in / {cost['output_tokens']} out tokens; written to {EVENTS.relative_to(ROOT)}")
+          f"{cost['calls']} live call(s), {cost['input_tokens']} in / {cost['output_tokens']} out tokens; written to {EVENTS.relative_to(ROOT)}"
+          + (f"; {unread} report(s) unread (no cassette and no model key)" if unread else "")
+          + (f"; {not_about} saved report(s) not about this agency, left" if not_about else ""))
     for reason, n in sorted(dropped_total.items()):
         print(f"  dropped: {reason} x{n}")
     return 0

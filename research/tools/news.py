@@ -20,7 +20,6 @@ from __future__ import annotations
 
 import argparse
 import contextlib
-import html as html_lib
 import io
 import json
 import os
@@ -38,8 +37,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 RESEARCH = ROOT / "research"
 MANIFEST = RESEARCH / "sources" / "documents_manifest.jsonl"
-RECORDS = RESEARCH / "events" / "news_observations.json"
-BUDGET_LINES = RESEARCH / "events" / "budget_lines.json"
+from agency import EVENTS as EVENTS_DIR, MEMORY, NOTE_TAG, P, note_is_ours  # noqa: E402
+
+RECORDS = EVENTS_DIR / "news_observations.json"
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from markdown import html_to_markdown  # noqa: E402
+BUDGET_LINES = EVENTS_DIR / "budget_lines.json"
 RAW_NEWS = ROOT / "data" / "raw" / "news"
 
 # Who published it, and what kind of source that makes it. An official announcement states the
@@ -58,13 +61,7 @@ TRADE_HOSTS = {
     "intelligencecommunitynews.com": "Intelligence Community News",
     "www.c4isrnet.com": "C4ISRNET", "www.airandspaceforces.com": "Air & Space Forces Magazine",
 }
-OFFICIAL_NAMES = {
-    "www.navy.mil": "U.S. Navy", "www.navwar.navy.mil": "NAVWAR", "www.dvidshub.net": "DVIDS",
-    "www.missionsystems.navy.mil": "PAE Mission Systems", "www.paemaritime.navy.mil": "PAE Maritime",
-    "www.secnav.navy.mil": "Secretary of the Navy", "www.doncio.navy.mil": "DON CIO",
-    "www.war.gov": "Department of Defense", "www.defense.gov": "Department of Defense",
-    "www.navsea.navy.mil": "NAVSEA", "www.onr.navy.mil": "Office of Naval Research",
-}
+OFFICIAL_NAMES = P["news"]["official_names"]
 RELIABILITY = {"official announcement": "high", "direct interview": "high",
                "trade reporting": "medium", "secondary reporting": "low"}
 
@@ -77,13 +74,7 @@ NOT_ARTICLE_HOSTS = ("linkedin.com", "x.com", "twitter.com", "facebook.com", "yo
 
 # Feeds and index pages polled by `watch`. An index page has no feed, so the item links are read
 # out of its HTML. Nothing here needs an API key.
-FEEDS = [
-    {"publisher": "NAVWAR", "url": "https://www.navwar.navy.mil/DesktopModules/ArticleCS/RSS.ashx?ContentType=1&Site=1114&max=25"},
-    {"publisher": "U.S. Navy", "url": "https://www.navy.mil/DesktopModules/ArticleCS/RSS.ashx?ContentType=1&Site=1075&max=25"},
-    {"publisher": "DVIDS", "url": "https://www.dvidshub.net/rss/news"},  # DVIDS RSS takes no query; the filter below is ours
-    {"publisher": "Department of Defense", "url": "https://www.war.gov/News/Contracts/", "index": True},
-    {"publisher": "PAE Mission Systems", "url": "https://www.missionsystems.navy.mil/News/", "index": True},
-]
+FEEDS = P["news"]["feeds"]  # a general feed (DVIDS) takes no query; the relevance filter below is ours
 
 # A sentence is read as one kind of statement. The first pattern that matches names it; the
 # vocabulary is the organization memory's, widened for what news carries that a notice does not.
@@ -181,18 +172,13 @@ def publisher_of(url: str) -> tuple[str, str]:
 
 
 class _Reader(HTMLParser):
-    """Title, visible text and the metadata a page states about itself. Stdlib only."""
-
-    # Not "form": the .navy.mil and war.gov sites run on DotNetNuke, which wraps the whole page,
-    # article included, in one server-side form. Skipping it skips the article.
-    SKIP = {"script", "style", "nav", "footer", "svg"}
+    """The title and the metadata a page states about itself (meta tags, <time>, JSON-LD). Stdlib only.
+    The page's content is not read here: markdown.py renders it, and article_record() reads the rendering."""
 
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
-        self.parts: list[str] = []
         self.meta: dict[str, str] = {}
         self.jsonld: list[str] = []
-        self._skip = 0
         self._in_title = False
         self._in_ld = False
 
@@ -200,8 +186,6 @@ class _Reader(HTMLParser):
         attributes = dict(attrs)
         if tag == "script" and (attributes.get("type") or "").endswith("ld+json"):
             self._in_ld = True
-        if tag in self.SKIP:
-            self._skip += 1
         if tag == "title":
             self._in_title = True
         if tag == "meta":
@@ -210,14 +194,10 @@ class _Reader(HTMLParser):
                 self.meta.setdefault(name, attributes["content"])
         if tag == "time" and attributes.get("datetime"):
             self.meta.setdefault("time", attributes["datetime"])
-        if tag in ("p", "div", "br", "li", "h1", "h2", "h3"):
-            self.parts.append("\n")
 
     def handle_endtag(self, tag):
         if tag == "script" and self._in_ld:
             self._in_ld = False
-        if tag in self.SKIP and self._skip:
-            self._skip -= 1
         if tag == "title":
             self._in_title = False
 
@@ -226,14 +206,6 @@ class _Reader(HTMLParser):
             self.jsonld.append(data)
         elif self._in_title:
             self.meta.setdefault("title", data.strip())
-        elif not self._skip:
-            # The line breaks inside a paragraph are the page's formatting, not the writer's
-            # sentences; the block tags above carry the real breaks.
-            self.parts.append(re.sub(r"\s+", " ", data))
-
-    def text(self) -> str:
-        joined = html_lib.unescape("".join(self.parts))
-        return re.sub(r"[ \t ]+", " ", re.sub(r"\n\s*\n+", "\n", joined)).strip()
 
 
 def linked_data(reader: _Reader) -> dict:
@@ -297,10 +269,15 @@ def published_of(reader: _Reader, ld: dict, text: str, headline: str = "") -> st
     return as_date(text[start:start + 1500] if start >= 0 else text[:1500])
 
 
+BLOCK_MARKER = re.compile(r"^(?:>\s?)*(?:#{1,6}\s+|-\s+|\d+\.\s+)?")
+
+
 def sentences(text: str) -> list[str]:
+    """The sentences of a Markdown rendering, one block per line; the block's marker (a heading's `#`, a
+    list item's `-`, a quote's `>`) is the rendering's, not the writer's, and is not part of any passage."""
     out = []
     for block in text.split("\n"):
-        for part in re.split(r"(?<=[.!?])\s+(?=[\"'(]?[A-Z0-9])", block.strip()):
+        for part in re.split(r"(?<=[.!?])\s+(?=[\"'(]?[A-Z0-9])", BLOCK_MARKER.sub("", block.strip(), count=1)):
             part = part.strip()
             if len(part) >= 40:
                 out.append(part)
@@ -319,7 +296,7 @@ def memory() -> dict:
     import trace as tracer
     from lrae_package import contract_tokens
 
-    seed = json.loads((RESEARCH / "memory" / "organization_seed.json").read_text(encoding="utf-8"))
+    seed = json.loads((MEMORY / "organization_seed.json").read_text(encoding="utf-8"))
     names: dict[str, str] = {}
     for node in seed["nodes"]:
         for text in [node["name"]] + [a["text"] for a in node.get("aliases", [])]:
@@ -336,7 +313,7 @@ def memory() -> dict:
             leads.setdefault(rel["to"], set()).add(rel["from"])
     try:
         ctx = tracer.match_context()
-        lines = [l for l in tracer.lrae_lines() if l["release"] == ctx["latest"]]
+        lines = [l for l in tracer.lrae_lines() if l["release"] in ctx["current"]]
     except (FileNotFoundError, IndexError, KeyError):
         ctx, lines = {"rarity": {}, "parents": parents, "offices_of": {}, "canon": {}, "chains": {}, "latest": ""}, []
     known_contracts = {t for l in lines for t in contract_tokens(l["existing_contract_number"])}
@@ -397,21 +374,23 @@ def office_named_in(clause: str) -> str:
 
 def leadership_changes(text: str) -> list[dict]:
     """Every change of charge the text states, with the office its own clause names. A page states the same change
-    more than once (a teaser, a caption, the body); the reading that names the office is the one kept."""
-    flat = re.sub(r"\s+", " ", text)
+    more than once (a teaser, a caption, the body); the reading that names the office is the one kept.
+    The text is the page's Markdown rendering, one block per line: a clause does not run past its block."""
+    blocks = [re.sub(r"\s+", " ", BLOCK_MARKER.sub("", block.strip(), count=1)) for block in text.split("\n")]
+    flat = "\n".join(block for block in blocks if block)
     out: dict[tuple, dict] = {}
     for m in LEADERSHIP_RE.finditer(flat):
         if m.group("office3"):
             name, old, role, clause, tail = m.group("new3"), "", "portfolio acquisition executive", m.group("office3"), 0
         else:
             name, old, role = m.group("new") or m.group("new2"), m.group("old") or "", (m.group("role") or m.group("role2")).lower()
-            rest = flat[m.end():m.end() + 300]
+            rest = flat[m.end():m.end() + 300].split("\n", 1)[0]
             end = CLAUSE_END_RE.search(rest)
             clause = rest[:end.start()] if end else rest
             tail = len(clause)
         name, old = (re.sub(r"^(?:U\.S\. )?Navy\s+", "", n) for n in (name, old))
         change = {"name": name, "role_as_written": role, "office": office_named_in(clause), "relieved": old,
-                  "passage": flat[m.start():m.end() + tail][:300]}
+                  "passage": re.sub(r"\s+", " ", flat[m.start():m.end() + tail])[:300]}
         held = out.get((name, role))
         if held is None or (not held["office"] and change["office"]):
             out[(name, role)] = change
@@ -566,8 +545,8 @@ def asserts_something(kind: str, ents: dict, mem: dict) -> bool:
 def article_record(row: dict, body: bytes, mem: dict) -> dict:
     """One saved page as a dated observation with its claims, entities, links and open questions."""
     reader = _Reader()
-    reader.feed(body.decode("utf-8", "replace"))
-    text = reader.text()
+    reader.feed(body.decode("utf-8", "replace"))  # the page's metadata: title, meta tags, JSON-LD
+    text = html_to_markdown(body.decode("utf-8", "replace"))  # the page's content, as Markdown
     ld = linked_data(reader)
     url = origin_url(row)
     publisher, source_type = publisher_of(url)
@@ -635,6 +614,8 @@ def is_news(row: dict) -> bool:
     # A page taken because a news search returned it is read as an article whatever the host: the
     # publisher table only decides how the source is rated, not whether it is read. Hand-keeping a
     # host list per agency is the thing that would not travel to the next agency.
+    if not note_is_ours(note):
+        return False
     if re.search(r"^news (?:sweep|search|watch)", note, re.I):
         return True
     if not (host in TRADE_HOSTS or host in OFFICIAL_NAMES or host.endswith(OFFICIAL_HOSTS)):
@@ -754,15 +735,13 @@ def feed_items(body: bytes, base_url: str) -> list[dict]:
 
 # Words that make a headline this agency's: the names the memory already knows, and the commands
 # and roles the Navy writes around them.
-STANDING_TERMS = ["NAVWAR", "SPAWAR", "NIWC", "Naval Information Warfare", "PEO C4I", "PEO Digital",
-                  "Portfolio Acquisition Executive", "Program Executive Office", "program office",
-                  "Direct Reporting Program Manager", "acquisition", "contract award"]
+STANDING_TERMS = P["news"]["standing_terms"]
 
 
 def relevance() -> re.Pattern:
     """A headline names this agency when it carries a name the memory holds, or a standing term."""
     terms = list(STANDING_TERMS)
-    seed_path = RESEARCH / "memory" / "organization_seed.json"
+    seed_path = MEMORY / "organization_seed.json"
     if seed_path.exists():
         seed = json.loads(seed_path.read_text(encoding="utf-8"))
         for node in seed["nodes"]:
@@ -791,7 +770,7 @@ def watch(argv: list[str]) -> int:
     names_agency = relevance()
     new_total = 0
     for feed in FEEDS:
-        row = fetch(feed["url"], "direct", None, f"news watch: {feed['publisher']}")
+        row = fetch(feed["url"], "direct", None, f"news watch{NOTE_TAG}: {feed['publisher']}")
         with MANIFEST.open("a", encoding="utf-8") as handle:
             handle.write(json.dumps(row, sort_keys=True) + "\n")
         if row.get("status") != 200 or not row.get("path"):
@@ -815,7 +794,7 @@ def watch(argv: list[str]) -> int:
         for item in named[:args.limit if args.fetch else len(named)]:
             print(f"  {item['published'] or '          '}  {item['url']}")
             if args.fetch:
-                got = fetch(item["url"], "direct", None, f"news watch item: {feed['publisher']} {item['title'][:60]}")
+                got = fetch(item["url"], "direct", None, f"news watch item{NOTE_TAG}: {feed['publisher']} {item['title'][:60]}")
                 with MANIFEST.open("a", encoding="utf-8") as handle:
                     handle.write(json.dumps(got, sort_keys=True) + "\n")
                 print(f"    {got.get('status')} {got.get('error', '')} {got.get('path', '')}")
@@ -855,7 +834,7 @@ def record_answer(url: str, query: str, body: bytes) -> None:
     path.write_bytes(body)
     with MANIFEST.open("a", encoding="utf-8") as handle:
         handle.write(json.dumps({"url": url, "method": "direct", "status": 200, "retrieved_at": now(),
-                                 "note": f"search: {query}", "mime": "application/json", "size": len(body),
+                                 "note": f"search{NOTE_TAG}: {query}", "mime": "application/json", "size": len(body),
                                  "sha256": digest, "path": str(path.relative_to(ROOT))}, sort_keys=True) + "\n")
 
 
@@ -1089,7 +1068,7 @@ def search(argv: list[str]) -> int:
         return 1
     seen = saved_urls()
     print(f"{len(results)} result(s)")
-    taken = offer(results, seen, args.fetch, args.limit, f"news search: {args.query[:40]}")
+    taken = offer(results, seen, args.fetch, args.limit, f"news search{NOTE_TAG}: {args.query[:40]}")
     print(f"{taken} page(s) retrieved" if args.fetch
           else "retrieve them with --fetch, or one by one with research/tools/fetch.py, then `news.py build`")
     return 0
@@ -1105,7 +1084,7 @@ def sweep(argv: list[str]) -> int:
     parser.add_argument("--queries", type=int, default=0, help="stop after this many queries (0: all)")
     parser.add_argument("--provider", choices=sorted(PROVIDERS), default="exa")
     args = parser.parse_args(argv)
-    seed = json.loads((RESEARCH / "memory" / "organization_seed.json").read_text(encoding="utf-8"))
+    seed = json.loads((MEMORY / "organization_seed.json").read_text(encoding="utf-8"))
     queries = sweep_queries(seed)
     if args.queries:
         queries = queries[:args.queries]
@@ -1125,7 +1104,7 @@ def sweep(argv: list[str]) -> int:
             except Exception as exc:  # noqa: BLE001 - the failed query is reported, the sweep goes on
                 print(f"  {provider} failed: {type(exc).__name__}: {exc}")
                 continue
-            taken += offer(results, seen, args.fetch, args.limit, "news sweep (gdelt)" if provider == "gdelt" else "news sweep")
+            taken += offer(results, seen, args.fetch, args.limit, ("news sweep (gdelt)" if provider == "gdelt" else "news sweep") + NOTE_TAG)
         time.sleep(1)  # the service throttles a burst of queries
     print(f"\n{len(queries)} quer(ies), {taken} page(s) retrieved"
           + ("; now `news.py build`" if taken else "; nothing new"))
@@ -1157,13 +1136,16 @@ def selfcheck() -> int:
 
     reader = _Reader()
     reader.feed(SAMPLE.decode())
-    text = reader.text()
+    text = html_to_markdown(SAMPLE.decode())
     assert "menu" not in text, "navigation is not the article"
+    assert text.startswith("The Department of the Navy announced") and "\n\nThe office in San Diego" in text, "the rendering keeps the page's paragraphs"
     assert reader.meta["article:published_time"].startswith("2026-05-11")
     assert linked_data(reader)["headline"] == "Navy stands up new portfolio"
     assert published_of(reader, linked_data(reader), text) == "2026-05-11"
     assert author_of(reader, {}, text) == "Fleet Public Affairs"
     assert len(sentences(text)) == 2, "a fragment shorter than a claim is not a sentence"
+    marked = "## NAVWAR awards the follow-on contract to the incumbent for another five years.\n- The office in San Diego expects to award a follow-on contract later this year."
+    assert sentences(marked) == [s.split(" ", 1)[1] for s in marked.split("\n")], "a block marker is the rendering's, not part of the passage"
 
     # The statement vocabulary reads the sentence, and a hedged or undated one is worth less.
     assert statement_type_of("PMW 160 reports to PEO C4I.", {"organizations": ["pmw:160"], "people": []}) == "parentage"
@@ -1319,6 +1301,9 @@ def selfcheck() -> int:
         ("Mr. Jim Day", "portfolio acquisition executive", "pae:mission-systems", ""),
         ("Mr. Paul Mann", "portfolio acquisition executive", "", "")], changes
     assert office_named_in("for PMW 150 and later PMW 760") == "", "two offices in one clause place nobody"
+    at_block_end = leadership_changes("Mr. Eric Andalis relieve Capt. Castillejo as the program manager for the U.S. Navy’s Ship "
+                                      "Integration Program Office (PMW 760)\n\n## IMAGE INFO\n\n| Date Taken: | 08.19.2025 |")
+    assert [(c["office"], c["passage"][-9:]) for c in at_block_end] == [("pmw:760", "(PMW 760)")], "a clause ends with its block"
     print("news selfcheck ok")
     return 0
 

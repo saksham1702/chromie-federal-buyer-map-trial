@@ -37,11 +37,12 @@ from sam_notices import SWEEP_ORGS  # noqa: E402
 from vocabulary import classify  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
-RESEARCH = ROOT / "research"
+from agency import BUILD, P, RESEARCH, SAM_NOTICES  # noqa: E402
+
 CORPUS = RESEARCH / "results" / "corpus.json"
 LABELS = RESEARCH / "results" / "outcome_labels.json"
-RESULTS = ROOT / "build" / "backtest_results.json"
-SAM_RAW = ROOT / "data" / "raw" / "sam_notices"
+RESULTS = BUILD / "backtest_results.json"
+SAM_RAW = SAM_NOTICES
 
 HORIZONS = (180, 90, 30)
 MIN_FAMILIES = 3
@@ -54,26 +55,26 @@ MAX_TERM_OFFICES = 3  # this, names a field or a kind of work, not a requirement
 FY24_START = "2023-10-01"
 NOTICE_TYPES = ("rfi_released", "presolicitation_posted", "rfp_released")
 # The pilot portfolio (research/docs/00_existing_work_and_pilot.md); precision cells are the forecast rows these offices own.
-PILOT_OFFICES = ("PMA/PMW 101", "PMW 120", "PMW 130", "PMW 150", "PMW 160", "PMW/A 170", "PMW 740")
+PILOT_OFFICES = P["pilot_offices"]
 
 # One document family per registry row. A document that yields five events still counts once.
 FAMILY = {"navwar_lrae_annex25": "forecast", "navsea_lrae_annex25": "forecast", "onr_lrae_annex25": "forecast",
-          "sam_gov_site_api": "notice", "fpds_atom_feed": "incumbent",
+          "sam_gov_site_api": "notice", "fpds_atom_feed": "incumbent", "usaspending_api": "incumbent",
           "gao_reports": "oversight", "oversight_gov_reports": "oversight",
           "navy_mil_speeches": "leaders", "house_committee_repository": "congress", "conference_pages_exa": "conference",
           "don_budget_justification_books": "budget", "sbir_sttr_topics": "programs",
           "gao_bid_protests": "protest", "govinfo_api": "congress", "federal_register": "organization",
           "navy_pae_press": "organization", "peo_digital_site": "organization", "dvids_navy_units": "organization",
           "don_cio_chips": "organization", "navy_peoc4i_site": "organization", "navy_navwar_site": "organization",
-          "": "news"}
+          "": "news", **P.get("families", {})}  # a profile adds the providers only its layer has
 # Words that name the buyer or the paperwork, not the requirement; an alias made of one is dropped.
-GENERIC = {"navy", "u.s. navy", "us navy", "navwar", "spawar", "naval", "peo c4i", "department of the navy", "don", "dod",
+GENERIC = set(P.get("generic_words", ())) | {"navy", "u.s. navy", "us navy", "navwar", "spawar", "naval", "peo c4i", "department of the navy", "don", "dod",
            "contract", "contracts", "services", "service", "support", "engineering", "program", "office", "system", "systems",
            "request for information", "rfi", "rfp", "sources sought", "presolicitation", "solicitation", "idiq", "mac",
            "task order", "follow-on", "recompete", "re-compete", "production", "requirement", "capability"}
 BANNED = ("rfp coming", "likely", "expected to release", "will release", "imminent", "probably", "expected soon")
 
-SYSTEM = ("You read one U.S. Navy procurement notice or award record and name what it buys, so that other documents about "
+SYSTEM = (f"You read one {P['short']} procurement notice or award record and name what it buys, so that other documents about "
           "the same requirement can be found by name. Answer with: program_office, the program office the text names (for "
           "example PMW 160 or PMA/PMW 101) copied exactly, or empty; capability, what is bought in at most eight plain words; "
           "short_names, the one-to-three-word names the requirement itself goes by in the text (a system or program name, an "
@@ -83,7 +84,7 @@ SYSTEM = ("You read one U.S. Navy procurement notice or award record and name wh
           "two to six short phrases for the capability itself as a senior leader, a hearing witness, an auditor or a "
           "conference programme would say it without naming the program (tactical data link, Link 16, unmanned surface "
           "vessel, undersea surveillance, satellite communications), each specific to this requirement and never a word "
-          "that fits every Navy purchase; no list may hold the buyer's own name (an office, command or agency) or a generic "
+          f"that fits every {P['short'].removeprefix('U.S. ')} purchase; no list may hold the buyer's own name (an office, command or agency) or a generic "
           "word like services or contract; confidence between 0 and 1.")
 SCHEMA = {"type": "object", "additionalProperties": False,
           "required": ["program_office", "capability", "short_names", "aliases", "capability_terms", "confidence"],
@@ -162,6 +163,9 @@ def moved_later(changed: dict) -> bool:
     return False
 
 
+NOTICE_FIELDS = ("line", "responses_due")  # what the load adds to a notice's data: never words of the notice
+
+
 def need_key_for(claim_key: str, data: dict) -> str | None:
     if data.get("line"):
         return data["line"]
@@ -173,6 +177,7 @@ def freeze(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(prog="backtest.py freeze")
     ap.add_argument("--db", required=True)
     args = ap.parse_args(argv)
+    frozen_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
     orgs = {r[0]: {"acronym": r[1], "name": r[2], "parent": r[3], "org_type": r[4]} for r in sql(args.db,
             "select id, coalesce(acronym,''), name, coalesce(parent_organization_id::text,''), org_type from gov_organizations")}
@@ -199,17 +204,25 @@ def freeze(argv: list[str]) -> int:
         data = json.loads(data_text or "{}")
         source = json.loads(source_text or "{}")
         need = needs.get(need_key_for(claim_key, data) or "")
-        strings = [str(v) for v in data.values() if isinstance(v, str)]
-        description = notice_description(source.get("notice_id", "")) if provider == "sam_gov_site_api" else ""
-        text = " ".join(filter(None, [title, body, need["title"] if need else "", *strings, description]))
         family = FAMILY.get(provider, "other")
+        if family == "organization" and claim_key.startswith("remarks:"):
+            family = "leaders"  # a speech or statement the agency's own site carries is its leaders' words, not an office page
+        # A notice speaks in its own words: the line the load tied it to and its response date travel as fields, so the
+        # text every reading of the notice sees is the notice's, whatever the join decided.
+        said = None if family == "notice" else need
+        strings = [str(v) for k, v in data.items() if isinstance(v, str) and not (family == "notice" and k in NOTICE_FIELDS)]
+        description = notice_description(source.get("notice_id", "")) if provider == "sam_gov_site_api" else ""
+        text = " ".join(filter(None, [title, body, said["title"] if said else "", *strings, description]))
+        # DoD posts its awards to FPDS 90 days late; an award another department signed for this agency is posted at once,
+        # and any award on the saved pages was public by the day they were read, so no event is available after the freeze.
         lag = FPDS_LAG_DAYS if family == "incumbent" else 0
         slip = event_type == "forecast_changed" and moved_later(data.get("changed") or {})
-        row = {"id": iid, "event_type": event_type, "date": as_day(published), "available_by": shift(as_day(published), lag),
+        row = {"id": iid, "event_type": event_type, "date": as_day(published), "available_by": min(shift(as_day(published), lag), frozen_at[:10]),
                "provider": provider, "family": family, "org": org or (need or {}).get("owner_id", ""),
-               "title": f"{need['title']} ({title})" if need else title, "text": flatten(text)[:8000], "slip": slip,
-               **classify(event_type, flatten(f"{need['title']} ({title})" if need else title), slip),
+               "title": f"{said['title']} ({title})" if said else title, "text": flatten(text)[:8000], "slip": slip,
+               **classify(event_type, flatten(f"{said['title']} ({title})" if said else title), slip),
                **({"vendor": data["vendor"]} if data.get("vendor") else {}),
+               **({"line": need["key"]} if need else {}), **({"due": data["responses_due"]} if data.get("responses_due") else {}),
                **({"url": source["url"]} if str(source.get("url") or "").startswith("http") else {})}
         events.append(row)
         if event_type in NOTICE_TYPES and row["date"] >= FY24_START:
@@ -218,7 +231,7 @@ def freeze(argv: list[str]) -> int:
                              "title": title, "source": source.get("url", ""),
                              "text": flatten(" ".join([title, body, notice_description(source.get("notice_id", ""))]))[:8000]})
 
-    corpus = {"frozen_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "db": args.db,
+    corpus = {"frozen_at": frozen_at, "db": args.db,
               "orgs": orgs, "needs": sorted(needs.values(), key=lambda n: n["key"]), "events": events,
               "outcomes": sorted(outcomes, key=lambda o: (o["date"], o["id"]))}
     if not events:
@@ -232,7 +245,9 @@ def freeze(argv: list[str]) -> int:
 
 # ------------------------------------------------------------------ label (agent + rules)
 
-LINE_RE = re.compile(r"N\d{5}-\d{2}-RFPREQ-[A-Z/]+-\d+-\d+")
+# A forecast line key: a buying activity code, the year, RFPREQ, the office as the release writes it (PMW-150,
+# Code 031, IWS-1.0, PEO_CARRIERS, PD-1410) and a four-digit serial.
+LINE_RE = re.compile(r"[A-Z0-9]{6}-\d{2}-RFPREQ-[A-Za-z0-9/._&]+(?:[ -][A-Za-z0-9/._&]+){0,3}?-\d{4}(?![0-9]|-[0-9])")
 
 
 def buyer_names(orgs: dict) -> set[str]:
@@ -293,8 +308,16 @@ def label(argv: list[str]) -> int:
     corpus = json.loads(CORPUS.read_text(encoding="utf-8"))
     outcomes = corpus["outcomes"][: args.limit or None]
     rows, dropped, buyers = [], Counter(), buyer_names(corpus["orgs"])
+    unread = 0
     for outcome in outcomes:
-        row, drops = label_one(outcome, args.model, args.check, buyers)
+        try:
+            row, drops = label_one(outcome, args.model, args.check, buyers)
+        except LookupError as exc:
+            if args.check:
+                raise  # a check may not call the model: a missing cassette fails it, as everywhere else
+            # No cassette and no key: the outcome stands unread with the reason and names no cell until it is read.
+            row, drops = {"id": outcome["id"], **EMPTY_LABEL, "confidence": None, "cassette": None, "model": args.model, "unread": str(exc)}, {}
+            unread += 1
         dropped.update(drops)
         rows.append(row)
         print(f"{outcome['date']}  {outcome['kind']:22} {(row['program_office'] or '-')[:12]:12} {', '.join(row['aliases'])[:70]} | "
@@ -309,7 +332,7 @@ def label(argv: list[str]) -> int:
         print(f"{len(rows)} label(s) replayed, file unchanged")
         return 0
     LABELS.write_text(text, encoding="utf-8")
-    print(f"{len(rows)} outcome(s) labelled, {sum(dropped.values())} alias(es) dropped -> {LABELS.relative_to(ROOT)}")
+    print(f"{len(rows) - unread} outcome(s) labelled, {unread} unread, {sum(dropped.values())} alias(es) dropped -> {LABELS.relative_to(ROOT)}")
     for what, n in dropped.most_common():
         print(f"  dropped: {what} x{n}")
     return 0
@@ -354,23 +377,48 @@ def alias_pattern(aliases: list[str]) -> re.Pattern | None:
 
 
 _LOWER: dict[str, str] = {}  # each event's text lowered once per process, by event id
+_WORDS: dict[str, list[str]] = {}  # each word of those texts, to the ids of the events holding it
+
+
+def lowered(e: dict) -> str:
+    low = _LOWER.get(e["id"])
+    if low is None:
+        low = _LOWER[e["id"]] = e["text"].lower()
+        for w in set(re.findall(r"[a-z0-9]+", low)):
+            _WORDS.setdefault(w, []).append(e["id"])
+    return low
+
+
+def holders(needle: str) -> set[str] | None:
+    """The ids of the events whose words can hold the needle where the pattern matches it. The needle's own marks and
+    the pattern's edges bound every word in it, so each is a whole word of the text, save the last, which the pattern
+    lets take an s or es; the rarest word decides. None when the needle holds no word, and every event stays a candidate."""
+    words = re.findall(r"[a-z0-9]+", needle)
+    if not words:
+        return None
+    options = [(w,) if n < len(words) - 1 or not needle[-1].isalnum() else (w, w + "s", w + "es") for n, w in enumerate(words)]
+    forms = min(options, key=lambda f: sum(len(_WORDS.get(w, ())) for w in f))
+    return {i for w in forms for i in _WORDS.get(w, ())}
 
 
 def scan(aliases: list[str], events: list[dict]) -> list[dict]:
-    """The events whose text the aliases' pattern matches. The pattern needs the flattened alias to be present, so a
-    substring test on the lowered text goes first and the regex runs only where it can match; same answer, minutes faster."""
+    """The events whose text the aliases' pattern matches. The pattern needs the flattened alias to be present, so the
+    word index narrows the events, a substring test on the lowered text goes next and the regex runs only where it can
+    match; same answer, minutes faster."""
     pat = alias_pattern(aliases)
     if pat is None:
         return []
     needles = {flatten(a).lower() for a in aliases if flatten(a)}
-    out = []
     for e in events:
-        low = _LOWER.get(e["id"])
-        if low is None:
-            low = _LOWER[e["id"]] = e["text"].lower()
-        if any(n in low for n in needles) and pat.search(e["text"]):
-            out.append(e)
-    return out
+        lowered(e)
+    pool: set[str] | None = set()
+    for n in needles:
+        hit = holders(n)
+        if hit is None:
+            pool = None
+            break
+        pool |= hit
+    return [e for e in events if (pool is None or e["id"] in pool) and any(n in _LOWER[e["id"]] for n in needles) and pat.search(e["text"])]
 
 
 def matched(cell_org: str, aliases: list[str], events: list[dict], orgs: dict, exclude: str = "") -> list[dict]:
@@ -608,7 +656,8 @@ def run(argv: list[str]) -> int:
     results["floors"] = floors
     text = json.dumps(results, indent=1, ensure_ascii=False) + "\n"
     print(table(results))
-    below = [k for k, v in floors.items() if results["recall"][k.split("@")[1]] < v]
+    # A layer with no outcome yet has no recall and no floor; there is nothing to fall below.
+    below = [k for k, v in floors.items() if v is not None and (results["recall"][k.split("@")[1]] or 0) < v]
     if below:
         print(f"below the floor: {', '.join(below)}", file=sys.stderr)
     if args.check:

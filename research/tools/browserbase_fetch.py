@@ -24,10 +24,12 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from agency import NOTE_TAG  # noqa: E402  (the profile mark every note head carries; the Navy's is empty)
 RAW = ROOT / "data" / "raw"
 MANIFEST = ROOT / "research" / "sources" / "documents_manifest.jsonl"
 FILE_LINK_RE = re.compile(r"\.(pdf|xlsx|xls|docx)(\?|$)", re.I)
-WANTED_LINK_RE = re.compile(r"tear.?sheet|long.?range|lrae|r-1|p-1|budget|exhibit|org.?chart|fact.?sheet", re.I)
+WANTED_LINK_RE = re.compile(r"tear.?sheet|long.?range|lrae|forecast|r-1|p-1|budget|exhibit|org.?chart|fact.?sheet", re.I)
 MAX_FILE = 80_000_000
 
 
@@ -77,7 +79,9 @@ def fail(url: str, note: str, error: str, status: int | None = None, method: str
     return row
 
 
-def main(urls: list[str]) -> int:
+def main(urls: list[str], notes: dict[str, str] | None = None) -> int:
+    """Fetch each URL; `notes` gives a caller's own note for a URL, so a reader that finds its documents by note
+    (a statement by the testimony page it was linked from) finds the hosted copy too."""
     from browserbase import Browserbase
     from playwright.sync_api import sync_playwright
 
@@ -93,9 +97,19 @@ def main(urls: list[str]) -> int:
         ctx = browser.contexts[0]
         page = ctx.pages[0] if ctx.pages else ctx.new_page()
 
-        def get_file(url: str, note: str) -> None:
+        def get_file(url: str, note: str, referer: str | None = None) -> None:
+            # A file found on a page is asked for as that page's link (api.army.mil answers a forecast workbook only
+            # with the page that links it as the Referer).
+            headers = {"Referer": referer} if referer else None
             try:
-                resp = ctx.request.get(url, timeout=180_000)
+                resp = ctx.request.get(url, timeout=180_000, headers=headers)
+                if resp.status in (401, 403):
+                    # A bare file request carries none of the cookies a front end sets on a first visit; open the
+                    # site's home page in the browser once and ask again.
+                    parts = urllib.parse.urlsplit(url)
+                    page.goto(f"{parts.scheme}://{parts.netloc}/", wait_until="domcontentloaded", timeout=60_000)
+                    time.sleep(3)
+                    resp = ctx.request.get(url, timeout=180_000, headers=headers)
                 body = resp.body()
                 mime = resp.headers.get("content-type", "")
                 if resp.status != 200:
@@ -112,9 +126,9 @@ def main(urls: list[str]) -> int:
                 fail(url, note, f"{type(exc).__name__}: {exc}"); print(f"  ERR {type(exc).__name__} | {url[-80:]}")
 
         for url in urls:
-            note = f"live page via Browserbase: {url}"
+            note = (notes or {}).get(url) or f"live page via Browserbase{NOTE_TAG}: {url}"
             if FILE_LINK_RE.search(url):
-                get_file(url, f"live file via Browserbase: {url[-80:]}"); time.sleep(1.5); continue
+                get_file(url, (notes or {}).get(url) or f"live file via Browserbase{NOTE_TAG}: {url[-80:]}"); time.sleep(1.5); continue
             try:
                 r = page.goto(url, wait_until="domcontentloaded", timeout=60_000)
                 time.sleep(1.5)
@@ -129,19 +143,19 @@ def main(urls: list[str]) -> int:
                 for href in set(re.findall(r'href="([^"#]+)"', html, re.I)):
                     full = urllib.parse.urljoin(base, href.replace("&amp;", "&"))
                     if FILE_LINK_RE.search(full) and WANTED_LINK_RE.search(urllib.parse.unquote(full)):
-                        discovered.append((full, f"linked from {url}"))
+                        discovered.append((full, f"linked from {url}", base))
             except Exception as exc:  # noqa: BLE001
                 fail(url, note, f"{type(exc).__name__}: {exc}"); print(f"  ERR {type(exc).__name__}: {str(exc)[:60]} | {url}")
             time.sleep(1.5)
         seen = set()
         print(f"\n== discovered files: {len(discovered)}")
-        for full, note in discovered:
+        for full, note, referer in discovered:
             if full in seen:
                 continue
             seen.add(full)
             if len(seen) > 30:
                 print("  (cap reached)"); break
-            get_file(full, f"live file via Browserbase ({note[:60]})"); time.sleep(1.5)
+            get_file(full, f"live file via Browserbase{NOTE_TAG} ({note[:60]})", referer); time.sleep(1.5)
         browser.close()
     return 0
 

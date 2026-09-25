@@ -33,13 +33,15 @@ from lrae_package import manifest_rows, saved  # noqa: E402
 
 PORTAL = "https://www.dodsbirsttr.mil/topics-app/"
 API = "https://www.dodsbirsttr.mil/topics/api/public/topics"
-OUT = ROOT / "research" / "events" / "sbir_topics.json"
+from agency import EVENTS, P, NOTE_TAG  # noqa: E402
+
+OUT = EVENTS / "sbir_topics.json"
 PROVIDER = "sbir_sttr_topics"
 SINCE = "2019-10-01"  # FY2020 on, the study window
-DEPARTMENT = "agency:don"
+DEPARTMENT = P["agency"]["node"]
+COMPONENT = P["sbir_component"]  # the portal's component column: NAVY, DARPA, ...
 # The portal's `command` column against the organization memory; a command the memory lacks falls to the Department.
-COMMANDS = {"NAVSEA": "command:navsea", "NAVAIR": "command:navair", "NAVWAR": "command:navwar", "SPAWAR": "command:navwar",
-            "ONR": "command:onr", "SSPO": "command:ssp", "SSP": "command:ssp"}
+COMMANDS = P["sbir_commands"]
 FETCH_JS = "async (u) => { const r = await fetch(u, {headers: {Accept: 'application/json'}}); return {s: r.status, t: await r.text()}; }"
 TAG_RE = re.compile(r"<[^>]+>")
 
@@ -127,10 +129,10 @@ def sweep(argv: list[str]) -> int:
         try:
             with Browser() as b:
                 while page_no < args.pages:
-                    d = b.fetch_json(page_url(page_no, args.size), f"DSIP topics index page {page_no}, newest first")
+                    d = b.fetch_json(page_url(page_no, args.size), f"DSIP topics index{NOTE_TAG} page {page_no}, newest first")
                     rows = (d or {}).get("data") or []
                     starts = [ms_day(r.get("topicStartDate")) for r in rows]
-                    fresh = [r for r in rows if r.get("component") == "NAVY" and ms_day(r.get("topicStartDate")) >= args.since]
+                    fresh = [r for r in rows if r.get("component") == COMPONENT and ms_day(r.get("topicStartDate")) >= args.since]
                     navy += fresh
                     print(f"  page {page_no}: {len(rows)} topic(s), {len(fresh)} Navy in window, starts {min(starts, default='')}..{max(starts, default='')}", flush=True)
                     page_no += 1
@@ -141,7 +143,7 @@ def sweep(argv: list[str]) -> int:
                     url = detail_url(r["topicId"])
                     if url in have:
                         continue
-                    b.fetch_json(url, f"DSIP topic {r.get('topicCode')} detail")
+                    b.fetch_json(url, f"DSIP topic{NOTE_TAG} {r.get('topicCode')} detail")
                     have.add(url)
                     if i % 100 == 0:
                         print(f"  detail {i} of {len(navy)}", flush=True)
@@ -182,11 +184,11 @@ def build(argv: list[str]) -> int:
     from trace import match_context  # noqa: E402
     parents = match_context()["parents"]
     manifest = manifest_rows()
-    pages = [r for r in manifest if r.get("status") == 200 and r.get("path") and r["url"].startswith(API + "/search") and (ROOT / r["path"]).exists()]
+    pages = [r for r in manifest if r.get("status") == 200 and r.get("path") and r.get("url", "").startswith(API + "/search") and (ROOT / r["path"]).exists()]
     latest: dict[str, dict] = {}
     for row in sorted(pages, key=lambda r: r["retrieved_at"]):
         for r in read(row).get("data") or []:
-            if r.get("component") == "NAVY" and ms_day(r.get("topicStartDate")) >= args.since:
+            if r.get("component") == COMPONENT and ms_day(r.get("topicStartDate")) >= args.since:
                 latest[r["topicId"]] = r
     rows = []
     for topic_id, r in latest.items():
@@ -198,7 +200,7 @@ def build(argv: list[str]) -> int:
                "by_command": dict(Counter(t["command"] for t in rows).most_common()),
                "by_fiscal_year": dict(sorted(Counter(fiscal_year(t["pre_release"]) for t in rows).items())), "rows": rows}
     OUT.write_text(json.dumps(payload, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"{payload['topics']} Navy topic(s) since {args.since}, {payload['with_detail']} with detail, {payload['with_office']} naming a program office; "
+    print(f"{payload['topics']} {COMPONENT} topic(s) since {args.since}, {payload['with_detail']} with detail, {payload['with_office']} naming a program office; "
           f"by command {payload['by_command']} -> {OUT.relative_to(ROOT)}")
     return 0
 

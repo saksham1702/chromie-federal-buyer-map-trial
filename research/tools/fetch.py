@@ -18,6 +18,7 @@ import json
 import re
 import ssl
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -31,8 +32,12 @@ UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTM
 # ponytail: a plain browser UA; some .mil front ends reset connections for unfamiliar agents.
 
 
-def _get(url: str, timeout: int = 90, insecure: bool = False) -> tuple[int, str, bytes, str]:
-    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "*/*", "Accept-Encoding": "identity"})
+def _get(url: str, timeout: int = 90, insecure: bool = False, payload: dict | None = None) -> tuple[int, str, bytes, str]:
+    headers = {"User-Agent": UA, "Accept": "*/*", "Accept-Encoding": "identity"}
+    data = None
+    if payload is not None:  # a search API that answers only a POST (USAspending): the body is the query
+        data, headers["Content-Type"] = json.dumps(payload, sort_keys=True).encode(), "application/json"
+    req = urllib.request.Request(url, data=data, headers=headers)
     context = ssl._create_unverified_context() if insecure else None  # DoD PKI roots are not in the default store
     with urllib.request.urlopen(req, timeout=timeout, context=context) as resp:
         body = resp.read()
@@ -56,7 +61,7 @@ def safe_name(url: str) -> str:
     return re.sub(r"[^A-Za-z0-9._-]+", "_", base)[:80]
 
 
-def fetch(url: str, method: str, wayback: str | None, note: str, insecure: bool = False) -> dict:
+def fetch(url: str, method: str, wayback: str | None, note: str, insecure: bool = False, payload: dict | None = None) -> dict:
     row: dict = {
         "url": url,
         "method": method,
@@ -64,6 +69,8 @@ def fetch(url: str, method: str, wayback: str | None, note: str, insecure: bool 
         "retrieved_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "note": note,
     }
+    if payload is not None:
+        row["request_body"] = payload  # the query a POST answer rests on, so the page can be asked for again
     target = url
     if method == "wayback":
         # A partial timestamp makes Wayback redirect to the nearest capture, so the
@@ -72,7 +79,7 @@ def fetch(url: str, method: str, wayback: str | None, note: str, insecure: bool 
         target = f"https://web.archive.org/web/{ts}id_/{url}"
     row["fetched_from"] = target
     try:
-        status, final_url, body, mime = _get(target, insecure=insecure)
+        status, final_url, body, mime = _get(target, insecure=insecure, payload=payload)
     except urllib.error.HTTPError as exc:
         row.update(status=exc.code, error=f"HTTP {exc.code}")
         return row
@@ -102,6 +109,29 @@ STUB_MARKERS = (b"Request Rejected", b"Access Denied", b"Attention Required", b"
 
 def is_stub(body: bytes) -> bool:
     return len(body) < 4000 and any(marker in body[:1500] for marker in STUB_MARKERS)
+
+
+def collect_missing(wanted: list[tuple[str, str]], limit: int = 10_000, pause: float = 1.0) -> int:
+    """Fetch each (url, note) the manifest holds no saved copy of, recording every answer, a refusal included, so a
+    collecting stage reruns to take only what is still missing. Returns how many are still not saved."""
+    have = set()
+    for line in MANIFEST.read_text(encoding="utf-8").splitlines() if MANIFEST.exists() else []:
+        row = json.loads(line) if line.strip() else {}
+        if row.get("status") == 200 and row.get("path"):
+            have |= {u for u in (row.get("url"), row.get("final_url")) if u}  # a redirect saved the page it landed on
+    notes = dict(reversed(wanted))  # the first note given for a url
+    todo = [u for u in dict.fromkeys(u for u, _ in wanted) if u not in have]
+    missed = max(0, len(todo) - limit)
+    with MANIFEST.open("a", encoding="utf-8") as handle:
+        for url in todo[:limit]:
+            row = fetch(url, "direct", None, notes[url])
+            handle.write(json.dumps(row, sort_keys=True) + "\n")
+            handle.flush()
+            print(row.get("status"), url[:110])
+            missed += row.get("status") != 200
+            time.sleep(pause)
+    print(f"{len(todo)} to collect, {missed} still not saved")
+    return missed
 
 
 def main() -> int:

@@ -41,18 +41,21 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from outreach import (B, CORPUS, OUT, S, SEED, Layer, Walk, arr, audit, chain_problems, email_problems, evidence, row_details,  # noqa: E402
                       fixture, load_people, obj, verbatim)
 from people import contacts_for, norm_name  # noqa: E402
+from agency import KEY as AGENCY_KEY, P  # noqa: E402
 from agency_layers_sql import uid  # noqa: E402
 from trace import resolve_offices  # noqa: E402
 
 COMPARE = OUT / "compare"
+LABEL, SHORT = P["label"], P["short"].removeprefix("U.S. ")  # "Navy", "DARPA": the word the prompts use for the buyer
 BASELINE_REPO = Path(os.environ.get("OUTREACH_BASELINE_REPO", "/tmp/fbm-baseline"))
 ARMS = ("ours", "web", "repo", "platform", "platform-web")
-NAVY = {"mcpServers": {"navy": {"command": sys.executable, "args": [str(Path(__file__).resolve().parent / "navy.py"), "serve"]}}}  # the platform's read surface
+SERVER = AGENCY_KEY  # the read surface's server name: "navy" for the Navy, the profile key for another agency
+NAVY = {"mcpServers": {SERVER: {"command": sys.executable, "args": [str(Path(__file__).resolve().parent / "navy.py"), "serve"]}}}  # the platform's read surface
 MODEL = "opus"
 BUDGET = {"baseline": "8", "verify": "5"}
 TOOLS = {"web": "WebSearch,WebFetch", "repo": "Read,Grep,Glob,Bash", "verify": "Read,Grep,Glob,Bash,WebSearch,WebFetch",
          "platform": "", "platform-web": "WebSearch,WebFetch"}  # a platform arm has no shell and no file tools: its record comes only through NAVY
-ALLOWED = {"platform": "mcp__navy", "platform-web": "mcp__navy,WebSearch,WebFetch"}
+ALLOWED = {"platform": f"mcp__{SERVER}", "platform-web": f"mcp__{SERVER},WebSearch,WebFetch"}
 VERDICT = {"type": "string", "enum": ["supported", "unsupported", "contradicted", "unverifiable"]}
 SOURCED = arr(obj(identifier=S, title=S, quote=S, source=S, why=S))
 ANSWER = obj(fit=B, agency=S, command=S, peo=S, program_office=S, why_office=S, requirements=SOURCED, initiatives=SOURCED,
@@ -68,29 +71,29 @@ CHECKED = obj(records=arr(obj(identifier=S, exists=VERDICT, quote=VERDICT, offic
 TASK = ("go from a company's capability to the agency, the command, the program executive office and the program office "
         "that buys it, that office's requirements and initiatives, the relevant people, and one extremely tailored "
         "outreach e-mail")
-PROMPT = """You help a small company reach the right buyer in the U.S. Navy. From the profile below, {task}.
+PROMPT = f"""You help a small company reach the right buyer in the {LABEL}. From the profile below, {{task}}.
 
-{where}
+{{where}}
 
 Rules:
-- Use only what was public on or before {as_of}.
+- Use only what was public on or before {{as_of}}.
 - Every requirement and initiative needs its identifier (a forecast, solicitation, notice, topic or contract number), a
   quote copied exactly from its source, and the source: a URL, or a file path with the sheet row or line.
 - Every person needs their title, their e-mail if public, and the source that ties them to that office.
 - Name each office exactly as its source writes it; leave a level empty only when the office sits under none.
 - The letter uses only facts from your sources and the profile, and claims nothing about the company beyond the profile.
 - Never forecast: never write likely, probably, imminent, expected, soon, "will release" or "RFP coming".
-- When no Navy office buys what the company sells, answer fit false and give the reason in one sentence.
+- When no {SHORT} office buys what the company sells, answer fit false and give the reason in one sentence.
 
-Company: {company}
-Profile: {profile}"""
-PLATFORM = ("Work through the platform's navy tools, which answer from a record of U.S. Navy procurement statements: forecasts "
+Company: {{company}}
+Profile: {{profile}}"""
+PLATFORM = (f"Work through the platform's {SERVER} tools, which answer from a record of {LABEL} procurement statements: forecasts "
             "with their full rows, notices, awards, SBIR topics, Congress, the budget, oversight, leaders, news, bid protests, "
             "the organization tree, people and small business offices. Start with the help tool. Give each record the source "
             "the sources tool prints for it. Before you answer, pass your draft to the check tool (the answer's fields with "
             "company and profile added) and fix what it refuses.")
 WHERE = {"web": "Use web search and fetch to find and read the sources.",
-         "repo": "Work from the data in this folder, a record of U.S. Navy procurement statements with its tools; start by "
+         "repo": f"Work from the data in this folder, a record of {LABEL} procurement statements with its tools; start by "
                  "reading CLAUDE.md and README.md. There is no web access.",
          "platform": PLATFORM + " They are your only tools; there is no web access.",
          "platform-web": PLATFORM + " You may also use web search and fetch; cite a web page by its URL."}
@@ -113,7 +116,7 @@ Give, as the schema asks:
 A verdict is supported, unsupported (the source does not say it), contradicted (a source says otherwise) or
 unverifiable (the source cannot be opened). Give the reason in one sentence each.
 
-{packet}"""
+{packet}""".replace("U.S. Navy", LABEL)
 
 
 # ------------------------------------------------------------------ one shape for every arm
@@ -262,7 +265,7 @@ def tool_uses(messages: list[dict]) -> list[str]:
 
 def features(messages: list[dict]) -> Counter:
     """The platform tools a session called, by name: which of the platform's features it reached for."""
-    return Counter(n.removeprefix("mcp__navy__") for n in tool_uses(messages) if n.startswith("mcp__navy__"))
+    return Counter(n.removeprefix(f"mcp__{SERVER}__") for n in tool_uses(messages) if n.startswith(f"mcp__{SERVER}__"))
 
 
 def saved(slug_: str) -> dict:
@@ -430,7 +433,7 @@ def selfcheck() -> int:
     assert r["office"] == "MIDS (PMA/PMW 101)" and r["verified records"] == "1/2" and r["minutes"] == 2.0 and r["tokens in/out"] == "1/2"
     assert tool_uses([{"type": "assistant", "message": {"content": [{"type": "tool_use", "name": "WebSearch"}, {"type": "tool_use", "name": "StructuredOutput"}]}}]) == ["WebSearch"]
     used = lambda name: {"type": "assistant", "message": {"content": [{"type": "tool_use", "name": name, "input": {}}]}}
-    ran = [used("mcp__navy__search"), used("mcp__navy__search"), used("mcp__navy__check"), used("WebSearch")]
+    ran = [used(f"mcp__{SERVER}__search"), used(f"mcp__{SERVER}__search"), used(f"mcp__{SERVER}__check"), used("WebSearch")]
     assert features(ran) == Counter({"search": 2, "check": 1}), features(ran)
     assert "Company: Acme\nProfile: builds terminals" in packet(1, "Acme", "builds terminals", {"answer": good, "sources": ""}) \
         and "Answer 1" in packet(1, "Acme", "", {"answer": good, "sources": ""})

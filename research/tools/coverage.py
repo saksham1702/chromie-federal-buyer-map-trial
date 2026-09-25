@@ -23,19 +23,22 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from backtest import CORPUS  # noqa: E402
 
+from agency import KEY, MANIFEST, P, PROFILES, SOURCES, note_is_foreign, note_is_ours  # noqa: E402
+
 RESEARCH = ROOT / "research"
-MATRIX = RESEARCH / "sources" / "coverage_matrix.json"
-STATUS = RESEARCH / "sources" / "source_status.json"
-REGISTRY = RESEARCH / "sources" / "source_registry.json"
-MANIFEST = RESEARCH / "sources" / "documents_manifest.jsonl"
+MATRIX = SOURCES / "coverage_matrix.json"
+STATUS = SOURCES / "source_status.json"
+REGISTRY = SOURCES / "source_registry.json"
 REASONS = ("no_public_source", "blocked", "restricted", "not_started")
+SHARED_SOURCES = frozenset(P.get("shared_sources") or ())
 WAYBACK_RE = re.compile(r"https?://web\.archive\.org/web/\d+(?:id_)?/(https?://.*)")
 # Hosts the registry's URLs do not show but that belong to a registered source: renamed domains and the portals a
 # source is read through.
 EXTRA_HOSTS = {"sbir_sttr_topics": ["www.dodsbirsttr.mil", "www.sbir.gov", "api.www.sbir.gov", "www.navysbir.com"],
                "news_articles_exa": ["api.gdeltproject.org"],
                "dod_contract_announcements": ["www.war.gov"],
-               "dod_comptroller_budget_materials": ["comptroller.war.gov"]}
+               "dod_comptroller_budget_materials": ["comptroller.war.gov"],
+               "senate_committee_sites": ["www.appropriations.senate.gov"]}
 # Pages found through a search are filed under the search source by the note the fetch left, not by their host.
 NOTE_KEYS = (("remarks watch", "conference_pages_exa"), ("news sweep", "news_articles_exa"), ("news watch", "news_articles_exa"),
              ("news search", "news_articles_exa"),
@@ -61,12 +64,44 @@ def hosts_by_key(reg: dict[str, dict]) -> dict[str, set[str]]:
     return out
 
 
+def other_agency_hosts() -> set[str]:
+    """The hosts another agency's registry owns. The ledger is shared, so a page fetched for the other layer is that
+    layer's document, not a host this layer failed to register."""
+    out: set[str] = set()
+    for key in PROFILES:
+        if key == KEY:
+            continue
+        folder = RESEARCH / "sources" if key == "navy" else RESEARCH / "agencies" / key / "sources"
+        path = folder / "source_registry.json"
+        if path.exists():
+            reg = {r["source_key"]: r for r in json.loads(path.read_text(encoding="utf-8"))}
+            for hosts in hosts_by_key(reg).values():
+                out |= hosts
+    return out
+
+
+def urls_by_key(reg: dict[str, dict]) -> dict[str, set[str]]:
+    return {key: {u.rstrip("/") for u in (row.get("official_url"), (row.get("inspected_example") or {}).get("url")) if u} for key, row in reg.items()}
+
+
+def narrowed(url: str, keys: list[str], urls: dict[str, set[str]]) -> list[str]:
+    """Of several sources on one host, the ones that registered this very URL: one download host serves the chart and
+    three forecasts, each registered by its file. A URL no source registered stays with every source on its host."""
+    url = (url or "").rstrip("/")
+    return [k for k in keys if url in urls.get(k, ())] or keys
+
+
 def key_for(row: dict, by_host: dict[str, list[str]]) -> list[str]:
     """The registered sources a manifest row belongs to: by host first, then by the note that fetched it."""
+    note = row.get("note") or ""
+    if note_is_foreign(note):  # written by a collector running under another profile: that layer's document
+        return []
     keys = by_host.get(host(row.get("url", "")), [])
     if keys:
         return keys
-    note = (row.get("note") or "").lower()
+    if not note_is_ours(note):  # an unmarked search or watch note is the Navy's, the layer that wrote them first
+        return []
+    note = note.lower()
     return [key for prefix, key in NOTE_KEYS if note.startswith(prefix)][:1]
 
 
@@ -84,15 +119,25 @@ def status() -> dict:
                 slot["events"] += 1
                 slot["newest_event"] = max(slot["newest_event"], e["date"])
     unregistered: Counter = Counter()
+    theirs = other_agency_hosts()
     rows = [json.loads(line) for line in MANIFEST.read_text(encoding="utf-8").splitlines() if line.strip()]
+    # A backfill row records committed bytes whose retrieval was never recorded; it is not a
+    # retrieval, so it does not count a document or move a source's last seen.
+    rows = [r for r in rows if r.get("method") != "backfill"]
+    urls = urls_by_key(reg)
     # A page first found by a search and later re-fetched through the hosted browser keeps the search's source.
     by_url = {r["url"]: key_for(r, by_host) for r in rows if key_for(r, by_host)}
     for row in rows:
         if row.get("status") != 200 or not row.get("sha256"):
             continue
-        keys = key_for(row, by_host) or by_url.get(row.get("url", ""), [])
-        if not keys:
+        keys = narrowed(row.get("url", ""), key_for(row, by_host), urls) or by_url.get(row.get("url", ""), [])
+        # A host is unregistered for this layer when a row of this layer's own collection reaches it and no source owns it.
+        if not keys and note_is_ours(row.get("note") or "") and host(row.get("url", "")) not in theirs:
             unregistered[host(row.get("url", ""))] += 1
+        # Another agency's layer counts a shared host's row only when its own collector wrote it, or when the source is
+        # one it reads from the shared collection (the profile's shared_sources); the Navy owns the unmarked rows.
+        if not note_is_ours(row.get("note") or ""):
+            keys = [k for k in keys if k in SHARED_SOURCES]
         for key in keys:
             slot = out[key]
             slot["documents"] += 1
@@ -177,6 +222,10 @@ def selfcheck() -> int:
     assert key_for({"url": "https://z.example/p", "note": "remarks watch: conference page"}, by_host) == ["conference_pages_exa"]
     assert key_for({"url": "https://z.example/p", "note": "live page via Browserbase"}, by_host) == []
     assert key_for({"url": "https://z.example/p", "note": "news search: PMW 770 program manager: headline"}, by_host) == ["news_articles_exa"]
+    urls = {"chart": {"https://d.example/c.pdf", "https://p.example/org"}, "fc": {"https://d.example/f.xlsx", "https://p.example/osbp"},
+            "talks": {"https://p.example/leaders"}}
+    assert narrowed("https://d.example/f.xlsx", ["chart", "fc"], urls) == ["fc"], "one download host, the file's own source"
+    assert narrowed("https://p.example/osbp/", ["chart", "fc", "talks"], urls) == ["fc"] and narrowed("https://p.example/osbp/x", ["fc", "talks"], urls) == ["fc", "talks"]
     matrix = {"organizations": ["X"], "families": ["f", "g"],
               "cells": [{"org": "X", "family": "f", "sources": ["a"]}, {"org": "X", "family": "g", "reason": "blocked", "note": "why"}]}
     stat = {"sources": {"a": {"events": 1, "documents": 0}, "b": {"events": 0, "documents": 0}}}

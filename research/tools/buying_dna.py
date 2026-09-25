@@ -27,7 +27,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from backtest import CORPUS, RESEARCH, shift, wide  # noqa: E402
-from fpds_sweep import OFFICES, manifest_rows, saved_pages, windows  # noqa: E402
+from fpds_sweep import FIELDS, OFFICES, manifest_rows, saved_pages, windows  # noqa: E402
 from lrae_package import ROOT, fpds_entries  # noqa: E402
 from pulse import PULSE  # noqa: E402
 from vocabulary import classify  # noqa: E402
@@ -45,13 +45,16 @@ POSITION_HORIZON_DAYS = 730
 def book(today: date | None = None) -> dict[str, dict]:
     """Every base award on the saved sweep pages with its coded fields, by PIID."""
     manifest, out = manifest_rows(), {}
-    for office in OFFICES:
-        for window in windows(today or date.today()):
-            pages, _ = saved_pages(manifest, office, window)
-            for page in pages:
-                for entry in fpds_entries((ROOT / page["path"]).read_bytes(), width=None, full=True):
-                    if entry["piid"]:
-                        out.setdefault(entry["piid"], dict(entry, fy=window["fy"]))
+    # Both sweeps: the awards each contracting office signed and, where the profile names a funding agency, the
+    # awards other offices signed for it (fpds_sweep.FIELDS; the second is empty for the Navy).
+    for field, offices, _label in FIELDS:
+        for office in offices:
+            for window in windows(today or date.today()):
+                pages, _ = saved_pages(manifest, office, window, field=field)
+                for page in pages:
+                    for entry in fpds_entries((ROOT / page["path"]).read_bytes(), width=None, full=True):
+                        if entry["piid"]:
+                            out.setdefault(entry["piid"], dict(entry, fy=window["fy"]))
     return out
 
 
@@ -209,7 +212,10 @@ def build(argv: list[str]) -> int:
         cell_rows.append({"key": cell["key"], "office": cell["office"], "name": cell["name"][:120], "dna": dna(held),
                           "position": position(ev, entries, as_of)})
     payload = {"as_of": as_of, "base_awards_on_the_pages": len(entries),
-               "contracting_offices": {office: dna([e for e in entries.values() if e["contracting_office"] == office]) for office in OFFICES},
+               # The offices the profile sweeps, in the profile's order, then any other office the funding-agency sweep
+               # found signing for the agency (none for the Navy, whose pages hold only its own offices).
+               "contracting_offices": {office: dna([e for e in entries.values() if e["contracting_office"] == office])
+                                       for office in [*OFFICES, *sorted({e["contracting_office"] for e in entries.values()} - set(OFFICES))]},
                "offices": {office: dna([entries[p] for p in sorted(piids) if p in entries]) for office, piids in sorted(office_piids.items())},
                "cells": sorted(cell_rows, key=lambda c: c["key"])}
     text = json.dumps(payload, indent=1, ensure_ascii=False) + "\n"

@@ -25,7 +25,7 @@ Three questions, answered from the same rows:
             notices and awards that followed.
 
 Offline. Reads the agency-intelligence tables through `psql`, the LRAE datapacks and the
-saved SAM.gov, FPDS and USAspending responses listed in research/documents_manifest.jsonl.
+saved SAM.gov, FPDS and USAspending responses listed in research/sources/documents_manifest.jsonl.
 It never fetches: a lookup that was not collected prints as "not collected" with the
 command that would collect it. An LRAE value range is an estimate, a contract's
 base-and-all-options is a ceiling, and FPDS/USAspending obligations are money placed;
@@ -59,13 +59,33 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from fetch import MANIFEST, ROOT  # noqa: E402
 from fpds_sweep import OFFICES as SWEPT_OFFICES, fiscal_year as fiscal_year_of, saved_pages, windows  # noqa: E402
-from lrae_package import alias_map, contract_tokens, fold_map, norm_code, norm_title  # noqa: E402
+from lrae_package import RELEASES, alias_map, contract_tokens, fold_map, memory_file, norm_code, norm_title  # noqa: E402
 from notice_kinds import kept  # noqa: E402
 
 DEFAULT_DSN = "postgresql://postgres:postgres@127.0.0.1:54322/postgres"
-RESEARCH = ROOT / "research"
-PACKS = sorted(p for p in (ROOT / "datapack").glob("lrae_navwar_*") if p.is_dir())
-NOTICES = ROOT / "data" / "raw" / "sam_notices"
+from agency import P, RESEARCH, SAM_NOTICES, note_is_ours  # noqa: E402
+
+OFFICE_CODE_RE = re.compile(P["office_key_re"])
+
+# The forecast packs the tracer reads (none for an agency without a forecast) and this agency's notice folder.
+PACKS = sorted(p for p in (ROOT / "datapack").glob(P["forecast"]["pack_glob"]) if p.is_dir()) if P["forecast"]["pack_glob"] else []
+
+
+def release_order(packs: list[Path] = PACKS) -> dict[str, list[str]]:
+    """Per forecast activity, its saved releases oldest first. A release that carries another activity's rows (the
+    combined report's ONR sheet prints NRL's) is that activity's release too."""
+    saved = {p.name for p in packs}
+    out: dict[str, list[str]] = defaultdict(list)
+    for r in sorted(RELEASES, key=lambda r: (r["release_date"], r["key"])):
+        if r["key"] in saved:
+            for activity in (r["activity"], *r.get("carries", ())):
+                out[activity].append(r["key"])
+    return dict(out)
+
+
+ORDER = release_order()
+CURRENT = {keys[-1] for keys in ORDER.values()}  # the newest release of each activity: what the forecasts say today
+NOTICES = SAM_NOTICES
 SOL_RE = re.compile(r"N\d{5}-?\d{2}-?R-?[A-Z]?-?\d{3,4}(?![0-9])")
 # SAM.gov notice type codes as the site API returns them.
 NOTICE_TYPE = {"p": "presolicitation", "o": "solicitation", "k": "combined synopsis/solicitation", "r": "sources sought",
@@ -84,7 +104,9 @@ STOP = {"the", "and", "for", "of", "to", "a", "in", "on", "with", "new", "follow
 # ---------------------------------------------------------------- saved inputs
 
 def manifest() -> list[dict]:
-    return [json.loads(l) for l in MANIFEST.read_text(encoding="utf-8").splitlines() if l.strip()]
+    """The ledger rows this profile's collectors wrote: another layer's searches are no negative reading here."""
+    rows = (json.loads(l) for l in MANIFEST.read_text(encoding="utf-8").splitlines() if l.strip())
+    return [r for r in rows if note_is_ours(r.get("note", ""))]
 
 
 def saved(rows: list[dict], predicate) -> dict | None:
@@ -156,7 +178,12 @@ def usaspending(rows: list[dict], piid: str) -> dict | None:
             "recipient": (j.get("recipient") or {}).get("recipient_name"), "solicitation": ltx.get("solicitation_identifier"),
             "competed": ltx.get("extent_competed_description"), "offers": ltx.get("number_of_offers_received"),
             "parent": (j.get("parent_award") or {}).get("piid"), "awarding_office": (j.get("awarding_agency") or {}).get("office_agency_name"),
-            "url": row["url"], "retrieved": row["retrieved_at"][:10], "sha": row["sha256"][:12]}
+            # a backfilled row carries the day its bytes were first committed, not a retrieval time
+            "url": row["url"], "retrieved": retrieved_on(row), "sha": row["sha256"][:12], "sha256": row["sha256"]}
+
+
+def retrieved_on(row: dict) -> str:
+    return str(row.get("retrieved_at") or row.get("first_committed") or row.get("backfilled_at") or "")[:10]
 
 
 def fpds_by_piid(rows: list[dict], piid: str) -> tuple[list[dict], dict | None, bool]:
@@ -275,13 +302,13 @@ def notice_detail(notice_id: str) -> dict | None:
     return {"id": notice_id, "title": html.unescape(o.get("title") or "" or ""), "solicitation": o.get("solicitationNumber") or "",
             "type": NOTICE_TYPE.get(str(o.get("type") or ""), str(o.get("type") or "")), "posted": str(d.get("postedDate") or o.get("postedDate") or "")[:10],
             "award": o.get("award") or {}, "cancelled": bool(d.get("cancelled")), "text": text, "path": str(path.relative_to(ROOT)),
-            "organization_id": str(o.get("organizationId") or "")}
+            "organization_id": str(o.get("organizationId") or ""),
+            "deadline": str(((o.get("solicitation") or {}).get("deadlines") or {}).get("response") or "")[:10]}
 
 
 # SAM.gov organization ids as the site API writes them on a notice, to the memory node for that office.
 # The id's hierarchy on a search hit reads: level 5, code N00039, "NAVAL INFORMATION WARFARE SYSTEMS" (OFFICE).
-SAM_ORG_NODES = {"100076586": "contracting:n00039", "100076491": "contracting:n00024", "100076476": "contracting:n00014", "100255323": "center:nrl",
-                 "100076487": "center:niwc-pacific", "100076484": "center:niwc-atlantic"}
+SAM_ORG_NODES = P["sam_org_nodes"]
 
 # A notice type as SAM.gov states it, read as the signal it carries for a requirement.
 SIGNAL_OF = {"sources sought": "request for information (sources sought)", "presolicitation": "presolicitation (intent to solicit)",
@@ -300,12 +327,19 @@ def signal_kind(detail: dict) -> str:
         kind = f"{read} (special notice)"  # notice_kinds.py: the model's reading, its words in the notice verbatim
     elif detail["type"] == "special notice":
         low = detail["title"].lower()
-        if "industry day" in low or "industry engagement" in low or "industry event" in low:
+        # A proposers day, information session, workshop or webinar is an industry day under another name: the
+        # research agencies announce their programs to industry that way (DARPA posts hundreds).
+        if ("industry day" in low or "industry engagement" in low or "industry event" in low or re.search(r"proposer'?s'? day", low)
+                or "information session" in low or "workshop" in low or "webinar" in low):
             kind = "industry day (special notice)"
+        elif "request for information" in low or re.search(r"\brfi\b", low):
+            kind = "request for information (special notice)"
         elif "ceiling" in low or "modification" in low:
             kind = "action on an existing contract (special notice)"
-        elif "long range acquisition" in low or "forecast" in low:
+        elif "long range acquisition" in low or "forecast" in low or low.startswith("future program"):
             kind = "forecast (special notice)"
+        elif "intent to award" in low or "intent to sole source" in low or "other than full and open" in low:
+            kind = "intent to award without full competition (special notice)"
         elif "commercial solutions opening" in low or "cso" in low.split():
             kind = "commercial solutions opening (special notice)"
     if detail["cancelled"]:
@@ -314,17 +348,18 @@ def signal_kind(detail: dict) -> str:
 
 
 def line_claims(detail: dict, ctx: dict) -> list[dict]:
-    """Latest-release forecast lines that name this notice explicitly: the line's PID in the notice, a solicitation
-    number the line's title carries (basis documented), or an incumbent contract only this line cites on a
-    solicitation-stage notice posted after the line first appeared in a forecast (basis inferred)."""
+    """Current forecast lines that name this notice explicitly: the line's PID in the notice, a solicitation
+    number the line's title carries (basis documented), an incumbent contract only this line cites on a
+    solicitation-stage notice posted after the line first appeared in a forecast, or the line's office named in
+    the notice text with three title words that no other current line of that office shares (basis inferred)."""
     haystack = compact(f"{detail['title']} {detail['solicitation']} {detail['text']}")
     sol = compact(detail["solicitation"])
     piids = set(contract_tokens(detail["text"]))
     out = []
     for key, chain in ctx["chains"].items():
         latest = chain[-1]
-        if latest["release"] != ctx["latest"]:
-            continue  # a line dropped from the latest release reads `review`; it is not a resolution target
+        if latest["release"] not in ctx["current"]:
+            continue  # a line dropped from its activity's newest release reads `review`; it is not a resolution target
         pid = latest["pid"]
         if pid and compact(pid) in haystack:
             out.append({"key": key, "line": latest, "basis": "documented", "why": f"the {detail['type']} of {detail['posted']} carries the line's PID {pid}"})
@@ -340,6 +375,26 @@ def line_claims(detail: dict, ctx: dict) -> list[dict]:
                 out.append({"key": key, "line": latest, "basis": "inferred",
                             "why": f"the {detail['type']} of {detail['posted']} cites incumbent contract {', '.join(sorted(mine))}, which only this line cites, "
                                    f"and is solicitation-stage and posted after the line first appeared ({chain[0]['release_date']})"})
+    named = set(detail["offices"]) if "offices" in detail else set(specific_offices(resolve_offices(detail["text"]), ctx["parents"]))
+    words, by_office = title_tokens(detail["title"]), defaultdict(list)
+    for key, chain in ctx["chains"].items():
+        latest = chain[-1]
+        if latest["release"] not in ctx["current"]:
+            continue
+        # A notice naming the line's parent alone ("NRL" for a Code 7600 line) must single the line out among every
+        # current line under that parent, a stricter test than among the lines of one office.
+        for office in named & ({latest["office_id"]} | set(ctx["parents"].get(latest["office_id"], ()))):
+            shared = words & title_tokens(latest["requirement_title"])
+            if len(shared) >= 3:
+                by_office[office].append((key, chain, shared))
+    claimed = {c["key"] for c in out}
+    for office, hits in sorted(by_office.items()):
+        if len(hits) != 1 or hits[0][0] in claimed or detail["posted"] <= hits[0][1][0]["release_date"]:
+            continue  # two lines of the office share the words, or the notice predates the line: a reviewer's call
+        key, chain, shared = hits[0]
+        out.append({"key": key, "line": chain[-1], "basis": "inferred",
+                    "why": f"the {detail['type']} of {detail['posted']} names {office}, the line's office or its parent, and shares the "
+                           f"title words {', '.join(sorted(shared))}, which no other current line under that office shares"})
     return out
 
 
@@ -367,15 +422,35 @@ def place_notice(detail: dict, ctx: dict, kin: list[dict] = ()) -> dict:
                     + (f" (read with {len(kin)} earlier notice(s) under the same number)" if kin else "")}
 
 
+# A notice that names only its systems command, its agency or its contracting office names no office a requirement sits in.
+NOT_NAMED_TYPES = {"agency", "command", "contracting_office", "person"}
+
+
+@lru_cache(maxsize=1)
+def node_types() -> dict[str, str]:
+    seed = json.loads((RESEARCH / "memory" / "organization_seed.json").read_text(encoding="utf-8"))
+    return {n["id"]: n["type"] for n in seed["nodes"]}
+
+
+def lineage(office: str, parents: dict) -> set[str]:
+    out, frontier = set(), set(parents.get(office, ()))
+    while frontier:
+        out |= frontier
+        frontier = {p for f in frontier for p in parents.get(f, ())} - out
+    return out
+
+
 def specific_offices(offices: list[dict], parents: dict) -> list[str]:
-    """The offices a notice names as current, without their own ancestors: 'PEO C4I ... PMW 740' names PMW 740."""
-    current = {o["office"] for o in offices if not o["former"] and o["office"].split(":")[0] in ("pmw", "pms", "peo", "cpe", "pae", "drpm", "office")}
-    ancestors: set[str] = set()
-    for office in current:
-        frontier = set(parents.get(office, ()))
-        while frontier:
-            ancestors |= frontier
-            frontier = {p for f in frontier for p in parents.get(f, ())} - ancestors
+    """The offices a notice names as current, without their own ancestors: 'PEO C4I ... PMW 740' names PMW 740.
+    A center, a field activity or one of their departments is where work is done; named beside a program office
+    it is not the owner."""
+    types = node_types()
+    current = {o["office"] for o in offices if not o["former"] and types.get(o["office"]) not in NOT_NAMED_TYPES}
+    performer = set(P.get("performer_types", ()))
+    performers = {o for o in current if {types.get(a) for a in lineage(o, parents) | {o}} & performer}
+    if current - performers:
+        current -= performers
+    ancestors = set().union(*(lineage(o, parents) for o in current))
     return sorted(current - ancestors)
 
 
@@ -702,7 +777,6 @@ def match_context() -> dict:
     """What matching and reading need once: how rare each program token is across the latest release, who is
     whose parent, the accepted chains (lrae_package.fold_map: the connections the loader persists) and which
     latest-release lines cite each incumbent contract."""
-    latest = PACKS[-1].name if PACKS else ""
     rarity: dict[str, int] = defaultdict(int)
     folded, _ = fold_map()
     chains: dict[str, list[dict]] = defaultdict(list)
@@ -713,20 +787,20 @@ def match_context() -> dict:
         key = tie["key"] if tie else l["record_key"]
         canon[(l["release"], l["record_key"])] = key
         chains[key].append({**l, "tie": tie})
-        if l["release"] == latest:
+        if l["release"] in CURRENT:
             for t in distinctive_tokens(l["requirement_title"]):
                 rarity[t] += 1
             for t in contract_tokens(l["existing_contract_number"]):
                 incumbent_lines[t].append(l["pid"] or l["record_key"])
     for lines in chains.values():
-        lines.sort(key=lambda l: l["release"])
+        lines.sort(key=lambda l: (l["release_date"], l["release"]))
     seed = json.loads((RESEARCH / "memory" / "organization_seed.json").read_text(encoding="utf-8"))
     parents = defaultdict(set)
     for r in seed["relationships"]:
         if r["type"] == "child_of" and r["review_status"] != "retracted":
             parents[r["from"]].add(r["to"])
     return {"rarity": rarity, "parents": parents, "offices_of": {}, "chains": chains, "canon": canon, "incumbent_lines": incumbent_lines,
-            "latest": latest, "previous": PACKS[-2].name if len(PACKS) > 1 else ""}
+            "current": CURRENT, "latest": ", ".join(sorted(CURRENT))}
 
 
 def siblings_of(line: dict, ctx: dict) -> list[dict]:
@@ -739,7 +813,7 @@ def siblings_of(line: dict, ctx: dict) -> list[dict]:
     out = []
     for key, chain in ctx["chains"].items():
         other = chain[-1]
-        if key == me or other["release"] != ctx["latest"] or other["office_id"] != line["office_id"]:
+        if key == me or other["release"] not in ctx["current"] or other["office_id"] != line["office_id"]:
             continue
         if my_tokens & distinctive_tokens(other["requirement_title"]) or my_piids & set(contract_tokens(other["existing_contract_number"])):
             out.append(other)
@@ -767,7 +841,7 @@ def restructure_notes(chain: list[dict], ctx: dict) -> list[str]:
         if a and b and a.upper() != b.upper():
             out.append(f"office code {a} -> {b} between {prev['release']} and {cur['release']}")
     cur = chain[-1]
-    if cur["release"] == ctx["latest"]:
+    if cur["release"] in ctx["current"]:
         for other in siblings_of(cur, ctx):
             other_key = ctx["canon"].get((other["release"], other["record_key"]), other["record_key"])
             if other_key == ctx["canon"].get((cur["release"], cur["record_key"]), cur["record_key"]):
@@ -779,7 +853,7 @@ def restructure_notes(chain: list[dict], ctx: dict) -> list[str]:
             if not shared and not bridge:
                 continue
             how = f"the incumbent {', '.join(sorted(shared))}" if shared else f"a program name, and its title says '{bridge.group(1)}'"
-            out.append(f"sibling line {other['pid'] or other['record_key']} ({other['requirement_title'][:45]}) first appears in {ctx['latest']} "
+            out.append(f"sibling line {other['pid'] or other['record_key']} ({other['requirement_title'][:45]}) first appears in {other['release']} "
                        f"under the same office sharing {how}: a split, or a new line beside this one")
     return out
 
@@ -788,7 +862,7 @@ def notice_offices(notice_id: str, ctx: dict) -> set[str]:
     """Program offices a harvested notice names as current (not 'formerly'); empty when the detail is not saved."""
     if notice_id not in ctx["offices_of"]:
         d = notice_detail(notice_id)
-        ctx["offices_of"][notice_id] = {o["office"] for o in resolve_offices(d["text"]) if not o["former"] and o["office"].startswith(("pmw:", "peo:"))} if d else set()
+        ctx["offices_of"][notice_id] = set(specific_offices(resolve_offices(d["text"]), ctx["parents"])) if d else set()
     return ctx["offices_of"][notice_id]
 
 
@@ -1075,16 +1149,19 @@ def print_office(dsn: str, org_id: str, idx: dict, indent: str = "  ") -> None:
 
 
 def attribution_examples() -> dict[str, dict]:
-    rows = json.loads((RESEARCH / "memory" / "attribution_examples.json").read_text(encoding="utf-8"))
+    rows = memory_file("attribution_examples.json", [])
     return {(x.get("related") or {}).get("forecast_pid", ""): x for x in rows if (x.get("related") or {}).get("forecast_pid")}
 
 
 # ---------------------------------------------------------------- commands
 
 def cmd_status(args) -> int:
+    if not RELEASES:
+        print(f"# {P['short']} publishes no forecast, so there are no forecast lines to read; the notices and awards are read by ask and pulse")
+        return 0
     rows, hits, examples, today, ctx = manifest(), sgs_hits(manifest()), attribution_examples(), date.today(), match_context()
-    latest = PACKS[-1].name
-    lines = [l for l in lrae_lines() if l["release"] == latest]
+    latest = ", ".join(sorted(CURRENT))
+    lines = [l for l in lrae_lines() if l["release"] in CURRENT]
     if args.office:
         lines = [l for l in lines if l["office_id"] == args.office]
     through = 2000 + int(args.through)
@@ -1092,7 +1169,9 @@ def cmd_status(args) -> int:
     first, last = search_dates(rows)
     fpds = sorted(r["retrieved_at"][:10] for r in rows if r.get("status") == 200 and "fpds.gov" in r.get("url", ""))
     print(f"# Forecast lines in {latest} with a solicitation window through FY{args.through}: {len(due)} of {len(lines)} included lines")
-    print(f"# Read on {today} against saved SAM.gov searches (retrieved {first} to {last}), FPDS lookups (retrieved {fpds[0] if fpds else '?'} to {fpds[-1] if fpds else '?'}) "
+    searches = f"saved SAM.gov searches (retrieved {first} to {last})" if first else "no saved SAM.gov search"
+    lookups = f"FPDS lookups (retrieved {fpds[0]} to {fpds[-1]})" if fpds else "no saved FPDS lookup"
+    print(f"# Read on {today} against {searches}, {lookups} "
           "and attribution examples. Nothing here is fetched live: a negative reading says the saved records hold nothing, not that nothing happened.")
     print("# Reading column, outcome word first: awarded (FPDS action under the line's solicitation, or an award notice naming it); solicited (a solicitation-stage notice naming it); "
           "cancelled (that notice is marked cancelled on SAM.gov); review (an award notice, J&A or special notice on the incumbent contract posted after the line first appeared in a forecast, or a line missing from the latest release); "
@@ -1115,15 +1194,22 @@ def cmd_status(args) -> int:
         awards = "; ".join(f"{a['piid']} {a['signed']}" for a in s["awards"][:3]) or \
             "; ".join(f"~{a['piid']} {a['signed']}" for a in s["candidate_awards"][:3]) or (s["linked_award"] or "-")
         print(f"| {s['pid']} | {s['title'][:48]} | {s['office']} | {s['sol']} | {s['award']} | {s['value']} | {notice} | {s['incumbent_last'] or '-'} | {awards} | {s['reading'][:260]} |")
-    previous = ctx["previous"]
-    dropped = []
-    if previous:
-        latest_keys = {ctx["canon"][(l["release"], l["record_key"])] for l in lines}
-        paired_old = {ch["old_row"] for ch in pack_rows(PACKS[-1], f"diff_{previous}_{latest}.csv") if ch["change"] in ("unchanged", "changed")} \
-            if (PACKS[-1] / f"diff_{previous}_{latest}.csv").exists() else set()
-        dropped = [l for l in lrae_lines() if l["release"] == previous and (not args.office or l["office_id"] == args.office)
-                   and ctx["canon"][(l["release"], l["record_key"])] not in latest_keys and l["row_number"] not in paired_old]
-        print(f"\n## Lines of {previous} with no row in {latest}: {len(dropped)}, each to review")
+    # Per activity, the rows of its previous release that its newest release no longer carries.
+    latest_keys = {ctx["canon"][(l["release"], l["record_key"])] for l in lines}
+    dropped, carried_by = [], {}
+    for keys in ORDER.values():
+        if len(keys) < 2 or keys[-2] in CURRENT:
+            continue
+        previous, newest = keys[-2], keys[-1]
+        diff = ROOT / "datapack" / newest / f"diff_{previous}_{newest}.csv"
+        paired_old = {ch["old_row"] for ch in pack_rows(diff.parent, diff.name) if ch["change"] in ("unchanged", "changed")}
+        for l in lrae_lines():
+            if (l["release"] == previous and (not args.office or l["office_id"] == args.office)
+                    and ctx["canon"][(l["release"], l["record_key"])] not in latest_keys and l["row_number"] not in paired_old):
+                dropped.append(l)
+                carried_by[(previous, l["row_number"])] = newest
+    if dropped:
+        print(f"\n## Lines of a previous release with no row in its activity's newest release: {len(dropped)}, each to review")
         print("# A forecast row that disappears is not a cancellation; no release states one. Nothing here is paired to a latest-release row by PID, exact title or similar title "
               "(candidates included), so a reviewer decides whether each was awarded, folded into another line or dropped. Notice and award columns read the saved records as above.")
         print()
@@ -1131,7 +1217,8 @@ def cmd_status(args) -> int:
         print("| --- | --- | --- | --- | --- | --- | --- | --- | --- |")
         for l in sorted(dropped, key=lambda l: (l["office_id"], l["solicitation_fy"], l["solicitation_quarter"], l["requirement_title"])):
             s = line_status(l, rows, hits, examples, today, ctx,
-                            dropped=f"not in {latest}, last carried by {previous} row {l['row_number']}; no pairing by PID, exact title or similar title; "
+                            dropped=f"not in {carried_by[(l['release'], l['row_number'])]}, last carried by {l['release']} row {l['row_number']}; "
+                                    "no pairing by PID, exact title or similar title; "
                                     "no cancellation stated in the saved records; a reviewer decides whether it was awarded, folded into another line or dropped")
             counts[s["outcome"]] += 1
             notice = "; ".join(f"{n['type']} {n['posted']} ({n['solicitation'] or n['id'][:8]})" for n in s["notices"][:2]) or "-"
@@ -1282,8 +1369,8 @@ def print_need(dsn: str, key: str) -> int:
             tie = f"; {r['rationale'].split('. ')[0]}" if r["basis"] == "inferred" and r["rationale"].startswith("Row tied") else ""
             print(f"  {r['observed_at']}: award {r['expected_from'] or '?'}..{r['expected_to'] or '?'}{' (live)' if r['live'] else ''}; basis {r['basis']}{tie}")
     status = line_status(lines[-1], rows, hits, examples, today, ctx,
-                         dropped="" if lines[-1]["release"] == PACKS[-1].name else
-                         f"not in {PACKS[-1].name}, last carried by {lines[-1]['release']} row {lines[-1]['row_number']}; no pairing by PID, exact title or similar title; "
+                         dropped="" if lines[-1]["release"] in CURRENT else
+                         f"not in its activity's newest release, last carried by {lines[-1]['release']} row {lines[-1]['row_number']}; no pairing by PID, exact title or similar title; "
                                  "no cancellation stated in the saved records; a reviewer decides whether it was awarded, folded into another line or dropped")
     print("\n## Reading (outcome word first: awarded, solicited, cancelled, review, restructured, delayed, open, not yet due; a candidate is a reviewer's call)")
     print(f"- {status['reading']}")
@@ -1409,7 +1496,7 @@ def print_need(dsn: str, key: str) -> int:
             print(f"- revision assertion {r['source_key']} observed {r['observed_at']}{' (live)' if r['live'] else ' (superseded)'}, basis {r['basis']}{tie}")
         for e in sorted(need["evidence"], key=lambda e: (e["observed_at"] or "", e["source_key"])):
             print(f"- evidence {e['source_key']}: {e['excerpt'][:80]}; source {e['source_url'] or 'URL not loaded'}")
-    if lines and lines[-1]["release"] == PACKS[-1].name and not found:
+    if lines and lines[-1]["release"] in CURRENT and not found:
         print("\n".join(watch_block(lines, today, incumbents, candidates, related, siblings_of(lines[-1], ctx), office_id, searched, status["reading"])))
     return 0
 
@@ -1422,7 +1509,11 @@ SHORT_ALIAS = 8
 
 
 def whole_word(probe: str, hay: str) -> int:
-    """Where the alias sits in the text, or -1; an alias under SHORT_ALIAS characters must not sit inside a longer word."""
+    """Where the alias sits in the text, or -1; an alias under SHORT_ALIAS characters must not sit inside a longer word.
+    A bare number (an office code such as 7600) counts only written as a code, `Code 7600`: DoDI 1000.04 is no office."""
+    if probe.isdigit():
+        m = re.search(r"(?<![a-z0-9])code\s+" + re.escape(probe) + r"(?![0-9])(?!\.[0-9])", hay)
+        return m.start() if m else -1
     if len(probe) >= SHORT_ALIAS:
         return hay.find(probe)
     m = re.search(r"(?<![a-z0-9])" + re.escape(probe) + r"(?![a-z0-9])", hay)
@@ -1450,6 +1541,12 @@ def resolve_offices(text: str) -> list[dict]:
             probe = squeeze(re.sub(r"\s*\([^()]*\)\s*$", "", t))
             probe_open = unbracket(t)
             if len(probe) < 4:
+                # An acronym too short to stand alone ("STO") counts where the profile's office-code pattern reads it.
+                hit = next((m for m in OFFICE_CODE_RE.finditer(text) if "".join(m.groups()) == t), None)
+                if hit:
+                    context = squeeze(text[max(0, hit.start() - 60): hit.end() + 60])
+                    out.append({"office": node["id"], "name": node["name"], "matched": t, "former": False, "context": context})
+                    break
                 continue
             # A short alias must stand as a word: "SUB-S" is not in "sub-surface", "PMW 101" is not in "PMW 1010".
             start = whole_word(probe, flat)
@@ -1576,7 +1673,7 @@ def cmd_notice(args) -> int:
     named = {o["office"] for o in offices}
     others_same, others_related = [], []
     for l in lrae_lines():
-        if l["release"] != PACKS[-1].name or l["office_id"] in named:
+        if l["release"] not in CURRENT or l["office_id"] in named:
             continue
         m = line_match(detail, l["requirement_title"], [l], ctx, codes_only=True)
         if m:
@@ -1721,7 +1818,7 @@ def cmd_award(args) -> int:
     if not cited:
         print("- none")
     print("\n## Reviewed attributions naming this contract")
-    for x in json.loads((RESEARCH / "memory" / "attribution_examples.json").read_text(encoding="utf-8")):
+    for x in memory_file("attribution_examples.json", []):
         if compact(x["identifier"]) == piid:
             print(f"- {x['id']}: {', '.join(x['program_offices'])}; {x['evidence_class']}; {x['owner_summary'][:100]}; related {json.dumps(x.get('related'))[:160]}")
     print("\n## Notices whose saved search hit cites this contract number")
@@ -1837,7 +1934,7 @@ def selfcheck() -> int:
     folded = {"record_key": "row:lrae_navwar_2025-06:9", "pid": "", "requirement_title": "NTCDL Follow-On Production",
               "office_id": "pmw:170", "existing_contract_number": "N0003916C0087", "release": latest_release}
     earlier = {**folded, "release": "lrae_navwar_2023-06", "record_key": "row:lrae_navwar_2023-06:1"}
-    folded_ctx = {"rarity": {"ntcdl": 1}, "parents": {}, "offices_of": {}, "latest": latest_release, "incumbent_lines": {},
+    folded_ctx = {"rarity": {"ntcdl": 1}, "parents": {}, "offices_of": {}, "latest": latest_release, "current": {latest_release}, "incumbent_lines": {},
                   "chains": {"N00039-25-RFPREQ-PMW/A-170-0001": [earlier, folded]},
                   "canon": {(latest_release, folded["record_key"]): "N00039-25-RFPREQ-PMW/A-170-0001",
                             ("lrae_navwar_2023-06", earlier["record_key"]): "N00039-25-RFPREQ-PMW/A-170-0001"}}
@@ -1862,7 +1959,7 @@ def selfcheck() -> int:
     def ln(pid, title, inc="", release="lrae_navwar_2025-06", release_date="2025-06-19", **kw):
         return {"pid": pid, "record_key": pid, "requirement_title": title, "existing_contract_number": inc, "release": release,
                 "release_date": release_date, "row_number": "1", "sheet": "s", "sha": "x", "office_id": "pmw:160", **kw}
-    nctx = {"latest": "lrae_navwar_2025-06", "incumbent_lines": {"N0003916C0087": ["P1"], "N0003922D1004": ["P2", "P3"]},
+    nctx = {"latest": "lrae_navwar_2025-06", "current": {"lrae_navwar_2025-06"}, "incumbent_lines": {"N0003916C0087": ["P1"], "N0003922D1004": ["P2", "P3"]},
             "chains": {"P1": [ln("P1", "NTCDL Follow-On", "N0003916C0087", "lrae_navwar_2023-06", "2023-06-20"), ln("P1", "NTCDL Follow-On", "N0003916C0087")],
                        "P2": [ln("P2", "NILE ISS 6", "N0003922D1004")], "P3": [ln("P3", "NILE PSS", "N0003922D1004")],
                        "P4": [ln("P4", "ADNS MAC N0003925R9510")], "OLD": [ln("OLD", "Dropped line", release="lrae_navwar_2024-06", release_date="2024-06-20")]},
@@ -1889,8 +1986,27 @@ def selfcheck() -> int:
     assert p["how"] == "resolved" and p["key"] == "P1", "an earlier notice under the same number carries the tie for the whole requirement"
     assert specific_offices([{"office": "pmw:740", "former": False}, {"office": "peo:c4i", "former": False}, {"office": "contracting:n00039", "former": False}], nctx["parents"]) == ["pmw:740"]
     assert specific_offices([{"office": "pmw:740", "former": True}, {"office": "pae:mission-systems", "former": False}], nctx["parents"]) == ["pae:mission-systems"]
+    assert specific_offices([{"office": "center:nrl", "former": False}, {"office": "command:onr", "former": False}], {}) == ["center:nrl"], \
+        "a laboratory is named; its systems command is not"
+    assert specific_offices([{"office": "pms:312", "former": False}, {"office": "center:nswcpd", "former": False}], {}) == ["pms:312"], \
+        "the center doing the work does not make a program office's notice ambiguous"
+    assert specific_offices([{"office": "pms:485", "former": False}, {"office": "dept:psns-imf-code-2300", "former": False}],
+                            {"dept:psns-imf-code-2300": {"activity:psns-imf"}}) == ["pms:485"], "so does a department of the activity"
+    lab = {**nctx, "parents": {"dept:nrl-7600": {"center:nrl"}}, "chains": {
+        "L1": [ln("L1", "Research and Development for Space Science Division (C)", office_id="dept:nrl-7600")],
+        "L2": [ln("L2", "Plasma Physics Division Support", office_id="dept:nrl-6700")]}}
+    claims = line_claims({**base, "title": "NRL Space Science Division R&D Support Services", "text": "NRL", "offices": ["center:nrl"]}, lab)
+    assert [c["key"] for c in claims] == ["L1"], "a notice naming the line's parent alone claims the one line under it that shares its title words"
+    lab["chains"]["L3"] = [ln("L3", "Space Science Division Engineering", office_id="dept:nrl-7600")]
+    assert not line_claims({**base, "title": "NRL Space Science Division R&D Support Services", "text": "NRL", "offices": ["center:nrl"]}, lab), \
+        "two lines under the parent sharing the words leave the notice a reviewer's call"
     assert signal_kind({**base, "type": "sources sought"}) == "request for information (sources sought)"
     assert signal_kind({**base, "type": "special notice", "title": "DRPM RAS Industry Day"}) == "industry day (special notice)"
+    assert signal_kind({**base, "type": "special notice", "title": "Firefox Proposers Day"}) == "industry day (special notice)"
+    assert signal_kind({**base, "type": "special notice", "title": "Multiscale Reasoning For Human Physiology RFI"}) == "request for information (special notice)"
+    assert signal_kind({**base, "type": "special notice", "title": "Future Program: Intrinsic Market Resilience (IMR)"}) == "forecast (special notice)"
+    assert signal_kind({**base, "type": "special notice", "title": "Notice of Intent to Award Using Other than Full and Open Competition"}) == "intent to award without full competition (special notice)"
+    assert signal_kind({**base, "type": "special notice", "title": "Convergence Special Notice"}) == "special notice"
     assert signal_kind({**base, "title": "Area of Interest (AOI): ExVLF"}) == "area of interest under a commercial solutions opening (solicitation)"
     assert signal_kind({**base, "type": "presolicitation", "cancelled": True}).endswith(", marked cancelled on SAM.gov")
     r = recompete_reading({"pop_end": "2028-09-29"}, [ln("P1", "NTCDL", "N0003916C0087", release_date="2025-06-19", solicitation_fy="FY26", solicitation_quarter="Q2", award_fy="FY27", award_quarter="Q2")],
@@ -1968,7 +2084,7 @@ def selfcheck() -> int:
         return {"pid": pid, "record_key": pid, "requirement_title": title, "existing_contract_number": inc, "office_id": "pmw:170", "release": release,
                 "procurement_method": "", "procurement_instrument": "", "contract_type": "", "follow_on_or_new": "", "anticipated_total_value": "", "office_code_string": "PMW/A-170", **kw}
     follow_on = ln("F", "NTCDL – Follow-On Production and ESS Contract (C)", "N0003916C0087")
-    rctx = {"rarity": {"ntcdl": 3, "link": 9, "drs": 2}, "latest": "lrae_navwar_2025-06", "canon": {},
+    rctx = {"rarity": {"ntcdl": 3, "link": 9, "drs": 2}, "latest": "lrae_navwar_2025-06", "current": {"lrae_navwar_2025-06"}, "canon": {},
             "chains": {"F": [ln("F", "NTCDL – Follow-On Production and ESS Contract (C)", "N0003916C0087", "lrae_navwar_2024-06", anticipated_total_value="$250M - $1B"),
                              dict(follow_on, anticipated_total_value="$250M - $1B")],
                        "B": [ln("B", "NTCDL - Stand Alone Bridge Contract")],

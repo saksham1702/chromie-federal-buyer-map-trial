@@ -25,6 +25,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from browserbase_fetch import FILE_LINK_RE, WANTED_LINK_RE, fail, save  # noqa: E402
 from fetch import ROOT  # noqa: E402
+from agency import NOTE_TAG  # noqa: E402
 from llm import env_value  # noqa: E402
 
 API = "https://api.context.dev/v1/web/scrape/html"
@@ -52,7 +53,7 @@ def linked_files(html: str, base: str) -> list[str]:
 
 def take(url: str, key: str) -> tuple[dict, list[str]]:
     """Save one page; the manifest row and the files it links to."""
-    note = f"live page via context.dev: {url}"
+    note = f"live page via context.dev{NOTE_TAG}: {url}"
     try:
         answer = scrape(url, key)
     except urllib.error.HTTPError as exc:

@@ -33,7 +33,10 @@ from fetch import MANIFEST, ROOT, fetch  # noqa: E402
 from llm import env_value  # noqa: E402
 from lrae_package import manifest_rows, saved  # noqa: E402
 
-OUT = ROOT / "research" / "events" / "congress_events.json"
+from agency import EVENTS, P, compiled, NOTE_TAG  # noqa: E402
+
+OUT = EVENTS / "congress_events.json"
+LABEL = P["congress_label"]
 FIRST_FY = 2021
 FIRST_CONGRESS = 116  # the FY2021 reports were filed in 2020
 SINCE = "2019-01-01"  # listing start (lastModified); every 116th Congress package was made after it
@@ -62,9 +65,7 @@ DIRECTIVE_RE = re.compile(
     r"|\b(?:is|are)\s+(?:also\s+|further\s+|hereby\s+|strongly\s+)?(directed|encouraged|urged)\s+to\b")
 VERBS = {"direct": "directs", "directed": "directs", "require": "requires", "encourage": "encourages", "encouraged": "encourages",
          "recommend": "recommends", "urge": "urges", "urged": "urges"}
-NAVY_RE = re.compile(r"\bN(?:avy|AVY)\b|\bChief of Naval Operations\b|\bMarine Corps\b|\b(?:NAVSEA|NAVAIR|NAVWAR|NAVSUP|ONR|NRL|NIWC)\b"
-                     r"|\bNaval (?:Sea|Air|Supply) Systems Command\b|\bNaval Information Warfare\b|\bOffice of Naval Research\b"
-                     r"|\bNaval Research Laboratory\b|\bPEO\b|\bPM[SAW][- ]?\d{2,3}\b")
+NAVY_RE = compiled(P["congress_pattern"])  # the agency's names, as a directive sentence must name them
 MONEY_RE = re.compile(r"\$\s?\d|\b(?:funds|funding|appropriat\w*|budget|million|billion)\b", re.I)
 
 
@@ -274,7 +275,7 @@ def list_congress(handle, congress: int, since: str, key: str) -> list[dict]:
     """Take one Congress's listing page by page from the first page."""
     rows, url = [], listing_url(congress, since)
     while url:
-        note = f"govinfo CRPT listing: {congress}th Congress, packages modified since {since}, page {len(rows) + 1}"
+        note = f"govinfo CRPT listing{NOTE_TAG}: {congress}th Congress, packages modified since {since}, page {len(rows) + 1}"
         row = record(handle, fetch(f"{url}&api_key={key}", "direct", None, note), key)
         rows.append(row)
         print(row.get("status"), row.get("size"), f"listing {congress}th Congress page {len(rows)}")
@@ -311,7 +312,7 @@ def sweep(argv: list[str]) -> int:
             if not args.fetch or taken >= args.limit:
                 print(f"missing {pkg['report']} {text_url(pkg['package_id'])}")
                 continue
-            note = f"govinfo: {pkg['report']}, {pkg['title']} (FY{pkg['fiscal_year']})"
+            note = f"govinfo{NOTE_TAG}: {pkg['report']}, {pkg['title']} (FY{pkg['fiscal_year']})"
             row = record(handle, fetch(f"{text_url(pkg['package_id'])}?api_key={key}", "direct", None, note), key)
             taken += 1
             print(row.get("status"), row.get("size"), pkg["report"], pkg["package_id"])
@@ -340,7 +341,7 @@ def build(argv: list[str]) -> int:
     text = json.dumps(data, indent=1, ensure_ascii=False) + "\n"
     for r in data["reports"]:
         print(f"{r['passages']:4d}  {r['package_id']:<18} {r['issued']}  {r['title'][:70]}")
-    print(f"{len(data['reports'])} report(s), {len(data['rows'])} Navy directive(s)")
+    print(f"{len(data['reports'])} report(s), {len(data['rows'])} {P['short'].removeprefix('U.S. ')} directive(s)")
     if args.check:
         if not OUT.exists() or OUT.read_text(encoding="utf-8") != text:
             print("congress events differ from the saved file", file=sys.stderr)

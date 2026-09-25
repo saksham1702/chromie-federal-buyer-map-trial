@@ -2,15 +2,17 @@
 """Run the agency pipeline end to end: collect, model, load, read back.
 
     python research/tools/pipeline.py [--db navy_proof_e] [--collect] [--from STAGE] [--only STAGE]
+    python research/tools/pipeline.py --agency darpa [--db darpa_proof] ...   # the same stages for another agency
     python research/tools/pipeline.py --list
     python research/tools/pipeline.py --selfcheck
 
 Every stage is one of the tools beside this file, run in the order the records depend on each
 other: the sources are collected first, then modelled into the datapack and the news records,
-then emitted as rows, then loaded, then read back by the checks. Nothing here holds agency
-knowledge; the agency is in `research/memory/organization_seed.json`, the datapack and the saved
-documents, so the same order runs for another agency once those exist
-(research/docs/14_reusing_this_for_another_agency.md).
+then emitted as rows, then loaded, then read back by the checks. The agency is a profile
+(`research/tools/agency.py`, selected by `--agency` or the `AGENCY` environment variable): the
+office tables, the filters, the feeds and the artefact folders come from it, and the memory stage
+runs the profile's own reader. A stage the profile has no source for (a forecast) is skipped and
+says so (research/docs/14_reusing_this_for_another_agency.md).
 
 `--collect` adds the two network stages, which are skipped by default so a rebuild is
 deterministic and offline. The database stage drops and recreates the named database, so it
@@ -28,7 +30,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 TOOLS = Path(__file__).resolve().parent
-BUILD = ROOT / "build"
+# `--agency` is read before the profile is imported, so every stage below sees the same profile.
+if "--agency" in sys.argv[1:]:
+    os.environ["AGENCY"] = sys.argv[sys.argv.index("--agency") + 1]
+sys.path.insert(0, str(TOOLS))
+from agency import BUILD, KEY as AGENCY, P  # noqa: E402
+
 PY = sys.executable
 DSN_HOST = os.environ.get("PGHOST", "127.0.0.1")
 DSN_PORT = os.environ.get("PGPORT", "54322")
@@ -49,20 +56,27 @@ STAGES = [
      [PY, str(TOOLS / "fpds_sweep.py"), "sweep", "--fetch"]),
     ("solicitations", "sweep SAM.gov for every notice each contracting office posted since FY22 and harvest the new ones", True,
      [PY, str(TOOLS / "sam_notices.py"), "sweep"]),
-    ("topics", "sweep the DoD SBIR/STTR portal newest first for every topic since FY2020 and keep the Navy details", True,
+    ("topics", "sweep the DoD SBIR/STTR portal newest first for every topic since FY2020 and keep the agency's details", True,
      [PY, str(TOOLS / "sbir.py"), "sweep", "--fetch"]),
     ("changes", "follow the FPDS history of every swept award running or ended within a year, for extensions, options and terminations", True,
      [PY, str(TOOLS / "fpds_sweep.py"), "histories", "--fetch"]),
-    ("dockets", "take GAO's docket of Navy bid protests and the case page of every new or still-open case", True,
+    ("dockets", "take GAO's docket of the agency's bid protests and the case page of every new or still-open case", True,
      [PY, str(TOOLS / "protests.py"), "watch", "--fetch"]),
     ("reports", "list the committee reports on govinfo and take the NDAA and defense appropriations reports not yet saved", True,
      [PY, str(TOOLS / "congress.py"), "sweep", "--fetch"]),
-    ("register", "take the Department of the Navy's Federal Register documents", True,
+    ("register", "take the agency's Federal Register documents", True,
      [PY, str(TOOLS / "fedreg.py"), "sweep", "--fetch"]),
+    ("grants", "take the grants and cooperative agreements the agency awards from USAspending, page by page", True,
+     [PY, str(TOOLS / "assistance.py"), "sweep", "--fetch"]),
     ("outreach", "take the Department of War's directory of small business offices and each office page it links to not yet saved", True,
      [PY, str(TOOLS / "small_business.py"), "collect"]),
-    ("memory", "read the activity-wide forecast releases into the organization memory", False,
-     [PY, str(TOOLS / "org_memory_lrae.py"), "build"]),
+    ("orgpages", "take the official organization pages the memory reads or still wants (departments, leadership, offices) not yet saved", True,
+     [PY, str(TOOLS / P["forecast"]["memory_tool"]), "collect"]),
+    ("joins", "look up every contract and line the newest forecast releases cite in FPDS, SAM.gov and USAspending, and the rest of "
+              "each contract's FPDS history", True,
+     [PY, str(TOOLS / "lrae_package.py"), "collect"]),
+    ("memory", "read the agency's organization sources into the organization memory", False,
+     [PY, str(TOOLS / P["forecast"]["memory_tool"]), "build"]),
     ("datapack", "read the forecast releases into the datapack and compare them", False,
      [PY, str(TOOLS / "lrae_package.py"), "build"]),
     ("oversight", "read every saved oversight report into dated findings (cassettes replay; a new report is one agent call)", False,
@@ -78,18 +92,22 @@ STAGES = [
     ("small_business", "the small business office of the department and each command from the saved directory and office pages, "
                        "compared with the saved file", False,
      [PY, str(TOOLS / "small_business.py"), "build", "--check"]),
-    ("programs", "model every saved Navy SBIR/STTR topic as a dated programs event with the office it names", False,
+    ("programs", "model every saved SBIR/STTR topic of the agency as a dated programs event with the office it names", False,
      [PY, str(TOOLS / "sbir.py"), "build"]),
     ("protests", "read every saved GAO case page into a protest dated the day it was filed", False,
      [PY, str(TOOLS / "protests.py"), "build"]),
-    ("directives", "read every saved committee report into the Navy directives it states", False,
+    ("directives", "read every saved committee report into the directives it states for the agency", False,
      [PY, str(TOOLS / "congress.py"), "build"]),
     ("federal", "read the saved Federal Register pages into dated documents, typed where the text says what happened", False,
      [PY, str(TOOLS / "fedreg.py"), "build"]),
+    ("assistance", "read the saved USAspending pages into dated grant and cooperative agreement awards", False,
+     [PY, str(TOOLS / "assistance.py"), "build"]),
     ("kinds", "read what every saved special notice announces (cassettes replay; a new notice is one model call), compared with the saved file", False,
      [PY, str(TOOLS / "notice_kinds.py"), "build", "--check"]),
-    ("schema", "write the loaded-table subset of the production schema", False,
-     [PY, str(TOOLS / "schema_subset.py"), str(BUILD / "schema.sql")]),
+    # The schema comes from the platform's local database; a machine without it names an exported kit in SCHEMA_KIT
+    # (research/tools/schema_subset.py --from-kit) and builds a proof database from that export and its stand-ins.
+    ("schema", "write the loaded-table subset of the production schema" + (" (from the kit in SCHEMA_KIT)" if os.environ.get("SCHEMA_KIT") else ""), False,
+     [PY, str(TOOLS / "schema_subset.py"), *(["--from-kit", os.environ["SCHEMA_KIT"]] if os.environ.get("SCHEMA_KIT") else []), str(BUILD / "schema.sql")]),
     ("layers", "emit the rows: needs, assertions, evidence, organizations, brain items", False,
      [PY, str(TOOLS / "agency_layers_sql.py")]),
     ("database", "create the database and load the schema and the rows", False, None),
@@ -114,6 +132,8 @@ STAGES = [
     ("checks", "every tool's selfcheck and the test suite", False, None),
 ]
 NETWORK = {name for name, _, network, _ in STAGES if network}
+# Stages that read a source this profile does not have: the forecast and its datapack and the revision alert over it.
+NOT_FOR_PROFILE = set() if P["forecast"]["pack_glob"] else {"datapack", "revisions", "joins"}
 
 
 def refreshed(db: str) -> dict[str, list[list[str]]]:
@@ -167,6 +187,9 @@ def load_database(name: str) -> int:
 def checks(db: str) -> int:
     """Read the tools back: each one's selfcheck, then the suite, told which database was built."""
     failures = 0
+    # The selfchecks test each tool's rules on Navy fixtures, so they run under the Navy profile whatever agency was
+    # built; the suite is then told which database was built.
+    rules_env = {**psql_env(), "AGENCY": "navy"}
     for tool in sorted(TOOLS.glob("*.py")):
         # A tool without a selfcheck is covered by the suite, and "._name.py" is the resource fork
         # an exFAT volume leaves beside a file, not a module.
@@ -175,21 +198,28 @@ def checks(db: str) -> int:
         if "--selfcheck" not in tool.read_text(encoding="utf-8", errors="ignore"):
             print(f"    {tool.name}: no selfcheck, covered by the suite")
             continue
-        probe = subprocess.run([PY, str(tool), "--selfcheck"], cwd=ROOT,
+        probe = subprocess.run([PY, str(tool), "--selfcheck"], cwd=ROOT, env=rules_env,
                                stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
         if "selfcheck ok" in probe.stdout:
             print(f"    {tool.name}: ok")
         else:
             failures += 1
             print(f"    {tool.name}: FAILED\n{probe.stdout[-800:]}")
-    if run([PY, "-m", "pytest", "-q", "tests"], env={**psql_env(), "NAVY_DB": db}):
+    # The suite asserts the Navy records, so it runs under the Navy profile; another profile adds its own layer test
+    # and the coverage test, read against its files.
+    if run([PY, "-m", "pytest", "-q", "tests"], env={**psql_env(), "NAVY_DB": db, "AGENCY": "navy"}):
         failures += 1
+    if AGENCY != "navy":
+        own = [str(p) for p in (ROOT / "tests" / f"test_{AGENCY}_layer.py", ROOT / "tests" / "test_coverage.py") if p.exists()]
+        if own and run([PY, "-m", "pytest", "-q", *own], env={**psql_env(), "NAVY_DB": db, "AGENCY": AGENCY}):
+            failures += 1
     return 1 if failures else 0
 
 
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(prog="pipeline")
-    parser.add_argument("--db", default="navy_proof_e", help="the database to build from nothing")
+    parser.add_argument("--agency", default=AGENCY, help="the agency profile (research/tools/agency.py)")
+    parser.add_argument("--db", default=P["database"], help="the database to build from nothing")
     parser.add_argument("--collect", action="store_true", help="include the network stages")
     parser.add_argument("--refresh", action="store_true", help="rewrite the saved results from the new build instead of comparing with them")
     parser.add_argument("--from", dest="start", help="start at this stage")
@@ -216,6 +246,9 @@ def main(argv: list[str]) -> int:
         if name not in wanted:
             continue
         print(f"\n== {name}: {what}")
+        if name in NOT_FOR_PROFILE:
+            print(f"    skipped: the {AGENCY} profile has no source for this stage")
+            continue
         if name in rewrite:
             code = next((c for c in (run(step) for step in rewrite[name]) if c), 0)
         elif name == "database":
@@ -250,7 +283,7 @@ def selfcheck() -> int:
     assert names.index("database") < names.index("revisions"), "the revision alert reads the loaded database"
     assert names.index("backtest") < names.index("offices"), "the office reads are made over the frozen corpus"
     assert NETWORK == {"watch", "sweep", "audits", "podium", "contracts", "solicitations", "topics", "changes", "dockets", "reports",
-                       "register", "outreach"}, "only collection touches the network"
+                       "register", "grants", "outreach", "orgpages", "joins"}, "only collection touches the network"
     assert set(refreshed("x")) <= set(names), "every refreshed stage is a stage"
     assert max(names.index(n) for n in NETWORK) < names.index("memory"), "collection runs before any build stage"
     assert all(c is None or c[0] == PY for _, _, _, c in STAGES), "every stage runs this interpreter"

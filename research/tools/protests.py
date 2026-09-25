@@ -30,12 +30,14 @@ from fetch import ROOT  # noqa: E402
 from lrae_package import manifest_rows, url_index  # noqa: E402
 from context_fetch import fetch as hosted  # noqa: E402
 
-EVENTS = ROOT / "research" / "events" / "protest_events.json"
-LISTING = "https://www.gao.gov/legal/bid-protests/search?agency=Department%20of%20the%20Navy&page={page}"
+from agency import EVENTS as EVENTS_DIR, P  # noqa: E402
+
+EVENTS = EVENTS_DIR / "protest_events.json"
+LISTING = P["protests"]["listing"]  # the docket search filtered to the agency, as the profile states it
 CASE = "https://www.gao.gov/docket/{file}"
-AGENCY = "Department of the Navy"
+AGENCY = P["protests"]["agency"]
 RETAKE_DAYS = 14
-MAX_PAGES = 60  # the docket holds twelve months; the Navy files a few hundred cases a year
+MAX_PAGES = P["protests"]["max_pages"]  # the docket holds twelve months; the Navy files a few hundred cases a year
 UIC_RE = re.compile(r"^([A-Z]\d{4}[A-Z0-9])\d{2}[A-Z]")  # a DoD solicitation number: office UIC, fiscal year, type letter
 TOPIC_RE = re.compile(r"^N\d{2}[0-9AB]-T?\d{3}$")  # an SBIR/STTR topic protested in place of a solicitation
 TEASER = "node--type-bid-protest-docket node--view-mode-teaser-search"

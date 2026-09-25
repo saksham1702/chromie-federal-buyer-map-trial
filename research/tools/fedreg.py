@@ -32,10 +32,15 @@ from lrae_package import manifest_rows, saved  # noqa: E402
 SINCE = "2021-10-01"
 FIELDS = ("document_number", "title", "type", "abstract", "publication_date", "html_url", "agencies",
           "action", "dates", "effective_on", "docket_ids")
+from agency import EVENTS as EVENTS_DIR, P, NOTE_TAG  # noqa: E402
+
+# The agency condition comes from the profile: an agency slug where the Register has one, a term search where it has none.
 FIRST_PAGE = "https://www.federalregister.gov/api/v1/documents.json?" + urllib.parse.urlencode(
-    [("conditions[agencies][]", "navy-department"), ("conditions[publication_date][gte]", SINCE),
+    [*P["fedreg_conditions"], ("conditions[publication_date][gte]", SINCE),
      *[("fields[]", f) for f in FIELDS], ("order", "oldest"), ("per_page", "1000")])
-EVENTS = ROOT / "research" / "events" / "fedreg_events.json"
+LABEL = P["fedreg_label"]
+NAME_RE = re.compile(P["fedreg_name_pattern"]) if P.get("fedreg_name_pattern") else None
+EVENTS = EVENTS_DIR / "fedreg_events.json"
 
 # Read against "type|action|title", first match wins; a None match is a dated document, not an event.
 # The first page (268 documents, FY22 to 2026-08) is 173 information collections, 18 certificates of
@@ -126,7 +131,7 @@ def sweep(argv: list[str]) -> int:
     taken = 0
     with MANIFEST.open("a", encoding="utf-8") as handle:
         while url and taken < args.limit:
-            row = fetch(url, "direct", None, f"Federal Register: Department of the Navy documents since {SINCE}, page {number}")
+            row = fetch(url, "direct", None, f"Federal Register{NOTE_TAG}: {LABEL} documents since {SINCE}, page {number}")
             handle.write(json.dumps(row, sort_keys=True) + "\n")
             handle.flush()
             taken += 1
@@ -144,6 +149,10 @@ def build(argv: list[str]) -> int:
     ap.add_argument("--check", action="store_true", help="exit 1 if the saved file differs from a fresh build")
     args = ap.parse_args(argv)
     payload = events(manifest_rows())
+    if NAME_RE:  # a term search: keep the documents whose title, action or abstract names the agency
+        before = len(payload["rows"])
+        payload["rows"] = [r for r in payload["rows"] if NAME_RE.search(f"{r['title']} {r['body']}")]
+        print(f"{before - len(payload['rows'])} document(s) mention the agency only in their text and are left")
     text = dumps(payload)
     typed = Counter(r["event_type"] for r in payload["rows"] if r["event_type"])
     print(f"{len(payload['rows'])} document(s), {sum(typed.values())} event(s) {dict(sorted(typed.items()))}")

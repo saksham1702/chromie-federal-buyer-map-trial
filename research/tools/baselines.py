@@ -24,7 +24,9 @@ from backtest import (CORPUS, EMPTY_LABEL, FOLLOW_WINDOW_DAYS, HORIZONS, LABELS,
                       need_cell, outcome_cell, pilot_needs, reached_on, recurring_tokens, shift)
 from pulse import ENDS_RE  # noqa: E402
 
-BASELINES = ROOT / "build" / "backtest_baselines.json"
+from agency import BUILD  # noqa: E402
+
+BASELINES = BUILD / "backtest_baselines.json"
 BARS = (1, 2, 3, 4, 5)
 ENDING_WINDOW_DAYS = 365
 COMBINATION_MIN_CELLS = 3

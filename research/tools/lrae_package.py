@@ -2,14 +2,15 @@
 """Turn the saved NAVWAR LRAE releases into reproducible data packages.
 
     python research/tools/lrae_package.py build              # regenerate every package from saved bytes only
-    python research/tools/lrae_package.py collect [--limit N]  # fetch the FPDS and SAM.gov lookups the joins need
+    python research/tools/lrae_package.py collect [--limit N] [--release KEY]  # fetch the FPDS, SAM.gov and USAspending lookups the joins need
 
 `build` reads the spreadsheet bytes recorded in research/sources/documents_manifest.jsonl plus the saved
 FPDS ATOM and SAM.gov search responses, and writes one datapack/lrae_<activity>_<release>/ per saved
 release, plus a diff between consecutive releases in the newer package. It never touches the
 network, so a reviewer with the same data/raw/ gets byte-identical files. `collect` performs the
 lookups that are not yet in the manifest (one FPDS PIID search per contract token, one SAM.gov
-search per PID and per token) through fetch.py so every request is recorded.
+search per PID and per token, the rest of each contract's FPDS history, and its USAspending award page)
+through fetch.py so every request is recorded; by default for the newest release of every activity.
 """
 
 from __future__ import annotations
@@ -31,9 +32,9 @@ from difflib import SequenceMatcher
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from agency import P, RESEARCH  # noqa: E402
 from fetch import MANIFEST, ROOT, fetch  # noqa: E402
 
-RESEARCH = ROOT / "research"
 SHEET = "LRAE Annex 25"
 HEADER_ROW = 8  # Excel row number of the column headers in every release seen so far
 PACK_BASE = Path(os.environ.get("LRAE_PACK_DIR") or ROOT / "datapack")  # override lets the test rebuild elsewhere
@@ -42,7 +43,7 @@ PACK_BASE = Path(os.environ.get("LRAE_PACK_DIR") or ROOT / "datapack")  # overri
 # Releases are diffed and chained within one activity; a NAVSEA line is never a NAVWAR line's revision.
 # The Department's combined forecast carries every activity as its own sheet, each with its own release date.
 COMBINED = "the Department of the Navy's combined forecast, one sheet per activity; each sheet is its own release"
-RELEASES = [
+NAVY_RELEASES = [
     {"key": "lrae_navwar_2023-06", "activity": "navwar", "match": "NAVWAR_LRAE_Report.xlsx", "release_date": "2023-06-20",
      "release_note": "sheet says '20 June 2023 / TDB'; the report was exported 2023-05-25 (Filters sheet)", "sheet": "LRAE Annex 25", "header_row": 8, "scope": "peo_c4i"},
     {"key": "lrae_navwar_2024-06", "activity": "navwar", "match": "HQCA-2024-A-094", "release_date": "2024-06-20",
@@ -57,16 +58,38 @@ RELEASES = [
      "release_note": COMBINED, "sheet": "NAVSEA", "header_row": 8, "scope": "all"},
     {"key": "lrae_onr_2025-12", "activity": "onr", "match": "onr-and-nrl-long-range-acquisition-estimate", "release_date": "2025-12-19",
      "release_note": 'one workbook carries ONR and NRL as two sheets; each sheet is its own release', "sheet": "ONR", "header_row": 7, "scope": "all"},
-    {"key": "lrae_onr_2026-07", "activity": "onr", "match": "DON_Combined_LRAE_Report_20260713", "release_date": "2026-07-13",
-     "release_note": COMBINED, "sheet": "ONR", "header_row": 8, "scope": "all"},
     {"key": "lrae_nrl_2025-12", "activity": "nrl", "match": "onr-and-nrl-long-range-acquisition-estimate", "release_date": "2025-12-19",
      "release_note": 'one workbook carries ONR and NRL as two sheets; each sheet is its own release', "sheet": "NRL", "header_row": 7, "scope": "all"},
+    {"key": "lrae_onr_2026-07", "activity": "onr", "match": "DON_Combined_LRAE_Report_20260713", "release_date": "2026-07-13",
+     "release_note": COMBINED, "sheet": "ONR", "header_row": 8, "scope": "all",
+     "carries": ("nrl",)},  # the combined report prints NRL's rows on the ONR sheet
 ]
-JOINS_COLLECTED_FOR = "lrae_navwar_2025-06"  # the only release whose FPDS and SAM.gov lookups were collected
+# The Army Materiel Command forecast: one sheet, dates instead of fiscal quarters, and the owning office as a
+# Command and a PM / Directorate column, which the office string joins as "Command - PM / Directorate".
+AMC_HEADERS = {
+    "pan, solicitation, or contract number": "number", "if follow-on, provide current contract number": "existing_contract_number",
+    "description of requirement": "requirement_title", "consolidation anticipated": "consolidation", "bundling anticipated": "bundling",
+    "forecasted contract value": "anticipated_total_value", "forecasted psc": "psc", "anticipated naics": "naics",
+    "anticipated type of set aside": "procurement_method", "procact": "procurement_instrument", "indefinite delivery vehicle type": "idv_type",
+    "palt": "palt_code", "anticipated contract type": "contract_type", "anticipated solicitation date": "solicitation_date",
+    "anticipated solicitation closing date": "solicitation_close_date", "forecasted award date": "award_date",
+    "period of performance": "period_of_performance_months", "contracting center": "contracting_center",
+    "contracting office": "contracting_office", "command": "command", "pm / directorate": "pm_directorate",
+    "assigned small business office email": "small_business_email", "assigned small business office": "small_business_office",
+}
+ARMY_RELEASES = [
+    {"key": "amc_2026-05", "activity": "amc", "match": "enclosure-1-fy26-amc-acquisition-forecast", "release_date": "2026-05-27",
+     "release_note": "the June to December 2026 forecast, dated by its download path", "sheet": "FY26 AMC_2nd Iteration", "header_row": 2,
+     "scope": "all", "headers": AMC_HEADERS},
+]
+RELEASES = {"navy": NAVY_RELEASES, "army": ARMY_RELEASES}.get(P["key"], [])
+JOINS_COLLECTED_FOR = "lrae_navwar_2025-06"  # the first release whose FPDS and SAM.gov lookups were collected
+USASPENDING_AWARD = "https://api.usaspending.gov/api/v2/awards/{}/"
 FPDS = "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:{piid}&start={start}"
 FPDS_PAGE = 10  # actions a page; the feed runs oldest first and names the next page with a rel="next" link
 SGS = "https://sam.gov/api/prod/sgs/v1/search/?"
-PIID_RE = re.compile(r"N\d{5}\d{2}[A-Z]\d{4,5}(?!\d)|NNG\d{2}S[A-Z]\d{2}B|GS-?\d{2}F-?\d{3,4}[A-Z]{1,2}")
+PIID_RE = re.compile("|".join(filter(None, (r"N\d{5}\d{2}[A-Z]\d{4,5}(?!\d)|NNG\d{2}S[A-Z]\d{2}B|GS-?\d{2}F-?\d{3,4}[A-Z]{1,2}",
+                                            P["forecast"].get("contract_re")))))
 FORECAST_PID_RE = re.compile(r"[A-Z0-9]{6}-\d{2}-RFPREQ-[A-Za-z0-9/\-]+?-\d{4}")
 INCLUDED_PARENT = "peo:c4i"
 # Division and competency codes resolve to the organization that owns them, which is enough to exclude them.
@@ -100,6 +123,9 @@ VALUE_RANGES = {
     "$250M - $1B": (250_000_000, 1_000_000_000), "> $250M - < $1B": (250_000_000, 1_000_000_000), "> $1B+": (1_000_000_000, ""),
     "> $1B": (1_000_000_000, ""), "No Range Specified": ("", ""),
     "\u2265 $50M\u2012<$100M": (50_000_000, 100_000_000),  # the NAVSEA sheet once writes the range with a >= and a figure dash
+    "< $25K": (0, 25_000), "$25K to $250K": (25_000, 250_000), "$250K to $1M": (250_000, 1_000_000), "$1M to $5M": (1_000_000, 5_000_000),
+    "$5M to $10M": (5_000_000, 10_000_000), "$10M to $25M": (10_000_000, 25_000_000), "$25M to $50M": (25_000_000, 50_000_000),
+    "$50M to $100M": (50_000_000, 100_000_000), "$100M to $250M": (100_000_000, 250_000_000), "\u2265 $250M": (250_000_000, ""),
 }
 
 
@@ -120,7 +146,7 @@ def url_index(rows: list[dict]) -> dict[str, dict]:
     that look up thousands of URLs, where a scan of the manifest per lookup does not finish."""
     index: dict[str, dict] = {}
     for r in rows:
-        if r.get("status") == 200 and r.get("path") and (ROOT / r["path"]).exists():
+        if r.get("status") == 200 and r.get("path") and r.get("url") and (ROOT / r["path"]).exists():
             index[r["url"]] = r
     return index
 
@@ -144,21 +170,53 @@ def read_sheet(path: Path, release_key: str = "", sheet_name: str = SHEET, heade
         if row and row[0] and str(row[0]).endswith(":") and len(row) > 1:
             meta[str(row[0]).rstrip(":").strip()] = cell(row[1])
     header = next(sheet.iter_rows(min_row=header_row, max_row=header_row, values_only=True))
+    headers = next((r.get("headers") for r in RELEASES if r["key"] == release_key), None) or HEADERS
+    columns = list(dict.fromkeys([*COLUMNS, *headers.values()]))
     fields = []
     for text in header:
         first = (str(text or "").split("\n")[0]).strip().lower()
-        fields.append(next((name for prefix, name in HEADERS.items() if first.startswith(prefix)), None))
+        fields.append(next((name for prefix, name in headers.items() if first.startswith(prefix)), None))
     rows = []
     for number, values in enumerate(sheet.iter_rows(min_row=header_row + 1, values_only=True), start=header_row + 1):
         if all(v is None or str(v).strip() == "" for v in values):
             continue
         record = {"sheet": sheet_name, "row_number": number, "release": release_key}
-        record.update({name: "" for name in COLUMNS})
+        record.update({name: "" for name in columns})
         for i, name in enumerate(fields):
             if name and i < len(values):
                 record[name] = cell(values[i])
         rows.append(record)
+    if headers is not HEADERS:
+        derive(rows)
     return meta, rows
+
+
+def fiscal_quarter(day: str) -> tuple[str, str]:
+    """'2026-11-03' -> ('FY27', 'Q1'): the federal year starts in October."""
+    m = re.match(r"(\d{4})-(\d{2})", day)
+    if not m:
+        return "", ""
+    year, month = int(m[1]), int(m[2])
+    return f"FY{(year + (month >= 10)) % 100:02d}", f"Q{(month - 10) % 12 // 3 + 1}"
+
+
+ISSUER_RE = re.compile(r"W[A-Z0-9]{5}(?=-?\d{2}-?[A-Z])")  # DFARS 204.1603: an instrument number opens with its issuer's DoDAAC
+
+
+def derive(rows: list[dict]) -> None:
+    """The fields a dated forecast states another way: fiscal year and quarter from its dates, the office string from
+    Command and PM / Directorate, the contracting office from the DoDAAC the number opens with. A number printed on
+    several rows (one solicitation, several lines) is kept on each row but is no row's PID."""
+    printed = Counter(r["number"] for r in rows if r["number"])
+    for r in rows:
+        for name in ("solicitation_date", "solicitation_close_date", "award_date"):
+            r[name] = r[name][:10]
+        r["solicitation_fy"], r["solicitation_quarter"] = fiscal_quarter(r["solicitation_date"])
+        r["award_fy"], r["award_quarter"] = fiscal_quarter(r["award_date"])
+        r["office_code_string"] = " - ".join(x for x in (r["command"], r["pm_directorate"]) if x)
+        issuer = ISSUER_RE.match(r["number"])
+        r["contracting_office_uic"] = issuer.group(0) if issuer else ""
+        r["pid"] = r["number"] if printed[r["number"]] == 1 else ""
 
 
 def record_key(r: dict) -> str:
@@ -209,8 +267,13 @@ def included_offices() -> set[str]:
     return offices | {INCLUDED_PARENT}
 
 
+def memory_file(name: str, empty):
+    path = RESEARCH / "memory" / name  # an agency whose memory has no such file reads it empty
+    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else empty
+
+
 def families() -> list[tuple[str, re.Pattern, str]]:
-    data = json.loads((RESEARCH / "memory" / "org_code_families.json").read_text(encoding="utf-8"))
+    data = memory_file("org_code_families.json", {"families": []})
     return [(f["family"], re.compile(f["pattern"]), f.get("org_type", "")) for f in data["families"]]
 
 
@@ -343,6 +406,27 @@ def fpds_history(manifest: list[dict] | dict[str, dict], piid: str) -> tuple[lis
             return pages, actions, True
 
 
+def usaspending_url(piid: str, idv: str = "") -> str | None:
+    """The award's USAspending page: an IDV (D or A in the ninth place) by its own number, an order under its IDV, any
+    other award as a definitive contract. An order whose IDV FPDS has not named has no address yet."""
+    kind = piid[8:9] if re.fullmatch(r"[A-Z][A-Z0-9]{5}\d{2}[A-Z][A-Z0-9]{4,5}", piid) else ""
+    if kind in ("D", "A"):
+        return USASPENDING_AWARD.format(f"CONT_IDV_{piid}_9700")
+    if kind == "F":
+        return USASPENDING_AWARD.format(f"CONT_AWD_{piid}_9700_{idv}_9700") if idv else None
+    return USASPENDING_AWARD.format(f"CONT_AWD_{piid}_9700_-NONE-_-NONE-")
+
+
+def current_releases() -> list[dict]:
+    """The newest release of each activity, an activity another release carries included once: the rows an office
+    forecasts today, whose contracts the joins look up."""
+    newest: dict[str, dict] = {}
+    for r in sorted(RELEASES, key=lambda r: r["release_date"]):
+        for activity in (r["activity"], *r.get("carries", ())):
+            newest[activity] = r
+    return list({r["key"]: r for r in newest.values()}.values())
+
+
 def sgs_url(query: str, active: str) -> str:
     return SGS + urllib.parse.urlencode({"index": "opp", "page": 0, "size": 25, "q": query, "mode": "search", "is_active": active})
 
@@ -357,12 +441,12 @@ def sgs_hits(body: bytes, needle: str) -> list[dict]:
 
 
 def contacts() -> dict[tuple[str, str], str]:
-    rows = json.loads((RESEARCH / "memory" / "contact_observations.json").read_text(encoding="utf-8"))
+    rows = memory_file("contact_observations.json", [])
     return {(norm_code(c["name"]), c["office_id_as_resolved"]): c["id"] for c in rows if c.get("name")}
 
 
 def attribution_by_pid() -> dict[str, dict]:
-    rows = json.loads((RESEARCH / "memory" / "attribution_examples.json").read_text(encoding="utf-8"))
+    rows = memory_file("attribution_examples.json", [])
     table = {}
     for x in rows:
         match = FORECAST_PID_RE.match((x.get("related") or {}).get("forecast_pid") or "")
@@ -739,7 +823,8 @@ def fold_map(pack_base: Path = PACK_BASE) -> tuple[dict[tuple[str, str], dict], 
     database alone sees the full history. A chain that would join two different PIDs, or two rows
     of one release, is left unfolded and named in the second value: those are a reviewer's call.
     """
-    packs = sorted(p for p in pack_base.glob("lrae_*") if p.is_dir() and (p / "rows_classified.csv").exists())
+    glob = P["forecast"]["pack_glob"]
+    packs = sorted(p for p in pack_base.glob(glob) if p.is_dir() and (p / "rows_classified.csv").exists()) if glob else []
     keys: dict[tuple[str, str], str] = {}  # (release, row number) -> record key, included rows only
     for pack in packs:
         with (pack / "rows_classified.csv").open(newline="") as handle:
@@ -854,9 +939,10 @@ def reconciliation(release: dict, rows, classified, joins, diff_note: str) -> st
     lines += ["", "Explicit joins: office code through the alias table, contract number found in FPDS, notice text containing the PID or contract "
               "number, POC name matching a contact observation for the same office. Inferred joins: forecast row tied to an award through an "
               "attribution example, or a notice that only cites a shared vehicle. A shared vehicle (SeaPort-NxG IDV, SEWP, GSA schedule) alone is never a join."]
-    if release["key"] != JOINS_COLLECTED_FOR:
-        lines += ["", f"FPDS and SAM.gov lookups were collected for {JOINS_COLLECTED_FOR} only; lines marked 'not collected' here are honest gaps, "
-                  "not misses. Contact observations were built from the 2025 release, so older rows show no contact match."]
+    pending = sum("not collected" in j["note"] for j in joins)
+    if pending:
+        lines += ["", f"{pending} FPDS and SAM.gov lookups for this release are not collected yet (`lrae_package.py collect --release {release['key']}`); "
+                  "lines marked 'not collected' here are honest gaps, not misses. Contact observations were built from the 2025 release, so older rows show no contact match."]
     lines += ["", "## Releases", "", diff_note, ""]
     return "\n".join(lines)
 
@@ -890,7 +976,7 @@ def build() -> int:
             if table:
                 write_csv(pack / "layers" / f"{name}.csv", table)
         notes = []
-        for prev_release, prev_rows in earlier.get(release["activity"], []):
+        for prev_release, prev_rows in [pr for a in (release["activity"], *release.get("carries", ())) for pr in earlier.get(a, [])]:
             changes, method = diff_releases(prev_rows, rows, read=True)
             name = f"diff_{prev_release['key']}_{release['key']}.csv"
             if changes:
@@ -914,28 +1000,32 @@ def build() -> int:
                 "header_row": release["header_row"], "scope": release["scope"],
                 "refetch": f"python research/tools/fetch.py '{source['url']}' --wayback {source.get('wayback_timestamp', '')}",
                 "regenerate": "python research/tools/lrae_package.py build", "record_key": "pid, or the row itself (release key and row number) when the row has none; nothing is merged at import",
-                "joins_collected": release["key"] == JOINS_COLLECTED_FOR, "outputs": outputs}
+                "joins_collected": not any("not collected" in j["note"] for j in joins if j["join_type"] in ("existing_contract", "notice")), "outputs": outputs}
         (pack / "SOURCE.json").write_text(json.dumps(info, indent=2, sort_keys=True) + "\n", encoding="utf-8")
         print(release["key"], release_date, len(rows), "rows;", Counter(c["include_decision"] for c in classified))
         earlier.setdefault(release["activity"], []).append((release, rows))
     return 0
 
 
-def collect(limit: int) -> int:
+def collect(limit: int, keys: list[str] | None = None) -> int:
     manifest = manifest_rows()
-    release = next(r for r in RELEASES if r["key"] == JOINS_COLLECTED_FOR)
-    source = saved(manifest, lambda m: release["match"] in m.get("url", "") and m.get("mime", "").endswith("sheet"))
-    _, rows = read_sheet(ROOT / source["path"], release["key"], release["sheet"], release["header_row"])
-    included = {c["row_number"] for c in classify(rows, release["scope"]) if c["include_decision"] == "included"}
     wanted: list[tuple[str, str]] = []
     piids: set[str] = set()
-    for r in rows:
-        if r["row_number"] not in included:
+    for release in [r for r in RELEASES if r["key"] in keys] if keys else current_releases():
+        source = saved(manifest, lambda m, rel=release: rel["match"] in m.get("url", "") and m.get("mime", "").endswith("sheet"))
+        if source is None:
+            print(f"{release['key']}: spreadsheet bytes not saved; nothing to look up", file=sys.stderr)
             continue
-        tokens = contract_tokens(r["existing_contract_number"])
-        piids.update(tokens)
-        wanted += [(fpds_url(t), f"LRAE join: FPDS search for existing contract {t} (row {r['row_number']})") for t in tokens]
-        wanted += [(sgs_url(n, a), f"LRAE join: SAM.gov search for {n} (row {r['row_number']})") for n in (r["pid"], *tokens) if n for a in ("false", "true")]
+        _, rows = read_sheet(ROOT / source["path"], release["key"], release["sheet"], release["header_row"])
+        included = {c["row_number"] for c in classify(rows, release["scope"]) if c["include_decision"] == "included"}
+        for r in rows:
+            if r["row_number"] not in included:
+                continue
+            tokens = contract_tokens(r["existing_contract_number"])
+            piids.update(tokens)
+            where = f"{release['key']} row {r['row_number']}"
+            wanted += [(fpds_url(t), f"LRAE join: FPDS search for existing contract {t} ({where})") for t in tokens]
+            wanted += [(sgs_url(n, a), f"LRAE join: SAM.gov search for {n} ({where})") for n in (r["pid"], *tokens) if n for a in ("false", "true")]
     have = {m["url"] for m in manifest if m.get("status") == 200 and m.get("path")}
     todo = []
     for url, note in wanted:
@@ -969,11 +1059,29 @@ def collect(limit: int) -> int:
                 if row.get("status") != 200:
                     break
                 manifest.append(row)
+        # The award's USAspending page states the period of performance when the FPDS history does not reach its end.
+        have = {m["url"] for m in manifest if m.get("status") == 200 and m.get("path")}
+        for piid in sorted(piids):
+            if done >= limit:
+                break
+            _, actions, _ = fpds_history(manifest, piid)
+            url = usaspending_url(piid, next((a["idv"] for a in actions if a["piid"] == piid and a["idv"]), ""))
+            if url and url not in have:
+                take(url, f"LRAE join: USAspending award page for existing contract {piid}")
+                done += 1
     print(f"collected {done}")
     return 0
 
 
 def selfcheck() -> int:
+    assert fiscal_quarter("2026-11-03") == ("FY27", "Q1") and fiscal_quarter("2027-03-31") == ("FY27", "Q2") and fiscal_quarter("") == ("", "")
+    dated = [{"number": n, "solicitation_date": "2026-05-01 00:00:00", "solicitation_close_date": "", "award_date": "2026-09-30 00:00:00",
+              "command": "PEO AVIATION", "pm_directorate": pm} for n, pm in (("W58RGZ-26-R-0008", "UAS"), ("W58RGZ-26-R-0008", ""), ("PANDTA-26-P-0000 1", "UAS"))]
+    derive(dated)
+    assert [(r["pid"], r["contracting_office_uic"], r["office_code_string"]) for r in dated] == [
+        ("", "W58RGZ", "PEO AVIATION - UAS"), ("", "W58RGZ", "PEO AVIATION"), ("PANDTA-26-P-0000 1", "", "PEO AVIATION - UAS")], \
+        "a number on two rows is no row's PID; the issuer is the DoDAAC the number opens with"
+    assert dated[0]["award_fy"] == "FY26" and dated[0]["award_quarter"] == "Q4" and dated[0]["solicitation_date"] == "2026-05-01"
     assert handles({"name": "Department of the Navy", "aliases": [{"text": "DoN"}], "codes": {"fpds_agency_id": "1700", "uic": "N00039"}}) \
         == ["Department of the Navy", "DoN", "N00039"]
     old_row, new_row = {"requirement_title": "MIDS JTRS Production Lot 12"}, {"requirement_title": "MIDS JTRS Lot 12 Production", "requirement_description": ""}
@@ -1129,5 +1237,5 @@ if __name__ == "__main__":
         sys.exit(selfcheck())
     if command == "collect":
         n = int(sys.argv[sys.argv.index("--limit") + 1]) if "--limit" in sys.argv else 10_000
-        sys.exit(collect(n))
+        sys.exit(collect(n, [sys.argv[i + 1] for i, a in enumerate(sys.argv) if a == "--release"]))
     sys.exit(build())

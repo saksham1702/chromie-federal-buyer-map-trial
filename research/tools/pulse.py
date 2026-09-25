@@ -41,7 +41,9 @@ from people import PEOPLE, contacts_for, load_routes, routes_for  # noqa: E402
 from vocabulary import classify, next_milestones, stage_of  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
-PULSE = ROOT / "research" / "results" / "pulse.json"
+from agency import RESULTS  # noqa: E402
+
+PULSE = RESULTS / "pulse.json"
 
 WEIGHTS = {"families": 40, "recency": 20, "persistence": 20, "proximity": 20}
 FAMILY_CAP = 5
@@ -50,7 +52,9 @@ QUARTERS = 8
 NOVEL_DAYS = 90  # a family first seen inside this window is new for the cell
 VENDORS_SHOWN = 5
 NOTICE_TYPES = ("rfi_released", "presolicitation_posted", "rfp_released")
-ACTIONS = ("meet_office", "attend_event", "research_program", "find_partner", "monitor_forecast", "watch_expiration", "track_person")
+ACTIONS = ("meet_office", "attend_event", "research_program", "find_partner", "monitor_forecast", "respond_notice", "watch_expiration",
+           "track_person")
+PAST_FORECAST = ("market_research", "solicitation", "award")  # a cell at one of these has moved beyond its forecast row
 ENDS_RE = re.compile(r"\bends (\d{4}-\d{2}-\d{2})")
 CONTRACT_RE = re.compile(r"\bcontract (\S+)")
 
@@ -64,15 +68,30 @@ def cells(corpus: dict, labels: dict) -> list[dict]:
     by_id = {r["id"]: r for r in labels["labels"]}
     for outcome in corpus["outcomes"]:
         row = by_id.get(outcome["id"])
-        if not row:
+        if not row or row.get("unread"):  # an outcome the model has not read yet names no cell
             continue
         cell = outcome_cell(outcome, row, corpus, replay=False)
         out.append({"key": f"outcome:{outcome['id']}", "org": cell["org"], "office": office_name(cell["org"], orgs),
                     "name": row.get("capability") or outcome["title"], "aliases": specific(row["aliases"], events, orgs), "terms": cell["terms"]})
-    for need in pilot_needs(corpus):
+    for need in live_needs(corpus):
         aliases = specific(need_aliases(need["title"], recurring), events, orgs) + ([need["key"]] if LINE_RE.fullmatch(need["key"]) else [])
         out.append({"key": f"need:{need['key']}", "org": need["owner_id"], "office": need["owner"], "name": need["title"],
                     "aliases": aliases, "terms": []})
+    return out
+
+
+def live_needs(corpus: dict, days: int = 365) -> list[dict]:
+    """The pilot offices' forecast rows, then every other row a forecast release restated in the year before the
+    corpus ends, one per (owner, title): the rows an office still forecasts, whichever command owns them."""
+    since = shift(corpus_end(corpus), -days)
+    current = {e["line"] for e in corpus["events"] if e["family"] == "forecast" and e.get("line") and e["available_by"] > since}
+    out = pilot_needs(corpus)
+    seen = {(n["owner"], re.sub(r"\W+", " ", n["title"]).strip().lower()) for n in out}
+    for need in corpus["needs"]:
+        key = (need["owner"], re.sub(r"\W+", " ", need["title"]).strip().lower())
+        if need["key"] in current and need["owner_id"] and key not in seen:
+            seen.add(key)
+            out.append(need)
     return out
 
 
@@ -85,6 +104,14 @@ def cell_events(cell: dict, corpus: dict) -> list[dict]:
     aliases, hits = with_lines(cell["org"], cell["aliases"], corpus["events"], corpus["orgs"])
     if cell["terms"]:
         hits = matched(cell["org"], aliases + cell["terms"], corpus["events"], corpus["orgs"])
+    own = cell["key"].removeprefix("need:")
+    if cell["key"].startswith("need:"):
+        # A notice the load tied to another forecast line is that line's, however many names the two rows share; one it
+        # tied to this line is this cell's, whether or not it repeats the row's words.
+        hits = [e for e in hits if not (e["family"] == "notice" and e.get("line", own) != own and not e["line"].startswith("notice:"))]
+        seen = {e["id"] for e in hits}
+        hits = sorted(hits + [e for e in corpus["events"] if e.get("line") == own and e["family"] == "notice" and e["id"] not in seen],
+                      key=lambda e: (e["available_by"], e["id"]))
     return hits
 
 
@@ -292,10 +319,14 @@ def card_cmd(argv: list[str]) -> int:
 # ------------------------------------------------------------------ actions
 
 def actions(ranked: list[dict], corpus: dict, as_of: str, minimum_families: int = 3, roster: list[dict] | None = None,
-            routes: list[dict] | None = None) -> list[dict]:
+            routes: list[dict] | None = None, reach=None, named=None) -> list[dict]:
     """What a vendor can do now, each row from the closed list and pointing at the events behind it. A meeting names
-    whom the record ties to the office by as_of: its own people first, then its parents', newest first; and the routes
-    in: the requirement side, the contracting side and the published channels of the office or the nearest parent."""
+    whom the record ties to the office by as_of: the contacts the cell's own forecast row names (`named`), then the
+    office's people, its parents' and those of the contracting offices that buy for it (`reach`), newest first; and the
+    routes in: the requirement side, the contracting side and the published channels of the nearest office that has any.
+    A forecast row is watched only while the cell stands at its forecast, and an open notice is answered by its date."""
+    reach = reach or (lambda oid: chain(oid, corpus["orgs"]) or [oid])
+    named = named or (lambda cell: [])
     rows = []
     year_ago, quarter_ago = shift(as_of, -365), shift(as_of, -90)
     for cell in ranked:
@@ -303,12 +334,19 @@ def actions(ranked: list[dict], corpus: dict, as_of: str, minimum_families: int 
         if len(cell["families"]) >= minimum_families:
             meet = action("meet_office", cell, [r["id"] for rows_ in cell["evidence"].values() for r in rows_[:1]],
                           f"{len(cell['families'])} families of evidence on this requirement")
-            meet["contacts"] = contacts_for(chain(cell["org"], corpus["orgs"]) or [cell["org"]], roster or [], as_of)
-            meet["routes"] = routes_for(chain(cell["org"], corpus["orgs"]) or [cell["org"]], routes or [], as_of)
+            own = named(cell)
+            meet["contacts"] = [*own, *(c for c in contacts_for(reach(cell["org"]), roster or [], as_of) if c["name"] not in {o["name"] for o in own})][:3]
+            meet["routes"] = routes_for(reach(cell["org"]), routes or [], as_of)
             rows.append(meet)
+        stage = cell.get("stage") or stage_of(ev, as_of)
         recent_forecast = [e["id"] for e in ev if e["family"] == "forecast" and e["available_by"] > year_ago]
-        if recent_forecast:
+        if recent_forecast and stage not in PAST_FORECAST:
             rows.append(action("monitor_forecast", cell, recent_forecast[:3], "forecast rows touched in the last year" + (", one moved later" if cell["slip"] else "")))
+        notices = [e for e in ev if e["event_type"] in NOTICE_TYPES]
+        newest = max(notices, key=lambda e: (e["available_by"], e["id"])) if notices else None
+        due = (newest or {}).get("due")
+        if due and as_of <= due and stage != "award":
+            rows.append(action("respond_notice", cell, [newest["id"]], f"the notice of {newest['available_by']} takes responses until {due}", by=due))
         newest: dict[str, str] = {}  # contract -> the id of the latest event stating its end; an extension replaces the expiry
         for e in sorted(ev, key=lambda e: e["available_by"]):
             if e["family"] == "incumbent" and ENDS_RE.search(e["title"]):
@@ -366,8 +404,23 @@ def load_people() -> list[dict]:
     return json.loads(PEOPLE.read_text(encoding="utf-8"))["rows"] if PEOPLE.exists() else []
 
 
+def record_reach(corpus: dict, as_of: str, roster: list[dict]) -> dict:
+    """The page layer's reach (an office, its parents and the contracting offices that buy for it) and the contacts a
+    need cell's own forecast row names, as the keyword arguments `actions` takes. Imported here: the pages read this module."""
+    from ask import named_on_rows, rows_as_released
+    from pages import Layer
+    layer = Layer(corpus, roster, as_of)
+    details, by_key = rows_as_released(layer), {n["key"]: n for n in corpus["needs"]}
+    need_of = lambda cell: by_key.get(cell["key"].removeprefix("need:")) if cell["key"].startswith("need:") else None
+    return {"reach": layer.reach, "named": lambda cell: named_on_rows(layer, [need_of(cell)], details) if need_of(cell) else []}
+
+
 def corpus_end(corpus: dict) -> str:
-    return max(e["available_by"] for e in corpus["events"])
+    """The last day the corpus speaks to: the latest day a statement became available, and never after the day the
+    corpus was frozen (an award signed inside the reporting lag becomes available after the freeze, not before it)."""
+    end = max(e["available_by"] for e in corpus["events"])
+    frozen = (corpus.get("frozen_at") or "")[:10]
+    return min(end, frozen) if frozen else end
 
 
 def rank_text(ranked: list[dict], top: int) -> str:
@@ -390,7 +443,8 @@ def build(argv: list[str]) -> int:
     ranked = rank(corpus, labels, as_of)
     assert all(recomposes(c) for c in ranked), "a score did not recompose from its parts"
     pulse = week(corpus, shift(as_of, -args.days), as_of)
-    acts = actions(ranked, corpus, as_of, roster=load_people(), routes=load_routes())
+    roster = load_people()
+    acts = actions(ranked, corpus, as_of, roster=roster, routes=load_routes(), **record_reach(corpus, as_of, roster))
     payload = {"as_of": as_of, "corpus_events": len(corpus["events"]), "cells": len(ranked), "ranking": ranked[:50],
                "week": pulse, "actions": acts}
     text = json.dumps(payload, indent=1, ensure_ascii=False) + "\n"
@@ -456,7 +510,9 @@ def actions_cmd(argv: list[str]) -> int:
     args = ap.parse_args(argv)
     corpus, labels = load()
     as_of = args.as_of or corpus_end(corpus)
-    acts = saved_pulse(as_of).get("actions") or actions(rank(corpus, labels, as_of), corpus, as_of, roster=load_people(), routes=load_routes())
+    roster = load_people()
+    acts = saved_pulse(as_of).get("actions") or actions(rank(corpus, labels, as_of), corpus, as_of, roster=roster, routes=load_routes(),
+                                                        **record_reach(corpus, as_of, roster))
     for a in queue(acts):
         print(f"{a['by'] or '':10} #{a['priority']:<4} {a['type']:17} {a['office'][:12]:12} {a['name'][:60]:60} {a['why']} [{len(a['evidence'])} event(s)]")
         for r in a.get("routes", [])[:3]:
@@ -526,6 +582,13 @@ def selfcheck() -> int:
     watch = [x for x in actions([cell], corpus, as_of) if x["type"] == "watch_expiration"]
     assert [x["evidence"] for x in watch] == [["e"]] and watch[0]["why"] == "incumbent ends 2028-03-31", "the extension's end replaces the expiry's"
     assert watch[0]["by"] == "2028-03-31" and all(x["priority"] == 1 for x in acts)
+    # An open notice is answered by its date; once a solicitation moves the cell past its forecast, the row is not watched
+    rfp = ev("r", "notice", "2026-08-25", "SAM.gov solicitation: autonomous aircraft sustainment", "rfp_released", due="2026-09-30")
+    corpus["events"] = timeline + [rfp]
+    later = actions([{**cell, **score(timeline + [rfp], as_of)}], corpus, as_of)
+    assert [(x["type"], x["by"]) for x in later if x["type"] == "respond_notice"] == [("respond_notice", "2026-09-30")]
+    assert "monitor_forecast" not in {x["type"] for x in later}, "a cell at solicitation does not watch its forecast row"
+    assert not [x for x in actions([cell], corpus, "2026-10-01") if x["type"] == "respond_notice"], "a closed notice takes no response"
     ordered = queue([{"by": None, "priority": 1}, {"by": "2027-01-01", "priority": 9}, {"by": "2026-10-01", "priority": 5}])
     assert [x["by"] for x in ordered] == ["2026-10-01", "2027-01-01", None], "dated actions first, soonest first"
     print("pulse selfcheck ok")

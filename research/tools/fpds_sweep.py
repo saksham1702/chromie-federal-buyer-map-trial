@@ -31,14 +31,16 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from fetch import MANIFEST, ROOT, fetch  # noqa: E402
 from lrae_package import FPDS_PAGE, fpds_entries, fpds_history, fpds_url, manifest_rows, saved, url_index  # noqa: E402
+from agency import P, NOTE_TAG  # noqa: E402
 
-OFFICES = {"N00039": "NAVWAR HQ", "N00024": "NAVSEA HQ", "N00014": "ONR", "N00173": "NRL",
-           "N00019": "NAVAIR HQ", "N00421": "NAWCAD Patuxent River", "N68335": "NAWCAD Lakehurst",
-           "N66001": "NIWC Pacific", "N65236": "NIWC Atlantic"}
+# The contracting offices swept by CONTRACTING_OFFICE_ID and the agencies swept by FUNDING_AGENCY_ID, per agency profile.
+OFFICES = P["fpds_offices"]
+FUNDING = P["fpds_funding_agencies"]
+FIELDS = (("CONTRACTING_OFFICE_ID", OFFICES, "contracting office"), ("FUNDING_AGENCY_ID", FUNDING, "funding agency"))
 HISTORY_BACK_DAYS = 365
 HISTORY_STALE_DAYS = 28
 FIRST_FY = 2020
-QUERY = ("https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=CONTRACTING_OFFICE_ID:{office}"
+QUERY = ("https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q={field}:{office}"
          "+SIGNED_DATE:%5B{start_day},{end_day}%5D+MODIFICATION_NUMBER:0&start={start}")
 
 
@@ -53,15 +55,15 @@ def windows(today: date) -> list[dict]:
             for fy in range(FIRST_FY, current + 1)]
 
 
-def page_url(office: str, window: dict, start: int) -> str:
-    return QUERY.format(office=office, start_day=window["start_day"], end_day=window["end_day"], start=start)
+def page_url(office: str, window: dict, start: int, field: str = "CONTRACTING_OFFICE_ID") -> str:
+    return QUERY.format(field=field, office=office, start_day=window["start_day"], end_day=window["end_day"], start=start)
 
 
-def saved_pages(manifest: list[dict], office: str, window: dict) -> tuple[list[dict], bool]:
+def saved_pages(manifest: list[dict], office: str, window: dict, field: str = "CONTRACTING_OFFICE_ID") -> tuple[list[dict], bool]:
     """The saved pages of one window in feed order and whether the last page is among them."""
     pages: list[dict] = []
     while True:
-        url = page_url(office, window, len(pages) * FPDS_PAGE)
+        url = page_url(office, window, len(pages) * FPDS_PAGE, field)
         row = saved(manifest, lambda m, u=url: m.get("url") == u)
         if row is None:
             return pages, False
@@ -74,14 +76,15 @@ def awards(manifest: list[dict] | None = None, today: date | None = None) -> lis
     """Every base award on the saved sweep pages, one row per PIID, each tagged with the page that carries it."""
     manifest = manifest_rows() if manifest is None else manifest
     by_piid: dict[str, dict] = {}
-    for office in OFFICES:
-        for window in windows(today or date.today()):
-            pages, _ = saved_pages(manifest, office, window)
-            for page in pages:
-                for entry in fpds_entries((ROOT / page["path"]).read_bytes(), width=None):
-                    if entry["piid"]:
-                        by_piid.setdefault(entry["piid"], dict(entry, fy=window["fy"], page={
-                            "url": page["url"], "sha256": page["sha256"], "retrieved_at": page["retrieved_at"]}))
+    for field, table, _ in FIELDS:
+        for office in table:
+            for window in windows(today or date.today()):
+                pages, _ = saved_pages(manifest, office, window, field)
+                for page in pages:
+                    for entry in fpds_entries((ROOT / page["path"]).read_bytes(), width=None):
+                        if entry["piid"]:
+                            by_piid.setdefault(entry["piid"], dict(entry, fy=window["fy"], page={
+                                "url": page["url"], "sha256": page["sha256"], "retrieved_at": page["retrieved_at"]}))
     return [by_piid[k] for k in sorted(by_piid)]
 
 
@@ -95,26 +98,27 @@ def sweep(argv: list[str]) -> int:
     manifest = manifest_rows()
     taken = 0
     with MANIFEST.open("a", encoding="utf-8") as handle:
-        for office, label in OFFICES.items():
-            for window in windows(date.today()):
-                pages, complete = saved_pages(manifest, office, window)
-                if (only and window["fy"] not in only) or (complete and not window["open"]):
-                    continue
-                start = 0 if window["open"] else len(pages) * FPDS_PAGE
-                while taken < args.limit:
-                    url = page_url(office, window, start)
-                    if not args.fetch:
-                        print(f"missing {url}")
-                        break
-                    row = fetch(url, "direct", None, f"FPDS sweep: contracting office {office} ({label}) base awards FY{window['fy']}, page {start // FPDS_PAGE + 1}")
-                    handle.write(json.dumps(row, sort_keys=True) + "\n")
-                    handle.flush()
-                    taken += 1
-                    print(row.get("status"), row.get("size"), f"{office} FY{window['fy']} start={start}")
-                    time.sleep(1.0)
-                    if row.get("status") != 200 or b'rel="next"' not in (ROOT / row["path"]).read_bytes():
-                        break
-                    start += FPDS_PAGE
+        for field, table, kind in FIELDS:
+            for office, label in table.items():
+                for window in windows(date.today()):
+                    pages, complete = saved_pages(manifest, office, window, field)
+                    if (only and window["fy"] not in only) or (complete and not window["open"]):
+                        continue
+                    start = 0 if window["open"] else len(pages) * FPDS_PAGE
+                    while taken < args.limit:
+                        url = page_url(office, window, start, field)
+                        if not args.fetch:
+                            print(f"missing {url}")
+                            break
+                        row = fetch(url, "direct", None, f"FPDS sweep{NOTE_TAG}: {kind} {office} ({label}) base awards FY{window['fy']}, page {start // FPDS_PAGE + 1}")
+                        handle.write(json.dumps(row, sort_keys=True) + "\n")
+                        handle.flush()
+                        taken += 1
+                        print(row.get("status"), row.get("size"), f"{office} FY{window['fy']} start={start}", flush=True)
+                        time.sleep(1.0)
+                        if row.get("status") != 200 or b'rel="next"' not in (ROOT / row["path"]).read_bytes():
+                            break
+                        start += FPDS_PAGE
     print(f"took {taken} page(s)")
     return 0
 
@@ -153,7 +157,7 @@ def histories(argv: list[str]) -> int:
                 due += 1
                 if not args.fetch:
                     break
-                row = fetch(url, "direct", None, f"FPDS history of swept award {award['piid']} ({award['contracting_office']}), "
+                row = fetch(url, "direct", None, f"FPDS history{NOTE_TAG} of swept award {award['piid']} ({award['contracting_office']}), "
                                                  f"page {int(url.rsplit('=', 1)[1]) // FPDS_PAGE + 1}")
                 handle.write(json.dumps(row, sort_keys=True) + "\n")
                 handle.flush()
@@ -169,11 +173,13 @@ def histories(argv: list[str]) -> int:
 def list_cmd(argv: list[str]) -> int:
     manifest = manifest_rows()
     rows = awards(manifest)
-    for office in OFFICES:
-        for window in windows(date.today()):
-            pages, complete = saved_pages(manifest, office, window)
-            n = sum(1 for r in rows if r["fy"] == window["fy"] and r["contracting_office"] == office)
-            print(f"{office} FY{window['fy']}: {len(pages)} page(s), {n} award(s), {'complete' if complete else 'INCOMPLETE'}")
+    for field, table, kind in FIELDS:
+        for office in table:
+            for window in windows(date.today()):
+                pages, complete = saved_pages(manifest, office, window, field)
+                urls = {p["url"] for p in pages}
+                n = sum(1 for r in rows if r["fy"] == window["fy"] and r["page"]["url"] in urls)
+                print(f"{kind} {office} FY{window['fy']}: {len(pages)} page(s), {n} award(s), {'complete' if complete else 'INCOMPLETE'}")
     dated = sum(1 for r in rows if r["completion"] and r["description"])
     print(f"{len(rows)} award(s), {dated} with a completion date and a description")
     return 0
@@ -193,17 +199,19 @@ def selfcheck() -> int:
     assert ws[0]["fy"] == FIRST_FY and ws[-1]["fy"] == 2026 and ws[-1]["open"] and not ws[-2]["open"]
     assert ws[-1]["start_day"] == "2025/10/01" and ws[-1]["end_day"] == "2026/09/30"
     assert fiscal_year(date(2026, 10, 1)) == 2027 and fiscal_year(date(2026, 9, 30)) == 2026
-    assert page_url("N00039", ws[-1], 20).endswith("MODIFICATION_NUMBER:0&start=20")
+    office = next(iter(OFFICES))  # the profile's first swept office; the fixture is matched by URL, not by its office tag
+    assert page_url(office, ws[-1], 20).endswith("MODIFICATION_NUMBER:0&start=20")
+    assert page_url("97AE", ws[-1], 0, "FUNDING_AGENCY_ID").startswith("https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=FUNDING_AGENCY_ID:97AE+")
 
     import tempfile
     with tempfile.TemporaryDirectory() as tmp:
         path = Path(tmp) / "page"
         path.write_bytes(FIXTURE)
-        url = page_url("N00039", ws[-2], 0)
+        url = page_url(office, ws[-2], 0)
         manifest = [{"url": url, "status": 200, "path": str(path.relative_to(ROOT)) if path.is_relative_to(ROOT) else str(path),
                      "sha256": "abc", "retrieved_at": "2026-09-22T00:00:00Z"}]
         # The row's path is absolute here; ROOT / absolute stays absolute.
-        pages, complete = saved_pages(manifest, "N00039", ws[-2])
+        pages, complete = saved_pages(manifest, office, ws[-2])
         assert len(pages) == 1 and not complete, "a page naming a next page is not the last"
         rows = awards(manifest, today=date(2026, 9, 22))
     assert len(rows) == 1, "one row per PIID, however many actions a page repeats"
