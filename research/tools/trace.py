@@ -48,6 +48,7 @@ import argparse
 import csv
 import html
 import json
+import os
 import re
 import subprocess
 import sys
@@ -58,17 +59,18 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from fetch import MANIFEST, ROOT  # noqa: E402
-from fpds_sweep import OFFICES as SWEPT_OFFICES, fiscal_year as fiscal_year_of, saved_pages, windows  # noqa: E402
+from fpds_sweep import OFFICES as SWEPT_OFFICES, awards as sweep_awards, fiscal_year as fiscal_year_of, saved_pages, windows  # noqa: E402
 from lrae_package import RELEASES, alias_map, contract_tokens, fold_map, memory_file, norm_code, norm_title  # noqa: E402
 from notice_kinds import kept  # noqa: E402
 
-DEFAULT_DSN = "postgresql://postgres:postgres@127.0.0.1:54322/postgres"
-from agency import P, RESEARCH, SAM_NOTICES, note_is_ours  # noqa: E402
+from agency import P, RESEARCH, SAM_NOTICES, forecast_packs, note_is_ours  # noqa: E402
+
+DEFAULT_DSN = f"postgresql://postgres:postgres@127.0.0.1:{os.environ.get('PGPORT', '54322')}/{P['database']}"  # this agency's built layer
 
 OFFICE_CODE_RE = re.compile(P["office_key_re"])
 
 # The forecast packs the tracer reads (none for an agency without a forecast) and this agency's notice folder.
-PACKS = sorted(p for p in (ROOT / "datapack").glob(P["forecast"]["pack_glob"]) if p.is_dir()) if P["forecast"]["pack_glob"] else []
+PACKS = forecast_packs(ROOT / "datapack")
 
 
 def release_order(packs: list[Path] = PACKS) -> dict[str, list[str]]:
@@ -86,7 +88,7 @@ def release_order(packs: list[Path] = PACKS) -> dict[str, list[str]]:
 ORDER = release_order()
 CURRENT = {keys[-1] for keys in ORDER.values()}  # the newest release of each activity: what the forecasts say today
 NOTICES = SAM_NOTICES
-SOL_RE = re.compile(r"N\d{5}-?\d{2}-?R-?[A-Z]?-?\d{3,4}(?![0-9])")
+SOL_RE = re.compile(P["reading"]["rfp_re"])
 # SAM.gov notice type codes as the site API returns them.
 NOTICE_TYPE = {"p": "presolicitation", "o": "solicitation", "k": "combined synopsis/solicitation", "r": "sources sought",
                "s": "special notice", "a": "award notice", "u": "justification (J&A)", "i": "intent to bundle", "g": "sale of surplus"}
@@ -110,7 +112,8 @@ def manifest() -> list[dict]:
 
 
 def saved(rows: list[dict], predicate) -> dict | None:
-    hits = [r for r in rows if r.get("status") == 200 and r.get("path") and predicate(r.get("url", "")) and (ROOT / r["path"]).exists()]
+    hits = [r for r in rows if r.get("status") == 200 and r.get("path") and r.get("content_status") != "rejected_stub"
+            and predicate(r.get("url", "")) and (ROOT / r["path"]).exists()]
     return hits[-1] if hits else None
 
 
@@ -195,6 +198,13 @@ def fpds_by_piid(rows: list[dict], piid: str) -> tuple[list[dict], dict | None, 
     bodies = [(ROOT / p["path"]).read_text(encoding="utf-8", errors="replace") for p in pages]
     actions = [a for body in bodies for a in fpds_actions(body)]
     return actions, (pages[0] if pages else None), bool(bodies) and 'rel="next"' not in bodies[-1]
+
+
+@lru_cache(maxsize=1)
+def swept_awards() -> dict[str, dict]:
+    """The base awards on the saved FPDS sweep pages by PIID: the end date and vehicle of a contract whose USAspending
+    record and PIID lookup were never taken."""
+    return {compact(a["piid"]): a for a in sweep_awards(manifest())}
 
 
 @lru_cache(maxsize=1)
@@ -418,7 +428,8 @@ def place_notice(detail: dict, ctx: dict, kin: list[dict] = ()) -> dict:
         return {"how": "created", "key": key, "line": None, "basis": None, "ambiguous": list(resolved.values()),
                 "note": f"{len(resolved)} forecast lines each claim it explicitly ({', '.join(resolved)}); a reviewer decides, so the notice keeps its own record"}
     return {"how": "created", "key": key, "line": None, "basis": None, "ambiguous": [],
-            "note": f"no line of {ctx['latest']} carries this notice's PID, its solicitation number in a title, or an incumbent contract only that line cites"
+            "note": (f"no line of {ctx['latest']} carries this notice's PID, its solicitation number in a title, or an incumbent contract only that line cites"
+                     if ctx["latest"] else "the agency publishes no acquisition forecast, so the notice keeps its own record")
                     + (f" (read with {len(kin)} earlier notice(s) under the same number)" if kin else "")}
 
 
@@ -1162,8 +1173,11 @@ def cmd_status(args) -> int:
     rows, hits, examples, today, ctx = manifest(), sgs_hits(manifest()), attribution_examples(), date.today(), match_context()
     latest = ", ".join(sorted(CURRENT))
     lines = [l for l in lrae_lines() if l["release"] in CURRENT]
+    # an id as it stands, or a name or acronym through the memory's aliases (PEO AVIATION - UAS is pm:peo-aviation--uas),
+    # with the offices under it: PEO STRI's lines sit at its program offices
+    offices = {args.office, *specific_offices(resolve_offices(args.office), ctx["parents"])} if args.office else set()
     if args.office:
-        lines = [l for l in lines if l["office_id"] == args.office]
+        lines = [l for l in lines if offices & ({l["office_id"]} | lineage(l["office_id"], ctx["parents"]))]
     through = 2000 + int(args.through)
     due = [l for l in lines if (fiscal_year(l["solicitation_fy"]) or 9999) <= through]
     first, last = search_dates(rows)
@@ -1204,7 +1218,7 @@ def cmd_status(args) -> int:
         diff = ROOT / "datapack" / newest / f"diff_{previous}_{newest}.csv"
         paired_old = {ch["old_row"] for ch in pack_rows(diff.parent, diff.name) if ch["change"] in ("unchanged", "changed")}
         for l in lrae_lines():
-            if (l["release"] == previous and (not args.office or l["office_id"] == args.office)
+            if (l["release"] == previous and (not args.office or l["office_id"] in offices)
                     and ctx["canon"][(l["release"], l["record_key"])] not in latest_keys and l["row_number"] not in paired_old):
                 dropped.append(l)
                 carried_by[(previous, l["row_number"])] = newest
@@ -1608,13 +1622,18 @@ def line_bullet(key: str, title: str, lines: list[dict], match: dict, office_not
 
 
 def cmd_notice(args) -> int:
+    args.key = re.sub(r"^notice:", "", args.key, flags=re.I)  # the need key other views print (notice:DARPAPS26123)
     rows, hits, ctx, idx = manifest(), sgs_hits(manifest()), match_context(), seed_index()
     detail = notice_detail(args.key)
     if detail is None:
         candidates = [h for h in hits.values() if compact(h["solicitation"]) == compact(args.key) or h["id"].startswith(args.key)]
-        if not candidates:
+        if not candidates:  # a forecast row that carries the number says what the solicitation is before it is collected
+            carried = [l for l in lrae_lines() if compact(args.key) in (compact(l["pid"]), compact(l.get("number") or ""))]
+            for l in carried:
+                print(line_bullet(l["pid"] or l["record_key"], l["requirement_title"], [l], {"basis": "the forecast row carries this solicitation number"},
+                                  f" under {l['office_id']} ({l['office_code_string'].split(' - ')[0]})"))
             print(f"no saved notice or search hit for {args.key!r}; collect it with: python research/tools/sam_notices.py {args.key}")
-            return 1
+            return 0 if carried else 1
         for h in sorted(candidates, key=lambda h: h["posted"]):
             print(f"- {h['posted']} {h['type']}: {h['title'][:90]} [{h['solicitation']}] id {h['id']} active={h['active']} {SAM_VIEW.format(h['id'])}")
         print("\nDetail not saved for these; harvest one with: python research/tools/sam_notices.py <id>")
@@ -1800,17 +1819,20 @@ def cmd_award(args) -> int:
     piid = compact(args.piid)
     u = usaspending(rows, piid)
     actions, atom, _ = fpds_by_piid(rows, piid)
+    swept = None if u else swept_awards().get(piid)
     print(f"# {piid}")
     if u:
         print(f"{u['type']} to {u['recipient']}; {u['description'][:200]}\nsigned {u['signed']}; PoP {u['pop_start']} -> {u['pop_end']}; last modified {u['last_modified']}; "
               f"awarding office {u['awarding_office']}; solicitation {u['solicitation'] or 'unstated'}; {u['competed'] or 'competition unstated'}, offers {u['offers']}; parent {u['parent'] or '-'}\n"
               f"USAspending retrieved {u['retrieved']} (sha {u['sha']})")
     else:
-        print(f"USAspending not collected: python research/tools/fetch.py 'https://api.usaspending.gov/api/v2/awards/CONT_AWD_{piid}_9700_-NONE-_-NONE-/'")
+        parent = f"{compact(swept['idv'])}_9700" if swept and swept["idv"] else "-NONE-_-NONE-"  # an order's id names its vehicle
+        print(f"USAspending not collected: python research/tools/fetch.py 'https://api.usaspending.gov/api/v2/awards/CONT_AWD_{piid}_9700_{parent}/'")
     if actions:
         print(f"FPDS actions saved: {len(actions)} on one page; first {min(a['signed'] for a in actions)} last {max(a['signed'] for a in actions)}")
     elif atom is None:
-        print("FPDS PIID lookup not collected")
+        print("FPDS PIID lookup not collected" + (f"; the FPDS sweep holds its base award: signed {swept['signed']}, ultimate completion "
+              f"{swept['completion'] or 'unstated'}, {swept['vendor']}, vehicle {swept['idv'] or 'none'} ({swept['page']['url']})" if swept else ""))
     print("\n## Forecast lines that cite this contract as the incumbent")
     cited = [l for l in lrae_lines() if piid in contract_tokens(l["existing_contract_number"])]
     for l in cited:
@@ -1846,7 +1868,8 @@ def cmd_award(args) -> int:
     print("\n".join(money_block([f"{l['release_date']}: {l['anticipated_total_value']}" for l in cited],
                                 [(piid, u["ceiling"])] if u else [], [(piid, u["obligated"])] if u else [])))
     print("\n## Recompete signal (the contract as an entry point: when it ends, and what the forecasts and notices say follows it)")
-    print(f"- {recompete_reading(u, cited, [h for h in hits.values() if piid in compact(h['title']) or piid in compact(h['solicitation']) or piid in compact((notice_detail(h['id']) or {}).get('text', ''))], date.today(), search_dates(rows)[1])}")
+    ends = u or ({"pop_end": swept["completion"]} if swept and swept["completion"] else None)
+    print(f"- {recompete_reading(ends, cited, [h for h in hits.values() if piid in compact(h['title']) or piid in compact(h['solicitation']) or piid in compact((notice_detail(h['id']) or {}).get('text', ''))], date.today(), search_dates(rows)[1])}")
     return 0
 
 
@@ -2110,7 +2133,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--dsn", default=DEFAULT_DSN)
     sub = parser.add_subparsers(dest="command", required=True)
     s = sub.add_parser("status", help="forecast lines whose solicitation window has arrived: solicited, awarded, or silent")
-    s.add_argument("--office", default="", help="organization-memory id, e.g. pmw:170")
+    s.add_argument("--office", default="", help="organization-memory id, name or acronym, e.g. pmw:170 or 'PMW 170'")
     s.add_argument("--through", default="26", help="two-digit fiscal year the solicitation window must fall in or before")
     s.set_defaults(func=cmd_status)
     n = sub.add_parser("need", help="one requirement across releases, offices, contracts, notices and awards")

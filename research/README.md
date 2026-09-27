@@ -6,6 +6,95 @@ dated events, loads them into the agency-intelligence tables in one transaction,
 pulse, office books and object pages. Nothing is written to production; every run builds a local database from
 nothing.
 
+## Repository structure
+
+```
+chromie-federal-buyer-map-trial/
+├── README.md                     # The trial assignment: what the system must prove
+├── PROJECT_BRIEF.md              # The user problem and the product it asks for
+├── AGENTS.md                     # Working agreement: evidence, facts and inferences kept apart
+├── SECURITY.md                   # Data boundary: public official sources only
+├── DECISIONS.md                  # Dated technical and product decisions, each with its reason
+├── pyproject.toml                # The Python package and its dependencies
+├── .env.example                  # The variables a run reads (values stay in a local .env)
+│
+├── src/buyer_map/                # The starter demo: validates and ranks the synthetic graph
+├── data/
+│   ├── synthetic/                # The example agency graph the starter demo reads
+│   └── raw/                      # Every page and file downloaded (shared separately)
+├── datapack/                     # Forecast releases as tables, rebuilt by lrae_package.py
+├── build/                        # A pipeline run's outputs: SQL, graph, back-test results
+├── tests/                        # The pytest suite: one file per tool or layer
+│
+└── research/
+    ├── README.md                 # This file
+    ├── docs/                     # The write-ups, in review order below
+    ├── sources/                  # Source registry, documents manifest, coverage and source status
+    ├── memory/                   # Navy organization memory: offices, people, vendors
+    ├── events/                   # Navy dated statements, one file per family
+    ├── results/                  # What the Navy layer reads back: corpus, labels, pulse
+    ├── cassettes/                # Recorded model answers, so a rebuild costs nothing
+    ├── agencies/                 # One folder per further agency, each with its README
+    │   ├── darpa/                # DARPA layer: memory, events, results, sources
+    │   ├── army/                 # Army layer: same folders, forecast from Army Materiel Command
+    │   └── airforce/ nasa/ doe/ dhs/ noaa/   # Added 2026-09-26: memory and sources, not built yet
+    └── tools/
+        ├── pipeline.py           # Runs every stage in order (--list, --agency, --collect)
+        ├── agency.py             # The Navy, DARPA and Army profiles; loads the rest
+        ├── agency_profiles/      # One profile per later agency: codes, feeds, filters
+        ├── fetch.py              # Saves one address under data/raw/ with its manifest row
+        ├── context_fetch.py      # Renders a refused page through context.dev
+        ├── browserbase_fetch.py  # Takes a file through a hosted browser
+        ├── markdown.py           # A saved webpage as Markdown, shared by every HTML reader
+        ├── backfill_manifest.py  # Adds manifest rows for saved files that have none
+        ├── sam_notices.py        # SAM.gov notices by number and by contracting office
+        ├── fpds_sweep.py         # FPDS awards by contracting office, and their modifications
+        ├── assistance.py         # Grants and cooperative agreements from USAspending
+        ├── sbir.py               # SBIR and STTR topics from the DoD portal
+        ├── news.py               # Articles as dated observations (Exa, GDELT, RouterGrowth)
+        ├── oversight.py          # Oversight reports into dated findings
+        ├── remarks.py            # Leaders' speeches, statements and testimony into dated events
+        ├── congress.py           # Committee reports into the directives that name the agency
+        ├── fedreg.py             # The agency's Federal Register documents
+        ├── protests.py           # GAO bid protests into dated protest events
+        ├── budget.py             # Budget justification books into line items and amounts
+        ├── lrae_package.py       # Forecast releases into the datapack, release against release
+        ├── org_memory_lrae.py    # Navy organization memory from the forecasts
+        ├── org_memory_darpa.py   # DARPA organization memory from its own pages
+        ├── org_memory_army.py    # Army organization memory, and the shared SAM.gov hierarchy reader
+        ├── org_memory_airforce.py  # Department of the Air Force memory from SAM.gov's hierarchy
+        ├── org_memory_nasa.py    # NASA memory from its own publications
+        ├── org_memory_doe.py     # Department of Energy memory
+        ├── org_memory_dhs.py     # Department of Homeland Security memory
+        ├── org_memory_noaa.py    # NOAA memory
+        ├── people.py             # Every named contact merged into people with dated positions
+        ├── small_business.py     # Small business offices of the department and each command
+        ├── notice_kinds.py       # What a SAM.gov special notice announces
+        ├── llm.py                # The recorded model call every reader shares
+        ├── reader.py             # The rules a model's reading must pass (verbatim passage)
+        ├── vocabulary.py         # Event types, their procurement stage and polarity
+        ├── agency_layers_sql.py  # Memory, datapack and events as one SQL transaction
+        ├── schema_subset.py      # The table subset a local database needs
+        ├── graph_export.py       # The organization graph as the program-office resolver reads it
+        ├── backtest.py           # The frozen corpus, the outcome labels and the back-test
+        ├── baselines.py          # The simple baselines the back-test must beat
+        ├── pulse.py              # Each requirement scored as of a date, the week's changes, actions
+        ├── buying_dna.py         # A contracting office's buying book from its awards
+        ├── vendors.py            # Vendors resolved by their unique entity identifier
+        ├── coverage.py           # Which source covers each question, and what each collected
+        ├── trace.py              # One requirement across forecasts, notices and awards
+        ├── pages.py              # Object pages: office, vendor, person, requirement cell
+        ├── office_wiki.py        # A page per program office, written from the record
+        ├── ask.py                # The questions: what changed, who buys, meeting brief, incumbents
+        ├── navy.py               # The read surface in one command, for any agency profile
+        ├── outreach.py           # From what a company sells to one outreach letter
+        ├── outreach_compare.py   # The same question to Claude with and without these tools
+        ├── dossier_compare.py    # The comparison on one full company dossier
+        ├── monitor_forecast_revision.py  # Alerts when a forecast line's window or value moves
+        ├── replay_attributions.py  # Attributions replayed through the production resolver
+        └── promote_plan.py       # Promotion SQL written to a file, never run
+```
+
 ## Layout
 
 | Folder | What it holds |
@@ -33,6 +122,29 @@ repository; place them at the paths above before running the pipeline or the tes
 7. `docs/13_news_as_a_signal.md`: an article as a dated observation
 8. `docs/17_one_requirement_told_in_order.md`: one requirement as an analyst reads it, every statement in the order it appeared
 9. `docs/14_reusing_this_for_another_agency.md`: what travels to the next agency and what is written once for it
+10. `docs/19_navy_versus_darpa.md`: the same layer read against DARPA, family by family, what that corrected in `docs/14`, and (section 8) the DARPA layer as built on 2026-09-24 under `agencies/darpa/`
+
+The second agency lives under `agencies/darpa/` with the same four folders (`memory`, `events`, `results`, `sources`)
+and a README listing every file, the tool that writes it and how to rebuild it;
+the tools write there when `AGENCY=darpa` is set (`tools/agency.py` holds the Navy, DARPA and Army profiles; `tools/pipeline.py --agency darpa`).
+Its `results/` holds the corpus frozen from the `darpa_proof` database, the outcome labels, the office reads and the notice
+kinds (read on 2026-09-25, replayed from the shared cassettes), the pulse and the Buying DNA (`docs/19`, section 9);
+`pages.py` and `ask.py` read them under `AGENCY=darpa`.
+The ledger and the saved bytes are shared, and a collector running under another profile marks its note with the
+profile key (`oversight watch [darpa]: ...`), so each layer's readers keep their own documents.
+
+The third agency lives under `agencies/army/` in the same four folders, with its README; its tools run with
+`AGENCY=army` against the `army_proof` database. The Army Materiel Command forecast is its datapack
+(`datapack/amc_2026-05/`), the ASA(ALT) organization chart and SAM.gov organization records seed its memory, and
+the collect stages that sweep its notices, awards and leaders have not been run, so it has no outcome yet.
+
+Five more layers were added on 2026-09-26, each as one profile under `tools/agency_profiles/` (`airforce`, `nasa`,
+`doe`, `dhs`, `noaa`), an organization memory reader (`tools/org_memory_<key>.py`) and an `agencies/<key>/` folder
+with its README, source registry and coverage matrix: the Department of the Air Force with the Space Force, NASA with
+all centers, the Department of Energy (headquarters, the Office of Science, ARPA-E, EERE and NNSA), the Department of
+Homeland Security as a whole, and NOAA under Commerce. Their first collection ran on 2026-09-26 and 2026-09-27 without
+API keys; each README lists what was collected and what was not, and the build stages have not run for them yet.
+
 
 ## Running it
 

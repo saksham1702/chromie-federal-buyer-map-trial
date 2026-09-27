@@ -110,7 +110,12 @@ def page(corpus: dict, oid: str, by_word: dict[str, Counter], known: set[str], s
     lines = [f"## {office_name(oid, orgs)}: {orgs[oid]['name']}",
              "above it: " + (" > ".join(office_name(x, orgs) for x in (upward(oid, orgs) if whole or reader else chain(oid, orgs))[1:]) or "-"),
              "program names: " + (", ".join(program_names(by_word, known, oid)) or "none")]
-    lines += [f"{NEED_ROW}: {n['title'][:100]}" for n in rows[-SHOWN:]]
+    if reader:  # a title the forecast repeats row by row is one line with its count, so it crowds no other title out
+        titles = Counter(n["title"][:100] for n in rows)
+        lines += [f"{NEED_ROW}{f' ({titles[t]} rows)' if titles[t] > 1 else ''}: {t}" for t in list(dict.fromkeys(n["title"][:100] for n in reversed(rows)))[:SHOWN][::-1]]
+        lines += [f"{len(titles) - SHOWN} more {NEED_ROW} title(s) not shown; search finds them"] if len(titles) > SHOWN else []
+    else:  # the model's pages keep the rows as recorded, so the recorded readings replay
+        lines += [f"{NEED_ROW}: {n['title'][:100]}" for n in rows[-SHOWN:]]
     lines += [f"notice {e['available_by']}: {plain_title(e['title'])[:100]}" for e in newest("notice")[:SHOWN]]
     lines += [f"contract work ({n}): {w}" for w, n in sorted(work.items(), key=lambda x: (-x[1], x[0]))[:SHOWN]]
     lines += [f"topic: {plain_title(e['title'])[:100]}" for e in newest("programs")[:3]]

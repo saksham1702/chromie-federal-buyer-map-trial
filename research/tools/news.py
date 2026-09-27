@@ -870,11 +870,8 @@ def routergrowth_search(query: str, days: int, results: int) -> list[dict]:
     headers = {"Authorization": f"Bearer {key}", "Content-Type": "application/json"}
     described = json.loads(post_json(f"{RG_BASE}/v1/inspect", {"capability": RG_CAPABILITY}, headers))
     record_answer(f"{RG_BASE}/v1/inspect", RG_CAPABILITY, json.dumps(described).encode())
-    fields = {}
-    for holder in (described, described.get("capability") or {}, described.get("input") or {}):
-        schema = holder.get("input_schema") or holder.get("schema") or {}
-        fields.update(schema.get("properties") or {})
-    payload: dict = {"query": query}
+    fields = rg_fields(described)
+    payload: dict = {"query": keyword_query(query)}
     for name, value in (("limit", results), ("num_results", results), ("max_results", results),
                         ("depth", results), ("days", days), ("time_range", f"{days}d")):
         if name in fields and name not in payload:
@@ -884,12 +881,27 @@ def routergrowth_search(query: str, days: int, results: int) -> list[dict]:
     return rg_results(json.loads(body))
 
 
-def rg_results(answer: dict) -> list[dict]:
+def rg_fields(described: dict) -> dict:
+    """The capability's input fields, wherever the inspect answer keeps its schema. `capability` is the
+    capability's name (a string) in the live answer, so only mappings are read."""
+    fields = {}
+    for holder in (described, described.get("capability"), described.get("input")):
+        if isinstance(holder, dict):
+            fields.update((holder.get("input_schema") or holder.get("schema") or {}).get("properties") or {})
+    return fields
+
+
+def rg_results(answer) -> list[dict]:
     """Read a run answer as the same shape the rest of this module uses: url, title, date."""
-    items = answer.get("results") or answer.get("items") or []
-    if not items and isinstance(answer.get("output"), dict):
-        out = answer["output"]
-        items = out.get("results") or out.get("items") or out.get("articles") or out.get("news") or []
+    if isinstance(answer, dict) and (answer.get("error") or {}).get("code") == "no_match":
+        return []  # the router ran every provider and none had a match: an empty search, not a failed one
+    holders = [answer, answer.get("output"), answer.get("result")] if isinstance(answer, dict) else [answer]
+    items = next((h for h in holders if isinstance(h, list)), None)
+    if items is None:
+        items = next((h[k] for h in holders if isinstance(h, dict) for k in ("results", "items", "articles", "news", "data")
+                      if isinstance(h.get(k), list)), None)
+    if items is None:  # a shape this reader does not know is a failed search, not an empty one
+        raise ValueError(f"RouterGrowth answer holds no result list (keys: {sorted(answer) if isinstance(answer, dict) else type(answer).__name__})")
     read = []
     for item in items:
         if not isinstance(item, dict):
@@ -921,15 +933,20 @@ def exa_search(query: str, days: int, results: int) -> list[dict]:
 GDELT = "https://api.gdeltproject.org/api/v2/doc/doc"
 
 
-def gdelt_query(query: str) -> str:
-    """A sweep query as GDELT reads it: the office as a phrase, the command as a word, US English sources.
+def keyword_query(query: str) -> str:
+    """A sweep query as a keyword engine reads it: the office as a phrase, the command as a word.
 
-    GDELT ANDs every word it is given, so the sentence tail Exa reads as intent is dropped.
+    Keyword engines (GDELT, RouterGrowth's news search) AND every word they are given, so the sentence tail
+    Exa reads as intent is dropped.
     """
     words = re.findall(r"\w[\w.&/-]*", query.split(" contract award", 1)[0])
     # ponytail: the command is the last word while its short label is one word (NAVWAR); pass the seed's context in when it is not
-    terms = f'"{words[0]}"' if len(words) == 1 else f'"{" ".join(words[:-1])}" {words[-1]}'
-    return terms + " sourcelang:english sourcecountry:unitedstates"
+    return f'"{words[0]}"' if len(words) == 1 else f'"{" ".join(words[:-1])}" {words[-1]}'
+
+
+def gdelt_query(query: str) -> str:
+    """A sweep query as GDELT reads it: the keyword form, US English sources only."""
+    return keyword_query(query) + " sourcelang:english sourcecountry:unitedstates"
 
 
 def gdelt_search(query: str, days: int, results: int) -> list[dict]:
@@ -1083,6 +1100,7 @@ def sweep(argv: list[str]) -> int:
     parser.add_argument("--limit", type=int, default=2, help="how many pages to retrieve per query")
     parser.add_argument("--queries", type=int, default=0, help="stop after this many queries (0: all)")
     parser.add_argument("--provider", choices=sorted(PROVIDERS), default="exa")
+    parser.add_argument("--no-gdelt", action="store_true", help="skip the GDELT pass beside a keyed provider (a second provider's run)")
     args = parser.parse_args(argv)
     seed = json.loads((MEMORY / "organization_seed.json").read_text(encoding="utf-8"))
     queries = sweep_queries(seed)
@@ -1091,7 +1109,7 @@ def sweep(argv: list[str]) -> int:
     seen = saved_urls()
     taken = 0
     # GDELT needs no key, so it runs beside the chosen provider and alone when that provider's key is not set.
-    providers = list(dict.fromkeys([args.provider, "gdelt"]))
+    providers = [args.provider] if args.no_gdelt else list(dict.fromkeys([args.provider, "gdelt"]))
     for query in queries:
         print(f"\n{query}")
         for provider in list(providers):
@@ -1212,6 +1230,18 @@ def selfcheck() -> int:
     rg = rg_results({"output": {"articles": [{"link": "https://breakingdefense.com/a", "headline": "H",
                                               "published_at": "2026-05-11"}, {"no_url": True}]}})
     assert rg == [{"url": "https://breakingdefense.com/a", "title": "H", "publishedDate": "2026-05-11"}], rg
+    assert rg_results({"output": [{"url": "https://a.com/x", "title": "T", "date": "2026-01-02"}]}) == \
+        [{"url": "https://a.com/x", "title": "T", "publishedDate": "2026-01-02"}], "a list under output is the result list"
+    # the live run answer: articles under result; no_match is an empty search
+    assert [r["url"] for r in rg_results({"status": "succeeded", "done": True, "result": {"query": "q", "articles": [
+        {"title": "T", "url": "https://itif.org/a", "source": "itif.org"}]}})] == ["https://itif.org/a"]
+    assert rg_results({"status": "no_match", "done": True, "error": {"code": "no_match", "message": "No result matched the input."}}) == []
+    try:
+        rg_results({"output": {"status": "ok"}}); raise AssertionError("an unknown answer shape read as zero results")
+    except ValueError:
+        pass
+    assert set(rg_fields({"capability": "news.search", "input_schema": {"properties": {"query": {}, "limit": {}}}})) == {"query", "limit"}, \
+        "the live inspect answer names the capability as a string beside its input_schema"
     assert set(PROVIDERS) == set(KEY_OF)
     # GDELT's artlist joins the same path: the one shape, each URL once, US English sources only, and a
     # query it cannot read raised as the line of text it answers with.

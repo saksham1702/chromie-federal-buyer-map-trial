@@ -43,6 +43,9 @@ R2 = "Exhibit R-2, RDT&E Budget Item Justification"
 PE_RE = re.compile(r"\bPE (\d{7}[A-Z]?) / (\S.*?)\s*$")
 R2_BA_RE = re.compile(r"^\s*(\d{4}): ([^/]+?) / BA (\d+):\s*(.*?)\s*(?:PE \d{7}[A-Z]? /.*)?$")
 TOTAL_PE_RE = re.compile(r"^\s*Total Program Element\s+(.*)$", re.M)
+# "efforts in this PE will be funded in PE 0603468E", "realigned out of line item 2900 into line item 2361"
+MOVED_RE = re.compile(r"\b(?:will be funded in|(?:transfer|mov|realign)\w*\b[^.]*?\b(?:to|into)) ((?:PE|LI|BLI|line item) \d{4}[^.]*)")
+MOVED_ID_RE = re.compile(r"\b(?:PE|LI|BLI|line item) (\d{7}[A-Z]?|\d{4})\b")
 def columns_for(pb: str) -> tuple[str, ...]:
     """The twelve resource-summary columns of a book for President's Budget year `pb`: prior years, the two years
     before the request, the request (base, overseas/other, total), the four out-years, to complete, total. A
@@ -55,7 +58,7 @@ def columns_for(pb: str) -> tuple[str, ...]:
 COLUMNS = columns_for("2027")
 # "1810N: Other Procurement, Navy / BA 02: Communications & Electronics Equip /        2026 / SPQ-9B Radar"; the layout
 # text often cuts the budget activity to "BA" or "B" where the right-hand column overlaps, so it is read once per book.
-LI_RE = re.compile(r"^\s*(\d{4}N):\s*([^/]+?)\s*/.*?\s(\d{4}) / (\S.*?)\s*$")
+LI_RE = re.compile(r"^\s*(\d{4}[A-Z]):\s*([^/]+?)\s*/.*?\s(\d{4}) / (\S.*?)\s*$")
 BA_RE = re.compile(r"\bBA (\d+): ([^/\n]+?)\s*/")
 TOA_RE = re.compile(r"^\s*Total Obligation Authority \(\$ in Millions\)\s+(.*)$", re.M)
 DATE_RE = re.compile(r"Date: ([A-Z][a-z]+) (\d{4})")
@@ -185,6 +188,14 @@ def event_type(row: dict) -> str:
     return "funding_change" if before is not None and after is not None and before != after else "budget_line"
 
 
+def moved_to(row: dict) -> list[str]:
+    """The lines a book says an unfunded line's work moved to: a zero request the book explains is a move, not a cut."""
+    a = row["amounts"] or {}
+    if not a or a.get(request_years(a)[1]):
+        return []
+    return list(dict.fromkeys(n for m in MOVED_RE.finditer(row["text"]) for n in MOVED_ID_RE.findall(m.group(1)) if n != row["li"]))
+
+
 def money(v: float | None) -> str:
     return "none" if v is None else f"${v:,.3f}M"
 
@@ -192,8 +203,9 @@ def money(v: float | None) -> str:
 def event_title(row: dict) -> str:
     a = row["amounts"] or {}
     year_before, request = request_years(a)
+    moved = moved_to(row)
     return (f"{row['appropriation']} line {row['li']} {row['title']}: FY{year_before[2:]} {money(a.get(year_before))}, "
-            f"FY{request[2:6]} {money(a.get(request))}")
+            f"FY{request[2:6]} {money(a.get(request))}" + (f", funding moved to {'PE' if EXHIBIT == 'R-2' else 'line'} {', '.join(moved)}" if moved else ""))
 
 
 def manifest_row(path: str) -> dict:
@@ -231,7 +243,7 @@ def extract(argv: list[str]) -> int:
                 "retrieved_at": record.get("retrieved_at", ""), **header, "lines": len(rows)}
         books.append(book)
         for row in rows:
-            records.append({**row, "book": rel, "published": header["published"], "event_type": event_type(row), "event_title": event_title(row)})
+            records.append({**row, "book": rel, "published": header["published"], "event_type": event_type(row), "moved_to": moved_to(row), "event_title": event_title(row)})
         changed = sum(r["event_type"] == "funding_change" for r in records if r["book"] == rel)
         print(f"{pdf.name}: {len(rows)} line item(s), {changed} with FY2027 differing from FY2026, dated {header['date']}")
     OUT.parent.mkdir(parents=True, exist_ok=True)
@@ -275,10 +287,12 @@ def selfcheck() -> int:
     assert event_type(rows[1]) == "funding_change" and event_type(rows[0]) == "budget_line" and event_type({"amounts": None}) == "budget_line"
     assert "Link 16 terminals" in rows[1]["text"] and "MIDS Low Volume Terminals" in rows[1]["text"] and "Resource Summary" not in rows[1]["text"]
     assert event_title(rows[1]) == "1810N line 3415 MIDS: FY2026 $10.000M, FY2027 $12.500M"
+    assert moved_to({**rows[0], "text": "Funding has been realigned out of line item 2026 into line item 2361 starting in FY 2026."}) == ["2361"] and moved_to(rows[1]) == []
     m = LI_RE.match("1810N: Other Procurement, Navy / BA                         2026 / SPQ-9B Radar")
     assert m and m.group(3) == "2026" and m.group(4) == "SPQ-9B Radar", m
     m = LI_RE.match("1810N: Other Procurement, Navy / B                                            2312 / AN/SLQ-32")
     assert m and m.group(4) == "AN/SLQ-32" and m.group(2) == "Other Procurement, Navy", m
+    assert LI_RE.match("3010F: Aircraft Procurement, Air Force / BA 05: Modification / 2026 / F-35"), "any service letter"
     assert month_end("February", "2027") == "2027-02-28"
     print("selfcheck ok")
     return 0

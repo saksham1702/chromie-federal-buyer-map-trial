@@ -57,7 +57,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from lrae_package import fold_map, fpds_history, manifest_rows, url_index  # noqa: E402
 from fpds_sweep import awards as swept_awards  # noqa: E402
 
-from agency import EVENTS as EVENTS_DIR, KEY as AGENCY_KEY, MEMORY, P, PROFILES, ROOT as AGENCY_ROOT, SAM_NOTICES, SOURCES  # noqa: E402
+from agency import EVENTS as EVENTS_DIR, KEY as AGENCY_KEY, MEMORY, P, PROFILES, ROOT as AGENCY_ROOT, SAM_NOTICES, SOURCES, forecast_packs  # noqa: E402
 
 # Provenance strings name the file each row was read from, relative to the repository, under the trial's prefix.
 PROVENANCE = "chromie-federal-buyer-map-trial"
@@ -74,7 +74,7 @@ SEED = MEMORY / "organization_seed.json"
 # Every packaged release, oldest first within an activity (the key sorts that way). A line's revisions
 # chain within its activity; the NAVSEA, ONR and NRL sheets each stand alone until a second release lands.
 # An agency without a forecast has no releases, and the forecast layer is not emitted.
-RELEASES = sorted(p.name for p in (ROOT / "datapack").glob(P["forecast"]["pack_glob"]) if (p / "layers").is_dir()) if P["forecast"]["pack_glob"] else []
+RELEASES = [p.name for p in forecast_packs(ROOT / "datapack") if (p / "layers").is_dir()]
 
 
 def activity_of(release: str) -> str:
@@ -574,7 +574,7 @@ def emit_budget(out: list[str], org_ids: dict[str, str], offices: dict[tuple[str
                       lit(row["published"]),
                       *event_columns(row["event_type"], row["published"], "official", BUDGET_PROVIDER, org_ids.get(office) if office else org_ids.get(DEPARTMENT_NODE),
                                      {"li": row["li"], "title": row["title"], "appropriation": row["appropriation"], "budget_activity": activity,
-                                      "amounts": row["amounts"], "pb": book["pb"], "office_named": office or ""})])
+                                      "amounts": row["amounts"], "moved_to": row.get("moved_to", []), "pb": book["pb"], "office_named": office or ""})])
         evidence.append([lit(ev_id), lit(item_id), lit(row["text"][:300] or row["event_title"]), lit(book["url"]), lit(row["published"]),
                          lit(P["budget"].get("evidence_host") or urlparse(book["url"]).netloc), lit(claim_key)])
     insert("public.agency_brain_items", ITEM_COLUMNS, items, out)

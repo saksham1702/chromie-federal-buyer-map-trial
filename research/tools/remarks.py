@@ -28,6 +28,7 @@ import time
 from collections import Counter
 from datetime import date
 from pathlib import Path
+from urllib.parse import unquote, urlparse
 
 ROOT = Path(__file__).resolve().parents[2]
 RESEARCH = ROOT / "research"
@@ -49,7 +50,7 @@ DISCOVERED = EVENTS_DIR / "remarks_discovered.json"
 SPEECHES = P["remarks"]["speeches"]
 TESTIMONY = P["remarks"]["testimony"]
 TESTIMONY_PAGES = P["remarks"]["testimony_pages"]
-HOUSE_FEEDS = {"AS00": "https://docs.house.gov/Committee/RSS.ashx?Code=AS00", "AP00": "https://docs.house.gov/Committee/RSS.ashx?Code=AP00"}
+HOUSE_FEEDS = P["committees"]["house_feeds"]
 NAVY_ARTICLE = re.compile(P["remarks"]["article_re"])  # an archive article of this agency; matches nothing where there is no archive
 HOUSE_EVENT = re.compile(r"^https?://docs\.house\.gov/Committee/Calendar/ByEvent\.aspx\?EventID=(\d+)$")
 NAMES_RE = re.compile(P["remarks"]["names_re"], re.I)
@@ -392,6 +393,22 @@ def testimony_link_meta(page: bytes, url: str) -> dict:
     return {"title": title, "committee": "", "issued": issued, "date_basis": basis, "witnesses": [], "documents": []}
 
 
+COVER = 1000  # a statement states its date on its cover, before the text begins
+LABEL_RE = re.compile(r"\W*(?:\d{4}|[A-Za-z]+)?\W*")  # a link's label on the page ("2021", "House"), not a title
+
+
+def dated(meta: dict, text: str, url: str) -> tuple[str, str]:
+    """The record's date: the day the page, link or file name gave, else the day the document's cover states, else a
+    day the url's path carries. published_at holds a day, so a month or a year alone stays out and the basis says so."""
+    if len(meta["issued"]) == 10:
+        return meta["issued"], meta["date_basis"]
+    cover = as_date(text[:COVER])
+    if cover:
+        return cover, "text"
+    path = file_date(unquote(urlparse(url).path))
+    return (path, "url") if len(path) == 10 else ("", f"url {path}, no day" if path else "")
+
+
 def document_text(doc: dict) -> tuple[str, dict]:
     body = (ROOT / doc["row"]["path"]).read_bytes()
     if doc["kind"] in ("speech", "testimony"):
@@ -404,7 +421,7 @@ def document_text(doc: dict) -> tuple[str, dict]:
         # A statement reached from a House hearing page is the committee's; one linked from an agency's testimony
         # page has no hearing page here, and its publisher is the host that serves the file.
         publisher = h["committee"] or ("U.S. House of Representatives" if host_of(doc.get("hearing_url") or "") == "docs.house.gov" else host_of(doc["url"]))
-        meta = {"title": h["title"], "issued": h["issued"], "publisher": publisher, "witnesses": h["witnesses"]}
+        meta = {"title": h["title"], "issued": h["issued"], "date_basis": h.get("date_basis") or "page", "publisher": publisher, "witnesses": h["witnesses"]}
         text = pdf_text(ROOT / doc["row"]["path"])
     else:
         text = body.decode("utf-8", "replace")
@@ -480,17 +497,21 @@ def extract(argv: list[str]) -> int:
         authority = "third_party" if doc["kind"] == "conference" else authority_of(doc["url"])
         head = {k: verbatim(answer.get(k) or "", text) for k in ("speaker_name", "speaker_role", "event_name", "event_host")}
         blanked = sorted(k for k in head if (answer.get(k) or "") and not head[k])
+        # The prompt keeps the page's title and date, so the recorded cassette still answers; the record does better
+        # where the page gave a bare label or no day.
+        issued, basis = dated(meta, text, doc["url"])
+        title = (head["event_name"] or head["event_host"] or meta["title"]) if LABEL_RE.fullmatch(meta["title"]) else meta["title"]
         records.append({
             **({"unread": answer["unread"]} if answer.get("unread") else {}),
-            "url": doc["url"], "kind": doc["kind"], "publisher": meta["publisher"], "title": meta["title"], "issued": meta["issued"],
-            "date_basis": meta["date_basis"], "hearing_url": doc.get("hearing_url"), "witnesses": meta["witnesses"], **head, "audience": answer.get("audience") or "other",
+            "url": doc["url"], "kind": doc["kind"], "publisher": meta["publisher"], "title": title, "issued": issued,
+            "date_basis": basis, "hearing_url": doc.get("hearing_url"), "witnesses": meta["witnesses"], **head, "audience": answer.get("audience") or "other",
             "not_verbatim": blanked, "sha256": doc["row"]["sha256"], "path": doc["row"]["path"], "retrieved_at": doc["row"]["retrieved_at"],
             "text_chars": len(text), "cassette": how["cassette"], "model": how["model"], "source_authority": authority,
             "events": [dict(e, source_authority=authority) for e in events], "dropped": dict(sorted(dropped.items())),
         })
-        print(f"{meta['issued'] or '          '}  {doc['kind']:10} {len(events)} event(s)" + (f", {sum(dropped.values())} dropped" if dropped else "")
+        print(f"{issued or '          '}  {doc['kind']:10} {len(events)} event(s)" + (f", {sum(dropped.values())} dropped" if dropped else "")
               + ("  (replayed)" if how["replayed"] else "") + ("  (unread: " + answer["unread"] + ")" if answer.get("unread") else "")
-              + f"  {meta['title'][:70]}")
+              + f"  {title[:70]}")
     if args.verify:
         agree = 0
         for doc in docs[: args.verify]:
@@ -560,6 +581,8 @@ def selfcheck() -> int:
     assert page_date('<meta property="article:published_time" content="2026-03-26T14:02:11+00:00">') == ("2026-03-26", "page")
     assert page_date('<script type="application/ld+json">{"datePublished": "2026-04-17"}</script>') == ("2026-04-17", "page")
     assert page_date('<time datetime="2026-01-28T09:00">Jan 28</time>') == ("2026-01-28", "page") and page_date("<p>no date</p>") == ("", "")
+    assert dated({"issued": ""}, "Statement by Dr. X Submitted to the Subcommittee April 13, 2021 Chairman", "https://x.gov/a.pdf") == ("2021-04-13", "text") \
+        and dated({"issued": "2024-11"}, "Table of Contents", "https://x.gov/files/2024-11/afr.pdf") == ("", "url 2024-11, no day")
     text = "Admiral Caudle said the fleet needs unmanned surface vessels by 2027. Sea-Air-Space is hosted by the Navy League."
     good = {"event_type": "capability_priority", "statement": "x", "capability": "unmanned surface", "program": "", "organization": "",
             "person": "", "evidence_span": "the fleet needs unmanned surface vessels by 2027", "amounts": [], "confidence": 0.8}

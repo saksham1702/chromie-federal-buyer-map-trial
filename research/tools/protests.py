@@ -38,8 +38,8 @@ CASE = "https://www.gao.gov/docket/{file}"
 AGENCY = P["protests"]["agency"]
 RETAKE_DAYS = 14
 MAX_PAGES = P["protests"]["max_pages"]  # the docket holds twelve months; the Navy files a few hundred cases a year
-UIC_RE = re.compile(r"^([A-Z]\d{4}[A-Z0-9])\d{2}[A-Z]")  # a DoD solicitation number: office UIC, fiscal year, type letter
-TOPIC_RE = re.compile(r"^N\d{2}[0-9AB]-T?\d{3}$")  # an SBIR/STTR topic protested in place of a solicitation
+UIC_RE = re.compile(rf"^({P['agency']['office_code_re']})\d{{2}}[A-Z]")  # a solicitation number: office code, fiscal year, type letter
+TOPIC_RE = re.compile(P["topic_re"])  # an SBIR/STTR topic protested in place of a solicitation (the whole number, fullmatch)
 TEASER = "node--type-bid-protest-docket node--view-mode-teaser-search"
 LABELLED = re.compile(r'<(?:h2|header) class="field__label">([^<]+)</(?:h2|header)>\s*<div class="field__item">(.*?)</div>', re.S)
 # The fields a case page states that the row keeps; the attorney's name is not one of them.
@@ -53,6 +53,12 @@ def text_of(fragment: str) -> str:
 
 def listing_url(page: int) -> str:
     return LISTING.format(page=page)
+
+
+def docket_taken() -> bool:
+    """Whether the agency's docket listing was ever saved. Without it an empty protest file means not collected, not
+    that the agency's awards drew no protests."""
+    return listing_url(0) in url_index(manifest_rows())
 
 
 def listing_rows(body: bytes) -> list[dict]:
@@ -170,7 +176,7 @@ def rows(index: dict[str, dict]) -> list[dict]:
                     "uic": uic.group(1) if uic else "",
                     "data": {"file_number": file, "protester": f["protester"], "solicitation": f["solicitation"], "sub_agency": sub,
                              "outcome": f.get("outcome", ""), "decision_date": f.get("decision_date", ""), "due_date": f.get("due", ""),
-                             "case_type": f.get("case_type", ""), "topic_code": f["solicitation"] if TOPIC_RE.match(f["solicitation"]) else ""}})
+                             "case_type": f.get("case_type", ""), "topic_code": f["solicitation"] if TOPIC_RE.fullmatch(f["solicitation"]) else ""}})
     return out
 
 
@@ -246,7 +252,7 @@ def selfcheck() -> int:
     assert len(out) == 1 and out[0]["claim_key"] == "protest:B-424516.3" and out[0]["published"] == "2026-07-13"
     assert out[0]["uic"] == "N32205" and out[0]["data"]["sub_agency"] == "Military Sealift Command" and out[0]["data"]["outcome"] == "Denied"
     assert out[0]["title"].endswith(": Denied") and out[0]["event_type"] == "protest"
-    assert not UIC_RE.match("N254122") and TOPIC_RE.match("N254-122") and UIC_RE.match("N0018926QL376").group(1) == "N00189"
+    assert not UIC_RE.match("N254122") and TOPIC_RE.fullmatch("N254-122") and UIC_RE.match("N0018926QL376").group(1) == "N00189"
     print("protests selfcheck ok")
     return 0
 

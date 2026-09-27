@@ -32,7 +32,7 @@ from difflib import SequenceMatcher
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from agency import P, RESEARCH  # noqa: E402
+from agency import P, RESEARCH, forecast_packs  # noqa: E402
 from fetch import MANIFEST, ROOT, fetch  # noqa: E402
 
 SHEET = "LRAE Annex 25"
@@ -77,12 +77,44 @@ AMC_HEADERS = {
     "contracting office": "contracting_office", "command": "command", "pm / directorate": "pm_directorate",
     "assigned small business office email": "small_business_email", "assigned small business office": "small_business_office",
 }
+# The Corps of Engineers forecast: one sheet, the fiscal quarter as "FY2026, Q4", a value band, and the district or
+# centre that buys (Buying / Requiring Activity) as the owning office.
+USACE_HEADERS = {
+    "project title": "requirement_title", "prior contract number": "existing_contract_number", "prior order number": "prior_order_number",
+    "anticipated dollar value": "anticipated_total_value", "contract period of performance": "period_of_performance_months",
+    "naics / psc": "naics_psc", "anticipated set-aside": "procurement_method", "action / award type": "procurement_instrument",
+    "anticipated solicitation date": "solicitation_date", "anticipated award date": "award_date",
+    "buying / requiring activity": "command", "small business office": "small_business_email",
+}
+# The National Guard forecast: one sheet per state Guard, the fiscal year and the quarter in two columns, the contracting
+# office as a name or a DoDAAC. The sheet and the Requiring Activity column name the owning office.
+NG_HEADERS = {
+    "project description": "requirement_description", "title for the potential": "requirement_title",
+    "existing contract number": "existing_contract_number", "solicitation number": "number", "incumbent vendor name": "incumbent_contractor",
+    "contracting agency": "contracting_center", "contracting office/org": "contracting_org", "contracting office": "contracting_office",
+    "consolidation / bundling": "consolidation", "estimated dollar threshold": "dollar_threshold",
+    "total estimated contract or order value": "anticipated_total_value", "period of performance": "period_of_performance_months",
+    "naics": "naics", "psc": "psc", "forecasted type of set aside": "procurement_method", "anticipated contract type": "contract_type",
+    "anticipated award type": "procurement_instrument", "contract vehicle": "contract_vehicle", "extent competed": "extent_competed",
+    "predominant place(s) of performance - state": "place_of_performance",
+    "anticipated solicitation date fy": "solicitation_date", "anticipated solicitation date qt": "solicitation_quarter_as_written",
+    "anticipated award date fy": "award_date", "anticipated award date qt": "award_quarter_as_written",
+    "requiring activity": "pm_directorate", "point of contact": "contracting_poc_name", "sb office": "small_business_office",
+    "contact email": "small_business_email",
+}
+# `sheet: "*"` reads every sheet but the `key_sheets`, and a row is then its sheet and its row ("TX!5").
 ARMY_RELEASES = [
     {"key": "amc_2026-05", "activity": "amc", "match": "enclosure-1-fy26-amc-acquisition-forecast", "release_date": "2026-05-27",
      "release_note": "the June to December 2026 forecast, dated by its download path", "sheet": "FY26 AMC_2nd Iteration", "header_row": 2,
      "scope": "all", "headers": AMC_HEADERS},
+    {"key": "usace_2026-05", "activity": "usace", "match": "usace-forecast-da-format-external", "release_date": "2026-05-28",
+     "release_note": "dated by its download path; the file is named for 27 May", "sheet": "USACE DA Forecast", "header_row": 1,
+     "scope": "all", "headers": USACE_HEADERS},
+    {"key": "ngb_2026-05", "activity": "ngb", "match": "fy26-acquisition-forecast-master", "release_date": "2026-05-07",
+     "release_note": "the FY2026 National Guard forecast, one sheet per state Guard, dated by its download path", "sheet": "*",
+     "key_sheets": ("Acronym Key", "Column Header Key"), "header_row": 2, "scope": "all", "headers": NG_HEADERS, "command_from": "sheet"},
 ]
-RELEASES = {"navy": NAVY_RELEASES, "army": ARMY_RELEASES}.get(P["key"], [])
+RELEASES = {"navy": NAVY_RELEASES, "army": ARMY_RELEASES}.get(P["key"]) or P["forecast"].get("releases", [])
 JOINS_COLLECTED_FOR = "lrae_navwar_2025-06"  # the first release whose FPDS and SAM.gov lookups were collected
 USASPENDING_AWARD = "https://api.usaspending.gov/api/v2/awards/{}/"
 FPDS = "https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:{piid}&start={start}"
@@ -137,7 +169,8 @@ def manifest_rows() -> list[dict]:
 
 def saved(rows: list[dict], predicate) -> dict | None:
     """Latest successful manifest row matching the predicate whose bytes are still on disk."""
-    hits = [r for r in rows if r.get("status") == 200 and r.get("path") and predicate(r) and (ROOT / r["path"]).exists()]
+    hits = [r for r in rows if r.get("status") == 200 and r.get("path") and r.get("content_status") != "rejected_stub"
+            and predicate(r) and (ROOT / r["path"]).exists()]
     return hits[-1] if hits else None
 
 
@@ -146,7 +179,8 @@ def url_index(rows: list[dict]) -> dict[str, dict]:
     that look up thousands of URLs, where a scan of the manifest per lookup does not finish."""
     index: dict[str, dict] = {}
     for r in rows:
-        if r.get("status") == 200 and r.get("path") and r.get("url") and (ROOT / r["path"]).exists():
+        if (r.get("status") == 200 and r.get("path") and r.get("url") and r.get("content_status") != "rejected_stub"
+                and (ROOT / r["path"]).exists()):
             index[r["url"]] = r
     return index
 
@@ -159,64 +193,164 @@ def cell(value) -> str:
     return str(value).strip()
 
 
+def header_fields(header, headers: dict[str, str]) -> list[str | None]:
+    """Each header cell's field: the first line, lower-cased and its spaces collapsed, against the map's prefixes."""
+    firsts = [" ".join(str(text or "").split("\n")[0].split()).lower() for text in header]
+    return [next((name for prefix, name in headers.items() if first.startswith(prefix)), None) for first in firsts]
+
+
+def header_at(sheet, headers: dict[str, str], last: int) -> int:
+    """The first row up to `last` that names three known columns: one state's sheet of the Guard forecast has no title row."""
+    for number, values in enumerate(sheet.iter_rows(min_row=1, max_row=last, values_only=True), start=1):
+        if sum(1 for f in header_fields(values, headers) if f) >= 3:
+            return number
+    return last
+
+
+def flat(value):
+    """A JSON field as one cell: an object by its text fields ({"display_name": "Over $100M", ...}), a list joined."""
+    if isinstance(value, dict):
+        return " ".join(v for v in value.values() if isinstance(v, str))
+    return "; ".join(map(str, value)) if isinstance(value, list) else value
+
+
 def read_sheet(path: Path, release_key: str = "", sheet_name: str = SHEET, header_row: int = HEADER_ROW) -> tuple[dict, list[dict]]:
     import openpyxl  # optional dependency, only needed here
 
     # From bytes, not the path: openpyxl judges a file by its extension, and a saved download may have none.
-    book = openpyxl.load_workbook(io.BytesIO(path.read_bytes()), read_only=True, data_only=True)
-    sheet = book[sheet_name]
-    meta = {}
-    for row in sheet.iter_rows(min_row=1, max_row=header_row - 1, values_only=True):
-        if row and row[0] and str(row[0]).endswith(":") and len(row) > 1:
-            meta[str(row[0]).rstrip(":").strip()] = cell(row[1])
-    header = next(sheet.iter_rows(min_row=header_row, max_row=header_row, values_only=True))
-    headers = next((r.get("headers") for r in RELEASES if r["key"] == release_key), None) or HEADERS
-    columns = list(dict.fromkeys([*COLUMNS, *headers.values()]))
-    fields = []
-    for text in header:
-        first = (str(text or "").split("\n")[0]).strip().lower()
-        fields.append(next((name for prefix, name in headers.items() if first.startswith(prefix)), None))
-    rows = []
-    for number, values in enumerate(sheet.iter_rows(min_row=header_row + 1, values_only=True), start=header_row + 1):
-        if all(v is None or str(v).strip() == "" for v in values):
-            continue
-        record = {"sheet": sheet_name, "row_number": number, "release": release_key}
-        record.update({name: "" for name in columns})
-        for i, name in enumerate(fields):
-            if name and i < len(values):
-                record[name] = cell(values[i])
-        rows.append(record)
+    data = path.read_bytes()
+    if data[:2] == b"PK":  # a workbook is a zip
+        book = openpyxl.load_workbook(io.BytesIO(data), read_only=True, data_only=True)
+    else:  # a forecast published as CSV or as JSON records reads as one sheet under the name the release gives it
+        book = openpyxl.Workbook()
+        book.active.title = sheet_name
+        if data.lstrip()[:1] == b"[":  # JSON records (the DHS forecast system): the first record's keys are the header
+            records = json.loads(data)
+            keys = list(records[0]) if records else []
+            lines = [keys, *([flat(r.get(k)) for k in keys] for r in records)]
+        else:
+            lines = csv.reader(io.StringIO(data.decode("utf-8-sig", "replace")))
+        from openpyxl.cell.cell import ILLEGAL_CHARACTERS_RE  # control characters a worksheet cell refuses
+        for line in lines:
+            book.active.append([ILLEGAL_CHARACTERS_RE.sub(" ", c) if isinstance(c, str) else c for c in line])
+    release = next((r for r in RELEASES if r["key"] == release_key), {})
+    headers = release.get("headers") or HEADERS
+    columns = list(dict.fromkeys([*COLUMNS, *filter(None, headers.values())]))  # None drops a field
+    several = sheet_name == "*"
+    names = [s for s in book.sheetnames if s not in release.get("key_sheets", ())] if several else [sheet_name]
+    meta, rows = {}, []
+    for name in names:
+        sheet = book[name]
+        at = header_at(sheet, headers, header_row) if several else header_row
+        for row in sheet.iter_rows(min_row=1, max_row=at - 1, values_only=True):
+            if row and row[0] and str(row[0]).endswith(":") and len(row) > 1:
+                meta.setdefault(str(row[0]).rstrip(":").strip(), cell(row[1]))
+        fields = header_fields(next(sheet.iter_rows(min_row=at, max_row=at, values_only=True), ()), headers)
+        for number, values in enumerate(sheet.iter_rows(min_row=at + 1, values_only=True), start=at + 1):
+            if all(v is None or str(v).strip() == "" for v in values):
+                continue
+            record = {"sheet": name, "row_number": f"{name}!{number}" if several else number, "release": release_key}
+            record.update({field: "" for field in columns})
+            for i, field in enumerate(fields):
+                if field and i < len(values):
+                    record[field] = cell(values[i])
+            if release.get("command_from") == "sheet":
+                record["command"] = name.strip()
+            if not record["requirement_title"]:  # some Guard lines fill only the project description; a need carries a title
+                record["requirement_title"] = record.get("requirement_description", "")
+            if not record["requirement_title"]:  # a line with no title or description is a stray cell, not a need
+                continue
+            keep = release.get("keep")  # (field, prefix): a department's forecast read for the one bureau this layer covers
+            if keep and not record.get(keep[0], "").startswith(keep[1]):
+                continue
+            rows.append(record)
     if headers is not HEADERS:
         derive(rows)
     return meta, rows
 
 
+def excel_row(r: dict) -> str:
+    """The row's number on its sheet ("TX!5" -> "5")."""
+    return str(r["row_number"]).rsplit("!", 1)[-1]
+
+
 def fiscal_quarter(day: str) -> tuple[str, str]:
-    """'2026-11-03' -> ('FY27', 'Q1'): the federal year starts in October."""
+    """'2026-11-03' -> ('FY27', 'Q1'): the federal year starts in October. A forecast that writes the fiscal quarter
+    ('FY2026, Q4', 'FY26 Q4', '2026 4') is read as written; a quarter without a year ('FYXXXX, Q4') is no date."""
     m = re.match(r"(\d{4})-(\d{2})", day)
+    if m:
+        year, month = int(m[1]), int(m[2])
+        return f"FY{(year + (month >= 10)) % 100:02d}", f"Q{(month - 10) % 12 // 3 + 1}"
+    year = re.match(r"\s*(?:FY\s*)?(?:20)?(\d{2})(?!\d)", day, re.I)
+    if not year:
+        return "", ""
+    quarter = re.search(r"\bQ\s*([1-4])\b|(?<!\w)([1-4])(?:st|nd|rd|th)?\s*(?:QTR)?\s*$", day[year.end():], re.I)  # 'Q2', '2', '2nd' or '2nd QTR'
+    return f"FY{year[1]}", (f"Q{quarter[1] or quarter[2]}" if quarter else "")
+
+
+AMOUNT = r"\$?\s*(\d[\d,]*(?:\.\d+)?)\s*([KMB])?"
+SCALE = {"": 1, "K": 1_000, "M": 1_000_000, "B": 1_000_000_000}
+
+
+def value_band(text: str) -> tuple:
+    """(low, high) in dollars: a band the Navy's sheets name, else a band or a figure as written ('$1,000,000 to
+    $2,500,000', '$10K - $350K', '18000000'). Anything else ('TBD', '<SAT') states no amount."""
+    if text in VALUE_RANGES:
+        return VALUE_RANGES[text]
+    usd = lambda n, s: round(float(n.replace(",", "")) * SCALE[(s or "").upper()])  # noqa: E731
+    text = re.sub(r"^[A-Z]\d+\s*[-\u2013]\s*", "", text.strip())  # a numbered band ('R2 \u2013 $250K\u2013$7.5M') is its range
+    low = re.fullmatch(rf"(?:over|>)\s*{AMOUNT}|{AMOUNT}\s*\+", text, re.I)  # 'Over $1B', '>$100M', '$100M+': no upper bound
+    if low:
+        return (usd(low[1], low[2]) if low[1] else usd(low[3], low[4])), ""
+    m = re.fullmatch(rf"{AMOUNT}(?:\s*(?:to|-|\u2013)\s*{AMOUNT})?", text, re.I)
     if not m:
         return "", ""
-    year, month = int(m[1]), int(m[2])
-    return f"FY{(year + (month >= 10)) % 100:02d}", f"Q{(month - 10) % 12 // 3 + 1}"
+    return usd(m[1], m[2]), usd(m[3], m[4]) if m[3] else usd(m[1], m[2])
 
 
-ISSUER_RE = re.compile(r"W[A-Z0-9]{5}(?=-?\d{2}-?[A-Z])")  # DFARS 204.1603: an instrument number opens with its issuer's DoDAAC
+def office_by_name(center: str, office: str) -> str:
+    """The DoDAAC of the office a row names, from the profile's names for them: 'ACC-APG (Natick)' for a row under ACC-APG
+    whose office names Natick, else the centre's own name ('ACC-DTA'). A name the profile does not carry has none."""
+    named = P.get("fpds_offices", {}).items()
+    for code, name in named:
+        head, _, qualifier = name.partition(" (")
+        if qualifier and head.upper() == center.upper() and qualifier.rstrip(")").upper() in office.upper():
+            return code
+    return next((code for code, name in named if center and name.upper() == center.upper()), "")
+
+
+# DFARS 204.1603 (and FAR 4.1603 for a civilian office): an instrument number opens with its issuer's office code.
+OFFICE_CODE = P["agency"]["office_code_re"]
+ISSUER_RE = re.compile(rf"{OFFICE_CODE}(?=-?\d{{2}}-?[A-Z])")
+DODAAC_RE = re.compile(OFFICE_CODE)
 
 
 def derive(rows: list[dict]) -> None:
-    """The fields a dated forecast states another way: fiscal year and quarter from its dates, the office string from
-    Command and PM / Directorate, the contracting office from the DoDAAC the number opens with. A number printed on
-    several rows (one solicitation, several lines) is kept on each row but is no row's PID."""
-    printed = Counter(r["number"] for r in rows if r["number"])
+    """The fields a dated forecast states another way: fiscal year and quarter from its dates or its written quarters,
+    the office string from Command and PM / Directorate, the contracting office from the DoDAAC the number opens with,
+    else the DoDAAC the office column prints, else the profile's DoDAAC for the office's name (`contracting_office_basis`
+    says which). A number printed on several rows (one solicitation, several lines) is kept on each row but is no row's
+    PID, and so is a cell that holds no number ('TBD', '8(a)', 'N/A OY1')."""
+    printed = Counter(r.get("number") for r in rows if r.get("number"))
     for r in rows:
+        r.setdefault("number", "")  # the Corps of Engineers prints no number before the notice
         for name in ("solicitation_date", "solicitation_close_date", "award_date"):
-            r[name] = r[name][:10]
-        r["solicitation_fy"], r["solicitation_quarter"] = fiscal_quarter(r["solicitation_date"])
-        r["award_fy"], r["award_quarter"] = fiscal_quarter(r["award_date"])
-        r["office_code_string"] = " - ".join(x for x in (r["command"], r["pm_directorate"]) if x)
+            r[name] = re.sub(r"^(\d{4}-\d{2}-\d{2}) \d{2}:\d{2}:\d{2}$", r"\1", r.get(name, ""))
+            r[name] = re.sub(r"^(\d{1,2})/(\d{1,2})/(\d{4})$", lambda m: f"{m[3]}-{int(m[1]):02d}-{int(m[2]):02d}", r[name])  # 09/28/2026
+        for name in ("solicitation", "award"):
+            stated = " ".join(x for x in (r[f"{name}_date"], r.get(f"{name}_quarter_as_written", "")) if x)
+            r[f"{name}_fy"], r[f"{name}_quarter"] = fiscal_quarter(stated)
+        if r.get("naics_psc") and not (r.get("naics") or r.get("psc")):
+            r["naics"], _, r["psc"] = (x.strip() for x in r["naics_psc"].partition("/"))
+        r["office_code_string"] = " - ".join(x for x in (r.get("command", ""), r.get("pm_directorate", "")) if x)
         issuer = ISSUER_RE.match(r["number"])
-        r["contracting_office_uic"] = issuer.group(0) if issuer else ""
-        r["pid"] = r["number"] if printed[r["number"]] == 1 else ""
+        office = r.get("contracting_office", "")
+        named = office_by_name(r.get("contracting_center", ""), office)
+        r["contracting_office_uic"], r["contracting_office_basis"] = (
+            (issuer.group(0), "number") if issuer else (office, "office column") if DODAAC_RE.fullmatch(office)
+            else (named, "office name") if named else ("", ""))
+        number = printed[r["number"]] == 1 and sum(c.isdigit() for c in r["number"]) >= 2 and not r["number"].upper().startswith("N/A")
+        r["pid"] = r["number"] if number else ""
 
 
 def record_key(r: dict) -> str:
@@ -477,13 +611,13 @@ def build_joins(rows: list[dict], classified: list[dict], manifest: list[dict]) 
             continue
         if c["office_id"]:
             add(r, "office", "explicit", c["office_code"], c["office_id"],
-                f"{r['sheet']}!C{r['row_number']}; organization_seed.json alias table", "requirement-office code matched an alias")
+                f"{r['sheet']}!C{excel_row(r)}; organization_seed.json alias table", "requirement-office code matched an alias")
         else:  # an activity-wide release keeps the row; the office stays as written until the memory knows it
-            add(r, "office", "explicit", c["office_code"] or "(blank)", "", f"{r['sheet']}!C{r['row_number']}",
+            add(r, "office", "explicit", c["office_code"] or "(blank)", "", f"{r['sheet']}!C{excel_row(r)}",
                 "office string names no organization the memory knows")
         tokens = contract_tokens(r["existing_contract_number"])
         if not tokens and r["existing_contract_number"]:
-            add(r, "existing_contract", "explicit", r["existing_contract_number"], "", f"{r['sheet']}!O{r['row_number']}",
+            add(r, "existing_contract", "explicit", r["existing_contract_number"], "", f"{r['sheet']}!O{excel_row(r)}",
                 "no contract identifier pattern recognised in the cell")
         for token in tokens:
             pages, actions, complete = fpds_history(manifest, token)
@@ -539,7 +673,7 @@ def build_joins(rows: list[dict], classified: list[dict], manifest: list[dict]) 
             elsewhere = [v for (n, o), v in contact_table.items() if n == norm_code(name) and o != c["office_id"]]
             note = f"{role} on the row matches a contact observation for the same office" if target else (
                 f"{role} has no contact observation for {c['office_id']}" + (f"; observed for {', '.join(sorted(set(elsewhere)))}" if elsewhere else ""))
-            add(r, "contact", "explicit", name, target, f"{r['sheet']}!{'T' if role == 'contracting_poc' else 'V'}{r['row_number']}", note)
+            add(r, "contact", "explicit", name, target, f"{r['sheet']}!{'T' if role == 'contracting_poc' else 'V'}{excel_row(r)}", note)
     joins.sort(key=lambda j: (j["row_number"], j["join_type"], j["method"], j["key_used"], j["target_id"]))
     return joins
 
@@ -558,7 +692,7 @@ def layers(rows: list[dict], classified: list[dict], joins: list[dict], source_s
             continue
         rk = record_key(r)
         need_id = f"need:{key}:{rk}"
-        evidence.append({"id": evidence_id(r), "source_sha256": source_sha, "locator": f"{release['sheet']}!row {r['row_number']}",
+        evidence.append({"id": evidence_id(r), "source_sha256": source_sha, "locator": f"{r['sheet']}!row {excel_row(r)}",
                          "release_date": release_date, "kind": "spreadsheet_row"})
         needs.append({"id": need_id, "record_key": rk, "pid": r["pid"], "title": r["requirement_title"], "office_id": c["office_id"],
                       "office_code_string": r["office_code_string"], "contracting_office_uic": re.split(r"\s*[:-]\s*|\s+", r["contracting_office_uic"])[0].strip(),
@@ -570,7 +704,7 @@ def layers(rows: list[dict], classified: list[dict], joins: list[dict], source_s
                      "solicitation_fy": r["solicitation_fy"], "solicitation_quarter": r["solicitation_quarter"],
                      "award_fy": r["award_fy"], "award_quarter": r["award_quarter"], "pop_months": r["period_of_performance_months"],
                      "naics": r["naics"], "psc": r["psc"], "place": r["place_of_performance"], "evidence_id": evidence_id(r)})
-        low, high = VALUE_RANGES.get(r["anticipated_total_value"], ("", ""))
+        low, high = value_band(r["anticipated_total_value"])
         funding.append({"id": f"fund:{key}:{rk}", "need_id": need_id, "observation_type": "procurement_estimate",
                         "as_stated": r["anticipated_total_value"], "amount_low_usd": low, "amount_high_usd": high,
                         "fiscal_year": r["award_fy"], "period": r["award_quarter"], "evidence_id": evidence_id(r)})
@@ -823,8 +957,7 @@ def fold_map(pack_base: Path = PACK_BASE) -> tuple[dict[tuple[str, str], dict], 
     database alone sees the full history. A chain that would join two different PIDs, or two rows
     of one release, is left unfolded and named in the second value: those are a reviewer's call.
     """
-    glob = P["forecast"]["pack_glob"]
-    packs = sorted(p for p in pack_base.glob(glob) if p.is_dir() and (p / "rows_classified.csv").exists()) if glob else []
+    packs = [p for p in forecast_packs(pack_base) if (p / "rows_classified.csv").exists()]
     keys: dict[tuple[str, str], str] = {}  # (release, row number) -> record key, included rows only
     for pack in packs:
         with (pack / "rows_classified.csv").open(newline="") as handle:
@@ -905,7 +1038,10 @@ def reconciliation(release: dict, rows, classified, joins, diff_note: str) -> st
     has_pid = pid_rows > 0
     key_note = (f"PID, where present ({pid_rows} of {len(rows)} raw rows); a row without one is its own record (release and row number)"
                 if has_pid else "the row itself, as release and row number (this release has no PID column). No two rows are merged at import")
-    lines = [f"# Reconciliation - {release['key']}", "", f"Sheet `{release['sheet']}`, header on Excel row {release['header_row']}, data rows {rows[0]['row_number']}-{rows[-1]['row_number']}.",
+    sheets = (f"Every sheet but {', '.join(f'`{s}`' for s in release['key_sheets'])} ({len({r['sheet'] for r in rows})} with rows), header on "
+              f"Excel row {release['header_row']} or the first row above it that names the columns" if release["sheet"] == "*"
+              else f"Sheet `{release['sheet']}`, header on Excel row {release['header_row']}")
+    lines = [f"# Reconciliation - {release['key']}", "", f"{sheets}, data rows {rows[0]['row_number']}-{rows[-1]['row_number']}.",
              f"Record key: {key_note}.",
              "", "## Rows", "", "| Decision | Rows |", "| --- | --- |", f"| raw | {len(rows)} |"]
     lines += [f"| {d} | {decisions.get(d, 0)} |" for d in ("included", "excluded", "unresolved")]
@@ -951,7 +1087,7 @@ def build() -> int:
     manifest = manifest_rows()
     packages = []
     for release in RELEASES:
-        source = saved(manifest, lambda m, rel=release: rel["match"] in m.get("url", "") and m.get("mime", "").endswith("sheet"))
+        source = saved(manifest, lambda m, rel=release: rel["match"] in m.get("url", "") and m.get("mime", "").endswith(("sheet", "csv", "json")))
         if source is None:
             print(f"{release['key']}: spreadsheet bytes not found under data/raw; skipped", file=sys.stderr)
             continue
@@ -1012,7 +1148,7 @@ def collect(limit: int, keys: list[str] | None = None) -> int:
     wanted: list[tuple[str, str]] = []
     piids: set[str] = set()
     for release in [r for r in RELEASES if r["key"] in keys] if keys else current_releases():
-        source = saved(manifest, lambda m, rel=release: rel["match"] in m.get("url", "") and m.get("mime", "").endswith("sheet"))
+        source = saved(manifest, lambda m, rel=release: rel["match"] in m.get("url", "") and m.get("mime", "").endswith(("sheet", "csv", "json")))
         if source is None:
             print(f"{release['key']}: spreadsheet bytes not saved; nothing to look up", file=sys.stderr)
             continue
@@ -1026,7 +1162,7 @@ def collect(limit: int, keys: list[str] | None = None) -> int:
             where = f"{release['key']} row {r['row_number']}"
             wanted += [(fpds_url(t), f"LRAE join: FPDS search for existing contract {t} ({where})") for t in tokens]
             wanted += [(sgs_url(n, a), f"LRAE join: SAM.gov search for {n} ({where})") for n in (r["pid"], *tokens) if n for a in ("false", "true")]
-    have = {m["url"] for m in manifest if m.get("status") == 200 and m.get("path")}
+    have = {m["url"] for m in manifest if m.get("status") == 200 and m.get("path") and m.get("url")}
     todo = []
     for url, note in wanted:
         if url not in have and url not in {u for u, _ in todo}:
@@ -1060,7 +1196,7 @@ def collect(limit: int, keys: list[str] | None = None) -> int:
                     break
                 manifest.append(row)
         # The award's USAspending page states the period of performance when the FPDS history does not reach its end.
-        have = {m["url"] for m in manifest if m.get("status") == 200 and m.get("path")}
+        have = {m["url"] for m in manifest if m.get("status") == 200 and m.get("path") and m.get("url")}
         for piid in sorted(piids):
             if done >= limit:
                 break
@@ -1074,12 +1210,19 @@ def collect(limit: int, keys: list[str] | None = None) -> int:
 
 
 def selfcheck() -> int:
+    with tempfile.TemporaryDirectory() as tmp:
+        (Path(tmp) / "f").write_bytes(b"\xef\xbb\xbfRequirement Title\nWidget\n\n")
+        assert [r["requirement_title"] for r in read_sheet(Path(tmp) / "f", "", "csv", 1)[1]] == ["Widget"], "a CSV forecast reads as one sheet"
+        (Path(tmp) / "j").write_bytes(b'[{"Requirement Title": "Gadget", "x": {"display_name": "Over $1M", "display_order": 3}}]')
+        assert [r["requirement_title"] for r in read_sheet(Path(tmp) / "j", "", "json", 1)[1]] == ["Gadget"], "JSON records read as one sheet"
+    assert value_band("R2 \u2013 $250K\u2013$7.5M") == (250_000, 7_500_000) and value_band("Over $1B") == (1_000_000_000, "")
+    assert fiscal_quarter("2026 2nd") == ("FY26", "Q2") == fiscal_quarter("FY26 2nd QTR"), "an ordinal quarter"
     assert fiscal_quarter("2026-11-03") == ("FY27", "Q1") and fiscal_quarter("2027-03-31") == ("FY27", "Q2") and fiscal_quarter("") == ("", "")
     dated = [{"number": n, "solicitation_date": "2026-05-01 00:00:00", "solicitation_close_date": "", "award_date": "2026-09-30 00:00:00",
-              "command": "PEO AVIATION", "pm_directorate": pm} for n, pm in (("W58RGZ-26-R-0008", "UAS"), ("W58RGZ-26-R-0008", ""), ("PANDTA-26-P-0000 1", "UAS"))]
+              "command": "PEO AVIATION", "pm_directorate": pm} for n, pm in (("N00019-26-R-0008", "UAS"), ("N00019-26-R-0008", ""), ("PANDTA-26-P-0000 1", "UAS"))]
     derive(dated)
     assert [(r["pid"], r["contracting_office_uic"], r["office_code_string"]) for r in dated] == [
-        ("", "W58RGZ", "PEO AVIATION - UAS"), ("", "W58RGZ", "PEO AVIATION"), ("PANDTA-26-P-0000 1", "", "PEO AVIATION - UAS")], \
+        ("", "N00019", "PEO AVIATION - UAS"), ("", "N00019", "PEO AVIATION"), ("PANDTA-26-P-0000 1", "", "PEO AVIATION - UAS")], \
         "a number on two rows is no row's PID; the issuer is the DoDAAC the number opens with"
     assert dated[0]["award_fy"] == "FY26" and dated[0]["award_quarter"] == "Q4" and dated[0]["solicitation_date"] == "2026-05-01"
     assert handles({"name": "Department of the Navy", "aliases": [{"text": "DoN"}], "codes": {"fpds_agency_id": "1700", "uic": "N00039"}}) \
@@ -1113,7 +1256,6 @@ def selfcheck() -> int:
     assert by_basis["office+incumbent"] == "candidate", "a follow-on and a bridge share office and incumbent; a reviewer decides"
 
     # Confirmed pairs fold into one chain under its PID; a candidate never joins one; two PIDs never fold.
-    import tempfile
     with tempfile.TemporaryDirectory() as tmp:
         base = Path(tmp)
 

@@ -47,10 +47,8 @@ LISTING = COLLECTION + "{since}T00:00:00Z?pageSize=1000&offsetMark=*&congress={c
 TEXT = "https://api.govinfo.gov/packages/{package_id}/htm"
 
 # The title ends with the act's name, so a Rules Committee report that merely mentions the bill does not match.
-TITLES = [("ndaa", re.compile(r"(?:^|\s)NATIONAL DEFENSE AUTHORIZATION ACT FOR FISCAL YEAR (\d{4})$")),
-          ("appropriations", re.compile(r"^DEPARTMENT OF DEFENSE APPROPRIATIONS (?:BILL|ACT),? (\d{4})$"))]
-COMMITTEES = {("ndaa", "h"): "House Armed Services Committee", ("ndaa", "s"): "Senate Armed Services Committee",
-              ("appropriations", "h"): "House Appropriations Committee", ("appropriations", "s"): "Senate Appropriations Committee"}
+TITLES = [(kind, re.compile(pattern)) for kind, pattern in P["committees"]["reports"]]
+COMMITTEES = P["committees"]["names"]
 PACKAGE_RE = re.compile(r"CRPT-(\d+)([hs])rpt(\d+)")
 
 PAGE_RE = re.compile(r"\[\[Page [^\]]*\]\]")

@@ -19,6 +19,7 @@ detail file in the folder as this agency's.
 """
 from __future__ import annotations
 
+import importlib.util
 import os
 import re
 import sys
@@ -27,14 +28,28 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 KEY = os.environ.get("AGENCY", "navy").strip().lower() or "navy"
 
+# The committee reports read for directives (the title must end with the act's name, so a Rules Committee report that
+# merely mentions the bill does not match), the committee each report kind comes from by chamber, and the House
+# committee calendars watched for hearings. Every Defense profile reads the same two acts.
+DOD_COMMITTEES = {
+    "reports": [("ndaa", r"(?:^|\s)NATIONAL DEFENSE AUTHORIZATION ACT FOR FISCAL YEAR (\d{4})$"),
+                ("appropriations", r"^DEPARTMENT OF DEFENSE APPROPRIATIONS (?:BILL|ACT),? (\d{4})$")],
+    "names": {("ndaa", "h"): "House Armed Services Committee", ("ndaa", "s"): "Senate Armed Services Committee",
+              ("appropriations", "h"): "House Appropriations Committee", ("appropriations", "s"): "Senate Appropriations Committee"},
+    "house_feeds": {"AS00": "https://docs.house.gov/Committee/RSS.ashx?Code=AS00", "AP00": "https://docs.house.gov/Committee/RSS.ashx?Code=AP00"}}
+# One small business directory for every military department and defense agency.
+DOD_SMALL_BUSINESS = "https://business.defense.gov/Work-with-us/Military-Departments-and-Defense-Agencies/"
+
 NAVY = {
     "key": "navy",
     "label": "Department of the Navy",
     "short": "U.S. Navy",
-    "database": "navy_proof_e",
+    "database": "navy_proof_ab",
     "agency": {"toptier_code": "097", "toptier_name": "Department of Defense", "toptier_abbreviation": "DOD",
                "subtier_code": "1700", "subtier_name": "Department of the Navy", "subtier_abbreviation": "DON",
-               "node": "agency:don"},
+               "node": "agency:don",
+               # DFARS 204.1603 (FAR 4.1603 outside Defense): an instrument number opens with its issuing office's code.
+               "office_code_re": r"[A-Z]\d{4}[A-Z0-9]", "small_business_directory": DOD_SMALL_BUSINESS},
     # FPDS: the contracting offices swept by CONTRACTING_OFFICE_ID, and the agencies swept by FUNDING_AGENCY_ID
     # (an agency whose awards other agencies sign for it; none for the Navy, whose sweep is by office).
     "fpds_offices": {"N00039": "NAVWAR HQ", "N00024": "NAVSEA HQ", "N00014": "ONR", "N00173": "NRL",
@@ -62,6 +77,7 @@ NAVY = {
     # already hold the Navy's.
     "owner_types": (),
     "families": {},
+    "moved_urls": {},  # a directory address whose host no longer resolves -> where its page is saved from
     "generic_words": (),
     "sbir_commands": {"NAVSEA": "command:navsea", "NAVAIR": "command:navair", "NAVWAR": "command:navwar", "SPAWAR": "command:navwar",
                       "ONR": "command:onr", "SSPO": "command:ssp", "SSP": "command:ssp"},
@@ -79,6 +95,7 @@ NAVY = {
                          r"|\bNaval (?:Sea|Air|Supply) Systems Command\b|\bNaval Information Warfare\b|\bOffice of Naval Research\b"
                          r"|\bNaval Research Laboratory\b|\bPEO\b|\bPM[SAW][- ]?\d{2,3}\b"),
     "congress_label": "Navy",
+    "committees": DOD_COMMITTEES,
     # oversight.gov and the GAO feed: the agency as the reader is told it, the full-text queries, what a reviewed-agency
     # cell must say and what a title must name.
     "oversight": {"agency": "Department of the Navy (the Navy and the Marine Corps, their systems commands, program offices and field activities)",
@@ -149,7 +166,9 @@ NAVY = {
     # notice or after a person's name, and a hull or platform designator to strip from a title (none where the agency
     # has none). The contract number pattern is `piid_re` above and the buyer's own names are `generic_words`.
     "reading": {"office_code_re": r"\b(?:PMW|PMS|PMA|IWS)[ /-]*(?:A[ -]*)?\d{2,3}(?:\.\d)?\b|\bPEO [A-Z][A-Za-z0-9]+",
-                "hull_re": r"\bUSS\s+[A-Z][A-Za-z .'-]*?\s*\(?[A-Z]{2,4}[\s-]*\d{1,4}\)?|\b[A-Z]{2,4}[\s-]+\d{1,4}\b"},
+                "hull_re": r"\bUSS\s+[A-Z][A-Za-z .'-]*?\s*\(?[A-Z]{2,4}[\s-]*\d{1,4}\)?|\b[A-Z]{2,4}[\s-]+\d{1,4}\b",
+                # A solicitation number written into a forecast title or an article, read with its spaces removed.
+                "rfp_re": r"N\d{5}-?\d{2}-?R-?[A-Z]?-?\d{3,4}(?![0-9])"},
 }
 
 DARPA = {
@@ -159,7 +178,9 @@ DARPA = {
     "database": "darpa_proof",
     "agency": {"toptier_code": "097", "toptier_name": "Department of Defense", "toptier_abbreviation": "DOD",
                "subtier_code": "97AE", "subtier_name": "Defense Advanced Research Projects Agency", "subtier_abbreviation": "DARPA",
-               "node": "agency:darpa"},
+               "node": "agency:darpa",
+               # DFARS 204.1603 (FAR 4.1603 outside Defense): an instrument number opens with its issuing office's code.
+               "office_code_re": r"HR\d{4}", "small_business_directory": DOD_SMALL_BUSINESS},
     # One contracting office (HR0011, the Contracts Management Office); awards DARPA funds through other agencies'
     # offices are swept by funding agency (research/docs/19, section 2: 41 to 50 of the FY2026 base awards).
     "fpds_offices": {"HR0011": "DARPA Contracts Management Office"},
@@ -184,6 +205,7 @@ DARPA = {
     # out: it is the commercial solutions opening as often as the office.
     "office_key_re": r"\b(BTO|DSO|I2O|MTO|MXO|STO|TTO|IPTO|ACO|APO)\d{0,2}\b",
     "families": {"darpa_site": "organization", "darpa_staff_listing": "organization", "dod_comptroller_budget_materials": "budget"},
+    "moved_urls": {},  # a directory address whose host no longer resolves -> where its page is saved from
     # Topic codes as the portal writes them (HR001119S0035-14, HR0011SB20234XL-01, DPA26BZ01-DV003). Contract and
     # solicitation numbers under any DoD office, since other agencies' offices sign most DARPA-funded awards, and an
     # Other Transaction carries a digit (9) where a contract carries its type letter.
@@ -201,6 +223,7 @@ DARPA = {
     "fedreg_name_pattern": r"\bDARPA\b|\bDefense Advanced Research Projects Agency\b",
     "congress_pattern": r"\bDARPA\b|\bDefense Advanced Research Projects Agency\b",
     "congress_label": "DARPA",
+    "committees": DOD_COMMITTEES,
     "oversight": {"agency": "Defense Advanced Research Projects Agency (DARPA, its technical offices and its Contracts Management Office)",
                   "queries": ("DARPA", "Defense Advanced Research Projects Agency"),
                   # The OIG lists every report under "Department of War", so the department name admits nothing here;
@@ -242,7 +265,9 @@ DARPA = {
     # A DARPA notice names its office by acronym (the six technical offices, the four former ones the notices still
     # name, and the staff offices); DARPA has no hull designators.
     "reading": {"office_code_re": r"\b(?:BTO|DSO|I2O|IPTO|MTO|MXO|STO|TTO|DIRO|CMO|SBPO|ACO|APO|CSO)\b",
-                "hull_re": r"(?!)"},
+                "hull_re": r"(?!)",
+                # ponytail: the Navy pattern this layer was built with; its own moves news links and with them paid office pages.
+                "rfp_re": r"N\d{5}-?\d{2}-?R-?[A-Z]?-?\d{3,4}(?![0-9])"},
 }
 
 ARMY = {
@@ -252,7 +277,9 @@ ARMY = {
     "database": "army_proof",
     "agency": {"toptier_code": "097", "toptier_name": "Department of Defense", "toptier_abbreviation": "DOD",
                "subtier_code": "2100", "subtier_name": "Department of the Army", "subtier_abbreviation": "DA",
-               "node": "agency:army"},
+               "node": "agency:army",
+               # DFARS 204.1603 (FAR 4.1603 outside Defense): an instrument number opens with its issuing office's code.
+               "office_code_re": r"W[A-Z0-9]{5}", "small_business_directory": DOD_SMALL_BUSINESS},
     # The Army Contracting Command offices that sign most acquisition-program awards (FPDS, FY2026), by DoDAAC.
     "fpds_offices": {"W56KGY": "ACC-APG", "W15P7T": "ACC-APG (CECOM)", "W91CRB": "ACC-APG (Natick)", "W31P4Q": "ACC-RSA",
                      "W58RGZ": "ACC-RSA (AMCOM)", "W912CH": "ACC-DTA", "W15QKN": "ACC-NJ (Picatinny)", "W900KK": "ACC-ORL"},
@@ -272,7 +299,11 @@ ARMY = {
     "office_key_re": r"(?!)",  # the forecast writes its program offices by name; no code pattern yet
     "shared_sources": ("sbir_sttr_topics", "govinfo_api"),
     "owner_types": (),
-    "families": {"army_asaalt_chart": "organization", "amc_acquisition_forecast": "forecast", "army_budget_materials": "budget"},
+    "families": {"army_asaalt_chart": "organization", "amc_acquisition_forecast": "forecast", "usace_acquisition_forecast": "forecast",
+                 "army_national_guard_forecast": "forecast", "army_budget_materials": "budget"},
+    # A directory address whose host no longer resolves -> where the same page is saved from. The Department's small
+    # business directory still lists osbp.army.mil, which has no DNS record; the office's page is www.army.mil/osbp.
+    "moved_urls": {"http://osbp.army.mil/": "https://www.army.mil/osbp"},
     # Topic codes as the portal writes them (A20-179, A214-006, A20B-T018, A254-P007, ARM26BX06-NV012); contract and
     # solicitation numbers under an Army DoDAAC (W...).
     "topic_re": r"\b(?:A\d{2}[0-9A-Z]?-[A-Z]?\d{3}|ARM\d{2}[A-Z]{2}\d{2}-[A-Z]{2}\d{3})\b",
@@ -286,6 +317,7 @@ ARMY = {
     "congress_pattern": (r"\bArmy\b|\bARMY\b|\bASA\(ALT\)|\bArmy (?:Contracting|Materiel|Futures) Command\b"
                          r"|\b(?:TACOM|AMCOM|CECOM|DEVCOM|JPEO)\b|\bPortfolio Acquisition Executive\b"),
     "congress_label": "Army",
+    "committees": DOD_COMMITTEES,
     "oversight": {"agency": "Department of the Army (the Army, its commands, its portfolio and program offices and its contracting centers)",
                   "queries": ("Army",),
                   "reviewed_re": r"Department of (War|Defense|the Army)\b|\bArmy\b",
@@ -314,19 +346,29 @@ ARMY = {
                "executive": ("secretary of the army", "assistant secretary", "under secretary", "chief of staff", "commanding general",
                              "portfolio acquisition executive", "program executive", "director"),
                "remarks_providers": None, "staff_listing": None},
-    # The Army Materiel Command's acquisition forecast is the forecast; its Command and PM / Directorate columns and the
-    # ASA(ALT) chart are the organization memory's sources.
-    "forecast": {"pack_glob": "amc_*", "label": "acquisition forecast", "short": "forecast", "providers": {"amc": "amc_acquisition_forecast"}, "memory_tool": "org_memory_army.py",
+    # The forecasts the Office of Small Business Programs links (AMC, USACE, the National Guard) are the forecast; AMC's
+    # Command and PM / Directorate columns and the ASA(ALT) chart are the organization memory's sources. One Path.glob
+    # pattern each: the packs amc_, ngb_ and usace_, not the Navy's lrae_ packs or another agency's in the same directory.
+    "forecast": {"pack_glob": ("amc_20??-??", "usace_20??-??", "ngb_20??-??"), "label": "acquisition forecast", "short": "forecast", "memory_tool": "org_memory_army.py",
+                 "providers": {"amc": "amc_acquisition_forecast", "usace": "usace_acquisition_forecast", "ngb": "army_national_guard_forecast"},
                  "contract_re": r"W[A-Z0-9]{5}\d{2}[A-Z]\d{4}(?!\d)"},  # Army PIIDs as the forecast writes them, hyphens gone
     "pilot_offices": ("PEO AVIATION", "PEO MS", "JPEO AA", "PEO SOLDIER", "PEO GCS", "CPE C2IN"),
     "coverage_orgs": ["ASA(ALT)", "ACC", "AMC", "PEO AVIATION", "PEO MS", "JPEO AA", "PEO SOLDIER", "PEO GCS", "CPE C2IN"],
     # An Army notice names its office as a PEO, JPEO, CPE, PM or PdM followed by the office's word (PEO Aviation, PM UAS);
     # the Army has no hull designators. A first pattern from the forecast's office names, not yet run against a corpus.
     "reading": {"office_code_re": r"\b(?:J?PEO|CPE|P[dD]M|PM) [A-Z][A-Za-z0-9&()/-]+",
-                "hull_re": r"(?!)"},
+                "hull_re": r"(?!)",
+                # ponytail: the Navy pattern this layer was built with; its own moves news links and with them paid office pages.
+                "rfp_re": r"N\d{5}-?\d{2}-?R-?[A-Z]?-?\d{3,4}(?![0-9])"},
 }
 
 PROFILES = {"navy": NAVY, "darpa": DARPA, "army": ARMY}
+# Every later agency is one file under agency_profiles/ that defines PROFILE, so adding one touches no shared file.
+for _path in sorted((Path(__file__).resolve().parent / "agency_profiles").glob("*.py")):
+    _spec = importlib.util.spec_from_file_location(f"agency_profiles.{_path.stem}", _path)
+    _module = importlib.util.module_from_spec(_spec)
+    _spec.loader.exec_module(_module)
+    PROFILES[_module.PROFILE["key"]] = _module.PROFILE
 if KEY not in PROFILES:
     sys.exit(f"AGENCY={KEY!r} is not a profile; known: {', '.join(sorted(PROFILES))}")
 P = PROFILES[KEY]
@@ -380,6 +422,12 @@ def compiled(pattern: str, flags: int = 0) -> re.Pattern:
     return re.compile(pattern, flags)
 
 
+def forecast_packs(base: Path) -> list[Path]:
+    """This profile's forecast pack folders under base: one glob, or several when the agency publishes several forecasts."""
+    globs = P["forecast"]["pack_glob"] or ()
+    return sorted({p for g in ([globs] if isinstance(globs, str) else globs) for p in base.glob(g) if p.is_dir()})
+
+
 def selfcheck() -> int:
     assert NAVY["fpds_offices"]["N00039"] == "NAVWAR HQ" and NAVY["sam_orgs"]["100076586"] == "N00039"
     assert DARPA["fpds_offices"] == {"HR0011": "DARPA Contracts Management Office"} and DARPA["fpds_funding_agencies"] == {"97AE": "DARPA"}
@@ -391,7 +439,7 @@ def selfcheck() -> int:
     assert not compiled(ARMY["topic_re"]).search("N251-001") and compiled(ARMY["piid_re"]).search("W58RGZ-26-C-0001")
     for key, profile in PROFILES.items():
         assert profile["key"] == key and set(profile) == set(NAVY), key
-        assert profile["agency"]["toptier_code"] == "097" and profile["agency"]["node"].startswith("agency:"), key
+        assert profile["agency"]["toptier_code"].isdigit() and profile["agency"]["node"].startswith("agency:"), key
     assert (ROOT / "research").is_dir()
     print(f"selfcheck ok (profile {KEY}: {P['label']}; artefacts under {RESEARCH.relative_to(ROOT)})")
     return 0

@@ -268,11 +268,12 @@ class Walk:
         oid = lay.org_id(name)
         if not oid:
             return {"office": name, "error": "no organization by that name; use neighbors or search to find one"}
-        near = lay.subtree(oid) | set(chain(oid, lay.orgs))
+        below = lay.subtree(oid)
+        near = below | set(chain(oid, lay.orgs))
         said = [e for e in lay.events if e["family"] in INITIATIVE_FAMILIES and e["available_by"] <= lay.as_of]
-        mine = sorted((e for e in said if e["org"] in near or (e.get("model_read") or ("",))[0] in lay.subtree(oid)),
+        mine = sorted((e for e in said if e["org"] in near or (e.get("model_read") or ("",))[0] in below),
                       key=lambda e: (e["available_by"], e["id"]), reverse=True)
-        wide = sum(1 for e in said if lay.orgs.get(e["org"], {}).get("org_type", "agency") == "agency")
+        wide = sum(1 for e in said if e["org"] not in near and lay.orgs.get(e["org"], {}).get("org_type", "agency") == "agency")
         return {"office": office_name(oid, lay.orgs), "statements": len(mine), "families": dict(Counter(e["family"] for e in mine).most_common()),
                 "newest": [{**lay.brief(e), "text": e["text"][:300]} for e in mine[:SHOWN]], "department_wide": wide}
 

@@ -197,6 +197,21 @@ def wanted(hits: list[dict], since: str = SWEEP_SINCE, orgs: dict[str, str] = SW
     return out
 
 
+def last_page(d: dict, page: int, since: str) -> str:
+    """Why paging stops after this search page, or "" to go on. Pages run newest change first, so a page whose oldest
+    change predates `since` ends the useful run (a notice changes on or after it posts); SAM.gov refuses pages past
+    maxAllowedRecords (10,000 results) with a 400."""
+    results = d.get("_embedded", {}).get("results", [])
+    info = d.get("page", {})
+    if not results or page + 1 >= int(info.get("totalPages") or 0):
+        return "end"
+    if min((r.get("modifiedDate") or "9999")[:10] for r in results) < since:
+        return "since"
+    if (page + 1) * int(info.get("size") or 25) >= int(info.get("maxAllowedRecords") or 10000):
+        return "cap"
+    return ""
+
+
 def org_id_of(code: str, hits: list[dict]) -> str | None:
     """The office-level SAM.gov organization id the hits' hierarchies give for an office code, the most common one."""
     ids = Counter(str(o["organizationId"]) for h in hits for o in h.get("organizationHierarchy") or []
@@ -248,17 +263,25 @@ def sweep(argv: list[str]) -> int:
                                             "is_active": active, "sort": "-modifiedDate"})
                 url = f"{SGS}?{q}"
                 path = OUT / f"search_{hashlib.sha256(url.encode()).hexdigest()[:12]}.json"
+                note = f"SAM sweep organization{NOTE_TAG} {org} ({orgs.get(org, org)}) active={active} page {page + 1}"
                 if args.no_search and path.exists():
                     body = path.read_bytes()
                 else:
-                    status, body, _ = get(url)
+                    try:
+                        status, body, _ = get(url)
+                    except Exception as exc:  # noqa: BLE001  one refused page ends this pass, not the sweep
+                        record(url, None, None, note, getattr(exc, "code", None), error=str(exc))
+                        print(f"{org} active={active} page {page + 1}: {exc}", flush=True)
+                        break
                     path.write_bytes(body)
-                    record(url, body, path, f"SAM sweep organization{NOTE_TAG} {org} ({orgs.get(org, org)}) active={active} page {page + 1}", status, "application/json")
+                    record(url, body, path, note, status, "application/json")
                     time.sleep(0.8)
                 d = json.loads(body)
-                results = d.get("_embedded", {}).get("results", [])
-                hits += results
-                if not results or page + 1 >= int(d.get("page", {}).get("totalPages") or 0):
+                hits += d.get("_embedded", {}).get("results", [])
+                stop = last_page(d, page, args.since)
+                if stop == "cap":
+                    print(f"{org} active={active}: SAM.gov lists at most {(page + 1) * 25} results; older notices past the cap not listed", flush=True)
+                if stop:
                     break
                 page += 1
     keep = wanted(hits, args.since, orgs)
@@ -285,6 +308,12 @@ def selfcheck() -> int:
     assert org_id_of("N00019", [hit("x", "N00019", "2024-01-01", "7"), hit("y", "N00019", "2024-01-01", "7"),
                                 hit("z", "N00019", "2024-01-01", "8"), hit("w", "N00039", "2024-01-01", "9")]) == "7"
     assert org_id_of("N68335", [hit("x", "N00019", "2024-01-01", "7")]) is None
+    page = lambda days, total=97: {"_embedded": {"results": [{"modifiedDate": f"{d}T00:00:00+00:00"} for d in days]},
+                                   "page": {"size": 25, "totalPages": total, "maxAllowedRecords": 10000}}
+    assert [last_page(page(["2024-01-01"]), 0, "2021-10-01"), last_page(page(["2024-01-01", "2021-09-30"]), 0, "2021-10-01"),
+            last_page(page(["2024-01-01"], 800), 399, "2021-10-01"), last_page(page(["2024-01-01"]), 96, "2021-10-01"),
+            last_page(page([]), 0, "2021-10-01")] == ["", "since", "cap", "end", "end"], \
+        "page on until the end, a change before --since, or SAM.gov's 10,000-result cap (page 400 answers 400)"
     print("sam_notices selfcheck ok")
     return 0
 

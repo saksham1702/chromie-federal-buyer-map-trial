@@ -94,7 +94,8 @@ class Browser:
         r = self.page.evaluate(FETCH_JS, url)
         body = r["t"].encode("utf-8")
         if r["s"] != 200:
-            fail(url, note, f"HTTP {r['s']}", r["s"])
+            self.error = f"HTTP {r['s']}: {r['t'][:300]}"  # the portal says why it refused; keep it with the failure
+            fail(url, note, self.error, r["s"])
             return None
         try:
             parsed = json.loads(body)
@@ -120,7 +121,7 @@ def sweep(argv: list[str]) -> int:
                          "what is saved, so the two overlap after they meet; stop both once every topic has its detail)")
     args = ap.parse_args(argv)
     manifest = manifest_rows()
-    have = {r["url"] for r in manifest if r.get("status") == 200 and r.get("path")}
+    have = {r["url"] for r in manifest if r.get("status") == 200 and r.get("path") and r.get("url")}  # backfill rows may carry no url
     if not args.fetch:
         print(f"{sum(u.startswith(API + '/search') for u in have)} index page(s) and {sum(u.endswith('/details') for u in have)} detail(s) saved; --fetch to sweep")
         return 0
@@ -130,11 +131,18 @@ def sweep(argv: list[str]) -> int:
             with Browser() as b:
                 while page_no < args.pages:
                     d = b.fetch_json(page_url(page_no, args.size), f"DSIP topics index{NOTE_TAG} page {page_no}, newest first")
+                    if d is None and "Page Size is too large" in b.error and args.size > 10:
+                        # the portal caps its page size without saying where; halve it and resume at the same offset
+                        page_no, args.size = page_no * args.size // (args.size // 2), args.size // 2
+                        print(f"  page size refused; trying {args.size}", flush=True)
+                        continue
+                    if d is None:  # a refused index page is a failed sweep, not an empty portal
+                        raise RuntimeError(f"index page {page_no} refused: {b.error}")
                     rows = (d or {}).get("data") or []
                     starts = [ms_day(r.get("topicStartDate")) for r in rows]
                     fresh = [r for r in rows if r.get("component") == COMPONENT and ms_day(r.get("topicStartDate")) >= args.since]
                     navy += fresh
-                    print(f"  page {page_no}: {len(rows)} topic(s), {len(fresh)} Navy in window, starts {min(starts, default='')}..{max(starts, default='')}", flush=True)
+                    print(f"  page {page_no}: {len(rows)} topic(s), {len(fresh)} {COMPONENT} in window, starts {min(starts, default='')}..{max(starts, default='')}", flush=True)
                     page_no += 1
                     if not rows or min(starts) < args.since:
                         page_no = args.pages
@@ -150,10 +158,10 @@ def sweep(argv: list[str]) -> int:
                     time.sleep(0.3)
         except Exception as exc:  # noqa: BLE001 - a hosted session that dies mid-sweep is reopened, not fatal
             restarts += 1
-            print(f"  session lost ({type(exc).__name__}: {str(exc)[:80]}); restart {restarts}", flush=True)
+            print(f"  session lost ({type(exc).__name__}: {str(exc)[:400]}); restart {restarts}", flush=True)
             if restarts > 3:
                 return 1
-    print(f"{len(navy)} Navy topic(s) since {args.since}; details saved for {sum(detail_url(r['topicId']) in have for r in navy)}")
+    print(f"{len(navy)} {COMPONENT} topic(s) since {args.since}; details saved for {sum(detail_url(r['topicId']) in have for r in navy)}")
     return 0
 
 

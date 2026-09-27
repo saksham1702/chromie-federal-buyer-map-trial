@@ -33,13 +33,13 @@ from statistics import median, quantiles
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from agency import NEED_ROW, P  # noqa: E402
-from backtest import CORPUS, GENERIC, RESEARCH, alias_pattern, chain, need_cell, scan, shift, wide  # noqa: E402
+from backtest import CORPUS, GENERIC, RESEARCH, admissible, alias_pattern, awards_not_collected, chain, need_cell, scan, shift, wide  # noqa: E402
 from fetch import MANIFEST  # noqa: E402
 from pages import DNA, PIID_TEXT_RE, SOLICITATION_RE, Layer, book_line, compact, person, place, pointed, row_contacts, upward  # noqa: E402
 from people import contacts_for, first_routes, norm_name, routes_for  # noqa: E402
 from pulse import CONTRACT_RE, ENDS_RE, PULSE, days_between, load_people, office_name, polarity_of, queue  # noqa: E402
 from vendors import load as load_vendors, names_for  # noqa: E402
-from vocabulary import RENEWAL_RE, capability_terms  # noqa: E402
+from vocabulary import RENEWAL_RE, capability_terms, named_capabilities  # noqa: E402
 
 from agency import BUILD  # noqa: E402
 
@@ -59,13 +59,14 @@ OPEN_NOTICES = tuple(STEPS)
 NOTE_STOP = {"they", "we", "our", "their", "this", "that", "office", "meeting", "said", "will", "the"}
 
 
-def plain(title: str) -> str:
-    """A statement's title without the source prefix ("SAM.gov presolicitation 2026-05-22: ")."""
-    return title.split(": ", 1)[-1]
+def plain(e: dict) -> str:
+    """A statement's title without the source prefix ("SAM.gov presolicitation 2026-05-22: "). A forecast row, a topic, a
+    budget line and a protest are titled by what they are, so a colon in theirs is the title's own ("BEB: Autonomous ...")."""
+    return e["title"] if e["family"] in ("forecast", "programs", "budget", "protest") else e["title"].split(": ", 1)[-1]
 
 
 def listed(e: dict, orgs: dict) -> str:
-    return (f"  - {e['available_by']} {place(e, orgs)} {e['event_type'].replace('_', ' ')}: {plain(e['title'])[:100]}"
+    return (f"  - {e['available_by']} {place(e, orgs)} {e['event_type'].replace('_', ' ')}: {plain(e)[:100]}"
             + (" [against]" if polarity_of(e) == "negative" else ""))
 
 
@@ -73,7 +74,7 @@ def newest(events: list[dict], orgs: dict, shown: int = SHOWN) -> list[str]:
     """The newest statements, contract rows folded into one line by their work: a week of NMCI orders is one change,
     not thirty, and the notices and findings stay in view."""
     rows = sorted(events, key=lambda e: (e["available_by"], e["id"]), reverse=True)
-    orders = Counter(plain(e["title"])[:60] if ": " in e["title"] else "work not stated" for e in rows if e["family"] == "incumbent")
+    orders = Counter(plain(e)[:60] if ": " in e["title"] else "work not stated" for e in rows if e["family"] == "incumbent")
     out = [listed(e, orgs) for e in rows if e["family"] != "incumbent"][:shown]
     if orders:
         out.append(f"  - {sum(orders.values())} contract row(s): " + "; ".join(f"{w} {n}" for w, n in orders.most_common(3))
@@ -111,7 +112,7 @@ def changed(layer: Layer, name: str, topic: str = "", days: int = 120) -> str:
     lines.append("by organization: " + ", ".join(f"{o} {n}" for o, n in offices.most_common(SHOWN)))
     against = [e for e in now if polarity_of(e) == "negative"]
     if against:
-        lines.append(f"against ({len(against)}): " + "; ".join(f"{e['available_by']} {plain(e['title'])[:70]}" for e in against[:3]))
+        lines.append(f"against ({len(against)}): " + "; ".join(f"{e['available_by']} {plain(e)[:70]}" for e in against[:3]))
     lines.append("newest:")
     lines += newest(now, layer.orgs, SHOWN * 2)
     pat = alias_pattern(terms)
@@ -142,6 +143,17 @@ def named_on_rows(layer: Layer, needs: list[dict], details: dict[str, dict]) -> 
         for c in row_contacts(layer, n["owner_id"], n["key"], details.get(n["key"], {}), by_name):
             named.setdefault(c["name"], c)
     return list(named.values())
+
+
+def read_profile(path: Path) -> dict:
+    """A profile file: JSON as the module docstring gives it, or the company's own words as plain text, read for the
+    listed capabilities they name (a page's every line searched as written would match its menus and addresses)."""
+    text = path.read_text(encoding="utf-8", errors="replace")
+    try:
+        profile = json.loads(text)
+    except ValueError:
+        profile = None
+    return profile if isinstance(profile, dict) else {"capabilities": named_capabilities(text)}
 
 
 def match(layer: Layer, capabilities: list[str], naics: list[str], dna: dict, top: int = 10, name: str = "",
@@ -187,7 +199,7 @@ def match(layer: Layer, capabilities: list[str], naics: list[str], dna: dict, to
                      f"{', '.join(r['families']) or 'nothing'}; {len(r['notices'])} notice(s) in the last year; {len(r['rows'])} {NEED_ROW}(s)"
                      + (f"; {round(r['fit'] * 100)}% of its awards under the NAICS given" if r["fit"] is not None else ""))
         lines += [f"     {x['key']}: {x['title'][:90]}" for x in r["rows"][:3]]
-        lines += [f"     {e['available_by']} {e['event_type'].replace('_', ' ')}: {plain(e['title'])[:100]}" for e in (r["notices"][:2] or r["newest"])]
+        lines += [f"     {e['available_by']} {e['event_type'].replace('_', ' ')}: {plain(e)[:100]}" for e in (r["notices"][:2] or r["newest"])]
         way = [f"{x['side']}: {x['recommendation'][:80]}" for x in first_routes(routes_for(up or [r["org"]], layer.routes, layer.routes_by), 2)]
         people = named_on_rows(layer, r["rows"], details or {})[:2] or contacts_for(layer.reach(r["org"]), layer.roster, layer.as_of, limit=2)
         way += [f"{p['name']} ({p['title'][:60]}, {p.get('named_on') or p['observed_at']})" for p in people]
@@ -209,7 +221,7 @@ def contracts(events: list[dict]) -> dict[str, dict]:
         c = out.setdefault(m.group(1), {"contract": m.group(1), "end": "", "vendor": "", "work": "", "org": e["org"],
                                         "signed": "", "extended": [], "renewed": []})
         if ": " in e["title"] and not c["work"]:
-            c["work"] = plain(e["title"])
+            c["work"] = plain(e)
         if (signed := SIGNED_RE.search(e["text"])) and not c["signed"]:
             c["signed"] = signed.group(1)  # the day FPDS states the base award was signed, not the day of a later action
         if end := ENDS_RE.search(e["title"]):
@@ -249,11 +261,11 @@ def weak_points(c: dict, naming: list[dict], share: float, lives: dict[str, dict
     if c["renewed"]:
         lines.append(f"{len(c['renewed'])} option(s) or renewing modification(s), latest {c['renewed'][-1]['date']}")
     if forecast:
-        lines.append(f"a forecast row names it: {plain(forecast[-1]['title'])[:80]} ({forecast[-1]['available_by']}{', award moved later' if slipped else ''})")
+        lines.append(f"a forecast row names it: {plain(forecast[-1])[:80]} ({forecast[-1]['available_by']}{', award moved later' if slipped else ''})")
     if notices:
-        lines.append(f"a notice names it: {STEPS[notices[-1]['event_type']]} {notices[-1]['available_by']}, {plain(notices[-1]['title'])[:80]}")
+        lines.append(f"a notice names it: {STEPS[notices[-1]['event_type']]} {notices[-1]['available_by']}, {plain(notices[-1])[:80]}")
     if justified:
-        lines.append(f"a sole-source, bridge or justification notice names it: {justified[-1]['available_by']}, {plain(justified[-1]['title'])[:80]}")
+        lines.append(f"a sole-source, bridge or justification notice names it: {justified[-1]['available_by']}, {plain(justified[-1])[:80]}")
     lines.append(f"the vendor holds {round(share * 100)}% of the office's contracts in the record")
     sol = SOLICITATION_RE.search(notices[-1]["text"]) if notices else None
     awarded = lives.get(compact(sol.group(1)), {}).get("steps", {}).get("contract_awarded") if sol else None
@@ -282,6 +294,8 @@ def incumbents(layer: Layer, name: str, within: int = TWO_YEARS) -> str:
         return f"no organization named {name!r}"
     tree = layer.subtree(oid)
     book = contracts([e for e in layer.events if e["org"] in tree and e["available_by"] <= layer.as_of])
+    if not book and (note := awards_not_collected()):
+        return f"{office_name(oid, layer.orgs)}: {note}"
     live = sorted((c for c in book.values() if c["end"] and layer.as_of < c["end"] <= shift(layer.as_of, within)), key=lambda c: (c["end"], c["contract"]))
     held = Counter(c["vendor"] for c in book.values() if c["vendor"])
     public = [e for e in layer.events if e["available_by"] <= layer.as_of]
@@ -307,13 +321,13 @@ def lifecycles(events: list[dict], orgs: dict) -> dict[str, dict]:
         if not m:
             continue
         key = compact(m.group(1))
-        row = out.setdefault(key, {"solicitation": key, "org": e["org"], "title": plain(e["title"]), "steps": {}})
+        row = out.setdefault(key, {"solicitation": key, "org": e["org"], "title": plain(e), "steps": {}})
         if e["org"] and (not row["org"] or wide(row["org"], orgs)) and not wide(e["org"], orgs):
             row["org"] = e["org"]
         if e["event_type"] in STEPS or e["event_type"] == "contract_awarded":
             row["steps"].setdefault(e["event_type"], e["date"])
         if e["event_type"] == "rfp_released":
-            row["title"] = plain(e["title"])
+            row["title"] = plain(e)
     return out
 
 
@@ -401,7 +415,7 @@ def moves(layer: Layer, name: str, days: int = 90, resolved: dict | None = None)
     theirs = [e for e in layer.events if e["family"] == "incumbent" and e["available_by"] <= layer.as_of
               and any(s in (e.get("vendor") or "").lower() for s in spellings)]
     if not theirs:
-        return f"no contract in the record names a vendor matching {name!r}"
+        return awards_not_collected() or f"no contract in the record names a vendor matching {name!r}"
     since, before = shift(layer.as_of, -days), shift(layer.as_of, -2 * days)
     new = [e for e in theirs if e["event_type"] == "contract_expires" and e["available_by"] > since]
     prior = [e for e in theirs if e["event_type"] == "contract_expires" and before < e["available_by"] <= since]
@@ -451,6 +465,8 @@ def team(layer: Layer, capabilities: list[str], name: str = "", top: int = 10, r
         running = sorted((c for c in held if c["end"] > layer.as_of), key=lambda c: c["end"])
         ranked.append((len(running), len(held), max(e["available_by"] for e in evs), key, held, running))
     ranked.sort(reverse=True)
+    if not ranked and (note := awards_not_collected()):
+        return note
     lines = [f"{f'Under {name}: ' if oid else ''}{len(ranked)} vendor(s) hold {sum(r[1] for r in ranked)} contract(s) "
              f"whose stated work names {'; '.join(capabilities)}; searched for: {', '.join(terms)}"]
     for n, (_, _, last, key, held, running) in enumerate(ranked[:top], start=1):
@@ -479,7 +495,7 @@ def questions(layer: Layer, oid: str, tree: set[str], ending: list[dict], naming
                     key=lambda e: e["available_by"], reverse=True)
     out = []
     for e in recent:
-        t, d = plain(e["title"])[:80], e["available_by"]
+        t, d = plain(e)[:80], e["available_by"]
         read = f" (the notice names no office; {e['read_as']})" if e.get("read_as") else ""
         if e["event_type"] == "forecast_changed" and e.get("slip") and e["org"] in tree:
             out.append(f"The forecast moved \"{t}\" later ({d}): what is the award window now, and what moved it?")
@@ -495,12 +511,29 @@ def questions(layer: Layer, oid: str, tree: set[str], ending: list[dict], naming
             out.append(f"The reorganization stated on {d} at {office_name(e['org'], layer.orgs)} (\"{t[:70]}\"): where does the office sit now, and who decides its buys?")
     guessed = sorted((e for e in layer.events if pointed(e) in tree and e["event_type"] in STEPS and year < e["available_by"] <= layer.as_of),
                      key=lambda e: e["available_by"], reverse=True)
-    out += [f"The {STEPS[e['event_type']]} of {e['available_by']} filed at {office_name(e['org'], layer.orgs)}, \"{plain(e['title'])[:70]}\", names no "
+    out += [f"The {STEPS[e['event_type']]} of {e['available_by']} filed at {office_name(e['org'], layer.orgs)}, \"{plain(e)[:70]}\", names no "
             f"office, and " + (f"the model reads it here from \"{e['model_read'][1][:60]}\"" if e.get("model_read") else
                                f"its words ({', '.join(e['guesses'][0][2])}) point here first") + ": is it this office's buy?" for e in guessed[:2]]
     out += [f"Contract {c['contract']} ({c['vendor'] or 'vendor not stated'}, {c['work'][:50]}) ends {c['end']} and no notice names a follow-on: "
             f"will it be competed, extended or bridged?" for c in expiring_unannounced(ending, naming, layer.as_of)[:3]]
     return list(dict.fromkeys(out))[:SHOWN]
+
+
+def placed_here(a: dict, oid: str, layer: Layer, by_id: dict) -> bool:
+    """An action whose every statement the page layer reads to another office is that office's: a cell's names can
+    match a notice filed at the contracting office that the record places with a sibling office."""
+    known = [by_id[x] for x in a.get("evidence", ()) if x in by_id]
+    return not known or any(admissible(e["org"], oid, layer.orgs)[0] for e in known)
+
+
+def action_label(a: dict, by_id: dict) -> str:
+    """What an action on one statement is about: the notice to answer or the contract (by number and vendor) to watch,
+    not the name of the cell whose names matched it. A forecast or meeting action is about the cell itself."""
+    e = by_id.get(a["evidence"][0]) if len(a.get("evidence", ())) == 1 and a["type"] in ("respond_notice", "watch_expiration", "find_partner") else None
+    if not e:
+        return a["name"][:80]
+    m = CONTRACT_RE.search(e["title"]) if e["family"] == "incumbent" else None
+    return f"{m.group(1)} {e.get('vendor') or ''}".strip() if m else plain(e)[:80]
 
 
 def prep(layer: Layer, name: str, since: str | None = None, pulse: dict | None = None, dna: dict | None = None, who: str = "",
@@ -523,11 +556,11 @@ def prep(layer: Layer, name: str, since: str | None = None, pulse: dict | None =
     lines.append(f"since {since}: {len(fresh)} statement(s)"
                  + (": " + ", ".join(f"{t.replace('_', ' ')} {n}" for t, n in Counter(e["event_type"] for e in fresh).most_common()) if fresh else ""))
     lines += newest(fresh, layer.orgs)
-    names = {office_name(x, layer.orgs) for x in tree}
-    acts = queue([a for a in (pulse or {}).get("actions", []) if a["office"] in names])
+    names, by_id = {office_name(x, layer.orgs) for x in tree}, {e["id"]: e for e in layer.events}
+    acts = queue([a for a in (pulse or {}).get("actions", []) if a["office"] in names and placed_here(a, oid, layer, by_id)])
     if acts:
         lines.append(f"open actions from the pulse ({len(acts)}):")
-        lines += [f"  - {a['by'] or 'now'} {a['type'].replace('_', ' ')}: {a['name'][:80]} ({a['why']})" for a in acts[:SHOWN]]
+        lines += [f"  - {a['by'] or 'now'} {a['type'].replace('_', ' ')}: {action_label(a, by_id)} ({a['why']})" for a in acts[:SHOWN]]
     ending = sorted((c for c in contracts(mine).values() if c["end"] and layer.as_of < c["end"] <= shift(layer.as_of, TWO_YEARS)), key=lambda c: c["end"])
     if ending:
         lines.append(f"incumbent contracts ending within two years: {len(ending)}")
@@ -537,7 +570,7 @@ def prep(layer: Layer, name: str, since: str | None = None, pulse: dict | None =
     if read_here:
         lines.append(f"records filed elsewhere that the model reads to this office: {len(read_here)} ("
                      + ", ".join(f"{f} {n}" for f, n in Counter(e["family"] for e in read_here).most_common()) + ")")
-        lines += [f"  - {e['available_by']} {e['family']}: {plain(e['title'])[:80]} (from \"{e['model_read'][1][:50]}\")" for e in read_here[:5]]
+        lines += [f"  - {e['available_by']} {e['family']}: {plain(e)[:80]} (from \"{e['model_read'][1][:50]}\")" for e in read_here[:5]]
     owned = [n for n in layer.needs if n["owner_id"] in tree]
     named = named_on_rows(layer, owned, details or {})
     people = [*named, *(p for p in contacts_for(layer.reach(oid), layer.roster, layer.as_of, limit=6) if p["name"] not in {c["name"] for c in named})][:6]
@@ -649,7 +682,7 @@ def export(layer: Layer, key: str, out: Path, docs: dict[str, dict] | None = Non
                     shutil.copyfile(src, out / "documents" / src.name)
                     copied.add(src.name)
                 saved = f"documents/{src.name} (sha256 {doc['sha256'][:12]})"
-        lines.append(f"| {e['available_by']} | {e['family']} | {e['event_type'].replace('_', ' ')}: {cell_(plain(e['title'])[:110])} | {cell_(where_from(e))} | {saved} |")
+        lines.append(f"| {e['available_by']} | {e['family']} | {e['event_type'].replace('_', ' ')}: {cell_(plain(e)[:110])} | {cell_(where_from(e))} | {saved} |")
     (out / "README.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     return f"wrote {out / 'README.md'}: {len(hits)} statement(s), {len(copied)} saved document(s) copied"
 
@@ -673,7 +706,8 @@ def main(argv: list[str]) -> int:
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("changed"); p.add_argument("org"); p.add_argument("topic", nargs="?", default=""); p.add_argument("--days", type=int, default=120)
     p = sub.add_parser("match"); p.add_argument("capabilities", nargs="?", default=""); p.add_argument("--naics", default="")
-    p.add_argument("--profile"); p.add_argument("--top", type=int, default=10)
+    p.add_argument("--profile", help='a JSON profile {"name", "capabilities", "naics"}, or a plain-text file of the company\'s own words')
+    p.add_argument("--top", type=int, default=10)
     p = sub.add_parser("prep"); p.add_argument("org"); p.add_argument("--since"); p.add_argument("--person", default="")
     p = sub.add_parser("analogs"); p.add_argument("key")
     p = sub.add_parser("incumbents"); p.add_argument("org"); p.add_argument("--within", type=int, default=TWO_YEARS)
@@ -688,7 +722,7 @@ def main(argv: list[str]) -> int:
     if a.cmd == "changed":
         print(changed(layer, a.org, a.topic, a.days))
     elif a.cmd == "match":
-        profile = load_json(Path(a.profile)) if a.profile else {}
+        profile = read_profile(Path(a.profile)) if a.profile else {}
         caps = profile.get("capabilities") or [x.strip() for x in a.capabilities.split(";") if x.strip()]
         codes = profile.get("naics") or [x.strip() for x in a.naics.split(",") if x.strip()]
         print(match(layer, caps, codes, load_json(DNA), a.top, profile.get("name", ""), rows_as_released(layer)))

@@ -36,6 +36,8 @@ AWARD_TYPES = ["02", "03", "04", "05"]
 FIELDS = ["Award ID", "Recipient Name", "Recipient UEI", "Award Amount", "Start Date", "End Date", "Description",
           "Awarding Agency", "Awarding Sub Agency", "Award Type", "generated_internal_id", "Assistance Listings"]
 LIMIT = 100
+# The awarding filter: the profile's subtier, or its toptier where the layer covers a whole department.
+TIER = P["agency"].get("assistance_tier", "subtier")
 EVENTS = EVENTS_DIR / "assistance_awards.json"
 
 
@@ -48,7 +50,7 @@ def request(page: int, today: date | None = None) -> dict:
     # re-take is also what picks up an award reported late with an early start date, which shifts later rows.
     end = fiscal_year_end(today or date.today())
     return {"filters": {"award_type_codes": AWARD_TYPES, "time_period": [{"start_date": SINCE, "end_date": end}],
-                        "agencies": [{"type": "awarding", "tier": "subtier", "name": P["agency"]["subtier_name"]}]},
+                        "agencies": [{"type": "awarding", "tier": TIER, "name": P["agency"][f"{TIER}_name"]}]},
             "fields": FIELDS, "page": page, "limit": LIMIT, "sort": "Start Date", "order": "asc"}
 
 

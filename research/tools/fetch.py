@@ -104,7 +104,8 @@ def fetch(url: str, method: str, wayback: str | None, note: str, insecure: bool 
     return row
 
 
-STUB_MARKERS = (b"Request Rejected", b"Access Denied", b"Attention Required", b"Pardon Our Interruption")
+STUB_MARKERS = (b"Request Rejected", b"Access Denied", b"Attention Required", b"Pardon Our Interruption",
+                b"down for scheduled maintenance")  # FPDS answers its maintenance notice with a 200
 
 
 def is_stub(body: bytes) -> bool:

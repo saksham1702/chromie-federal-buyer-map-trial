@@ -43,6 +43,7 @@ POLARITY = {
 CUT_RE = re.compile(r"\b(cut|cuts|reduc\w*|decreas\w*|below|terminat\w*|cancel\w*|rescind\w*|shortfall|divest\w*|delay\w*)\b", re.I)
 RENEWAL_RE = re.compile(r"\b(sole[- ]source|bridge|extension|extend\w*|exercis\w* (?:the |an? )?option|option period)\b", re.I)
 AMOUNT_RE = re.compile(r"FY\d{4} \$(\d[\d,]*\.?\d*)M")
+MOVED_RE = re.compile(r"\bfunding moved to\b")  # budget.py's note on a line whose book says the work went to another line
 CUT_SHARE = 0.5  # a line that falls to under half of the year before, or to nothing, is a cut; a smaller dip moves nothing
 
 
@@ -72,12 +73,26 @@ CAPABILITY_NAMES = {"autonomous systems": "autonomy", "unmanned systems": "auton
                     "space": "satellites"}
 
 
+DESCRIPTION_WORDS = 5  # a part this long describes a capability ("AI pilot software for crewed aircraft"); it is no name
+
+
+def named_capabilities(text: str) -> list[str]:
+    """The listed capabilities a description names by any of their words or names: a capability line or a company's
+    own page, read for what it offers."""
+    said = lambda w: re.search(rf"(?<![A-Za-z0-9]){re.escape(w)}(?![A-Za-z0-9])", text, re.I)  # noqa: E731
+    named = [n for n, words in CAPABILITIES.items() if said(n) or any(said(w) for w in words)]
+    return list(dict.fromkeys(named + [n for alias, n in CAPABILITY_NAMES.items() if said(alias)]))
+
+
 def capability_terms(topic: str) -> list[str]:
-    """A topic's search words: a named capability's words, else the words as written; topics split on ; and ,."""
+    """A topic's search words: a named capability's words, else the words as written; topics split on ; and ,. A
+    description also brings the words of each capability it names: searched as written it matches nothing."""
     out = []
     for part in (p.strip() for p in re.split(r"[;,]", topic)):
         name = CAPABILITY_NAMES.get(part.lower(), part.lower())
         out += CAPABILITIES.get(name, (part,) if part else ())
+        if name not in CAPABILITIES and len(part.split()) >= DESCRIPTION_WORDS:
+            out += [w for n in named_capabilities(part) for w in CAPABILITIES[n]]
     return list(dict.fromkeys(out))
 
 
@@ -107,7 +122,7 @@ def polarity(event_type: str, statement: str = "", slip: bool = False) -> str:
     if event_type in ("funding_change", "budget_line"):
         amounts = [float(a.replace(",", "")) for a in AMOUNT_RE.findall(statement)]
         if amounts:
-            return money_polarity(amounts)
+            return "neutral" if MOVED_RE.search(statement) else money_polarity(amounts)
         return "neutral" if event_type == "budget_line" else ("negative" if CUT_RE.search(statement) else "positive")
     if event_type == "forecast_changed":
         return "negative" if slip else "neutral"
@@ -150,6 +165,7 @@ def selfcheck() -> int:
     assert polarity("funding_change", "line 2614 ATDLS: FY2026 $58.739M, FY2027 $52.758M") == "neutral", "a dip of a tenth is not a cut"
     assert polarity("funding_change", "line 2614 ATDLS: FY2026 $58.739M, FY2027 $61.000M") == "positive"
     assert polarity("funding_change", "line 2614 ATDLS: FY2026 $58.739M, FY2027 $0.000M") == "negative"
+    assert polarity("funding_change", "line 2900 MIBS: FY2026 $8.479M, FY2027 $0.000M, funding moved to line 2361") == "neutral"
     assert polarity("funding_change", "line 2614 ATDLS: FY2026 $58.739M, FY2027 $20.000M") == "negative"
     assert polarity("budget_line", "FY2026 $58.739M, FY2027 $52.758M") == "neutral" and polarity("budget_line", "no amounts") == "neutral"
     assert polarity("forecast_changed", slip=True) == "negative" and polarity("forecast_changed") == "neutral"
@@ -167,6 +183,9 @@ def selfcheck() -> int:
     assert next_milestones("shaping") == [MILESTONE[s] for s in PATH] and next_milestones("award") == []
     assert "UUV" in capability_terms("autonomous systems") and capability_terms("Link 22; ai")[0] == "Link 22"
     assert "machine learning" in capability_terms("Link 22; ai") and capability_terms(" ; ") == []
+    assert capability_terms("Next Generation Jammer") == ["Next Generation Jammer"]  # a short part is a name, searched as written
+    line = capability_terms("AI pilot software for unmanned aircraft")
+    assert line[0] == "AI pilot software for unmanned aircraft" and "UUV" in line and "machine learning" in line, line
     print("vocabulary selfcheck ok")
     return 0
 

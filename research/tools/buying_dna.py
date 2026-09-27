@@ -26,7 +26,7 @@ from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from backtest import CORPUS, RESEARCH, shift, wide  # noqa: E402
+from backtest import CORPUS, RESEARCH, awards_not_collected, shift, wide  # noqa: E402
 from fpds_sweep import FIELDS, OFFICES, manifest_rows, saved_pages, windows  # noqa: E402
 from lrae_package import ROOT, fpds_entries  # noqa: E402
 from pulse import PULSE  # noqa: E402
@@ -231,7 +231,7 @@ def build(argv: list[str]) -> int:
 
 def read_out(name: str, d: dict) -> str:
     if not d.get("awards"):
-        return f"{name}: no base award in the book"
+        return f"{name}: " + (awards_not_collected() or "no base award in the book")
     v, c, ven = d["value"], d["competition"], d["vendors"]
     fmt = lambda rows: ", ".join(f"{r['value']} {r['share']:.0%}" for r in rows[:3]) or "-"
     return "\n".join([
@@ -267,7 +267,7 @@ def show(argv: list[str]) -> int:
     else:
         cell = next((c for c in payload["cells"] if c["key"] == args.name), None)
         if cell is None:
-            print(f"no book named {args.name}", file=sys.stderr)
+            print(awards_not_collected() or f"no book named {args.name}", file=sys.stderr)
             return 2
         print(read_out(f"{cell['office']}: {cell['name']}", cell["dna"]))
         print("  position: " + json.dumps(cell["position"], ensure_ascii=False))

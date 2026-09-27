@@ -34,7 +34,8 @@ KNOWN_UNREGISTERED |= {"www.sba.gov", "dsbs.sba.gov", "www.gsa.gov", "www.nasa.g
 # The sources each layer must have collected from before its status is read as live.
 LIVE = {"navy": {"sam_gov_site_api", "fpds_atom_feed", "navwar_lrae_annex25", "don_budget_justification_books", "oversight_gov_reports"},
         "darpa": {"sam_gov_site_api", "fpds_atom_feed", "darpa_site", "darpa_staff_listing", "dod_comptroller_budget_materials",
-                  "oversight_gov_reports", "federal_register", "sbir_sttr_topics"}}
+                  "oversight_gov_reports", "federal_register", "sbir_sttr_topics"},
+        "army": {"sam_gov_site_api", "amc_acquisition_forecast", "usace_acquisition_forecast", "army_asaalt_chart", "sbir_sttr_topics"}}
 
 
 def test_every_cell_is_covered_or_explained():
@@ -55,7 +56,7 @@ def test_status_covers_every_registered_source_with_dated_last_seen():
         if s["events"]:
             assert STAMP.match(s["newest_event"]), key
     live = {k for k, s in saved["sources"].items() if s["events"] or s["documents"]}
-    assert LIVE[KEY] <= live
+    assert LIVE.get(KEY, {"sam_gov_site_api"}) <= live  # a new layer has at least collected its notices
 
 
 def test_unregistered_hosts_are_the_known_ones():

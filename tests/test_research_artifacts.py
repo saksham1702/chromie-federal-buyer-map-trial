@@ -19,7 +19,7 @@ SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 EVIDENCE_CLASSES = {"directly_documented", "inferred", "ambiguous", "unresolved"}
 VERIFICATION_STATUSES = {"verified", "not_inspected", "blocked", "restricted", "stale"}
 ACCESS_MODES = {"api", "export", "webpage", "pdf", "spreadsheet", "manual"}
-FETCH_METHODS = {"direct", "wayback", "browserbase", "context_dev", "manual"}
+FETCH_METHODS = {"direct", "wayback", "browserbase", "context_dev", "manual", "backfill"}
 REGISTRY_REQUIRED = {
     "source_key", "provider_name", "official_url", "responsible_org", "lifecycle_stages",
     "fields_and_identifiers", "historical_coverage", "publication_frequency", "reporting_lag",
@@ -151,12 +151,45 @@ def test_documents_manifest_rows_are_hashed_and_dated() -> None:
         if not line.strip():
             continue
         row = json.loads(line)
-        assert row.get("url") and _dated(row.get("retrieved_at")), row
         assert row.get("method") in FETCH_METHODS, row
+        if row.get("method") == "backfill":
+            # A backfill row records saved bytes whose retrieval was never recorded: the bytes
+            # and the stamp are known, the url and the retrieval date are unknown and stay null
+            # rather than being invented. first_committed is the commit the bytes first appeared
+            # in, and stays empty for bytes that ship only in the data release.
+            assert row.get("path") and row.get("sha256"), row
+            assert row.get("status") == 200, row
+            assert _dated(row.get("backfilled_at")), row
+            assert row.get("first_committed") == "" or _dated(row.get("first_committed")), row
+            continue
+        assert row.get("url") and _dated(row.get("retrieved_at")), row
         if row.get("status") == 200:
             assert SHA256_RE.match(row.get("sha256") or ""), row
         else:
             assert row.get("error") or row.get("status"), row
+
+
+def test_every_committed_document_has_a_manifest_row() -> None:
+    raw = Path(__file__).resolve().parents[1] / "data" / "raw"
+    manifest = RESEARCH / "sources" / "documents_manifest.jsonl"
+    if not raw.is_dir() or not manifest.exists():
+        pytest.skip("data/raw or documents_manifest.jsonl not present")
+    rows = [json.loads(line) for line in manifest.read_text(encoding="utf-8").splitlines() if line.strip()]
+    by_path = {r.get("path") for r in rows if r.get("path")}
+    by_sha = {r.get("sha256") for r in rows if r.get("sha256")}
+    orphan = []
+    for p in sorted(raw.rglob("*")):
+        if not p.is_file():
+            continue
+        rel = str(p.relative_to(raw.parent.parent))
+        if rel in by_path:
+            continue
+        import hashlib
+        sha = hashlib.sha256(p.read_bytes()).hexdigest()
+        if sha in by_sha:
+            continue
+        orphan.append(rel)
+    assert not orphan, f"{len(orphan)} committed file(s) with no manifest row: {orphan[:5]}"
 
 
 def test_every_cited_evidence_url_has_a_fetched_manifest_row() -> None:
@@ -168,6 +201,8 @@ def test_every_cited_evidence_url_has_a_fetched_manifest_row() -> None:
         if not line.strip():
             continue
         row = json.loads(line)
+        if row.get("method") == "backfill":
+            continue
         if row.get("status") == 200 and row.get("sha256") and row.get("content_status") != "rejected_stub":
             fetched.add(row["url"].replace("%5B", "[").replace("%5D", "]"))
     cited = set()

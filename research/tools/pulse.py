@@ -64,7 +64,7 @@ CONTRACT_RE = re.compile(r"\bcontract (\S+)")
 def cells(corpus: dict, labels: dict) -> list[dict]:
     """The outcome cells the agent labelled and the forecast rows the pilot offices own, as one list."""
     orgs, events = corpus["orgs"], corpus["events"]
-    out, recurring = [], recurring_tokens(corpus["needs"])
+    out, recurring, buyers = [], recurring_tokens(corpus["needs"]), [o["acronym"] for o in orgs.values() if o.get("acronym")]
     by_id = {r["id"]: r for r in labels["labels"]}
     for outcome in corpus["outcomes"]:
         row = by_id.get(outcome["id"])
@@ -74,7 +74,7 @@ def cells(corpus: dict, labels: dict) -> list[dict]:
         out.append({"key": f"outcome:{outcome['id']}", "org": cell["org"], "office": office_name(cell["org"], orgs),
                     "name": row.get("capability") or outcome["title"], "aliases": specific(row["aliases"], events, orgs), "terms": cell["terms"]})
     for need in live_needs(corpus):
-        aliases = specific(need_aliases(need["title"], recurring), events, orgs) + ([need["key"]] if LINE_RE.fullmatch(need["key"]) else [])
+        aliases = specific(need_aliases(need["title"], recurring, orgs.get(need["owner_id"]), buyers), events, orgs) + ([need["key"]] if LINE_RE.fullmatch(need["key"]) else [])
         out.append({"key": f"need:{need['key']}", "org": need["owner_id"], "office": need["owner"], "name": need["title"],
                     "aliases": aliases, "terms": []})
     return out

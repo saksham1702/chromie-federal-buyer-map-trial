@@ -16,7 +16,8 @@ Three sources, each node resting on a dated observation in the source's own word
 - The Army Materiel Command acquisition forecast: the PEO, JPEO and CPE commands its Command column names and the
   program offices its PM / Directorate column names under each, as the forecast prints them. These are the names
   the forecast and the notices still carry; no source here states which PAE or PME succeeded which PEO, so none is
-  claimed.
+  claimed. The other Army commands the column names (IMCOM, TACOM, INSCOM) are nodes too, under the parent the value
+  prints ("AMC: TACOM") and under none when it prints none.
 - SAM.gov federal organization records: the Army, AMC, ACC and the contracting offices the profile sweeps, with
   the DoDAAC each record states and the hierarchy it prints.
 
@@ -57,6 +58,12 @@ BOX_KINDS = {"PAE": "acquisition_portfolio", "PME": "program_executive_office", 
              "CPE": "program_executive_office"}
 DEPUTY_RE = re.compile(r"^(?:Acting )?Deputy PAE$")
 COMMAND_RE = re.compile(r"^(J?PEO|CPE)\s")  # the forecast's acquisition commands; the rest are the commands it buys for
+# The parents a Command value prints ("AMC: TACOM", "HQ, DA"), by the node the memory has or makes for them.
+COMMAND_PARENTS = {"AMC": AMC_ID, "DA": AGENCY_ID}
+# Customers outside the Department of the Army the forecast also buys for. The Army memory carries no node for them, so
+# their rows keep the office as printed and name no Army office.
+OUTSIDE_ARMY = {"AIR FORCE", "NAVY", "USMC", "OSD", "DOD", "DECA", "DODEA", "DPAA", "CDAO", "USEUCOM", "USSOUTHCOM", "USAFRICOM",
+                "USPACOM"}
 LEADER_REACH = 40  # points: a leader's name sits this close above the box it heads
 CONTRACT = ("08_org_memory_format.md: observations are what a source states; relationships are dated claims resting on "
             "observations; interpretations are our readings; corrections are retractions")
@@ -153,6 +160,23 @@ def forecast_offices(rows_: list[dict]) -> tuple[Counter, Counter]:
 def command_id(command: str) -> str:
     head, rest = command.split(" ", 1)
     return f"{head.lower()}:{slug(rest)}"
+
+
+def named_commands(rows_: list[dict]) -> Counter:
+    """command -> rows for the Army commands the forecast buys for: its Command values but the acquisition commands."""
+    return Counter(r["command"] for r in rows_ if r["command"] and not COMMAND_RE.match(r["command"]) and r["command"] not in OUTSIDE_ARMY)
+
+
+def command_place(command: str) -> tuple[str, str, str]:
+    """(node id, name, parent id) of a Command value: 'AMC: TACOM' -> ('command:tacom', 'TACOM', AMC_ID); 'HQ, AMC' is
+    AMC's own headquarters, so AMC's node; 'INSCOM' prints no parent, so none."""
+    hq = re.fullmatch(r"HQ,\s*(.+)", command)
+    if hq:
+        return COMMAND_PARENTS.get(hq[1], f"command:{slug(hq[1])}"), hq[1], ""
+    parent, sep, name = (x.strip() for x in command.partition(":"))
+    if sep:
+        return f"command:{slug(name)}", name, COMMAND_PARENTS.get(parent, f"command:{slug(parent)}")
+    return f"command:{slug(command)}", command, ""
 
 
 # ---------------------------------------------------------------- SAM.gov organization records
@@ -297,6 +321,29 @@ def build_seed(manifest: list[dict]) -> dict:
                 dates_note="the forecast's rows state the office under the command, not since when",
                 status_note="stated by the forecast rows of the latest cited release; not re-verified since")
 
+    # The Army commands the forecast buys for. A value that names a node the memory has ("HQ, AMC", "HQ, DA") is an alias
+    # of it; a parent the memory lacks ("AFC" of "AFC: CCDC") is made from the value that prints it.
+    have = {n["id"]: n for n in nodes}
+    for command, n in sorted(named_commands(forecast_rows).items()):
+        nid, name, parent = command_place(command)
+        oid = add_obs(forecast, day, "existence", f"column 'Command': '{command}' ({n} rows)", [nid] + [parent] * bool(parent))
+        if parent and parent not in have:
+            head = command.partition(":")[0].strip()
+            add_node(parent, "command", head, [oid], [], {"office_code": head},
+                     notes=f"printed as the parent of '{command}' in the Command column of the AMC forecast; " + NOTES)
+            have[parent] = nodes[-1]
+        if nid in have:
+            have[nid]["aliases"] = unique_aliases(have[nid]["aliases"] + [{"text": command, "observation_ids": [oid]}])
+            have[nid]["observation_ids"].append(oid)
+            continue
+        add_node(nid, "command", name, [oid], [], {"office_code": command},
+                 notes="named in the Command column of the AMC forecast" + ("" if parent else ", which prints no parent for it") + "; " + NOTES)
+        have[nid] = nodes[-1]
+        if parent:
+            add_rel("child_of", nid, parent, [oid], day, dates_status="unknown",
+                    dates_note="the forecast's Command column prints the command under its parent, not since when",
+                    status_note="stated by the forecast rows of the latest cited release; not re-verified since")
+
     return {"generated": max(chart_day, day, *(r["retrieved_at"][:10] for r in sam.values())), "contract": CONTRACT, "scope": SCOPE,
             "nodes": nodes, "observations": obs, "relationships": rels, "interpretations": []}
 
@@ -367,6 +414,10 @@ def selfcheck() -> int:
     assert commands == {"PEO AVIATION": 3, "CPE C2IN": 1} and pairs[("PEO AVIATION", "UAS")] == 2 and ("AMC: TACOM", "TACOM: ILSC") not in pairs
     assert person_id("BG Robert Mikesh Jr.") == "person:robert-mikesh-jr" and person_id("Dr. Steven Smith") == "person:steven-smith"
     assert command_id("PEO CS AND CSS") == "peo:cs-and-css" and command_id("JPEO AA") == "jpeo:aa" and command_id("CPE C2IN") == "cpe:c2in"
+    assert named_commands(rows_ + [{"command": "NAVY"}, {"command": "INSCOM"}]) == {"AMC: TACOM": 1, "INSCOM": 1}
+    assert [command_place(c) for c in ("AMC: TACOM", "AFC: CCDC", "HQ, AMC", "HQ, DA", "INSCOM")] == [
+        ("command:tacom", "TACOM", AMC_ID), ("command:ccdc", "CCDC", "command:afc"), (AMC_ID, "AMC", ""), (AGENCY_ID, "DA", ""),
+        ("command:inscom", "INSCOM", "")]
     print("org_memory_army selfcheck ok")
     return 0
 

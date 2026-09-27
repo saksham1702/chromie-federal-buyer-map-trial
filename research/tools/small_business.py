@@ -27,14 +27,13 @@ import urllib.parse
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from agency import MEMORY  # noqa: E402
+from agency import MEMORY, P  # noqa: E402
 from fetch import ROOT  # noqa: E402
 from lrae_package import manifest_rows, saved  # noqa: E402
-from agency import MEMORY  # noqa: E402
 
-# One directory for every military department and defense agency; the profile's seed decides which links are this
-# agency's organizations, and the file lands in the profile's memory folder.
-DIRECTORY = "https://business.defense.gov/Work-with-us/Military-Departments-and-Defense-Agencies/"
+# The profile's small business directory (one for every Defense component); the profile's seed decides which links
+# are this agency's organizations, and the file lands in the profile's memory folder.
+DIRECTORY = P["agency"]["small_business_directory"]
 OUT = MEMORY / "small_business_offices.json"
 SEED = MEMORY / "organization_seed.json"
 RECOMMENDATIONS = MEMORY / "contact_recommendations.json"
@@ -111,10 +110,12 @@ def offices(rows: list[dict]) -> list[dict]:
     for office in resolve(links(page), nodes()):
         if office["office_id"] in own:
             continue
-        found = saved(rows, lambda r, u=office["url"]: u in (r.get("url"), r.get("final_url")))
+        # The listed address, or where its page is saved from when the listed host no longer resolves (the profile's moved_urls).
+        moved = P["moved_urls"].get(office["url"])
+        found = saved(rows, lambda r, u={office["url"], moved} - {None}: bool(u & {r.get("url"), r.get("final_url")}))
         body = (ROOT / found["path"]).read_text(encoding="utf-8", errors="replace") if found else ""
         out.append({**office, "lines": lines(body) if found else [], "page_saved": bool(found), "source_url": DIRECTORY,
-                    "observed_at": (found or index)["retrieved_at"][:10]})
+                    **({"page_url": found["url"]} if found and moved else {}), "observed_at": (found or index)["retrieved_at"][:10]})
     return out
 
 

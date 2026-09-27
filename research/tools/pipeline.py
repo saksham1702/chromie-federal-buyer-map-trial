@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Run the agency pipeline end to end: collect, model, load, read back.
 
-    python research/tools/pipeline.py [--db navy_proof_e] [--collect] [--from STAGE] [--only STAGE]
+    python research/tools/pipeline.py [--db navy_proof_ab] [--collect] [--from STAGE] [--only STAGE]
     python research/tools/pipeline.py --agency darpa [--db darpa_proof] ...   # the same stages for another agency
     python research/tools/pipeline.py --list
     python research/tools/pipeline.py --selfcheck
@@ -34,7 +34,7 @@ TOOLS = Path(__file__).resolve().parent
 if "--agency" in sys.argv[1:]:
     os.environ["AGENCY"] = sys.argv[sys.argv.index("--agency") + 1]
 sys.path.insert(0, str(TOOLS))
-from agency import BUILD, KEY as AGENCY, P  # noqa: E402
+from agency import BUILD, KEY as AGENCY, P, PROFILES  # noqa: E402
 
 PY = sys.executable
 DSN_HOST = os.environ.get("PGHOST", "127.0.0.1")
@@ -52,6 +52,8 @@ STAGES = [
      [PY, str(TOOLS / "oversight.py"), "watch", "--fetch"]),
     ("podium", "poll the speech archive and the House hearing feeds for documents not yet saved", True,
      [PY, str(TOOLS / "remarks.py"), "watch", "--fetch"]),
+    ("conferences", "find conference pages that name the agency's officials through Exa and take each one not yet saved", True,
+     [PY, str(TOOLS / "remarks.py"), "discover", "--fetch"]),
     ("contracts", "sweep FPDS for the base awards each contracting office signed, page by page", True,
      [PY, str(TOOLS / "fpds_sweep.py"), "sweep", "--fetch"]),
     ("solicitations", "sweep SAM.gov for every notice each contracting office posted since FY22 and harvest the new ones", True,
@@ -134,6 +136,8 @@ STAGES = [
 NETWORK = {name for name, _, network, _ in STAGES if network}
 # Stages that read a source this profile does not have: the forecast and its datapack and the revision alert over it.
 NOT_FOR_PROFILE = set() if P["forecast"]["pack_glob"] else {"datapack", "revisions", "joins"}
+if not P["sbir_component"]:  # the DoD portal lists no civilian agency's topics
+    NOT_FOR_PROFILE |= {"topics"}
 
 
 def refreshed(db: str) -> dict[str, list[list[str]]]:
@@ -198,7 +202,9 @@ def checks(db: str) -> int:
         if "--selfcheck" not in tool.read_text(encoding="utf-8", errors="ignore"):
             print(f"    {tool.name}: no selfcheck, covered by the suite")
             continue
-        probe = subprocess.run([PY, str(tool), "--selfcheck"], cwd=ROOT, env=rules_env,
+        # An agency's own organization reader tests that agency's records, so it runs under that agency's profile.
+        own = tool.stem.removeprefix("org_memory_")
+        probe = subprocess.run([PY, str(tool), "--selfcheck"], cwd=ROOT, env={**rules_env, "AGENCY": own} if own in PROFILES else rules_env,
                                stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
         if "selfcheck ok" in probe.stdout:
             print(f"    {tool.name}: ok")
@@ -282,7 +288,7 @@ def selfcheck() -> int:
     assert names.index("news") < names.index("layers"), "articles are modelled before they are emitted"
     assert names.index("database") < names.index("revisions"), "the revision alert reads the loaded database"
     assert names.index("backtest") < names.index("offices"), "the office reads are made over the frozen corpus"
-    assert NETWORK == {"watch", "sweep", "audits", "podium", "contracts", "solicitations", "topics", "changes", "dockets", "reports",
+    assert NETWORK == {"watch", "sweep", "audits", "podium", "conferences", "contracts", "solicitations", "topics", "changes", "dockets", "reports",
                        "register", "grants", "outreach", "orgpages", "joins"}, "only collection touches the network"
     assert set(refreshed("x")) <= set(names), "every refreshed stage is a stage"
     assert max(names.index(n) for n in NETWORK) < names.index("memory"), "collection runs before any build stage"

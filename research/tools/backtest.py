@@ -95,6 +95,19 @@ SCHEMA = {"type": "object", "additionalProperties": False,
                          "confidence": {"type": "number"}}}
 
 
+def awards_not_collected() -> str:
+    """What an award reader prints in place of its zero when no award source (FAMILY 'incumbent') yielded an event
+    (sources/source_status.json): the record holds no contract to count. A lookup saved while mapping the agency is a
+    document, not an award, so it does not count. Empty once one has, or with no status file."""
+    path = RESEARCH / "sources" / "source_status.json"
+    status = json.loads(path.read_text(encoding="utf-8"))["sources"] if path.exists() else {}
+    keys = sorted(k for k, f in FAMILY.items() if f == "incumbent")
+    if not status or any(status.get(k, {}).get("events") for k in keys):
+        return ""
+    return (f"not collected: no award source ({', '.join(keys)}) has yielded an award for the {P['label']} (fpds_sweep.py sweep --fetch), "
+            "so the record holds no contract count, not a count of zero")
+
+
 # ------------------------------------------------------------------ freeze
 
 def sql(db: str, query: str) -> list[list[str]]:
@@ -484,18 +497,25 @@ def recurring_tokens(needs: list[dict]) -> set[str]:
     return {t for t, c in counts.items() if c >= 2}
 
 
-def need_aliases(title: str, recurring: set[str] = frozenset()) -> list[str]:
+def need_aliases(title: str, recurring: set[str] = frozenset(), owner: dict | None = None, buyers: list[str] = ()) -> list[str]:
     """A forecast row's names: its title, its parenthesised acronyms, and a short upper-case token the office
-    reuses across rows. An upper-case dictionary word (ACCOUNTING, DIGITAL) in a shouted title is not a name."""
+    reuses across rows. An upper-case dictionary word (ACCOUNTING, DIGITAL) in a shouted title is not a name, and
+    neither is the owning office's acronym (TTO in "TTO Office Wide BAA"): it names every statement of the office. An
+    office named for its program (MIDS) keeps that name. No part of an organization's acronym the title carries
+    (`buyers`, the record's acronyms) is a name either: ASA(ALT) is the buyer, not ASA and ALT."""
+    own = (owner or {}).get("acronym", "").lower()
     base = re.sub(r"\s*\((?:C|N|O)\)\s*$", "", title).strip()
     out = [base] if len(base) >= 4 else []
-    paren = re.findall(r"\(([A-Za-z][A-Za-z0-9/-]{1,11})\)", base)
+    words = base
+    for a in sorted((a for a in buyers if len(a) >= 3 and a in base), key=len, reverse=True):
+        words = re.sub(r"(?<![A-Za-z0-9])" + re.escape(a) + r"(?![A-Za-z0-9])", " ", words)
+    paren = re.findall(r"\(([A-Za-z][A-Za-z0-9/-]{1,11})\)", words)
     out += paren
-    out += [t for t in re.findall(r"\b([A-Z][A-Z0-9-]{1,}[A-Z0-9])\b", base)
+    out += [t for t in re.findall(r"\b([A-Z][A-Z0-9-]{1,}[A-Z0-9])\b", words)
             if t.lower() not in GENERIC and (t in paren or (len(t) <= 5 and t in recurring))]
     seen, kept = set(), []
     for a in out:
-        if a.lower() not in seen and a.lower() not in GENERIC:
+        if a.lower() not in seen and a.lower() not in GENERIC and a.lower() != own:
             seen.add(a.lower())
             kept.append(a)
     return kept
@@ -507,10 +527,11 @@ def too_common(term: str, events: list[dict], limit: int | None, orgs: dict, off
     A statement placed at a command or a portfolio (a topic whose office the text does not name) says nothing about
     which office uses the word, so it does not count; nor does the department or a contracting office, which speak
     for every office. Counting commands dropped MIDS and CANES as too common on 2026-09-22 (their commands' topics
-    stated them beside the offices that own them); counting trees instead kept PMW and LLC, so neither is the rule."""
+    stated them beside the offices that own them); counting trees instead kept PMW and LLC, so neither is the rule.
+    A forecast row at a command is the command's own requirement, so it counts: an Army command owns its rows."""
     hits = scan([term], events)
     spread = {e["org"] for e in hits if e["org"] and not wide(e["org"], orgs)
-              and orgs.get(e["org"], {}).get("org_type") not in NOT_AN_OFFICE}
+              and (e["family"] == "forecast" or orgs.get(e["org"], {}).get("org_type") not in NOT_AN_OFFICE)}
     return (limit is not None and len(hits) > limit) or len(spread) > offices
 
 
@@ -550,7 +571,8 @@ def pilot_needs(corpus: dict) -> list[dict]:
 def need_cell(need: dict, corpus: dict, recurring: set[str]) -> tuple[list[str], list[dict]]:
     """A forecast row's cell: its names (title, acronyms, reused tokens, its line id) and the events they reach."""
     events, orgs = corpus["events"], corpus["orgs"]
-    aliases = specific(need_aliases(need["title"], recurring), events, orgs) + ([need["key"]] if LINE_RE.fullmatch(need["key"]) else [])
+    buyers = [o["acronym"] for o in orgs.values() if o.get("acronym")]
+    aliases = specific(need_aliases(need["title"], recurring, orgs.get(need["owner_id"]), buyers), events, orgs) + ([need["key"]] if LINE_RE.fullmatch(need["key"]) else [])
     return with_lines(need["owner_id"], aliases, events, orgs)
 
 
@@ -752,6 +774,8 @@ def selfcheck() -> int:
     assert res["cells"][0]["followed_by"] == "o1" and followed_by("2027-01-01", ["NILE"], events) is None
     assert "ADNS" in need_aliases("ADNS Production MAC RFP #28 (C)", {"ADNS"}) and "RFP" not in need_aliases("ADNS Production MAC RFP #28 (C)", {"ADNS", "RFP"})
     assert need_aliases("COMMUNICATIONS SECURITY (COMSEC) ACCOUNTING SUPPORT (C)", {"ACCOUNTING"}) == ["COMMUNICATIONS SECURITY (COMSEC) ACCOUNTING SUPPORT", "COMSEC"]
+    assert need_aliases("TTO Office Wide (OW) BAA", {"TTO", "OW"}, {"acronym": "TTO", "name": "Tactical Technology Office"}) == ["TTO Office Wide (OW) BAA", "OW"]
+    assert "MIDS" in need_aliases("MIDS WDL SF3 Radio (C)", {"MIDS"}, {"acronym": "PMW 101", "name": "MIDS"})
     assert recurring_tokens([{"title": "NILE ISS 5 (C)"}, {"title": "NILE ISS 6 (C)"}, {"title": "ADNS MAC (C)"}]) == {"NILE", "ISS"}
     spread = [ev(f"w{n}", "forecast", "2025-01-01", f"o{n}", "SECURITY row") for n in range(5)]
     wide_orgs = {**orgs, **{f"o{n}": {"acronym": f"PMW {n}", "name": f"PMW {n}", "parent": "peo"} for n in range(5)}}
@@ -760,6 +784,9 @@ def selfcheck() -> int:
     said = [ev(f"c{n}", "forecast", "2025-01-01", f"o{n}", "MIDS row") for n in range(3)] + [ev("c9", "programs", "2025-01-01", "cmd", "MIDS topic")]
     assert specific(["MIDS"], said, {**wide_orgs, "cmd": {"acronym": "", "name": "NAVWAR", "parent": "", "org_type": "contracting_activity"}}) == ["MIDS"]
     assert specific(["MIDS"], said, {**wide_orgs, "cmd": {"acronym": "", "name": "PMW 9", "parent": "peo", "org_type": "program_office"}}) == []
+    # the command's own forecast row counts as a fourth office; the buyer ASA(ALT) the title carries lends it no names
+    assert specific(["MIDS"], said[:3] + [dict(said[3], family="forecast")], {**wide_orgs, "cmd": {"acronym": "", "name": "NAVWAR", "parent": "", "org_type": "contracting_activity"}}) == [] \
+        and need_aliases("ASA(ALT) AOS CfS", {"ASA", "ALT", "AOS"}, None, ["ASA(ALT)"]) == ["ASA(ALT) AOS CfS", "AOS"]
     text = describe(o)
     assert text.startswith("3 independent signal(s) across 3 families") and not register_problems(text), text
     assert register_problems("RFP coming, likely in Q3") and not register_problems('"RFP coming" is quoted')
@@ -779,6 +806,7 @@ def selfcheck() -> int:
     assert outcome_cell({"id": "n", "org": "hq", "date": "2025-07-01"}, front, {"orgs": pms_orgs, "events": later})["org"] == "pmw", \
         "a release after the outcome neither names its office nor counts toward it"
     assert outcome_cell({"id": "n", "org": "hq", "date": "2026-08-01"}, front, {"orgs": pms_orgs, "events": later})["org"] == "hq"
+    assert not awards_not_collected(), "the Navy record's FPDS sweep saved award pages, so a zero there is a count"
     print("backtest selfcheck ok")
     return 0
 

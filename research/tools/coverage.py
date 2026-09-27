@@ -84,11 +84,22 @@ def urls_by_key(reg: dict[str, dict]) -> dict[str, set[str]]:
     return {key: {u.rstrip("/") for u in (row.get("official_url"), (row.get("inspected_example") or {}).get("url")) if u} for key, row in reg.items()}
 
 
+def first_segment(url: str) -> str:
+    m = WAYBACK_RE.match(url or "")
+    return urllib.parse.urlparse(m.group(1) if m else url or "").path.strip("/").split("/")[0]
+
+
 def narrowed(url: str, keys: list[str], urls: dict[str, set[str]]) -> list[str]:
     """Of several sources on one host, the ones that registered this very URL: one download host serves the chart and
-    three forecasts, each registered by its file. A URL no source registered stays with every source on its host."""
+    three forecasts, each registered by its file. Else the ones that registered a URL in the same first path section
+    (GAO's /products/ pages are its reports, not its bid protest docket). A URL in no source's section stays with every
+    source on its host."""
     url = (url or "").rstrip("/")
-    return [k for k in keys if url in urls.get(k, ())] or keys
+    exact = [k for k in keys if url in urls.get(k, ())]
+    if exact:
+        return exact
+    seg = first_segment(url)
+    return [k for k in keys if seg and any(first_segment(u) == seg for u in urls.get(k, ()))] or keys
 
 
 def key_for(row: dict, by_host: dict[str, list[str]]) -> list[str]:
@@ -126,7 +137,7 @@ def status() -> dict:
     rows = [r for r in rows if r.get("method") != "backfill"]
     urls = urls_by_key(reg)
     # A page first found by a search and later re-fetched through the hosted browser keeps the search's source.
-    by_url = {r["url"]: key_for(r, by_host) for r in rows if key_for(r, by_host)}
+    by_url = {r["url"]: key_for(r, by_host) for r in rows if r.get("url") and key_for(r, by_host)}
     for row in rows:
         if row.get("status") != 200 or not row.get("sha256"):
             continue
@@ -225,7 +236,8 @@ def selfcheck() -> int:
     urls = {"chart": {"https://d.example/c.pdf", "https://p.example/org"}, "fc": {"https://d.example/f.xlsx", "https://p.example/osbp"},
             "talks": {"https://p.example/leaders"}}
     assert narrowed("https://d.example/f.xlsx", ["chart", "fc"], urls) == ["fc"], "one download host, the file's own source"
-    assert narrowed("https://p.example/osbp/", ["chart", "fc", "talks"], urls) == ["fc"] and narrowed("https://p.example/osbp/x", ["fc", "talks"], urls) == ["fc", "talks"]
+    assert narrowed("https://p.example/osbp/", ["chart", "fc", "talks"], urls) == ["fc"] and narrowed("https://p.example/osbp/x", ["fc", "talks"], urls) == ["fc"]
+    assert narrowed("https://p.example/other", ["fc", "talks"], urls) == ["fc", "talks"], "a section no source registered stays shared"
     matrix = {"organizations": ["X"], "families": ["f", "g"],
               "cells": [{"org": "X", "family": "f", "sources": ["a"]}, {"org": "X", "family": "g", "reason": "blocked", "note": "why"}]}
     stat = {"sources": {"a": {"events": 1, "documents": 0}, "b": {"events": 0, "documents": 0}}}

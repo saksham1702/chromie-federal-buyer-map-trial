@@ -8,10 +8,11 @@ one is re-taken on every sweep because new awards move the page boundaries. `awa
 saved pages back and is what the loader emits `contract_expires` events from: the ultimate completion
 date FPDS states on the base award, with the requirement description the buyer wrote.
 
-`histories` follows each swept award that is still running or ended within HISTORY_BACK_DAYS through its
-whole FPDS history (the `PIID:` query), so the loader can date extensions, options exercised and
-terminations. A finished history is not taken again; a running contract's newest page is re-taken once
-it is HISTORY_STALE_DAYS old, because a new modification lands on it.
+`histories` follows each swept award through its whole FPDS history (the `PIID:` query), so the loader can
+date extensions, options exercised and terminations: those running or ended within HISTORY_BACK_DAYS first,
+then the rest, since a modification can move the end the base award states. A finished history is not taken
+again; a running contract's newest page is re-taken once it is HISTORY_STALE_DAYS old, because a new
+modification lands on it.
 
     python research/tools/fpds_sweep.py sweep --fetch [--limit N]
     python research/tools/fpds_sweep.py histories --fetch [--limit N]
@@ -29,7 +30,7 @@ from datetime import date, datetime, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from fetch import MANIFEST, ROOT, fetch  # noqa: E402
+from fetch import MANIFEST, ROOT, fetch, is_stub  # noqa: E402
 from lrae_package import FPDS_PAGE, fpds_entries, fpds_history, fpds_url, manifest_rows, saved, url_index  # noqa: E402
 from agency import P, NOTE_TAG  # noqa: E402
 
@@ -124,9 +125,12 @@ def sweep(argv: list[str]) -> int:
 
 
 def followed(rows: list[dict], today: date) -> list[dict]:
-    """The swept awards whose history is followed: running, or ended within HISTORY_BACK_DAYS; soonest end first."""
+    """The swept awards whose history is followed, every one with an end: running or ended within HISTORY_BACK_DAYS
+    first, soonest end first; then those the base award says ended earlier, latest end first, because a modification
+    may have moved that end (the sweep holds base awards only)."""
     floor = (today - timedelta(days=HISTORY_BACK_DAYS)).isoformat()
-    return sorted((r for r in rows if r["completion"] and r["completion"] >= floor), key=lambda r: (r["completion"], r["piid"]))
+    dated = sorted((r for r in rows if r["completion"]), key=lambda r: (r["completion"], r["piid"]))
+    return [r for r in dated if r["completion"] >= floor] + [r for r in reversed(dated) if r["completion"] < floor]
 
 
 def next_history_page(index: dict[str, dict], award: dict, today: date) -> str | None:
@@ -221,7 +225,7 @@ def selfcheck() -> int:
 
     today = date(2026, 9, 22)
     old, live = dict(rows[0], piid="A", completion="2025-09-21"), dict(rows[0], piid="B", completion="2025-09-22")
-    assert [r["piid"] for r in followed([rows[0], old, live], today)] == ["B", "N0003925C0001"], "ended over a year ago is not followed; soonest end first"
+    assert [r["piid"] for r in followed([rows[0], old, live], today)] == ["B", "N0003925C0001", "A"], "soonest end first; ended over a year ago last"
     with tempfile.TemporaryDirectory() as tmp:
         last = Path(tmp) / "history"
         last.write_bytes(FIXTURE.replace(b'<link rel="next" href="x"/>', b""))
@@ -233,6 +237,8 @@ def selfcheck() -> int:
         assert next_history_page(stale, rows[0], today) == fpds_url(piid, 0), "a running contract's last page is re-taken when stale"
         last.write_bytes(FIXTURE.replace(b'<link rel="next" href="x"/>', b"").replace(b"2030-01-14", b"2026-01-14"))
         assert next_history_page(stale, rows[0], today) is None, "a finished contract's complete history is never re-taken"
+    assert is_stub(b"<html><p>The FPDS production application will be down for scheduled maintenance...</p></html>"), \
+        "the maintenance notice FPDS answers with a 200 is not a feed page"
     print("fpds_sweep selfcheck ok")
     return 0
 

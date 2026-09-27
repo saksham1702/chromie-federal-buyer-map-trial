@@ -363,20 +363,25 @@ def build(argv: list[str]) -> int:
     return 0
 
 
-def contacts_for(org_ids: list[str], people: list[dict], as_of: str | None = None, limit: int = 3) -> list[dict]:
-    """Whom the record ties to any of these organization ids (most specific first, then newest), observed by as_of."""
+# Who leads before who staffs: one staff listing dates every name the same day, so the leaders must not sort after the alphabet.
+ROLE_ORDER = {r: i for i, r in enumerate(("acquisition_leader", "contracting_leader", "program_manager", "deputy_program_manager", "technical_lead"))}
+
+
+def contacts_for(org_ids: list[str], people: list[dict], as_of: str | None = None, limit: int | None = 3) -> list[dict]:
+    """Whom the record ties to any of these organization ids (most specific first, then newest, then leaders first),
+    observed by as_of; every one when limit is None."""
     rank = {org: i for i, org in enumerate(org_ids)}
     rows = []
     for person in people:
-        fits = [(rank[p["org"]], -int(p["observed_at"].replace("-", "")), p) for p in person["positions"]
-                if p["org"] in rank and (not as_of or p["observed_at"] <= as_of)]
+        fits = [(rank[p["org"]], -int(p["observed_at"].replace("-", "")), ROLE_ORDER.get(p["role_type"], len(ROLE_ORDER)), p)
+                for p in person["positions"] if p["org"] in rank and (not as_of or p["observed_at"] <= as_of)]
         if fits:
-            best = min(fits, key=lambda r: r[:2])
-            rows.append((best[0], best[1], person, best[2]))
-    rows.sort(key=lambda r: (r[0], r[1], r[2]["name"]))
+            best = min(fits, key=lambda r: r[:3])
+            rows.append((*best[:3], person, best[3]))
+    rows.sort(key=lambda r: (r[0], r[1], r[2], r[3]["name"]))
     return [{"name": person["name"], "role": p["role_type"], "title": p["raw_title"], "office": p["office"], "observed_at": p["observed_at"],
              "source": p["source"], "source_ref": p["source_ref"], "source_url": p["source_url"], "email": (person["emails"] or [""])[0]}
-            for _, _, person, p in rows[:limit]]
+            for _, _, _, person, p in rows[:limit]]
 
 
 SMALL_BUSINESS_ROUTE = "small_business_office"
@@ -388,13 +393,12 @@ SIDE = {"program_manager": "requirement", "contracting_poc": "acquisition", "off
 def load_routes() -> list[dict]:
     """Every recommended route with the date and the source of the observations it rests on, and whether each of
     those observations was checked against the saved file it cites."""
-    if not RECOMMENDATIONS.exists() or not OBSERVATIONS.exists():
-        return []
-    observed = {o["id"]: o for o in json.loads(OBSERVATIONS.read_text(encoding="utf-8"))}
+    # the recommendation and observation files are hand-written for the Navy only; an agency without them still has its small business offices
+    observed = {o["id"]: o for o in json.loads(OBSERVATIONS.read_text(encoding="utf-8"))} if OBSERVATIONS.exists() else {}
     reviews = json.loads(REVIEWS.read_text(encoding="utf-8")) if REVIEWS.exists() else []
     checked = {r["target"] for r in reviews if r["outcome"] in ("confirmed", "corrected")}
     rows = []
-    for rec in json.loads(RECOMMENDATIONS.read_text(encoding="utf-8")):
+    for rec in json.loads(RECOMMENDATIONS.read_text(encoding="utf-8")) if RECOMMENDATIONS.exists() else []:
         basis = [observed[i] for i in rec["contact_observation_ids"] if i in observed]
         if not basis:
             continue

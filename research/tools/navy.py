@@ -28,6 +28,7 @@ import ask  # noqa: E402
 import buying_dna  # noqa: E402
 import monitor_forecast_revision  # noqa: E402
 import office_wiki  # noqa: E402
+import protests as protests_tool  # noqa: E402
 import pulse  # noqa: E402
 import trace  # noqa: E402
 import vendors  # noqa: E402
@@ -115,6 +116,10 @@ def protests(args: list[str]) -> int:
     hits = [e for e in layer().events if e["family"] == "protest" and e["available_by"] <= as_of() and term in f"{e['title']} {e['text']}".lower()]
     for e in hits:
         print(f"{e['id']} {e['date']} {e['event_type']}: {e['title']}\n  {' '.join(e['text'].split())[:600]}")
+    if not hits and not protests_tool.docket_taken():
+        print(f"not collected: GAO's bid protest docket for the {P['protests']['agency']} was never taken "
+              f"(protests.py watch --fetch), so the record holds no protest count, not a count of zero")
+        return 0
     print(f"{len(hits)} protest(s) in the record as of {as_of()}")
     return 0
 

@@ -19,7 +19,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from agency import P  # noqa: E402
-from backtest import CORPUS, GENERIC, RESEARCH, chain, need_aliases, need_cell, recurring_tokens, scan, shift  # noqa: E402
+from backtest import CORPUS, GENERIC, RESEARCH, awards_not_collected, chain, need_aliases, need_cell, recurring_tokens, scan, shift  # noqa: E402
 from buying_dna import PIID_RE  # noqa: E402
 from people import SEED, contacts_for, load_routes, norm_name, routes_for  # noqa: E402
 from pulse import CONTRACT_RE, card, days_between, load_people, office_name, score  # noqa: E402
@@ -40,6 +40,7 @@ OWNER_TYPES = ("program_office", "program_executive_office", *P.get("owner_types
 OFFICE_CODE_RE = re.compile(P["reading"]["office_code_re"])
 HULL_RE = re.compile(P["reading"]["hull_re"])
 SOLICITATION_RE = re.compile(r"; solicitation ([A-Za-z0-9_-]+);")
+TOPIC_DATES_RE = re.compile(r"; opens (\d{4}-\d{2}-\d{2})?, closes (\d{4}-\d{2}-\d{2})?;")
 PIID_TEXT_RE = re.compile(P["piid_re"])
 # Words any notice title may carry whoever buys: the notice kind, the instrument and the parts vocabulary.
 NOTICE_WORDS = {"day", "industry", "request", "information", "report", "summary", "notice", "intent", "sources", "sought", "synopsis",
@@ -94,7 +95,7 @@ class Layer:
     def brief(self, e: dict) -> dict:
         row = {"id": e["id"], "date": e["available_by"], "family": e["family"], "type": e["event_type"], "stage": e.get("stage", ""),
                "polarity": e.get("polarity", ""), "office": place(e, self.orgs), "title": e["title"][:140]}
-        return row
+        return {**row, **topic_status(e, self.as_of)}
 
     def need_brief(self, n: dict) -> dict:
         row = {"need_key": n["key"], "owner": n["owner"] or "no office named", "title": n["title"][:120],
@@ -112,7 +113,15 @@ class Layer:
                 "forecast_rows": [self.need_brief(n) for n in rows[:SHOWN]], "forecast_rows_total": len(rows)}
 
     def subtree(self, oid: str) -> set[str]:
-        return {o for o in self.orgs if oid in chain(o, self.orgs)}
+        """The organization and every one under it. `upward`, not `chain`: chain leaves the agency out, so an agency's
+        subtree would be empty. An agency's also holds the roots no stated parent ties to it (a PEO or a command whose
+        parent no source names) and the statements filed at no office (""): everything in the record is the agency's."""
+        agency = self.orgs.get(oid, {}).get("org_type") == "agency"
+        return {o for o in self.orgs if oid in (up := upward(o, self.orgs)) or agency and self.orgs[up[-1]].get("org_type") != "agency"} | ({""} if agency else set())
+
+    def children(self, oid: str) -> list[str]:
+        """The organizations whose stated parent is this one: the one list office and neighbors both read."""
+        return sorted(named_office(o, self.orgs) for o, row in self.orgs.items() if row["parent"] == oid)
 
     def office(self, name: str) -> dict:
         oid = self.org_id(name)
@@ -127,7 +136,7 @@ class Layer:
         o = self.orgs[oid]
         return {"office": o["acronym"] or o["name"], "name": o["name"], "type": o.get("org_type", ""),
                 "chain": [office_name(x, self.orgs) for x in upward(oid, self.orgs)[1:]],
-                "children": len(tree) - 1, "statements": len(mine), "families": dict(Counter(e["family"] for e in mine).most_common()),
+                "children": len(self.children(oid)), "statements": len(mine), "families": dict(Counter(e["family"] for e in mine).most_common()),
                 "forecast_rows_total": len(owned), "forecast_rows": [self.need_brief(n) for n in owned[:SHOWN]],
                 "newest": [self.brief(e) for e in sorted(mine, key=lambda e: e["available_by"], reverse=True)[:SHOWN]],
                 "topics": [self.brief(e) for e in sorted((e for e in mine if e["family"] == "programs"), key=lambda e: e["available_by"], reverse=True)[:5]],
@@ -143,7 +152,7 @@ class Layer:
 
     def statement(self, e: dict) -> dict:
         """One statement in full, with the forecast rows that share a name with it: the way from a topic or a notice to a cell."""
-        names = [a for a in need_aliases(e["title"], self.recurring) if len(a) >= 4][:6]
+        names = [a for a in need_aliases(e["title"], self.recurring, None, [o["acronym"] for o in self.orgs.values() if o.get("acronym")]) if len(a) >= 4][:6]
         rows = [n for n in self.needs if any(re.search(r"(?<![A-Za-z0-9])" + re.escape(a) + r"(?![A-Za-z0-9])", n["title"], re.I) for a in names)]
         return {**self.brief(e), "text": e["text"][:700], "vendor": e.get("vendor", ""), "names": names,
                 "forecast_rows": [self.need_brief(n) for n in rows[:SHOWN]], "forecast_rows_total": len(rows),
@@ -175,7 +184,9 @@ class Layer:
         oid = self.org_id(name)
         if not oid:
             return {"office": name, "error": "no organization by that name"}
-        return {"office": office_name(oid, self.orgs), "people": contacts_for(self.reach(oid), self.roster, self.as_of, limit=SHOWN)}
+        everyone = contacts_for(self.reach(oid), self.roster, self.as_of, limit=None)
+        return {"office": office_name(oid, self.orgs), "people": everyone[:SHOWN],
+                **({"shown": f"{SHOWN} of {len(everyone)} (nearest office, newest, leaders first); the rest are in memory/people.json"} if len(everyone) > SHOWN else {})}
 
     def neighbors(self, name: str) -> dict:
         oid = self.org_id(name)
@@ -188,7 +199,7 @@ class Layer:
                       key=lambda e: min(up.get(e["from"]["oid"], len(up)), up.get(e["to"]["oid"], len(up))))
         return {"office": office_name(oid, self.orgs), "parent": office_name(parent, self.orgs) if parent else "",
                 "siblings": sorted(named_office(o, self.orgs) for o, row in self.orgs.items() if row["parent"] == parent and o != oid and parent)[:SHOWN * 2],
-                "children": sorted(named_office(o, self.orgs) for o, row in self.orgs.items() if row["parent"] == oid),
+                "children": self.children(oid),
                 "relationships": [{"relation": f"{e['from']['name']} {e['relation']} {e['to']['name']}",
                                    **{k: e[k] for k in ("evidence", "status", "from_date", "to_date", "note") if e.get(k)}, "sources": e["sources"]}
                                   for e in near[:SHOWN * 2]]}
@@ -207,6 +218,17 @@ def row_contacts(layer: Layer, owner: str, key: str, row: dict[str, str], by_nam
     people = [(label, by_name.get(norm_name(row.get(label, "")))) for label in ("contracting POC", "secondary POC")]
     return [{**c, "named_on": f"{label} on forecast row {key}"} for label, person in people if person
             for c in contacts_for(layer.reach(owner), [person], layer.as_of, limit=1)]
+
+
+def topic_status(e: dict, as_of: str) -> dict:
+    """An SBIR topic's status on the record date from its open and close dates, with the dates; {} for another record or
+    a topic with neither date. The statement's own word is the portal's on the day the page was read, not the record date's."""
+    m = TOPIC_DATES_RE.search(e.get("text") or "") if e.get("event_type") == "sbir_topic" else None
+    if not m or not any(m.groups()):
+        return {}
+    opens, closes = m.groups()
+    status = "pre-release" if opens and opens > as_of else "closed" if closes and closes < as_of else "open"
+    return {k: v for k, v in (("opens", opens), ("closes", closes), ("status", status)) if v}
 
 
 def upward(oid: str, orgs: dict) -> list[str]:
@@ -485,7 +507,7 @@ def office(layer: Layer, name: str, dna: dict) -> str:
         return o["error"]
     tree = layer.subtree(layer.org_id(name))
     mine = [e for e in layer.events if e["org"] in tree and e["available_by"] <= layer.as_of]
-    lines = [f"{o['office']}: {o['name']} ({o['type'] or 'organization'}); above it: {' > '.join(o['chain']) or '-'}; {o['children']} organization(s) below",
+    lines = [f"{o['office']}: {o['name']} ({o['type'] or 'organization'}); above it: {' > '.join(o['chain']) or '-'}; {o['children']} organization(s) directly below",
              f"{o['statements']} statement(s): " + (", ".join(f"{f} {n}" for f, n in o["families"].items()) or "none"),
              # An agency without a forecast owns requirements the notices created, not forecast rows.
              f"{'forecast rows owned' if P['forecast']['pack_glob'] else 'requirements owned (created by the notices)'}: {o['forecast_rows_total']}"]
@@ -521,9 +543,9 @@ def vendor(layer: Layer, name: str, resolved: dict | None = None) -> str:
     said = sorted((e for e in layer.events if e["family"] != "incumbent" and e["available_by"] <= layer.as_of
                    and any(len(s) >= 6 and s in e["title"].lower() for s in spellings)), key=lambda e: e["available_by"], reverse=True)
     if not mine and not said:
-        return f"no contract or statement in the record names a vendor matching {name!r}"
+        return awards_not_collected() or f"no contract or statement in the record names a vendor matching {name!r}"
     if not mine:
-        return "\n".join([f"{name}: no contract in the record; {len(said)} statement(s) name it:"]
+        return "\n".join([f"{name}: {awards_not_collected() or 'no contract in the record'}; {len(said)} statement(s) name it:"]
                          + [f"  - {e['date']} {e['family']}/{e['event_type']}: {e['title'][:110]}" for e in said[:8]] + source_lines(said, layer))
     names = Counter(e["vendor"] for e in mine)
     offices = Counter(office_name(e["org"], layer.orgs) or "-" for e in mine)
@@ -643,6 +665,7 @@ def layer_views() -> None:
     st = layer.cell("t1")
     assert st["id"] == "t1" and "text" in st and st["forecast_rows_total"] == 2 and layer.cell("nothing")["error"], st
     assert layer.topics("tactical data links")["topics"] == 1 and layer.neighbors("PMW 101")["siblings"] == ["PMW 160 (Networks)"]
+    assert topic_status({"event_type": "sbir_topic", "text": "Pre-Release; opens 2026-09-23, closes 2026-10-21; x"}, "2026-09-02")["status"] == "pre-release"
     assert layer.neighbors("PMW")["similar"] and layer.people("PMW 101") == {"office": "PMW 101", "people": []}
     read_views(orgs)
 
