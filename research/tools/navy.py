@@ -311,7 +311,8 @@ def selfcheck() -> int:
         graph = json.loads(call("neighbors", {"args": "PMW 120"}))["relationships"]  # who buys for the office and who leads above it
         assert any("contracts for PMW 120" in r["relation"] for r in graph) and any(r["relation"].split(" leads ")[1:] and r["sources"] for r in graph), graph
         assert json.loads(call("neighbors", {"args": "NRL Code 7600"})).get("parent") == "NRL", "an office answers to its name before the comma"
-    assert [t["name"] for t in tools()] == ["help", *HELP] and tools()[-2]["inputSchema"]["required"] == ["answer"]
+    assert [t["name"] for t in tools()] == ["help", *HELP]
+    assert next(t for t in tools() if t["name"] == "check")["inputSchema"]["required"] == ["answer"]
     assert "not above" in call("check", {"answer": {**good, "peo": "NAVSEA"}}) or not CORPUS.exists()
     print("navy selfcheck ok")
     return 0
