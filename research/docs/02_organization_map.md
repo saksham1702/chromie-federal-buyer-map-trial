@@ -120,7 +120,7 @@ statements file records each reading as the agent's judgment.
 5. People edges carry the tear-sheet or release date as the observation date and end when a
    change-of-command release names a successor.
 
-Mapping to Chromie: nodes are `gov_organizations` rows (with `org_type`, aliases,
+Mapping to the platform: nodes are `gov_organizations` rows (with `org_type`, aliases,
 `valid_from/valid_to`, provenance columns); edges are `gov_organization_relationships` rows; the
 2026 names map to aliases on the existing PEO C4I rows created from the 2023 article, and the
 consolidation maps to a `consolidated_into` relationship to a PAE Mission Systems organization

@@ -19,9 +19,9 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from agency import P  # noqa: E402
-from backtest import CORPUS, GENERIC, RESEARCH, awards_not_collected, chain, need_aliases, need_cell, recurring_tokens, scan, shift  # noqa: E402
+from backtest import CORPUS, GENERIC, RESEARCH, awards_not_collected, chain, need_aliases, need_cell, recurring_tokens, scan, scan_term, shift  # noqa: E402
 from buying_dna import PIID_RE  # noqa: E402
-from people import SEED, contacts_for, load_routes, norm_name, routes_for  # noqa: E402
+from people import SEED, contacts_for, load_routes, norm_name, own_contacts, routes_for, uid  # noqa: E402
 from pulse import CONTRACT_RE, card, days_between, load_people, office_name, score  # noqa: E402
 from trace import STOP, distinctive_tokens  # noqa: E402
 from vendors import load as load_vendors, names_for  # noqa: E402
@@ -65,7 +65,7 @@ class Layer:
         self.edges = seed_edges(self.orgs, self.as_of)
         self.by_acronym = {o["acronym"].lower(): oid for oid, o in self.orgs.items() if o.get("acronym")}
         self.by_acronym.update({o["name"].lower(): oid for oid, o in self.orgs.items()})
-        self.by_acronym.update(seed_names(self.by_acronym))
+        self.by_acronym.update(seed_names(self.by_acronym, self.orgs))
         head = lambda o: o["name"].split(",")[0].strip().lower()  # "NRL Code 7600" for "NRL Code 7600, Space Science DIV"
         heads = Counter(head(o) for o in self.orgs.values())
         self.by_acronym.update({head(o): oid for oid, o in self.orgs.items() if heads[head(o)] == 1 and head(o) not in self.by_acronym})
@@ -103,11 +103,14 @@ class Layer:
         return row
 
     def search(self, term: str) -> dict:
-        hits = [e for e in scan([term], self.events) if e["available_by"] <= self.as_of]
+        # The phrase as written first; a multi-word phrase the record never repeats word for word is then read as its words,
+        # each widened to its capability's words, every word required, and the answer says which reading matched.
+        found, matched = scan_term(term, self.events)
+        hits = [e for e in found if e["available_by"] <= self.as_of]
         offices = Counter(office_name(e["org"], self.orgs) or "-" for e in hits)
         rows = sorted((n for n in self.needs if re.search(r"(?<![A-Za-z0-9])" + re.escape(term) + r"(?![A-Za-z0-9])", n["title"], re.I)),
                       key=lambda n: n["key"])
-        return {"term": term, "statements": len(hits), "families": dict(Counter(e["family"] for e in hits).most_common()),
+        return {"term": term, "matched": matched or "nothing", "statements": len(hits), "families": dict(Counter(e["family"] for e in hits).most_common()),
                 "offices": dict(offices.most_common(SHOWN)),
                 "newest": [self.brief(e) for e in sorted(hits, key=lambda e: e["available_by"], reverse=True)[:SHOWN]],
                 "forecast_rows": [self.need_brief(n) for n in rows[:SHOWN]], "forecast_rows_total": len(rows)}
@@ -156,7 +159,11 @@ class Layer:
         rows = [n for n in self.needs if any(re.search(r"(?<![A-Za-z0-9])" + re.escape(a) + r"(?![A-Za-z0-9])", n["title"], re.I) for a in names)]
         return {**self.brief(e), "text": e["text"][:700], "vendor": e.get("vendor", ""), "names": names,
                 "forecast_rows": [self.need_brief(n) for n in rows[:SHOWN]], "forecast_rows_total": len(rows),
-                "people": contacts_for(self.reach(e["org"]), self.roster, self.as_of)[:3] if e["org"] else []}
+                # The statement's own contacts (the notice's points of contact) stand apart from the office's people, who
+                # answer for other solicitations; the office's are labelled so, never read as this statement's.
+                "people": own_contacts(e, self.roster, self.as_of)[:3],
+                "office_contacts": contacts_for(self.reach(e["org"]), self.roster, self.as_of)[:3] if e["org"] else [],
+                "office_contacts_note": "whom the record ties to the office and the offices above it, not to this statement"}
 
     def cell(self, need_key: str) -> dict:
         need = next((n for n in self.needs if n["key"] == need_key), None)
@@ -176,8 +183,9 @@ class Layer:
                 "vendors": scored["vendors"], "card": card(cell, hits, self.as_of, self.orgs)}
 
     def topics(self, term: str) -> dict:
-        hits = [e for e in scan([term], [e for e in self.events if e["family"] == "programs"]) if e["available_by"] <= self.as_of]
-        return {"term": term, "topics": len(hits), "offices": dict(Counter(office_name(e["org"], self.orgs) or "-" for e in hits).most_common(SHOWN)),
+        found, matched = scan_term(term, [e for e in self.events if e["family"] == "programs"])
+        hits = [e for e in found if e["available_by"] <= self.as_of]
+        return {"term": term, "matched": matched or "nothing", "topics": len(hits), "offices": dict(Counter(office_name(e["org"], self.orgs) or "-" for e in hits).most_common(SHOWN)),
                 "newest": [self.brief(e) for e in sorted(hits, key=lambda e: e["available_by"], reverse=True)[:SHOWN]]}
 
     def people(self, name: str) -> dict:
@@ -247,8 +255,9 @@ def seed_edges(orgs: dict[str, dict], as_of: str) -> list[dict]:
     if not SEED.exists():
         return []
     seed = json.loads(SEED.read_text(encoding="utf-8"))
-    by_name = {o["name"].lower(): oid for oid, o in orgs.items()}
-    nodes = {n["id"]: {"name": n["name"], "oid": by_name.get(n["name"].lower(), "")} for n in seed.get("nodes", [])}
+    # A record office's id is made from its seed id, so the two meet on the id: a name the seed changes later (N00014
+    # took its FPDS name on 2026-09-29) still finds the office a frozen corpus holds under the old one.
+    nodes = {n["id"]: {"name": n["name"], "oid": oid if (oid := uid("org", n["id"])) in orgs else ""} for n in seed.get("nodes", [])}
     obs = {o["id"]: o for o in seed.get("observations", [])}
     out = []
     for r in seed.get("relationships", []):
@@ -266,14 +275,14 @@ def seed_edges(orgs: dict[str, dict], as_of: str) -> list[dict]:
     return out
 
 
-def seed_names(known: dict[str, str]) -> dict[str, str]:
+def seed_names(known: dict[str, str], orgs: dict[str, dict]) -> dict[str, str]:
     """The short names the seed observed for an organization (NAVWAR, PEO C4I), each to its id; a short name observed
-    for two organizations, or already an acronym or a full name, is left out."""
+    for two organizations, or already an acronym or a full name, is left out. A node meets its office on the id."""
     if not SEED.exists():
         return {}
     seen: dict[str, set[str]] = {}
     for node in json.loads(SEED.read_text(encoding="utf-8")).get("nodes", []):
-        oid = known.get(node.get("name", "").lower())
+        oid = uid("org", node["id"]) if uid("org", node["id"]) in orgs else None
         for a in node.get("aliases", []) if oid else []:
             seen.setdefault(a["text"].lower(), set()).add(oid)
     return {a: ids.pop() for a, ids in seen.items() if len(ids) == 1 and a not in known}

@@ -156,16 +156,55 @@ def fpds_actions(body: str) -> list[dict]:
         def tag(name: str, block: str = entry) -> str:
             m = re.search(rf"<ns1:{name}(?:\s[^>]*)?>(.*?)</ns1:{name}>", block, re.S)
             return re.sub(r"&amp;", "&", m.group(1).strip()) if m else ""
-        award_id = re.search(r"<ns1:awardID>(.*?)</ns1:awardID>", entry, re.S)
+        award_id = re.search(r"<ns1:(?:awardID|IDVID|OtherTransactionAwardID|OtherTransactionIDVID)>(.*?)</ns1:(?:awardID|IDVID|OtherTransactionAwardID|OtherTransactionIDVID)>", entry, re.S)
         block = award_id.group(1) if award_id else entry
-        piid = re.search(r"<ns1:awardContractID>.*?<ns1:PIID>(.*?)</ns1:PIID>", block, re.S)
-        idv = re.search(r"<ns1:referencedIDVID>.*?<ns1:PIID>(.*?)</ns1:PIID>", block, re.S)
-        out.append({"piid": piid.group(1) if piid else tag("PIID"), "idv": idv.group(1) if idv else "",
+        kind = ("other_transaction" if "<ns1:OtherTransaction" in entry else "idv" if "<ns1:IDV " in entry or "<ns1:IDV>" in entry else "award")
+        own = re.search(r"<ns1:(?:awardContractID|IDVID|OtherTransactionAwardContractID|OtherTransactionIDVID)>(.*?)</ns1:(?:awardContractID|IDVID|OtherTransactionAwardContractID|OtherTransactionIDVID)>", block, re.S)
+        piid = re.search(r"<ns1:PIID>(.*?)</ns1:PIID>", own.group(1), re.S) if own else None
+        agency = re.search(r"<ns1:agencyID[^>]*>(.*?)</ns1:agencyID>", own.group(1), re.S) if own else None
+        ref = re.search(r"<ns1:referencedIDVID>(.*?)</ns1:referencedIDVID>", block, re.S)
+        idv = re.search(r"<ns1:PIID>(.*?)</ns1:PIID>", ref.group(1), re.S) if ref else None
+        idv_agency = re.search(r"<ns1:agencyID[^>]*>(.*?)</ns1:agencyID>", ref.group(1), re.S) if ref else None
+        out.append({"piid": piid.group(1) if piid else tag("PIID"), "idv": idv.group(1) if idv else "", "kind": kind,
+                    "agency": agency.group(1).strip() if agency else "", "idv_agency": idv_agency.group(1).strip() if idv_agency else "",
                     "mod": tag("modNumber"), "signed": tag("signedDate")[:10], "obligated": tag("obligatedAmount"),
                     "base_and_all_options": tag("baseAndAllOptionsValue"), "solicitation": tag("solicitationID"),
                     "vendor": tag("vendorName"), "contracting_office": tag("contractingOfficeID"),
                     "description": tag("descriptionOfContractRequirement")})
     return out
+
+
+def award_uid(piid: str, agency: str = "", idv: str = "", idv_agency: str = "", kind: str = "award") -> str | None:
+    """USAspending's generated award id for a contract action as FPDS states it: CONT_AWD_<piid>_<agency>_<idv>_<idv agency>
+    for an award, CONT_IDV_<piid>_<agency> for a vehicle, -NONE- where FPDS names no vehicle. An other transaction has no
+    contract id in this form (None): the tool says so instead of printing an address that answers 404."""
+    if not piid:
+        return None
+    if kind == "other_transaction":
+        return None
+    if kind == "idv":
+        return f"CONT_IDV_{compact(piid)}_{agency or '-NONE-'}"
+    return f"CONT_AWD_{compact(piid)}_{agency or '-NONE-'}_{compact(idv) if idv else '-NONE-'}_{(idv_agency or agency) if idv else '-NONE-'}"
+
+
+def award_uid_for(piid: str, actions: list[dict] | None = None) -> str | None:
+    """The USAspending id for a PIID from what the record holds of it: its saved FPDS actions, else the office sweep's
+    base award. None when nothing saved names the action (the parent vehicle is then unknown) or it is an other transaction."""
+    a = next((a for a in actions or [] if compact(a["piid"]) == compact(piid)), None) or swept_awards().get(compact(piid))
+    if not a:
+        return None
+    return award_uid(piid, a.get("agency", ""), a.get("idv", ""), a.get("idv_agency", ""), a.get("kind", "award"))
+
+
+def usaspending_check(piid: str, actions: list[dict] | None = None) -> str:
+    """How to collect the award's USAspending record, when the record knows its id; else what stands in the way."""
+    uid_ = award_uid_for(piid, actions)
+    if uid_:
+        return f"python research/tools/fetch.py 'https://api.usaspending.gov/api/v2/awards/{uid_}/'"
+    a = next((a for a in actions or [] if compact(a["piid"]) == compact(piid)), None) or swept_awards().get(compact(piid))
+    if a and a.get("kind") == "other_transaction":
+        return "an other transaction award in FPDS; USAspending's contract id form (CONT_AWD_...) does not name it, so no address is offered"
+    return f"USAspending id unknown: the record holds no FPDS action naming {compact(piid)}'s agency and vehicle; collect python research/tools/fetch.py 'https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:{compact(piid)}&start=0' first"
 
 
 def usaspending(rows: list[dict], piid: str) -> dict | None:
@@ -250,8 +289,19 @@ def sweep_scope(rows: list[dict], sol: str, posted: str) -> str:
             + (f" to FY{years[-1]['fy']}, each year" if len(years) > 1 else "") + f" saved to its last page, retrieved to {retrieved}")
 
 
-def sgs_hits(rows: list[dict]) -> dict[str, dict]:
-    """Every SAM.gov search hit ever saved, by notice id, with the query that found it."""
+def notice_open(flag, due: str, today: date | None = None) -> bool | None:
+    """Whether a notice still takes responses: a saved search's active flag stands as of the day the search ran, so a
+    response date that has passed closes the notice whatever the flag said; with no date the flag stands, and with
+    neither the answer is unknown (None)."""
+    today = today or date.today()
+    if due and re.fullmatch(r"\d{4}-\d{2}-\d{2}", due) and date.fromisoformat(due) < today:
+        return False
+    return None if flag is None else bool(flag)
+
+
+def sgs_hits(rows: list[dict], today: date | None = None) -> dict[str, dict]:
+    """Every SAM.gov search hit ever saved, by notice id, with the query that found it. `active` reads the response
+    date against today (notice_open), never the search's flag alone."""
     hits: dict[str, dict] = {}
     for r in rows:
         if r.get("status") != 200 or "sgs/v1/search" not in r.get("url", "") or not r.get("path") or not (ROOT / r["path"]).exists():
@@ -262,9 +312,10 @@ def sgs_hits(rows: list[dict]) -> dict[str, dict]:
             continue
         for h in (body.get("_embedded") or {}).get("results") or []:
             kind = h.get("type")
+            due = str(h.get("responseDate") or "")[:10]
             hits.setdefault(h["_id"], {"id": h["_id"], "title": h.get("title") or "", "type": kind.get("value") if isinstance(kind, dict) else kind,
-                                       "posted": str(h.get("publishDate") or "")[:10], "active": h.get("isActive"), "cancelled": bool(h.get("isCanceled")),
-                                       "solicitation": h.get("solicitationNumber") or "", "query_url": r["url"], "sha": r["sha256"][:12]})
+                                       "posted": str(h.get("publishDate") or "")[:10], "due": due, "active": notice_open(h.get("isActive"), due, today),
+                                       "cancelled": bool(h.get("isCanceled")), "solicitation": h.get("solicitationNumber") or "", "query_url": r["url"], "sha": r["sha256"][:12]})
     # Notices harvested in full (research/tools/sam_notices.py) count too, whether or not a search found them.
     for path in sorted(NOTICES.glob("*.json")) if NOTICES.exists() else []:
         if path.name.endswith(".resources.json") or path.name.startswith(("._", "search_")) or path.stem in hits:
@@ -272,7 +323,8 @@ def sgs_hits(rows: list[dict]) -> dict[str, dict]:
         d = notice_detail(path.stem)
         if d and d["title"]:
             hits[path.stem] = {"id": path.stem, "title": d["title"], "type": d["type"].title() if d["type"] in NOTICE_TYPE.values() else d["type"],
-                               "posted": d["posted"], "active": None, "cancelled": d["cancelled"], "solicitation": d["solicitation"], "query_url": d["path"], "sha": ""}
+                               "posted": d["posted"], "due": d["deadline"], "active": notice_open(None, d["deadline"], today), "cancelled": d["cancelled"],
+                               "solicitation": d["solicitation"], "query_url": d["path"], "sha": ""}
     return apply_notice_cancellation(hits)
 
 
@@ -1301,7 +1353,7 @@ def watch_block(lines: list[dict], today: date, incumbents: list[tuple[str, dict
     out.append("- would confirm (the reading becomes solicited, then awarded): " + "; ".join(confirm))
     out.append("- would invalidate (the reading becomes cancelled, restructured or review): " + "; ".join(invalidate))
     checks = [f"python research/tools/sam_notices.py {t}" for t in tokens[:2]]
-    checks += [f"python research/tools/fetch.py 'https://api.usaspending.gov/api/v2/awards/CONT_AWD_{t}_9700_-NONE-_-NONE-/'" for t in piids[:1]]
+    checks += [usaspending_check(t) for t in piids[:1]]
     checks += [f"python research/tools/fetch.py 'https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=PIID:{t}&start=0'" for t in piids[:1]]
     out.append("- to re-check: " + "; ".join(checks))
     return out
@@ -1321,6 +1373,21 @@ def news_about(key: str, office_id: str, programs: set[str] = frozenset()) -> li
             if key in a["links"]["requirements"] or office_id in a["links"]["offices"]
             or (programs & set(a["entities"]["programs"]))]
     return sorted(hits, key=lambda a: a["published"] or "")
+
+
+def hiring_about(office_id: str, programs: set[str] = frozenset()) -> list[dict]:
+    """Modelled job announcements whose own words name this requirement's office or its program name.
+
+    Built by research/tools/jobs.py; absent until it has run, which is not an error. The command a posting is filed
+    under is not enough to name it here: every NAVWAR vacancy is filed under NAVWAR, and a requirement's window
+    shows the postings that speak of its office or its program.
+    """
+    path = RESEARCH / "events" / "hiring_observations.json"
+    if not path.exists():
+        return []
+    postings = json.loads(path.read_text(encoding="utf-8"))["postings"]
+    hits = [p for p in postings if office_id in p["links"]["offices"] or (programs & set(p["entities"]["programs"]))]
+    return sorted(hits, key=lambda p: p["opened"] or "", reverse=True)
 
 
 def print_need(dsn: str, key: str) -> int:
@@ -1408,7 +1475,7 @@ def print_need(dsn: str, key: str) -> int:
             ceilings.append((t, u["ceiling"])); obligations.append((t, u["obligated"]))
             sources[t] = f"USAspending {u['url']} retrieved {u['retrieved']} sha {u['sha']}"
         else:
-            print(f"- {t}: USAspending not collected (python research/tools/fetch.py 'https://api.usaspending.gov/api/v2/awards/CONT_AWD_{t}_9700_-NONE-_-NONE-/')")
+            print(f"- {t}: USAspending not collected ({usaspending_check(t, actions)})")
         if actions:
             recent = sorted(actions, key=lambda a: a["signed"])[-3:]
             print(f"  FPDS: first page of actions saved ({len(actions)}; later pages were not collected, so USAspending's last-modified date is the recency to trust); "
@@ -1502,6 +1569,18 @@ def print_need(dsn: str, key: str) -> int:
         print(f"  {article['url']}")
         for claim in named[:2]:
             print(f"  {claim['statement_type']} [{claim['relation']}]: \"{claim['passage'][:200]}\"")
+    postings = hiring_about(office_id, program_tokens)
+    print("\n## Hiring naming this requirement's office or its program")
+    if not postings:
+        print("- nothing in research/events/hiring_observations.json names them (research/tools/jobs.py build)")
+    for posting in postings[:5]:
+        print(f"- {posting['opened'] or 'date not stated'} {posting['hiring']['agency'] or posting['hiring']['department']}: {posting['title'][:80]} "
+              f"(series {', '.join(posting['series']) or 'not stated'}; {posting['reading']['status']}, {posting['reading']['posture']}; reads {posting['relation']})")
+        print(f"  {posting['url']}")
+        for claim in [c for c in posting["claims"] if office_id in c["subjects"] or program_tokens & set(c["programs"])][:2]:
+            print(f"  {claim['statement_type']} [{claim['relation']}]: \"{claim['passage'][:200]}\"")
+    if len(postings) > 5:
+        print(f"- and {len(postings) - 5} more; `python research/tools/jobs.py read WORD` prints one")
     if need:
         print("\n## Loaded records (the database rows the claims above rest on)")
         print(f"- need {need['id']} source_key {need['source_key']}")
@@ -1525,6 +1604,8 @@ SHORT_ALIAS = 8
 def whole_word(probe: str, hay: str) -> int:
     """Where the alias sits in the text, or -1; an alias under SHORT_ALIAS characters must not sit inside a longer word.
     A bare number (an office code such as 7600) counts only written as a code, `Code 7600`: DoDI 1000.04 is no office."""
+    if probe not in hay:  # every pattern below holds the probe; most aliases are in no notice, and the regex costs more
+        return -1
     if probe.isdigit():
         m = re.search(r"(?<![a-z0-9])code\s+" + re.escape(probe) + r"(?![0-9])(?!\.[0-9])", hay)
         return m.start() if m else -1
@@ -1534,26 +1615,39 @@ def whole_word(probe: str, hay: str) -> int:
     return m.start() if m else -1
 
 
-def resolve_offices(text: str) -> list[dict]:
-    """Offices the notice names, through the organization memory's aliases; the matched wording travels with each."""
-    seed = json.loads((RESEARCH / "memory" / "organization_seed.json").read_text(encoding="utf-8"))
-    squeeze = lambda s: re.sub(r"\s+", " ", s).lower().strip()  # noqa: E731
-    flat = squeeze(text)
-    # Notices write an acronym in brackets after a name; aliases sometimes do too. Compare
-    # both with every bracketed part removed, so "(MIDS) International Program Office" and
-    # "MIDS International Program Office (IPO)" meet on the words that stay.
-    unbracket = lambda s: squeeze(re.sub(r"\s*\([^)]*\)", " ", s))  # noqa: E731
-    flat_open = unbracket(text)
+def squeeze(s: str) -> str:
+    return re.sub(r"\s+", " ", s).lower().strip()
+
+
+def unbracket(s: str) -> str:
+    """Notices write an acronym in brackets after a name; aliases sometimes do too. Compare both with every bracketed
+    part removed, so "(MIDS) International Program Office" and "MIDS International Program Office (IPO)" meet on the
+    words that stay."""
+    return squeeze(re.sub(r"\s*\([^)]*\)", " ", s))
+
+
+@lru_cache(maxsize=2)
+def office_names(seed: Path, mtime_ns: int) -> list[tuple[dict, list[tuple[str, str, str]]]]:
+    """Each office of the organization memory with its names as (text, probe, probe_open), read once per version of the
+    file: rebuilding them for every notice was most of a layers build."""
     out = []
-    for node in seed["nodes"]:
+    for node in json.loads(seed.read_text(encoding="utf-8"))["nodes"]:
         if node["type"] == "person":
             continue
         texts = [node["name"]] + [a["text"] if isinstance(a, dict) else a for a in node.get("aliases") or []] + list((node.get("codes") or {}).values())
-        for t in texts:
-            # Only a trailing bracket group comes off ("PMW 740 (IIPO)"); a bracket mid-alias stays, or an alias
-            # such as "PAE (PAE) for Robotics and Autonomous Systems (RAS)" would shrink to its first three words.
-            probe = squeeze(re.sub(r"\s*\([^()]*\)\s*$", "", t))
-            probe_open = unbracket(t)
+        # Only a trailing bracket group comes off ("PMW 740 (IIPO)"); a bracket mid-alias stays, or an alias
+        # such as "PAE (PAE) for Robotics and Autonomous Systems (RAS)" would shrink to its first three words.
+        out.append((node, [(t, squeeze(re.sub(r"\s*\([^()]*\)\s*$", "", t)), unbracket(t)) for t in texts]))
+    return out
+
+
+def resolve_offices(text: str) -> list[dict]:
+    """Offices the notice names, through the organization memory's aliases; the matched wording travels with each."""
+    seed = RESEARCH / "memory" / "organization_seed.json"
+    flat, flat_open = squeeze(text), unbracket(text)
+    out = []
+    for node, names in office_names(seed, seed.stat().st_mtime_ns):
+        for t, probe, probe_open in names:
             if len(probe) < 4:
                 # An acronym too short to stand alone ("STO") counts where the profile's office-code pattern reads it.
                 hit = next((m for m in OFFICE_CODE_RE.finditer(text) if "".join(m.groups()) == t), None)
@@ -1635,7 +1729,9 @@ def cmd_notice(args) -> int:
             print(f"no saved notice or search hit for {args.key!r}; collect it with: python research/tools/sam_notices.py {args.key}")
             return 0 if carried else 1
         for h in sorted(candidates, key=lambda h: h["posted"]):
-            print(f"- {h['posted']} {h['type']}: {h['title'][:90]} [{h['solicitation']}] id {h['id']} active={h['active']} {SAM_VIEW.format(h['id'])}")
+            state = (f"responses closed {h['due']}" if h["active"] is False and h.get("due") else
+                     f"open, responses until {h['due']}" if h["active"] and h.get("due") else f"active={h['active']}")
+            print(f"- {h['posted']} {h['type']}: {h['title'][:90]} [{h['solicitation']}] id {h['id']} {state} {SAM_VIEW.format(h['id'])}")
         print("\nDetail not saved for these; harvest one with: python research/tools/sam_notices.py <id>")
         return 0
     print(f"# {detail['title']}")
@@ -1826,8 +1922,9 @@ def cmd_award(args) -> int:
               f"awarding office {u['awarding_office']}; solicitation {u['solicitation'] or 'unstated'}; {u['competed'] or 'competition unstated'}, offers {u['offers']}; parent {u['parent'] or '-'}\n"
               f"USAspending retrieved {u['retrieved']} (sha {u['sha']})")
     else:
-        parent = f"{compact(swept['idv'])}_9700" if swept and swept["idv"] else "-NONE-_-NONE-"  # an order's id names its vehicle
-        print(f"USAspending not collected: python research/tools/fetch.py 'https://api.usaspending.gov/api/v2/awards/CONT_AWD_{piid}_9700_{parent}/'")
+        print(f"USAspending not collected: {usaspending_check(piid, actions)}")  # the id names the agency and the vehicle FPDS states
+        if any(a.get("kind") == "other_transaction" for a in actions):
+            print("kind: other transaction award (FPDS OtherTransactionAward), not a contract")
     if actions:
         print(f"FPDS actions saved: {len(actions)} on one page; first {min(a['signed'] for a in actions)} last {max(a['signed'] for a in actions)}")
     elif atom is None:
@@ -1907,6 +2004,20 @@ def selfcheck() -> int:
     a = fpds_actions(atom)[0]
     assert (a["piid"], a["idv"], a["mod"], a["signed"]) == ("N0003926F4006", "N0003925D4006", "0", "2026-06-18"), a
     assert a["description"] == "MIDS WDL SE&I" and a["base_and_all_options"] == "82061676.54"
+    assert (a["agency"], a["idv_agency"], a["kind"]) == ("9700", "9700", "award"), a
+    assert award_uid(a["piid"], a["agency"], a["idv"], a["idv_agency"], a["kind"]) == "CONT_AWD_N0003926F4006_9700_N0003925D4006_9700"
+    assert award_uid("HR001126FE029", "9700", "HR001122D0001", "9700") == "CONT_AWD_HR001126FE029_9700_HR001122D0001_9700", "the Orca run's award"
+    assert award_uid("N0003925D4006", "9700", kind="idv") == "CONT_IDV_N0003925D4006_9700"
+    ot = """<entry><content><ns1:OtherTransactionAward><ns1:OtherTransactionAwardID><ns1:OtherTransactionAwardContractID><ns1:agencyID name="X">7001</ns1:agencyID>
+    <ns1:PIID>70RSAT23T00000016</ns1:PIID><ns1:modNumber>0</ns1:modNumber></ns1:OtherTransactionAwardContractID></ns1:OtherTransactionAwardID>
+    <ns1:signedDate>2023-04-26 00:00:00</ns1:signedDate><ns1:vendorName>CHAINGUARD INC</ns1:vendorName></ns1:OtherTransactionAward></content></entry>"""
+    o = fpds_actions(ot)[0]
+    assert (o["piid"], o["agency"], o["kind"], o["idv"]) == ("70RSAT23T00000016", "7001", "other_transaction", ""), o
+    assert award_uid(o["piid"], o["agency"], kind=o["kind"]) is None, "an other transaction has no CONT_AWD id"
+    assert "does not name it" in usaspending_check("70RSAT23T00000016", [o]) and "CONT_AWD_N0003926F4006_9700_N0003925D4006_9700" in usaspending_check("N0003926F4006", [a])
+    # A search hit's active flag is as of the search; a response date that has passed closes the notice
+    assert notice_open(True, "2026-08-21", date(2026, 9, 28)) is False and notice_open(True, "2026-12-18", date(2026, 9, 28)) is True
+    assert notice_open(None, "", date(2026, 9, 28)) is None and notice_open(False, "", date(2026, 9, 28)) is False and notice_open(None, "2026-08-21", date(2026, 9, 28)) is False
 
     today = date(2026, 9, 20)
     # One outcome word first; every state it tells apart has its own.

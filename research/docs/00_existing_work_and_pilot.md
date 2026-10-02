@@ -5,7 +5,7 @@ bracketed tags like [A] point at that appendix.
 
 ## In plain terms
 
-Chromie already has a production Agency Brain and a program-office resolver, and the Navy's
+The platform already has a production Agency Brain and a program-office resolver, and the Navy's
 PEO C4I offices are already in its organization graph. The pilot adds the Navy-specific
 source layer: the forecasts, budget books, notices and awards that show what each office is
 about to buy. The pilot portfolio is mid-reorganization: on 2026-05-11 the Department of the
@@ -23,18 +23,18 @@ and an edge ranker over a five-node example; nothing in it is Navy-specific.
 Usable: the working agreement (evidence is part of the data model; facts, inferences and
 recommendations stay separate) and the output-package file names, which this package reuses.
 
-### 1.2 Production scaffolding already in Chromie
+### 1.2 Production scaffolding already in the platform
 
 | Component | Where | State | Reusable for this pilot |
 | --- | --- | --- | --- |
-| Agency Brain pipeline: locate documents, fetch, chunk by page, extract claims per section, compile a page | `chromie-runner/orchestration/gov/agency_brain/` (`documents.py`, `extract.py`, `items.py`, `rollups.py`, `worker.py`) | Production; per-agency ingest modules for DHS, DOJ, VA, HHS, DOT, Treasury, USDA, NIH, DHA and a manual DoD loader (`dod_ingest.py`) | Yes: claim sections `budget`, `forecast`, `procurement_patterns`, `people`, `industry_engagement` fit the Navy signals; items can be scoped to an organization (`scope_organization_id`), so PMW-level claims are representable |
+| Agency Brain pipeline: locate documents, fetch, chunk by page, extract claims per section, compile a page | production runner `orchestration/gov/agency_brain/` (`documents.py`, `extract.py`, `items.py`, `rollups.py`, `worker.py`) | Production; per-agency ingest modules for DHS, DOJ, VA, HHS, DOT, Treasury, USDA, NIH, DHA and a manual DoD loader (`dod_ingest.py`) | Yes: claim sections `budget`, `forecast`, `procurement_patterns`, `people`, `industry_engagement` fit the Navy signals; items can be scoped to an organization (`scope_organization_id`), so PMW-level claims are representable |
 | Program-office resolver | `program_office_resolver.py`; `program_office_resolution_service.py` | Production; DB-independent pure function; evidence-gated (an office code or explicit ownership language is required; contracting office, platform, NAICS, vendor cannot create ownership); statuses include abstention | Yes: the attribution rulebook in section 04 follows the same evidence classes so examples can be replayed through it |
 | Canonical organization graph | tables `gov_organizations`, `gov_organization_relationships` (temporal `valid_from`/`valid_to`, provenance columns); `scripts/onboard_resolver_reference_organizations.py` | PEO C4I and its 11 PMWs are already rows, sourced from NAVWAR's 2023 anniversary article; PAE Maritime, Aviation, Munitions and Marine Corps transitions are modeled with dates | Yes: 2025-2026 office names differ from the 2023 article (see 3.2) |
 | Source registry table | `gov_procurement_sources` (`source_key`, `access_mode`, `refresh_cadence`, `last_verified_at`, `verification_status`, `known_access_gaps`) | Production, used for SLED portals | Yes: `research/sources/source_registry.json` uses these field names so it can be loaded into that table |
 | Procurement records and documents | `gov_procurement_records` (solicitation/predecessor/resulting-contract links, lineage), `gov_procurement_documents` (hash, retrieval and extraction status), `gov_procurement_organizations` (organization to notice/award edges) | Production | Yes: the natural home for attribution edges and notice lineage |
 | Intel facts and links | `gov_intel_records/facts/links` (event type, effective date, conflict status, superseding, review status) | Production | Yes: the natural home for alerts and signals |
-| SAM notice amendment tracking | chromie-runner PRs #233, #234, #241 | Production | Yes: change detection for notices exists |
-| Hidden blind evaluator for the resolver | `chromie-runner/docs/hidden_program_office_eval.md` | Production | Worked examples here are gold candidates, not evaluator cases |
+| SAM notice amendment tracking | production runner PRs #233, #234, #241 | Production | Yes: change detection for notices exists |
+| Hidden blind evaluator for the resolver | production runner `docs/hidden_program_office_eval.md` | Production | Worked examples here are gold candidates, not evaluator cases |
 
 ## 2. Verified organization
 

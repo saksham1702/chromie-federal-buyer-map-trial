@@ -78,10 +78,14 @@ def row_of(award: dict, page: dict) -> dict:
     description = " ".join((award.get("Description") or "").split())
     listings = [f"{a.get('cfda_number')} {a.get('cfda_program_title') or ''}".strip() for a in award.get("Assistance Listings") or []]
     amount = award.get("Award Amount")
+    # An award is dated the day its period starts; one listed before its period starts (a cooperative agreement
+    # signed in September for 1 October) is dated the day the listing was saved, since that is when it was public.
+    start, seen = award.get("Start Date") or "", page["retrieved_at"][:10]
+    published = min(start, seen) if start else ""
     return {
         # The canonical event types have no assistance award; to the back-test a grant is an award like a contract.
         "claim_key": f"usaspending:{gid}", "event_type": "contract_awarded",
-        "published": award.get("Start Date") or "", "title": f"{award['Award ID']}: {kind} to {recipient}"[:200],
+        "published": published, "title": f"{award['Award ID']}: {kind} to {recipient}"[:200],
         "body": "; ".join(p for p in (description, f"award amount {amount:,.2f}" if amount is not None else "",
                                       f"period {award.get('Start Date') or 'unstated'} to {award.get('End Date') or 'unstated'}",
                                       f"assistance listing {', '.join(listings)}" if listings else "") if p),

@@ -56,8 +56,9 @@ from urllib.parse import urlparse
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from lrae_package import fold_map, fpds_history, manifest_rows, url_index  # noqa: E402
 from fpds_sweep import awards as swept_awards  # noqa: E402
+from ai_inventory import bureau_nodes  # noqa: E402
 
-from agency import EVENTS as EVENTS_DIR, KEY as AGENCY_KEY, MEMORY, P, PROFILES, ROOT as AGENCY_ROOT, SAM_NOTICES, SOURCES, forecast_packs  # noqa: E402
+from agency import EVENTS as EVENTS_DIR, KEY as AGENCY_KEY, MEMORY, P, PROFILES, ROOT as AGENCY_ROOT, SAM_NOTICES, SOURCES, forecast_packs, note_is_foreign  # noqa: E402
 
 # Provenance strings name the file each row was read from, relative to the repository, under the trial's prefix.
 PROVENANCE = "chromie-federal-buyer-map-trial"
@@ -92,6 +93,15 @@ skipped: dict[str, int] = {}
 
 def note_skip(reason: str) -> None:
     skipped[reason] = skipped.get(reason, 0) + 1
+
+
+
+def own_manifest() -> list[dict]:
+    """The ledger without the rows another profile's collectors marked: a layer reads its own pages and the unmarked
+    ones, never the histories or lookups another layer saved (an award two layers both sweep is read from each
+    layer's own capture). Without this, a history page one layer took for a shared award would change what the
+    other layer emits."""
+    return [r for r in manifest_rows() if not note_is_foreign(r.get("note") or "")]
 
 
 def uid(kind: str, key: str) -> str:
@@ -175,7 +185,9 @@ def source_row(entry: dict) -> list[str]:
         jsonb([] if restrictions.lower().startswith("none") else [restrictions]),
         jsonb({"registry": REGISTRY_SOURCE, "access_mode": entry["access_mode"],
                "verification_status": entry["verification_status"],
-               "extraction_difficulty": entry["extraction_difficulty"], "inspected_example": example}),
+               "extraction_difficulty": entry["extraction_difficulty"], "inspected_example": example,
+               # the source as an instrument: Live/Historical/Adjacent, standing or episodic, what the collector is, its cadence
+               "instrument": entry.get("instrument") or {}}),
     ]
 
 
@@ -186,7 +198,9 @@ def emit_sources(out: list[str]) -> dict[str, str]:
     a notice page is not the LRAE special notice because both live on sam.gov."""
     entries = json.loads(REGISTRY.read_text(encoding="utf-8"))
     keys = {e["source_key"] for e in entries}
-    assert set(LRAE_PROVIDERS.values()) | {NOTICE_PROVIDER, FPDS_PROVIDER} | set(OVERSIGHT_PROVIDERS.values()) | set(REMARKS_PROVIDERS.values()) <= keys, "the providers the loader names must be registry rows"
+    assert set(LRAE_PROVIDERS.values()) | {NOTICE_PROVIDER, FPDS_PROVIDER} | set(OVERSIGHT_PROVIDERS.values()) | set(REMARKS_PROVIDERS.values()) \
+        | ({HIRING_PROVIDER} if HIRING_RECORDS.exists() else set()) | ({VENDOR_HIRING_PROVIDER} if VENDOR_HIRING_RECORDS.exists() else set()) <= keys, \
+        "the providers the loader names must be registry rows"
     insert("public.gov_procurement_sources",
            ["id", "source_key", "provider_name", "portal_name", "jurisdiction_code", "jurisdiction_path",
             "government_level", "official_url", "adapter_key", "access_mode", "capabilities", "refresh_cadence",
@@ -211,7 +225,7 @@ funding_change program_created program_cancelled program_delayed leadership_chan
 strategy_change capability_priority industry_engagement forecast_created forecast_changed rfi_released
 rfp_released contract_awarded contract_modified contract_extended contract_expires sbir_topic
 sbir_selection prototype_transition audit_finding protest congressional_directive conference_appearance
-presolicitation_posted justification_posted budget_line
+presolicitation_posted justification_posted budget_line vacancy_posted vendor_vacancy_posted
 """.split())
 ITEM_COLUMNS = ["id", "agency_id", "section", "kind", "claim_key", "title", "body", "source", "as_of",
                 "event_type", "published_at", "source_tier", "source_provider", "primary_organization_id", "data"]
@@ -549,12 +563,14 @@ def emit_contacts(org_ids: dict[str, str], out: list[str]) -> None:
 
 BUDGET_LINES = EVENTS_DIR / "budget_lines.json"
 BUDGET_PROVIDER = P["budget"]["provider"]
+BUDGET_HOSTS = {"comptroller.war.gov", "comptroller.defense.gov", "www.secnav.navy.mil"}  # where the justification books are published
 
 
-def emit_budget(out: list[str], org_ids: dict[str, str], offices: dict[tuple[str, str], str]) -> None:
-    """Every P-1 line item of the saved justification books as a dated money event: the amounts the
-    book prints per fiscal year, the justification prose as the evidence text, the office when the prose names one
-    and the Department otherwise. A line whose FY2027 total moved is funding_change; a flat line is budget_line."""
+def emit_budget(out: list[str], org_ids: dict[str, str], offices: dict[tuple[str, str], str], components: dict[str, str]) -> None:
+    """Every P-1 line item (and DHS capital investment) of the saved justification books as a dated money event: the
+    amounts the book prints per fiscal year, the justification prose as the evidence text, the office when the prose
+    names one, the command of the component a DHS investment sits under, and the Department otherwise. A line whose
+    FY2027 total moved is funding_change; a flat line is budget_line."""
     if not BUDGET_LINES.exists():
         note_skip("budget lines not built; run research/tools/budget.py extract")
         return
@@ -568,13 +584,16 @@ def emit_budget(out: list[str], org_ids: dict[str, str], offices: dict[tuple[str
         office = office_of(row["text"], offices)
         # A P-40 book is one budget activity; an R-2 book states the activity per program element.
         activity = row.get("budget_activity") or book.get("budget_activity") or ""
-        items.append([lit(item_id), lit(AGENCY_NAVY), lit("budget"), lit("narrative"), lit(claim_key), lit(row["event_title"][:200]),
-                      lit(f"{activity}; {row['pages']} page(s); {row['text'][:6000]}"),
+        component = components.get((row.get("component") or "").upper())  # OSEM and MGMT are headquarters: the Department
+        extra = {k: row[k] for k in ("component", "level", "it", "maol") if row.get(k)}
+        items.append([lit(item_id), lit(AGENCY_NAVY), lit("budget"), lit("narrative"), lit(claim_key), lit(row["event_title"][:200].strip()),
+                      lit(f"{activity or row.get('appropriation_name', '')}; {row['pages']} page(s); {row['text'][:6000]}"),
                       jsonb({"url": book["url"], "sha256": book["sha256"], "retrieved_at": book["retrieved_at"], "path": book["path"], "book_date": book["date"]}),
                       lit(row["published"]),
-                      *event_columns(row["event_type"], row["published"], "official", BUDGET_PROVIDER, org_ids.get(office) if office else org_ids.get(DEPARTMENT_NODE),
+                      *event_columns(row["event_type"], row["published"], "official", BUDGET_PROVIDER,
+                                     org_ids.get(office) if office else (org_ids.get(component) or org_ids.get(DEPARTMENT_NODE)),
                                      {"li": row["li"], "title": row["title"], "appropriation": row["appropriation"], "budget_activity": activity,
-                                      "amounts": row["amounts"], "moved_to": row.get("moved_to", []), "pb": book["pb"], "office_named": office or ""})])
+                                      "amounts": row["amounts"], "moved_to": row.get("moved_to", []), "pb": book["pb"], "office_named": office or "", **extra})])
         evidence.append([lit(ev_id), lit(item_id), lit(row["text"][:300] or row["event_title"]), lit(book["url"]), lit(row["published"]),
                          lit(P["budget"].get("evidence_host") or urlparse(book["url"]).netloc), lit(claim_key)])
     insert("public.agency_brain_items", ITEM_COLUMNS, items, out)
@@ -604,14 +623,102 @@ def emit_programs(out: list[str], org_ids: dict[str, str]) -> None:
         claim_key = f"sbir:{t['code']}"
         item_id, ev_id = uid("brainitem", claim_key), uid("evidence", claim_key)
         office = next((o for o in t["offices"] if o in org_ids), None)
-        items.append([lit(item_id), lit(AGENCY_NAVY), lit(SBIR_SECTION), lit("narrative"), lit(claim_key), lit(f"{t['code']} {t['title']}"[:200]),
+        items.append([lit(item_id), lit(AGENCY_NAVY), lit(SBIR_SECTION), lit("narrative"), lit(claim_key), lit(f"{t['code']} {t['title']}"[:200].strip()),
                       lit(f"{t['program']} topic {t['code']}, {t['solicitation'] or t['cycle']}, {t['status']}; opens {t['open']}, closes {t['close']}; {t['text'][:6000]}"),
                       jsonb({"url": t["url"], "sha256": t["sha256"], "retrieved_at": t["retrieved_at"], "path": t["path"], "portal": "https://www.dodsbirsttr.mil/topics-app/"}),
                       lit(t["pre_release"]),
                       *event_columns("sbir_topic", t["pre_release"], "official", SBIR_PROVIDER, org_ids.get(office or t["org"]) or org_ids.get(DEPARTMENT_NODE),
                                      {"topic_code": t["code"], "program": t["program"], "command": t["command"], "cycle": t["cycle"], "open": t["open"],
-                                      "close": t["close"], "keywords": t["keywords"], "offices_named": t["offices"]})])
+                                      "close": t["close"], "keywords": t["keywords"], "offices_named": t["offices"],
+                                      # verbatim from the saved index row (sbir.py, 2026-09-28): the instrument and entry the code and phases state
+                                      "solicitation_number": t.get("solicitation_number", ""), "release": t.get("release"), "phases": t.get("phases", []),
+                                      "instrument": t.get("instrument", ""), "entry_type": t.get("entry_type", ""), "entry_basis": t.get("entry_basis", ""),
+                                      "focus_areas": t.get("focus_areas", []), "itar": t.get("itar"), "cmmc_level": t.get("cmmc_level", ""),
+                                      "qa_open": t.get("qa_open", ""), "qa_close": t.get("qa_close", ""), "ceiling": t.get("ceiling")})])
         evidence.append([lit(ev_id), lit(item_id), lit((t["text"][:300] or t["title"])), lit(t["url"]), lit(t["pre_release"]), lit("dodsbirsttr.mil"), lit(claim_key)])
+    insert("public.agency_brain_items", ITEM_COLUMNS, items, out)
+    insert("public.gov_intelligence_evidence", ["id", "brain_item_id", "excerpt", "source_url", "published_at", "provider", "source_key"], evidence, out)
+
+
+STAKEHOLDERS = MEMORY / "stakeholders.json"
+PROGRAM_MONEY = MEMORY / "programs.json"
+LINKEDIN_PROVIDER = "linkedin_profiles_exa"
+
+
+def stakeholder_provider(said: list[dict], hosts: dict[str, str], keys: set[str]) -> str | None:
+    """The registered source a bucket's evidence was read from: the LinkedIn profiles when the person stated it
+    there, SAM.gov for a notice contact, the site a page sits on, the budget books; none when no one source is it."""
+    if any(r["basis"] == "self-stated" for r in said):
+        return LINKEDIN_PROVIDER if LINKEDIN_PROVIDER in keys else None
+    netloc = urlparse(said[0]["source_url"]).netloc
+    found = NOTICE_PROVIDER if netloc == "sam.gov" else hosts.get(netloc) or (BUDGET_PROVIDER if netloc in BUDGET_HOSTS else None)
+    return found if found in keys else None
+
+
+def emit_stakeholders(out: list[str], org_ids: dict[str, str], hosts: dict[str, str]) -> None:
+    """Every person stakeholders.py placed in a bucket, one people item per person and bucket, filed at the person's
+    office: the bucket's evidence rows are its evidence, each with the source it was read from. A shared mailbox is
+    a contact route, not a person, and is left to the contacts."""
+    if not STAKEHOLDERS.exists():
+        note_skip("stakeholders not built; run research/tools/stakeholders.py build")
+        return
+    built = json.loads(STAKEHOLDERS.read_text(encoding="utf-8"))
+    keys = {e["source_key"] for e in json.loads(REGISTRY.read_text(encoding="utf-8"))}
+    items, evidence = [], []
+    for person in built["people"]:
+        if person["mailbox"]:
+            continue
+        office = next((o for o in person["offices"] if o in org_ids), DEPARTMENT_NODE)
+        for bucket, said in person["buckets"].items():
+            claim_key = f"stakeholder:{person['id']}:{bucket}"
+            item_id = uid("brainitem", claim_key)
+            items.append([lit(item_id), lit(AGENCY_NAVY), lit("people"), lit("narrative"), lit(claim_key),
+                          lit(f"{person['name'].strip()}: {bucket.replace('_', ' ')}"[:200].strip()), lit("; ".join(r["text"] for r in said)[:6000]),
+                          jsonb({"built": str(STAKEHOLDERS.relative_to(AGENCY_ROOT)), "as_of": built["as_of"]}), lit(built["as_of"]),
+                          *event_columns(None, None, "derived", stakeholder_provider(said, hosts, keys), org_ids.get(office),
+                                         {"person": person["id"], "name": person["name"], "bucket": bucket, "basis": sorted({r["basis"] for r in said}),
+                                          "programs": person["programs"], "linkedin": (person["linkedin"] or {}).get("url", "")})])
+            for i, r in enumerate(said):
+                if r["source_url"].startswith(("http://", "https://")):
+                    evidence.append([lit(uid("evidence", f"{claim_key}:{i}")), lit(item_id), lit(r["text"][:300]), lit(r["source_url"]),
+                                     lit(r["observed_at"] or None), lit(urlparse(r["source_url"]).netloc), lit(claim_key)])
+    insert("public.agency_brain_items", ITEM_COLUMNS, items, out)
+    insert("public.gov_intelligence_evidence", ["id", "brain_item_id", "excerpt", "source_url", "published_at", "provider", "source_key"], evidence, out)
+
+
+def emit_program_money(out: list[str], org_ids: dict[str, str]) -> None:
+    """Every current program programs.py matched to money, one budget item filed at its office: the book's amounts,
+    the need it states and its reason for the change, the contract money found against it in the fiscal year and the
+    upper bound left, with the book and the listing as the evidence."""
+    if not PROGRAM_MONEY.exists():
+        note_skip("program money not built; run research/tools/programs.py build")
+        return
+    built = json.loads(PROGRAM_MONEY.read_text(encoding="utf-8"))
+    fy, current = built["fiscal_year"], P["people"].get("program_current") or ""
+    books = {r["path"]: r.get("final_url") or r.get("url") or "" for r in manifest_rows() if r.get("path")}
+    items, evidence = [], []
+    for prog in built["programs"]:
+        if prog["status"] != current or prog["budget"]["match"] == "none":
+            continue
+        a = prog["budget"]["amounts_musd"]
+        claim_key = f"program-money:{AGENCY_KEY}:{prog['id']}"
+        item_id = uid("brainitem", claim_key)
+        spend = prog.get("spend") or {}
+        items.append([lit(item_id), lit(AGENCY_NAVY), lit("budget"), lit("narrative"), lit(claim_key),
+                      lit(f"{prog['title']}: FY{fy} ${a.get(f'fy{fy}')}M, FY{fy + 1} ${a.get(f'fy{fy + 1}')}M"[:200].strip()),
+                      # A line the book prints with amounts and no prose (most are lines the request zeroes) keeps its money.
+                      lit(" ".join(x for x in (prog["problem"], prog.get("change_statement") or "") if x)[:6000]
+                          or "The budget book prints this line's amounts without a description."),
+                      jsonb({"listing": prog["listing_source"], "books": sorted({b["book"] for b in prog["budget"]["blocks"]})}), lit(built["listing_retrieved_at"][:10]),
+                      *event_columns(None, None, "derived", BUDGET_PROVIDER, org_ids.get(prog["office"]) or org_ids.get(DEPARTMENT_NODE),
+                                     {"program": prog["id"], "title": prog["title"], "manager": prog["manager"], "amounts_musd": a, "match": prog["budget"]["match"],
+                                      "elements": [f"{b['pe']} {b['project']}".strip() for b in prog["budget"]["blocks"]],
+                                      "spend_obligated_usd": spend.get("obligated"), "spend_awards": spend.get("awards", []),
+                                      "left": prog.get("left"), "url": prog.get("url") or ""})])
+        book = prog["budget"]["blocks"][0]["book"]
+        if prog["problem"] and books.get(book):
+            evidence.append([lit(uid("evidence", claim_key)), lit(item_id), lit(prog["problem"][:300]), lit(books[book]), lit(None),
+                             lit(P["budget"].get("evidence_host") or urlparse(books[book]).netloc), lit(claim_key)])
     insert("public.agency_brain_items", ITEM_COLUMNS, items, out)
     insert("public.gov_intelligence_evidence", ["id", "brain_item_id", "excerpt", "source_url", "published_at", "provider", "source_key"], evidence, out)
 
@@ -728,6 +835,24 @@ def read_layer(release: str, name: str) -> list[dict]:
         return list(csv.DictReader(handle))
 
 
+# What a forecast row states past its need, requirement and value layers, carried on its event: the incumbent, the
+# vehicle, the dates as written and the contacts by name (a contact's e-mail and phone columns are never read).
+STATED = ("requirement_description", "contract_vehicle", "contract_type", "procurement_method", "follow_on_or_new",
+          "existing_contract_number", "incumbent_contractor", "anticipated_total_value", "published", "solicitation_date",
+          "award_date", "award_quarter_as_written", "period_of_performance_months", "place_of_performance", "naics", "psc",
+          "contracting_center", "requirement_contact", "alternate_contact", "contracting_poc_name", "secondary_poc_name")
+
+
+def stated_rows(release: str) -> dict[str, tuple[dict, str]]:
+    """Evidence id -> (the STATED fields the row fills, the row's own public page or "")."""
+    path = ROOT / "datapack" / release / "rows_raw.csv"
+    if not path.exists():
+        return {}
+    with path.open(newline="") as handle:
+        return {f"ev:{release}:row{r['row_number']}": ({k: r[k] for k in STATED if r.get(k)}, r.get("url") or "")
+                for r in csv.DictReader(handle)}
+
+
 # Federal fiscal quarters: FY26 Q1 starts October 2025.
 QUARTER_START = {"Q1": (-1, 10), "Q2": (0, 1), "Q3": (0, 4), "Q4": (0, 7)}
 QUARTER_END = {"Q1": (-1, 12, 31), "Q2": (0, 3, 31), "Q3": (0, 6, 30), "Q4": (0, 9, 30)}
@@ -838,7 +963,7 @@ def contract_expiries(org_ids: dict[str, str], canon) -> list[list[str]]:
     `incumbent_end` reads, which is what the follow-on is timed against. The newest release that cites the contract
     names its office; every line citing it is listed."""
     from trace import usaspending  # noqa: E402  (trace reads the datapack this module writes beside)
-    manifest = manifest_rows()
+    manifest = own_manifest()
     contracts: dict[str, dict | None] = {}
     for release in sorted(RELEASES, key=lambda r: (r.rsplit("_", 1)[-1], r), reverse=True):
         path = ROOT / "datapack" / release / "joins.csv"
@@ -1005,7 +1130,7 @@ def emit_award_changes(out: list[str], org_ids: dict[str, str], uics: dict[str, 
     histories), dated the day each modification was signed, and the SBIR/STTR phase FPDS codes on each swept base
     award, dated the day it was signed. Placed where the award itself is (award_office). The extension's title states
     the new end the way an expiry does, so the pulse reads the newest end of a contract."""
-    index, by_solicitation, items, seen = url_index(manifest_rows()), notice_offices_by_solicitation(), [], set()
+    index, by_solicitation, items, seen = url_index(own_manifest()), notice_offices_by_solicitation(), [], set()
     for award in swept_awards():
         office, placed_by = award_office(award, offices, uics, by_solicitation)
         piid, description = award["piid"], " ".join(award["description"].split())
@@ -1043,12 +1168,13 @@ def emit_award_changes(out: list[str], org_ids: dict[str, str], uics: dict[str, 
 # The connectors that write the shared row shape (claim_key, event_type, published, title, body, section, url,
 # sha256, retrieved_at, path, excerpt, uic, data), each with the registry row it is filed under.
 RECORDS = (("protest_events.json", "gao_bid_protests"), ("congress_events.json", "govinfo_api"), ("fedreg_events.json", "federal_register"),
-           ("assistance_awards.json", "usaspending_api"))
+           ("assistance_awards.json", "usaspending_api"), ("ai_use_cases.json", "ai_use_case_inventory"))
 
 
 def record_office(row: dict, uics: dict[str, str], offices: dict[tuple[str, str], str], by_solicitation: dict[str, list[str]]) -> str:
-    """Where a connector row sits: the one office the notice under its solicitation names, else its UIC's node, else
-    the office code its title or excerpt names, else the Department."""
+    """Where a connector row sits that did not place itself (a row naming its `node` sits there): the one office the
+    notice under its solicitation names, else its UIC's node, else the office code its title or excerpt names, else
+    the Department."""
     named = by_solicitation.get(solicitation_key(row["data"].get("solicitation") or ""), [])
     if len(named) == 1:
         return named[0]
@@ -1074,12 +1200,13 @@ def emit_records(out: list[str], org_ids: dict[str, str], uics: dict[str, str], 
             assert row["event_type"] in EVENT_TYPES, row["event_type"]
             assert row["section"] in SECTIONS, row["section"]
             item_id = uid("brainitem", row["claim_key"])
-            items.append([lit(item_id), lit(AGENCY_NAVY), lit(row["section"]), lit("narrative"), lit(row["claim_key"]), lit(row["title"][:200]),
+            items.append([lit(item_id), lit(AGENCY_NAVY), lit(row["section"]), lit("narrative"), lit(row["claim_key"]), lit(row["title"][:200].strip()),
                           lit(row["body"][:6000]),
                           jsonb({"url": row["url"], "sha256": row["sha256"], "retrieved_at": row["retrieved_at"], "path": row["path"]}),
                           lit(row["published"]),
                           *event_columns(row["event_type"], row["published"], "official", provider,
-                                         org_ids.get(record_office(row, uics, offices, by_solicitation)), row["data"])])
+                                         org_ids.get(row["data"].get("node")) or org_ids.get(record_office(row, uics, offices, by_solicitation)),
+                                         row["data"])])
             evidence.append([lit(uid("evidence", row["claim_key"])), lit(item_id), lit(row["excerpt"][:600]), lit(row["url"]),
                              lit(row["published"]), lit(urlparse(row["url"]).netloc), lit(row["claim_key"])])
         insert("public.agency_brain_items", ITEM_COLUMNS, items, out)
@@ -1151,17 +1278,21 @@ def emit_lrae(org_ids: dict[str, str], out: list[str], uics: dict[str, str] | No
     for release in RELEASES:
         # The spreadsheet the row was read from, so a claim can be followed to its bytes.
         url = release_source_url(release)
+        raw = stated_rows(release)
         for row in read_layer(release, "evidence"):
             claim_key = f"{activity_of(release)}-lrae:{row['id']}"
             item_id, ev_id = uid("brainitem", claim_key), uid("evidence", claim_key)
             ev_by_id[row["id"]] = ev_id
             body = f"{release} {row['locator']}, source sha256 {row['source_sha256']}"
             event, data, office = events[row["id"]]
+            # Nested, so the event text the readings see stays the row's locator; the corpus carries it whole.
+            stated, page = raw.get(row["id"], ({}, ""))
+            data = {**data, **({"stated": stated} if stated else {})}
             items.append([
                 lit(item_id), lit(AGENCY_NAVY), lit("forecast"), lit("narrative"), lit(claim_key),
                 lit(f"{FORECAST_SHORT} {release} {row['locator']}"), lit(body),
                 jsonb({"release": release, "locator": row["locator"],
-                       "sha256": row["source_sha256"], "release_date": row["release_date"]}),
+                       "sha256": row["source_sha256"], "release_date": row["release_date"], **({"url": page} if page else {})}),
                 lit(row["release_date"]),
                 *event_columns(event, row["release_date"], "official", LRAE_PROVIDERS[activity_of(release)], org_ids.get(office), data),
             ])
@@ -1578,7 +1709,7 @@ def emit_news(out: list[str], hosts: dict[str, str], org_ids: dict[str, str]) ->
                 f"reads {article['relation']} against the stored record; {len(article['claims'])} claim(s)"
                 + (f"; to verify: {'; '.join(article['verify'])}" if article["verify"] else ""))
         items.append([lit(item_id), lit(AGENCY_NAVY), lit(section), lit("narrative"), lit(claim_key),
-                      lit(article["headline"][:200]), lit(body),
+                      lit(article["headline"][:200].strip()), lit(body),
                       jsonb({"url": article["url"], "publisher": article["publisher"], "author": article["author"],
                              "source_type": article["source_type"], "reliability": article["reliability"],
                              "retrieved_at": article["retrieved_at"], "sha256": article["record"]["sha256"],
@@ -1725,6 +1856,126 @@ def emit_remarks(out: list[str], org_ids: dict[str, str]) -> None:
            ["id", "brain_item_id", "excerpt", "source_url", "published_at", "provider", "source_key"], evidence, out)
 
 
+HIRING_RECORDS = EVENTS_DIR / "hiring_observations.json"
+HIRING_PROVIDER = "usajobs_historic_joa"  # the registry row every announcement is filed under (jobs.PROVIDER)
+
+
+def emit_hiring(out: list[str], org_ids: dict[str, str]) -> None:
+    """Every modelled job announcement that loads as one brain item in the people section, dated the day it opened,
+    with a piece of evidence per claim: the listing itself (the title, with the listing's fields in the item's data)
+    and each duties sentence that placed the position, named a program or a contract, or stated a new organization.
+
+    A posting is an observation about hiring, so it loads as what the agency announced and nothing more: no
+    relationship, no office assertion, no lifecycle, no person. The office it is filed under is the one the listing's
+    own words name where the memory knows it, else the command the profile maps the USAJobs code to. A claim that
+    conflicts with the memory loads marked as a conflict; the reading (intent, action or withdrawn) travels in data.
+    A posting outside the acquisition workforce that names nothing the memory holds stays in the record and loads
+    nothing (research/docs/21_job_postings_as_a_signal.md)."""
+    if not HIRING_RECORDS.exists():
+        note_skip("hiring observations not built; run research/tools/jobs.py build")
+        return
+    items, evidence = [], []
+    for posting in json.loads(HIRING_RECORDS.read_text(encoding="utf-8"))["postings"]:
+        if not posting["loads"]:
+            note_skip("job announcement outside the acquisition workforce naming nothing the memory holds")
+            continue
+        if not posting["opened"]:
+            note_skip("job announcement states no opening date")
+            continue
+        claim_key = posting["id"]
+        item_id = uid("brainitem", claim_key)
+        org = next((org_ids[o] for o in posting["links"]["offices"] if o in org_ids), org_ids.get(posting["hiring"]["org"]))
+        who = posting["hiring"]["subelement"] or posting["hiring"]["agency"] or posting["hiring"]["department"]
+        body = (f"{who}; series {', '.join(posting['series']) or 'not stated'}" + (f" ({posting['career_field']})" if posting["career_field"] else "")
+                + f"; {posting['grade']['pay_scale']} {posting['grade']['minimum']}" + (f"-{posting['grade']['maximum']}" if posting["grade"]["maximum"] != posting["grade"]["minimum"] else "")
+                + f"; {posting['openings'] or 'an unstated number of'} opening(s); {', '.join(posting['locations']) or 'site not stated'}; "
+                f"opened {posting['opened']}, closes {posting['closes'] or 'not stated'}; listed as \"{posting['status_as_listed'] or 'not stated'}\" on {posting['listed_at'][:10]}: "
+                f"{posting['reading']['note']}; reads {posting['relation']} against the stored record; {len(posting['claims'])} claim(s)"
+                + (f"; to verify: {'; '.join(posting['verify'])}" if posting["verify"] else ""))
+        items.append([lit(item_id), lit(AGENCY_NAVY), lit("people"), lit("narrative"), lit(claim_key),
+                      lit(f"vacancy: {posting['title']}"[:200].strip()), lit(body),
+                      jsonb({"url": posting["url"], "control_number": posting["control_number"], "announcement_number": posting["announcement_number"],
+                             "publisher": "USAJobs", "source_type": posting["source_type"], "reliability": posting["reliability"],
+                             "agency_code": posting["hiring"]["agency_code"], "agency": posting["hiring"]["agency"], "subelement": posting["hiring"]["subelement"],
+                             "retrieved_at": posting["record"]["retrieved_at"], "sha256": posting["record"]["sha256"], "record_path": posting["record"]["path"],
+                             "announcement_sha256": (posting["announcement"] or {}).get("sha256", ""), "announcement_path": (posting["announcement"] or {}).get("path", ""),
+                             "relation": posting["relation"], "offices": posting["links"]["offices"], "requirements": posting["links"]["requirements"],
+                             "awards": posting["links"]["awards"], "solicitations": posting["links"]["solicitations"]}),
+                      lit(posting["opened"]),
+                      *event_columns("vacancy_posted", posting["opened"], "official", HIRING_PROVIDER, org,
+                                     {"series": posting["series"], "career_field": posting["career_field"], "acquisition_workforce": posting["acquisition_workforce"],
+                                      "grade": posting["grade"], "openings": posting["openings"], "locations": posting["locations"], "closes": posting["closes"],
+                                      "status_as_listed": posting["status_as_listed"], "listed_at": posting["listed_at"], "reading": posting["reading"],
+                                      "hiring_org": posting["hiring"]["org"], "claims": [c["statement_type"] for c in posting["claims"]]})])
+        for number, claim in enumerate(posting["claims"], start=1):
+            evidence.append([lit(uid("evidence", f"{claim_key}:{number}")), lit(item_id), lit(claim["passage"][:600]),
+                             lit(posting["url"]), lit(posting["opened"]), lit("hiring"),
+                             lit(f"{claim_key}:{number}:{claim['statement_type']}:{claim['relation']}")])
+    insert("public.agency_brain_items", ITEM_COLUMNS, items, out)
+    insert("public.gov_intelligence_evidence",
+           ["id", "brain_item_id", "excerpt", "source_url", "published_at", "provider", "source_key"], evidence, out)
+
+
+VENDOR_HIRING_RECORDS = EVENTS_DIR / "vendor_hiring_observations.json"
+VENDOR_HIRING_PROVIDER = "vendor_jobs_routergrowth"  # the registry row every vendor posting is filed under (vendor_jobs.PROVIDER)
+
+
+def emit_vendor_hiring(out: list[str], org_ids: dict[str, str]) -> None:
+    """Every modelled contractor posting that loads as one brain item in the vendors and incumbents section, dated the
+    day the page states it was posted, with a piece of evidence per claim: the page's title and each sentence that
+    named an office, a program, a contract or a solicitation the record holds.
+
+    A vendor posting is a company's statement about the work it wants to staff, so it loads at the editorial tier
+    (the company's words, not the government's) under the office its own words name, never under the vendor, and
+    asserts nothing: no relationship, no office, no lifecycle, no person. A posting that names nothing the record
+    holds stays in the record and loads nothing; one with no date the page or the router states loads nothing either
+    (research/docs/21_job_postings_as_a_signal.md, "Vendor postings")."""
+    if not VENDOR_HIRING_RECORDS.exists():
+        note_skip("vendor hiring observations not built; run research/tools/vendor_jobs.py build")
+        return
+    items, evidence = [], []
+    for posting in json.loads(VENDOR_HIRING_RECORDS.read_text(encoding="utf-8"))["postings"]:
+        if not posting["loads"]:
+            note_skip("vendor posting naming nothing the record holds")
+            continue
+        if not posting["posted"]["date"]:
+            note_skip("vendor posting with no posting date stated by the page or the router")
+            continue
+        org = next((org_ids[o] for o in posting["links"]["offices"] if o in org_ids), None)
+        if not org:
+            note_skip("vendor posting whose named office has no organization row")
+            continue
+        claim_key = posting["id"]
+        item_id = uid("brainitem", claim_key)
+        company = posting["company"]
+        body = (f"{company['display']}" + (f" (UEI {company['uei']})" if company["uei"] else "")
+                + (f", {company['live']} live award(s) at the swept offices" if company.get("live") else ", no live award at the swept offices")
+                + f"; {posting['page']['host_class']} page on {posting['page']['host']}"
+                + (f"; {posting['location']}" if posting["location"] else "")
+                + f"; posted {posting['posted']['date']} (from the {posting['posted']['basis']}); reads {posting['relation']} against the stored record; "
+                f"{len(posting['claims'])} claim(s)" + (f"; to verify: {'; '.join(posting['verify'])}" if posting["verify"] else ""))
+        items.append([lit(item_id), lit(AGENCY_NAVY), lit("vendors_incumbents"), lit("narrative"), lit(claim_key),
+                      lit(f"vendor vacancy: {company['display']}: {posting['title']}"[:200].strip()), lit(body),
+                      jsonb({"url": posting["url"], "publisher": company["display"], "company": company, "source_type": posting["source_type"],
+                             "reliability": posting["reliability"], "host": posting["page"]["host"], "host_class": posting["page"]["host_class"],
+                             "retrieved_at": posting["page"]["retrieved_at"], "sha256": posting["page"]["sha256"], "record_path": posting["page"]["path"],
+                             "search_sha256": posting["search"]["sha256"], "search_path": posting["search"]["path"], "search_query": posting["search"]["query"],
+                             "relation": posting["relation"], "offices": posting["links"]["offices"], "requirements": posting["links"]["requirements"],
+                             "awards": posting["links"]["awards"], "solicitations": posting["links"]["solicitations"]}),
+                      lit(posting["posted"]["date"]),
+                      *event_columns("vendor_vacancy_posted", posting["posted"]["date"], "editorial", VENDOR_HIRING_PROVIDER, org,
+                                     {"company_uei": company["uei"], "company": company["display"], "live_awards": company.get("live"),
+                                      "location": posting["location"], "posted_basis": posting["posted"]["basis"], "host_class": posting["page"]["host_class"],
+                                      "claims": [c["statement_type"] for c in posting["claims"]]})])
+        for number, claim in enumerate(posting["claims"], start=1):
+            evidence.append([lit(uid("evidence", f"{claim_key}:{number}")), lit(item_id), lit(claim["passage"][:600]),
+                             lit(posting["url"]), lit(posting["posted"]["date"]), lit("vendor_hiring"),
+                             lit(f"{claim_key}:{number}:{claim['statement_type']}:{claim['relation']}")])
+    insert("public.agency_brain_items", ITEM_COLUMNS, items, out)
+    insert("public.gov_intelligence_evidence",
+           ["id", "brain_item_id", "excerpt", "source_url", "published_at", "provider", "source_key"], evidence, out)
+
+
 def main() -> int:
     seed = json.loads(SEED.read_text())
     out: list[str] = ["-- generated by research/tools/agency_layers_sql.py; do not edit by hand",
@@ -1742,8 +1993,12 @@ def main() -> int:
     emit_news(out, hosts, org_ids)
     emit_oversight(out, hosts, org_ids)
     emit_remarks(out, org_ids)
-    emit_budget(out, org_ids, office_index(seed))
+    emit_hiring(out, org_ids)
+    emit_vendor_hiring(out, org_ids)
+    emit_budget(out, org_ids, office_index(seed), bureau_nodes(seed["nodes"]))
     emit_programs(out, org_ids)
+    emit_program_money(out, org_ids)
+    emit_stakeholders(out, org_ids, hosts)
     emit_award_changes(out, org_ids, uic_index(seed), office_index(seed))
     emit_records(out, org_ids, uic_index(seed), office_index(seed))
     out += ["commit;"]
@@ -1925,7 +2180,7 @@ def selfcheck() -> int:
     assert not outdates_forecast("2024-05-21", releases) and outdates_forecast("2026-06-10", releases) and outdates_forecast("2026-06-10", [])
 
     # Every event a map can write is one the schema names, and the maps say what the schema accepts.
-    assert len(EVENT_TYPES) == 27  # the canonical 24, plus presolicitation_posted, justification_posted and budget_line
+    assert len(EVENT_TYPES) == 29  # the canonical 24, plus presolicitation_posted, justification_posted, budget_line, vacancy_posted and vendor_vacancy_posted
     assert (set(NOTICE_EVENT.values()) | set(SPECIAL_EVENT.values()) | set(NEWS_EVENT.values())
             | {"forecast_created", "forecast_changed"}) <= EVENT_TYPES
     assert set(ACCESS_MODE.values()) <= {"public_api", "public_feed", "public_web", "download", "manual", "authenticated"}
@@ -1956,9 +2211,13 @@ def selfcheck() -> int:
              "inspected_example": {"url": "https://x.mil/a", "method": "browserbase"}, "answers": [], "cannot_answer": [],
              "lifecycle_stages": ["organization"], "fields_and_identifiers": [], "proposed_monitor_frequency": "weekly",
              "last_verified_at": "2026-09-16", "historical_coverage": "2023 on", "publication_frequency": "irregular",
-             "reporting_lag": "none", "extraction_difficulty": "low"}
+             "reporting_lag": "none", "extraction_difficulty": "low",
+             "instrument": {"status": "Live", "decided_by": "2026-09-28", "status_basis": "answers", "standing": "standing", "collector_kind": "collecting",
+                            "cadence": {"kind": "standing"}, "org_scope": [], "close_by": ""}}
     row = source_row(entry)
     assert row[8] == "'browser_extractor'" and row[9] == "'public_web'" and row[13] == "'verified'"
+    assert '"instrument":{"cadence":{"kind":"standing"},"close_by":"","collector_kind":"collecting"' in row[16], "the instrument block travels in metadata"
+    assert '"instrument":{}' in source_row({k: v for k, v in entry.items() if k != "instrument"})[16], "a row without the block writes an empty one"
     row = source_row({**entry, "access_mode": "manual", "verification_status": "restricted", "access_restrictions": "none",
                       "inspected_example": {}})
     assert row[8] == "'research_agent'" and row[9] == "'authenticated'" and row[13] == "'blocked'" and row[15].startswith("'[]'")

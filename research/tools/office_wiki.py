@@ -137,8 +137,13 @@ def masked(text: str, orgs: dict) -> str:
 
 
 def ask(title: str, text: str, filed: str, corpus: dict, by_word: dict[str, Counter], known: set[str], records: int,
-        skip: frozenset = frozenset(), replay_only: bool = False, kind: str = "notices") -> dict:
-    """The model's reading of one record, kept only when the rules hold; the answer, how it was had, and what failed."""
+        skip: frozenset = frozenset(), replay_only: bool = False, kind: str = "notices", previous: dict | None = None) -> dict:
+    """The model's reading of one record, kept only when the rules hold; the answer, how it was had, and what failed.
+
+    The prompt carries the office directory and pages as the corpus now stands, so a collection that changes a page
+    changes every prompt, and every cassette misses. With a key the model reads the record again; without one, a
+    record read before keeps that reading (`previous`, with the cassette that holds the pages it was read against)
+    and says so, and a record never read stands unread with the reason."""
     system, lead, whose = KINDS[kind]
     listing = directory(corpus, by_word, known)
     shortlist = [oid for oid, _, _ in rank_offices(title, by_word, records, known)]
@@ -150,20 +155,33 @@ def ask(title: str, text: str, filed: str, corpus: dict, by_word: dict[str, Coun
     except LookupError as exc:
         if replay_only:
             raise  # a check may not call the model: a missing cassette fails it, as everywhere else
+        if previous and previous.get("cassette") and not previous.get("unread"):
+            kept = {k: previous[k] for k in ("office", "notice_words", "page_line", "problems", "cassette")}
+            return {**kept, "kept": f"read against the pages of an earlier build; not read again because {exc}"}
         # No cassette and no key: the record stands unread, with the reason, and places nothing until the key is present.
         return {"office": "", "notice_words": "", "page_line": "", "problems": [], "cassette": None, "unread": str(exc)}
-    return {**answer, "problems": problems(answer, f"{title} {text}", listing, pages_), "cassette": how["cassette"]}
+    found = problems(answer, f"{title} {text}", listing, pages_)
+    # An office the directory does not list (a blank written as quotation marks, the word "office", a brace) places
+    # nothing: the record stands unplaced with the problem recorded, the way an unread record does.
+    # An office named without the notice's own words, or outside the directory, is no placement: the office is blank
+    # and the problems say why.
+    office = "" if "office is not in the directory" in found or not str(answer.get("notice_words") or "").strip() else str(answer.get("office") or "").strip()
+    out = {**answer, "office": office, "problems": found, "cassette": how["cassette"]}
+    answered = str(answer.get("office") or "").strip()
+    if answered and not office:
+        out["office_as_answered"] = answered  # what the model wrote, kept so the failure can be studied; it places nothing
+    return out
 
 
 def problems(answer: dict, notice: str, listing: dict[str, str], pages_: dict[str, str]) -> list[str]:
     """What the notice and the pages do not support: an office outside the directory, a quote not verbatim, notice
     words that are only generic words."""
-    office = answer["office"].strip()
+    office = str(answer.get("office") or "").strip()
     if not office:
         return []
     out = []
     if office not in listing:
-        out.append("office is not in the directory")
+        return ["office is not in the directory"]
     if not answer["notice_words"] or flatten(answer["notice_words"]).lower() not in flatten(notice).lower():
         out.append("notice words are not in the notice verbatim")
     elif not title_words(answer["notice_words"]):
@@ -194,13 +212,14 @@ def build(corpus: dict, replay_only: bool = False, workers: int = 8) -> dict:
     by_word, words_of, known = office_words(corpus)
     read = read_offices(corpus, Layer(corpus, [], routes=[]).org_id)
     todo = [(kind, e) for kind in KINDS for e in unread(corpus, kind, read)]
+    saved = json.loads(READS.read_text(encoding="utf-8")) if READS.exists() and not replay_only else {}
     one = lambda job: ask(plain_title(job[1]["title"]), job[1]["text"], office_name(job[1]["org"], corpus["orgs"]) or "the department", corpus,
-                          by_word, known, len(words_of), replay_only=replay_only, kind=job[0])
+                          by_word, known, len(words_of), replay_only=replay_only, kind=job[0], previous=saved.get(job[0], {}).get(job[1]["id"]))
     with ThreadPoolExecutor(workers) as pool:
         answers = list(pool.map(one, todo))
     out: dict[str, dict] = {kind: {} for kind in KINDS}
     for (kind, e), a in zip(todo, answers):
-        out[kind][e["id"]] = {k: a[k] for k in ("office", "notice_words", "page_line", "problems", "cassette", "unread") if k in a}
+        out[kind][e["id"]] = {k: a[k] for k in ("office", "notice_words", "page_line", "problems", "cassette", "unread", "kept", "office_as_answered") if k in a}
     return out
 
 
@@ -263,10 +282,11 @@ def selfcheck() -> int:
     listing = {"PMW 160": "PMW 160: Tactical Networks; program names: ADNS, CANES"}
     ok = {"office": "PMW 160", "notice_words": "ADNS Increment III", "page_line": "program names: ADNS, CANES", "reason": ""}
     assert problems(ok, "RFP for ADNS Increment III routers", listing, {}) == []
-    assert problems({**ok, "office": "PMW 999"}, "RFP for ADNS Increment III routers", listing, {}) == ["office is not in the directory", "page line is not on the office's page verbatim"]
+    assert problems({**ok, "office": "PMW 999"}, "RFP for ADNS Increment III routers", listing, {}) == ["office is not in the directory"], "an unknown office is the only problem worth reporting; the answer is blanked"
     assert problems({**ok, "notice_words": "ADNS Inc 3"}, "RFP for ADNS Increment III routers", listing, {}) == ["notice words are not in the notice verbatim"]
     assert problems({**ok, "notice_words": "support services"}, "support services for ADNS", listing, {}) == ["notice words are only generic words"]
     assert problems({**ok, "office": ""}, "anything", listing, {}) == [], "no office is an answer, not a failure"
+    assert problems({**ok, "notice_words": ""}, "RFP for ADNS", listing, {}) == ["notice words are not in the notice verbatim"]
     print("office_wiki selfcheck ok")
     return 0
 

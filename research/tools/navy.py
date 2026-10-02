@@ -40,10 +40,12 @@ from pages import DNA, Layer, page  # noqa: E402
 from pulse import load_people  # noqa: E402
 
 VIEWS = {
-    "search": "TERM: statements, forecast rows (full row facts, dropped marks) and offices that carry a term",
+    "search": "TERM: statements, forecast rows (full row facts, dropped marks) and offices that carry a term; `matched` says whether the phrase "
+              "was found as written or, when the record never repeats it, by its words (each widened to its capability's words)",
     "office": "OFFICE: one office: its chain, forecast rows owned, newest statements, people and small business routes, and beside them "
               "its wiki page, buying book, next actions, incumbents ending, bid protests and forecast revisions",
-    "cell": "KEY: one forecast row or statement in full, with the evidence around it and its stage",
+    "cell": "KEY: one forecast row or statement in full, with the evidence around it and its stage; a statement's `people` are those its own "
+            "record names, and `office_contacts` are the office's people, who answer for other solicitations",
     "topics": "TERM: SBIR/STTR topics that carry a term, by office",
     "people": "OFFICE: the people the record ties to an office and the offices above it",
     "neighbors": "OFFICE: the parent, siblings and children of an office, and the organization graph's other edges in its chain: who "
@@ -64,6 +66,11 @@ HELP = {
     "revisions": "[TERM]: forecast rows whose award window or value moved between releases",
     "check": "(answer JSON on stdin): the checks the record's own agent must pass; the JSON carries company, profile and the answer",
     "sources": "ID ...: each record in full with where it is published (SAM.gov page, forecast release and row)",
+    "inventory": "what this record holds, domain by domain: the files read with their rows and newest dates, the commands that answer each "
+                 "domain, the record's date, and whether the corpus is in this checkout (report.py)",
+    "report": "plan [--spec NAME] [--focus TERM] [--mode brief|full] [--schema] | budget OFFICE: an intelligence report's plan over this record "
+              "(its anchor offices and the exact commands per section, from a spec in research/report_specs/), or the budget an office holds "
+              "with the lines that name it (office_owners.py page, budget.py show)",
 }
 
 
@@ -140,6 +147,10 @@ def printed(fn, argv: list[str]) -> str:
 
 
 def revisions(args: list[str]) -> int:
+    if not P["forecast"]["pack_glob"]:
+        print(f"{P['short'].removeprefix('U.S. ')} publishes no acquisition forecast this layer reads, so there are no forecast revisions; "
+              "the notices and awards carry the requirement (see `trace need`).")
+        return 0
     blocks = [b + "\n" for b in printed(monitor_forecast_revision.main, []).split("\n\n") if b.strip()]
     filtered(blocks, " ".join(args), "forecast revision")
     return 0
@@ -205,6 +216,9 @@ def run(command: str, args: list[str]) -> int:
         return vendors.resolve([" ".join(args)])
     if command == "trace":
         return trace.main(args)
+    if command in ("inventory", "report"):
+        import report  # the report layer imports this module, so it is imported here when asked for
+        return report.navy_entry(command, args)
     return {"protests": protests, "revisions": revisions, "check": check, "sources": sources}[command](args)
 
 
@@ -264,7 +278,7 @@ def serve() -> int:
 
 
 def selfcheck() -> int:
-    assert set(HELP) == set(VIEWS) | {"page", "ask", "pulse", "protests", "wiki", "dna", "vendor", "trace", "revisions", "check", "sources"}
+    assert set(HELP) == set(VIEWS) | {"page", "ask", "pulse", "protests", "wiki", "dna", "vendor", "trace", "revisions", "check", "sources", "inventory", "report"}
     walk = fixture()  # the checks refuse a parent the record does not hold and a person it did not show for the chain
     good = {"company": "Acme", "profile": "builds terminals", "agency": "Department of the Navy", "command": "NAVWAR", "peo": "PEO C4I",
             "program_office": "PMA/PMW 101", "why_office": "It buys terminals.",
@@ -279,7 +293,7 @@ def selfcheck() -> int:
                    "people": ["PMS 406"], "neighbors": ["PMS 406"], "initiatives": ["PMS 406"], "page": ["office", "PMS 406"],
                    "ask": ["team", "undersea", "--top", "3"], "pulse": ["actions", "PMW"], "protests": [], "wiki": ["PMS 406"],
                    "dna": ["N00024"], "vendor": ["Leidos"], "trace": ["need", "N00039-26-RFPREQ-PMA/PMW-101-0148"], "revisions": ["PMW"],
-                   "sources": ["N00039-26-RFPREQ-PMA/PMW-101-0148"]}
+                   "sources": ["N00039-26-RFPREQ-PMA/PMW-101-0148"], "inventory": [], "report": ["plan", "--spec", "agency-brief"]}
         for name, args in samples.items():
             out = io.StringIO()
             with contextlib.redirect_stdout(out):

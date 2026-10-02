@@ -128,8 +128,9 @@ registered source.  Status is from source_status.json (events in the corpus,
 documents in the manifest).  A family is one kind of statement; the bar a cell must reach is
 THREE INDEPENDENT FAMILIES.
 
-   how read      api = documented or public JSON endpoint; webpage = HTML saved and read;
-                 pdf, spreadsheet, export = files; manual = login or vendor account needed
+   how read      api = documented or public JSON endpoint; webpage = HTML saved as fetched, read
+                 as its Markdown rendering (markdown.py); pdf, spreadsheet, export = files;
+                 manual = login or vendor account needed
    route         direct from this network, or through the hosted browser where the host
                  refuses automation from a non-US address (Akamai 403, firewall stubs)
 

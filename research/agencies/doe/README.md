@@ -12,6 +12,7 @@ every other file is the output of one tool under `research/tools/`, run with `AG
 | `sources/source_registry.json` | by hand | 15 sources, three of them the Department's own (the acquisition forecast, the small business pages, the budget justification) |
 | `sources/coverage_matrix.json` | by hand, validated by `coverage.py` | 9 organizations by 13 evidence families |
 | `sources/source_status.json` | `coverage.py status` | What each registered source last collected: 7 of 15 have collected something |
+| `results/office_owners.json`, `office_owners.md` | `office_owners.py build` (the `owners` stage, 2026-09-29) | Per program office: who owns which problem, who would champion a fix, who holds the budget, each with its source; the budget lines and where each is placed; the year's obligations from the saved feed; what the office bought. 46 office section(s), 2,986 fact rows, 93 inferences (0 champion readings), 0 budget lines of which 0 placed, 0 program rows of which 0 placed, FY2026 obligations $5,092.7M over 2,940 action(s); facts, inferences and recommendations under three keys, an empty family stated as a boundary |
 
 The other files of the layer (`memory/people.json`, `events/*.json`, `results/*.json`, the forecast datapack) are
 written by the pipeline's build stages and have not been built for DOE. `build/doe/` (gitignored) holds what the

@@ -57,7 +57,7 @@ showed on 2026-09-24. The last column says whether the Navy tool read it without
 | Programs (SBIR/STTR) | DoD SBIR/STTR portal pages, every component newest first, Navy rows kept: 1,118 Navy topics in the saved pages, 1,100 rows built | The same saved pages hold 197 DARPA topics. The Small Business Programs Office page states: "Pending SBIR/STTR program reauthorization, closing dates for active topics are To Be Determined (TBD)." | The sweep already collects them; the build keeps `component == "NAVY"` |
 | Budget | Department of the Navy justification books; the reader parses P-40 exhibits and holds 48 line items from one book (Other Procurement, Navy, BA 2) | Research and development only. The about page: "The President's FY2027 budget request for DARPA is $5.039 billion. The FY2026 enacted budget was $4.322 billion." The comptroller's FY2026 index (Wayback capture of 2025-09-09; the live host answers 403) and FY2027 index (`comptroller.war.gov`, direct) each list one DARPA book, `RDTE_Vol1_DARPA_MasterJustificationBook`, under the RDT&E volumes | No: the reader matches "PB yyyy Navy" and P-40 exhibits; an R-2 reader is written once for any RDT&E-only agency |
 | Oversight | oversight.gov full-text queries "Navy" and "Naval" plus the GAO feed; 27 documents read | oversight.gov full text for "Defense Advanced Research Projects Agency": 50 rows on the first page, one of whose titles names DARPA (an evaluation of the Under Secretary for Research and Engineering) | Same listing and parser; the query terms and the reviewed-agency pattern are per agency; a thin family |
-| Leaders' words | navy.mil speech and testimony archives and the House committee feeds; 37 documents | The budgets-and-testimony page lists Director's statements as submitted for 2015 to 2022, as PDFs on `darpa.mil`, `docs.house.gov` and the Senate committees | The House feeds travel; the archive address is per agency; DARPA's page is a static list, not a feed |
+| Leaders' words | navy.mil speech and testimony archives and the House committee feeds; 37 documents | The budgets-and-testimony page lists eight statement files, the newest issued 2021-04-21, as PDFs on `darpa.mil`, `docs.house.gov` and the Senate committees; the House feeds of 2026-09-24 and 2026-09-28 named no DARPA hearing, and the Senate Armed Services hearing index answers 403 to a bare client (2026-09-28), so the record's official leader statements end in 2021 and the recent leader remarks it holds are conference pages Exa discovered | The House feeds travel; the archive address is per agency; DARPA's page is a static list, not a feed |
 | Congress | govinfo committee reports; directives found by a Navy name pattern: 104 in the three reports whose text is saved | The same three texts, read with a DARPA pattern: 1 directive names DARPA | Same reports, same finder; the pattern is per agency |
 | Federal Register | API filtered to the agency slug `navy-department`; 268 rows since 2021-10-01 | No agency slug: the agencies endpoint answers 404 for DARPA. A term search for the full name since 2024-10-01 returns 9 documents, filed under other agencies (the Defense Department, the Treasury, the Executive Office of the President and the Office of Management and Budget among them) | The API travels; there is no DARPA filter, so a term search stands in and the family is near-empty |
 | Protest | GAO's docket filtered to the Department of the Navy, taken through the hosted browser; 2 rows | `gao.gov` answers 403 to this address; the docket's DARPA filter was not tried through the browser | Open |
@@ -176,10 +176,11 @@ The layer was built the same day, in the order section 7 gives, with the pipelin
 changed in the tools is one thing: the constants section 4 lists became a profile. `research/tools/agency.py`
 holds the Navy and the DARPA profiles (office codes, SAM.gov organizations, the SBIR component, the Federal
 Register conditions, the Congress pattern, the oversight and remarks queries and name patterns, the feeds, the
-budget exhibit and book folder, the staff listing, the pilot and coverage offices) and the artefact roots. The
+budget book folder, the staff listing, the pilot and coverage offices) and the artefact roots. The
 environment variable `AGENCY` picks the profile; the Navy keeps `research/{memory,events,results,sources}` and
 `build/`, another agency gets `research/agencies/<key>/` and `build/<key>/`. `pipeline.py --agency darpa` runs
-the same stages, skipping the two the profile has no source for (datapack, revisions), and runs the selfchecks under the Navy profile because their fixtures are Navy records.
+the same thirty-six stages, skipping the three the profile has no source for (datapack, revisions,
+fiscal_year), and runs the selfchecks under the Navy profile because their fixtures are Navy records.
 
 Two things the shared ledger needed. A collector running under another profile marks its note with the profile
 key (`oversight watch [darpa]: ...`), and each reader keeps the notes marked for it, the Navy owning the unmarked
@@ -269,7 +270,7 @@ What the two layers still differ in, and why:
 
 ## 9. The Navy branch's read-back layers, applied to DARPA (2026-09-25)
 
-The Navy layer's read-back work of 2026-09-25 brought five things the DARPA layer did not have.
+The `sync/navy-intelligence` branch merged onto main on 2026-09-25 brought five things the DARPA layer did not have.
 What each is, and what it became for DARPA:
 
 | Layer | What the branch added for the Navy | For DARPA |
@@ -305,19 +306,19 @@ contacts, 23 organizations, 1,117 lifecycle-history rows the triggers wrote). Th
 The labels, the office readings, the notice kinds and the remarks and oversight extracts were made on the branch with the
 key on 2026-09-25 and replay here from the shared cassettes; the corpus now carries 25 leaders' statements from the
 Director's testimony. Still not done: the program-office books (DARPA's awards name no office), the news and Federal
-Register statements beyond the documents the layer has; `revisions` and `joins` stay Navy-only.
+Register statements beyond the documents the layer has; `fiscal_year`, `revisions` and `joins` stay Navy-only.
 
-### 9a. The later work of 2026-09-25, applied to DARPA
+### 9a. The second sync of 2026-09-25, applied to DARPA
 
-Three more commits landed the same day (the read surface and its MCP server,
+Three more commits reached main from `sync/navy-intelligence` the same day (the platform read surface and its MCP server,
 the outreach walk and the two comparison harnesses with their Navy results, a model reader of what a special notice
 announces, the office reader extended to awards, topics and committee statements, each statement's published page in the
-record, and twelve open tool defects recorded). What each became for DARPA:
+record, and twelve open tool defects listed in HANDOVER). What each became for DARPA:
 
 | Layer | For DARPA |
 | --- | --- |
 | `notice_kinds.py` (what a special notice announces, one model call each) | Reads and writes per profile (`results/notice_kinds.json`; the prompt names the agency's short name); DARPA's 404 special notices are read, 332 with a kind and the words that say so; a notice without a key or cassette would stand unread with the reason, so `trace.signal_kind` would type it from its title as before |
-| `office_wiki.py` for awards, topics and committee statements | DARPA's reads: 740 notices (201 placed), 0 live awards at a contracting office, 165 topics (32 placed), 1 directive (placed). The prompts name the U.S. Navy under every profile, as the cassettes were recorded (section 9) |
+| `office_wiki.py` for awards, topics and committee statements | DARPA's reads: 740 notices (201 placed), 0 live awards at a contracting office, 165 topics (32 placed), 1 directive (placed). The prompts named the U.S. Navy under every profile, as the cassettes were recorded (section 9); on 2026-09-25 the prompts were made to name the profile's agency and DARPA's reads were re-recorded (Opus 5.5 through the Claude command line): 81 notices and 2 topics placed with both quotes verbatim, the directive not (`research/docs/20`, section 6) |
 | `navy.py`, the read surface and MCP server | Answers from the profile's record under `AGENCY=darpa` (`navy.py help` says so; the server is named by the profile key, `navy` for the Navy so the comparison harness's tool names hold): `office "Defense Sciences Office"` returns the office with its wiki page, buying book and next actions beside it; `neighbors` gives the agency as parent; `search quantum` finds the statements |
 | `outreach.py`, `outreach_compare.py`, `dossier_compare.py` | The prompts, the section titles and the server name follow the profile (the branch's `short`, "U.S. Navy" or "DARPA", with the "U.S. " dropped where a word is wanted). Not run for DARPA: the walk is a few dozen calls of the larger model, and the harnesses drive Claude headless with the MCP server; neither key is here. The chain a DARPA walk would name is the agency and the technical office, the levels between them empty, as the tree holds none |
 | The people rules (a surname written first; one person across two addresses) | Guarded for a record whose contacts are roles and mailboxes: an office after the comma is no given name, and a role or an address written as the name never joins two mailboxes. DARPA: 683 people from 1,293 observations (the unguarded rules gave 335, with "DARPA/BTO Dr. Pedro Irazoqui" and one "BAA Coordinator" on 299 addresses). The branch's own rule (a name made only of role words never merges) is kept beside the guards; it alone gave 654, merging the twenty "TTO BAA Coordinator" mailboxes into two because "TTO" is no role word |
@@ -342,6 +343,39 @@ merged into the branch and the DARPA layer rebuilt once from the merged code. Wh
 | Pulse | 552 cells and 112 actions (branch), 539 and 99 (main) | 552 cells, 546 actions (388 of them an incumbent contract ending) |
 
 The Navy layer's emitted rows (`build/layers.sql`) are byte for byte the same after the merge.
+
+## 10. The gaps with the Navy layer closed where no key is needed (2026-09-26)
+
+The Navy layer had, and the DARPA layer lacked, a set of things that fall in three groups: collect stages never
+run for DARPA, layers the Navy has only by hand, and read-back files built from the older record. This pass took
+each in turn on the branch `task/darpa-navy-gaps`, in the order the records depend on each other.
+
+| Gap | What the Navy has | What DARPA has now |
+| --- | --- | --- |
+| Grants | Nothing swept (FPDS carries none) | 452 grants and cooperative agreements from 5 USAspending pages; 218 carry an office code and load under it. An award listed before its period starts is dated the day the listing was saved |
+| Award histories | The `changes` stage, followed for the forecast's contracts | 851 FPDS history pages for 719 swept awards: 426 extensions, 308 modifications and 38 funding changes in the corpus; the stage stopped at its 40-minute limit with about 1,300 histories still to take |
+| Notices and awards | Swept by the collect job | 6 new notice details and 66 new FPDS pages of FY2026 awards; the Federal Register, oversight and news polls found nothing new |
+| Contact routes | `contact_observations.json`, `contact_recommendations.json` and `review_log.json`, hand-written and reviewed (tasks/T02) | The same three files generated by `contact_routes.py` (the `routes` stage): 785 observations from the staff listing and the notice contacts, 26 recommendations for 13 offices, 785 checks against the saved records. Every row carries `generator`, and the tool refuses to write over a file holding rows it did not write, so the Navy's files stand |
+| Attribution examples | 19 in `research/memory/attribution_examples.json` | 15 in `research/agencies/darpa/memory/attribution_examples.json`: 12 directly documented (nine by the office code in the description, three by the notice under the award's solicitation), 3 unresolved with the path to resolving each. A test checks every passage is verbatim on the saved record and every placement agrees with the layers emitter |
+| Coverage matrix | 13 families | 14: a `grants` family, covered for the four offices whose code the awards carry |
+| Protests, topic detail, committee reports, discovery sweeps, outreach | Run with their keys | Each waits on a key (`CONTEXT_DEV_API_KEY`, `BROWSERBASE_API_KEY`, `DATA_GOV_API_KEY`, `EXA_API_KEY`, `OPENAI_API_KEY`); the stages ran and recorded why they collected nothing |
+
+Three shared tools changed:
+
+- `office_wiki.py`: the reader's prompt carries the office directory and pages as the corpus stands, so a collection
+  that adds a record changes every prompt and every cassette misses. With a key the model reads every record again;
+  without one the reader used to write every record as unread, throwing away 323 placements. It now keeps a
+  record's earlier reading, with the cassette that holds the pages it was read against, and says so (`kept`); a
+  record never read stands unread with the reason. The check mode is unchanged: a missing cassette fails it.
+- `agency_layers_sql.py`: the emitter read FPDS history pages from the whole ledger, so the histories this pass took
+  for DARPA-funded awards that Navy offices signed changed five of the Navy's emitted rows. The emitter now reads its
+  own rows and the unmarked ones, never another profile's; the Navy's emission is byte for byte HEAD's again.
+- `sbir.py`: the topic sweep fell over a backfill row, which has no URL.
+
+The back-test recall fell from 0.045 to 0.044 at 180 and 90 days because five new outcomes stand unread while the
+same 19 are reached; the local floors were reset to these values. Precision rose from 0.774 to 0.848 with the
+histories loaded (28 of 33 judged cells followed within a year). The pulse proposes 655 actions over the same 552
+cells (546 before), 468 of them an incumbent contract ending.
 
 ## Appendix: evidence
 
@@ -389,5 +423,5 @@ Every row carries the note prefix "Navy versus DARPA comparison (2026-09-24):" i
 | `comptroller.war.gov` FY2027 budget justification index | direct | 200 | `c55a8762bf25` |
 
 Navy figures are from `research/results/corpus.json`, `research/events/*.json`, `research/memory/people.json`,
-`research/memory/organization_seed.json` and the datapack tables as built on 2026-09-24. The FPDS page count
+`research/memory/organization_seed.json` and the datapack tables as committed on 2026-09-24. The FPDS page count
 is read from the feed's last-page link; ten actions a page, so a last start of 290 means 291 to 300 actions.

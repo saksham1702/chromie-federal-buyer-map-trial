@@ -253,7 +253,8 @@ PLAIN = {"help": "the list of tools", "search": "statements and forecast rows th
          "vendor": "a vendor by its unique entity identifier, with its contracts",
          "trace": "one requirement across forecast releases, notices and awards",
          "revisions": "forecast rows whose award window or value moved", "check": "checks a draft answer against the record",
-         "sources": "each record in full with where it is published"}
+         "sources": "each record in full with where it is published",
+         "inventory": "what the record holds, domain by domain", "report": "an intelligence report's plan over the record, or an office's budget"}
 
 
 def one_line(text: str, cap: int) -> str:
@@ -472,7 +473,7 @@ def selfcheck() -> int:
     assert set(DOSSIER_ANSWER["properties"]["dossier"]["properties"]) == set(SECTIONS)
     assert {order("x", sid) for sid in ["outreach", *SECTIONS]} == {ARMS, ARMS[::-1]}, "both labels fall to each arm"
     covered = {SECTIONS[s][0].split()[0] for s in SECTIONS} | {"ask", "check", "sources", "help"}
-    assert set(HELP) - covered <= {"search", "office", "cell", "page"}, set(HELP) - covered  # the walk's own views need no section
+    assert set(HELP) - covered <= {"search", "office", "cell", "page", "inventory", "report"}, set(HELP) - covered  # the walk's own views and the report layer's commands need no section
     side = {"claims": [{"verdict": "supported"}, {"verdict": "contradicted"}], "parts": [{"verdict": "answered"}, {"verdict": "partly"}]}
     assert score(side) == {"claims": 2, "supported": 1, "contradicted": 1, "unsupported": 0, "unverifiable": 0, "parts": 1.5, "of": 2}
     print("dossier_compare selfcheck ok")

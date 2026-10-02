@@ -149,11 +149,16 @@ def histories(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(prog="fpds_sweep.py histories")
     ap.add_argument("--fetch", action="store_true", help="take pages from fpds.gov; without it, only count what is due")
     ap.add_argument("--limit", type=int, default=2000, help="most pages to take in one run")
+    ap.add_argument("--shard", default="0/1", help="i/n: follow only the awards whose position mod n is i, so shards run side by side "
+                                                  "(fpds.gov answers a history page in ten to twenty seconds)")
     args = ap.parse_args(argv)
+    shard, shards = (int(x) for x in args.shard.split("/"))
     manifest = manifest_rows()
     index, today, taken, due = url_index(manifest), date.today(), 0, 0
     with MANIFEST.open("a", encoding="utf-8") as handle:
-        for award in followed(awards(manifest), today):
+        for position, award in enumerate(followed(awards(manifest), today)):
+            if position % shards != shard:
+                continue
             while taken < args.limit:
                 url = next_history_page(index, award, today)
                 if url is None:

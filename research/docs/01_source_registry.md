@@ -1,7 +1,7 @@
 # 01 - Source registry: what each source proves, how it is reached, how often to look
 
 The machine-readable registry is `research/sources/source_registry.json` (one record per source, field names
-chosen to load into Chromie's `gov_procurement_sources`). The table below summarizes that file;
+chosen to load into the platform's `gov_procurement_sources`). The table below summarizes that file;
 the prose explains how the sources fit together. Every `verified` row has an inspected example
 whose hash is in `research/sources/documents_manifest.jsonl`; rows marked `blocked` or `restricted` say why.
 
@@ -26,6 +26,7 @@ budget host resets connections, and solicitation documents increasingly sit insi
 | Organization and ownership | Department of the Navy PAE press releases (navy.mil, paemaritime.navy.mil, DVIDS mirror) | webpage | verified | live navy.mil release: PAEs 'will have direct authority not only for program offices, but also over associated ...' (browserbase) | weekly check of PAE domains and DVIDS for new releases |
 | Organization and ownership | NAVSEA Small Business Partnerships documents (org chart, Deputy Program Manager roster) | pdf | verified | two-page table: title, phone, code, description (PMS 396, PMS 397, PMS 450, ...) (wayback) | quarterly |
 | Organization and ownership | Federal Register API | api | verified | query 'Naval Information Warfare' returns dated notices with agencies and PDF links (direct) | weekly query per organization name |
+| Organization and people (hiring) | USAJobs historic job announcements API and announcement pages (keyless; `research/docs/21`) | api | verified | 210 NAVWAR (NV39) announcements opened 2026-03-31 to 2026-09-27, 11 of them contracting; control 880882900 is a DP-3 contract specialist for the Robotic and Autonomous Systems portfolio, a flyer of anticipated vacancies (direct) | weekly listing per agency code, 180-day window |
 | Agency intent | Department of the Navy budget materials (FMB): justification books by appropriation | pdf | verified | 37 PDF links: RDTEN_BA1-3 ... BA7-8, OPN_BA1 ... BA5-8, OMN, WPN, APN, SCN, Highlights_Book, DON_Budget_Card (direct) | annual at budget release, then monthly checks for amended books |
 | Agency intent | DoD Comptroller budget materials | spreadsheet | verified | p1_display.xlsx: 1,138 rows; 55 OPN BA2 lines incl. 2915 CANES 439,977 / 534,324 / 493,046 ($K) (browserbase) | annual |
 | Agency intent | Federal IT Dashboard / IT Collect public API | api | verified | landing page reachable; detailed pull handled by the existing prod ingest (direct) | weekly (existing prod job) |
@@ -48,7 +49,7 @@ budget host resets connections, and solicitation documents increasingly sit insi
 | Leaders' words | U.S. Navy Press Office speech and testimony archives (navy.mil) | webpage | verified | first archive page: 20 CNO speeches June to August 2026 with datelines; article pages carry the full remarks (browserbase) | weekly: first archive page of each list, new articles |
 | Leaders' words | House Committee Repository (docs.house.gov) Armed Services and Appropriations hearings | webpage | verified | Navy FY2027 Seapower budget hearing 2026-05-20: three witnesses, joint witness statement PDF (direct) | weekly: AS00 and AP00 feeds, new hearings naming the department |
 | Leaders' words | Conference and event pages naming Navy officials (Exa discovery, organizer or trade page) | webpage | verified | Sea-Air-Space 2026 organizer page: CNO keynote at the Sea Services Luncheon (direct) | monthly discovery; known pages re-fetched before each major event |
-| Awards and execution | GAO bid protest decisions and docket | webpage | blocked | HTTP 403; Chromie's existing pursuit-intelligence runner already covers GAO | weekly |
+| Awards and execution | GAO bid protest decisions and docket | webpage | blocked | HTTP 403; the platform's existing pursuit-intelligence runner already covers GAO | weekly |
 | Organization and ownership | Internet Archive Wayback Machine (dated copies of official pages) | api | verified | 2026-05-19 capture shows the PAE Mission Systems front page (wayback) | on demand |
 | Active acquisition | SAM.gov Contract Opportunities archived yearly extracts (FYxxxx_archived_opportunities.csv) | export | verified | FY2025 file: 1,159,352,018 bytes, 399,820 rows, 666 NAVWAR-family notices (posted 2024-10 to 2025-09) (direct) | quarterly re-pull of the two most recent fiscal years |
 | Active acquisition | SAM.gov site API (opps v2/v3 and sgs search, keyless) | api | verified | NILE ISS 6 RFI detail with description body naming PEO C4I / PMW 150 (direct) | on demand per solicitation number surfaced by FPDS or the LRAE |
@@ -108,6 +109,78 @@ flow from that line to a specific contract is not observable.
 | govinfo / congress.gov | daily | days | daily poll of new defense packages |
 | DVIDS unit pages | event-driven | same day | daily headline diff |
 | Official organization pages and tear sheets | irregular | months behind leadership changes | weekly hash diff |
+
+## Sources as instruments (2026-09-28)
+
+Every registry row carries an `instrument` block, written by `research/tools/registry_instrument_fill.py` from the row's
+own words and the saved status and checked by `--check`:
+
+| Field | Values | What decides it |
+| --- | --- | --- |
+| `status` | Live, Historical, Adjacent | Live when the source publishes now; Historical when its own words say the series ended or moved (PEO C4I's site); Adjacent for an archive, a directory or a re-generated copy (Wayback, the small business directory, the yearly extracts) |
+| `standing` | standing, episodic, mixed | a feed or a page that is always there, or a release series, a cycle, a hearing |
+| `collector_kind` | registered_empty, collecting, blocked | the saved status: nothing yet, something, or the registry says blocked or restricted |
+| `cadence` | kind (standing, monthly, annual, per_cycle, episodic), rule, basis | the stated frequency; a rule only where saved rows or a saved page state one |
+| `org_scope` | memory node ids | the nodes a saved source says the source feeds; `[]` otherwise |
+| `close_by` | text | on a row with no document, how to close the gap |
+| `contact`, `entry_types`, `envelopes`, `pages`, `url_prefixes` | optional | role mailboxes only, social handles as pointers never read; entry types with their basis; envelope keys into `sbir_instruments.json`; the pages a cadence sweep lists; the URL sections a row claims on a shared host |
+
+The rule that follows from it: **an empty collector is registered, never placed in a cell**. `coverage.py` refuses a
+cell naming a source with nothing collected, and the status's `open_gaps` section lists every zero-document row with
+its blocker, its `close_by`, its collector kind and the last recorded attempt, the three Navy gaps first
+(`sam_opportunities_api`: the keyed API answers 404 with an empty body, recorded 2026-09-16 and 2026-09-27, not retried;
+`seaport_nxg`: no TLS handshake on 2026-09-28, task orders visible to holders only; `navy_posture_testimony`: the
+congress.gov hearing endpoint answered on 2026-09-28 with DEMO_KEY, so the row is verified and the sweep is the next step).
+
+### SBIR and prize portals registered on 2026-09-28
+
+Each landing page was fetched once through `fetch.py` and the answer recorded in the ledger, refusals included; a row's
+`inspected_example` names that attempt. Envelopes and cadence are quoted from the saved page where it states them
+(`research/sources/sbir_instruments.json`), else marked unverified and read by nothing.
+
+| Registry | Row | Landing page on 2026-09-28 | Collector |
+| --- | --- | --- | --- |
+| Navy | `navy_sbir_program_site` (navysbir.com) | 403, no bytes | blocked; the same topics are on the saved DSIP index pages |
+| Navy | `sbir_sttr_topics` | unchanged; cadence monthly, first Wednesday, observed on the FY2026 pre-release days (2026-04-13 is the annual BAA's exception) | collecting |
+| Army | `army_sbir_program_site` (armysbir.army.mil) | 200; states "PHASE I 1-6 months, up to $300K" and "PHASE II 12-18 months, up to $2M" | collecting |
+| Army | `army_xtech_prizes` (xtech.army.mil) | 200; the text states no pool or date | collecting |
+| DARPA | `darpa_small_business_community` | 200 (also 2026-09-24); claims only its URL section of darpa.mil | collecting |
+| DARPA | `darpaconnect` (darpaconnect.us) | 200 | collecting |
+| Air Force | `afwerx_site`, `spacewerx_site` | 200; a media mailbox on each | collecting |
+| all four | `diu_cso_solicitations` (diu.mil) | 404 and 500 on the two addresses named | registered_empty; the other DoD layers read it through `shared_sources` |
+
+### Pending portals (no agency in code)
+
+`research/sources/pending_sources.json` holds the portals whose agency has no profile (DHS S&T LRBAA, USSOCOM, DTRA,
+the civilian SBIR programmes, and two adjacent resources). A pending row feeds no registry, node or cell and names role
+mailboxes only; it is promoted when the agency truth table (`docs/22`) gives its agency an in-code verdict.
+
+### The generated Navy matrix
+
+`python research/tools/coverage.py matrix` writes `coverage_matrix.json` for a profile whose `coverage_org_nodes` names
+the memory node behind each row (the Navy: the four commands, the two NIWCs, NRL, SSP, PAE Mission Systems, DRPM RAS,
+eleven PEOs, NAVFAC and MSC; the last two gained their nodes on 2026-09-28 from saved pages, Stage 2). A cell counts the corpus's events under the node's
+subtree per family (people from the roster's positions), names the sources that made them and the family's
+department-wide sources, carries the documents those sources hold (`documents_scope: source`, the ledger has no
+organization tag), the newest date and a tag: Live (an event within 365 days of the freeze), Historical (events, none
+that recent), Adjacent (a department-wide source alone). An empty cell keeps the hand-written reason. The Air Force
+generator (`coverage_matrix_airforce.py`) stays until its profile names its nodes here.
+
+Stage 2 (2026-09-28, branch `task/sbir-stage2`) read what the saved DSIP files already hold: every topic row states its
+instrument, entry type, phases, solicitation, release, Q&A window, ITAR, CMMC level, focus areas and ceiling with the
+basis of each reading (`docs/06`, Programs), the Navy topic pattern reads the FY2026 codes, NAVFAC, MCSC and MARCOR
+resolve to their commands, and `prerelease.py` turns the index pages into dated pre-release observations compared
+with the first-Wednesday rule. The memory gained `pae:aviation`, `pae:munitions`, `pae:maritime`,
+`pae:industrial-operations`, `pae:marine-corps`, `pae:undersea` (children of `agency:don`, each from the release that
+established it), `command:navfac`, `command:mcsc` and `command:msc` (no parent, no saved page states one), all as page
+statements in `research/memory/org_page_statements.json` whose passages are checked verbatim against the saved bytes
+on every build. The Navy matrix now reads 68 Live, 18 Historical, 161 Adjacent, 73 not_started, 2 no_public_source: the NAVFAC and
+MSC rows are Adjacent through the department-wide sources, with no event of their own until the corpus is refrozen.
+
+Stage 3 (2026-09-28, branch `task/sbir-stage3`) is the live side of the cadence: `prerelease.py sweep --fetch` reads the
+monthly rows' `pages`, keeps what the ledger already recorded this cycle and fetches the rest once, refusal or stub
+recorded and never worked around (`docs/06`, The sweep). A row's `collector_kind` does not change on a refusal: the
+source publishes, the collector is blocked, and the open-gap list says so.
 
 ## Reusability
 

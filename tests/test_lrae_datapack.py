@@ -122,7 +122,9 @@ def test_joins_are_labelled_and_every_included_row_has_an_office_join(pack):
             assert j["evidence_ref"], j
         if j["method"] == "inferred":
             assert j["target_id"].startswith(("attribution:", "sam:")), j
-            assert "vehicle" in j["note"] or j["target_id"].startswith("attribution:"), j
+            # A notice join is inferred only when its key cannot single the row out: a shared vehicle, or an
+            # incumbent contract several rows of the release cite.
+            assert "vehicle" in j["note"] or "does not tell the rows apart" in j["note"] or j["target_id"].startswith("attribution:"), j
 
 
 @packs
@@ -152,3 +154,19 @@ def test_regeneration_is_byte_identical(pack, tmp_path):
     assert result.returncode == 0, result.stderr
     for name, digest in source["outputs"].items():
         assert hashlib.sha256((tmp_path / pack.name / name).read_bytes()).hexdigest() == digest, name
+
+
+ALL_PACKS = sorted(p for p in (ROOT / "datapack").glob("*_*") if p.is_dir() and (p / "rows_raw.csv").exists()) if (ROOT / "datapack").exists() else []
+
+
+@pytest.mark.parametrize("pack", ALL_PACKS, ids=[p.name for p in ALL_PACKS])
+def test_procurement_refs_are_written_exactly_when_a_row_names_a_contract(pack):
+    """The procurement_refs layer holds the contract numbers the forecast rows carry; a pack whose source has no such
+    column (NASA's forecast workbook names an estimated value and a vehicle type, never an incumbent contract) writes
+    none, and that absence is the fact, not a gap."""
+    sys.path.insert(0, str(ROOT / "research" / "tools"))
+    from lrae_package import contract_tokens
+    with (pack / "rows_raw.csv").open(encoding="utf-8", newline="") as handle:
+        rows = list(csv.DictReader(handle))
+    named = sum(1 for r in rows if contract_tokens(r.get("existing_contract_number") or ""))
+    assert (pack / "layers" / "procurement_refs.csv").exists() == (named > 0), (pack.name, named)

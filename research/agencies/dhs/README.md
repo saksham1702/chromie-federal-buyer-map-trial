@@ -12,6 +12,7 @@ coverage matrix; every other file is the output of one tool under `research/tool
 | `sources/source_registry.json` | by hand | 12 sources, two of them DHS's own (the APFS forecast and dhs.gov) |
 | `sources/coverage_matrix.json` | by hand, validated by `coverage.py` | 10 components by 13 evidence families |
 | `sources/source_status.json` | `coverage.py status` | What each registered source last collected: 7 of 12 have collected something |
+| `results/office_owners.json`, `office_owners.md` | `office_owners.py build` (the `owners` stage, 2026-09-29) | Per program office: who owns which problem, who would champion a fix, who holds the budget, each with its source; the budget lines and where each is placed; the year's obligations from the saved feed; what the office bought. 81 office section(s), 3,254 fact rows, 163 inferences (0 champion readings), 0 budget lines of which 0 placed, 0 program rows of which 0 placed, FY2026 obligations $31,055.0M over 3,173 action(s); facts, inferences and recommendations under three keys, an empty family stated as a boundary |
 
 The event and result files of the other layers (`events/`, `results/`, the datapack and the load stages) are not
 built for DHS yet.

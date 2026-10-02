@@ -33,7 +33,7 @@ from statistics import median, quantiles
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from agency import NEED_ROW, P  # noqa: E402
-from backtest import CORPUS, GENERIC, RESEARCH, admissible, alias_pattern, awards_not_collected, chain, need_cell, scan, shift, wide  # noqa: E402
+from backtest import CORPUS, GENERIC, RESEARCH, admissible, alias_pattern, awards_not_collected, chain, need_cell, own_notice, scan, shift, wide  # noqa: E402
 from fetch import MANIFEST  # noqa: E402
 from pages import DNA, PIID_TEXT_RE, SOLICITATION_RE, Layer, book_line, compact, person, place, pointed, row_contacts, upward  # noqa: E402
 from people import contacts_for, first_routes, norm_name, routes_for  # noqa: E402
@@ -356,9 +356,11 @@ def analogs(layer: Layer, key: str) -> str:
     if need:
         _, hits = need_cell(need, layer.corpus, layer.recurring)
         notices = [e for e in hits if e["family"] == "notice" and e["available_by"] <= layer.as_of]
-        # The row's own notices carry its line or a number its title names; a notice that only shares its name is a reading.
+        # The row's own notices carry its line (a notice-keyed row's key, or the award notice filed under it), or its id
+        # or a number its title names in their text; a notice that only shares its name is a reading.
         named = {compact(x) for x in SOLICITATION_IN_TITLE_RE.findall(need["title"])}
-        own = [e for e in notices if key in e["text"] or any(compact(m.group(1)) in named for m in [SOLICITATION_RE.search(e["text"])] if m)]
+        own = [e for e in notices if (e.get("line") and e["line"] != key and own_notice(key, e["line"]) and key.startswith("notice:")) or e.get("line") == key
+               or key in e["text"] or any(compact(m.group(1)) in named for m in [SOLICITATION_RE.search(e["text"])] if m)]
         mine = [lives[s] for s in {compact(m.group(1)) for e in own or notices for m in [SOLICITATION_RE.search(e["text"])] if m}
                 if s in lives and set(lives[s]["steps"]) & set(STEPS)]
         if not mine:

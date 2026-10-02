@@ -26,6 +26,7 @@ import re
 import sys
 import time
 from collections import Counter
+from concurrent.futures import ThreadPoolExecutor
 from datetime import date
 from pathlib import Path
 from urllib.parse import unquote, urlparse
@@ -109,17 +110,30 @@ def strip_tags(fragment: str) -> str:
     return flatten(re.sub(r"<[^>]+>", " ", fragment))
 
 
-def navy_index_rows(body: bytes) -> list[dict]:
-    """Every speech or testimony the navy.mil archive page lists: date, title, url; the pages it links."""
+def navy_index_rows(body: bytes, article_re: re.Pattern | None = None) -> list[dict]:
+    """Every speech or testimony the agency's archive page lists: date, title, url; the pages it links. The archive is
+    the .mil content system's (navy.mil, af.mil and the rest print one item block per article); an article is a link
+    the profile's `article_re` matches."""
     text = body.decode("utf-8", "replace")
     out = []
     for chunk in re.split(r'class="[^"]*\bitem item-\d+"', text)[1:]:
-        link = re.search(r'href="(https://www\.navy\.mil/Press-Office/(?:Speeches/display-speech|Testimony/display-testimony)/Article/\d+/[^"]+)"', chunk)
+        link = next((m for m in re.finditer(r'href="([^"#]+)"', chunk) if (article_re or NAVY_ARTICLE).match(m.group(1))), None)
         when = DATE_RE.search(chunk)
         title = re.search(r"<h\d[^>]*>(.*?)</h\d>", chunk, re.S) or re.search(r'title="([^"]+)"', chunk)
         if link:
             out.append({"url": link.group(1), "issued": as_date(when.group(1)) if when else "", "title": strip_tags(title.group(1)) if title else ""})
     return out
+
+
+def archive_kind(url: str, speeches: str | None = None, testimony: str | None = None) -> str:
+    """Speech or testimony, by the archive the article sits under (the profile's speeches or testimony address); the
+    navy.mil paths say it in the address as well."""
+    speeches, testimony = speeches or SPEECHES, testimony or TESTIMONY
+    if speeches and url.startswith(speeches):
+        return "speech"
+    if testimony and url.startswith(testimony):
+        return "testimony"
+    return "speech" if "display-speech" in url else "testimony"
 
 
 def navy_pages(body: bytes) -> int:
@@ -261,6 +275,7 @@ def watch(argv: list[str]) -> int:
             print(f"  {url}")
             if args.fetch:
                 got = take(url, f"{FILE_NOTE}: {page_url}")
+                seen.add(url)
                 print(f"    {got.get('status')} {got.get('size', '')}b")
                 if got.get("status") in (401, 403):
                     refused.append(url)
@@ -292,14 +307,16 @@ def discover(argv: list[str]) -> int:
     parser.add_argument("--fetch", action="store_true")
     parser.add_argument("--days", type=int, default=480)
     parser.add_argument("--results", type=int, default=15)
-    parser.add_argument("--query", default=P["remarks"]["conference_query"])
+    parser.add_argument("--query", default=None, help="the Exa query; the profile's conference query by default")
     args = parser.parse_args(argv)
+    if args.query is None:
+        args.query = P["remarks"].get("conference_query") or f'defense conference agenda speakers "{P["short"]}" "Program Executive Officer" keynote panel'
     key = env_value("EXA_API_KEY")
     if not key:
         raise SystemExit("EXA_API_KEY is not set")
     start = date.fromordinal(date.today().toordinal() - args.days).isoformat()
     payload = {"query": args.query, "numResults": args.results, "type": "auto", "startPublishedDate": start + "T00:00:00.000Z",
-               "contents": {"text": False}, "excludeDomains": [*P["remarks"]["own_domains"], "linkedin.com", "youtube.com", "x.com", "facebook.com"]}
+               "contents": {"text": False}, "excludeDomains": [*P["remarks"].get("own_domains", []), "linkedin.com", "youtube.com", "x.com", "facebook.com"]}
     body = post_json("https://api.exa.ai/search", payload, {"x-api-key": key, "Content-Type": "application/json"})
     record_answer("https://api.exa.ai/search", args.query, body)
     known = json.loads(DISCOVERED.read_text(encoding="utf-8")) if DISCOVERED.exists() else {}
@@ -328,7 +345,7 @@ def discover(argv: list[str]) -> int:
 
 # --------------------------------------------------------------------- extract
 
-def documents(rows: list[dict]) -> list[dict]:
+def documents(rows: list[dict], article_re: re.Pattern | None = None) -> list[dict]:
     """Every saved document to read, with its kind: speech, testimony (navy.mil), statement (House PDF, with
     its hearing page), conference (a discovered page). The latest good capture of each URL."""
     known = json.loads(DISCOVERED.read_text(encoding="utf-8")) if DISCOVERED.exists() else {}
@@ -337,8 +354,8 @@ def documents(rows: list[dict]) -> list[dict]:
         if r.get("status") != 200 or not r.get("path") or r.get("content_status") == "rejected_stub" or not (ROOT / r["path"]).exists():
             continue
         url, note = origin_url(r), r.get("note", "")
-        if NAVY_ARTICLE.match(url):
-            latest[url] = {"kind": "speech" if "display-speech" in url else "testimony", "url": url, "row": r}
+        if (article_re or NAVY_ARTICLE).match(url):
+            latest[url] = {"kind": archive_kind(url), "url": url, "row": r}
         elif note.startswith(FILE_NOTE + ":"):
             latest[url] = {"kind": "statement", "url": url, "row": r, "hearing_url": note.split(":", 1)[1].strip()}
         elif url in known or (r.get("url") in known):
@@ -413,7 +430,7 @@ def document_text(doc: dict) -> tuple[str, dict]:
     body = (ROOT / doc["row"]["path"]).read_bytes()
     if doc["kind"] in ("speech", "testimony"):
         art = navy_article(body)
-        meta = {"title": art["title"], "issued": art["issued"], "publisher": "U.S. Navy", "witnesses": [],
+        meta = {"title": art["title"], "issued": art["issued"], "publisher": P["short"], "witnesses": [],
                 "stated": {k: art[k] for k in ("speaker", "place") if art[k]}}
         text = art["text"]
     elif doc["kind"] == "statement":
@@ -477,10 +494,13 @@ def extract(argv: list[str]) -> int:
         docs = docs[: args.limit]
     records, dropped_total, cost = [], Counter(), {"input_tokens": 0, "output_tokens": 0, "calls": 0}
     unread = 0
-    for doc in docs:
-        text, meta = document_text(doc)
+    # The calls go out eight at a time, as in notice_kinds; the records are still taken in document order.
+    pool = ThreadPoolExecutor(8)
+    read = [document_text(doc) for doc in docs]
+    asked = [pool.submit(ask, text, meta, doc, args.model, replay_only=args.check) for doc, (text, meta) in zip(docs, read)]
+    for doc, (text, meta), answer in zip(docs, read, asked):
         try:
-            answer, how = ask(text, meta, doc, args.model, replay_only=args.check)
+            answer, how = answer.result()
         except LookupError as why:
             # No cassette and no way to make the call (no model key): the document is recorded as unread with the
             # reason, so the build carries the gap instead of stopping on it. `--check` keeps failing, as it must.
@@ -525,7 +545,8 @@ def extract(argv: list[str]) -> int:
             agree += a == b
             print(f"verify {meta['title'][:50]}: {'same' if a == b else 'differs'} ({len(a)} vs {len(b)} events, {len(set(a) & set(b))} shared)")
         print(f"verify: {agree} of {min(args.verify, len(docs))} document(s) gave the same normalized event set twice")
-    out = {"source": "chromie-federal-buyer-map-trial/research/tools/remarks.py", "model": args.model, "cap_chars": CAP,
+    out = {"source": "chromie-federal-buyer-map-trial/research/tools/remarks.py", "model": args.model,
+           "models_answering": sorted({d.get("model") for d in docs if d.get("model")}), "cap_chars": CAP,
            "documents": records, "dropped": dict(sorted(dropped_total.items())), **({"unread": unread} if unread else {})}
     text_out = json.dumps(out, indent=1, sort_keys=True, ensure_ascii=False) + "\n"
     if args.check:
@@ -556,10 +577,15 @@ def show(argv: list[str]) -> int:
 def selfcheck() -> int:
     index = b'''<article class="grid-item content-box item item-4529922"><p class="author-dateline"> 23 June 2026 </p><div class="inner"><a href="https://www.navy.mil/Press-Office/Speeches/display-speech/Article/4529922/cno-remarks-at-inter-american-naval-conference/"><h1 class="content-box-header"> CNO Remarks at Inter-American Naval Conference </h1></a></div></article>
     <article class="grid-item content-box item item-1"><div>no link here</div></article><a href="https://www.navy.mil/Press-Office/Speeches/?Page=5">5</a>'''
-    rows = navy_index_rows(index)
+    navy_re = re.compile(r"^https://www\.navy\.mil/Press-Office/(Speeches/display-speech|Testimony/display-testimony)/Article/\d+/[^?#]+$")
+    rows = navy_index_rows(index, navy_re)  # the Navy's own pattern, whatever profile runs the check
     assert rows == [{"url": "https://www.navy.mil/Press-Office/Speeches/display-speech/Article/4529922/cno-remarks-at-inter-american-naval-conference/",
                      "issued": "2026-06-23", "title": "CNO Remarks at Inter-American Naval Conference"}], rows
     assert navy_pages(index) == 5
+    navy_archives = ("https://www.navy.mil/Press-Office/Speeches/", "https://www.navy.mil/Press-Office/Testimony/")
+    assert archive_kind(rows[0]["url"], *navy_archives) == "speech"
+    assert archive_kind("https://www.navy.mil/Press-Office/Testimony/display-testimony/Article/1/x/", *navy_archives) == "testimony"
+    assert archive_kind("https://www.af.mil/News/Speeches/Display/Article/1/x/", "https://www.af.mil/News/Speeches/", None) == "speech"
     article = b'''<html><head><meta property="og:title" content="CNO Remarks at X"></head><body><nav>Home Press</nav>
     <div class="article-view"><h4 class="press-release__dateline">Panama City, Panama</h4><p>Good morning. We need autonomous systems on\xe2\x80\x91watch now.</p>
     <div class="bottom-blue"><h2>Speech by</h2><p> Adm. Daryl Caudle <br> </p><h2>Presented on</h2><p>23 June 2026</p><h2>Date Published</h2><p>24 June 2026</p></div></div>
@@ -577,7 +603,7 @@ def selfcheck() -> int:
     assert ev["title"].startswith("Department of the Navy") and ev["issued"] == "2026-05-20" and ev["committee"].startswith("Subcommittee on Seapower"), ev
     assert ev["witnesses"] == [{"name": "Mr. Jason Potter", "position": "Performing the Duties of ASN RDA"}], ev["witnesses"]
     assert [d["url"][-9:] for d in statements(ev)] == ["SD004.pdf"] and statements(ev)[0]["url"].startswith("https://"), statements(ev)
-    assert HOUSE_EVENT.match("https://docs.house.gov/Committee/Calendar/ByEvent.aspx?EventID=119324") and NAVY_ARTICLE.match(rows[0]["url"])
+    assert HOUSE_EVENT.match("https://docs.house.gov/Committee/Calendar/ByEvent.aspx?EventID=119324") and navy_re.match(rows[0]["url"])  # the fixture is navy.mil's whatever profile runs the check
     assert page_date('<meta property="article:published_time" content="2026-03-26T14:02:11+00:00">') == ("2026-03-26", "page")
     assert page_date('<script type="application/ld+json">{"datePublished": "2026-04-17"}</script>') == ("2026-04-17", "page")
     assert page_date('<time datetime="2026-01-28T09:00">Jan 28</time>') == ("2026-01-28", "page") and page_date("<p>no date</p>") == ("", "")
@@ -590,9 +616,9 @@ def selfcheck() -> int:
     assert len(kept) == 1 and dropped == Counter({"program is not written so in the text": 1, "event type outside the list": 1}), dropped
     assert verbatim("Navy League", text) == "Navy League" and verbatim("the Navy League of the United States", text) == ""
     fake = [{"status": 200, "path": "research/sources/source_registry.json", "url": rows[0]["url"], "note": "live page via Browserbase", "sha256": "a", "retrieved_at": "x"},
-            {"status": 200, "path": "research/sources/source_registry.json", "url": "https://docs.house.gov/meetings/AS/x.pdf", "note": "remarks watch file: https://docs.house.gov/Committee/Calendar/ByEvent.aspx?EventID=1", "sha256": "b", "retrieved_at": "x"},
+            {"status": 200, "path": "research/sources/source_registry.json", "url": "https://docs.house.gov/meetings/AS/x.pdf", "note": f"{FILE_NOTE}: https://docs.house.gov/Committee/Calendar/ByEvent.aspx?EventID=1", "sha256": "b", "retrieved_at": "x"},
             {"status": 200, "path": "research/sources/source_registry.json", "url": "https://www.navy.mil/Press-Office/Speeches/?Page=2", "note": "live page via Browserbase", "sha256": "c", "retrieved_at": "x"}]
-    kinds = [(d["kind"], d["url"][-8:]) for d in documents(fake)]
+    kinds = [(d["kind"], d["url"][-8:]) for d in documents(fake, navy_re)]
     assert kinds == [("statement", "AS/x.pdf"), ("speech", "ference/")], kinds
     print("remarks selfcheck ok")
     return 0

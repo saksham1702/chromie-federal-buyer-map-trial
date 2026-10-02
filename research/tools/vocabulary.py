@@ -34,11 +34,17 @@ STAGE = {
     "presolicitation_posted": "solicitation", "rfp_released": "solicitation", "justification_posted": "solicitation",
     "contract_awarded": "award", "protest": "award",
     "contract_modified": "execution", "contract_extended": "execution", "contract_expires": "execution",
+    # A vacancy an office announces is the office building the capacity to run a program, before any engagement.
+    "vacancy_posted": "program",
+    # A vacancy a contractor posts against an office is industry positioning itself for the work, not the office's own step.
+    "vendor_vacancy_posted": "engagement",
 }
 POLARITY = {
     "program_delayed": "negative", "program_cancelled": "negative", "contract_extended": "negative", "protest": "negative",
     "justification_posted": "negative",  # a sole-source or limited-competition justification closes the buy to others
     "leadership_change": "neutral", "reorganization": "neutral", "audit_finding": "neutral", "contract_awarded": "neutral",
+    "vacancy_posted": "neutral",  # a job announcement is an intention to hire; by itself it moves no buy
+    "vendor_vacancy_posted": "neutral",  # a contractor's posting is its intention to staff; it is neither an award nor a requirement
 }
 CUT_RE = re.compile(r"\b(cut|cuts|reduc\w*|decreas\w*|below|terminat\w*|cancel\w*|rescind\w*|shortfall|divest\w*|delay\w*)\b", re.I)
 RENEWAL_RE = re.compile(r"\b(sole[- ]source|bridge|extension|extend\w*|exercis\w* (?:the |an? )?option|option period)\b", re.I)
@@ -73,7 +79,9 @@ CAPABILITY_NAMES = {"autonomous systems": "autonomy", "unmanned systems": "auton
                     "space": "satellites"}
 
 
-DESCRIPTION_WORDS = 5  # a part this long describes a capability ("AI pilot software for crewed aircraft"); it is no name
+DESCRIPTION_WORDS = 2  # a part of two or more words that is no listed name describes a capability ("spacecraft autonomy"); its
+# capabilities' words are searched beside it, since the phrase as written matches only a record that repeats it word for word
+STOPWORDS = frozenset("a an and for in of on or the to with".split())
 
 
 def named_capabilities(text: str) -> list[str]:
@@ -86,14 +94,40 @@ def named_capabilities(text: str) -> list[str]:
 
 def capability_terms(topic: str) -> list[str]:
     """A topic's search words: a named capability's words, else the words as written; topics split on ; and ,. A
-    description also brings the words of each capability it names: searched as written it matches nothing."""
+    multi-word part that is no listed name also brings the words of each capability it names: searched as written alone
+    it matches only a record that repeats it word for word ("spacecraft autonomy" found nothing where "autonomous
+    satellite navigation" stood)."""
     out = []
     for part in (p.strip() for p in re.split(r"[;,]", topic)):
         name = CAPABILITY_NAMES.get(part.lower(), part.lower())
         out += CAPABILITIES.get(name, (part,) if part else ())
-        if name not in CAPABILITIES and len(part.split()) >= DESCRIPTION_WORDS:
+        if name not in CAPABILITIES and len(part.split()) >= DESCRIPTION_WORDS and not proper_name(part):
             out += [w for n in named_capabilities(part) for w in CAPABILITIES[n]]
     return list(dict.fromkeys(out))
+
+
+def proper_name(part: str) -> bool:
+    """A part written as a name, every word capitalised or a number ("Next Generation Jammer", "Link 22"): searched as
+    written, since its words name a program, not a capability."""
+    words = part.split()
+    return bool(words) and all(w[:1].isupper() or w[:1].isdigit() for w in words)
+
+
+def term_groups(term: str) -> list[list[str]]:
+    """A multi-word term as groups of aliases, one per word worth searching: the word itself with its plural handled by the
+    pattern, widened to the words of the capability it names or belongs to. A search that requires one alias of every
+    group finds "autonomous satellite navigation" for "spacecraft autonomy". Stopwords make no group; a one-word term
+    makes one group."""
+    groups = []
+    for word in re.findall(r"[A-Za-z0-9][A-Za-z0-9/-]*", term):
+        if word.lower() in STOPWORDS:
+            continue
+        aliases = [word]
+        for name, words in CAPABILITIES.items():
+            if word.lower() == name or word.lower() in {w.lower() for w in words} or CAPABILITY_NAMES.get(word.lower()) == name:
+                aliases += [name, *words]
+        groups.append(list(dict.fromkeys(aliases)))
+    return groups
 
 
 def stage(event_type: str) -> str:
@@ -183,7 +217,13 @@ def selfcheck() -> int:
     assert next_milestones("shaping") == [MILESTONE[s] for s in PATH] and next_milestones("award") == []
     assert "UUV" in capability_terms("autonomous systems") and capability_terms("Link 22; ai")[0] == "Link 22"
     assert "machine learning" in capability_terms("Link 22; ai") and capability_terms(" ; ") == []
-    assert capability_terms("Next Generation Jammer") == ["Next Generation Jammer"]  # a short part is a name, searched as written
+    assert capability_terms("Next Generation Jammer") == ["Next Generation Jammer"]  # a part written as a name is searched as written
+    assert capability_terms("spacecraft autonomy")[:3] == ["spacecraft autonomy", "autonomous", "autonomy"], "a two-word description brings its capability's words"
+    assert capability_terms("onboard autonomy for constellation operations")[0] == "onboard autonomy for constellation operations"
+    assert term_groups("spacecraft autonomy") == [["spacecraft", "satellites", "satellite", "orbital", "space-based", "SATCOM"],
+                                                  ["autonomy", "autonomous", "unmanned", "uncrewed", "UUV", "USV", "UAS", "UAV", "robotic", "swarm"]]
+    assert term_groups("guidance navigation and control")[0] == ["guidance"] and len(term_groups("guidance navigation and control")) == 3, "stopwords make no group"
+    assert term_groups("Link 22") == [["Link"], ["22"]] and term_groups("") == []
     line = capability_terms("AI pilot software for unmanned aircraft")
     assert line[0] == "AI pilot software for unmanned aircraft" and "UUV" in line and "machine learning" in line, line
     print("vocabulary selfcheck ok")

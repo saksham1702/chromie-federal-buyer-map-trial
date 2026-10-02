@@ -63,12 +63,17 @@ TRADE_HOSTS = {
 }
 OFFICIAL_NAMES = P["news"]["official_names"]
 RELIABILITY = {"official announcement": "high", "direct interview": "high",
-               "trade reporting": "medium", "secondary reporting": "low"}
+               "trade reporting": "medium", "secondary reporting": "low",
+               # a company's own careers page: first-hand for what the company says it wants to staff, and nothing
+               # more; never read as high beside an agency's own announcement (vendor_jobs.py)
+               "company statement": "medium"}
 
 # Hosts a query returns that are not articles: a social post is not a publication with a byline,
 # and the contracting sites are already read by the notice and award tools in this repo.
 NOT_ARTICLE_HOSTS = ("linkedin.com", "x.com", "twitter.com", "facebook.com", "youtube.com", "reddit.com",
                      "sam.gov", "highergov.com", "govtribe.com", "usaspending.gov", "fpds.gov",
+                     # a job announcement is the hiring family's record (jobs.py), never an article
+                     "usajobs.gov",
                      # a site that republishes notices is a copy of a source this repo reads first-hand
                      "cleat.ai", "cleatus.com", "govwin.com", "bidprime.com", "findrfp.com")
 
@@ -116,6 +121,22 @@ PASSIVE_RE = re.compile(r"\b(?:was|were|is|are|has been|have been|had been|will 
 # "May" is a month here as often as it is a hedge, so the hedge has to carry its verb.
 HEDGE_RE = re.compile(r"\b(expected to|expects to|plans to|could|may (?:be|have|not|also|still)|would|is likely|sources said|reportedly|according to (?:people|sources)|anticipates)\b", re.I)
 INTERVIEW_RE = re.compile(r"\b(told (?:reporters|[A-Z][a-z]+)|in an interview|said in an interview|speaking (?:at|to))\b")
+# The page's own time words, read against its metadata date: a "Posted" stamp in the text wins, and a text that looks
+# ahead to a month the date has already passed ("will retire by the end of April", dated July) was indexed, not written, then.
+POSTED_RE = re.compile(r"\bPosted(?: on)?:?\s+([A-Z][a-z]+\.? \d{1,2}, \d{4}|\d{4}-\d{2}-\d{2})")
+MONTH_NAMES = ("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
+AHEAD_RE = re.compile(rf"\bwill\b[^.]{{0,80}}?\b(?:by|in|until)\s+(?:the\s+end\s+of\s+|early\s+|mid-|late\s+)?({'|'.join(MONTH_NAMES)})\b(?![ ,]*\d)")
+
+
+def dated(text: str, published: str) -> tuple[str, str]:
+    """The date to keep and, when the text disagrees with the metadata, why."""
+    posted = as_date(m.group(1)) if (m := POSTED_RE.search(text)) else ""
+    if posted and posted != published:
+        return posted, f"the page prints Posted {posted}; its metadata says {published or 'nothing'}"
+    ahead = AHEAD_RE.search(text)
+    if published and ahead and MONTH_NAMES.index(ahead.group(1)) + 1 < int(published[5:7]):
+        return published, f"the text looks ahead to {ahead.group(1)} yet is dated {published}: likely the date it was indexed, not written"
+    return published, ""
 DATE_IN_TEXT = re.compile(r"\b(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:t|tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\.?\s+(\d{1,2}),?\s+(\d{4})\b")
 DATE_DOTTED = re.compile(r"\b(0?[1-9]|1[0-2])\.(0?[1-9]|[12]\d|3[01])\.(20\d{2})\b")
 DATE_DAY_FIRST = re.compile(r"\b(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+(\d{4})\b", re.I)
@@ -553,7 +574,7 @@ def article_record(row: dict, body: bytes, mem: dict) -> dict:
     if INTERVIEW_RE.search(text):
         source_type = "direct interview" if source_type == "official announcement" else source_type
     headline = (ld.get("headline") or reader.meta.get("og:title") or reader.meta.get("title") or "").strip()
-    published = published_of(reader, ld, text, headline) or as_date(row.get("note", ""))
+    published, date_note = dated(text, published_of(reader, ld, text, headline) or as_date(row.get("note", "")))
     claims, background = [], 0
     for passage in sentences(text):
         if not is_prose(passage) or passage.strip() == headline.strip():
@@ -566,7 +587,7 @@ def article_record(row: dict, body: bytes, mem: dict) -> dict:
             background += 1
             continue
         relation, why = relate(kind, ents, mem)
-        level, verify = confidence_of(source_type, passage, kind, bool(as_date(passage) or published))
+        level, verify = confidence_of(source_type, passage, kind, bool(as_date(passage) or (published and not date_note)))
         claims.append({"statement_type": kind, "passage": passage[:600],
                        "subjects": ents["organizations"] + ents["people"], "people": ents["people_as_written"],
                        "programs": ents["programs"], "contracts": ents["contracts"], "solicitations": ents["solicitations"],
@@ -577,7 +598,7 @@ def article_record(row: dict, body: bytes, mem: dict) -> dict:
     rollup = "conflicts" if "conflicts" in relations else ("corroborates" if "corroborates" in relations else "new signal")
     return {
         "id": "news:" + (row.get("sha256") or "")[:12],
-        "headline": headline, "publisher": publisher, "url": url, "published": published,
+        "headline": headline, "publisher": publisher, "url": url, "published": published, "date_note": date_note,
         "author": author_of(reader, ld, text), "retrieved_at": row.get("retrieved_at", ""),
         "source_type": source_type, "reliability": RELIABILITY[source_type],
         "record": {"path": row.get("path", ""), "sha256": row.get("sha256", ""), "method": row.get("method", ""),
@@ -588,7 +609,7 @@ def article_record(row: dict, body: bytes, mem: dict) -> dict:
                   "awards": [c for c in whole["contracts"] if c in mem["known_contracts"]],
                   "budget_lines": [{"line_item": b, "program_as_written": mem["budget_lines"].get(b, "")} for b in whole["budget_lines"]]},
         "claims": claims, "leadership": leadership_changes(text), "relation": rollup, "background_sentences": background,
-        "verify": sorted({v for c in claims for v in c["verify"]}),
+        "verify": sorted({v for c in claims for v in c["verify"]} | ({f"the date: {date_note}"} if date_note else set())),
         "modelled_at": now(),
     }
 
@@ -838,22 +859,11 @@ def record_answer(url: str, query: str, body: bytes) -> None:
                                  "sha256": digest, "path": str(path.relative_to(ROOT))}, sort_keys=True) + "\n")
 
 
-def post_json(url: str, payload: dict, headers: dict, tries: int = 3) -> bytes:
-    """POST and return the bytes. A throttled burst answers 503 or 429, so a query is repeated."""
-    request = urllib.request.Request(url, data=json.dumps(payload).encode(), headers=headers)
-    for attempt in range(tries):
-        try:
-            with urllib.request.urlopen(request, timeout=90) as response:
-                return response.read()
-        except urllib.error.HTTPError as exc:
-            if exc.code not in (429, 500, 502, 503) or attempt == tries - 1:
-                raise
-            time.sleep(2 * (attempt + 1))
-    raise RuntimeError("unreachable")
-
+from routergrowth import post_json  # noqa: E402  (the POST with retries; one copy for every provider)
 
 # RouterGrowth routes one query to whichever provider is live behind a capability. `news.search`
 # is the Google News one; `web.search` is the semantic one, which routes to Exa among others.
+# The client is research/tools/routergrowth.py, shared with the vendor hiring sweep (vendor_jobs.py).
 RG_BASE = "https://api.routergrowth.com"
 RG_CAPABILITY = os.environ.get("ROUTERGROWTH_CAPABILITY", "news.search")
 
@@ -861,24 +871,14 @@ RG_CAPABILITY = os.environ.get("ROUTERGROWTH_CAPABILITY", "news.search")
 def routergrowth_search(query: str, days: int, results: int) -> list[dict]:
     """The same discovery through RouterGrowth, with the capability's own schema read first.
 
-    The input field names come from `/v1/inspect` rather than from a copy of the documentation,
-    so a provider swap behind the capability does not silently drop a parameter.
+    The input field names come from `/v1/inspect` rather than from a copy of the documentation, so a provider
+    swap behind the capability does not silently drop a parameter. The key is read from the environment or
+    `.env` (llm.env_value); a missing key raises LookupError, which `sweep` reads as "drop this provider".
     """
-    key = os.environ.get("ROUTERGROWTH_API_KEY", "")
-    if not key:
-        raise LookupError("ROUTERGROWTH_API_KEY is not set")
-    headers = {"Authorization": f"Bearer {key}", "Content-Type": "application/json"}
-    described = json.loads(post_json(f"{RG_BASE}/v1/inspect", {"capability": RG_CAPABILITY}, headers))
-    record_answer(f"{RG_BASE}/v1/inspect", RG_CAPABILITY, json.dumps(described).encode())
-    fields = rg_fields(described)
-    payload: dict = {"query": keyword_query(query)}
-    for name, value in (("limit", results), ("num_results", results), ("max_results", results),
-                        ("depth", results), ("days", days), ("time_range", f"{days}d")):
-        if name in fields and name not in payload:
-            payload[name] = value
-    body = post_json(f"{RG_BASE}/v1/run", {"capability": RG_CAPABILITY, "input": payload}, headers)
-    record_answer(f"{RG_BASE}/v1/run", query, body)
-    return rg_results(json.loads(body))
+    import routergrowth
+
+    answer = routergrowth.search(RG_CAPABILITY, query, RAW_NEWS, "news", results_wanted=results, days=days)
+    return [{"url": r["url"], "title": r["title"], "publishedDate": r["publishedDate"]} for r in answer["results"]]
 
 
 def rg_fields(described: dict) -> dict:
@@ -893,26 +893,9 @@ def rg_fields(described: dict) -> dict:
 
 def rg_results(answer) -> list[dict]:
     """Read a run answer as the same shape the rest of this module uses: url, title, date."""
-    if isinstance(answer, dict) and (answer.get("error") or {}).get("code") == "no_match":
-        return []  # the router ran every provider and none had a match: an empty search, not a failed one
-    holders = [answer, answer.get("output"), answer.get("result")] if isinstance(answer, dict) else [answer]
-    items = next((h for h in holders if isinstance(h, list)), None)
-    if items is None:
-        items = next((h[k] for h in holders if isinstance(h, dict) for k in ("results", "items", "articles", "news", "data")
-                      if isinstance(h.get(k), list)), None)
-    if items is None:  # a shape this reader does not know is a failed search, not an empty one
-        raise ValueError(f"RouterGrowth answer holds no result list (keys: {sorted(answer) if isinstance(answer, dict) else type(answer).__name__})")
-    read = []
-    for item in items:
-        if not isinstance(item, dict):
-            continue
-        url = item.get("url") or item.get("link") or item.get("source_url") or ""
-        if not url:
-            continue
-        read.append({"url": url, "title": item.get("title") or item.get("headline") or "",
-                     "publishedDate": item.get("publishedDate") or item.get("published_at")
-                     or item.get("date") or item.get("timestamp") or ""})
-    return read
+    import routergrowth
+
+    return [{"url": r["url"], "title": r["title"], "publishedDate": r["publishedDate"]} for r in routergrowth.results(answer)]
 
 
 def exa_search(query: str, days: int, results: int) -> list[dict]:
@@ -1039,17 +1022,25 @@ def sweep_queries(seed: dict) -> list[str]:
     The list is not hand-kept: it is the organization memory read back out, so the same command
     covers another agency as soon as that agency's seed exists.
     """
-    # The command is the name a headline uses; the department is the fallback when there is none.
-    context = ""
-    for wanted in ("command", "agency"):
-        for node in seed["nodes"]:
-            if node["type"] == wanted and not context:
-                context = short_label(node)
+    # The command is the name a headline uses: the office's own, found up its child_of chain; the first command, else
+    # the department, when the memory states no chain.
+    nodes = {n["id"]: n for n in seed["nodes"]}
+    parent = {r["from"]: r["to"] for r in seed.get("relationships", []) if r.get("type") == "child_of"}
+    first = next((short_label(n) for wanted in ("command", "agency") for n in seed["nodes"] if n["type"] == wanted), "")
+
+    def context_of(nid: str) -> str:
+        seen = set()
+        while nid in parent and nid not in seen:
+            seen.add(nid)
+            nid = parent[nid]
+            if nodes.get(nid, {}).get("type") in ("command", "agency"):
+                return short_label(nodes[nid])
+        return first
     queries = []
     for node in seed["nodes"]:
         if node["type"] in ("person", "agency"):
             continue
-        label = short_label(node)
+        label, context = short_label(node), context_of(node["id"])
         if label == context:
             queries.append(f"{label} contract award, reorganization, leadership change or industry day")
         else:
@@ -1160,6 +1151,9 @@ def selfcheck() -> int:
     assert reader.meta["article:published_time"].startswith("2026-05-11")
     assert linked_data(reader)["headline"] == "Navy stands up new portfolio"
     assert published_of(reader, linked_data(reader), text) == "2026-05-11"
+    assert dated("Posted: 2026-09-03. This job is no longer available.", "2026-09-24") == ("2026-09-03", "the page prints Posted 2026-09-03; its metadata says 2026-09-24")
+    assert dated("Eisensmith will retire by the end of April after five years.", "2026-07-23")[1].startswith("the text looks ahead to April")
+    assert dated("She will retire in April 2027.", "2026-07-23") == ("2026-07-23", "") and dated("It will close in December.", "2026-07-23")[1] == ""
     assert author_of(reader, {}, text) == "Fleet Public Affairs"
     assert len(sentences(text)) == 2, "a fragment shorter than a claim is not a sentence"
     marked = "## NAVWAR awards the follow-on contract to the incumbent for another five years.\n- The office in San Diego expects to award a follow-on contract later this year."
@@ -1224,6 +1218,10 @@ def selfcheck() -> int:
     assert len(queries) == 2, queries
     assert any(q.startswith("PMW-160 NAVWAR ") for q in queries), queries
     assert not any("person" in q.lower() for q in queries), "a person is not an office to search for"
+    seed["nodes"].append({"id": "s", "name": "Naval Sea Systems Command", "type": "command", "aliases": [{"text": "NAVSEA"}]})
+    seed["nodes"].append({"id": "o2", "name": "PMS 485 Maritime Surveillance Program Office", "type": "program_office"})
+    seed["relationships"] = [{"type": "child_of", "from": "o2", "to": "s"}, {"type": "child_of", "from": "s", "to": "a"}]
+    assert any(q.startswith("PMS 485 Maritime Surveillance Program Office NAVSEA ") for q in sweep_queries(seed)), "an office's own command"
     assert short_label({"name": "Program Executive Office Command, Control", "aliases":
                         [{"text": "PEO C4I"}, {"text": "C4IEXEC (LRAE front-office code)"}]}) == "PEO C4I"
     # Either provider's answer is read into the one shape: a url, a headline and a date.
@@ -1329,7 +1327,7 @@ def selfcheck() -> int:
         ("Capt. Raphael R. Castillejo", "program manager", "pmw:150", "Mr. Baron Jolie"),
         ("Mr. Eric Andalis", "program manager", "pmw:760", "Capt. Castillejo"),
         ("Mr. Jim Day", "portfolio acquisition executive", "pae:mission-systems", ""),
-        ("Mr. Paul Mann", "portfolio acquisition executive", "", "")], changes
+        ("Mr. Paul Mann", "portfolio acquisition executive", "pae:munitions", "")], changes  # the memory names PAE Munitions since 2026-09-29
     assert office_named_in("for PMW 150 and later PMW 760") == "", "two offices in one clause place nobody"
     at_block_end = leadership_changes("Mr. Eric Andalis relieve Capt. Castillejo as the program manager for the U.S. Navy’s Ship "
                                       "Integration Program Office (PMW 760)\n\n## IMAGE INFO\n\n| Date Taken: | 08.19.2025 |")

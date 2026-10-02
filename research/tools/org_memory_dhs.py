@@ -26,6 +26,7 @@ from __future__ import annotations
 import json
 import re
 import sys
+from datetime import datetime, timezone
 from collections import Counter
 from pathlib import Path
 
@@ -54,8 +55,9 @@ ABBREVIATION = {"command:opo": "OPO", "command:st": "S&T", "command:cbp": "CBP",
                 "command:fema": "FEMA", "command:uscg": "USCG", "command:ice": "ICE", "command:usss": "USSS", "command:cwmd": "CWMD",
                 "command:uscis": "USCIS", "command:fletc": "FLETC"}
 BY_ABBREVIATION = {a: nid for nid, a in ABBREVIATION.items()}
-# ponytail: a requirement office named on fewer forecast rows stays out of the seed; lower it when the office pages need them.
-MIN_ROWS = 3
+# Every requirement office one forecast row names is seeded: a small office with one record (CISA OCTO, the Coast Guard's
+# Cyber Command at two) is often the one a question is about, and its rows otherwise load with no office to hold them.
+MIN_ROWS = 1
 CODE_RE = re.compile(r"\((70[A-Z][A-Z0-9]{3})\)")  # "MEO Contracting Division (70RCSJ)"
 LISTING_FIELDS = ("fhorgid", "fhorgname", "fhorgtype", "status", "agencycode", "aacofficecode")
 SAM_FIELDS = ("orgKey", "name", "type", "aacCode", "fpdsCode", "cgac", "fullParentPath", "fullParentPathName", "codeHierarchy")
@@ -258,9 +260,18 @@ def collect() -> int:
     wanted += [(HIERARCHY.format(k), f"SAM.gov federal hierarchy next level{NOTE_TAG}: {k} ({P['sam_org_nodes'].get(k, AGENCY_ID)})")
                for k in (DEPARTMENT, *LISTED)]
     wanted += [(SAM_ORG.format(o), f"SAM.gov federal organization record{NOTE_TAG}: {o} ({nid})") for o, nid in OFFICES.items() if o not in listed]
-    wanted += [(USASPENDING, f"USAspending agency record{NOTE_TAG}: toptier 070 sub-agencies and offices FY2026"),
-               (APFS, f"DHS APFS public forecast records{NOTE_TAG}: the JSON the forecast page exports to CSV and Excel")]
-    return 1 if collect_missing(wanted) else 0
+    wanted += [(USASPENDING, f"USAspending agency record{NOTE_TAG}: toptier 070 sub-agencies and offices FY2026")]
+    missed = collect_missing(wanted)
+    # The forecast serves only its current records: a pull a day is what keeps a withdrawn record's history (lrae_package
+    # makes each day's pull a release).
+    if (by_url(manifest, APFS) or {}).get("retrieved_at", "")[:10] < datetime.now(timezone.utc).date().isoformat():
+        from fetch import MANIFEST, fetch  # noqa: E402
+        row = fetch(APFS, "direct", None, f"DHS APFS public forecast records{NOTE_TAG}: the JSON the forecast page exports to CSV and Excel")
+        with MANIFEST.open("a", encoding="utf-8") as handle:
+            handle.write(json.dumps(row, sort_keys=True) + "\n")
+        print(row.get("status"), APFS)
+        missed += row.get("status") != 200
+    return 1 if missed else 0
 
 
 def selfcheck() -> int:

@@ -49,16 +49,18 @@ _AGENCY = ("Department of Homeland Security (its components, their contracting o
            "DHS acquisition forecast names)")
 
 # The forecast system's JSON records by field name. Prefixes are matched in order, so a longer name comes before the
-# name it starts with, and None drops a field (the requirement contact's name, phone and address are not kept).
+# name it starts with, and None drops a field: a contact's name is kept, never the phone or e-mail beside it.
 APFS_HEADERS = {
     "apfs_number": "number", "requirements_title": "requirement_title", "requirements_office": "pm_directorate",
+    "requirements_contact_first_name": "requirement_contact_first", "requirements_contact_last_name": "requirement_contact_last",
+    "alternate_contact_first_name": "alternate_contact_first", "alternate_contact_last_name": "alternate_contact_last",
     "requirements_contact": None, "requirement": "requirement_description", "organization": "command",
     "dollar_range": "anticipated_total_value", "contract_vehicle": "contract_vehicle", "contract_type": "contract_type",
     "competitive": "follow_on_or_new", "small_business_set_aside": "procurement_method", "naics": "naics",
     "contractor": "incumbent_contractor", "contract_number": "existing_contract_number",
     "estimated_solicitation_release_date": "solicitation_date", "anticipated_award_date": "award_date",
     "award_quarter": "award_quarter_as_written", "contracting_office": "contracting_center",
-    "place_of_performance_city": "place_of_performance"}
+    "place_of_performance_city": "place_of_performance", "publish_date": "published", "id": "record_id"}
 
 PROFILE = {
     "key": "dhs",
@@ -87,7 +89,7 @@ PROFILE = {
     "office_key_re": r"(?!)",  # the forecast writes its requirement offices by name; no code pattern yet
     "shared_sources": ("govinfo_api",),
     "owner_types": (),
-    "families": {"dhs_apfs_forecast": "forecast", "dhs_site": "organization"},
+    "families": {"dhs_apfs_forecast": "forecast", "dhs_site": "organization", "dhs_budget_justification": "budget"},
     "moved_urls": {},
     # Topic codes as the S&T SBIR pre-solicitation of 2023-11-15 prints them (DHS241-001 to DHS241-006); contract and
     # solicitation numbers under a DHS office code. A solicitation serial runs seven to ten characters in the notices
@@ -140,23 +142,30 @@ PROFILE = {
                                 "Cybersecurity and Infrastructure Security Agency", "program office", "acquisition", "contract award"]},
     "protests": {"listing": "https://www.gao.gov/legal/bid-protests/search?agency=Department%20of%20Homeland%20Security&page={page}",
                  "agency": "Department of Homeland Security", "max_pages": 60},
-    # Budget is deferred: the congressional justifications (dhs.gov/cj, as USAspending names it) are not saved, and their
-    # provider is registered when they are.
-    "budget": {"exhibit": "CJ", "pb_label": "Department of Homeland Security", "books_dir": "jbooks_dhs", "provider": "dhs_budget_justification"},
+    # The FY2027 congressional justifications (dhs.gov/cj, as USAspending names it), one book per component saved under a
+    # "budget book" note: budget.py reads their capital investment exhibits (91 investments in 11 books; USCIS, CWMD and
+    # A&O carry none) and dates a book by its upload folder, as it prints no date.
+    "budget": {"pb_label": "Department of Homeland Security", "books_dir": "jbooks_dhs", "provider": "dhs_budget_justification"},
     "people": {"department": "agency:dhs",
                "executive": ("secretary of homeland security", "deputy secretary", "under secretary", "assistant secretary", "administrator",
                              "commissioner", "commandant", "director", "chief procurement officer", "head of the contracting activity"),
-               "remarks_providers": None, "staff_listing": None},
-    # The Acquisition Planning Forecast System publishes its records as JSON (/api/forecast/); the CSV and Excel buttons of the
-    # forecast page build their files in the browser from it. read_sheet reads workbook and CSV bytes only, so no release
-    # is packaged yet: the organization memory reads the JSON directly.
-    "forecast": {"pack_glob": "dhs_20??-??", "label": "Acquisition Planning Forecast System", "short": "APFS",
+               "remarks_providers": None, "staff_listing": None,
+               "emails": False},  # names only: a notice contact's work e-mail is used to merge, never written
+    # The Acquisition Planning Forecast System publishes its records as JSON (/api/forecast/), which read_sheet reads; the CSV
+    # and Excel buttons of the forecast page build their files in the browser from it.
+    # The system serves only its current records (828 on 2026-09-28 against 873 two days before: 57 gone, 12 new), so every
+    # daily pull is a release of its own (`record_system`), keyed by its day, and releases pair by the APFS number alone.
+    "forecast": {"pack_glob": "dhs_20??-??-??", "label": "Acquisition Planning Forecast System", "short": "APFS",
                  "providers": {"dhs": "dhs_apfs_forecast"}, "memory_tool": "org_memory_dhs.py",
-                 "releases": [{"key": "dhs_2026-09", "activity": "dhs", "match": "apfs-cloud.dhs.gov/api/forecast", "release_date": "2026-09-26",
-                               "release_note": "the published records as the forecast system served them on 2026-09-26 (the newest published 2026-09-24)",
-                               "sheet": "APFS", "header_row": 1, "scope": "all", "headers": APFS_HEADERS}]},
+                 "releases": [{"key": "dhs", "activity": "dhs", "match": "apfs-cloud.dhs.gov/api/forecast", "release_date": "",
+                               "release_note": "", "record_system": True,
+                               "sheet": "APFS", "header_row": 1, "scope": "all", "headers": APFS_HEADERS,
+                               # each record's public page, the one the forecast page links (read_sheet fills `url`)
+                               "record_url": "https://apfs-cloud.dhs.gov/record/{record_id}/public-print/"}]},
     "pilot_offices": ("S&T", "CBP", "CISA", "TSA", "USCG", "FEMA"),
     "coverage_orgs": ["OPO", "S&T", "CBP", "CISA", "TSA", "FEMA", "USCG", "ICE", "USSS", "CWMD"],
+    "coverage_org_nodes": {},  # the matrix is written by hand (or by its own script) until the nodes are named here
+    "coverage_department_wide": {},
     # A DHS notice names its buyer by component acronym or a Coast Guard directorate (CG-912); a cutter by name and hull
     # designator as the forecast prints them (USCGC HEALY (WAGB-20), USCGC HAMMER (WLIC 75302), WLR 6550, WPC-154).
     "reading": {"office_code_re": r"\b(?:OPO|S&T|CBP|CISA|TSA|FEMA|ICE|USCIS|USSS|USCG|FLETC|CWMD|FPS|OBIM)\b|\bCG-\d{1,3}\b",
@@ -164,4 +173,15 @@ PROFILE = {
                             r"|\bW(?:AGB|LB|LBB|LIC|LI|LM|LR|MEC|MSL|MSM|PB|PC|TGB|YTL)[\s-]+\d{1,5}\b"),
                 # A request for proposals written into a title, read with its spaces removed (70B06C26R00000185).
                 "rfp_re": r"70[A-Z][A-Z0-9]{3}-?\d{2}-?R-?[A-Z0-9]{8}(?![A-Z0-9])"},
+    # USAJobs agency codes as its agency list names them (read 2026-09-29 through context.dev: the list answers this
+    # address with 403, the historic announcement API does not). HSDA still carries the name Domestic Nuclear Detection
+    # Office, the office CWMD absorbed. The Inspector General (HSAE) and Intelligence and Analysis (HSIC) have no node in
+    # the organization memory.
+    "hiring": {"usajobs_department_code": "HS",
+               "usajobs_agency_codes": {"HSAA": "agency:dhs", "HSAB": "command:uscis", "HSAC": "command:uscg", "HSAD": "command:usss",
+                                        "HSBB": "command:ice", "HSBC": "command:tsa", "HSBD": "command:cbp", "HSBE": "command:fletc",
+                                        "HSCA": "command:cisa", "HSCB": "command:fema", "HSDA": "command:cwmd", "HSFA": "command:st"},
+               "note": "the codes listed 6,848 announcements opened 2026-04-02 to 2026-09-29 (CBP 2,015, USCG 1,224, TSA 1,154, CISA 97); "
+                       "HSDA and HSFA answered 204, none in the window",
+               "vendor_jobs": False, "vendor_watch": []},
 }

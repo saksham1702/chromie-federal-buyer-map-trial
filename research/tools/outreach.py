@@ -37,6 +37,7 @@ from agency_layers_sql import SEED, release_source_url, uid  # noqa: E402
 from ask import ROW_RE, where_from  # noqa: E402
 from agency import P  # noqa: E402
 from backtest import CORPUS, RESEARCH, ROOT, alias_pattern, chain, register_problems  # noqa: E402
+from vocabulary import term_groups  # noqa: E402
 from llm import structured  # noqa: E402
 from lrae_package import DIFF_NAME  # noqa: E402
 from pages import SHOWN, Layer, row_contacts, upward  # noqa: E402
@@ -202,12 +203,16 @@ class Walk:
         if tool == "search" and argument.strip():  # rows whose description carries the term as statements do, plurals too
             title_rx = re.compile(r"(?<![A-Za-z0-9])" + re.escape(argument) + r"(?![A-Za-z0-9])", re.I)  # the rows search already gave
             rx = alias_pattern([argument])
+            groups = [alias_pattern(g) for g in term_groups(argument)] if answer.get("matched") == "by its words" else []
+            carries = lambda text: bool(rx.search(text)) or bool(groups and all(g.search(text) for g in groups))  # noqa: E731
             more = [self.layer.need_brief(self.needs[k]) for k, d in sorted(self.details.items())
-                    if k in self.needs and rx.search(d.get("description", "")) and not title_rx.search(self.needs[k]["title"])]
+                    if k in self.needs and carries(d.get("description", "")) and not title_rx.search(self.needs[k]["title"])]
             answer["forecast_rows"] += more[:max(0, SHOWN - len(answer["forecast_rows"]))]
             answer["forecast_rows_total"] += len(more)
         if tool in ("search", "topics") and not (answer.get("statements") or answer.get("topics") or answer.get("forecast_rows_total")):
-            answer["note"] = "no record carries this term as written; try a shorter name the record writes"
+            answer["note"] = "no record carries this term as written or as its words; try a shorter name the record writes"
+        elif tool in ("search", "topics") and answer.get("matched") == "by its words":
+            answer["note"] = "no record carries this term as written; the statements carry each of its words (or its capability's words)"
         if isinstance(answer.get("offices"), dict):  # the tally by name, with each office's type: a buyer is told from a command
             answer["offices"] = [{"office": n, "type": self.layer.orgs.get(self.layer.org_id(n) or "", {}).get("org_type", ""), "statements": c}
                                  for n, c in answer["offices"].items()]

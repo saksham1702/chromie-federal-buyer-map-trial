@@ -35,8 +35,8 @@ from fractions import Fraction
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from backtest import (CORPUS, LABELS, LINE_RE, chain, matched, need_aliases, outcome_cell, pilot_needs,  # noqa: E402
-                      recurring_tokens, register_problems, shift, specific, with_lines)
+from backtest import (CORPUS, LABELS, LINE_RE, chain, matched, need_aliases, outcome_cell, own_line, own_notice,  # noqa: E402
+                      pilot_needs, recurring_tokens, register_problems, shift, specific, with_lines)
 from people import PEOPLE, contacts_for, load_routes, routes_for  # noqa: E402
 from vocabulary import classify, next_milestones, stage_of  # noqa: E402
 
@@ -107,8 +107,9 @@ def cell_events(cell: dict, corpus: dict) -> list[dict]:
     own = cell["key"].removeprefix("need:")
     if cell["key"].startswith("need:"):
         # A notice the load tied to another forecast line is that line's, however many names the two rows share; one it
-        # tied to this line is this cell's, whether or not it repeats the row's words.
-        hits = [e for e in hits if not (e["family"] == "notice" and e.get("line", own) != own and not e["line"].startswith("notice:"))]
+        # tied to this line is this cell's, whether or not it repeats the row's words; a notice-keyed row owns only the
+        # notices filed under its key, so a shopping notice that shares its words is never read as its next step.
+        hits = [e for e in hits if not (e["family"] == "notice" and not own_notice(own, e.get("line")))]
         seen = {e["id"] for e in hits}
         hits = sorted(hits + [e for e in corpus["events"] if e.get("line") == own and e["family"] == "notice" and e["id"] not in seen],
                       key=lambda e: (e["available_by"], e["id"]))
@@ -327,6 +328,7 @@ def actions(ranked: list[dict], corpus: dict, as_of: str, minimum_families: int 
     A forecast row is watched only while the cell stands at its forecast, and an open notice is answered by its date."""
     reach = reach or (lambda oid: chain(oid, corpus["orgs"]) or [oid])
     named = named or (lambda cell: [])
+    by_id = {e["id"]: e for e in corpus["events"]}
     rows = []
     year_ago, quarter_ago = shift(as_of, -365), shift(as_of, -90)
     for cell in ranked:
@@ -342,7 +344,10 @@ def actions(ranked: list[dict], corpus: dict, as_of: str, minimum_families: int 
         recent_forecast = [e["id"] for e in ev if e["family"] == "forecast" and e["available_by"] > year_ago]
         if recent_forecast and stage not in PAST_FORECAST:
             rows.append(action("monitor_forecast", cell, recent_forecast[:3], "forecast rows touched in the last year" + (", one moved later" if cell["slip"] else "")))
-        notices = [e for e in ev if e["event_type"] in NOTICE_TYPES]
+        # The notice answered is the cell's own: on the forecast row's line, under the notice-keyed row's key, or the
+        # outcome notice itself; a notice that only shares the cell's words carries another requirement's date.
+        line = own_line(cell["key"], by_id)
+        notices = [e for e in ev if e["event_type"] in NOTICE_TYPES and own_notice(line, e.get("line"))]
         newest = max(notices, key=lambda e: (e["available_by"], e["id"])) if notices else None
         due = (newest or {}).get("due")
         if due and as_of <= due and stage != "award":
@@ -589,6 +594,17 @@ def selfcheck() -> int:
     assert [(x["type"], x["by"]) for x in later if x["type"] == "respond_notice"] == [("respond_notice", "2026-09-30")]
     assert "monitor_forecast" not in {x["type"] for x in later}, "a cell at solicitation does not watch its forecast row"
     assert not [x for x in actions([cell], corpus, "2026-10-01") if x["type"] == "respond_notice"], "a closed notice takes no response"
+    # The notice answered is the cell's own: a notice-keyed row's shopping-notice namesake carries another requirement's date
+    rfi = ev("q", "notice", "2026-06-01", "SAM.gov RFI: autonomous aircraft sensing", "rfi_released", due="2026-12-31", line="notice:RFI1")
+    shop = ev("h", "notice", "2026-08-01", "SAM.gov special notice: autonomous aircraft shopping", "rfp_released", due="2026-11-30", line="notice:SHOP2")
+    corpus["events"] = timeline + [rfi, shop]
+    keyed = {**cell, "key": "need:notice:RFI1", **score(timeline + [rfi, shop], as_of)}
+    answered = [x for x in actions([keyed], corpus, as_of) if x["type"] == "respond_notice"]
+    assert [(x["evidence"], x["by"]) for x in answered] == [(["q"], "2026-12-31")], answered
+    kept = {e["id"] for e in cell_events(keyed, corpus) if e["family"] == "notice"}
+    assert "q" in kept and "h" not in kept and "p" in kept, ("the namesake is not the row's notice; a notice on no line stays", kept)
+    outcome = {**cell, "key": "outcome:h", **score(timeline + [rfi, shop], as_of)}
+    assert [x["evidence"] for x in actions([outcome], corpus, as_of) if x["type"] == "respond_notice"] == [["h"]], "an outcome notice answers itself"
     ordered = queue([{"by": None, "priority": 1}, {"by": "2027-01-01", "priority": 9}, {"by": "2026-10-01", "priority": 5}])
     assert [x["by"] for x in ordered] == ["2026-10-01", "2027-01-01", None], "dated actions first, soonest first"
     print("pulse selfcheck ok")

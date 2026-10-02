@@ -182,10 +182,10 @@ from the base award (EX13).
   itself stays behind the PIEE login; the notice synopsis is what SAM.gov
   publishes and it is enough to name the office.
 - The documented public API host (api.sam.gov) answered 404 from two networks; the keyless site
-  API that the SAM.gov web application uses (and that Chromie's runner already uses) worked for
+  API that the SAM.gov web application uses (and that the platform's runner already uses) worked for
   notice detail, description text, attachment lists and archived search.
 
-## 5. Replaying through Chromie's resolver
+## 5. Replaying through the platform's resolver
 
 The classes above line up with the production resolver's evidence rules
 (`program_office_resolver.py`: an office code or explicit ownership language is required;

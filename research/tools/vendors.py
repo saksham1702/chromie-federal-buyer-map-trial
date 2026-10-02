@@ -31,6 +31,15 @@ def modifications(entries: dict[str, dict]) -> list[dict]:
             for a in fpds_entries((ROOT / page["path"]).read_bytes(), full=True) if a["piid"] == piid]
 
 
+def current_completion(entries: dict[str, dict], actions: list[dict] = ()) -> dict[str, str]:
+    """Each award's completion date as its newest action states it: an extension or a termination moves the base date."""
+    ends = {piid: e["completion"] for piid, e in entries.items() if e["completion"]}
+    for a in sorted(actions, key=lambda a: (a["signed"], a.get("mod") or "")):
+        if a["completion"] and a["piid"] in entries:
+            ends[a["piid"]] = a["completion"]
+    return ends
+
+
 def resolve_entries(entries: dict[str, dict], as_of: str, actions: list[dict] = ()) -> dict:
     """Group the awards by UEI; a spelling belongs to the UEI it was seen with most often. The parent is the one the
     newest record naming a parent states, a modification included: a vendor bought after its awards is named on them
@@ -47,6 +56,7 @@ def resolve_entries(entries: dict[str, dict], as_of: str, actions: list[dict] = 
             by_uei[uei].append(e)
         elif e["vendor"]:
             unresolved[e["vendor"]] += 1
+    ends = current_completion(entries, actions)
     vendors = []
     for uei, rows in by_uei.items():
         names = Counter(r["vendor"] for r in rows if r["vendor"])
@@ -56,7 +66,7 @@ def resolve_entries(entries: dict[str, dict], as_of: str, actions: list[dict] = 
         vendors.append({"uei": uei, "name": names.most_common(1)[0][0] if names else "", "spellings": sorted(names),
                         "parent_uei": parent_uei, "parent_name": parent_name, "parent_signed": p["signed"] if p else "", "awards": len(rows),
                         "first_signed": signed[0] if signed else "", "last_signed": signed[-1] if signed else "",
-                        "live": sum(1 for r in rows if r["completion"] and r["completion"] > as_of),
+                        "live": sum(1 for r in rows if ends.get(r["piid"], "") > as_of),
                         "offices": dict(Counter(r["contracting_office"] for r in rows).most_common()),
                         "funding_offices": dict(Counter(r["funding_office"] for r in rows if r["funding_office"]).most_common(5))})
     vendors.sort(key=lambda v: (-v["awards"], v["uei"]))
@@ -147,8 +157,11 @@ def resolve(argv: list[str]) -> int:
         print(awards_not_collected() or f"no vendor spelling contains {argv[0]!r}")
         return 1
     entries = book()  # vendors.json keeps counts, not contracts; the awards are read back from the saved pages
+    shown = {piid: e for piid, e in entries.items() if e["coded"]["UEI"]["code"] in {v["uei"] for v in hits[:5]}}
+    ends = current_completion(shown, modifications(shown))
     for v in hits[:5]:
-        v["contracts"] = sorted((e for e in entries.values() if e["coded"]["UEI"]["code"] == v["uei"]), key=lambda e: (e["signed"], e["piid"]), reverse=True)
+        v["contracts"] = sorted(({**e, "completion": ends.get(e["piid"], e["completion"])} for e in shown.values() if e["coded"]["UEI"]["code"] == v["uei"]),
+                                key=lambda e: (e["signed"], e["piid"]), reverse=True)
     print("\n\n".join(text(v) for v in hits[:5]))
     return 0
 
@@ -171,6 +184,9 @@ def selfcheck() -> int:
     assert "parent: ACME HOLDINGS" in text(v)
     later = resolve_entries(entries, "2026-09-21", [row("A", "ACME & CO", "U1", "2025-06-01", "2027-01-01", parent={"puei": "P9", "pname": "NEWCO INC"})])
     assert later["vendors"][0]["parent_name"] == "NEWCO INC" and names_for("newco", later) == ["ACME & CO", "ACME AND CO"], later["vendors"][0]
+    extended = resolve_entries(entries, "2026-09-21", [row("C", "BETA LLC", "U2", "2024-03-01", "2029-06-29")])
+    assert next(x for x in extended["vendors"] if x["uei"] == "U2")["live"] == 1, "an extension signed after the base award keeps it live"
+    assert current_completion(entries, [row("A", "ACME & CO", "U1", "2025-02-01", "2025-06-30")])["A"] == "2025-06-30", "a later action that shortens it wins too"
     print("vendors selfcheck ok")
     return 0
 

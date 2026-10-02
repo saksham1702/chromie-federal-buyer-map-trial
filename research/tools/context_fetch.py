@@ -91,7 +91,12 @@ def fetch(urls: list[str]) -> int:
     pages = [u for u in urls if u not in files]
     key = env_value("CONTEXT_DEV_API_KEY")
     if pages and not key:
-        print(f"  {len(pages)} page(s) need CONTEXT_DEV_API_KEY, which is not set")
+        # Without context.dev, the hosted browser renders the pages too (browserbase_fetch saves a page as its rendered
+        # HTML with method "browserbase"); only a machine with neither key stops here.
+        if env_value("BROWSERBASE_API_KEY"):
+            print(f"  {len(pages)} page(s) through Browserbase (CONTEXT_DEV_API_KEY is not set)")
+            return browserbase(pages + files)
+        print(f"  {len(pages)} page(s) need CONTEXT_DEV_API_KEY or BROWSERBASE_API_KEY, neither of which is set")
         return 1
     failed = 0
     for url in pages:

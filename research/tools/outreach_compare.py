@@ -234,17 +234,20 @@ def record_checks(walk: Walk, answer: dict, profile: str) -> dict:
 
 # ------------------------------------------------------------------ the sessions
 
-def claude(prompt: str, cwd: Path, tools: str, schema: dict, budget: str, allowed: str = "", mcp: dict | None = None) -> dict:
+def claude(prompt: str, cwd: Path, tools: str, schema: dict, budget: str, allowed: str = "", mcp: dict | None = None, stream: bool = False) -> dict:
     """One clean headless Claude Code session; its structured answer, how much it cost, and the whole transcript. It has
-    the built-in `tools` and the servers in `mcp` and no other, and uses unasked only what `allowed` names (default: `tools`)."""
-    cmd = ["claude", "-p", prompt, "--model", MODEL, "--output-format", "json", "--json-schema", json.dumps(schema),
+    the built-in `tools` and the servers in `mcp` and no other, and uses unasked only what `allowed` names (default: `tools`).
+    With `stream`, the transcript is every message of the session (the CLI's stream-json, one object per line), so each
+    tool call and what it returned are in it; without it, the CLI's json format carries the result alone."""
+    fmt = ["--output-format", "stream-json", "--verbose"] if stream else ["--output-format", "json"]
+    cmd = ["claude", "-p", prompt, "--model", MODEL, *fmt, "--json-schema", json.dumps(schema),
            "--tools", tools, "--allowedTools", allowed or tools, "--max-budget-usd", budget, "--no-session-persistence",
            "--setting-sources", "", "--strict-mcp-config", *(["--mcp-config", json.dumps(mcp)] if mcp else [])]
     start = time.time()
     proc = subprocess.run(cmd, cwd=cwd, stdin=subprocess.DEVNULL, capture_output=True, text=True, timeout=5400)
     seconds = round(time.time() - start)
     try:
-        transcript = json.loads(proc.stdout)
+        transcript = [json.loads(line) for line in proc.stdout.splitlines() if line.strip()] if stream else json.loads(proc.stdout)
     except json.JSONDecodeError:
         return {"error": (proc.stderr or proc.stdout)[-2000:], "seconds": seconds}
     messages = transcript if isinstance(transcript, list) else [transcript]

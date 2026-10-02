@@ -33,10 +33,15 @@ def test_generated_records_are_draft_and_cite_the_sheet() -> None:
         assert node["review_status"] == "draft" and node["reviewed_by"] is None
         assert node["observation_ids"] and all(obs[i]["source_url"] for i in node["observation_ids"]), node["id"]
         assert node["type"] in {"command", "contracting_office", "technical_center", "field_activity", "program_office",
-                                "program_executive_office", "department", "direct_reporting_program_manager"}, node["id"]
+                                "program_executive_office", "department", "direct_reporting_program_manager",
+                                "acquisition_portfolio"}, node["id"]  # the PAEs, read off saved releases (docs/08 lists the type)
     for rel in (r for r in seed["relationships"] if r.get("generator") == GENERATOR):
-        assert rel["type"] == "child_of" and rel["evidence_class"] in {"directly_documented", "inferred"}
-        assert all(obs[i]["statement_type"] == "parentage" for i in rel["observation_ids"]), rel["id"]
+        # A parent comes from the office column; the office that buys for an office comes from the contracting column
+        # of the rows that office owns, which is stated, never inferred.
+        assert rel["type"] in {"child_of", "contracts_for"} and rel["evidence_class"] in {"directly_documented", "inferred"}
+        assert rel["type"] == "child_of" or rel["evidence_class"] == "directly_documented", rel["id"]
+        kind = "parentage" if rel["type"] == "child_of" else "contracting"
+        assert all(obs[i]["statement_type"] == kind for i in rel["observation_ids"]), rel["id"]
         if rel["evidence_class"] == "inferred":
             assert "inference" in rel["current_status"]["note"], rel["id"]
             # What each inference rests on: the site's two columns, the HQ list's heading, the command's own sheet

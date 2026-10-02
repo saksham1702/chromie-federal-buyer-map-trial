@@ -28,9 +28,12 @@ Department of War's directory join them, and an office with none of its own, or 
 """
 from __future__ import annotations
 
+import csv
+import hashlib
 import json
 import re
 import sys
+import tempfile
 from collections import Counter
 from pathlib import Path
 
@@ -59,10 +62,11 @@ EXECUTIVE = P["people"]["executive"]
 # A SAM.gov point of contact is the contracting shop's named contact; the schema has no finer word for it.
 POC_ROLE = "contract_specialist"
 # The read text gets a lower confidence than a structured field: the model named the person, a lint checked the span.
-CONFIDENCE = {"sam_gov_site_api": "0.90", "contact_observations": "0.90", "organization_seed": "0.90", "agency_staff_listing": "0.90",
+CONFIDENCE = {"sam_gov_site_api": "0.90", "dhs_apfs_forecast": "0.90", "contact_observations": "0.90", "organization_seed": "0.90", "agency_staff_listing": "0.90",
               "navy_mil_speeches": "0.70", "house_committee_repository": "0.70", "conference_pages_exa": "0.60", "news_articles": "0.80",
               "darpa_site": "0.70"}
 REMARKS_PROVIDER = P["people"].get("remarks_providers") or P["remarks"]["providers"]
+KEEP_EMAILS = P["people"].get("emails", True)  # a profile that keeps names only merges by address and writes none
 STAFF_BASE_URL = P["people"].get("staff_base_url") or ""
 
 
@@ -179,12 +183,44 @@ def split_pocs(full: str, email: str) -> list[tuple[str, str]]:
     return out
 
 
+def forecast_contacts(packs: list[Path] | None = None) -> list[tuple[str, str, dict]]:
+    """The requirements contact and the alternate contact a forecast record names (the DHS forecast prints them, and
+    only their names are kept), placed in the office the record's requirement resolved to and dated by the newest
+    release that still names them: the agency's live forecast states them as of that day."""
+    if packs is None:
+        from agency_layers_sql import RELEASES  # noqa: E402
+        packs = [ROOT / "datapack" / r for r in RELEASES]
+    provider = next(iter((P.get("forecast") or {}).get("providers", {}).values()), "forecast")
+    out, seen = [], set()
+    for pack in sorted(packs, key=lambda x: x.name, reverse=True):
+        day = re.search(r"\d{4}-\d{2}-\d{2}$", pack.name)
+        if not day or not (pack / "rows_raw.csv").exists() or not (pack / "rows_classified.csv").exists():
+            continue
+        with (pack / "rows_classified.csv").open(newline="", encoding="utf-8") as handle:
+            office_of = {r["row_number"]: r["office_id"] for r in csv.DictReader(handle) if r["include_decision"] == "included" and r["office_id"]}
+        with (pack / "rows_raw.csv").open(newline="", encoding="utf-8") as handle:
+            for r in csv.DictReader(handle):
+                for field, label in (("requirement_contact", "requirements contact"), ("alternate_contact", "alternate requirements contact")):
+                    name, office = (r.get(field) or "").strip(), office_of.get(r["row_number"])
+                    if not office or not norm_name(name) or (r["pid"], field) in seen:
+                        continue
+                    seen.add((r["pid"], field))
+                    title = f"{label} on forecast record {r['pid']}" + (f" (published {r['published']})" if r.get("published") else "")
+                    out.append((name, "", position(office, "program_staff", title, day.group(0), provider, r["pid"], r.get("url") or "",
+                                                   r.get("requirement_title") or "")))
+    return out
+
+
 def observed_contacts() -> list[tuple[str, str, dict]]:
     if not OBSERVATIONS.exists():
         return []
     out = []
     for row in json.loads(OBSERVATIONS.read_text(encoding="utf-8")):
         if row.get("kind") != "person" or not row.get("office_id_as_resolved") or not row.get("observed_at"):
+            continue
+        if row.get("generator"):
+            # Written by contact_routes.py from the staff listing and the notice contacts, which this tool already
+            # reads at first hand; counting them again would make one listing look like two sources.
             continue
         channel = (row.get("channel_as_written") or "").strip().lower()
         out.append((row["name"], channel if "@" in channel else "",
@@ -343,15 +379,18 @@ def merge(rows: list[tuple[str, str, dict]], seed: dict[str, dict] | None = None
             if k not in seen:
                 seen.add(k)
                 unique.append(p)
-        out.append({"id": person["id"], "key": person["key"], "seed_id": person["seed_id"],
+        key = person["key"] if KEEP_EMAILS or not person["key"].startswith("email:") else \
+            "email:" + hashlib.sha256(person["key"].encode()).hexdigest()[:16]  # the address merged the rows; it is not written
+        out.append({"id": person["id"], "key": key, "seed_id": person["seed_id"],
                     "name": person_name(max(person["names"], key=lambda n: ("," not in person_name(n), person["names"][n], len(n)))),
-                    "emails": sorted(person["emails"]), "positions": unique,
+                    "emails": sorted(person["emails"]) if KEEP_EMAILS else [], "positions": unique,
                     "offices": sorted({p["office"] for p in unique}), "last_seen": unique[0]["observed_at"]})
     return sorted(out, key=lambda p: (p["last_seen"], p["name"]), reverse=True)
 
 
 def build(argv: list[str]) -> int:
-    rows = sam_contacts() + observed_contacts() + remarks_people() + news_people() + staff_people()
+    rows = sam_contacts() + forecast_contacts() + observed_contacts() + remarks_people() + news_people() + staff_people()
+    rows = [r for r in rows if KEEP_EMAILS or "@" not in r[0]]  # an address written as the name is a mailbox, not a person
     people = merge(rows, seed_people())
     payload = {"source": SOURCE, "observations": len(rows), "people": len(people),
                "by_source": dict(Counter(p["source"] for r in rows for p in [r[2]]).most_common()),
@@ -382,6 +421,27 @@ def contacts_for(org_ids: list[str], people: list[dict], as_of: str | None = Non
     return [{"name": person["name"], "role": p["role_type"], "title": p["raw_title"], "office": p["office"], "observed_at": p["observed_at"],
              "source": p["source"], "source_ref": p["source_ref"], "source_url": p["source_url"], "email": (person["emails"] or [""])[0]}
             for _, _, _, person, p in rows[:limit]]
+
+
+def own_contacts(event: dict, people: list[dict], as_of: str | None = None) -> list[dict]:
+    """Whom the record ties to this statement itself: a position observed on the same saved notice (its source_ref is the
+    notice id the statement's record or page names) or whose title or context carries the statement's solicitation
+    number. Contacts of the office the statement is filed at are another question; they answer for other solicitations."""
+    text = f"{event.get('text', '')} {event.get('url', '')} {event.get('source', '')}"
+    ids = set(re.findall(r"/opp/([0-9a-f]{32})/|/opportunities/([0-9a-f]{32})", text))
+    ids = {x for pair in ids for x in pair if x}
+    sol = re.search(r"solicitation ([A-Z0-9][A-Z0-9_.-]{4,})", event.get("text", ""))
+    number = re.sub(r"[\s-]", "", sol.group(1).upper()) if sol else ""
+    rows = []
+    for person in people:
+        fits = [p for p in person["positions"] if (not as_of or p["observed_at"] <= as_of)
+                and (p.get("source_ref") in ids or (number and number in re.sub(r"[\s-]", "", f"{p.get('raw_title', '')} {p.get('context', '')}".upper())))]
+        if fits:
+            p = max(fits, key=lambda p: p["observed_at"])
+            rows.append({"name": person["name"], "role": p["role_type"], "title": p["raw_title"], "office": p["office"], "observed_at": p["observed_at"],
+                         "source": p["source"], "source_ref": p["source_ref"], "source_url": p["source_url"], "email": (person["emails"] or [""])[0],
+                         "basis": "named on this statement's own record"})
+    return sorted(rows, key=lambda r: (r["observed_at"], r["name"]), reverse=True)
 
 
 SMALL_BUSINESS_ROUTE = "small_business_office"
@@ -445,6 +505,17 @@ def show(argv: list[str]) -> int:
 
 
 def selfcheck() -> int:
+    with tempfile.TemporaryDirectory() as tmp:  # two releases of one record: the newer one dates the statement
+        for day, contact in (("2026-09-26", "Jared Slizofski"), ("2026-09-29", "Jared Slizofski")):
+            pack = Path(tmp) / f"x_{day}"
+            pack.mkdir()
+            (pack / "rows_classified.csv").write_text("row_number,office_id,include_decision\n2,program:cg-cyber,included\n", encoding="utf-8")
+            (pack / "rows_raw.csv").write_text("row_number,pid,published,requirement_contact,alternate_contact,url,requirement_title\n"
+                                               f"2,F1,09/01/2026,Ann Lee,{contact},https://r/1,Cyber tools\n", encoding="utf-8")
+        got = forecast_contacts(sorted(Path(tmp).iterdir()))
+    assert [(n, q["role_type"], q["observed_at"], q["office"]) for n, _, q in got] == [
+        ("Ann Lee", "program_staff", "2026-09-29", "program:cg-cyber"), ("Jared Slizofski", "program_staff", "2026-09-29", "program:cg-cyber")], got
+    assert got[1][2]["raw_title"] == "alternate requirements contact on forecast record F1 (published 09/01/2026)" and got[0][1] == ""
     assert norm_name("CAPT Raphael R. Castillejo") == norm_name("Castillejo, Raphael") == "raphael castillejo"
     assert norm_name("The Honorable Hung Cao") == "hung cao" and norm_name("Mr. Eric Andalis") == "eric andalis"
     assert norm_name("Ashley, Megan") == "megan ashley" and norm_name("") == "" and norm_name("A.") == ""
@@ -495,6 +566,13 @@ def selfcheck() -> int:
               '619-524-7389\n\n<a href="mailto:clayton.r.thomas@navy.mil">Contract Specialist</a>')
     assert split_pocs(legacy, "") == [("Clayton R Thomas", "clayton.r.thomas@navy.mil"), ("Stephen R Beckner", "")]
     assert split_pocs("Megan Ashley", "megan.ashley@navy.mil") == [("Megan Ashley", "megan.ashley@navy.mil")]
+    # A statement's own contacts come from its own record; the office's coordinators on other solicitations are not its people
+    roster = [{"name": "Own Coordinator", "emails": ["own@x.mil"], "positions": [pos("contracting:hr0011", "aaaa" * 8) | {"raw_title": "primary point of contact on presolicitation DARPA-PA-26-10_DRAFT", "context": ""}]},
+              {"name": "Other Coordinator", "emails": [], "positions": [pos("contracting:hr0011", "bbbb" * 8) | {"raw_title": "primary point of contact on solicitation DARPA-PS-26-141", "context": ""}]}]
+    statement = {"text": "SAM.gov presolicitation 2026-09-24: HUBBLE presolicitation; solicitation DARPA-PA-26-10_DRAFT; record x", "url": f"https://sam.gov/opp/{'aaaa' * 8}/view"}
+    assert [c["name"] for c in own_contacts(statement, roster)] == ["Own Coordinator"], own_contacts(statement, roster)
+    assert own_contacts({"text": "SAM.gov presolicitation: other; solicitation DARPA-PA-26-10_DRAFT", "url": ""}, roster)[0]["name"] == "Own Coordinator", "the number alone ties"
+    assert own_contacts({"text": "a remark with no solicitation", "url": ""}, roster) == []
     print("selfcheck ok")
     return 0
 

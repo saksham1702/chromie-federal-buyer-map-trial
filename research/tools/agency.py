@@ -80,14 +80,16 @@ NAVY = {
     "moved_urls": {},  # a directory address whose host no longer resolves -> where its page is saved from
     "generic_words": (),
     "sbir_commands": {"NAVSEA": "command:navsea", "NAVAIR": "command:navair", "NAVWAR": "command:navwar", "SPAWAR": "command:navwar",
-                      "ONR": "command:onr", "SSPO": "command:ssp", "SSP": "command:ssp"},
+                      "ONR": "command:onr", "SSPO": "command:ssp", "SSP": "command:ssp",
+                      # the portal's other Navy commands, once their nodes exist (Stage 2, 2026-09-28): both Marine Corps spellings are one command
+                      "NAVFAC": "command:navfac", "MCSC": "command:mcsc", "MARCOR": "command:mcsc"},
     # Federal Register API conditions; an agency without a slug searches its name as a term.
     "fedreg_conditions": [("conditions[agencies][]", "navy-department")],
     "fedreg_label": "Department of the Navy",
     "fedreg_name_pattern": None,
     "shared_sources": (),  # the Navy collected everything it reads; the unmarked ledger rows are its own
     # How this agency's SBIR/STTR topic codes, contract numbers and solicitation numbers are written in a text.
-    "topic_re": r"\bN\d{2}[0-9AB]-T?\d{3}\b",
+    "topic_re": r"\bN\d{2}[0-9AB]-T?\d{3}\b|\bDON\d{2}[BT][ZX]\d{2}-[A-Z]{2}\d{3}\b",  # N251-001 and the FY2026 DON26BZ06-DV088 shape
     "piid_re": r"\bN\d{5}-?\d{2}-?[A-Z]-?\d{4}\b",
     "solicitation_re": r"\bN\d{5}-?\d{2}-?[A-Z]-?[A-Z0-9]{4}\b",
     # Committee reports: the pattern a directive sentence must name.
@@ -140,7 +142,9 @@ NAVY = {
     # evidence_host: the host the Navy evidence rows were first written with (the loaded rows keep it); another agency's
     # rows carry the book URL's own host.
     "budget": {"exhibit": "P-40", "pb_label": "Navy", "books_dir": "jbooks", "provider": "don_budget_justification_books",
-               "evidence_host": "secnav.navy.mil"},
+               "evidence_host": "secnav.navy.mil",
+               # The Comptroller display spreadsheets: the Navy's accounts end in N (1319N RDT&E,N; 1810N OPN; 1109N Procurement, Marine Corps).
+               "display": {"account_suffix": "N"}},
     # People: the department node a person falls to, and the titles read as executive.
     "people": {"department": "agency:don",
                "executive": ("secretary of the navy", "assistant secretary", "chief of naval operations", "commandant", "vice chief",
@@ -161,7 +165,22 @@ NAVY = {
     # The offices whose forecast cells are judged for precision (research/docs/00).
     "pilot_offices": ("PMA/PMW 101", "PMW 120", "PMW 130", "PMW 150", "PMW 160", "PMW/A 170", "PMW 740"),
     # The coverage grid's organizations (the families are the layer's and do not change).
-    "coverage_orgs": ["NAVSEA", "NAVAIR", "NAVWAR", "ONR", "NIWC"],
+    "coverage_orgs": ["NAVSEA", "NAVAIR", "NAVWAR", "ONR", "NIWC Pacific", "NIWC Atlantic", "NRL", "SSP", "PAE Mission Systems", "DRPM RAS",
+                      "PEO C4I", "PEO Digital", "PEO EIS", "PEO IWS", "PEO MLB", "PEO Ships", "PEO SSN", "PEO Submarines", "PEO USC", "PEO UWS",
+                      "PEO Carriers", "NAVFAC", "MSC"],
+    # The memory node behind each row of the generated matrix (coverage.py matrix); None until Stage 2 adds the node from a
+    # saved page, and the row's cells then read not_started.
+    "coverage_org_nodes": {"NAVSEA": "command:navsea", "NAVAIR": "command:navair", "NAVWAR": "command:navwar", "ONR": "command:onr",
+                           "NIWC Pacific": "center:niwc-pacific", "NIWC Atlantic": "center:niwc-atlantic", "NRL": "center:nrl", "SSP": "command:ssp",
+                           "PAE Mission Systems": "pae:mission-systems", "DRPM RAS": "drpm:ras", "PEO C4I": "peo:c4i", "PEO Digital": "peo:digital",
+                           "PEO EIS": "peo:eis", "PEO IWS": "peo:iws", "PEO MLB": "peo:mlb", "PEO Ships": "peo:ships", "PEO SSN": "peo:ssn",
+                           "PEO Submarines": "peo:submarines", "PEO USC": "peo:usc", "PEO UWS": "peo:uws", "PEO Carriers": "peo:carriers",
+                           "NAVFAC": "command:navfac", "MSC": "command:msc"},
+    # Sources that speak for the whole department in a family: a cell they alone feed is Adjacent, never Live.
+    "coverage_department_wide": {"oversight": ["oversight_gov_reports", "gao_reports"], "leaders": ["navy_mil_speeches"],
+                                 "congress": ["house_committee_repository", "govinfo_api"], "conference": ["conference_pages_exa"],
+                                 "news": ["news_articles_exa"], "protest": ["gao_bid_protests"], "programs": ["sbir_sttr_topics"],
+                                 "hiring": ["usajobs_historic_joa"]},
     # Reading the frozen corpus (pages.py, office_wiki.py, people.py): how the agency writes a program office code in a
     # notice or after a person's name, and a hull or platform designator to strip from a title (none where the agency
     # has none). The contract number pattern is `piid_re` above and the buyer's own names are `generic_words`.
@@ -169,6 +188,16 @@ NAVY = {
                 "hull_re": r"\bUSS\s+[A-Z][A-Za-z .'-]*?\s*\(?[A-Z]{2,4}[\s-]*\d{1,4}\)?|\b[A-Z]{2,4}[\s-]+\d{1,4}\b",
                 # A solicitation number written into a forecast title or an article, read with its spaces removed.
                 "rfp_re": r"N\d{5}-?\d{2}-?R-?[A-Z]?-?\d{3,4}(?![0-9])"},
+    # Hiring (research/tools/jobs.py): USAJobs files every announcement under a department code and an agency code of
+    # its own; the codes here are the commands the layer studies, each mapped to the memory node it names, as the
+    # historic announcement API listed them on 2026-09-27. The NIWCs and NRL announce under their command's code.
+    "hiring": {"usajobs_department_code": "NV",
+               "usajobs_agency_codes": {"NV39": "command:navwar", "NV24": "command:navsea", "NV19": "command:navair",
+                                        "NV14": "command:onr", "NV30": "command:ssp"},
+               "note": "NAVWAR (NV39) listed 406 announcements in the twelve months to 2026-09-27; the Marine Corps, the fleets and the shore commands announce under codes of their own and are not swept",
+               # Vendor postings (vendor_jobs.py): the incumbents with live awards at the swept contracting offices are
+               # asked through RouterGrowth; `vendor_watch` names companies to ask beside them ({"uei", "name", "hosts"}).
+               "vendor_jobs": True, "vendor_watch": []},
 }
 
 DARPA = {
@@ -195,7 +224,7 @@ DARPA = {
                       "MXO": "office:mxo", "STO": "office:sto", "TTO": "office:tto"},
     # Sources this layer reads from the shared collection rather than its own sweeps (the portal pages and the
     # committee reports the Navy layer saved): their documents count for this layer though their notes are unmarked.
-    "shared_sources": ("sbir_sttr_topics", "govinfo_api"),
+    "shared_sources": ("sbir_sttr_topics", "govinfo_api", "diu_cso_solicitations"),  # DIU openings: one collection, read by every DoD layer
     # The event family of each provider only this layer has (backtest.FAMILY holds the shared and the Navy ones), and
     # the words that name this buyer or its paperwork rather than a requirement.
     # The technical offices own DARPA's programs, as the program offices own the Navy's.
@@ -251,23 +280,38 @@ DARPA = {
     # DARPA is funded through research, development, test and evaluation alone: one R-1 justification book a year,
     # whose pages are Exhibit R-2 program elements.
     "budget": {"exhibit": "R-2", "pb_label": "Defense Advanced Research Projects Agency", "books_dir": "jbooks_darpa",
-               "provider": "dod_comptroller_budget_materials"},
+               "provider": "dod_comptroller_budget_materials",
+               # Funded inside the Defense-Wide RDT&E account (0400D); DARPA's program elements end in E.
+               "display": {"account_suffix": "D", "pe_re": r"\d{7}E$"}},
     "people": {"department": "agency:darpa",
                "executive": ("director", "deputy director", "office director", "chief of staff", "general counsel"),
                # darpa.mil/json/staff: role, office and start date as the agency publishes them; a record's page path
                # is relative to the site.
                "staff_listing": "https://www.darpa.mil/json/staff", "staff_base_url": "https://www.darpa.mil",
+               # darpa.mil/json/program: every program the agency lists, current and completed, with its office and
+               # the program manager by name, one row per research topic (programs.py).
+               "program_listing": "https://www.darpa.mil/json/program", "program_current": "Current",
+               "program_fields": {"id": "nid", "title": "title", "status": "field_program_status", "office": "field_taxonomy_office",
+                                  "manager": ("field_program_manager__field_first_name", "field_program_manager__field_last_name"),
+                                  "manager_role": "field_program_manager__field_role", "path": "view_node", "topics": "field_research_topics"},
                "remarks_providers": None},
     "forecast": {"pack_glob": None, "label": "", "short": "", "providers": {}, "memory_tool": "org_memory_darpa.py"},
     # The technical offices by the acronym the loaded organization carries (its office code), as the Navy's by code.
     "pilot_offices": ("BTO", "DSO", "IPTO", "MXO", "STO", "TTO"),
     "coverage_orgs": ["BTO", "DSO", "IPTO", "MXO", "STO", "TTO", "CMO"],
+    "coverage_org_nodes": {},  # the matrix is written by hand (or by its own script) until the nodes are named here
+    "coverage_department_wide": {},
     # A DARPA notice names its office by acronym (the six technical offices, the four former ones the notices still
     # name, and the staff offices); DARPA has no hull designators.
     "reading": {"office_code_re": r"\b(?:BTO|DSO|I2O|IPTO|MTO|MXO|STO|TTO|DIRO|CMO|SBPO|ACO|APO|CSO)\b",
                 "hull_re": r"(?!)",
                 # ponytail: the Navy pattern this layer was built with; its own moves news links and with them paid office pages.
                 "rfp_re": r"N\d{5}-?\d{2}-?R-?[A-Z]?-?\d{3,4}(?![0-9])"},
+    # USAJobs lists DARPA as DD13 under the Department of Defense: five announcements between April and September 2026.
+    # The agency recruits its program managers through darpa.mil/careers, a host that refuses this address.
+    "hiring": {"usajobs_department_code": "DD", "usajobs_agency_codes": {"DD13": "agency:darpa"},
+               "note": "DD13 listed five announcements between 2026-04-01 and 2026-09-27; darpa.mil/careers refuses this address and is not read",
+               "vendor_jobs": True, "vendor_watch": []},
 }
 
 ARMY = {
@@ -297,7 +341,7 @@ ARMY = {
     # The DEVCOM centers and laboratories are often where the work is done rather than whose requirement it is.
     "performer_types": ("technical_center", "field_activity"),
     "office_key_re": r"(?!)",  # the forecast writes its program offices by name; no code pattern yet
-    "shared_sources": ("sbir_sttr_topics", "govinfo_api"),
+    "shared_sources": ("sbir_sttr_topics", "govinfo_api", "diu_cso_solicitations"),  # DIU openings: one collection, read by every DoD layer
     "owner_types": (),
     "families": {"army_asaalt_chart": "organization", "amc_acquisition_forecast": "forecast", "usace_acquisition_forecast": "forecast",
                  "army_national_guard_forecast": "forecast", "army_budget_materials": "budget"},
@@ -341,7 +385,8 @@ ARMY = {
                            "Capability Program Executive", "program manager", "acquisition", "contract award"]},
     "protests": {"listing": "https://www.gao.gov/legal/bid-protests/search?agency=Department%20of%20the%20Army&page={page}",
                  "agency": "Department of the Army", "max_pages": 60},
-    "budget": {"exhibit": "P-40", "pb_label": "Army", "books_dir": "jbooks_army", "provider": "army_budget_materials"},
+    "budget": {"exhibit": "P-40", "pb_label": "Army", "books_dir": "jbooks_army", "provider": "army_budget_materials",
+               "display": {"account_suffix": "A"}},  # 2040A RDT&E,A; 2031A Aircraft Procurement, Army
     "people": {"department": "agency:army",
                "executive": ("secretary of the army", "assistant secretary", "under secretary", "chief of staff", "commanding general",
                              "portfolio acquisition executive", "program executive", "director"),
@@ -354,20 +399,182 @@ ARMY = {
                  "contract_re": r"W[A-Z0-9]{5}\d{2}[A-Z]\d{4}(?!\d)"},  # Army PIIDs as the forecast writes them, hyphens gone
     "pilot_offices": ("PEO AVIATION", "PEO MS", "JPEO AA", "PEO SOLDIER", "PEO GCS", "CPE C2IN"),
     "coverage_orgs": ["ASA(ALT)", "ACC", "AMC", "PEO AVIATION", "PEO MS", "JPEO AA", "PEO SOLDIER", "PEO GCS", "CPE C2IN"],
+    "coverage_org_nodes": {},  # the matrix is written by hand (or by its own script) until the nodes are named here
+    "coverage_department_wide": {},
     # An Army notice names its office as a PEO, JPEO, CPE, PM or PdM followed by the office's word (PEO Aviation, PM UAS);
     # the Army has no hull designators. A first pattern from the forecast's office names, not yet run against a corpus.
     "reading": {"office_code_re": r"\b(?:J?PEO|CPE|P[dD]M|PM) [A-Z][A-Za-z0-9&()/-]+",
                 "hull_re": r"(?!)",
                 # ponytail: the Navy pattern this layer was built with; its own moves news links and with them paid office pages.
                 "rfp_re": r"N\d{5}-?\d{2}-?R-?[A-Z]?-?\d{3,4}(?![0-9])"},
+    # USAJobs codes as the September 2026 listing wrote them: the Acquisition Support Center (ARAE) announces the acquisition
+    # workforce's vacancies and names a portfolio acquisition executive in the subelement; TACOM, AMCOM and CECOM are
+    # AMC's commands; the Secretariat is ARSA. Army Contracting Command showed no code of its own in that listing.
+    "hiring": {"usajobs_department_code": "AR",
+               "usajobs_agency_codes": {"ARAE": "agency:army", "ARSA": "agency:army", "ARX7": "command:amc", "ARX6": "command:amc", "ARX8": "command:amc"},
+               "note": "the subelement names the PEO or PAE where the listing states one; Army Contracting Command had no code in the 2026-09 listing",
+               "vendor_jobs": True, "vendor_watch": []},
 }
 
-PROFILES = {"navy": NAVY, "darpa": DARPA, "army": ARMY}
+AIRFORCE = {
+    "key": "airforce",
+    "label": "Department of the Air Force",
+    "short": "U.S. Air Force",
+    "database": "airforce_proof",
+    # One department, two services: the Space Force's acquisition (Space Systems Command) buys under the same subtier
+    # code 5700, and USAspending, FPDS and SAM.gov file it as the Department of the Air Force (research/docs/20).
+    "agency": {"toptier_code": "097", "toptier_name": "Department of Defense", "toptier_abbreviation": "DOD",
+               "subtier_code": "5700", "subtier_name": "Department of the Air Force", "subtier_abbreviation": "USAF",
+               "node": "agency:daf", "office_code_re": r"FA\d{4}", "small_business_directory": DOD_SMALL_BUSINESS},
+    "moved_urls": {},  # a directory address whose host no longer resolves -> where its page is saved from
+    "committees": DOD_COMMITTEES,
+    # FPDS: the contracting offices of the acquisition centers, as the feed names them (first entry of each office's
+    # feed, 2026-09-25): AFLCMC's program-office contracting at Hanscom, Eglin and Wright-Patterson, the Air Force
+    # Research Laboratory's directorates, Space Systems Command's program executive offices, and the Sustainment
+    # Center's three complexes. Installation contracting squadrons (the CONS) and the operational contracting
+    # divisions (PZIO) buy base services and are not swept. FY2025 volumes: under 490 base awards for every office probed.
+    "fpds_offices": {"FA8730": "AFLCMC/HBBK Kessel Run (Hanscom)", "FA8702": "AFLCMC/PZE Hanscom", "FA8213": "AFLCMC/EBHK Weapons (Eglin)",
+                     "FA8621": "AFLCMC/WNSK Simulators", "FA8615": "AFLCMC/WAMK F-16", "FA8611": "AFLCMC/WAUK F-22",
+                     "FA8620": "AFLCMC/WIJK Big Safari", "FA8622": "AFLCMC/AZS EPASS", "FA8656": "AFLCMC/EBX",
+                     "FA8650": "AFRL/PZL Wright-Patterson", "FA8750": "AFRL/RIK Rome", "FA8751": "AFRL/RIKO Rome",
+                     "FA9453": "AFRL/RVK Kirtland", "FA9550": "AFRL/AFOSR", "FA8651": "AFRL/RWK Eglin",
+                     "FA8806": "SSC/BCK Battle Management C3", "FA8807": "SSC/CGK Military Communications and PNT",
+                     "FA8808": "SSC Military Satellite Communications", "FA8810": "SSC/SNK Space Sensing",
+                     "FA8814": "SSC Space Development, Test and Planning", "FA8818": "SSC/AAK Assured Access to Space",
+                     "FA8819": "SSC/SZK Space Domain Awareness and Combat Power", "FA2518": "USSF SpOC/SAIO",
+                     "FA8101": "AFSC Oklahoma City", "FA8201": "AFSC Ogden", "FA8501": "AFSC Warner Robins"},
+    "fpds_funding_agencies": {},
+    "sam_dir": "sam_notices_airforce",
+    # SAM.gov organization ids resolved from the code's own notices on 2026-09-25 (sam_notices.resolve_orgs); an office
+    # whose 25 newest hits showed no id is swept by code at sweep time.
+    "sam_orgs": {"500019028": "FA8730", "500019464": "FA8213", "500019412": "FA8621", "500019547": "FA8615", "500019553": "FA8622",
+                 "100025313": "FA8650", "500019728": "FA8750", "100512674": "FA8751", "100028651": "FA9453", "500021994": "FA9550",
+                 "100191253": "FA8651", "500038477": "FA8806", "500038471": "FA8807", "500038478": "FA8808", "500038475": "FA8810",
+                 "500038525": "FA8818", "500038482": "FA8819", "500041436": "FA2518", "500021018": "FA8101", "500042213": "FA8201",
+                 "500022527": "FA8501"},
+    "sam_codes": ("FA8702", "FA8611", "FA8620", "FA8656", "FA8814"),
+    "sam_org_nodes": {"500019028": "contracting:fa8730", "500019464": "contracting:fa8213", "500019412": "contracting:fa8621",
+                      "500019547": "contracting:fa8615", "500019553": "contracting:fa8622", "100025313": "contracting:fa8650",
+                      "500019728": "contracting:fa8750", "100512674": "contracting:fa8751", "100028651": "contracting:fa9453",
+                      "500021994": "contracting:fa9550", "100191253": "contracting:fa8651", "500038477": "contracting:fa8806",
+                      "500038471": "contracting:fa8807", "500038478": "contracting:fa8808", "500038475": "contracting:fa8810",
+                      "500038525": "contracting:fa8818", "500038482": "contracting:fa8819", "500041436": "contracting:fa2518",
+                      "500021018": "contracting:fa8101", "500042213": "contracting:fa8201", "500022527": "contracting:fa8501"},
+    # The DoD SBIR/STTR portal files the Department of the Air Force, the Space Force included, under USAF (1,582 topics on
+    # the index pages saved 2026-09-22); its `command` column names AFMC, the laboratory's directorates (AFRL-RY, AFRL-RX,
+    # AFRL-711HPW: sbir.command_org reads the stem before the hyphen), SSC, AFWERX and AIR FORCE.
+    "sbir_component": "USAF",
+    "sbir_commands": {"AFMC": "command:afmc", "AFRL": "center:afrl", "SSC": "command:ssc", "AFLCMC": "command:aflcmc", "AFSC": "command:afsc",
+                      "PEO-WEAPONS": "peo:weapons", "PEO-TRAINING": "peo:training", "AFWERX": "command:afmc",
+                      "AIR FORCE": "agency:daf", "SPACE FORCE": "agency:daf"},
+    # The laboratory directorates perform research under their own announcements; a program office or program
+    # executive office owns the requirement where a notice names one.
+    "performer_types": ("technical_center",),
+    "shared_sources": ("sbir_sttr_topics", "govinfo_api", "diu_cso_solicitations"),  # DIU openings: one collection, read by every DoD layer
+    "owner_types": (),
+    # The department's sites carry news articles (af.mil/News, the commands' newsrooms), read as the news family; the
+    # organization family is SAM.gov's records.
+    "families": {"daf_site": "news", "sam_gov_organizations": "organization", "af_mil_speeches": "leaders",
+                 "daf_budget_justification_books": "budget"},
+    # Topic codes as the portal writes them (AF201-D001, AF254-0813, SF254-D803, AF20A-T001, DAF26BZ06-DV037);
+    # contract and solicitation numbers under an Air Force office (FA....-yy-L-nnnn; an Other Transaction carries 9).
+    "topic_re": r"\b(?:AF|SF)\d{2}[0-9A-D]?-[A-Z]?\d{3,4}\b|\bDAF\d{2}[BT]Z\d{2}-[A-Z]{2}\d{3}\b",
+    "piid_re": r"\bFA\d{4}-?\d{2}-?[A-Z0-9]-?\d{4}\b",
+    "solicitation_re": r"\bFA\d{4}-?\d{2}-?[A-Z]-?[A-Z0-9]{4}\b",
+    "generic_words": ("air force", "u.s. air force", "department of the air force", "daf", "usaf", "space force", "u.s. space force",
+                      "ussf", "afmc", "aflcmc", "afrl", "ssc", "space systems command", "air force research laboratory",
+                      "air force materiel command", "dod", "department of defense", "department of war"),
+    "fedreg_conditions": [("conditions[agencies][]", "air-force-department")],
+    "fedreg_label": "Department of the Air Force",
+    "fedreg_name_pattern": None,
+    "congress_pattern": (r"\bAir Force\b|\bSpace Force\b|\bUSAF\b|\bUSSF\b|\bSecretary of the Air Force\b|\bChief of Space Operations\b"
+                         r"|\b(?:AFMC|AFLCMC|AFRL|AFSC|AFNWC|AFOSR)\b|\bSpace Systems Command\b|\bAir Force Research Laboratory\b"
+                         r"|\bSpace Rapid Capabilities Office\b"),
+    "congress_label": "Air Force",
+    # oversight.gov files every DoD OIG report under "Department of War", so that name alone does not make a report this
+    # layer's: the agency reviewed must name the department, or the title the Air Force or the Space Force.
+    "oversight": {"agency": "Department of the Air Force (the Air Force and the Space Force, their materiel and systems commands, program executive offices and laboratories)",
+                  "queries": ("Air Force", "Space Force"),
+                  "reviewed_re": r"Department of the Air Force\b|\bAir Force\b|\bSpace Force\b",
+                  "names_re": r"\b(Air Force|Space Force|USAF|USSF|AFMC|AFLCMC|AFRL|Space Systems Command|Sentinel|B-21|F-35|KC-46|E-7|NGAD|CCA)\b",
+                  "gao_query": "GAO report Air Force acquisition program"},
+    # af.mil publishes no speech archive: its /News/Speeches/ address, taken through the hosted browser on 2026-09-25,
+    # renders the department's general news listing (100 articles, titled "News"), so leaders' words reach this layer as
+    # news articles and as House committee testimony (research/docs/20). No archive index is polled.
+    "remarks": {"speeches": None,
+                "conference_query": 'defense conference agenda speakers "Air Force" OR "Space Force" "Program Executive Officer" OR "Space Systems Command" OR "Life Cycle Management Center" keynote panel',
+                "own_domains": ["af.mil", "spaceforce.mil", "dvidshub.net"],
+                "testimony": None,
+                "article_re": r"^https://www\.af\.mil/(?:News|About-Us)/Speeches/Display/Article/\d+/[^?#]+$",
+                "names_re": r"\b(Air Force|Space Force|USAF|USSF|AFMC|AFLCMC|AFRL|Space Systems Command|airmen|guardians|Sentinel|B-21|F-35|KC-46|NGAD)\b",
+                "agency": "Department of the Air Force (the Air Force and the Space Force, their materiel and systems commands, program executive offices and laboratories)",
+                "testimony_pages": [],
+                "providers": {"speech": "af_mil_speeches", "testimony": "af_mil_speeches", "statement": "house_committee_repository",
+                              "conference": "conference_pages_exa"}},
+    # News: the department's and the Space Force's own feeds (the only af.mil and spaceforce.mil addresses that answer
+    # this machine directly), DVIDS and the DoD contract announcements.
+    "news": {"feeds": [
+        {"publisher": "U.S. Air Force", "url": "https://www.af.mil/DesktopModules/ArticleCS/RSS.ashx?ContentType=1&Site=1&max=25"},
+        {"publisher": "U.S. Space Force", "url": "https://www.spaceforce.mil/DesktopModules/ArticleCS/RSS.ashx?ContentType=1&Site=1060&max=25"},
+        {"publisher": "DVIDS", "url": "https://www.dvidshub.net/rss/news"},
+        {"publisher": "Department of Defense", "url": "https://www.war.gov/News/Contracts/", "index": True}],
+        "official_names": {
+            "www.af.mil": "U.S. Air Force", "www.spaceforce.mil": "U.S. Space Force", "www.dvidshub.net": "DVIDS",
+            "www.afmc.af.mil": "AFMC", "www.aflcmc.af.mil": "AFLCMC", "www.afrl.af.mil": "AFRL", "www.ssc.spaceforce.mil": "Space Systems Command",
+            "www.afsc.af.mil": "AFSC", "www.war.gov": "Department of Defense", "www.defense.gov": "Department of Defense"},
+        "standing_terms": ["AFLCMC", "Air Force Life Cycle Management Center", "Space Systems Command", "AFRL", "Air Force Research Laboratory",
+                           "program executive officer", "Portfolio Acquisition Executive", "Program Executive Office", "program office",
+                           "acquisition", "contract award"]},
+    "protests": {"listing": "https://www.gao.gov/legal/bid-protests/search?agency=Department%20of%20the%20Air%20Force&page={page}",
+                 "agency": "Department of the Air Force", "max_pages": 60},
+    # Budget: the department's procurement books (Aircraft, Missile, Other and Space Procurement) are Exhibit P-40 books
+    # as the Navy's are; published on saffm.hq.af.mil and af.mil, which refuse this address, so taken through the hosted
+    # browser. The RDT&E volumes (Exhibit R-2) are a second reader run, not yet made.
+    "budget": {"exhibit": "P-40", "pb_label": "Air Force", "books_dir": "jbooks_airforce", "provider": "daf_budget_justification_books",
+               "display": {"account_suffix": "F"}},  # 3600F RDT&E,AF and the Space Force's 3620F; 3010F Aircraft Procurement, AF
+    "people": {"department": "agency:daf",
+               "executive": ("secretary of the air force", "secretary, department of the air force", "under secretary", "assistant secretary", "chief of staff", "chief of space operations",
+                             "vice chief", "commander,", "commander of", "director", "program executive officer", "portfolio acquisition executive"),
+               "remarks_providers": None, "staff_listing": None},
+    # No department-wide forecast spreadsheet was found on 2026-09-25 (research/docs/20): AFLCMC publishes a quarterly
+    # "SMART Guide" of upcoming acquisitions as a PDF, not yet read; notices and awards carry the requirement.
+    "forecast": {"pack_glob": None, "label": "", "short": "", "providers": {}, "memory_tool": "org_memory_airforce.py"},
+    # The notices name the contracting office's symbol (AFLCMC/HBBK), not an office of the seed; no code pattern yet.
+    "office_key_re": r"(?!)",
+    # The offices whose cells are judged for precision: the program executive offices on the SAM.gov path of a swept
+    # office, named as SAM.gov's records print them (the seed's names and aliases; refined after the first freeze).
+    "pilot_offices": ("PEO BMC3", "PEO MCPNT", "PEO SN", "PEO AATS", "PEO SDACP", "PEO-WEAPONS", "PEO-FIGHT&ADV ACFT", "PEO-TRAINING",
+                      "PAE C3BM-HANSCOM"),
+    # The rows of the coverage matrix: the department, its two acquisition commands and the three centers the swept
+    # offices belong to (seed aliases). The Space Force has no node of its own in SAM.gov's hierarchy (SSC sits under
+    # the department), so it is read through SSC.
+    "coverage_orgs": ["DAF", "AFMC", "AFLCMC", "AFRL", "AFSC", "SSC"],
+    "coverage_org_nodes": {},  # the matrix is written by hand (or by its own script) until the nodes are named here
+    "coverage_department_wide": {},
+    # A notice names an office as the center's code and the office symbol (AFLCMC/HBBK, AFRL/RIKE, SSC/CGK) or as a PEO or
+    # PAE followed by its word; an aircraft designator (F-35, KC-46) names the program, so nothing is stripped.
+    "reading": {"office_code_re": r"\b(?:AFLCMC|AFRL|SSC|AFSC|AFNWC|AFTC|AFIMSC|SMC)/[A-Z]{2,5}\b|\b(?:PEO|PAE) [A-Z][A-Za-z0-9&/-]+",
+                "hull_re": r"(?!)",
+                # ponytail: the Navy pattern trace.py read for every agency before the profiles carried one.
+                "rfp_re": r"N\d{5}-?\d{2}-?R-?[A-Z]?-?\d{3,4}(?![0-9])"},
+    # USAJobs files the department under AF; Air Force Materiel Command (AF1M) covers AFLCMC, AFRL and AFSC, and Space
+    # Systems Command (AF6S) the Space Force's acquisition. The subelement names the center where the listing states one.
+    "hiring": {"usajobs_department_code": "AF", "usajobs_agency_codes": {"AF1M": "command:afmc", "AF6S": "command:ssc"},
+               "note": "AFMC and SSC are the acquisition commands; the operational commands, the Guard and the Reserve announce under codes of their own and are not swept",
+               "vendor_jobs": True, "vendor_watch": []},
+}
+
+PROFILES = {"navy": NAVY, "darpa": DARPA, "army": ARMY, "airforce": AIRFORCE}
+
 # Every later agency is one file under agency_profiles/ that defines PROFILE, so adding one touches no shared file.
+# A file written before the hiring signal maps no USAJobs code and asks no contractor postings until it names its own.
+NO_HIRING = {"usajobs_department_code": "", "usajobs_agency_codes": {}, "note": "no USAJobs agency code mapped for this agency yet",
+             "vendor_jobs": False, "vendor_watch": []}
 for _path in sorted((Path(__file__).resolve().parent / "agency_profiles").glob("*.py")):
     _spec = importlib.util.spec_from_file_location(f"agency_profiles.{_path.stem}", _path)
     _module = importlib.util.module_from_spec(_spec)
     _spec.loader.exec_module(_module)
+    _module.PROFILE.setdefault("hiring", dict(NO_HIRING))
     PROFILES[_module.PROFILE["key"]] = _module.PROFILE
 if KEY not in PROFILES:
     sys.exit(f"AGENCY={KEY!r} is not a profile; known: {', '.join(sorted(PROFILES))}")
@@ -437,9 +644,15 @@ def selfcheck() -> int:
     assert compiled(ARMY["congress_pattern"]).search("directs the Secretary of the Army to") and not compiled(ARMY["congress_pattern"]).search("the Navy shall")
     assert all(compiled(ARMY["topic_re"]).search(c) for c in ("A20-179", "A214-006", "A20B-T018", "A254-P007", "ARM26BX06-NV012"))
     assert not compiled(ARMY["topic_re"]).search("N251-001") and compiled(ARMY["piid_re"]).search("W58RGZ-26-C-0001")
+    assert all(compiled(NAVY["topic_re"]).search(c) for c in ("N251-001", "N24B-T012", "DON26BZ06-DV088", "DON26BX05-NP003", "DON26TZ01-NP002"))
+    assert not compiled(NAVY["topic_re"]).search("DPA26BZ01-NP001") and not compiled(NAVY["topic_re"]).search("ARM26BX06-NV012")
     for key, profile in PROFILES.items():
         assert profile["key"] == key and set(profile) == set(NAVY), key
         assert profile["agency"]["toptier_code"].isdigit() and profile["agency"]["node"].startswith("agency:"), key
+        # Every USAJobs agency code the profile sweeps names a memory node, and every code is the department's.
+        hiring = profile["hiring"]
+        assert all(code.startswith(hiring["usajobs_department_code"]) for code in hiring["usajobs_agency_codes"]), key
+        assert all(":" in node for node in hiring["usajobs_agency_codes"].values()), key
     assert (ROOT / "research").is_dir()
     print(f"selfcheck ok (profile {KEY}: {P['label']}; artefacts under {RESEARCH.relative_to(ROOT)})")
     return 0

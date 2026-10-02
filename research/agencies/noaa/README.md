@@ -13,6 +13,7 @@ by hand except the source registry and the coverage matrix; every other file is 
 | `sources/source_registry.json` | by hand | 16 sources, three of them NOAA's or Commerce's own (the NOAA website, the Commerce procurement forecast, the NOAA Congressional Justification) |
 | `sources/coverage_matrix.json` | by hand, validated by `coverage.py` | 7 organizations by 13 evidence families |
 | `sources/source_status.json` | `coverage.py status` | What each registered source last collected: 6 of 16 have collected something |
+| `results/office_owners.json`, `office_owners.md` | `office_owners.py build` (the `owners` stage, 2026-09-29) | Per program office: who owns which problem, who would champion a fix, who holds the budget, each with its source; the budget lines and where each is placed; the year's obligations from the saved feed; what the office bought. 9 office section(s), 9 fact rows, 19 inferences (0 champion readings), 0 budget lines of which 0 placed, 0 program rows of which 0 placed, FY2026 obligations $0.0M over 0 action(s); facts, inferences and recommendations under three keys, an empty family stated as a boundary |
 
 The `events/` and `results/` files and the forecast datapack are not built yet: their stages load a local database,
 and no build stage has been run for NOAA.

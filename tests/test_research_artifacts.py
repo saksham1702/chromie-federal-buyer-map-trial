@@ -19,7 +19,9 @@ SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 EVIDENCE_CLASSES = {"directly_documented", "inferred", "ambiguous", "unresolved"}
 VERIFICATION_STATUSES = {"verified", "not_inspected", "blocked", "restricted", "stale"}
 ACCESS_MODES = {"api", "export", "webpage", "pdf", "spreadsheet", "manual"}
-FETCH_METHODS = {"direct", "wayback", "browserbase", "context_dev", "manual", "backfill"}
+# browser: a local headless browser on the collecting machine, for a site that refuses a plain request (the Navy's
+# FY2027 budget books from secnav.navy.mil, 2026-09-29)
+FETCH_METHODS = {"direct", "wayback", "browser", "browserbase", "context_dev", "manual", "backfill"}
 REGISTRY_REQUIRED = {
     "source_key", "provider_name", "official_url", "responsible_org", "lifecycle_stages",
     "fields_and_identifiers", "historical_coverage", "publication_frequency", "reporting_lag",
@@ -279,6 +281,46 @@ def test_review_log_records_checker_and_outcome() -> None:
         if e["target_kind"] == "contact_observation" and e["target"] in obs:
             checked.add(e["target"])
     assert checked == obs, "every contact observation must have a check entry"
+
+
+ROUTE_EVIDENCE_CLASSES = {"directly_documented", "observed", "unverified"}
+
+
+def _fetched_urls() -> set[str]:
+    path = RESEARCH / "sources" / "documents_manifest.jsonl"
+    urls = set()
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        row = json.loads(line)
+        if row.get("method") != "backfill" and row.get("status") == 200 and row.get("sha256") and row.get("content_status") != "rejected_stub":
+            urls.add(row["url"])
+    return urls
+
+
+def test_onboarding_routes_carry_their_evidence_and_class() -> None:
+    rows = _load("memory/onboarding_routes.json")
+    ids = [r["id"] for r in rows]
+    assert len(ids) == len(set(ids)), "duplicate route id"
+    fetched = _fetched_urls()
+    for r in rows:
+        assert r.get("route") and r.get("publisher"), r["id"]
+        assert r["evidence_class"] in ROUTE_EVIDENCE_CLASSES, r["id"]
+        assert r.get("who_manages_it", {}).get("role"), f"{r['id']} names no managing role"
+        assert r.get("evidence"), f"{r['id']} carries no evidence"
+        for e in r["evidence"]:
+            # A document points at its saved copy; an observation or a heard claim names the conference and the notes' date.
+            assert e.get("source_url") or (e.get("conference") and _dated(e.get("notes_date"))), (r["id"], e)
+            if e.get("kind") == "document":
+                assert e.get("passage") and _dated(e.get("observed_at")), (r["id"], e.get("source_url"))
+        if r["evidence_class"] == "directly_documented":
+            documents = [e for e in r["evidence"] if e.get("kind") == "document"]
+            assert documents, f"{r['id']} is documented but quotes no document"
+            for e in documents:
+                assert e["source_url"] in fetched, f"{r['id']}: no fetched manifest row for {e['source_url']}"
+        else:
+            assert r.get("next_verification_step"), f"{r['id']} is {r['evidence_class']} but names no next verification step"
+        assert r["review_status"] in REVIEW_STATUSES and _reviewer_ok(r["reviewed_by"]), r["id"]
 
 
 def test_code_classifier_uses_the_alias_table_before_the_uic_family() -> None:

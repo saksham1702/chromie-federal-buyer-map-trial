@@ -130,7 +130,7 @@ PROFILE = {
     "protests": {"listing": "https://www.gao.gov/legal/bid-protests/search?agency=National%20Aeronautics%20and%20Space%20Administration&page={page}",
                  "agency": "National Aeronautics and Space Administration", "max_pages": 20},
     # Deferred: NASA's congressional justification is not a DoD exhibit; the folder stays empty.
-    "budget": {"exhibit": "", "pb_label": "NASA", "books_dir": "jbooks_nasa", "provider": "nasa_budget_request"},
+    "budget": {"pb_label": "NASA", "books_dir": "jbooks_nasa", "provider": "nasa_budget_request"},
     "people": {"department": "agency:nasa",
                "executive": ("administrator", "deputy administrator", "associate administrator", "assistant administrator", "chief of staff",
                              "center director", "director", "executive director", "chief financial officer", "chief information officer"),
@@ -140,6 +140,8 @@ PROFILE = {
     # The centers with the most forecast lines, by the abbreviation the forecast and the memory's office code carry.
     "pilot_offices": ("KSC", "JSC", "ARC", "AFRC", "NSSC", "GRC"),
     "coverage_orgs": ["HQ", "GSFC", "JSC", "KSC", "MSFC", "ARC", "GRC", "LaRC", "AFRC", "SSC", "JPL", "NSSC"],
+    "coverage_org_nodes": {},  # the matrix is written by hand (or by its own script) until the nodes are named here
+    "coverage_department_wide": {},
     # A NASA person's organization code follows the name as center and code ("Reinert, Nick (KSC-LXB00)"); NASA has no
     # hull designators.
     "reading": {"office_code_re": r"\b(?:ARC|AFRC|GRC|GSFC|HQ|JSC|KSC|LaRC|LARC|MSFC|SSC|NSSC|ITPO|WFF)-[A-Z0-9]{2,6}\b",

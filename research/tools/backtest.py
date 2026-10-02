@@ -34,7 +34,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from llm import MODEL, structured  # noqa: E402
 from reader import flatten, verbatim  # noqa: E402
 from sam_notices import SWEEP_ORGS  # noqa: E402
-from vocabulary import classify  # noqa: E402
+from vocabulary import classify, term_groups  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 from agency import BUILD, P, RESEARCH, SAM_NOTICES  # noqa: E402
@@ -64,6 +64,7 @@ FAMILY = {"navwar_lrae_annex25": "forecast", "navsea_lrae_annex25": "forecast", 
           "navy_mil_speeches": "leaders", "house_committee_repository": "congress", "conference_pages_exa": "conference",
           "don_budget_justification_books": "budget", "sbir_sttr_topics": "programs",
           "gao_bid_protests": "protest", "govinfo_api": "congress", "federal_register": "organization",
+          "usajobs_historic_joa": "hiring", "vendor_jobs_routergrowth": "hiring",
           "navy_pae_press": "organization", "peo_digital_site": "organization", "dvids_navy_units": "organization",
           "don_cio_chips": "organization", "navy_peoc4i_site": "organization", "navy_navwar_site": "organization",
           "": "news", **P.get("families", {})}  # a profile adds the providers only its layer has
@@ -209,11 +210,14 @@ def freeze(argv: list[str]) -> int:
             "left join gov_organizations o on o.id=r.organization_id"):
         needs.setdefault(key, {"key": key, "title": title, "owner": owner, "owner_id": owner_id})
 
-    events, outcomes = [], []
+    events, outcomes, ahead = [], [], 0
     for (iid, event_type, published, provider, org, title, body, data_text, claim_key, source_text) in sql(args.db,
             "select id, event_type, published_at::date, coalesce(source_provider,''), coalesce(primary_organization_id::text,''), "
             "title, coalesce(body,''), data::text, claim_key, source::text from agency_brain_items "
             "where published_at is not null and event_type is not null order by published_at, claim_key"):
+        if as_day(published) > frozen_at[:10]:
+            ahead += 1  # an award starting next month or an event yet to happen: the database keeps it, a frozen corpus cannot
+            continue
         data = json.loads(data_text or "{}")
         source = json.loads(source_text or "{}")
         need = needs.get(need_key_for(claim_key, data) or "")
@@ -235,12 +239,19 @@ def freeze(argv: list[str]) -> int:
                "title": f"{said['title']} ({title})" if said else title, "text": flatten(text)[:8000], "slip": slip,
                **classify(event_type, flatten(f"{said['title']} ({title})" if said else title), slip),
                **({"vendor": data["vendor"]} if data.get("vendor") else {}),
+               **({"stated": data["stated"]} if data.get("stated") else {}),
                **({"line": need["key"]} if need else {}), **({"due": data["responses_due"]} if data.get("responses_due") else {}),
+               # a topic closes on a date of its own; it is not a notice's response date, so it is not `due`
+               **({"closes": data["close"]} if event_type == "sbir_topic" and data.get("close") else {}),
                **({"url": source["url"]} if str(source.get("url") or "").startswith("http") else {})}
         events.append(row)
-        if event_type in NOTICE_TYPES and row["date"] >= FY24_START:
+        # An outcome is a notice one of the swept contracting offices posted: the sweep holds every notice those offices
+        # posted, so recall is read over a whole set. A notice another office posted came in through a saved search and
+        # stays an event, never an outcome (NSWC Crane's N0016425SNB24 in the 2026-09-26 corpus).
+        office = notice_office(source.get("notice_id", "")) if event_type in NOTICE_TYPES else ""
+        if office and row["date"] >= FY24_START:
             outcomes.append({"id": iid, "kind": "notice", "event_type": event_type, "date": row["date"], "org": org,
-                             "contracting_office": notice_office(source.get("notice_id", "")),
+                             "contracting_office": office,
                              "title": title, "source": source.get("url", ""),
                              "text": flatten(" ".join([title, body, notice_description(source.get("notice_id", ""))]))[:8000]})
 
@@ -252,7 +263,8 @@ def freeze(argv: list[str]) -> int:
         raise SystemExit(f"{args.db} holds no dated events; the frozen corpus is left as it was")
     CORPUS.write_text(json.dumps(corpus, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"{len(events)} event(s), {len(outcomes)} outcome(s), {len(needs)} need(s), "
-          f"{len(orgs)} organization(s) frozen from {args.db} into {CORPUS.relative_to(ROOT)}")
+          f"{len(orgs)} organization(s) frozen from {args.db} into {CORPUS.relative_to(ROOT)}"
+          + (f"; {ahead} item(s) dated after the freeze left out" if ahead else ""))
     return 0
 
 
@@ -317,25 +329,33 @@ def label(argv: list[str]) -> int:
     ap.add_argument("--check", action="store_true", help="replay cassettes only and fail if the file would change")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--model", default=MODEL)
+    ap.add_argument("--workers", type=int, default=8, help="model calls in flight at once; the rows keep the corpus order")
     args = ap.parse_args(argv)
     corpus = json.loads(CORPUS.read_text(encoding="utf-8"))
     outcomes = corpus["outcomes"][: args.limit or None]
     rows, dropped, buyers = [], Counter(), buyer_names(corpus["orgs"])
     unread = 0
-    for outcome in outcomes:
+
+    def one(outcome: dict) -> tuple[dict, dict]:
         try:
-            row, drops = label_one(outcome, args.model, args.check, buyers)
+            return label_one(outcome, args.model, args.check, buyers)
         except LookupError as exc:
             if args.check:
                 raise  # a check may not call the model: a missing cassette fails it, as everywhere else
             # No cassette and no key: the outcome stands unread with the reason and names no cell until it is read.
-            row, drops = {"id": outcome["id"], **EMPTY_LABEL, "confidence": None, "cassette": None, "model": args.model, "unread": str(exc)}, {}
-            unread += 1
+            return {"id": outcome["id"], **EMPTY_LABEL, "confidence": None, "cassette": None, "model": args.model, "unread": str(exc)}, {}
+
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor(max(1, args.workers)) as pool:
+        answers = list(pool.map(one, outcomes))  # in order: a cassette replays, a live call is one outcome at a time per worker
+    for outcome, (row, drops) in zip(outcomes, answers):
+        unread += bool(row.get("unread"))
         dropped.update(drops)
         rows.append(row)
         print(f"{outcome['date']}  {outcome['kind']:22} {(row['program_office'] or '-')[:12]:12} {', '.join(row['aliases'])[:70]} | "
               f"{', '.join(row['capability_terms'])[:60]}")
     payload = {"source": "chromie-federal-buyer-map-trial/research/tools/backtest.py", "model": args.model,
+               "models_answering": sorted({r.get("model") for r in rows if r.get("model")}),  # what answered, beside what was asked for
                "outcomes": len(corpus["outcomes"]), "labels": rows, "dropped": dict(dropped)}
     text = json.dumps(payload, indent=1, ensure_ascii=False) + "\n"
     if args.check:
@@ -566,6 +586,57 @@ def pilot_needs(corpus: dict) -> list[dict]:
             seen.add(key)
             out.append(need)
     return out
+
+
+def own_line(cell_key: str, events_by_id: dict[str, dict] | None = None) -> str | None:
+    """The line a cell's own notices carry: a forecast row's id, a notice-keyed row's notice key, or the notice line of
+    the outcome a cell is named after; None when the cell has no notice of its own (an outcome that is no notice)."""
+    if cell_key.startswith("need:"):
+        return cell_key[len("need:"):]
+    if cell_key.startswith("outcome:") and events_by_id:
+        e = events_by_id.get(cell_key[len("outcome:"):])
+        return (e.get("line") or None) if e and e.get("family") == "notice" else None
+    return cell_key or None
+
+
+def own_notice(own: str | None, line: str | None) -> bool:
+    """Whether a notice event on `line` belongs to the cell whose own line is `own`. The cell's line is its own; a notice
+    keyed cell also owns the notices filed under its key (the award notice of its solicitation carries the key as a
+    prefix); a forecast row's cell keeps a notice no forecast row claims (its line is a notice key) and refuses one the
+    load tied to another forecast row; a cell with no own line keeps every notice its names reach."""
+    if own is None:
+        return True
+    if not line or line == own:
+        return True
+    if own.startswith("notice:"):
+        return line.startswith(own)
+    return line.startswith("notice:")
+
+
+def scan_groups(groups: list[list[str]], events: list[dict]) -> list[dict]:
+    """The events whose text every group reaches (one alias of each group): a multi-word term read as its words, each
+    widened to the words of the capability it names. An empty list of groups reaches nothing."""
+    ids: set[str] | None = None
+    for g in groups:
+        got = {e["id"] for e in scan(g, events)}
+        ids = got if ids is None else ids & got
+        if not ids:
+            return []
+    return [e for e in events if ids and e["id"] in ids]
+
+
+def scan_term(term: str, events: list[dict]) -> tuple[list[dict], str]:
+    """A search term against the events: as written first; a multi-word term the record never writes as written is then
+    read as its words, each widened to its capability's words, every word required. Returns the hits and how they matched
+    ("as written", "by its words", or "" for none)."""
+    hits = scan([term], events) if term.strip() else []
+    if hits:
+        return hits, "as written"
+    groups = term_groups(term)
+    if len(groups) < 2:
+        return [], ""
+    hits = scan_groups(groups, events)
+    return hits, ("by its words" if hits else "")
 
 
 def need_cell(need: dict, corpus: dict, recurring: set[str]) -> tuple[list[str], list[dict]]:
@@ -807,6 +878,21 @@ def selfcheck() -> int:
         "a release after the outcome neither names its office nor counts toward it"
     assert outcome_cell({"id": "n", "org": "hq", "date": "2026-08-01"}, front, {"orgs": pms_orgs, "events": later})["org"] == "hq"
     assert not awards_not_collected(), "the Navy record's FPDS sweep saved award pages, so a zero there is a count"
+    # A cell's own notices: the row's line, the notice-keyed row's key and what is filed under it; a name-shared notice is another's
+    assert own_notice("notice:HR001125S0011", "notice:HR001125S0011") and own_notice("notice:HR001122S0004", "notice:HR001122S0004HR001122C0139")
+    assert not own_notice("notice:DARPASN2450", "notice:DARPASN2682"), "the HEL shopping notice is not the STO RFI's next step"
+    assert own_notice("N00039-23-RFPREQ-PMW-160-0108", "notice:N0003926R0001") and not own_notice("N00039-23-RFPREQ-PMW-160-0108", "N00039-23-RFPREQ-PMW-160-0109")
+    assert own_notice(None, "notice:X") and own_notice("N-1", None)
+    by_id = {"o1": {"id": "o1", "family": "notice", "line": "notice:A"}, "o2": {"id": "o2", "family": "forecast", "line": "L-1"}}
+    assert own_line("need:notice:A") == "notice:A" and own_line("need:L-1") == "L-1" and own_line("outcome:o1", by_id) == "notice:A" and own_line("outcome:o2", by_id) is None
+    # A multi-word term the record never writes as written is read as its words, each widened to its capability's words
+    evs = [{"id": "s1", "text": "LASSO asks for autonomous satellite navigation", "available_by": "2026-01-01"},
+           {"id": "s2", "text": "a satellite ground antenna", "available_by": "2026-01-01"},
+           {"id": "s3", "text": "autonomous surface vessel", "available_by": "2026-01-01"}]
+    hits, how = scan_term("spacecraft autonomy", evs)
+    assert [e["id"] for e in hits] == ["s1"] and how == "by its words", (hits, how)
+    assert scan_term("satellite", evs)[1] == "as written" and len(scan_term("satellite", evs)[0]) == 2
+    assert scan_term("nothing here at all", evs) == ([], "") and scan_term("", evs) == ([], "")
     print("backtest selfcheck ok")
     return 0
 

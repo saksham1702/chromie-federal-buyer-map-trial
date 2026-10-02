@@ -13,6 +13,7 @@ The profile is `research/tools/agency_profiles/nasa.py`.
 | `sources/source_registry.json` | by hand | 19 sources, five of them NASA's own (the forecast, the Organization page, the small business pages, the news feed, the budget request) and one JPL's |
 | `sources/coverage_matrix.json` | by hand, validated by `coverage.py` | 12 organizations by 13 evidence families |
 | `sources/source_status.json` | `coverage.py status` | What each registered source last collected: 8 of 19 have collected something |
+| `results/office_owners.json`, `office_owners.md` | `office_owners.py build` (the `owners` stage, 2026-09-29) | Per program office: who owns which problem, who would champion a fix, who holds the budget, each with its source; the budget lines and where each is placed; the year's obligations from the saved feed; what the office bought. 38 office section(s), 81 fact rows, 88 inferences (11 champion readings), 0 budget lines of which 0 placed, 0 program rows of which 0 placed, FY2026 obligations $0.0M over 0 action(s); facts, inferences and recommendations under three keys, an empty family stated as a boundary |
 
 The `events/` and `results/` folders stay empty until the build stages run for NASA. The forecast pack
 (`datapack/nasa_2026-08/`) is made by `lrae_package.py build` from the saved workbook; it has not been built yet.

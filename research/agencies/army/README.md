@@ -13,10 +13,13 @@ every other file is the output of one tool under `research/tools/`, run with `AG
 | `memory/vendors.json` | `vendors.py build` | Empty until the contracts stage sweeps the ACC offices |
 | `memory/small_business_offices.json` | `small_business.py build` | The Army, ACC and AMC small business offices as the Department of War directory lists them; their own pages are not saved yet |
 | `events/budget_lines.json` | `budget.py extract` | Empty: the Army's procurement justification books are not saved (the budget stage is blocked, see Open) |
+| `events/budget_measures.json` | `budget.py display` (in `extract`) | 481 lines from the Comptroller's FY2027 P-1 and R-1 display spreadsheets, the columns kept under the sheet's own labels (FY 2025 Actuals, FY 2026 Discretionary Enacted, FY 2027 Discretionary Request), $M, each line with its sheet and rows |
+| `results/office_owners.json`, `office_owners.md` | `office_owners.py build` (the `owners` stage, 2026-09-29) | Per program office: who owns which problem, who would champion a fix, who holds the budget, each with its source; the budget lines and where each is placed; the year's obligations from the saved feed; what the office bought. 84 office section(s), 3,988 fact rows, 169 inferences (0 champion readings), 481 budget lines of which 26 placed, 0 program rows of which 0 placed, FY2026 obligations $15,191.0M over 3,407 action(s); facts, inferences and recommendations under three keys, an empty family stated as a boundary |
 | `events/sbir_topics.json` | `sbir.py build` | 588 Army-component SBIR/STTR topics open FY2020 on (151 under ASA(ALT)), without topic detail |
 | `events/remarks_events.json` | `remarks.py extract` | Empty until the leaders and conference sweeps run |
 | `events/oversight_events.json` | `oversight.py extract` | Empty until the audits stage runs |
 | `events/news_observations.json` | `news.py build` | Empty until the news sweep runs |
+| `events/hiring_observations.json` | `jobs.py build` (the `hiring` stage; the `vacancies` stage lists) | 609 job announcements USAJobs filed under ARAE, ARSA, ARX7, ARX6 and ARX8 between 2026-03-31 and 2026-09-27; 24 announcement pages saved; 225 load (the acquisition workforce or a known name); 645 claims, 2 of them new signals; 522 read as an intention to hire, 46 as a selection stated, 41 withdrawn. Army Contracting Command had no code of its own in the listing (research/docs/21) |
 | `events/fedreg_events.json` | `fedreg.py build` | Empty until the register stage runs |
 | `events/congress_events.json` | `congress.py build` | 86 directives naming the Army in the 3 committee reports saved |
 | `events/protest_events.json` | `protests.py build` | Empty: the docket stage has not been run for the Army |

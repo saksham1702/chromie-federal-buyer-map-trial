@@ -30,6 +30,7 @@ import re
 import sys
 import urllib.parse
 from collections import Counter
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from pathlib import Path
 
@@ -162,7 +163,10 @@ def watch(argv: list[str]) -> int:
     parser.add_argument("--since", default="2025-01-01", help="oldest issue date to retrieve; the listing is ordered by search relevance, not date")
     args = parser.parse_args(argv)
     rows = manifest_rows()
-    seen = {origin_url(r) for r in rows} | {r.get("url") for r in rows}
+    # A report is saved for this layer when a row under this profile's note holds it: the ledger is shared, and a
+    # report another layer's watch took is taken again here (same bytes, a row of ours) so that `extract` reads it.
+    ours = [r for r in rows if note_is_ours(r.get("note") or "")]
+    seen = {origin_url(r) for r in ours} | {r.get("url") for r in ours}
     new_total, gao_new = 0, []
     for query in QUERIES:
         listed: list[dict] = []
@@ -322,16 +326,22 @@ def extract(argv: list[str]) -> int:
         docs = docs[: args.limit]
     records, dropped_total, cost = [], Counter(), {"input_tokens": 0, "output_tokens": 0, "calls": 0}
     unread, not_about = 0, 0
-    for doc in docs:
-        text, meta = document_text(doc)
-        # The listing's rule, applied again at reading time: an oversight.gov report is this agency's when the agency
-        # reviewed or the title names it. A report saved under a wider rule is left, and counted.
-        if doc["kind"] == "oversight" and not (REVIEWED_RE.search(meta["agency_reviewed"] or "") or NAMES_RE.search(meta["title"] or "")):
+    # The listing's rule, applied again at reading time: an oversight.gov report is this agency's when the agency
+    # reviewed or the title names it. A report saved under a wider rule is left, and counted.
+    def ours(doc: dict, meta: dict) -> bool:
+        return doc["kind"] != "oversight" or bool(REVIEWED_RE.search(meta["agency_reviewed"] or "") or NAMES_RE.search(meta["title"] or ""))
+    # The calls go out eight at a time, as in notice_kinds; the records are still taken in document order.
+    pool = ThreadPoolExecutor(8)
+    read = [document_text(doc) for doc in docs]
+    asked = [pool.submit(ask, text, meta, doc["url"], args.model, replay_only=args.check) if ours(doc, meta) else None
+             for doc, (text, meta) in zip(docs, read)]
+    for doc, (text, meta), answer in zip(docs, read, asked):
+        if not ours(doc, meta):
             not_about += 1
             print(f"{meta['issued'] or '          '}  not about this agency (agency reviewed: {meta['agency_reviewed'] or '?'})  {meta['report_number'] or meta['title'][:60]}")
             continue
         try:
-            answer, how = ask(text, meta, doc["url"], args.model, replay_only=args.check)
+            answer, how = answer.result()
         except LookupError as why:
             # No cassette and no way to make the call (no model key): the report is recorded as unread with the
             # reason, so the build carries the gap instead of stopping on it. `--check` keeps failing, as it must.
@@ -375,7 +385,8 @@ def extract(argv: list[str]) -> int:
             overlap = len(set(a) & set(b))
             print(f"verify {meta['report_number'] or doc['url'][-40:]}: {'same' if same else 'differs'} ({len(a)} vs {len(b)} events, {overlap} shared)")
         print(f"verify: {agree} of {min(args.verify, len(docs))} report(s) gave the same normalized event set twice")
-    out = {"source": "chromie-federal-buyer-map-trial/research/tools/oversight.py", "model": args.model, "cap_chars": CAP,
+    out = {"source": "chromie-federal-buyer-map-trial/research/tools/oversight.py", "model": args.model,
+           "models_answering": sorted({d.get("model") for d in docs if d.get("model")}), "cap_chars": CAP,
            "documents": records, "dropped": dict(sorted(dropped_total.items())), **({"unread": unread} if unread else {})}
     text_out = json.dumps(out, indent=1, sort_keys=True, ensure_ascii=False) + "\n"
     if args.check:

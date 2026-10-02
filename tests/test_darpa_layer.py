@@ -45,7 +45,6 @@ def test_profile_names_darpa_identifiers():
     assert "97AE" in PROFILE["fpds_funding_agencies"], "awards other agencies sign for DARPA are found by the funding agency"
     assert "500035490" in PROFILE["sam_orgs"] and PROFILE["sam_orgs"]["500035490"] == "HR0011"
     assert PROFILE["sbir_component"] == "DARPA"
-    assert PROFILE["budget"]["exhibit"] == "R-2", "DARPA is funded through RDT&E alone"
     assert PROFILE["forecast"]["pack_glob"] is None, "no acquisition forecast was found (research/docs/19, section 2)"
     assert re.search(PROFILE["congress_pattern"], "the Defense Advanced Research Projects Agency shall") and re.search(PROFILE["congress_pattern"], "DARPA")
 
@@ -130,7 +129,7 @@ def test_budget_lines_are_r2_program_elements_with_their_book():
     books = {b["path"]: b for b in payload["books"]}
     assert len(books) >= 2, "the FY2026 and FY2027 books"
     for line in payload["lines"]:
-        assert re.fullmatch(r"\d{7}[A-Z]?", line["li"]), line["li"]
+        assert line["exhibit"] == "R-2" and re.fullmatch(r"\d{7}[A-Z]?", line["li"]), "DARPA is funded through RDT&E alone"
         assert line["appropriation"] == "0400" and line["budget_activity"].startswith("BA "), line["li"]
         assert line["book"] in books and DATE_RE.match(line["published"])
         # A book's columns are its own President's Budget year's: FY2025 and FY2026 total in the PB 2026 book,
@@ -236,7 +235,8 @@ def test_corpus_is_frozen_from_the_darpa_proof_database():
     names = {o["acronym"] or o["name"] for o in corpus["orgs"].values()}
     assert {"DSO", "TTO", "HR0011"} <= names
     assert not any(e["date"] > corpus["frozen_at"][:10] for e in corpus["events"]), "no statement is dated after the freeze"
-    assert all(e["family"] in ("notice", "incumbent", "programs", "other", "congress", "organization", "forecast", "news", "budget", "leaders", "oversight", "conference", "protest")
+    assert all(e["family"] in ("notice", "incumbent", "programs", "other", "congress", "organization", "forecast", "news", "budget", "leaders", "oversight", "conference", "protest",
+                               "grant", "assistance", "hiring")
                for e in corpus["events"])
 
 
@@ -360,3 +360,157 @@ def test_the_read_surface_answers_from_the_darpa_record():
     assert near.returncode == 0 and json.loads(near.stdout).get("parent") == "Defense Advanced Research Projects Agency", near.stdout[:300]
     found = run("search", "quantum")
     assert found.returncode == 0 and found.stdout.strip(), found.stderr[-300:]
+
+
+# ------------------------------------------------------------------ the contact routes (tasks/T02 shape, generated)
+
+CONTACT_ROLE_TYPES = {"requirement_owner", "program_manager", "executive", "contracting_poc", "technical_support_office", "industry_intake_channel", "office_channel"}
+CONFIDENCES = {"high", "medium", "low"}
+
+
+def test_contact_observations_are_generated_from_the_listing_and_the_notices():
+    rows = load(DARPA / "memory" / "contact_observations.json")
+    seed_ids = {n["id"] for n in load(DARPA / "memory" / "organization_seed.json")["nodes"]}
+    ids = [r["id"] for r in rows]
+    assert rows and len(ids) == len(set(ids)), "duplicate observation id"
+    for r in rows:
+        assert r["generator"] == "contact_routes", f"{r['id']}: a DARPA contact row is generated, never hand-written"
+        assert r["kind"] in {"person", "channel"} and (r.get("name") or r.get("channel_as_written")), r["id"]
+        assert r["role_as_written"] and r["role_type"] in CONTACT_ROLE_TYPES, r["id"]
+        assert r["office_id_as_resolved"] in seed_ids, f"{r['id']} resolves to an office the seed does not hold"
+        assert r["source_url"] and r["source_revision"] and DATE_RE.match(r["observed_at"]), r["id"]
+        assert r["locators"] and r["passage"], f"{r['id']} lacks a locator or passage"
+        assert r["source_statement_confidence"] in CONFIDENCES and r["independent_sources"] == 1, r["id"]
+        if r["role_type"] == "contracting_poc":
+            assert r["member_of_office"] is False, f"{r['id']}: a point of contact answers for the solicitation, not the office"
+            assert all(l.get("notice_id") and l.get("field") == "pointOfContact" for l in r["locators"]), r["id"]
+            assert r["source_url"].startswith("https://sam.gov/opp/"), r["id"]
+        else:
+            assert r["source_url"] == PROFILE["people"]["staff_listing"] and r["locators"][0].get("nid"), r["id"]
+            assert r["member_of_office"] is True and r["role_type"] in {"executive", "program_manager"}, r["id"]
+    sources = {r["role_type"] for r in rows}
+    assert {"executive", "program_manager", "contracting_poc"} <= sources
+
+
+def test_contact_recommendations_reach_both_sides_of_every_listed_office():
+    obs = {r["id"]: r for r in load(DARPA / "memory" / "contact_observations.json")}
+    recs = load(DARPA / "memory" / "contact_recommendations.json")
+    routes = {}
+    for rec in recs:
+        assert rec["generator"] == "contact_routes" and rec["office_id"] and rec["recommendation"], rec["id"]
+        assert rec["contact_observation_ids"] and all(x in obs for x in rec["contact_observation_ids"]), rec["id"]
+        assert all(obs[x]["role_type"] == rec["route_type"] for x in rec["contact_observation_ids"]), rec["id"]
+        assert rec["source_confidence"] in CONFIDENCES, rec["id"]
+        assert rec["currency_confidence"] in CONFIDENCES | {"unknown"} and rec["currency_basis"], rec["id"]
+        for key in ("competing_candidates", "contradictions", "caveats"):
+            assert isinstance(rec[key], list), rec["id"]
+        assert rec["caveats"], f"{rec['id']}: a route is a recommendation to try, and says so"
+        assert rec["review_status"] == "draft" and rec["reviewed_by"] is None, f"{rec['id']}: nobody has reviewed a generated route"
+        routes.setdefault(rec["office_id"], set()).add(rec["route_type"])
+    listed = {o for o, kinds in routes.items() if "program_manager" in kinds}
+    assert len(listed) >= 6, "the staff listing names program managers under each current technical office"
+    for office in listed:
+        assert {"executive", "program_manager", "contracting_poc"} <= routes[office], f"{office}: requirement side and acquisition side both"
+
+
+def test_review_log_checks_every_generated_observation():
+    log = load(DARPA / "memory" / "review_log.json")
+    obs = {r["id"] for r in load(DARPA / "memory" / "contact_observations.json")}
+    checked = set()
+    for e in log:
+        assert e["generator"] == "contact_routes" and e["target"] and e["check"], e["id"]
+        assert e["outcome"] in {"confirmed", "not_found"} and e["checked_against"]["source_url"], e["id"]
+        assert e["checked_by"]["actor"] and DATE_RE.match(e["checked_by"]["on"]) and e["reviewed_by"] is None, e["id"]
+        if e["target_kind"] == "contact_observation":
+            checked.add(e["target"])
+    assert checked == obs, "every contact observation has a check entry"
+
+
+def test_contact_routes_rebuild_byte_for_byte_and_leave_the_navys_files_alone():
+    out = subprocess.run([sys.executable, str(TOOLS / "contact_routes.py"), "build", "--check"], capture_output=True, text=True,
+                         env={**os.environ, "AGENCY": "darpa"}, cwd=ROOT)
+    assert out.returncode == 0, out.stdout + out.stderr
+    navy = ROOT / "research" / "memory"
+    before = {p.name: p.read_bytes() for p in (navy / "contact_observations.json", navy / "contact_recommendations.json", navy / "review_log.json")}
+    out = subprocess.run([sys.executable, str(TOOLS / "contact_routes.py"), "build"], capture_output=True, text=True,
+                         env={**os.environ, "AGENCY": "navy"}, cwd=ROOT)
+    assert out.returncode == 0 and "skipped" in out.stdout, out.stdout + out.stderr
+    assert before == {p.name: p.read_bytes() for p in (navy / "contact_observations.json", navy / "contact_recommendations.json", navy / "review_log.json")}
+
+
+def test_people_do_not_count_a_generated_observation_twice():
+    payload = load(DARPA / "memory" / "people.json")
+    sources = {pos["source"] for p in payload["rows"] for pos in p.get("positions", [])}
+    assert "contact_observations" not in sources, "the staff listing and the notices are read at first hand; the generated rows are not a second source"
+
+
+# ------------------------------------------------------------------ the attribution examples (research/docs/04, per agency)
+
+EVIDENCE_CLASSES = {"directly_documented", "inferred", "ambiguous", "unresolved"}
+
+
+def _saved_text(url: str) -> str:
+    """The saved bytes of the newest 200 row for the URL (a SAM.gov view URL maps to its saved notice detail), as text."""
+    import html
+    m = re.match(r"https://sam\.gov/opp/([0-9a-f]{32})/view$", url)
+    if m:
+        path = ROOT / "data" / "raw" / PROFILE["sam_dir"] / f"{m.group(1)}.json"
+        assert path.exists(), f"no saved notice detail for {url}"
+        text = path.read_text(encoding="utf-8", errors="replace")
+    else:
+        rows = [r for r in manifest() if r.get("url") == url and r.get("status") == 200 and r.get("path")]
+        assert rows, f"no fetched manifest row for {url}"
+        text = (ROOT / rows[-1]["path"]).read_text(encoding="utf-8", errors="replace")
+    return " ".join(html.unescape(re.sub(r"<[^>]+>", " ", text)).split()).upper()
+
+
+def test_attribution_examples_quote_the_saved_records_and_name_their_rule():
+    examples = load(DARPA / "memory" / "attribution_examples.json")
+    seed_ids = {n["id"] for n in load(DARPA / "memory" / "organization_seed.json")["nodes"]}
+    ids = [ex["id"] for ex in examples]
+    assert len(ids) == len(set(ids)) and len(examples) >= 10, "duplicate example id or too few examples"
+    classes = {ex["evidence_class"] for ex in examples}
+    assert "directly_documented" in classes and "unresolved" in classes, "the examples show both a placement and an explicit unknown"
+    for ex in examples:
+        assert ex.get("identifier") and ex["evidence_class"] in EVIDENCE_CLASSES and ex.get("placement_rule"), ex["id"]
+        assert "contracting_office" in ex and "funding_organization" in ex and isinstance(ex["program_offices"], list), ex["id"]
+        assert set(ex["program_offices"]) <= seed_ids, f"{ex['id']} names an office the seed does not hold"
+        assert ex["evidence"] and all(e.get("source_url") and DATE_RE.match(e.get("observed_at", "")) for e in ex["evidence"]), ex["id"]
+        for e in ex["evidence"]:
+            assert e.get("passage"), (ex["id"], e["source_url"])
+            assert " ".join(e["passage"].split()).upper() in _saved_text(e["source_url"]), f"{ex['id']}: passage not found verbatim in the saved record {e['source_url']}"
+        if ex["evidence_class"] == "directly_documented":
+            assert ex["program_offices"], f"{ex['id']} documented but names no office"
+        else:
+            assert ex.get("counterevidence") is not None and not ex["program_offices"] or ex["evidence_class"] != "unresolved", ex["id"]
+        if ex["evidence_class"] == "unresolved":
+            assert ex.get("why_unresolved") and ex.get("resolution_path") and isinstance(ex.get("candidates"), list), ex["id"]
+        review = ex["review"]
+        assert review["status"] in {"draft", "reviewed", "retracted"} and review["drafted_by"]["actor"], ex["id"]
+        assert review["reviewed_by"] is None or (review["reviewed_by"].get("name") and review["reviewed_by"].get("on")), ex["id"]
+
+
+def test_attribution_examples_agree_with_the_layers_emitter():
+    """Each documented example is placed where the emitter places the same award, by the same rule."""
+    examples = load(DARPA / "memory" / "attribution_examples.json")
+    out = subprocess.run([sys.executable, "-c", """
+import json, sys
+sys.path.insert(0, 'research/tools')
+import agency_layers_sql as L
+seed = json.loads(L.SEED.read_text()); offices = L.office_index(seed); uics = L.uic_index(seed); bysol = L.notice_offices_by_solicitation()
+placed = {}
+for a in L.swept_awards():
+    office, rule = L.award_office(a, offices, uics, bysol)
+    placed[a['piid']] = [office, rule]
+print(json.dumps(placed))
+"""], capture_output=True, text=True, env={**os.environ, "AGENCY": "darpa"}, cwd=ROOT)
+    assert out.returncode == 0, out.stderr
+    placed = json.loads(out.stdout)
+    for ex in examples:
+        piid = ex["identifier"].split()[0]
+        assert piid in placed, f"{ex['id']}: {piid} is not a swept award"
+        office, rule = placed[piid]
+        if ex["evidence_class"] == "directly_documented":
+            assert ex["program_offices"] == [office], f"{ex['id']}: the emitter places {piid} under {office} by {rule}"
+        else:
+            assert office in (None, "contracting:hr0011"), f"{ex['id']}: the emitter places {piid} under {office}, so it is not unresolved"

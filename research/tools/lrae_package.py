@@ -174,6 +174,22 @@ def saved(rows: list[dict], predicate) -> dict | None:
     return hits[-1] if hits else None
 
 
+def retrievals(release: dict, manifest: list[dict]) -> list[dict]:
+    """A `record_system` release (a forecast system that serves only its current records, under numbers of its own: the
+    DHS APFS) is every saved pull of its URL, one release per retrieval day keyed `<key>_<day>` and pinned to that pull's
+    bytes, so a record withdrawn between two pulls keeps its history. Any other release is itself."""
+    if not release.get("record_system"):
+        return [release]
+    days = {m["retrieved_at"][:10]: m for m in manifest if m.get("status") == 200 and m.get("path") and release["match"] in m.get("url", "")
+            and m.get("mime", "").endswith("json") and (ROOT / m["path"]).exists()}
+    return [{**release, "key": f"{release['key']}_{day}", "release_date": day, "sha256": m["sha256"],
+             "release_note": f"the published records as the forecast system served them on {day}"} for day, m in sorted(days.items())]
+
+
+if any(r.get("record_system") for r in RELEASES):
+    RELEASES = [x for r in RELEASES for x in retrievals(r, manifest_rows())]
+
+
 def url_index(rows: list[dict]) -> dict[str, dict]:
     """`saved` for every URL at once: the latest successful row per URL whose bytes are on disk. For callers
     that look up thousands of URLs, where a scan of the manifest per lookup does not finish."""
@@ -266,6 +282,9 @@ def read_sheet(path: Path, release_key: str = "", sheet_name: str = SHEET, heade
             rows.append(record)
     if headers is not HEADERS:
         derive(rows)
+    if release.get("record_url"):  # a forecast system with a public page per record (the DHS forecast's print page)
+        for r in rows:
+            r["url"] = r["url"] or (release["record_url"].format(record_id=r["record_id"]) if r.get("record_id") else "")
     return meta, rows
 
 
@@ -342,6 +361,9 @@ def derive(rows: list[dict]) -> None:
             r[f"{name}_fy"], r[f"{name}_quarter"] = fiscal_quarter(stated)
         if r.get("naics_psc") and not (r.get("naics") or r.get("psc")):
             r["naics"], _, r["psc"] = (x.strip() for x in r["naics_psc"].partition("/"))
+        for who in ("requirement_contact", "alternate_contact"):  # a record system writes a contact's first and last name apart
+            if f"{who}_first" in r:
+                r[who] = " ".join(filter(None, (r.pop(f"{who}_first"), r.pop(f"{who}_last", ""))))
         r["office_code_string"] = " - ".join(x for x in (r.get("command", ""), r.get("pm_directorate", "")) if x)
         issuer = ISSUER_RE.match(r["number"])
         office = r.get("contracting_office", "")
@@ -509,6 +531,7 @@ def fpds_entries(body: bytes, width: int | None = 160, full: bool = False) -> li
                "funding_office": tag("fundingRequestingOfficeID"), "vendor": tag("vendorName"),
                "idv": idv.group(1).strip() if idv else "", "description": tag("descriptionOfContractRequirement")[:width],
                "completion": tag("ultimateCompletionDate")[:10], "solicitation": tag("solicitationID"),
+               "obligated": tag("obligatedAmount"),  # this action's own obligation, as the feed prints it (a string; "" when absent)
                "mod": tag("modNumber"), "reason": tag("reasonForModification"), "research": tag("research"),
                "contracting_office_name": html.unescape(office_name.group(1)).strip() if office_name else ""}
         if full:
@@ -758,7 +781,7 @@ MATCH_STAGES = [
 ]
 
 
-def pair_releases(old_rows: list[dict], new_rows: list[dict]) -> tuple[list[dict], list[dict], list[dict], list[dict]]:
+def pair_releases(old_rows: list[dict], new_rows: list[dict], by_number: bool = False) -> tuple[list[dict], list[dict], list[dict], list[dict]]:
     """Follow the same requirement from one release to the next.
 
     No single key does this. The June 2024 release has no PID column at all, and PIDs are
@@ -776,7 +799,7 @@ def pair_releases(old_rows: list[dict], new_rows: list[dict]) -> tuple[list[dict
     pairs: list[dict] = []
     contested: list[dict] = []
     left_old, left_new = list(old_rows), list(new_rows)
-    for basis, confidence, why, key_of in MATCH_STAGES:
+    for basis, confidence, why, key_of in MATCH_STAGES[:1] if by_number else MATCH_STAGES:
         index_old: dict[str, list[dict]] = defaultdict(list)
         index_new: dict[str, list[dict]] = defaultdict(list)
         for r in left_old:
@@ -803,6 +826,8 @@ def pair_releases(old_rows: list[dict], new_rows: list[dict]) -> tuple[list[dict
                                   "reason": f"{why}, but the key matches {len(olds)} earlier and {len(news)} later rows"})
         left_old = [r for r in left_old if r["row_number"] not in taken_old]
         left_new = [r for r in left_new if r["row_number"] not in taken_new]
+    if by_number:  # a record system's number names one record for its life: a number on one side only was added or removed
+        return pairs, contested, left_old, left_new
 
     by_office: dict[str, list[dict]] = defaultdict(list)
     for r in left_new:
@@ -886,10 +911,10 @@ def review(pairs: list[dict], replay_only: bool = False, workers: int = 8) -> No
 
 # ---------------------------------------------------------------- release diff
 
-def diff_releases(old_rows: list[dict], new_rows: list[dict], read: bool = False) -> tuple[list[dict], str]:
+def diff_releases(old_rows: list[dict], new_rows: list[dict], read: bool = False, by_number: bool = False) -> tuple[list[dict], str]:
     """Added, removed, changed and candidate records between two releases, from `pair_releases`; with `read`, the model
     reads each candidate pair (`review`)."""
-    pairs, contested, only_old, only_new = pair_releases(old_rows, new_rows)
+    pairs, contested, only_old, only_new = pair_releases(old_rows, new_rows, by_number)
     if read:
         review(pairs)
     matched_old = {p["old"]["row_number"] for p in pairs}
@@ -935,7 +960,8 @@ def diff_releases(old_rows: list[dict], new_rows: list[dict], read: bool = False
                        new_value=r["requirement_title"][:120], new_row=r["row_number"], office=office_code(r)))
     out.sort(key=lambda x: (x["change"], str(x["old_row"]).zfill(6), str(x["new_row"]).zfill(6), x["field"]))
     confirmed = sum(1 for p in pairs if p["confidence"] == "confirmed")
-    method = (f"staged: {', '.join(s[0] for s in MATCH_STAGES)}, then title similarity >= {MATCH_MIN_RATIO} "
+    method = (f"by the record system's own number alone ({confirmed} matched)" if by_number else
+              f"staged: {', '.join(s[0] for s in MATCH_STAGES)}, then title similarity >= {MATCH_MIN_RATIO} "
               f"within the office ({confirmed} matched, {len(pairs) - confirmed} candidates)")
     return out, method
 
@@ -1087,7 +1113,8 @@ def build() -> int:
     manifest = manifest_rows()
     packages = []
     for release in RELEASES:
-        source = saved(manifest, lambda m, rel=release: rel["match"] in m.get("url", "") and m.get("mime", "").endswith(("sheet", "csv", "json")))
+        source = saved(manifest, lambda m, rel=release: rel["match"] in m.get("url", "") and m.get("mime", "").endswith(("sheet", "csv", "json"))
+                       and m.get("sha256") == rel.get("sha256", m.get("sha256")))
         if source is None:
             print(f"{release['key']}: spreadsheet bytes not found under data/raw; skipped", file=sys.stderr)
             continue
@@ -1113,7 +1140,7 @@ def build() -> int:
                 write_csv(pack / "layers" / f"{name}.csv", table)
         notes = []
         for prev_release, prev_rows in [pr for a in (release["activity"], *release.get("carries", ())) for pr in earlier.get(a, [])]:
-            changes, method = diff_releases(prev_rows, rows, read=True)
+            changes, method = diff_releases(prev_rows, rows, read=True, by_number=bool(release.get("record_system")))
             name = f"diff_{prev_release['key']}_{release['key']}.csv"
             if changes:
                 write_csv(pack / name, changes)
@@ -1148,7 +1175,8 @@ def collect(limit: int, keys: list[str] | None = None) -> int:
     wanted: list[tuple[str, str]] = []
     piids: set[str] = set()
     for release in [r for r in RELEASES if r["key"] in keys] if keys else current_releases():
-        source = saved(manifest, lambda m, rel=release: rel["match"] in m.get("url", "") and m.get("mime", "").endswith(("sheet", "csv", "json")))
+        source = saved(manifest, lambda m, rel=release: rel["match"] in m.get("url", "") and m.get("mime", "").endswith(("sheet", "csv", "json"))
+                       and m.get("sha256") == rel.get("sha256", m.get("sha256")))
         if source is None:
             print(f"{release['key']}: spreadsheet bytes not saved; nothing to look up", file=sys.stderr)
             continue
@@ -1225,6 +1253,10 @@ def selfcheck() -> int:
         ("", "N00019", "PEO AVIATION - UAS"), ("", "N00019", "PEO AVIATION"), ("PANDTA-26-P-0000 1", "", "PEO AVIATION - UAS")], \
         "a number on two rows is no row's PID; the issuer is the DoDAAC the number opens with"
     assert dated[0]["award_fy"] == "FY26" and dated[0]["award_quarter"] == "Q4" and dated[0]["solicitation_date"] == "2026-05-01"
+    named = [{**dated[0], "requirement_contact_first": "Jared", "requirement_contact_last": "Slizofski", "alternate_contact_first": "",
+              "alternate_contact_last": ""}]
+    derive(named)
+    assert named[0]["requirement_contact"] == "Jared Slizofski" and named[0]["alternate_contact"] == "" and "requirement_contact_first" not in named[0]
     assert handles({"name": "Department of the Navy", "aliases": [{"text": "DoN"}], "codes": {"fpds_agency_id": "1700", "uic": "N00039"}}) \
         == ["Department of the Navy", "DoN", "N00039"]
     old_row, new_row = {"requirement_title": "MIDS JTRS Production Lot 12"}, {"requirement_title": "MIDS JTRS Lot 12 Production", "requirement_description": ""}

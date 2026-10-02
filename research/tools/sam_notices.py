@@ -4,7 +4,7 @@
     python research/tools/sam_notices.py SOLNUM_OR_NOTICEID [...]
 
 Uses the keyless endpoints the SAM.gov web application itself calls (`api_key=null`), which
-Chromie's runner also uses; the documented public host api.sam.gov answered 404 from every
+The platform's runner also uses; the documented public host api.sam.gov answered 404 from every
 network tried on 2026-09-16. For each notice: saves the detail JSON (description text included),
 lists attachments, downloads PDF/DOCX/TXT attachments under a size cap, extracts their text,
 and records every retrieval in research/sources/documents_manifest.jsonl. Prints office-code mentions.
@@ -323,7 +323,6 @@ def main(argv: list[str]) -> int:
         return selfcheck()
     if argv and argv[0] == "sweep":
         return sweep(argv[1:])
-    summary = []
     for arg in argv:
         label = arg
         if re.fullmatch(r"[0-9a-f]{32}", arg):
@@ -337,7 +336,6 @@ def main(argv: list[str]) -> int:
         for nid, d, t, title in ids[:6]:
             try:
                 res = harvest_notice(nid, f"{label}")
-                summary.append(res)
                 print(f"   -> {res['posted']} {res['type']} {res['solicitation']} | desc {res['description_chars']} chars | attachments {len(res['attachments'])}")
                 for m in res["description_mentions"][:3]:
                     print(f"      desc: ...{m}...")
@@ -348,7 +346,6 @@ def main(argv: list[str]) -> int:
             except Exception as exc:  # noqa: BLE001
                 print(f"   -> error {nid}: {exc}")
             time.sleep(1.0)
-    (OUT / "summary.json").write_text(json.dumps(summary, indent=1, ensure_ascii=False))
     return 0
 
 

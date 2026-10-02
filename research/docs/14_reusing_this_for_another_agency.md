@@ -1,7 +1,7 @@
 # 14 - Reusing this for another agency: what travels, what is written once per agency
 
-The pipeline runs as forty-three stages in three groups (`research/tools/pipeline.py --list`): sixteen
-collection stages that touch the network, fourteen modelling stages that read what is saved, and thirteen
+The pipeline runs as thirty-six stages in three groups (`research/tools/pipeline.py --list`): eleven
+collection stages that touch the network, eleven modelling stages that read what is saved, and the
 load and read-back stages. The rules they apply (what a requirement is, how a notice relates to a
 forecast line, what an award closes, how an article is read) hold for any agency. What does not travel
 is a list of constants inside the tools: the office code tables, the agency filters, the feed list, the
@@ -31,6 +31,7 @@ The agency-knowledge column names the constants as the code stands on 2026-09-24
 | stage(s) | tool | what it does | agency knowledge |
 | --- | --- | --- | --- |
 | watch, sweep, news | `news.py` | polls the feeds, runs one discovery query per office, models every saved article as dated observations | `FEEDS`, `OFFICIAL_NAMES`, `STANDING_TERMS`; the sweep queries are the seed read back |
+| vacancies, hiring | `jobs.py` | lists every job announcement USAJobs files under the agency codes the profile maps, takes the acquisition workforce's announcement pages, models each as a dated observation about the office hiring, read against the record (`research/docs/21`) | `hiring.usajobs_agency_codes` (each code to the memory node it names) and `hiring.note`; a profile that maps no code skips both stages |
 | audits, oversight | `oversight.py` | polls oversight.gov and the GAO feed, reads each report into dated findings | `AGENCY`, `QUERIES`, `REVIEWED_RE`, `NAMES_RE` |
 | podium, remarks | `remarks.py` | polls the speech archive and the House hearing feeds, reads each into dated events | the archive addresses on navy.mil, `AGENCY`, `NAMES_RE`; the House feeds travel |
 | contracts, changes | `fpds_sweep.py` | sweeps FPDS for each contracting office's base awards and follows their histories | `OFFICES`; the parser reads any office's page, Other Transactions included |
@@ -40,13 +41,14 @@ The agency-knowledge column names the constants as the code stands on 2026-09-24
 | reports, directives | `congress.py` | takes the committee reports and keeps the directives naming the agency | `NAVY_RE` |
 | register, federal | `fedreg.py` | takes the Federal Register documents and types them | the agency slug `navy-department` |
 | memory, datapack, revisions | `org_memory_lrae.py`, `lrae_package.py`, `monitor_forecast_revision.py` | reads the forecast releases into the memory and the datapack, compares releases | the forecast format and the alias table; absent where there is no forecast |
-| budget | `budget.py` | reads the justification books into line items | the exhibit the profile names: P-40 (procurement books, the Navy) or R-2 (RDT&E books, DARPA), and the PB label |
+| budget | `budget.py` | reads the justification books into line items, an RDT&E book's R-2A pages into the projects and named programs under each program element, and the Comptroller's P-1 and R-1 display spreadsheets into the component's lines with the sheet's own column labels (FY 2025 Actuals, FY 2026 Discretionary Enacted, FY 2027 Discretionary Request) | the exhibit the profile names: P-40 (procurement books, the Navy) or R-2 (RDT&E books, DARPA), the PB label, and `budget.display` (the account's service letter, and for an agency inside the Defense-Wide account the program element suffix); a civilian profile has no display filter and the stage says so |
+| spending, owners | `office_owners.py` | `collect` takes the fiscal year's USAspending totals for the funding subtier; `build` writes the office owners report: per program office, who owns which problem, who would champion a fix, who holds the budget (facts with their source, inferences with their rule), the budget lines with labelled measures and a stated placement basis, the year's obligations from the saved FPDS pages, what the office bought; an empty family is stated as a boundary | `pilot_offices`, `owner_types`, `people.staff_listing` (where the agency publishes one), `reading.office_code_re`; otherwise the record alone |
 | people | `people.py` | merges every named contact, speaker and witness into dated positions | `DEPARTMENT`, `EXECUTIVE` |
 | schema, layers, database, graph | `agency_layers_sql.py`, `schema_subset.py`, `graph_export.py` | emits and loads the rows, exports the graph | `AGENCY_NAVY`, `LRAE_PROVIDERS`; the tables are agency-independent |
-| backtest, pulse, baselines, dna, vendors, coverage | `backtest.py`, `pulse.py`, `baselines.py`, `buying_dna.py`, `vendors.py`, `coverage.py`, `trace.py` | reads the layer back and measures it | `PILOT_OFFICES`; `PACKS` and `SAM_ORG_NODES` in the tracer; otherwise none |
+| backtest, pulse, baselines, dna, vendors, coverage, fiscal_year | `backtest.py`, `pulse.py`, `baselines.py`, `buying_dna.py`, `vendors.py`, `coverage.py`, `trace.py` | reads the layer back and measures it | `PILOT_OFFICES`; `PACKS` and `SAM_ORG_NODES` in the tracer; otherwise none |
 | checks | | every tool's selfcheck and the test suite | none |
 
-`--collect` adds the eleven network stages; without it a rebuild is offline and deterministic, and
+`--collect` adds the network stages (`spending` among them); without it a rebuild is offline and deterministic, and
 repeats byte for byte.
 
 ## What travels unchanged
@@ -60,6 +62,7 @@ repeats byte for byte.
 | the staged matcher in `lrae_package.py` | identifier, then title under the same office, then incumbent contract, then title similarity; a candidate is promoted only when a model reading both rows quotes each verbatim and names them one acquisition; the stages are about records, not about the Navy |
 | the reading vocabulary in `trace.py` | awarded, solicited, cancelled, review, restructured, delayed, open, not yet due, not dated, with one outcome word and the rest appended |
 | `news.py` | the article model, the source types, the claim passage, and the reading against the record as new signal, corroboration or conflict; the provider behind discovery is a flag |
+| `jobs.py` | USAJobs is one recruiting site for the whole government, so the listing, the announcement page, the acquisition-workforce series and the reading of a vacancy as an intention to hire are agency-independent; the agency codes are not |
 | `agency_layers_sql.py` | emits into the production tables (`gov_needs`, `gov_intelligence_assertions`, `gov_intelligence_evidence`, `agency_brain_items`), which are agency-independent |
 | `research/docs/08_org_memory_format.md` | observation, relationship and interpretation, with nothing invented and every negative scoped to the searches it rests on |
 
@@ -73,6 +76,7 @@ repeats byte for byte.
 | the office code tables | short | `fpds_sweep.OFFICES` (contracting offices swept; an agency whose awards other agencies sign for it also needs a funding-agency query), `sam_notices.SWEEP_ORGS` and `SWEEP_CODES` (SAM.gov organization ids), `trace.SAM_ORG_NODES`, `backtest.PILOT_OFFICES` |
 | the agency filters | short each | the SBIR component in `sbir.py`; the docket agency in `protests.py`; the name pattern in `congress.py`; the Federal Register agency slug in `fedreg.py` (some agencies have none); the queries and name patterns in `oversight.py` and `remarks.py`; `DEPARTMENT` and `EXECUTIVE` in `people.py`; the agency node and forecast providers in `agency_layers_sql.py` |
 | the feed list in `news.py` | short | the agency's own newsroom, the department's contract announcements, and the trade titles that cover it |
+| the USAJobs agency codes | short | read off the historic announcement listing for the department code (`HiringDepartmentCodes=NV` lists every Navy code with its name); the commands the layer studies, each to its memory node |
 | the egress decision | short | which of the agency's hosts refuse a non-US address, recorded as an access finding rather than as a silence |
 | the budget reader | one adapter | `budget.py` parses P-40 exhibits of the Navy's procurement books (48 lines from one book) and, since 2026-09-24, R-2 exhibits of an RDT&E book (24 program elements of DARPA's FY2027 book); the profile names the exhibit |
 
@@ -83,7 +87,7 @@ in `research/docs/01_source_registry.md` with what was actually found. Nothing h
 
 | agency | forecast artifact to look for | notes on the other sources |
 | --- | --- | --- |
-| Air Force, including Space Force | acquisition forecasts published by the major commands and centers; no single department-wide spreadsheet is assumed | notices and awards as usual; the program offices are named in Space Systems Command and Air Force Life Cycle Management Center releases |
+| Air Force, including Space Force | none found on 2026-09-25 (`research/docs/20`): the SAF/FM budget page, SAM.gov's hierarchy and the commands' pages name no department-wide forecast; AFLCMC's quarterly SMART Guide is a PDF not yet read | built on 2026-09-25 under `research/agencies/airforce/` (`research/docs/20`): every department host refuses this address, so the organization is read from SAM.gov's federal organization records (38 nodes, the program executive offices on the path of each of 26 swept offices), pages come through the hosted browser and the FY2027 procurement books from the Internet Archive's captures; 3,182 notices and 2,151 base awards; 17 leaders from the leadership pages the hosted browser saved and from AFLCMC's organizational chart; the Space Force read through Space Systems Command under the one subtier; no speech archive, so leaders' words are testimony and news |
 | Army | the long-range and advance planning briefings published by the program executive offices | the same notice and award path; the office names are in the PEO structure |
 | Department of Energy | the procurement forecasts of the National Nuclear Security Administration and the site offices | management and operating contracts behave differently from ordinary procurements and need their own reading |
 | Department of Homeland Security | the department's acquisition planning forecast | the components buy separately, so the office resolution matters more than the forecast format |
@@ -109,3 +113,11 @@ in `research/docs/01_source_registry.md` with what was actually found. Nothing h
 
 Nothing is invented for a new agency. A record exists because a source states it, a negative names
 the searches it rests on, and a conflict between two sources is reported rather than resolved.
+
+
+## Portals whose agency has no profile
+
+A source found before its agency has a profile (DHS Science and Technology's LRBAA, USSOCOM's SOF AT&L and SOFWERX,
+DTRA's SBIR cycle, the civilian SBIR programmes) goes into `research/sources/pending_sources.json`, not into a registry:
+a pending row feeds no registry, node or cell, names role mailboxes only, and is promoted when the agency truth table
+(`docs/22`) gives its agency an in-code verdict. Never write a profile from a flyer; save the agency's own page first.

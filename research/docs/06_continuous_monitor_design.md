@@ -1,7 +1,7 @@
 # 06 - Continuous monitor: design, schedules, change detection, review, metrics, sample alerts
 
 This document separates the reusable core from the Navy-specific adapters, names the existing
-Chromie tables each part would use, and gives four sample alerts built from evidence gathered in
+The platform tables each part would use, and gives four sample alerts built from evidence gathered in
 this package.
 
 ## In plain terms
@@ -16,7 +16,7 @@ the PEO and command web pages, the budget-book exhibits) and the alias table of 
 ## Architecture at a glance
 
 ```
- OFFICIAL SOURCES                REUSABLE CORE                          CHROMIE TABLES
+ OFFICIAL SOURCES                REUSABLE CORE                          PLATFORM TABLES
  ----------------                -------------                          --------------
  LRAE spreadsheets  ---+                                            
  (NAVWAR, NAVSEA, ONR) |     +------------------+   manifest rows    gov_procurement_sources
@@ -107,6 +107,12 @@ Incremental schedules:
 | Budget books | at the President's Budget release, then monthly for amendments; reprogramming actions when published | new file or hash change |
 | govinfo / congress.gov | daily | new package matching the tracked bills |
 | Federal Register | weekly | new document naming a tracked organization |
+| DSIP topics (Navy, Army, DARPA, Air Force rows) | monthly, first Wednesday (observed on the Navy FY2026 pre-release days; the annual BAA of 2026-04-13 is the exception); swept by `prerelease.py sweep` (stage `prerelease`) | a new pre-release day on the index pages, listed by the sweep as `new_days` and read by `build`; reserved event type `sbir_topics_released`, not yet in `EVENT_TYPES` |
+| Programme portals (navysbir.com, armysbir.army.mil, darpa.mil small business, darpaconnect.us, afwerx.com, spacewerx.us, diu.mil) | monthly with the DSIP day, weekly for the prize and CSO pages | landing page hash change; a refusal is recorded, never worked around |
+
+Standing versus episodic (stated here, applied by nothing yet): a topic or a prize with a close date is episodic and
+expires on it; a standing BAA, a community page or a rolling CSO has no close and stays Live until its page says
+otherwise. The registry's `instrument.standing` carries the reading per source (`docs/01`).
 
 ## 3. Documents
 
@@ -118,7 +124,7 @@ Incremental schedules:
   page carries no date, the archive capture timestamp is the "available by" date.
 - Large PDFs are extracted page by page (page number kept with every passage); spreadsheets row by
   row with the stable key; a new hash of the same URL creates a new version and supersedes the old
-  one rather than replacing it. Raw bytes stay in object storage; Chromie's
+  one rather than replacing it. Raw bytes stay in object storage; the platform's
   `gov_procurement_documents` / `agency_brain_documents` hold the metadata and status.
 - Size and safety limits: bounded file size, no macro execution, per-host rate limits and
   timeouts, resume for large books (the FY2027 OPN book needed a resumable download).
@@ -135,7 +141,7 @@ Incremental schedules:
 | Organization pages | page | office added or removed; parent or name changed; leadership change | styling |
 | DVIDS | release | leadership change; industry event; reorganization; program milestone | unrelated units |
 
-Deduplication: one lineage per solicitation number across notice types (Chromie already tracks
+Deduplication: one lineage per solicitation number across notice types (the platform already tracks
 notice amendments); one award per PIID with modifications as children; one forecast requirement
 per PID across LRAE releases; one organization per canonical id with aliases.
 
@@ -401,7 +407,40 @@ fetched from inside a loaded portal page; the API ignores every filter and honou
 components newest first and stops at the FY2020 window (seven index pages of 500), then saves the detail of every
 Navy topic in the window. A topic is an sbir_topic event dated the day it was first shown to industry (the
 pre-release date), under the program office its text names, else the sponsoring command (NAVSEA, NAVAIR, NAVWAR),
-else the Department: 1,100 Navy topics since FY2020, 34 of them naming a program office.
+else the Department: 1,100 Navy topics since FY2020, 70 of them naming a program office. Since 2026-09-28 (SBIR
+portals Stage 2) every topic row also carries, verbatim from the saved index row and detail: the solicitation number
+and release, the phase set parsed from the portal's phase hierarchy, the Q&A window, the ITAR flag, the CMMC level and
+the focus areas, plus two readings labelled with their basis: the instrument (the code's Z letter is the BAA, X the
+commercial solutions opening, the legacy "DoD SBIR 20xx.x" titles the BAA, else unknown) and the entry (title words
+for SBIR XL, xTech and Open Topic; then the phase set, D2 without 1 being Direct to Phase II and 1 with D2 either;
+then the code's DV or NP letters; then the legacy -D suffix; else unknown). `entry_type` joins the two
+(`baa:direct_to_phase_ii`); the header counts by entry type, instrument and focus area. Catapult, Strategic
+Breakthrough, CATALYST and Prize-to-Contract are never derived from DSIP. The ceiling is the topic's own sentence with
+a dollar amount, else null. The Navy `topic_re` reads the FY2026 `DON26BZ06-DV088` form beside `N251-001`; NAVFAC,
+MCSC and MARCOR resolve to their commands (`sbir_commands`), so 55 topics that fell to the Department now sit under
+`command:navfac` and `command:mcsc`. A frozen topic carries its close date as `closes` (not `due`; a topic's close is
+not a requirement's deadline).
+
+Pre-release days. `research/tools/prerelease.py build` (pipeline stage `releases`, offline) groups the component's
+saved index rows by pre-release day, solicitation number and release into `events/prerelease_observations.json`, one
+row per day with the topic count, the first codes, the newest saved page as evidence and `matches_rule`: the day's
+weekday, which of that weekday in the month it is, and whether it is a first Wednesday. That is a labelled comparison,
+never a verdict: the annual BAA's Monday (2026-04-13, three solicitations) is kept and says so. Nothing is loaded from
+it; the reserved `sbir_topics_released` event stays out of `EVENT_TYPES` until a live sweep (Stage 3) has something to
+compare against. Navy 47 days since FY2020, 20 on a first Wednesday and every FY2026 day but the annual BAA's; Army
+109 (33), DARPA 83 (16), Air Force 81 (34): the monthly rule is the FY2026 Navy release rhythm, not the portal's history.
+
+The sweep (Stage 3, 2026-09-28). `prerelease.py sweep --fetch` (pipeline network stage `prerelease`, after `topics`)
+takes every registry row whose cadence is monthly and lists pages, computes the cycle's due day from the rule (the most
+recent first Wednesday on or before today; the rule's exceptions are documentation, not the calendar), and for each page
+asks the ledger whether any attempt was recorded since that day, refusals included. A page with none is fetched once
+through `fetch.py` and the answer appended; a 403 or a stub is the recorded answer and is not retried inside the cycle,
+never worked around. The DSIP row also lists its newest index page (size 62, the largest the API accepted); when a saved
+copy of this cycle exists, whatever took it, its pre-release days not yet in the observations file are listed as
+`new_days`, loaded by nothing until `build` runs. `events/prerelease_sweep.json` is the record. The first sweep on
+2026-09-28 (cycle due 2026-09-02) kept the index page of 2026-09-26 and the armysbir.army.mil landing page of the same
+morning, and recorded three refusals: the portal's topics-app shell and the two inner navysbir.com pages answered 403 to
+a bare client, as the landing page had. No new pre-release day: the cycle's page holds only 2026-09-02.
 
 Coverage and status (T1.5). `research/sources/coverage_matrix.json` is a hand-written grid of five
 commands (NAVSEA, NAVAIR, NAVWAR, ONR, NIWC) by twelve families; a cell names the registered sources that cover it

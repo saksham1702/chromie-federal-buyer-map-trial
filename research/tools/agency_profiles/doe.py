@@ -130,7 +130,7 @@ PROFILE = {
     "protests": {"listing": "https://www.gao.gov/legal/bid-protests/search?agency=Department%20of%20Energy&page={page}",
                  "agency": "Department of Energy", "max_pages": 20},
     # Budget is deferred: the Department's justification volumes are not saved and no exhibit reader exists for them.
-    "budget": {"exhibit": "Congressional Justification", "pb_label": "Department of Energy", "books_dir": "jbooks_doe",
+    "budget": {"pb_label": "Department of Energy", "books_dir": "jbooks_doe",
                "provider": "doe_budget_justification"},
     "people": {"department": "agency:doe",
                "executive": ("secretary of energy", "deputy secretary", "under secretary", "assistant secretary", "administrator",
@@ -146,6 +146,8 @@ PROFILE = {
                       "Assistant Secretary for Fossil Energy", "Assistant Secretary for Nuclear Energy",
                       "Assistant Secretary for Energy Efficiency and Renewable Energy", "Advanced Research Projects Agency - Energy (ARPA-E)"),
     "coverage_orgs": ["DOE HQ", "NNSA", "SC", "EM", "EERE", "ARPA-E", "FE", "NE", "National laboratories"],
+    "coverage_org_nodes": {},  # the matrix is written by hand (or by its own script) until the nodes are named here
+    "coverage_department_wide": {},
     # A first pattern for how a notice names a DOE element by code, not yet run against a corpus; no hull designators.
     "reading": {"office_code_re": r"\b(?:NA-[A-Z0-9]{2,4}|EM-\d{1,3}|SC-\d{1,2}|EERE|FECM|CESER|OCED|GDO|MESC|LPO|ARPA-E|NNSA)\b",
                 "hull_re": r"(?!)",

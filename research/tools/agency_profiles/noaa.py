@@ -115,7 +115,7 @@ PROFILE = {
     "protests": {"listing": "https://www.gao.gov/legal/bid-protests/search?agency=National%20Oceanic%20and%20Atmospheric%20Administration&page={page}",
                  "agency": "National Oceanic and Atmospheric Administration", "max_pages": 10},
     # Deferred: the shape is kept and the books folder stays empty.
-    "budget": {"exhibit": "", "pb_label": "National Oceanic and Atmospheric Administration", "books_dir": "jbooks_noaa",
+    "budget": {"pb_label": "National Oceanic and Atmospheric Administration", "books_dir": "jbooks_noaa",
                "provider": "noaa_congressional_justification"},
     "people": {"department": "agency:noaa",
                "executive": ("administrator", "deputy administrator", "under secretary", "assistant secretary", "assistant administrator",
@@ -133,6 +133,8 @@ PROFILE = {
                       "sheet": "Sheet1", "header_row": 3, "scope": "all", "headers": DOC_HEADERS, "keep": ("organization", "NOAA")}]},
     "pilot_offices": ("NESDIS", "NWS", "NMFS", "NOS", "OAR", "OMAO"),
     "coverage_orgs": ["AGO", "NESDIS", "NWS", "NMFS", "NOS", "OAR", "OMAO"],
+    "coverage_org_nodes": {},  # the matrix is written by hand (or by its own script) until the nodes are named here
+    "coverage_department_wide": {},
     # A NOAA notice names its office by the line office's acronym or an AGO division's; NOAA has no hull designators.
     "reading": {"office_code_re": r"\b(?:NESDIS|NWS|NMFS|NOS|OAR|OMAO|AGO|EAD|WAD|CSAD|SIAD|GMD)\b",
                 "hull_re": r"(?!)",

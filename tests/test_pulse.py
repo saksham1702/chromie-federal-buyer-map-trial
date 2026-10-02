@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "research" / "tools"))
 from backtest import CORPUS, LABELS, shift  # noqa: E402
 from people import load_routes  # noqa: E402
-from pulse import ACTIONS, ENDS_RE, PULSE, actions, card, cell_events, cells, load_people, rank, recomposes, register_problems, score, week, week_text  # noqa: E402
+from pulse import ACTIONS, ENDS_RE, PULSE, actions, card, cell_events, cells, load_people, rank, recomposes, record_reach, register_problems, score, week, week_text  # noqa: E402
 from vocabulary import STAGES  # noqa: E402
 
 pytestmark = pytest.mark.skipif(not (CORPUS.exists() and LABELS.exists() and PULSE.exists()), reason="no frozen pulse on disk")
@@ -36,7 +36,9 @@ def test_pulse_rebuilds_from_the_frozen_files_alone(frozen):
     assert [c["key"] for c in ranked[:50]] == [c["key"] for c in saved["ranking"]]
     assert [c["score"] for c in ranked[:50]] == [c["score"] for c in saved["ranking"]]
     assert week(corpus, saved["week"]["since"], saved["week"]["until"]) == saved["week"]
-    assert actions(ranked, corpus, saved["as_of"], roster=load_people(), routes=load_routes()) == saved["actions"]
+    # The build names a meeting's contacts through the page layer's reach and the cell's own forecast row; so does this.
+    roster = load_people()
+    assert actions(ranked, corpus, saved["as_of"], roster=roster, routes=load_routes(), **record_reach(corpus, saved["as_of"], roster)) == saved["actions"]
 
 
 def test_every_score_recomposes_from_its_parts_with_an_event_per_family(frozen):
