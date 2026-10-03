@@ -153,8 +153,9 @@ All paths are relative to the repository root; `PY=.venv/bin/python` unless the 
   must name a row beyond the person's own role row: a potential budget holder rests on a line in Budget lines
   behind the work placed in the person's office; a potential decision maker or champion rests on an action or
   statement outside People and program offices (a notice or award naming them in the role, remarks, a meeting).
-  "Still to confirm" is never empty or "none". A person's standing comes from the record, not the brief: only
-  `confirmed_current` (an official source stated the post within six months) is written as holding it now; a
+  "Still to confirm" is never empty or "none". A person's standing comes from the record, not the brief, and is
+  per post: the person's `posts` entry for that office and role, so a record of one post never confirms another.
+  Only `confirmed_current` (an official source stated the post within six months) is written as holding it now; a
   `recently_observed` person is written as last observed in the post on that date, and confirming the post is
   listed under "Still to confirm".
   `| Person | Reading | Documented role (exact quote) | Source | Why they matter for this requirement | Rests on | Still to confirm |`

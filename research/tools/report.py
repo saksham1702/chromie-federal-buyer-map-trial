@@ -683,17 +683,21 @@ def tool_call(s: str) -> str:
 
 def url_blocks(output: str, url: str) -> list[str]:
     """The parts of a tool answer a URL source vouches for: each JSON record that carries the URL, or each paragraph
-    of a text answer that prints it. A quote cited to the URL must sit in one of them, not anywhere in the answer."""
+    of a text answer that prints it. A quote cited to the URL must sit in one of them, not anywhere in the answer.
+    A record vouches for its own fields only: the records nested in it are judged on their own, so a wrapper that
+    prints a source URL never lets a sibling row's quote pass."""
     try:
         data = json.loads(output)
     except ValueError:
         return [p for p in re.split(r"\n\s*\n", output) if url in p]
+    nested = lambda v: isinstance(v, dict) or isinstance(v, list) and any(isinstance(x, (dict, list)) for x in v)  # noqa: E731
     blocks, stack = [], [data]
     while stack:
         node = stack.pop()
         if isinstance(node, dict):
-            if any(isinstance(v, str) and url in v for v in node.values()):
-                blocks.append(json.dumps(node, indent=1, ensure_ascii=False))
+            own = {k: v for k, v in node.items() if not nested(v)}
+            if any(isinstance(v, str) and url in v for v in own.values()):
+                blocks.append(json.dumps(own, indent=1, ensure_ascii=False))
             stack.extend(node.values())
         elif isinstance(node, list):
             stack.extend(node)

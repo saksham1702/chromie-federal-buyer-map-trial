@@ -193,6 +193,15 @@ def test_a_quote_counts_only_in_the_answer_its_source_names(walk):
     assert any("only elsewhere" in p for p in problems(with_claims({**c0, "quote": "Contracting Officer, PMW 205", "source": url_a}))), \
         "a URL vouches only for its own record, not the whole answer that prints it"
 
+    # a wrapper printing a source URL vouches for its own fields, never for the rows it holds
+    url_c = "https://example.gov/office-listing"
+    wrapper = {"source_url": url_c, "office": "PMW 120 Battlespace Awareness", "contacts": [{"name": "Cy Row", "title": "Deputy Program Manager, PMW 120"}]}
+    bundle["gathered"] += [{"key": "office:PMW 120", "section": "office", "command": "office", "args": "'PMW 120'",
+                            "output": json.dumps(wrapper, indent=1), "chars": 200, "empty": False, "boundary": None}]
+    assert problems(with_claims({**c0, "quote": "PMW 120 Battlespace Awareness", "source": url_c})) == [], "the wrapper's own field"
+    assert any("only elsewhere" in p for p in problems(with_claims({**c0, "quote": "Deputy Program Manager, PMW 120", "source": url_c}))), \
+        "a row inside the wrapper carries no URL, so the wrapper's URL does not vouch for it"
+
 
 def test_render_puts_the_boundary_first_and_keeps_facts_apart(walk):
     plan = report.plan(report.load_spec("agency-brief"), inventory_stub(("budget",)), "", None, walk.layer, OWNERS, [])

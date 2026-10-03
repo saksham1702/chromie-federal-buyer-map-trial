@@ -426,6 +426,15 @@ def standing(claims: list[dict], as_of: str) -> dict:
     return {"status": status, "source": c.get("source", ""), "observed_at": (c.get("observed_at") or "")[:10], "source_url": c.get("source_url", "")}
 
 
+def post_standings(claims: list[dict], as_of: str) -> list[dict]:
+    """A person's standing per post, one entry per office and role. A claim confirms only the post it names, so a recent
+    official record at one office never confirms the person's role at another, nor another role at the same office."""
+    posts: dict[tuple[str, str], list[dict]] = {}
+    for c in claims:
+        posts.setdefault((c.get("office") or "", c.get("role_type") or ""), []).append(c)
+    return [{"office": office, "role": role, **standing(cs, as_of)} for (office, role), cs in sorted(posts.items())]
+
+
 def contacts_for(org_ids: list[str], people: list[dict], as_of: str | None = None, limit: int | None = 3) -> list[dict]:
     """Whom the record ties to any of these organization ids (most specific first, then newest, then leaders first),
     observed by as_of; every one when limit is None."""

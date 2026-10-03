@@ -678,7 +678,7 @@ def emit_stakeholders(out: list[str], org_ids: dict[str, str], hosts: dict[str, 
                           *event_columns(None, None, "derived", stakeholder_provider(said, hosts, keys), org_ids.get(office),
                                          {"person": person["id"], "name": person["name"], "bucket": bucket, "basis": sorted({r["basis"] for r in said}),
                                           "programs": person["programs"], "linkedin": (person["linkedin"] or {}).get("url", ""),
-                                          "standing": person.get("standing")})])
+                                          "posts": person.get("posts")})])
             for i, r in enumerate(said):
                 if r["source_url"].startswith(("http://", "https://")):
                     evidence.append([lit(uid("evidence", f"{claim_key}:{i}")), lit(item_id), lit(r["text"][:300]), lit(r["source_url"]),

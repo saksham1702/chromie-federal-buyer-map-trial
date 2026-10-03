@@ -52,7 +52,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from fetch import kept_page  # noqa: E402
 from agency import EVENTS, MANIFEST, MEMORY, NOTE_TAG, P  # noqa: E402
 from agency_layers_sql import uid  # noqa: E402
-from people import RECENT, ROLE_WORDS, norm_name, standing  # noqa: E402
+from people import RECENT, ROLE_WORDS, norm_name, post_standings, standing  # noqa: E402
 from programs import office_money  # noqa: E402
 
 OUT = MEMORY / "stakeholders.json"
@@ -611,10 +611,13 @@ def build_stakeholders(people: list[dict], staff: dict[str, dict], programs: dic
 
         mine = managed.get(person["id"], [])
         held, owned = held_rows(mine, fy, url_of, programs.get("listing_retrieved_at", "")[:10], held_as)
-        seen = person["positions"] + [{"source": "program_listing", "observed_at": programs.get("listing_retrieved_at", ""), "source_url": p.get("url") or ""}
+        # each claim names its post (office and role), so a record confirms only the post it names
+        seen = person["positions"] + [{"office": p.get("office") or "", "role_type": "program_manager", "source": "program_listing",
+                                       "observed_at": programs.get("listing_retrieved_at", ""), "source_url": p.get("url") or ""}
                                       for p in mine if p["id"] not in held_as]
-        if linkedin and linkedin["status"] == "confirmed":
-            seen.append({"source": "linkedin_profile", "observed_at": linkedin.get("observed_at", ""), "source_url": linkedin["url"]})
+        if linkedin and linkedin["status"] == "confirmed":  # a profile places no office; its title is the post it states
+            seen.append({"office": "", "role_type": linkedin["post"]["title"], "source": "linkedin_profile",
+                         "observed_at": linkedin.get("observed_at", ""), "source_url": linkedin["url"]})
         buckets["budget_holder"] += held
         buckets["problem_owner"] += owned
         if bio:
@@ -643,14 +646,15 @@ def build_stakeholders(people: list[dict], staff: dict[str, dict], programs: dic
         kept = {b: sorted(buckets[b], key=lambda r: r["observed_at"], reverse=True)[:CAP] if b != "champion" else buckets[b] for b in BUCKETS if buckets.get(b)}
         out_people.append({"id": person["id"], "name": person["name"], "offices": person.get("offices", []), "page": page, "start": start,
                            "listed_title": (listed or {}).get("raw_title", ""), "emails": person.get("emails", []),
-                           "mailbox": mailbox(person["name"]), "programs": sorted(p["id"] for p in mine), "standing": standing(seen, asof.isoformat()),
+                           "mailbox": mailbox(person["name"]), "programs": sorted(p["id"] for p in mine), "posts": post_standings(seen, asof.isoformat()),
                            "bio": {k: bio[k] for k in ("interests", "prior", "education")} if bio else None,
                            "linkedin": {k: linkedin[k] for k in ("status", "url", "name")} | ({"current": linkedin["post"]} if linkedin.get("post") else {}) if linkedin else None,
                            "buckets": kept, "champion_signals": len(buckets.get("champion", []))})
 
     for person in found:  # a discovered holder of an office gets its programs' evidence and signals as anyone else
         industry = person.pop("_industry")
-        person["standing"] = standing([{"source": "linkedin_profile", "observed_at": person["linkedin"]["observed_at"], "source_url": person["linkedin"]["url"]}], asof.isoformat())
+        person["posts"] = post_standings([{"office": person["offices"][0], "role_type": person["linkedin"]["current"]["title"], "source": "linkedin_profile",
+                                           "observed_at": person["linkedin"]["observed_at"], "source_url": person["linkedin"]["url"]}], asof.isoformat())
         mine = managed.get(person["id"], [])
         if not mine:
             continue
@@ -675,6 +679,9 @@ def build_stakeholders(people: list[dict], staff: dict[str, dict], programs: dic
     out_people.sort(key=lambda p: (norm_name(p["name"]), p["id"]))
     by_id = {p["id"]: p for p in out_people}
     in_bucket = lambda b, office: sorted(p["id"] for p in out_people if b in p["buckets"] and office in p["offices"])  # noqa: E731
+    # a named manager's standing is that of the manager post at the program's office, never of the person's other posts
+    post_of = lambda pid, office, role: next(({k: v for k, v in p.items() if k not in ("office", "role")} for p in by_id.get(pid, {}).get("posts", [])  # noqa: E731
+                                              if (p["office"], p["role"]) == (office, role)), None)
 
     # a program office's decisions go up to the office it reports to (a PMW to its PEO) when it has no decision maker of its own
     parents: dict[str, list[str]] = defaultdict(list)
@@ -692,7 +699,7 @@ def build_stakeholders(people: list[dict], staff: dict[str, dict], programs: dic
         out_programs.append({"id": prog["id"], "title": prog["title"], "office": office, "url": prog.get("url") or "",
                              "manager": {"name": prog.get("manager") or (who or {}).get("name", ""), "person": who["id"] if who else None,
                                          "held_by_office": prog["id"] in held_as,
-                                         "standing": held_as[prog["id"]][1] if prog["id"] in held_as else by_id.get(who["id"], {}).get("standing") if who else None},
+                                         "standing": held_as[prog["id"]][1] if prog["id"] in held_as else post_of(who["id"], office, "program_manager") if who else None},
                              "office_basis": prog.get("office_basis"),
                              "money_musd": prog["budget"]["amounts_musd"], "change_statement": prog.get("change_statement") or "",
                              "left": prog.get("left"), "spend_found_usd": (prog.get("spend") or {}).get("obligated"),
@@ -1006,10 +1013,19 @@ def selfcheck() -> int:
     assert al["programs"] == ["line:OPN:2950"] and set(al["buckets"]) == {"budget_holder", "problem_owner", "champion"}, al
     # a profile is self-stated: its holder is recently observed, and the evidence never says the person holds the office now
     seen_al = {"status": "recently_observed", "source": "linkedin_profile", "observed_at": "2026-09-29", "source_url": "a"}
-    assert al["standing"] == seen_al, al["standing"]
+    assert al["posts"] == [{"office": "pmw:120", "role": "Program Manager", **seen_al}], al["posts"]
     assert any(r["basis"] == "inferred" and r["text"].startswith("was last observed holding PMW 120 Battlespace Awareness Program Office on 2026-09-29 (not confirmed current); ")
                for r in al["buckets"]["budget_holder"]), al["buckets"]
-    assert next(p for p in res["people"] if p["id"] == "q9")["standing"]["status"] == "confirmed_current"  # the office's own record, 170 days old
+    assert [(p["office"], p["role"], p["status"]) for p in next(p for p in res["people"] if p["id"] == "q9")["posts"]] == \
+        [("peo:c4i", "acquisition_leader", "confirmed_current")]  # the office's own record, 170 days old
+    # a recent SAM.gov contact record at one office confirms that post only, never a leadership post the news reported
+    sam = {"office": "pmw:120", "role_type": "contract_specialist", "raw_title": "N00039-26-R-0001", "observed_at": "2026-09-01",
+           "source": "sam_gov_site_api", "source_url": "https://sam", "context": "contact"}
+    news = dict(peo["positions"][0], source="news_articles", observed_at="2026-09-10", source_url="https://news")
+    both = build_stakeholders([dict(peo, offices=["peo:c4i", "pmw:120"], positions=[sam, news])], {}, {"fiscal_year": 2026, "programs": [], "offices": {}},
+                              {}, line_seed, {}, {}, {}, asof)
+    assert [(p["office"], p["role"], p["status"]) for p in both["people"][0]["posts"]] == \
+        [("peo:c4i", "acquisition_leader", "recently_observed"), ("pmw:120", "contract_specialist", "confirmed_current")], both["people"][0]["posts"]
     assert [s["text"].split(":")[0] for s in al["buckets"]["champion"]] == ["Battlespace Sensors grows", "industry background"], al["buckets"]["champion"]
     got = res["programs"][0]
     assert got["manager"] == {"name": "Al New", "person": al["id"], "held_by_office": True, "standing": seen_al} and got["stakeholders"]["champion"] == [al["id"]], got
