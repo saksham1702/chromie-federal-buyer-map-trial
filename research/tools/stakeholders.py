@@ -52,7 +52,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from fetch import kept_page  # noqa: E402
 from agency import EVENTS, MANIFEST, MEMORY, NOTE_TAG, P  # noqa: E402
 from agency_layers_sql import uid  # noqa: E402
-from people import ROLE_WORDS, norm_name  # noqa: E402
+from people import RECENT, ROLE_WORDS, norm_name, standing  # noqa: E402
 from programs import office_money  # noqa: E402
 
 OUT = MEMORY / "stakeholders.json"
@@ -72,7 +72,6 @@ NEW_IN_POST = timedelta(days=548)  # eighteen months: a manager's first programs
 RECENT_NOTICE = timedelta(days=180)
 RECENT_TALK = timedelta(days=365)
 RECENT_POST_YEARS = 2
-RECENT_POSITION = timedelta(days=730)  # a role or contact older than this is history, not the office today
 CAP = 4  # evidence rows kept per bucket, newest first
 
 BUCKETS = ("decision_maker", "budget_holder", "budget_process", "problem_owner", "champion", "technical", "end_user_liaison",
@@ -402,6 +401,7 @@ def discovered(office_hits: dict[str, list[dict]], offices: list[dict], known: s
                 out.append({"id": uid("person", f"linkedin:{r.get('url') or name}"), "name": name, "offices": [office], "page": "", "start": post["start"],
                             "listed_title": "", "emails": [], "mailbox": False, "programs": [], "bio": None,
                             "linkedin": {"status": "discovered", "url": r.get("url") or "", "name": name, "current": post, "contractor": contractor,
+                                         "observed_at": answer["retrieved_at"][:10],
                                          # a government post the profile also shows as current, begun after this one: this one may be
                                          # the old post left open (PEO Ships beside PAE Maritime); an older open post is not a conflict
                                          "also_current": [f"{p['title']} - {p['org']} (since {p['start']})" for p in posts
@@ -426,43 +426,48 @@ def discovered(office_hits: dict[str, list[dict]], offices: list[dict], known: s
 
 
 def office_holders(people: list[dict], found: list[dict], nodes: dict[str, dict], asof: date) -> dict[str, dict]:
-    """Who holds each office's one post now (its program manager, its program executive officer): a position a source
+    """Who last held each office's one post (its program manager, its program executive officer): a position a source
     dates within two years, or a discovered profile's current post. The newest claim wins; two people claiming the
-    post on the same date leave the office without a holder."""
-    claims: dict[str, list[tuple[str, dict]]] = defaultdict(list)
+    post on the same date leave the office without a holder. Each holder carries its standing from its own claims:
+    confirmed_current only when an official source stated the post within six months, else recently_observed."""
+    claims: dict[str, list[tuple[str, dict, dict]]] = defaultdict(list)
     holds_post = lambda title, node: any(re.match(rf"(?:acting )?{p}\b", (title or "").lower()) for p in SINGLE_POSTS.get(node["type"], ()))  # noqa: E731
     for person in people:
         for q in person["positions"]:
             node = nodes.get(q.get("office") or "")
             d = day(q.get("observed_at"))
-            if node and q.get("source") != "sam_gov_site_api" and d and asof - d <= RECENT_POSITION and holds_post(q.get("raw_title"), node):
-                claims[node["id"]].append((q["observed_at"][:10], person))
+            if node and q.get("source") != "sam_gov_site_api" and d and asof - d <= RECENT and holds_post(q.get("raw_title"), node):
+                claims[node["id"]].append((q["observed_at"][:10], person, q))
     for person in found:
         post, node = person["linkedin"]["current"], nodes.get(person["offices"][0])
         if node and holds_post(post["title"] or post["org"], node):
-            claims[node["id"]].append((post["start"] or "", person))
+            seen = {"source": "linkedin_profile", "observed_at": person["linkedin"]["observed_at"], "source_url": person["linkedin"]["url"]}
+            claims[node["id"]].append((post["start"] or "", person, seen))
     out = {}
     for office, cs in claims.items():
         newest = max(c[0] for c in cs)
         holders = {c[1]["id"]: c[1] for c in cs if c[0] == newest}
         if len(holders) == 1:
-            out[office] = next(iter(holders.values()))
+            person = next(iter(holders.values()))
+            out[office] = {"person": person, "standing": standing([c[2] for c in cs if c[1] is person], asof.isoformat())}
     return out
 
 
-def held_rows(mine: list[dict], fy: int, url_of: dict[str, str], listed_on: str, held_as: dict[str, str]) -> tuple[list[dict], list[dict]]:
+def held_rows(mine: list[dict], fy: int, url_of: dict[str, str], listed_on: str, held_as: dict[str, tuple[str, dict]]) -> tuple[list[dict], list[dict]]:
     """The budget holder and problem owner rows a person's programs give: stated where the listing names the person as
-    the manager, inferred where the person holds the office a book program is tied to (held_as: program id -> office)."""
+    the manager, inferred where the person holds the office a book program is tied to (held_as: program id -> office
+    and the holder's standing; a holder only recently observed is written as last observed, never as holding it now)."""
     held, owned = [], []
     for prog in mine:
         a = prog["budget"]["amounts_musd"]
         money = {y: a.get(f"fy{y}") for y in (fy, fy + 1)}
         src = prog.get("url") or prog["listing_source"]["url"]
-        office = held_as.get(prog["id"])
+        office, holder = held_as.get(prog["id"]) or ("", {})
         basis = "inferred" if office else "stated"
         tied = (prog.get("office_basis") or {}).get("basis", "")
+        post = f"holds {office}" if holder.get("status") == "confirmed_current" else f"was last observed holding {office} on {holder.get('observed_at')} (not confirmed current)"
         if any(v for v in money.values()):
-            what = (f"holds {office}; {prog['title']} is tied to it" + (f" ({tied[:220]})" if tied else "") if office
+            what = (f"{post}; {prog['title']} is tied to it" + (f" ({tied[:220]})" if tied else "") if office
                     else f"manages {prog['title']}")
             held.append(row(basis, f"{what}: FY{fy} ${money[fy]}M, FY{fy + 1} ${money[fy + 1]}M in the budget book"
                                    + ("" if office else f" (matched by {prog['budget']['match']})"), src, listed_on))
@@ -517,12 +522,12 @@ def build_stakeholders(people: list[dict], staff: dict[str, dict], programs: dic
             managed[who["id"]].append(prog)
     found, set_aside = discovered(office_hits, [n for n in nodes.values() if n["type"] in DISCOVER_TYPES | {"command"}], {norm_name(p["name"]) for p in people}, asof)
     holders = office_holders(people, found, nodes, asof)
-    held_as: dict[str, str] = {}  # a book program no listing names a manager for: held by whoever holds its office
+    held_as: dict[str, tuple[str, dict]] = {}  # a book program no listing names a manager for: held by whoever holds its office
     for prog in progs:
-        if not prog.get("manager") and (who := holders.get(prog.get("office") or "")):
-            managed[who["id"]].append(prog)
+        if not prog.get("manager") and (holder := holders.get(prog.get("office") or "")):
+            managed[holder["person"]["id"]].append(prog)
             node = nodes[prog["office"]]
-            held_as[prog["id"]] = (node.get("codes") or {}).get("office_code") or node.get("name") or prog["office"]
+            held_as[prog["id"]] = ((node.get("codes") or {}).get("office_code") or node.get("name") or prog["office"], holder["standing"])
 
     # notices: a solicitation contact's position names the program in its context
     notices: dict[str, list[dict]] = defaultdict(list)
@@ -560,11 +565,12 @@ def build_stakeholders(people: list[dict], staff: dict[str, dict], programs: dic
 
     out_people = []
     roster = bool(staff)  # an agency that publishes its staff: who it lists is who works there now
-    fresh = lambda q: (d := day(q.get("observed_at"))) is not None and asof - d <= RECENT_POSITION  # noqa: E731
+    fresh = lambda q: (d := day(q.get("observed_at"))) is not None and asof - d <= RECENT  # noqa: E731
     for person in people:
         buckets: dict[str, list[dict]] = defaultdict(list)
         listed = next((q for q in person["positions"] if q.get("source") == "agency_staff_listing"), None)
-        # a former director on a 2016 hearing page, or an official of another agency a conference page placed here, is not staff
+        # a former director on a 2016 hearing page, or an official of another agency a conference page placed here, is not staff.
+        # This only decides whom the buckets list; whether the record confirms the post today is the person's standing
         current = listed is not None if roster else any(fresh(q) for q in person["positions"] if q.get("source") != "sam_gov_site_api")
         rec = staff.get(listed["source_url"]) if listed else None
         bio = bio_facts(rec.get("body") or "") if rec else None
@@ -590,7 +596,8 @@ def build_stakeholders(people: list[dict], staff: dict[str, dict], programs: dic
         linkedin = None
         tokens = a_tokens | {t for o in person.get("offices", []) if o in nodes for t in office_tokens(nodes[o])}
         for answer in profiles.get(person["key"], []):
-            linkedin = match_profile(person["name"], answer["results"], tokens, asof) or linkedin
+            if found_profile := match_profile(person["name"], answer["results"], tokens, asof):
+                linkedin = {**found_profile, "observed_at": answer["retrieved_at"][:10]}
             if linkedin and linkedin["status"] == "confirmed":
                 break
         if linkedin and linkedin["status"] == "confirmed":
@@ -604,6 +611,10 @@ def build_stakeholders(people: list[dict], staff: dict[str, dict], programs: dic
 
         mine = managed.get(person["id"], [])
         held, owned = held_rows(mine, fy, url_of, programs.get("listing_retrieved_at", "")[:10], held_as)
+        seen = person["positions"] + [{"source": "program_listing", "observed_at": programs.get("listing_retrieved_at", ""), "source_url": p.get("url") or ""}
+                                      for p in mine if p["id"] not in held_as]
+        if linkedin and linkedin["status"] == "confirmed":
+            seen.append({"source": "linkedin_profile", "observed_at": linkedin.get("observed_at", ""), "source_url": linkedin["url"]})
         buckets["budget_holder"] += held
         buckets["problem_owner"] += owned
         if bio:
@@ -632,13 +643,14 @@ def build_stakeholders(people: list[dict], staff: dict[str, dict], programs: dic
         kept = {b: sorted(buckets[b], key=lambda r: r["observed_at"], reverse=True)[:CAP] if b != "champion" else buckets[b] for b in BUCKETS if buckets.get(b)}
         out_people.append({"id": person["id"], "name": person["name"], "offices": person.get("offices", []), "page": page, "start": start,
                            "listed_title": (listed or {}).get("raw_title", ""), "emails": person.get("emails", []),
-                           "mailbox": mailbox(person["name"]), "programs": sorted(p["id"] for p in mine),
+                           "mailbox": mailbox(person["name"]), "programs": sorted(p["id"] for p in mine), "standing": standing(seen, asof.isoformat()),
                            "bio": {k: bio[k] for k in ("interests", "prior", "education")} if bio else None,
                            "linkedin": {k: linkedin[k] for k in ("status", "url", "name")} | ({"current": linkedin["post"]} if linkedin.get("post") else {}) if linkedin else None,
                            "buckets": kept, "champion_signals": len(buckets.get("champion", []))})
 
     for person in found:  # a discovered holder of an office gets its programs' evidence and signals as anyone else
         industry = person.pop("_industry")
+        person["standing"] = standing([{"source": "linkedin_profile", "observed_at": person["linkedin"]["observed_at"], "source_url": person["linkedin"]["url"]}], asof.isoformat())
         mine = managed.get(person["id"], [])
         if not mine:
             continue
@@ -673,13 +685,14 @@ def build_stakeholders(people: list[dict], staff: dict[str, dict], programs: dic
 
     out_programs = []
     for prog in sorted(progs, key=lambda p: (p.get("office") or "", p["title"])):
-        who = person_for(prog["manager"], prog.get("office") or "") if prog.get("manager") else holders.get(prog.get("office") or "") if prog["id"] in held_as else None
+        who = person_for(prog["manager"], prog.get("office") or "") if prog.get("manager") else holders[prog["office"]]["person"] if prog["id"] in held_as else None
         office = prog.get("office") or ""
         contacts = sorted({(n["contact_id"], n["mailbox"]) for n in notices.get(prog["id"], []) if fresh({"observed_at": n["posted"]})})
         decided_in, deciders = decides(office) if office else ("", [])
         out_programs.append({"id": prog["id"], "title": prog["title"], "office": office, "url": prog.get("url") or "",
                              "manager": {"name": prog.get("manager") or (who or {}).get("name", ""), "person": who["id"] if who else None,
-                                         "held_by_office": prog["id"] in held_as},
+                                         "held_by_office": prog["id"] in held_as,
+                                         "standing": held_as[prog["id"]][1] if prog["id"] in held_as else by_id.get(who["id"], {}).get("standing") if who else None},
                              "office_basis": prog.get("office_basis"),
                              "money_musd": prog["budget"]["amounts_musd"], "change_statement": prog.get("change_statement") or "",
                              "left": prog.get("left"), "spend_found_usd": (prog.get("spend") or {}).get("obligated"),
@@ -733,8 +746,10 @@ def saved_answers(rows: list[dict], prefix: str) -> dict[str, list[dict]]:
 
 
 def as_of(rows: list[dict], people: list[dict], programs: dict) -> date:
-    """The newest input's date, so a rebuild from the same inputs writes the same file."""
-    listing = [r.get("retrieved_at") or "" for r in rows if STAFF_LISTING and r.get("url") == STAFF_LISTING and kept_page(r)]
+    """The newest input's date, so a rebuild from the same inputs writes the same file. The saved profile and office
+    lookups are inputs too: a profile read after the record date would otherwise be dated in its future."""
+    listing = [r.get("retrieved_at") or "" for r in rows if kept_page(r) and ((STAFF_LISTING and r.get("url") == STAFF_LISTING)
+                                                                              or (r.get("note") or "").startswith((PROFILE_NOTE, OFFICE_NOTE)))]
     dates = listing + [programs.get("listing_retrieved_at") or ""] + [p.get("last_seen") or "" for p in people]
     return max(d for d in (day(x) for x in dates) if d) if any(day(x) for x in dates) else date.today()
 
@@ -989,17 +1004,26 @@ def selfcheck() -> int:
     assert res["programs"][0]["stakeholders"]["decision_maker"] == ["q9"] and res["programs"][0]["stakeholders"]["decision_maker_office"] == "peo:c4i"
     al = next(p for p in res["people"] if p["name"] == "Al New")
     assert al["programs"] == ["line:OPN:2950"] and set(al["buckets"]) == {"budget_holder", "problem_owner", "champion"}, al
-    assert any(r["basis"] == "inferred" and r["text"].startswith("holds PMW 120 Battlespace") for r in al["buckets"]["budget_holder"]), al["buckets"]
+    # a profile is self-stated: its holder is recently observed, and the evidence never says the person holds the office now
+    seen_al = {"status": "recently_observed", "source": "linkedin_profile", "observed_at": "2026-09-29", "source_url": "a"}
+    assert al["standing"] == seen_al, al["standing"]
+    assert any(r["basis"] == "inferred" and r["text"].startswith("was last observed holding PMW 120 Battlespace Awareness Program Office on 2026-09-29 (not confirmed current); ")
+               for r in al["buckets"]["budget_holder"]), al["buckets"]
+    assert next(p for p in res["people"] if p["id"] == "q9")["standing"]["status"] == "confirmed_current"  # the office's own record, 170 days old
     assert [s["text"].split(":")[0] for s in al["buckets"]["champion"]] == ["Battlespace Sensors grows", "industry background"], al["buckets"]["champion"]
     got = res["programs"][0]
-    assert got["manager"] == {"name": "Al New", "person": al["id"], "held_by_office": True} and got["stakeholders"]["champion"] == [al["id"]], got
+    assert got["manager"] == {"name": "Al New", "person": al["id"], "held_by_office": True, "standing": seen_al} and got["stakeholders"]["champion"] == [al["id"]], got
     pmw120 = next(o for o in res["offices"] if o["office"] == "pmw:120")
     assert pmw120["left_musd"] == 4.0 and pmw120["spend_found_usd"] == 2e6 and pmw120["money_musd"] == {"fy2026": 6.0}, pmw120
     nodes = {n["id"]: n for n in office_seed["nodes"]}
     two = [{"id": i, "name": n, "positions": [{"office": "pmw:120", "raw_title": "Program Manager", "observed_at": "2026-05-01", "source": "news"}]}
            for i, n in (("q1", "Jo A"), ("q2", "Jo B"))]
     assert not office_holders(two, [], nodes, asof), "two claims on one date: no holder"
-    assert office_holders(two[:1], [], nodes, asof)["pmw:120"]["id"] == "q1"
+    one = office_holders(two[:1], [], nodes, asof)["pmw:120"]
+    assert one["person"]["id"] == "q1" and one["standing"]["status"] == "recently_observed", one  # a news story only reports the post
+    speech = lambda d: [dict(two[0], positions=[dict(two[0]["positions"][0], source="navy_mil_speeches", observed_at=d)])]  # noqa: E731
+    assert office_holders(speech("2026-05-01"), [], nodes, asof)["pmw:120"]["standing"]["status"] == "confirmed_current"
+    assert office_holders(speech("2025-11-01"), [], nodes, asof)["pmw:120"]["standing"]["status"] == "recently_observed"  # official, past six months
     deputy = [dict(two[0], positions=[dict(two[0]["positions"][0], raw_title="Deputy Program Manager")])]
     assert not office_holders(deputy, [], nodes, asof)
     print("selfcheck ok")

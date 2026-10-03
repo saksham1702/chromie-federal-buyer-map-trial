@@ -35,6 +35,7 @@ import re
 import sys
 import tempfile
 from collections import Counter
+from datetime import date, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -66,6 +67,12 @@ CONFIDENCE = {"sam_gov_site_api": "0.90", "dhs_apfs_forecast": "0.90", "contact_
               "navy_mil_speeches": "0.70", "house_committee_repository": "0.70", "conference_pages_exa": "0.60", "news_articles": "0.80",
               "darpa_site": "0.70"}
 REMARKS_PROVIDER = P["people"].get("remarks_providers") or P["remarks"]["providers"]
+CONFIRMED = timedelta(days=183)  # an official statement this recent confirms a post today
+RECENT = timedelta(days=730)  # a post dated within this is recently observed, never current; older is history
+# A government publication states a post; a news story or a conference page only reports it, and a profile is self-stated
+OFFICIAL = {"agency_staff_listing", "sam_gov_site_api", "contact_observations", "organization_seed", "program_listing",
+            *(v for k, v in {**P["remarks"]["providers"], **REMARKS_PROVIDER}.items() if k != "conference"),
+            *(P.get("forecast") or {}).get("providers", {}).values()}
 KEEP_EMAILS = P["people"].get("emails", True)  # a profile that keeps names only merges by address and writes none
 STAFF_BASE_URL = P["people"].get("staff_base_url") or ""
 
@@ -406,6 +413,19 @@ def build(argv: list[str]) -> int:
 ROLE_ORDER = {r: i for i, r in enumerate(("acquisition_leader", "contracting_leader", "program_manager", "deputy_program_manager", "technical_lead"))}
 
 
+def standing(claims: list[dict], as_of: str) -> dict:
+    """Whether the record confirms a post today or only saw it. confirmed_current: an official source stated it within
+    CONFIRMED of as_of. recently_observed: some source dated it within RECENT. history: older. Each claim carries source,
+    observed_at and source_url; the claim that decides comes back with the status."""
+    end = date.fromisoformat(as_of[:10])
+    dated = sorted((c for c in claims if (c.get("observed_at") or "")[:10] and c["observed_at"][:10] <= as_of[:10]),
+                   key=lambda c: c["observed_at"], reverse=True)
+    age = lambda c: end - date.fromisoformat(c["observed_at"][:10])  # noqa: E731
+    status, c = next((("confirmed_current", c) for c in dated if c.get("source") in OFFICIAL and age(c) <= CONFIRMED), None) \
+        or next((("recently_observed", c) for c in dated if age(c) <= RECENT), None) or ("history", dated[0] if dated else {})
+    return {"status": status, "source": c.get("source", ""), "observed_at": (c.get("observed_at") or "")[:10], "source_url": c.get("source_url", "")}
+
+
 def contacts_for(org_ids: list[str], people: list[dict], as_of: str | None = None, limit: int | None = 3) -> list[dict]:
     """Whom the record ties to any of these organization ids (most specific first, then newest, then leaders first),
     observed by as_of; every one when limit is None."""
@@ -419,7 +439,8 @@ def contacts_for(org_ids: list[str], people: list[dict], as_of: str | None = Non
             rows.append((*best[:3], person, best[3]))
     rows.sort(key=lambda r: (r[0], r[1], r[2], r[3]["name"]))
     return [{"name": person["name"], "role": p["role_type"], "title": p["raw_title"], "office": p["office"], "observed_at": p["observed_at"],
-             "source": p["source"], "source_ref": p["source_ref"], "source_url": p["source_url"], "email": (person["emails"] or [""])[0]}
+             "source": p["source"], "source_ref": p["source_ref"], "source_url": p["source_url"], "email": (person["emails"] or [""])[0],
+             "standing": standing([p], as_of or date.today().isoformat())["status"]}
             for _, _, _, person, p in rows[:limit]]
 
 
@@ -440,7 +461,7 @@ def own_contacts(event: dict, people: list[dict], as_of: str | None = None) -> l
             p = max(fits, key=lambda p: p["observed_at"])
             rows.append({"name": person["name"], "role": p["role_type"], "title": p["raw_title"], "office": p["office"], "observed_at": p["observed_at"],
                          "source": p["source"], "source_ref": p["source_ref"], "source_url": p["source_url"], "email": (person["emails"] or [""])[0],
-                         "basis": "named on this statement's own record"})
+                         "standing": standing([p], as_of or date.today().isoformat())["status"], "basis": "named on this statement's own record"})
     return sorted(rows, key=lambda r: (r["observed_at"], r["name"]), reverse=True)
 
 
