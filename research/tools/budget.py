@@ -43,6 +43,7 @@ ROOT = Path(__file__).resolve().parents[2]
 MANIFEST = ROOT / "research" / "sources" / "documents_manifest.jsonl"
 PDFTOTEXT = shutil.which("pdftotext") or "/opt/homebrew/bin/pdftotext"
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from fetch import kept_page  # noqa: E402
 from agency import BOOKS, EVENTS, P, RAW, NOTE_TAG  # noqa: E402
 
 BOOKS = BOOKS
@@ -449,7 +450,7 @@ def noted_books() -> list[Path]:
     for line in MANIFEST.read_text(encoding="utf-8").splitlines() if MANIFEST.exists() else []:
         r = json.loads(line)
         note = r.get("note") or ""
-        if r.get("status") == 200 and r.get("path") and note.startswith(BOOK_NOTE) and any(name in note for name in AGENCY_NAMES) and (ROOT / r["path"]).exists():
+        if kept_page(r) and note.startswith(BOOK_NOTE) and any(name in note for name in AGENCY_NAMES) and (ROOT / r["path"]).exists():
             out.append(ROOT / r["path"])
     return out
 
@@ -639,7 +640,7 @@ def display_files() -> list[dict]:
         r = json.loads(line)
         url = r.get("url") or ""
         for exhibit, name in DISPLAY_FILES.items():
-            if url.endswith("/" + name) and r.get("status") == 200 and r.get("path") and (ROOT / r["path"]).exists():
+            if url.endswith("/" + name) and kept_page(r) and (ROOT / r["path"]).exists():
                 if exhibit not in found or r.get("retrieved_at", "") > found[exhibit].get("retrieved_at", ""):
                     found[exhibit] = {**r, "exhibit": exhibit}
     return [found[k] for k in sorted(found)]

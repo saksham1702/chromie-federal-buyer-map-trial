@@ -30,6 +30,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from fetch import kept_page  # noqa: E402
 from backtest import CORPUS  # noqa: E402
 
 from agency import KEY, MANIFEST, MEMORY, P, PROFILES, SOURCES, note_is_foreign, note_is_ours  # noqa: E402
@@ -182,7 +183,7 @@ def status() -> dict:
     # A page first found by a search and later re-fetched through the hosted browser keeps the search's source.
     by_url = {r["url"]: key_for(r, by_host) for r in rows if r.get("url") and key_for(r, by_host)}
     for row in rows:
-        if row.get("status") != 200 or not row.get("sha256"):
+        if not kept_page(row):
             continue
         # the prefix owners first (a row claiming a section takes it and leaves the host's rest), then the URL narrowing
         # by_url is read across every layer's rows, so it can name a source this layer does not register (one router

@@ -28,6 +28,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from fetch import kept_page  # noqa: E402
 from agency import KEY, MANIFEST, MEMORY, ROOT, SAM_NOTICES  # noqa: E402
 from org_memory_lrae import page_text, squash  # noqa: E402
 
@@ -109,7 +110,7 @@ def rows() -> list[dict]:
 
 
 def latest(manifest: list[dict], predicate) -> dict | None:
-    hits = [r for r in manifest if r.get("status") == 200 and r.get("path") and (ROOT / r["path"]).exists() and predicate(r)]
+    hits = [r for r in manifest if kept_page(r) and (ROOT / r["path"]).exists() and predicate(r)]
     return hits[-1] if hits else None
 
 
@@ -326,7 +327,7 @@ def build_seed(manifest: list[dict]) -> dict:
     # The stated leaders: the listing's Office Director and Director records, with the start date it states.
     # Former or renamed offices the saved notices still name: a node each, on the earliest notice naming it, so a
     # requirement posted under that name resolves to an office rather than to the contracting office.
-    path_rows = {r["path"]: r for r in manifest if r.get("status") == 200 and r.get("path") and r.get("sha256")}
+    path_rows = {r["path"]: r for r in manifest if kept_page(r) and r.get("sha256")}
     for nid, name, abbr in FORMER_OFFICES:
         hits = [(posted, path, raw) for posted, path, raw in notices_naming(name) if str(path.relative_to(ROOT)) in path_rows]
         if not hits:
@@ -346,7 +347,7 @@ def build_seed(manifest: list[dict]) -> dict:
                 status_note="named by saved notices; absent from the offices page of the latest retrieval")
 
     # Contracting offices of other agencies that sign awards DARPA funds, on the FPDS tag naming each.
-    signer_pages = [r for r in manifest if r.get("status") == 200 and r.get("path") and "FUNDING_AGENCY_ID:97AE" in (r.get("url") or "")
+    signer_pages = [r for r in manifest if kept_page(r) and "FUNDING_AGENCY_ID:97AE" in (r.get("url") or "")
                     and (ROOT / r["path"]).exists()]
     signer_tags: dict[str, list] = {}
     for r in sorted(signer_pages, key=lambda r: (r["retrieved_at"], r["path"])):

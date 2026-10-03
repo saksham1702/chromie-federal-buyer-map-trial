@@ -30,6 +30,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from fetch import kept_page  # noqa: E402
 from agency import EVENTS as EVENTS_DIR, MANIFEST, NOTE_TAG, P, note_is_ours  # noqa: E402
 from markdown import html_to_markdown  # noqa: E402
 from news import HEDGE_RE, RELIABILITY, as_date, entities_in, is_prose, manifest_rows, memory, relate, sentences  # noqa: E402
@@ -123,13 +124,13 @@ def search_params(url: str) -> dict:
 
 def is_search(row: dict) -> bool:
     """A saved answer of the historic announcement API taken by this layer's sweep."""
-    return bool(row.get("path")) and row.get("status") == 200 and note_is_ours(row.get("note") or "") \
+    return kept_page(row) and note_is_ours(row.get("note") or "") \
         and bool(re.match(r"^jobs sweep\b", row.get("note") or "")) and (row.get("url") or "").startswith(API)
 
 
 def is_announcement(row: dict) -> bool:
     """A saved announcement page taken by this layer's sweep, or by hand for it."""
-    return bool(row.get("path")) and row.get("status") == 200 and note_is_ours(row.get("note") or "") \
+    return kept_page(row) and note_is_ours(row.get("note") or "") \
         and bool(re.match(r"^jobs announcement\b", row.get("note") or "")) and bool(ANNOUNCEMENT_RE.match(row.get("url") or ""))
 
 
@@ -452,7 +453,7 @@ def show(argv: list[str]) -> int:
 
 
 def saved_urls(rows: list[dict]) -> set[str]:
-    return {r.get("url") for r in rows if r.get("status") == 200 and r.get("path")}
+    return {r.get("url") for r in rows if kept_page(r)}
 
 
 def wanted(item: dict, mem_names: re.Pattern | None) -> bool:
@@ -523,7 +524,7 @@ def sweep(argv: list[str]) -> int:
         while url:
             # The same window listed earlier today is read from the saved answer: a sweep takes only what is new, and
             # a second pass for more pages does not list twice. The window carries today's date, so tomorrow lists again.
-            saved = next((r for r in rows if r.get("url") == url and r.get("status") == 200 and r.get("path") and (ROOT / r["path"]).exists()
+            saved = next((r for r in rows if r.get("url") == url and kept_page(r) and (ROOT / r["path"]).exists()
                           and (r.get("retrieved_at") or "")[:10] == end and is_search(r)), None)
             row = saved or fetch(url, "direct", None, f"jobs sweep{NOTE_TAG}: {code} {org} {start}..{end}" + (f" page {page}" if page > 1 else ""))
             if not saved:
@@ -531,7 +532,7 @@ def sweep(argv: list[str]) -> int:
             if row.get("status") == 204 or (row.get("status") == 200 and not (row.get("size") or 0)):
                 print(f"{code} ({org}): no announcement opened between {start} and {end} (the API answered {row.get('status')}, recorded)")
                 break
-            if row.get("status") != 200 or not row.get("path"):
+            if not kept_page(row):
                 refused += 1
                 print(f"{code} ({org}): {row.get('error') or row.get('status')}; the front end refuses a bare client, and an API is not a page "
                       f"the hosted browser can render, so the refusal is recorded and the sweep goes on")

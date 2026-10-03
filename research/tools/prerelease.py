@@ -31,6 +31,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from fetch import kept_page  # noqa: E402
 from lrae_package import manifest_rows  # noqa: E402
 from sbir import API, COMPONENT, PROVIDER, SINCE, ms_day, page_url, read  # noqa: E402
 
@@ -80,7 +81,7 @@ def build(argv: list[str]) -> int:
     ap.add_argument("--since", default=SINCE)
     ap.add_argument("--check", action="store_true")
     args = ap.parse_args(argv)
-    pages = [r for r in manifest_rows() if r.get("status") == 200 and r.get("path") and r.get("url", "").startswith(API + "/search") and (ROOT / r["path"]).exists()]
+    pages = [r for r in manifest_rows() if kept_page(r) and r.get("url", "").startswith(API + "/search") and (ROOT / r["path"]).exists()]
     rows = observations(pages, COMPONENT, args.since)
     fits = sum(1 for o in rows if o["matches_rule"]["first_wednesday"])
     payload = {"provider": PROVIDER, "component": COMPONENT, "since": args.since, "rule": RULE, "observations": len(rows),
@@ -188,7 +189,7 @@ def record_row(row: dict) -> None:
 
 
 def answer_of(row: dict) -> str:
-    if row.get("status") == 200 and row.get("path") and row.get("content_status") != "rejected_stub":
+    if kept_page(row):
         return "page"
     if row.get("content_status") == "rejected_stub":
         return "stub"

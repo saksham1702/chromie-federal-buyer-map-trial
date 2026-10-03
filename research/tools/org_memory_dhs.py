@@ -31,6 +31,7 @@ from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from fetch import kept_page  # noqa: E402
 from agency import KEY, MEMORY, NOTE_TAG, PROFILES, ROOT  # noqa: E402
 from org_memory_army import SAM_ORG, by_url, dumps, rows, sam_parent, sam_record, slug  # noqa: E402
 from org_memory_darpa import node, observation, relationship, unique_aliases  # noqa: E402
@@ -270,7 +271,7 @@ def collect() -> int:
         with MANIFEST.open("a", encoding="utf-8") as handle:
             handle.write(json.dumps(row, sort_keys=True) + "\n")
         print(row.get("status"), APFS)
-        missed += row.get("status") != 200
+        missed += not kept_page(row)
     return 1 if missed else 0
 
 

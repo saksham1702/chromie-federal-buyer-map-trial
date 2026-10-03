@@ -29,7 +29,7 @@ from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from fetch import MANIFEST, ROOT, fetch  # noqa: E402
+from fetch import MANIFEST, ROOT, fetch, kept_page  # noqa: E402
 from llm import env_value  # noqa: E402
 from lrae_package import manifest_rows, saved  # noqa: E402
 
@@ -141,8 +141,8 @@ def kept(listed: list[dict]) -> list[dict]:
 
 def packages(manifest: list[dict]) -> list[dict]:
     """Every kept report on the saved listing pages, one per package, sorted by package id."""
-    latest = {r["url"]: r for r in manifest if r.get("url", "").startswith(COLLECTION) and r.get("status") == 200
-              and r.get("path") and (ROOT / r["path"]).exists()}
+    latest = {r["url"]: r for r in manifest if r.get("url", "").startswith(COLLECTION) and kept_page(r)
+              and (ROOT / r["path"]).exists()}
     found: dict[str, dict] = {}
     for row in latest.values():
         found.update((p["package_id"], p) for p in kept(listing_body(row).get("packages") or []))
@@ -278,7 +278,7 @@ def list_congress(handle, congress: int, since: str, key: str) -> list[dict]:
         rows.append(row)
         print(row.get("status"), row.get("size"), f"listing {congress}th Congress page {len(rows)}")
         time.sleep(1.0)
-        url = scrub(listing_body(row).get("nextPage") or "", key) if row.get("status") == 200 else ""
+        url = scrub(listing_body(row).get("nextPage") or "", key) if kept_page(row) else ""
     return rows
 
 

@@ -27,6 +27,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from fetch import kept_page  # noqa: E402
 from browserbase_fetch import fail, save  # noqa: E402
 from llm import env_value  # noqa: E402
 from lrae_package import manifest_rows, saved  # noqa: E402
@@ -142,13 +143,13 @@ def sweep(argv: list[str]) -> int:
                          "what is saved, so the two overlap after they meet; stop both once every topic has its detail)")
     args = ap.parse_args(argv)
     manifest = manifest_rows()
-    have = {r["url"] for r in manifest if r.get("status") == 200 and r.get("path") and r.get("url")}  # a backfill row has no URL
+    have = {r["url"] for r in manifest if kept_page(r) and r.get("url")}  # a backfill row has no URL
     if not args.fetch:
         print(f"{sum(u.startswith(API + '/search') for u in have)} index page(s) and {sum(u.endswith('/details') for u in have)} detail(s) saved; --fetch to sweep")
         return 0
     page_no, navy, restarts = 0, [], 0
     if args.saved:  # the portal refuses the index query: take the component's topics from the saved index pages, fetch the details
-        pages = [r for r in manifest if r.get("status") == 200 and r.get("path") and (r.get("url") or "").startswith(API + "/search")
+        pages = [r for r in manifest if kept_page(r) and (r.get("url") or "").startswith(API + "/search")
                  and (ROOT / r["path"]).exists()]
         latest: dict[str, dict] = {}
         for row in sorted(pages, key=lambda r: r["retrieved_at"]):
@@ -297,7 +298,7 @@ def build(argv: list[str]) -> int:
     from trace import match_context  # noqa: E402
     parents = match_context()["parents"]
     manifest = manifest_rows()
-    pages = [r for r in manifest if r.get("status") == 200 and r.get("path") and r.get("url", "").startswith(API + "/search") and (ROOT / r["path"]).exists()]
+    pages = [r for r in manifest if kept_page(r) and r.get("url", "").startswith(API + "/search") and (ROOT / r["path"]).exists()]
     latest: dict[str, dict] = {}
     for row in sorted(pages, key=lambda r: r["retrieved_at"]):
         for r in read(row).get("data") or []:

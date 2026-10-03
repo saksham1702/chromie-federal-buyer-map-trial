@@ -33,6 +33,7 @@ from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from fetch import kept_page  # noqa: E402
 from agency import KEY, MEMORY, NOTE_TAG, P, ROOT  # noqa: E402
 from lrae_package import RELEASES, read_sheet  # noqa: E402
 from org_memory_army import SAM_FIELDS, SAM_ORG, by_url, rows, sam_parent, sam_record, slug  # noqa: E402
@@ -333,7 +334,7 @@ def collect() -> int:
         row = fetch(FORECAST_URL, "wayback", "closest", f"Commerce weekly procurement forecast workbook, Wayback capture{NOTE_TAG}")
         with MANIFEST.open("a", encoding="utf-8") as handle:
             handle.write(json.dumps(row, sort_keys=True) + "\n")
-        missed += row.get("status") != 200
+        missed += not kept_page(row)
     return 1 if missed else 0
 
 

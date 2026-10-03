@@ -25,7 +25,7 @@ from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from fetch import MANIFEST, ROOT, fetch  # noqa: E402
+from fetch import MANIFEST, ROOT, fetch, kept_page  # noqa: E402
 from lrae_package import manifest_rows, saved  # noqa: E402
 from agency import EVENTS as EVENTS_DIR, P, NOTE_TAG  # noqa: E402
 
@@ -132,7 +132,7 @@ def sweep(argv: list[str]) -> int:
             handle.flush()
             taken += 1
             print(row.get("status"), row.get("size"), f"page {number}")
-            if row.get("status") != 200:
+            if not kept_page(row):
                 break
             number = number + 1 if has_next(row) else None
             time.sleep(1.0)

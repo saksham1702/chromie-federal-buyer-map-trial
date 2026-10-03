@@ -26,7 +26,7 @@ from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from fetch import MANIFEST, ROOT, fetch  # noqa: E402
+from fetch import MANIFEST, ROOT, fetch, kept_page  # noqa: E402
 from lrae_package import manifest_rows, saved  # noqa: E402
 
 SINCE = "2021-10-01"
@@ -136,7 +136,7 @@ def sweep(argv: list[str]) -> int:
             handle.flush()
             taken += 1
             print(row.get("status"), row.get("size"), f"page {number}")
-            if row.get("status") != 200:
+            if not kept_page(row):
                 break
             url, number = next_page(row), number + 1
             time.sleep(1.0)

@@ -30,7 +30,7 @@ from datetime import date, datetime, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from fetch import MANIFEST, ROOT, fetch, is_stub  # noqa: E402
+from fetch import MANIFEST, ROOT, fetch, is_stub, kept_page  # noqa: E402
 from lrae_package import FPDS_PAGE, fpds_entries, fpds_history, fpds_url, manifest_rows, saved, url_index  # noqa: E402
 from agency import P, NOTE_TAG  # noqa: E402
 
@@ -117,7 +117,7 @@ def sweep(argv: list[str]) -> int:
                         taken += 1
                         print(row.get("status"), row.get("size"), f"{office} FY{window['fy']} start={start}", flush=True)
                         time.sleep(1.0)
-                        if row.get("status") != 200 or b'rel="next"' not in (ROOT / row["path"]).read_bytes():
+                        if not kept_page(row) or b'rel="next"' not in (ROOT / row["path"]).read_bytes():
                             break
                         start += FPDS_PAGE
     print(f"took {taken} page(s)")
@@ -171,7 +171,7 @@ def histories(argv: list[str]) -> int:
                 handle.write(json.dumps(row, sort_keys=True) + "\n")
                 handle.flush()
                 taken += 1
-                if row.get("status") != 200:
+                if not kept_page(row):
                     break
                 index[url] = row
                 time.sleep(1.0)

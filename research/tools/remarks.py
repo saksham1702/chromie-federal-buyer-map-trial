@@ -35,6 +35,7 @@ ROOT = Path(__file__).resolve().parents[2]
 RESEARCH = ROOT / "research"
 TOOLS = Path(__file__).resolve().parent
 sys.path.insert(0, str(TOOLS))
+from fetch import kept_page  # noqa: E402
 from context_fetch import fetch as hosted  # noqa: E402
 from llm import MODEL, env_value, structured  # noqa: E402
 from markdown import html_to_markdown  # noqa: E402
@@ -185,7 +186,7 @@ def statements(event: dict) -> list[dict]:
 
 def latest_saved(rows: list[dict], url: str) -> dict | None:
     for r in reversed(rows):
-        if r.get("url") == url and r.get("status") == 200 and r.get("path") and (ROOT / r["path"]).exists():
+        if r.get("url") == url and kept_page(r) and (ROOT / r["path"]).exists():
             return r
     return None
 
@@ -223,7 +224,7 @@ def watch(argv: list[str]) -> int:
     # House committee repository: the feed (direct), hearings about this department, their statements.
     for code, feed_url in HOUSE_FEEDS.items():
         feed = take(feed_url, f"{NOTE}: House {code} feed")
-        if feed.get("status") != 200 or not feed.get("path"):
+        if not kept_page(feed):
             print(f"House {code} feed: {feed.get('error') or feed.get('status')}")
             continue
         # The feed links plain http; the redirect to https answers with the repository shell, not the hearing.
@@ -241,14 +242,14 @@ def watch(argv: list[str]) -> int:
                 continue
             page = take(i["url"], f"{NOTE}: House {code} hearing {i['title'][:70]}")
             seen.add(i["url"])
-            if page.get("status") != 200 or not page.get("path"):
+            if not kept_page(page):
                 print(f"    {page.get('status')} {page.get('error', '')}")
                 continue
             event = house_event((ROOT / page["path"]).read_bytes())
             if not event["title"]:
                 time.sleep(3)
                 page = take(i["url"], f"{NOTE}: House {code} hearing {i['title'][:70]} (second request)")
-                event = house_event((ROOT / page["path"]).read_bytes()) if page.get("status") == 200 and page.get("path") else event
+                event = house_event((ROOT / page["path"]).read_bytes()) if kept_page(page) else event
             if not event["title"]:
                 print("    page answered without the hearing twice")
                 continue
@@ -262,13 +263,13 @@ def watch(argv: list[str]) -> int:
     # An agency without an archive lists its testimony as files on a page: every statement linked there is a document.
     for page_url in TESTIMONY_PAGES:
         page = take(page_url, f"{NOTE}: testimony page {page_url}")
-        if page.get("status") != 200 or not page.get("path"):
+        if not kept_page(page):
             print(f"testimony page {page_url}: {page.get('error') or page.get('status')}")
             continue
         links = testimony_links((ROOT / page["path"]).read_bytes(), page_url)
         # A file refused before is not saved: it is asked for again, and through the hosted browser if refused again
         # (the Senate committee sites refuse this address).
-        have = {origin_url(r) for r in rows if r.get("status") == 200 and r.get("path")}
+        have = {origin_url(r) for r in rows if kept_page(r)}
         fresh_files, refused = [u for u in links if u not in have], []
         print(f"testimony page {page_url}: {len(links)} statement file(s) linked, {len(fresh_files)} not saved yet")
         for url in fresh_files[: args.limit]:
@@ -337,7 +338,7 @@ def discover(argv: list[str]) -> int:
     refused = []
     for url in [u for u in known if u not in seen]:
         got = take(url, f"{NOTE}: conference page")
-        if got.get("status") != 200:
+        if not kept_page(got):
             refused.append(url)
         print(f"  {got.get('status')}  {url[:90]}")
     return hosted(refused)
@@ -351,7 +352,7 @@ def documents(rows: list[dict], article_re: re.Pattern | None = None) -> list[di
     known = json.loads(DISCOVERED.read_text(encoding="utf-8")) if DISCOVERED.exists() else {}
     latest: dict[str, dict] = {}
     for r in rows:
-        if r.get("status") != 200 or not r.get("path") or r.get("content_status") == "rejected_stub" or not (ROOT / r["path"]).exists():
+        if not kept_page(r) or not (ROOT / r["path"]).exists():
             continue
         url, note = origin_url(r), r.get("note", "")
         if (article_re or NAVY_ARTICLE).match(url):

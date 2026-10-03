@@ -49,7 +49,7 @@ def sam_org_listing() -> None:
                           "sort": "-modifiedDate", "modified_date.from": f"{FY_START}-04:00", "modified_date.to": f"{AS_OF}-04:00"}
                 url = SGS + "?" + urllib.parse.urlencode(params)
                 row = recorded.get(url, f"SAM listing {name} ({code}) active={active} modified {FY_START} to {AS_OF}, page {page}; FY2026 sweep")
-                j = recorded.json_of(row) or {}
+                j = recorded.json_of(row)
                 res = (j.get("_embedded") or {}).get("results") or []
                 total = (j.get("page") or {}).get("totalElements")
                 for h in res:
@@ -109,7 +109,7 @@ def fpds_window(office: str, start: str, end: str, note: str) -> list[dict]:
         url = f"https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q={q}&start={s}"
         row = recorded.get(url, note)
         body = recorded.body_of(row)
-        acts = fpds_actions(body.decode("utf-8", "replace")) if body else []
+        acts = fpds_actions(body.decode("utf-8", "replace"))
         out += acts
         print(f"  {office} {start}-{end} start={s}: {len(acts)}")
         if len(acts) < 10:
@@ -152,7 +152,7 @@ def usaspending() -> None:
                                                  "Last Modified Date", "Awarding Sub Agency", "Base Obligation Date", "Description"],
                                       "limit": 10, "page": 1},
                                      f"USAspending award lookup by PIID {piid} ({'contract' if codes[0] == 'A' else 'IDV'} types); FY2026 sweep")
-            j = recorded.json_of(row) or {}
+            j = recorded.json_of(row)
             res = [x for x in (j.get("results") or []) if str(x.get("Award ID", "")).replace("-", "") == piid]
             if res:
                 found = res[0]
@@ -166,7 +166,7 @@ def usaspending() -> None:
             while page <= 6:
                 t = recorded.post_json("https://api.usaspending.gov/api/v2/transactions/", {"award_id": gid, "limit": 100, "page": page, "sort": "action_date", "order": "desc"},
                                        f"USAspending transactions {piid} page {page}; FY2026 sweep")
-                tj = recorded.json_of(t) or {}
+                tj = recorded.json_of(t)
                 res = tj.get("results") or []
                 entry["transactions"] += res
                 if not (tj.get("page_metadata") or {}).get("hasNext") or not res:
@@ -191,7 +191,7 @@ def fpds_sol() -> None:
         url = f"https://www.fpds.gov/ezsearch/FEEDS/ATOM?FEEDNAME=PUBLIC&q=SOLICITATION_ID:{compact}&start=0"
         row = recorded.get(url, f"FPDS by solicitation {sol}, FY2026 NAVWAR notice; FY2026 sweep")
         body = recorded.body_of(row)
-        out[sol] = fpds_actions(body.decode("utf-8", "replace")) if body else []
+        out[sol] = fpds_actions(body.decode("utf-8", "replace"))
         print(sol, len(out[sol]))
     (COLLECT / "fpds_by_solicitation.json").write_text(json.dumps({"as_of": AS_OF, "solicitations": out}, indent=1))
 

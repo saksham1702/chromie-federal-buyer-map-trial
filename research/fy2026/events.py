@@ -23,6 +23,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 sys.path.insert(0, str(ROOT / "research" / "tools"))
 import trace as tr  # noqa: E402
+from fetch import kept_page  # noqa: E402
 from lrae_package import contract_tokens  # noqa: E402
 
 COLLECT = HERE / "collect"
@@ -51,7 +52,7 @@ def manifest_rows() -> list[dict]:
 def refreshed_details(rows: list[dict]) -> dict[str, Path]:
     out: dict[str, Path] = {}
     for r in rows:
-        if r.get("status") == 200 and "SAM notice detail refreshed" in (r.get("note") or "") and r.get("path"):
+        if kept_page(r) and "SAM notice detail refreshed" in (r.get("note") or ""):
             m = re.search(r"/opportunities/([0-9a-f]{32})", r["url"])
             if m:
                 out[m.group(1)] = ROOT / r["path"]
@@ -116,7 +117,7 @@ def fpds_office_actions(rows: list[dict]) -> tuple[list[dict], list[str]]:
     for r in rows:
         u = r.get("url", "")
         m = re.search(r"CONTRACTING_OFFICE_ID:N00039\+SIGNED_DATE:%5B([\d/]+),([\d/]+)%5D&start=", u)
-        if not m or r.get("status") != 200 or not r.get("path") or not (ROOT / r["path"]).exists():
+        if not m or not kept_page(r) or not (ROOT / r["path"]).exists():
             continue
         start, end = m.group(1).replace("/", "-"), m.group(2).replace("/", "-")
         if end < FY_START or start > FY_END:
@@ -376,7 +377,7 @@ def main() -> int:
     fpds_sol = load_json("fpds_by_solicitation.json").get("solicitations", {})
     office_actions, windows = fpds_office_actions(rows)
     new_awards = [a for a in office_actions if a["mod"] in ("0", "") and FY_START <= a["signed"] <= AS_OF_S]
-    sam_dates = sorted(r["retrieved_at"][:10] for r in rows if r.get("status") == 200 and "organization_id=" in r.get("url", ""))
+    sam_dates = sorted(r["retrieved_at"][:10] for r in rows if kept_page(r) and "organization_id=" in r.get("url", ""))
     searched = (f"SAM.gov listing of every NAVWAR HQ notice modified {FY_START}..{AS_OF_S} (retrieved {sam_dates[0] if sam_dates else '?'}..{sam_dates[-1] if sam_dates else '?'}); "
                 f"saved SAM.gov PID and program searches (retrieved {tr.search_dates(rows)[0]}..{tr.search_dates(rows)[1]}); "
                 f"FPDS NAVWAR HQ office scans {'; '.join(windows)}; USAspending award and transaction records for every incumbent contract the forecast names")

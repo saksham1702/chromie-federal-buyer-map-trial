@@ -49,6 +49,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from fetch import kept_page  # noqa: E402
 from agency import EVENTS, MANIFEST, MEMORY, NOTE_TAG, P  # noqa: E402
 from agency_layers_sql import uid  # noqa: E402
 from people import ROLE_WORDS, norm_name  # noqa: E402
@@ -181,7 +182,7 @@ def bio_facts(body_html: str) -> dict:
 def staff_records(rows: list[dict]) -> dict[str, dict]:
     """The newest saved staff listing, one record per person's page (the key people.py writes as source_url), the one
     carrying the biography."""
-    hits = [r for r in rows if STAFF_LISTING and r.get("url") == STAFF_LISTING and r.get("status") == 200 and r.get("path") and (ROOT / r["path"]).exists()]
+    hits = [r for r in rows if STAFF_LISTING and r.get("url") == STAFF_LISTING and kept_page(r) and (ROOT / r["path"]).exists()]
     if not hits:
         return {}
     listing = max(hits, key=lambda r: r["retrieved_at"])
@@ -723,7 +724,7 @@ def build_stakeholders(people: list[dict], staff: dict[str, dict], programs: dic
 def saved_answers(rows: list[dict], prefix: str) -> dict[str, list[dict]]:
     """Each saved Exa answer under its note's subject (a person's key or an office id), newest first."""
     out: dict[str, list[dict]] = defaultdict(list)
-    mine = [r for r in rows if (r.get("note") or "").startswith(prefix) and r.get("status") == 200 and r.get("path")]
+    mine = [r for r in rows if (r.get("note") or "").startswith(prefix) and kept_page(r)]
     for r in sorted(mine, key=lambda r: r.get("retrieved_at") or "", reverse=True):
         if (ROOT / r["path"]).exists():
             body = json.loads((ROOT / r["path"]).read_text(encoding="utf-8"))
@@ -733,7 +734,7 @@ def saved_answers(rows: list[dict], prefix: str) -> dict[str, list[dict]]:
 
 def as_of(rows: list[dict], people: list[dict], programs: dict) -> date:
     """The newest input's date, so a rebuild from the same inputs writes the same file."""
-    listing = [r.get("retrieved_at") or "" for r in rows if STAFF_LISTING and r.get("url") == STAFF_LISTING and r.get("status") == 200]
+    listing = [r.get("retrieved_at") or "" for r in rows if STAFF_LISTING and r.get("url") == STAFF_LISTING and kept_page(r)]
     dates = listing + [programs.get("listing_retrieved_at") or ""] + [p.get("last_seen") or "" for p in people]
     return max(d for d in (day(x) for x in dates) if d) if any(day(x) for x in dates) else date.today()
 
@@ -760,7 +761,7 @@ def collect(argv: list[str]) -> int:
     rows = manifest_rows()
     people = load(PEOPLE, {}).get("rows", [])
     persons, offices = wanted(people, staff_records(rows), load(SEED, {}))
-    asked = {r["note"] for r in rows if r.get("status") == 200 and (r.get("note") or "").startswith((PROFILE_NOTE, OFFICE_NOTE))}
+    asked = {r["note"] for r in rows if kept_page(r) and (r.get("note") or "").startswith((PROFILE_NOTE, OFFICE_NOTE))}
     label = P["short"].removeprefix("U.S. ")
     shared = shared_codes([n for n in load(SEED, {}).get("nodes", []) if n["type"] in DISCOVER_TYPES])
     code = lambda n: next((m.group(0) for m in re.finditer(P["reading"]["office_code_re"], n["name"]) if m.group(0) not in shared), n["name"])  # noqa: E731

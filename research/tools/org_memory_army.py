@@ -35,6 +35,7 @@ from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from fetch import kept_page  # noqa: E402
 from agency import KEY, MANIFEST, MEMORY, NOTE_TAG, P, ROOT  # noqa: E402
 from lrae_package import ARMY_RELEASES, read_sheet  # noqa: E402
 from org_memory_darpa import node, observation, relationship, unique_aliases  # noqa: E402
@@ -77,8 +78,8 @@ def rows() -> list[dict]:
 
 
 def by_url(manifest: list[dict], url: str) -> dict | None:
-    hits = [r for r in manifest if r.get("status") == 200 and r.get("path") and (ROOT / r["path"]).exists()
-            and url in (r.get("url"), r.get("final_url")) and not r.get("content_status")]
+    hits = [r for r in manifest if kept_page(r) and (ROOT / r["path"]).exists()
+            and url in (r.get("url"), r.get("final_url"))]
     return hits[-1] if hits else None
 
 

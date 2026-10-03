@@ -72,16 +72,13 @@ def post_json(url: str, body: dict, note: str, retries: int = 2, pause: float = 
     return row
 
 
-def body_of(row: dict) -> bytes | None:
-    p = row.get("path")
-    return (ROOT / p).read_bytes() if p and row.get("status") == 200 else None
+def body_of(row: dict) -> bytes:
+    """The saved page. A failed or blocked fetch raises, so a sweep stops instead of reading it as an empty result."""
+    if not _fetch.kept_page(row):
+        raise RuntimeError(f"not collected: {row.get('url')}: {row.get('content_status') or row.get('error') or row.get('status')}")
+    return (ROOT / row["path"]).read_bytes()
 
 
 def json_of(row: dict):
-    b = body_of(row)
-    if b is None:
-        return None
-    try:
-        return json.loads(b)
-    except ValueError:
-        return None
+    """The saved page as JSON; a body that is not JSON raises too."""
+    return json.loads(body_of(row))

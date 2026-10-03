@@ -37,6 +37,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 RESEARCH = ROOT / "research"
 MANIFEST = RESEARCH / "sources" / "documents_manifest.jsonl"
+from fetch import kept_page  # noqa: E402
 from agency import EVENTS as EVENTS_DIR, MEMORY, NOTE_TAG, P, note_is_ours  # noqa: E402
 
 RECORDS = EVENTS_DIR / "news_observations.json"
@@ -794,7 +795,7 @@ def watch(argv: list[str]) -> int:
         row = fetch(feed["url"], "direct", None, f"news watch{NOTE_TAG}: {feed['publisher']}")
         with MANIFEST.open("a", encoding="utf-8") as handle:
             handle.write(json.dumps(row, sort_keys=True) + "\n")
-        if row.get("status") != 200 or not row.get("path"):
+        if not kept_page(row):
             print(f"{feed['publisher']}: {row.get('error') or row.get('status')} "
                   f"(a .mil host that blocks this address needs research/tools/browserbase_fetch.py)")
             continue
@@ -839,7 +840,7 @@ def retrieve(url: str, note: str) -> dict:
     row = fetch_one(url, "direct", None, note)
     with MANIFEST.open("a", encoding="utf-8") as handle:
         handle.write(json.dumps(row, sort_keys=True) + "\n")
-    blocked = row.get("status") != 200 or (row.get("size") or 0) < 2000
+    blocked = not kept_page(row) or (row.get("size") or 0) < 2000
     if blocked and host_of(url).endswith(OFFICIAL_HOSTS) and not FILE_LINK_RE.search(url) and env_value("CONTEXT_DEV_API_KEY"):
         row, _ = take(url, env_value("CONTEXT_DEV_API_KEY"))
     return row
@@ -1003,7 +1004,7 @@ def offer(results: list[dict], seen: set[str], take: bool, limit: int, note: str
         seen.add(url)
         taken += 1
         body = (ROOT / row["path"]).read_bytes() if row.get("path") else b""
-        if row.get("status") != 200 or not body:
+        if not kept_page(row) or not body:
             print(f"      {row.get('status')} {row.get('error', '')}")
         elif len(body) < 2000 and host_of(url).endswith(OFFICIAL_HOSTS):
             # A .mil front end answers a blocked address with 200 and almost nothing rather than

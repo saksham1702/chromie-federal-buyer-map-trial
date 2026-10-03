@@ -40,6 +40,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from fetch import kept_page  # noqa: E402
 from agency import KEY, MANIFEST, MEMORY, P, ROOT  # noqa: E402
 from org_memory_darpa import node as _node, observation, relationship as _relationship, unique_aliases  # noqa: E402
 from org_memory_lrae import page_text, pdf_text, squash  # noqa: E402
@@ -114,8 +115,8 @@ def rows() -> list[dict]:
 
 
 def by_url(manifest: list[dict], url: str) -> dict | None:
-    hits = [r for r in manifest if r.get("status") == 200 and r.get("path") and (ROOT / r["path"]).exists()
-            and url in (r.get("url"), r.get("final_url")) and not r.get("content_status")]
+    hits = [r for r in manifest if kept_page(r) and (ROOT / r["path"]).exists()
+            and url in (r.get("url"), r.get("final_url"))]
     return hits[-1] if hits else None
 
 
@@ -199,7 +200,7 @@ def wanted_keys(manifest: list[dict]) -> list[str]:
 
 def fpds_tags(manifest: list[dict], code: str) -> tuple[dict, str] | None:
     """The FPDS feed page the contracts sweep saved for an office, and the contractingOfficeID tag on it."""
-    pages = [r for r in manifest if r.get("status") == 200 and r.get("path") and f"CONTRACTING_OFFICE_ID:{code}" in (r.get("url") or "")
+    pages = [r for r in manifest if kept_page(r) and f"CONTRACTING_OFFICE_ID:{code}" in (r.get("url") or "")
              and (ROOT / r["path"]).exists()]
     for r in sorted(pages, key=lambda r: (r["retrieved_at"], r["path"])):
         raw = (ROOT / r["path"]).read_text(encoding="utf-8", errors="replace")

@@ -21,6 +21,7 @@ TODAY = ""  # set below: the day of the newest saved Air Force row, so a rebuild
 import sys
 sys.path.insert(0, str(ROOT / "research/tools"))
 import agency  # noqa: E402
+from fetch import kept_page  # noqa: E402
 
 P = agency.PROFILES["airforce"]
 ORGS = P["coverage_orgs"]
@@ -35,7 +36,7 @@ WORDS = {"DAF": [r"\bAir Force\b", r"\bSpace Force\b", r"\bDAF\b", r"\bUSAF\b", 
 
 seed = json.loads((AF / "memory/organization_seed.json").read_text(encoding="utf-8"))
 rows = [json.loads(l) for l in MANIFEST.read_text(encoding="utf-8").splitlines() if l.strip()]
-ok = [r for r in rows if r.get("status") == 200]
+ok = [r for r in rows if kept_page(r)]
 TODAY = max(((r.get("retrieved_at") or "")[:10] for r in ok if "[airforce]" in (r.get("note") or "")), default="")
 notice_rows = sum(1 for r in ok if (r.get("note") or "").startswith("SAM notice detail [airforce]"))
 

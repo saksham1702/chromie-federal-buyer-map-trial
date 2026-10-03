@@ -48,7 +48,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from agency import EVENTS, MANIFEST, MEMORY, NOTE_TAG, P, RESULTS  # noqa: E402
 from agency_layers_sql import uid  # noqa: E402
-from fetch import fetch  # noqa: E402
+from fetch import fetch, kept_page  # noqa: E402
 
 OUT = MEMORY / "programs.json"
 SEED = MEMORY / "organization_seed.json"
@@ -92,7 +92,7 @@ def manifest_rows() -> list[dict]:
 
 
 def newest(rows: list[dict], prefix: str) -> dict | None:
-    hits = [r for r in rows if (r.get("note") or "").startswith(prefix) and r.get("status") == 200 and r.get("path") and (ROOT / r["path"]).exists()]
+    hits = [r for r in rows if (r.get("note") or "").startswith(prefix) and kept_page(r) and (ROOT / r["path"]).exists()]
     return max(hits, key=lambda r: r["retrieved_at"]) if hits else None
 
 
@@ -190,7 +190,7 @@ def search_spend(terms: list[str], fy: int, rows: list[dict], handle, limit: int
     week old is read instead of asked again. Returns the searches sent."""
     now = datetime.now(timezone.utc)
     fresh = lambda r: r and datetime.fromisoformat(r["retrieved_at"].replace("Z", "+00:00")) > now - STALE  # noqa: E731
-    asked = {json.dumps(r.get("request_body"), sort_keys=True): r for r in rows if (r.get("note") or "").startswith(SPEND_NOTE) and r.get("status") == 200}
+    asked = {json.dumps(r.get("request_body"), sort_keys=True): r for r in rows if (r.get("note") or "").startswith(SPEND_NOTE) and kept_page(r)}
     searched = 0
     for term in dict.fromkeys(terms):
         for page in range(1, PAGES + 1):
@@ -205,7 +205,7 @@ def search_spend(terms: list[str], fy: int, rows: list[dict], handle, limit: int
                 handle.write(json.dumps(row, sort_keys=True) + "\n")
                 handle.flush()
                 searched += 1
-                if row.get("status") != 200:
+                if not kept_page(row):
                     print(row.get("status"), term, row.get("error", ""))
                     break
                 answer = json.loads((ROOT / row["path"]).read_text(encoding="utf-8"))
@@ -234,7 +234,7 @@ def collect(argv: list[str]) -> int:
             handle.write(json.dumps(listing, sort_keys=True) + "\n")
             handle.flush()
             print(listing.get("status"), LISTING)
-        if listing.get("status") != 200:
+        if not kept_page(listing):
             print("the program listing did not answer; spend not searched")
             return 1
         fy = fiscal_year(listing["retrieved_at"])
@@ -250,7 +250,7 @@ def saved_spend(rows: list[dict], fy: int) -> dict[str, list[dict]]:
     newest_by_query: dict[str, dict] = {}
     for r in rows:
         body = r.get("request_body") or {}
-        if (r.get("note") or "").startswith(SPEND_NOTE) and r.get("status") == 200 and r.get("path") and (ROOT / r["path"]).exists() \
+        if (r.get("note") or "").startswith(SPEND_NOTE) and kept_page(r) and (ROOT / r["path"]).exists() \
                 and (body.get("filters") or {}).get("time_period", [{}])[0].get("start_date") == fy_window(fy)[0]:
             key = json.dumps(body, sort_keys=True)
             if r["retrieved_at"] >= newest_by_query.get(key, {}).get("retrieved_at", ""):

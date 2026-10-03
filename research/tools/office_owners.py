@@ -38,6 +38,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 sys.path.insert(0, str(HERE))
+from fetch import kept_page  # noqa: E402
 from agency import EVENTS, KEY, MANIFEST, MEMORY, NOTE_TAG, P, RESULTS  # noqa: E402
 from agency_layers_sql import uid  # noqa: E402  (the corpus names an organization by uuid5 of its seed id)
 from backtest import CORPUS, GENERIC  # noqa: E402
@@ -114,7 +115,7 @@ class Ledger:
         self.by_url: dict[str, dict] = {}
         self.by_token: dict[str, dict] = {}
         for r in rows:
-            if r.get("status") != 200 or not r.get("sha256"):
+            if not kept_page(r):
                 continue
             for url in sorted({r.get("url") or "", r.get("fetched_from") or "", r.get("final_url") or ""} - {""}):
                 if url not in self.by_url or (r.get("retrieved_at") or "") > (self.by_url[url].get("retrieved_at") or ""):
@@ -610,7 +611,7 @@ def usaspending_saved(ledger_rows: list[dict], fy: int) -> list[dict]:
     found: dict[str, dict] = {}
     for r in ledger_rows:
         note = r.get("note") or ""
-        if not note.startswith(USASPENDING_NOTE) or f"FY{fy}" not in note or r.get("status") != 200 or not r.get("path"):
+        if not note.startswith(USASPENDING_NOTE) or f"FY{fy}" not in note or not kept_page(r):
             continue
         kind = note.split(USASPENDING_NOTE, 1)[1].strip().split(" ")[0]
         if kind not in found or (r.get("retrieved_at") or "") > (found[kind].get("retrieved_at") or ""):

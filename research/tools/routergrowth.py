@@ -29,6 +29,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from fetch import kept_page  # noqa: E402
 from agency import MANIFEST, NOTE_TAG  # noqa: E402
 from llm import env_value  # noqa: E402
 
@@ -121,7 +122,7 @@ def payload_for(fields: dict, query: str, results: int | None = None, days: int 
 def saved_inspect(capability: str, rows: list[dict], today: str) -> dict | None:
     """Today's saved inspect answer for the capability, if this profile took one, so a sweep asks the schema once."""
     for row in reversed(rows):
-        if (row.get("url") == f"{BASE}/v1/inspect" and row.get("status") == 200 and row.get("path")
+        if (row.get("url") == f"{BASE}/v1/inspect" and kept_page(row)
                 and (row.get("retrieved_at") or "")[:10] == today and (row.get("note") or "").endswith(f": {capability}")
                 and (ROOT / row["path"]).exists()):
             return row

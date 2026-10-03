@@ -58,7 +58,7 @@ from functools import lru_cache
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from fetch import MANIFEST, ROOT  # noqa: E402
+from fetch import MANIFEST, ROOT, kept_page  # noqa: E402
 from fpds_sweep import OFFICES as SWEPT_OFFICES, awards as sweep_awards, fiscal_year as fiscal_year_of, saved_pages, windows  # noqa: E402
 from lrae_package import RELEASES, alias_map, contract_tokens, fold_map, memory_file, norm_code, norm_title  # noqa: E402
 from notice_kinds import kept  # noqa: E402
@@ -112,7 +112,7 @@ def manifest() -> list[dict]:
 
 
 def saved(rows: list[dict], predicate) -> dict | None:
-    hits = [r for r in rows if r.get("status") == 200 and r.get("path") and r.get("content_status") != "rejected_stub"
+    hits = [r for r in rows if kept_page(r)
             and predicate(r.get("url", "")) and (ROOT / r["path"]).exists()]
     return hits[-1] if hits else None
 
@@ -123,7 +123,7 @@ def load_json(row: dict | None):
 
 def search_dates(rows: list[dict]) -> tuple[str, str]:
     """Earliest and latest retrieval dates of the saved SAM.gov searches; every negative reading is scoped to them."""
-    dates = sorted(r["retrieved_at"][:10] for r in rows if r.get("status") == 200 and "sgs/v1/search" in r.get("url", ""))
+    dates = sorted(r["retrieved_at"][:10] for r in rows if kept_page(r) and "sgs/v1/search" in r.get("url", ""))
     return (dates[0], dates[-1]) if dates else ("", "")
 
 
@@ -231,7 +231,7 @@ def retrieved_on(row: dict) -> str:
 def fpds_by_piid(rows: list[dict], piid: str) -> tuple[list[dict], dict | None, bool]:
     """Every action on the saved pages of the contract's FPDS history, oldest first, the first page's
     row, and whether the newest saved page is the last one (it names no next page)."""
-    by_url = {r["url"]: r for r in rows if r.get("status") == 200 and r.get("path") and f"q=PIID:{piid}&start=" in r.get("url", "")
+    by_url = {r["url"]: r for r in rows if kept_page(r) and f"q=PIID:{piid}&start=" in r.get("url", "")
               and (ROOT / r["path"]).exists()}
     pages = sorted(by_url.values(), key=lambda r: int(r["url"].rsplit("start=", 1)[1]))
     bodies = [(ROOT / p["path"]).read_text(encoding="utf-8", errors="replace") for p in pages]
@@ -250,7 +250,7 @@ def swept_awards() -> dict[str, dict]:
 def swept_by_solicitation() -> dict[str, list[dict]]:
     """The base awards on the saved FPDS office sweep pages (fpds_sweep.py) by solicitation number, one per
     PIID, each carrying the page it was read from under "source"."""
-    pages = {r["url"]: r for r in manifest() if r.get("status") == 200 and r.get("path") and "CONTRACTING_OFFICE_ID:" in r.get("url", "")
+    pages = {r["url"]: r for r in manifest() if kept_page(r) and "CONTRACTING_OFFICE_ID:" in r.get("url", "")
              and "+MODIFICATION_NUMBER:0&start=" in r["url"] and (ROOT / r["path"]).exists()}
     by_piid: dict[str, dict] = {}
     for page in pages.values():
@@ -304,7 +304,7 @@ def sgs_hits(rows: list[dict], today: date | None = None) -> dict[str, dict]:
     date against today (notice_open), never the search's flag alone."""
     hits: dict[str, dict] = {}
     for r in rows:
-        if r.get("status") != 200 or "sgs/v1/search" not in r.get("url", "") or not r.get("path") or not (ROOT / r["path"]).exists():
+        if not kept_page(r) or "sgs/v1/search" not in r.get("url", "") or not (ROOT / r["path"]).exists():
             continue
         try:
             body = json.loads((ROOT / r["path"]).read_text(encoding="utf-8"))
@@ -1233,7 +1233,7 @@ def cmd_status(args) -> int:
     through = 2000 + int(args.through)
     due = [l for l in lines if (fiscal_year(l["solicitation_fy"]) or 9999) <= through]
     first, last = search_dates(rows)
-    fpds = sorted(r["retrieved_at"][:10] for r in rows if r.get("status") == 200 and "fpds.gov" in r.get("url", ""))
+    fpds = sorted(r["retrieved_at"][:10] for r in rows if kept_page(r) and "fpds.gov" in r.get("url", ""))
     print(f"# Forecast lines in {latest} with a solicitation window through FY{args.through}: {len(due)} of {len(lines)} included lines")
     searches = f"saved SAM.gov searches (retrieved {first} to {last})" if first else "no saved SAM.gov search"
     lookups = f"FPDS lookups (retrieved {fpds[0]} to {fpds[-1]})" if fpds else "no saved FPDS lookup"
@@ -1948,7 +1948,7 @@ def cmd_award(args) -> int:
     if u and u["parent"]:
         for row in rows:
             url = row.get("url", "")
-            if row.get("status") != 200 or "/awards/CONT_AWD_" not in url or f"_{piid}_" in url:
+            if not kept_page(row) or "/awards/CONT_AWD_" not in url or f"_{piid}_" in url:
                 continue
             other_piid = url.split("/awards/CONT_AWD_")[1].split("_")[0]
             v = usaspending(rows, other_piid)

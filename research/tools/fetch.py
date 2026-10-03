@@ -112,13 +112,19 @@ def is_stub(body: bytes) -> bool:
     return len(body) < 4000 and any(marker in body[:1500] for marker in STUB_MARKERS)
 
 
+def kept_page(row: dict) -> bool:
+    """A manifest row whose saved bytes are the page itself: a 200 kept on disk, not a refusal or maintenance stub
+    (content_status). Anything else is a collection gap, never an empty result."""
+    return row.get("status") == 200 and bool(row.get("path")) and not row.get("content_status")
+
+
 def collect_missing(wanted: list[tuple[str, str]], limit: int = 10_000, pause: float = 1.0) -> int:
     """Fetch each (url, note) the manifest holds no saved copy of, recording every answer, a refusal included, so a
     collecting stage reruns to take only what is still missing. Returns how many are still not saved."""
     have = set()
     for line in MANIFEST.read_text(encoding="utf-8").splitlines() if MANIFEST.exists() else []:
         row = json.loads(line) if line.strip() else {}
-        if row.get("status") == 200 and row.get("path"):
+        if kept_page(row):
             have |= {u for u in (row.get("url"), row.get("final_url")) if u}  # a redirect saved the page it landed on
     notes = dict(reversed(wanted))  # the first note given for a url
     todo = [u for u in dict.fromkeys(u for u, _ in wanted) if u not in have]
@@ -129,7 +135,7 @@ def collect_missing(wanted: list[tuple[str, str]], limit: int = 10_000, pause: f
             handle.write(json.dumps(row, sort_keys=True) + "\n")
             handle.flush()
             print(row.get("status"), url[:110])
-            missed += row.get("status") != 200
+            missed += not kept_page(row)
             time.sleep(pause)
     print(f"{len(todo)} to collect, {missed} still not saved")
     return missed
@@ -150,7 +156,7 @@ def main() -> int:
     with MANIFEST.open("a", encoding="utf-8") as handle:
         handle.write(json.dumps(row, sort_keys=True) + "\n")
     print(json.dumps(row, sort_keys=True))
-    return 0 if row.get("status") == 200 else 1
+    return 0 if kept_page(row) else 1
 
 
 if __name__ == "__main__":

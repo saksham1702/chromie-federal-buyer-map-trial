@@ -38,6 +38,7 @@ ROOT = Path(__file__).resolve().parents[2]
 RESEARCH = ROOT / "research"
 TOOLS = Path(__file__).resolve().parent
 sys.path.insert(0, str(TOOLS))
+from fetch import kept_page  # noqa: E402
 from context_fetch import fetch as hosted  # noqa: E402
 from llm import MODEL, env_value, structured  # noqa: E402
 from markdown import html_to_markdown  # noqa: E402
@@ -173,7 +174,7 @@ def watch(argv: list[str]) -> int:
         for page in range(args.pages):
             url = LISTING.format(query=urllib.parse.quote(query), page=page)
             row = take(url, f"{NOTE}: oversight.gov listing '{query}' page {page}")
-            if row.get("status") != 200 or not row.get("path"):
+            if not kept_page(row):
                 print(f"oversight.gov '{query}' page {page}: {row.get('error') or row.get('status')}")
                 break
             listed += listing_rows((ROOT / row["path"]).read_bytes())
@@ -188,7 +189,7 @@ def watch(argv: list[str]) -> int:
                 continue
             got = take(report["url"], f"{NOTE}: oversight.gov {report['issued']} {report['title'][:70]}")
             seen.add(report["url"])
-            if got.get("status") == 200 and got.get("path"):
+            if kept_page(got):
                 detail = detail_fields((ROOT / got["path"]).read_bytes())
                 if detail["file_url"] and detail["file_url"] not in seen:
                     file_row = take(detail["file_url"], f"{FILE_NOTE}: {report['url']}")
@@ -200,7 +201,7 @@ def watch(argv: list[str]) -> int:
                 print(f"    {got.get('status')} {got.get('error', '')}")
         new_total += len(fresh)
     feed = take(GAO_RSS, f"{FEED_NOTE}: GAO reports")
-    if feed.get("status") == 200 and feed.get("path"):
+    if kept_page(feed):
         body = (ROOT / feed["path"]).read_bytes()
         items = feed_items(body, GAO_RSS)
         text_of = {i["url"]: i for i in items}
@@ -260,7 +261,7 @@ def documents(rows: list[dict]) -> list[dict]:
     latest: dict[str, dict] = {}
     files: dict[str, dict] = {}
     for r in rows:
-        if r.get("status") != 200 or not r.get("path") or r.get("content_status") == "rejected_stub":
+        if not kept_page(r):
             continue
         if not (ROOT / r["path"]).exists():
             continue

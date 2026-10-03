@@ -33,7 +33,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from agency import P, RESEARCH, forecast_packs  # noqa: E402
-from fetch import MANIFEST, ROOT, fetch  # noqa: E402
+from fetch import MANIFEST, ROOT, fetch, kept_page  # noqa: E402
 
 SHEET = "LRAE Annex 25"
 HEADER_ROW = 8  # Excel row number of the column headers in every release seen so far
@@ -169,7 +169,7 @@ def manifest_rows() -> list[dict]:
 
 def saved(rows: list[dict], predicate) -> dict | None:
     """Latest successful manifest row matching the predicate whose bytes are still on disk."""
-    hits = [r for r in rows if r.get("status") == 200 and r.get("path") and r.get("content_status") != "rejected_stub"
+    hits = [r for r in rows if kept_page(r)
             and predicate(r) and (ROOT / r["path"]).exists()]
     return hits[-1] if hits else None
 
@@ -180,7 +180,7 @@ def retrievals(release: dict, manifest: list[dict]) -> list[dict]:
     bytes, so a record withdrawn between two pulls keeps its history. Any other release is itself."""
     if not release.get("record_system"):
         return [release]
-    days = {m["retrieved_at"][:10]: m for m in manifest if m.get("status") == 200 and m.get("path") and release["match"] in m.get("url", "")
+    days = {m["retrieved_at"][:10]: m for m in manifest if kept_page(m) and release["match"] in m.get("url", "")
             and m.get("mime", "").endswith("json") and (ROOT / m["path"]).exists()}
     return [{**release, "key": f"{release['key']}_{day}", "release_date": day, "sha256": m["sha256"],
              "release_note": f"the published records as the forecast system served them on {day}"} for day, m in sorted(days.items())]
@@ -195,7 +195,7 @@ def url_index(rows: list[dict]) -> dict[str, dict]:
     that look up thousands of URLs, where a scan of the manifest per lookup does not finish."""
     index: dict[str, dict] = {}
     for r in rows:
-        if (r.get("status") == 200 and r.get("path") and r.get("url") and r.get("content_status") != "rejected_stub"
+        if (kept_page(r) and r.get("url")
                 and (ROOT / r["path"]).exists()):
             index[r["url"]] = r
     return index
@@ -1190,7 +1190,7 @@ def collect(limit: int, keys: list[str] | None = None) -> int:
             where = f"{release['key']} row {r['row_number']}"
             wanted += [(fpds_url(t), f"LRAE join: FPDS search for existing contract {t} ({where})") for t in tokens]
             wanted += [(sgs_url(n, a), f"LRAE join: SAM.gov search for {n} ({where})") for n in (r["pid"], *tokens) if n for a in ("false", "true")]
-    have = {m["url"] for m in manifest if m.get("status") == 200 and m.get("path") and m.get("url")}
+    have = {m["url"] for m in manifest if kept_page(m) and m.get("url")}
     todo = []
     for url, note in wanted:
         if url not in have and url not in {u for u, _ in todo}:
@@ -1220,11 +1220,11 @@ def collect(limit: int, keys: list[str] | None = None) -> int:
                 row = take(fpds_url(piid, len(pages) * FPDS_PAGE),
                            f"LRAE join: FPDS history page {len(pages) + 1} for existing contract {piid}")
                 done += 1
-                if row.get("status") != 200:
+                if not kept_page(row):
                     break
                 manifest.append(row)
         # The award's USAspending page states the period of performance when the FPDS history does not reach its end.
-        have = {m["url"] for m in manifest if m.get("status") == 200 and m.get("path") and m.get("url")}
+        have = {m["url"] for m in manifest if kept_page(m) and m.get("url")}
         for piid in sorted(piids):
             if done >= limit:
                 break

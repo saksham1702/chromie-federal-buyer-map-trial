@@ -37,6 +37,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from fetch import kept_page  # noqa: E402
 import routergrowth  # noqa: E402
 from agency import EVENTS as EVENTS_DIR, MEMORY, NOTE_TAG, P, RAW, note_is_ours  # noqa: E402
 from jobs import NOT_PROGRAMS, STATEMENT_PATTERNS, statement_type_of  # noqa: E402
@@ -220,19 +221,19 @@ def search_params(note: str) -> dict:
 
 
 def is_inspect(row: dict) -> bool:
-    return bool(row.get("path")) and row.get("status") == 200 and note_is_ours(row.get("note") or "") \
+    return kept_page(row) and note_is_ours(row.get("note") or "") \
         and bool(re.match(rf"^{NOTE} inspect\b", row.get("note") or ""))
 
 
 def is_search(row: dict) -> bool:
     """A saved run answer taken by this layer's sweep."""
-    return bool(row.get("path")) and row.get("status") == 200 and note_is_ours(row.get("note") or "") \
+    return kept_page(row) and note_is_ours(row.get("note") or "") \
         and bool(re.match(rf"^{NOTE} search\b", row.get("note") or "")) and row.get("url") == RUN_URL
 
 
 def is_page(row: dict) -> bool:
     """A saved careers page taken by this layer's sweep, or by hand for it (`vendor job:`, not `vendor jobs search:`)."""
-    return bool(row.get("path")) and row.get("status") == 200 and note_is_ours(row.get("note") or "") \
+    return kept_page(row) and note_is_ours(row.get("note") or "") \
         and bool(re.match(r"^vendor job\b", row.get("note") or "")) and (row.get("url") or "").startswith("http")
 
 
@@ -496,7 +497,7 @@ def sweep(argv: list[str]) -> int:
     fields = routergrowth.fields_of(described)
     print(f"{CAPABILITY}: input fields {', '.join(sorted(fields)) or 'none declared'} (inspect saved {inspect_row['path']}, retrieved {inspect_row['retrieved_at']})")
     rows = manifest_rows()
-    have = {r.get("url") for r in rows if r.get("status") == 200 and r.get("path")}
+    have = {r.get("url") for r in rows if kept_page(r)}
     today = routergrowth.today()
     spent, asked, taken, pointers = 0.0, 0, 0, 0
     for vendor in watch:
