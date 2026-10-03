@@ -7,7 +7,8 @@ ranking rule, has the draft validated three ways, applies the fixes and leaves a
 |---|---|
 | `startup-agency-brief.js` | The Claude Code workflow: the phases, the agents and what each must return |
 | `SPEC.md` | The brief's format and evidence bar: sections, ranking rule, people rules, tool map. Every agent reads it first |
-| `check.py` | The mechanical checker: sections in order, exact quotes against the saved sources, record identifiers through `report.py`'s resolver, the ranking rule and lead order, banned words, people rules, the tally |
+| `check.py` | The mechanical checker: sections in order, each quote against the source its row cites, failed fetches listed as gaps, record identifiers through `report.py`'s resolver, the ranking rule and lead order, banned words, people readings, the tally. Exits 1 while anything is left |
+| `save_source.py` | Saves a page or command output under `OUT/sources` with its line in `index.jsonl`; records refused, rate-limited and empty fetches as failed |
 
 ## What it does
 
@@ -30,8 +31,12 @@ ranking rule, has the draft validated three ways, applies the fixes and leaves a
    (every tool in the tool map ran and fed its section), ranking and dates.
 5. **Apply.** Each finding is confirmed against its evidence before it is applied; the checker runs again, with a
    second round when it still raises anything.
+6. **Gate.** One agent runs only the checker. A clean run releases the brief (the copy to `final` happens in the
+   same shell line, only on exit 0); anything left, or a failed gathering step or validator, ends the run as
+   incomplete.
 
-Everything a quote rests on is saved under `OUT/sources/`, so the checker and the validators read the same text.
+Everything a quote rests on is saved under `OUT/sources/` through `save_source.py`, so the checker and the
+validators read the same text, and each row's quote is checked only in the source that row cites.
 Read only: no pipeline stage, sweep or database write.
 
 ## Run it

@@ -8,6 +8,7 @@ export const meta = {
     { title: 'Draft', detail: 'brief.md in the SPEC shape, ranked by the published rule, checker clean' },
     { title: 'Validate', detail: 'evidence, review bar and coverage, ranking and dates' },
     { title: 'Apply', detail: 'apply verified fixes, re-run the checker' },
+    { title: 'Gate', detail: 'the checker alone decides: a clean run releases the brief, anything left ends the run incomplete' },
   ],
 }
 
@@ -24,10 +25,12 @@ const REC = A.agency === 'navy' ? 'research' : `research/agencies/${A.agency}`
 const NAVY = `AGENCY=${A.agency} ${PY} research/tools/navy.py`
 const REPORT = `${PY} research/tools/report.py`
 const CHECK = `AGENCY=${A.agency} ${PY} ${DIR}/check.py ${OUT}/brief.md ${OUT}/sources ${REC}`
+const SAVE = `${PY} ${DIR}/save_source.py ${OUT}/sources`
 
 const COMMON = `Company: ${A.company}. Agency record: AGENCY=${A.agency} (files under ${REC}). TODAY is ${A.today}. Work from the repository root.
 Read ${SPEC} first: paths, hard rules (read only: no pipeline.py, no sweep/watch/collect, no database writes, keys exported one at a time and never printed), the evidence bar, the people rules and the brief format. Run directory OUT=${OUT} (create subfolders as needed).
-Save every text a quote could rest on as a raw-text file under ${OUT}/sources/<tools|record|web|profile>/, one file per command or page. WebFetch returns a model summary, so for quotes save raw text instead: curl plus a tag strip, the SAM.gov or USAspending APIs, or a Context.dev scrape for JavaScript pages. A 403 host is recorded as a gap, not worked around.
+Save every text a quote could rest on through the source saver, which writes the file and its line in ${OUT}/sources/index.jsonl: \`<command> | ${SAVE} <tools|web|profile>/<name>.txt --source "<the url, or the command as you ran it>"\`; a file a tool wrote itself: \`${SAVE} <path under sources> --file --source "<command>"\`. A refused, rate-limited or empty fetch is recorded, never dropped: \`${SAVE} --failed "HTTP 403" --source "<url>"\` (the saver also marks empty output and block pages failed). WebFetch returns a model summary, so for quotes save raw text instead: curl plus a tag strip, the SAM.gov or USAspending APIs, or a Context.dev scrape for JavaScript pages. Never put a key in --source. A 403 host is a gap, not worked around.
+A row's Source cell names the url or the command as saved, or a record file by path ("same" repeats the row above in the same table). The checker reads the quote only in the file that source points to, so a passage from one record never supports a row about another.
 Read big outputs with head or /usr/bin/grep, not whole. Your final answer is data for the orchestrator: conclusions and paths, never file contents.`
 
 const LANE = {
@@ -101,8 +104,8 @@ phase('Profile')
 const profile = await agent(`${COMMON}
 
 Build the company profile from: ${A.profile} (a file path, or company URLs).
-If it is a path, copy it to ${OUT}/sources/profile/profile.txt. If URLs, save each page's raw text to ${OUT}/sources/profile/<slug>.txt, and follow at most 4 more of the company's own pages that describe products, customers or contracts.
-Then write ${OUT}/sources/profile/profile.txt: what the company sells and to whom, products by name, stated customers, contracts and programs, stated size status, clearances, facilities and NAICS, each line quoting the company's own words with its page. End with "Not stated:" listing what the pages do not say (size status, facility clearance, and the like).
+If it is a path, save it with \`cat <path> | ${SAVE} profile/input.txt --source "<path>"\`. If URLs, save each page's raw text through the saver as profile/<slug>.txt with the page url as --source, and follow at most 4 more of the company's own pages that describe products, customers or contracts.
+Then write ${OUT}/notes/profile.txt (your summary, not a source; profile rows cite the company's own pages): what the company sells and to whom, products by name, stated customers, contracts and programs, stated size status, clearances, facilities and NAICS, each line quoting the company's own words with its page. End with "Not stated:" listing what the pages do not say (size status, facility clearance, and the like).
 Derive 6 to 12 search terms for the agency record (the capability words an agency would use, product names), the one main term that best names the company's line, and every spelling of the company's legal name for vendor lookups.`, {
   label: 'profile',
   schema: {
@@ -125,14 +128,14 @@ const P = `Profile: ${profile.profile_path}. Main term: "${profile.main_term}". 
 phase('Gather')
 const LANES = [
   ['tools', TOOLS_LANE, `Tools lane: the record's read surface for this company's line, then the instruments on their primary pages.
-0. Baseline from the report layer: ${REPORT} gather --agency ${A.agency} --spec agency-full --focus "${profile.main_term}" --out ${OUT}/sources/gather. Read ${OUT}/sources/gather/evidence.md: the anchor offices with the rule report.py states, and each section's answer or boundary. bundle.json keeps the full text the checker reads.
+0. Baseline from the report layer: ${REPORT} gather --agency ${A.agency} --spec agency-full --focus "${profile.main_term}" --out ${OUT}/sources/gather. Index what it wrote: ${SAVE} gather/bundle.json --file --source "report.py gather --agency ${A.agency} --spec agency-full". Read ${OUT}/sources/gather/evidence.md: the anchor offices with the rule report.py states, and each section's answer or boundary. bundle.json keeps the full text the checker reads.
 1. ${NAVY} help (the record date). search and topics for every term. From the statements and notices of the company's line pick the candidate offices (the anchors plus up to 6 more) and the contracting office ids.
 2. Each candidate office: office, people, neighbors, initiatives, wiki, page office, ${NAVY} report budget <office> (the budget lines placed there and the basis of each placement), ask changed --days 365, ask incumbents --within 730, ask prep (and ask prep --person and page person for the named program manager). The agency root: initiatives, ask changed --days 365 with the main term.
 3. dna for each contracting office id. vendor for every company spelling and the top incumbents; ask moves for the top 4 incumbents; ask team --org <lead office> "<capabilities>"; ask match --profile <profile path> (read ask match -h).
 4. Each open instrument (solicitation, BAA, CSO, shopping notice, open topic): trace notice, cell, sources <full uuid>, ask analogs. trace award for key awards, trace status, trace need when a forecast exists. revisions and protests for the main terms. pulse rank --top 25, pulse week --days 90, pulse actions <term>.
 4b. Hiring (same python and AGENCY as navy.py): research/tools/jobs.py read <word> (USAJobs announcements, read as an office's intention to hire) and research/tools/vendor_jobs.py read <word> (incumbent contractors' own postings) for each candidate office and each main term. A posting is a hiring signal, never a buyer, an award or a requirement; a record that says it is not built is "not collected", never zero.
 5. Primary check: for every open instrument read its SAM.gov record (response date, set-aside, contacts, intake rule); for every incumbent award read its USAspending record (period of performance end, amounts, recipient). Save under ${OUT}/sources/web/.
-Save each command's output as ${OUT}/sources/tools/<cmd>_<arg>.txt.
+Save each command's output through the saver as tools/<cmd>_<arg>.txt, with the command as --source.
 Write ${OUT}/notes/tools.md: the anchors and their rule; a candidates table (C1.., office, title, identifier, kind instrument/route/signal/historical/gated, status against TODAY with the date that decides it, gate facts, the file it rests on, proposed fit/awardability/access_urgency per the SPEC rubric with one-line reasons quoting the source); the budget each candidate office holds as report budget placed it; incumbents and end dates; people with sources (names and roles only); a Hiring section; tool defects (a 0 where search finds matches, a label from another notice, an empty route list, and the like).`],
   ['record', LANE, `Record lane: what the record holds, and the record's own files for this company's line.
 - ${REPORT} inventory --agency ${A.agency} > ${OUT}/sources/record/inventory.json: every domain with present, rows and newest date; the domains that are absent are boundaries the brief states.
@@ -140,7 +143,7 @@ Write ${OUT}/notes/tools.md: the anchors and their rule; a candidates table (C1.
 - congress_events, remarks_events (speaker, role, date, url, evidence_span), oversight_events, fedreg_events, news_observations, protest_events, assistance_awards, hiring_observations and vendor_hiring_observations (when present).
 - sbir_topics.json: open or closed against TODAY, and which fit (closed ones are Historical, never buyers).
 - memory/small_business_offices.json, sources/source_status.json (families never collected: their empty result is "not collected").
-Save the relevant extracts with their exact text, ids and urls to ${OUT}/sources/record/<family>.md.
+Repo rows cite the record file itself by path (for example ${REC}/events/budget_lines.json); notes you write are never a source. Keep extracts with their exact text, ids, urls and record paths in ${OUT}/notes/record/<family>.md.
 Write ${OUT}/notes/record.md: per family the rows for the brief (identifier, exact quote, status against TODAY, source url, class), the Sources table counts from the inventory, families not collected, gaps.`],
   ['web', LANE, `Web lane: what the record may not hold yet, from the buyer's own and public pages, read this run (at most 30 pages).
 - Open notices: the SAM.gov site API (keyless) for this agency's active notices carrying each term; for each, response date, set-aside and office. Name every notice the record lacks (search the record with ${NAVY} search <notice number>).
@@ -148,19 +151,21 @@ Write ${OUT}/notes/record.md: per family the rows for the brief (identifier, exa
 - Congress and oversight: committee report language on the line where congress.gov or govinfo serve it; GAO and inspector general reports on the line.
 - News: trade press in the last twelve months on the offices and the line (secondary class).
 - Offices and people: the offices' own pages (mission, leadership by name and role) and the agency's small business office page. Names and roles only; no personal contacts.
-Save raw text under ${OUT}/sources/web/<slug>.txt.
+Save raw text through the saver as web/<slug>.txt with the url as --source; record each refused or empty page with --failed.
 Write ${OUT}/notes/web.md: rows (identifier, exact quote, status against TODAY, source url, class), the notices the record lacks, the statements by speaker and date, and the hosts that refused this machine.`],
   ['company', LANE, `Company lane: capability and risk signals for ${A.company}.
 - Awards to the company: USAspending recipient and award search by every name spelling (PIIDs, agencies, periods of performance, amounts), SBIR/STTR awards (sbir.gov award pages), the company's own contract releases.
 - Size status and eligibility: USAspending recipient business types, any public SAM.gov entity data; conflicts between sources are reported, not resolved.
 - Risk and momentum (secondary unless the government published it): funding, leadership, litigation, export or security matters, program wins and losses, in the last two years.
-Save raw text under ${OUT}/sources/web/company_<slug>.txt.
+Save raw text through the saver as web/company_<slug>.txt with the url as --source; record each refused or empty page with --failed.
 Write ${OUT}/notes/company.md: rows (identifier, exact quote, status, source, class, provenance) and what stays unknown (size status, clearance) with how to close it.`],
 ]
 const lanes = await parallel(LANES.map(([name, schema, task]) => () =>
   agent(`${COMMON}\n${P}\n\n${task}`, { label: `gather:${name}`, phase: 'Gather', schema })))
-lanes.forEach((l, i) => log(l ? `${LANES[i][0]}: ${l.files_saved} files, ${l.gaps.length} gaps, ${l.tool_defects.length} defects` : `${LANES[i][0]}: lane failed`))
-if (!lanes[0]) throw new Error('tools lane failed; the brief cannot rank without it')
+lanes.forEach((l, i) => {
+  if (!l) throw new Error(`${LANES[i][0]} lane failed; a brief missing its evidence is incomplete`)
+  log(`${LANES[i][0]}: ${l.files_saved} files, ${l.gaps.length} gaps, ${l.tool_defects.length} defects`)
+})
 
 phase('Draft')
 const draft = await agent(`${COMMON}
@@ -174,10 +179,13 @@ Write ${OUT}/brief.md, titled "${A.company}: <agency full name> Startup Intellig
 - What leaders have said and Oversight, Federal Register and news combine the record's events with the web lane's statements; each row keeps its own provenance.
 - Hiring, as the tools lane returned it: ${JSON.stringify(lanes[0].hiring)}. A posting is a Live signal row (kind job posting), never a buyer.
 - Fit line: plain and honest about what fits, what does not and what the agency does not buy.
+- P0 fields use the SPEC header with the exact passage column; every evidence row carries the source's own words.
+- People and program offices: the potential budget holders, decision makers and champions tables of the SPEC, each reading with its documented role, why it matters for this requirement, the rows it rests on beyond the title, and what is still to confirm. Nobody is a confirmed champion or the decision maker.
+- Still open lists every failed fetch in ${OUT}/sources/index.jsonl as not collected, with its reason; no row rests on one.
 - Outreach letters carry only facts in the rows, and decline explicitly what the brief does not carry. Run ${NAVY} check on each letter and paste its verdict.
 - Sources, the first section, from the inventory and notes/record.md, plus every web address read and the profile pages. How this was produced lists the calls by command and the tool defects the lanes reported.
 Then run: ${CHECK}
-Fix every problem it raises. For each quote failure, find the exact words in the sources or drop the row. For each unresolved record identifier, write the identifier as the record prints it, or, when the row came from a page, set its provenance to web. Paste its tally line as the last Tally line in Audit. Re-run until the checker is clean.`, {
+It exits 1 while anything is left. Fix every problem it raises. For each quote failure, cite the source that holds the words (found_in says where they are) or drop the row; for a source that names nothing saved, save it or cite the record file. For each unresolved record identifier, write the identifier as the record prints it, or, when the row came from a page, set its provenance to web. Paste its tally line as the last Tally line in Audit. Re-run until the checker is clean.`, {
   label: 'draft',
   phase: 'Draft',
   schema: {
@@ -231,26 +239,54 @@ const verdicts = await parallel(LENSES.map(([k, lens]) => () =>
   agent(`${VBASE}\n\n${lens}`, { label: `validate:${k}`, phase: 'Validate', schema: FINDINGS })))
 const all = []
 verdicts.forEach((v, i) => {
-  if (!v) { log(`validator ${LENSES[i][0]} failed`); return }
+  if (!v) throw new Error(`validator ${LENSES[i][0]} failed; an unvalidated brief is incomplete`)
   v.findings.forEach(f => all.push({ ...f, id: `${LENSES[i][0]}-${f.id}` }))
   log(`${LENSES[i][0]}: ${v.findings.length} findings (${v.findings.filter(f => f.severity === 'high').length} high)`)
 })
 
 phase('Apply')
-const COPY = A.final ? `Copy the final brief to ${A.final}.` : `The final brief is ${OUT}/brief.md.`
 const APPLY_BASE = `${COMMON}
 
 Apply fixes to ${OUT}/brief.md. For each finding, open its evidence and confirm it; apply it if it holds, and skip it with a reason if it does not. When two findings conflict, the one with primary evidence wins. Keep the SPEC format and keep every other row as it is.
 Then run ${CHECK}, fix what it raises (quote failures: find the exact words or drop the row; unresolved record identifiers: the record's spelling, or provenance web when the row came from a page), and paste its new tally line as the last Tally line in Audit.
 Add a line to How this was produced: "Validation on ${A.today}: n findings from three validators (evidence, review bar, ranking and dates), n applied, n skipped", with the skip reasons.
-${COPY}`
+Do not copy the brief anywhere: the gate releases it.`
 let applied = await agent(`${APPLY_BASE}\n\nFindings (${all.length}):\n${JSON.stringify(all, null, 1)}`, { label: 'apply', phase: 'Apply', schema: APPLY })
 if (applied && (applied.checker_problems_left > 0 || applied.quote_failures_left > 0 || applied.identifiers_unresolved_left > 0)) {
   log(`round 2: ${applied.checker_problems_left} checker problems, ${applied.quote_failures_left} quote failures, ${applied.identifiers_unresolved_left} unresolved identifiers left`)
   applied = await agent(`${APPLY_BASE}\n\nNo new findings. Clear what the checker still raises. Report what could not be cleared in skipped, and list it in Audit.`, { label: 'apply:round2', phase: 'Apply', schema: APPLY })
 }
 
+// The checker alone decides. The shell copies the brief only when the checker exits 0; the run fails otherwise.
+phase('Gate')
+const RELEASE = A.final ? ` && cp ${OUT}/brief.md ${A.final}` : ''
+const gate = await agent(`Run exactly this one shell command from the repository root and nothing else; do not edit any file:
+${CHECK} > ${OUT}/check.json; code=$?; [ $code -eq 0 ]${RELEASE}; echo "exit $code"
+Then read ${OUT}/check.json and report: the exit code printed, the number of problems, quotes.not_found, the number of identifiers.unresolved, the number of gaps, and the tally.`, {
+  label: 'gate',
+  phase: 'Gate',
+  schema: {
+    type: 'object',
+    properties: {
+      exit_code: { type: 'integer' },
+      problems: { type: 'integer' },
+      quote_failures: { type: 'integer' },
+      identifiers_unresolved: { type: 'integer' },
+      gaps: { type: 'integer' },
+      tally: { type: 'string' },
+    },
+    required: ['exit_code', 'problems', 'quote_failures', 'identifiers_unresolved', 'gaps', 'tally'],
+  },
+})
+if (!gate) throw new Error('brief incomplete: the gate did not run')
+if (gate.exit_code !== 0 || gate.problems || gate.quote_failures || gate.identifiers_unresolved) {
+  throw new Error(`brief incomplete: ${gate.problems} problems, ${gate.quote_failures} quote failures, ${gate.identifiers_unresolved} unresolved identifiers left; see ${OUT}/check.json`)
+}
+log(`gate clean: ${gate.tally}; ${gate.gaps} collection gaps listed in Still open`)
+
 return {
+  final: A.final || `${OUT}/brief.md`,
+  gate,
   profile: { main_term: profile.main_term, terms: profile.terms, not_stated: profile.not_stated },
   lanes: lanes.map((l, i) => l && { lane: LANES[i][0], files: l.files_saved, gaps: l.gaps, defects: l.tool_defects }),
   draft,

@@ -86,7 +86,8 @@ step, keyed exactly as the plan keys them. Each section holds:
 
 The checker refuses a quote that is not in the evidence, an identifier that names nothing in the record, a source
 that is neither a tool call nor a URL, the words likely, probably, imminent, expected soon, will release, RFP coming
-and decision-maker, an inference without a rule, and a boundary section with claims. Fix every line and run it
+and decision maker, budget holder or champion without "potential", a quote taken from another step's answer than the
+one its source names, an inference without a rule, a potential role reading resting on fewer than two claims, and a boundary section with claims. Fix every line and run it
 again. `render` writes `DIR/report.md`: how to read it, what the record holds, the anchor offices with their rule,
 each section with its boundary first or its facts table, analysis and not-found, the sources, the method.
 
@@ -101,8 +102,9 @@ and `run.json` (model, turns, tokens, cost). It costs model budget and needs `cl
 
 ## Rules
 
-- Treat evidence as part of the data model. Never infer that a person is a decision-maker from a title alone; never
-  write decision-maker. Keep facts, inferences and recommendations apart.
+- Treat evidence as part of the data model. Each quote comes from the answer its source names. A person is a
+  potential decision maker, budget holder or champion only as an inference resting on at least two claims, never on
+  a title alone, and with what is still to confirm. Keep facts, inferences and recommendations apart.
 - State a boundary before anything else where the record holds nothing: what was read, its rows, its newest date.
   Nothing is counted as zero; it is counted as not read.
 - Formal register, no em dashes, never likely, probably, imminent, expected, soon, "will release" or "RFP coming".

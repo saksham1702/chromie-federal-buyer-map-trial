@@ -84,7 +84,8 @@ PLACEHOLDERS = {"label", "short", "as_of", "office", "focus", "vendor"}
 MODES = ("brief", "full")
 WHEN = ("always", "focus", "no_focus")
 STATUSES = ("planned", "boundary", "optional", "deferred")
-FORBIDDEN = re.compile(r"decision[- ]maker", re.I)
+# a record shows a role; budget authority, a decision or advocacy is only ever a "potential" reading, with its reasons
+ROLE_WORDS = re.compile(r"\b(decision[- ]makers?|budget holders?|champions?)\b", re.I)
 MEASURES = (("display_enacted", "Comptroller display, enacted"), ("shared_lines_enacted", "shared display lines, enacted"),
             ("program_sum_current_year", "program rows, current year"), ("book_sum_current_year", "book lines, current year"))
 ANCHOR_RULE = ("the offices with the largest labelled budget measure in office_owners.json (display enacted, then shared display "
@@ -524,7 +525,9 @@ def headless_prompt(plan_: dict, spec: dict) -> str:
     lines += ["",
               "Rules. Treat evidence as part of the data model: every claim is one fact with the identifier of the record, office, person, vendor "
               "or budget line it rests on, an exact quote copied from a tool's answer, and the source (the tool call that answered, or the URL "
-              "the answer prints). Never infer that a person is a decision-maker from a title alone; never use the words decision-maker. Keep "
+              "the answer prints). A person may be read as a potential decision maker, budget holder or champion only as an inference "
+              "resting on at least two claims (a title alone is never enough), with what is still to confirm; the words appear only "
+              "after 'potential'. Keep "
               "facts, inferences and recommendations apart: an inference carries the rule it rests on and the identifiers of the claims it "
               "rests on. Where a part was not found, say what was read in not_found; where a section is a boundary, say so first and claim "
               f"nothing. Nothing after {inv['as_of']} exists for this report. {PLAIN} Never write 'will release' or 'RFP coming'. "
@@ -665,10 +668,23 @@ def inventory_files() -> set[str]:
     return set(inventory()["files"])
 
 
+def tool_call(s: str) -> str:
+    """A tool call as a claim's source or a gathered step writes it: "AGENCY=navy python research/tools/navy.py office X",
+    "navy.py office X", "mcp:office X" and "office X" are the same call."""
+    s = re.sub(r"(?:^|\s)[A-Z_]+=\S+", " ", s)
+    s = re.sub(r"\S*python[\d.]*\s", " ", s)
+    s = re.sub(r"^\s*(?:\S*/)?navy\.py\s+|^\s*(?:mcp|tool):\s*", "", s.strip())
+    return " ".join(s.split()).lower()
+
+
 def check(bundle: dict, answer: dict, plan_: dict) -> dict:
     """The written answer against the evidence and the record. Each problem is one line naming the section."""
     outputs = {g["key"]: g["output"] for g in bundle["gathered"] if g.get("output")}
     everything = "\n".join(outputs.values())
+    calls = {}
+    for g in bundle["gathered"]:
+        if g.get("output"):
+            calls.setdefault(tool_call(f"{g.get('command', '')} {g.get('args', '')}"), []).append(g["output"])
     status = {s["key"]: s["status"] for s in plan_["steps"]}
     cli = {f"{s['command']} {s['args']}".strip() for s in plan_["steps"]} | {s["cli"] for s in plan_["steps"]} | {f"navy.py {s['command']} {s['args']}".strip() for s in plan_["steps"]}
     problems, per = [], {}
@@ -681,11 +697,13 @@ def check(bundle: dict, answer: dict, plan_: dict) -> dict:
         for i, c in enumerate(claims, start=1):
             where = f"{key} claim {i}"
             quote = c.get("quote", "")
-            if verbatim(quote, own):
+            src = (c.get("source") or "").strip()
+            # the quote must be in the answer its source names (or this section's own), never just anywhere gathered
+            cited = [o for o in outputs.values() if src in o] if re.match(r"https?://", src) else calls.get(tool_call(src), [])
+            if verbatim(quote, own) or any(verbatim(quote, o) for o in cited):
                 row["quotes_verified"] += 1
-            elif verbatim(quote, everything):  # verified, in another step's answer: noted, not refused
-                row["quotes_verified"] += 1
-                row["quotes_from_other_steps"] = row.get("quotes_from_other_steps", 0) + 1
+            elif verbatim(quote, everything):
+                row["problems"].append(f"{where}: quote is in another step's answer, not in the one its source {src[:60]!r} names: {quote[:60]!r}")
             else:
                 row["problems"].append(f"{where}: quote not in the gathered evidence: {quote[:80]!r}")
             kind = resolve_any(c.get("identifier", ""), everything)
@@ -694,7 +712,6 @@ def check(bundle: dict, answer: dict, plan_: dict) -> dict:
                 ids.add(c.get("identifier", "").strip())
             else:
                 row["problems"].append(f"{where}: identifier {c.get('identifier', '')!r} names no record, office, person, vendor or budget line")
-            src = (c.get("source") or "").strip()
             if not (re.match(r"https?://", src) or src in cli or any(src.startswith(p) for p in ("navy.py ", "AGENCY=", "mcp:", "tool:")) or src.split(" ")[0] in navy.HELP or src.split(" ")[0] in LOCAL):
                 row["problems"].append(f"{where}: source {src[:60]!r} is neither a tool call nor a URL")
         for i, inf in enumerate(sec.get("inferences", []), start=1):
@@ -703,10 +720,13 @@ def check(bundle: dict, answer: dict, plan_: dict) -> dict:
             for r in inf.get("rests_on", []):
                 if r.strip() not in ids:
                     row["problems"].append(f"{key} inference {i}: rests on {r!r}, which is not a claim identifier in this section")
+            if ROLE_WORDS.search(inf.get("inference", "")) and len({r.strip() for r in inf.get("rests_on", [])}) < 2:
+                row["problems"].append(f"{key} inference {i}: a potential decision maker, budget holder or champion rests on at least two claims; a title alone is not enough")
         prose = " ".join([sec.get("summary", ""), *(c.get("claim", "") for c in claims), *(f"{i.get('inference', '')} {i.get('rule', '')}" for i in sec.get("inferences", [])), sec.get("not_found", "")])
         row["problems"] += [f"{key}: {p}" for p in register_problems(prose)]
-        if FORBIDDEN.search(prose):
-            row["problems"].append(f"{key}: names a decision-maker; the record ties people to offices and roles, never to decisions")
+        for m in ROLE_WORDS.finditer(prose):
+            if "potential" not in prose[max(0, m.start() - 60):m.start()].lower():
+                row["problems"].append(f"{key}: '{m.group(0)}' without 'potential'; a record shows a role, never a decision, budget authority or advocacy")
         if status.get(key) == "boundary":
             if claims:
                 row["problems"].append(f"{key}: a boundary section carries claims; the record holds nothing for it")
@@ -985,6 +1005,15 @@ def selfcheck() -> int:
         assert any("neither a tool call nor a URL" in p for p in check(bundle, bad(claims=[{**c0, "source": "my memory"}]), plan_)["problems"])
         assert any("likely" in p for p in check(bundle, bad(summary="The office will likely buy radios."), plan_)["problems"])
         assert any("decision-maker" in p for p in check(bundle, bad(summary="She is the decision-maker."), plan_)["problems"])
+        one = [{"inference": "Ann Example is a potential decision maker for the radio requirement.", "rule": "r", "rests_on": ["Ann Example"]}]
+        assert any("title alone" in p for p in check(bundle, bad(inferences=one), plan_)["problems"])
+        two = [{**one[0], "rests_on": ["Ann Example", "N00039-25-RFPREQ-PMA/PMW-101-0046"]}]
+        assert check(bundle, bad(inferences=two), plan_)["problems"] == []
+        other = {**bundle, "gathered": [*bundle["gathered"], {"key": "office:PMW 205", "section": "office", "command": "office", "args": "'PMW 205'",
+                                                                "output": "Bob Other, Contracting Officer, PMW 205", "chars": 40, "empty": False, "boundary": None}]}
+        stray = {**c0, "identifier": "Ann Example", "quote": "Bob Other, Contracting Officer"}
+        assert any("another step's answer" in p for p in check(other, bad(claims=[stray]), plan_)["problems"])
+        assert check(other, bad(claims=[{**stray, "source": "navy.py office 'PMW 205'"}]), plan_)["problems"] == []
         assert any("no rule" in p for p in check(bundle, bad(inferences=[{"inference": "x", "rule": "", "rests_on": []}]), plan_)["problems"])
         assert any("not a claim identifier" in p for p in check(bundle, bad(inferences=[{"inference": "x", "rule": "r", "rests_on": ["PMW 205"]}]), plan_)["problems"])
         boundary_bad = {"sections": {**good["sections"], budget_key: {"summary": "", "claims": [c0], "inferences": [], "not_found": ""}}, "reading": "r"}

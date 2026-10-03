@@ -38,14 +38,23 @@ All paths are relative to the repository root; `PY=.venv/bin/python` unless the 
   cassette) outside Audit and How this was produced. Banned outside quotes: likely, probably, imminent,
   expected soon, will release, RFP coming. Dates are facts with their source, never forecasts.
 - People: name, role and office as the source writes them, with the source. No personal e-mail or phone; an
-  official mailbox or a contact a notice publishes only. Never call anyone "the decision-maker": a record ties
-  people to offices and roles, never to decisions.
+  official mailbox or a contact a notice publishes only. A record shows a role, never budget authority, a
+  decision or willingness to advocate: those are readings, always "potential", with their reasoning in People
+  and program offices. A title alone establishes none of them. The words decision maker, budget holder and
+  champion appear only after "potential".
 
 ## Evidence bar
 
 - Every table row: `| Identifier | What it says (exact quote) | Status | Source | Class | Provenance |`.
-  The quote is the source's words, character for character, in double quotes, and it must exist in a file
-  under OUT/sources or the record. Paraphrase goes in prose, never in the quote column.
+  The quote is the source's words, character for character, in double quotes, and it must exist in the file
+  the row's Source names. Paraphrase goes in prose, never in the quote column.
+- Source: the url or the command as saved by `save_source.py` (its line in `OUT/sources/index.jsonl` points to
+  the file holding the text), or a record file by path; "same" repeats the row above in the same table. The
+  checker reads the quote only there: a passage from one record never supports a row about another, and a
+  note the run wrote is never a source.
+- A refused, rate-limited or empty fetch is saved as failed (`save_source.py --failed`, or automatically for
+  empty output and block pages). It is a collection gap: Still open lists it as "not collected" with its
+  reason, and no row rests on it. It is never an empty result.
 - Identifier: one identifier per row as the record or the page prints it (notice number, PIID, office acronym,
   program element, person's name). A tool or repo row's identifier must name something in the record (the
   checker resolves it through report.py); a web row's identifier is the page's own.
@@ -125,24 +134,38 @@ All paths are relative to the repository root; `PY=.venv/bin/python` unless the 
    **Money and signals**, a mermaid chart agency > offices > instruments, **Do this week** (dated steps, each
    "Rests on" a row). A reader new to the agency must follow it: sentences under about 30 words, every
    acronym spelled out at first use, no candidate ids or codes, no line that repeats another.
-3. What rules a route in or out. 4. Ranked opportunities. 5. P0 fields (`| Field | Value | Identifier | Source | Class |
-   Provenance |`). 6. Agencies and offices. 7. Programs and requirements. 8. Budget lines behind the work
+3. What rules a route in or out. 4. Ranked opportunities. 5. P0 fields (`| Field | Value | Identifier |
+   Passage (exact quote) | Source | Class | Provenance |`; the passage is the source's words for the value). 6. Agencies and offices. 7. Programs and requirements. 8. Budget lines behind the work
    (for each office in the line, the lines `report budget` places there with the basis of each placement, then a
    figures table per program element, then evidence rows). 9. What Congress has directed. 10. What leaders
    have said (speaker, role, date). 11. Oversight, Federal Register and news. 12. Solicitations, BAAs and
    planning notices. 13. How long from solicitation to award. 14. Awards and incumbents. 15. How its
    contracting office buys. 16. Contracts in this line ending soon. 17. What the winning companies did in the
    last two years. 18. SBIR and STTR (open topics in the record that fit, else say none fits; closed topics are
-   Historical). 19. People and program offices. 20. Where the office sits. 21. What changed in the last year.
+   Historical). 19. People and program offices (evidence rows for each person's documented role, then the
+   readings below). 20. Where the office sits. 21. What changed in the last year.
    22. Next actions from the record. 23. Teaming and access routes (mermaid teaming map; inferences labelled as
    inferences). 24. Past awards in the company's line under the office. 25. Company capability and risk
    signals. 26. Bid protests. 27. Small business routes. 28. Brief for the first meeting (questions, each
    resting on rows). 29. Outreach drafts. 30. Still open (`| Section | Not found | How to close it |`).
    31. Audit. 32. How this was produced.
+- People readings, in People and program offices. "Rests on" lists row identifiers separated by semicolons, and
+  must name a row beyond the person's own role row: a potential budget holder rests on a line in Budget lines
+  behind the work placed in the person's office; a potential decision maker or champion rests on an action or
+  statement outside People and program offices (a notice or award naming them in the role, remarks, a meeting).
+  "Still to confirm" is never empty or "none".
+  `| Person | Reading | Documented role (exact quote) | Source | Why they matter for this requirement | Rests on | Still to confirm |`
+  (Reading: potential budget holder or potential decision maker), and
+  `| Person | Documented role (exact quote) | Source | Problem they own | Why the company matters to them | Evidence of willingness to advocate | Rests on | Still to confirm |`
+  for potential champions (a new role plus a meeting makes a potential champion, never a confirmed one; no
+  evidence of advocacy is written "none found").
 - Outreach: one letter per named route of the top three; each letter carries only facts in the rows and names
   the rows it rests on; it never asserts size status, clearance, past performance or a contact the brief does
   not carry, and says so where it declines ("refuse-uncarried"). Run `navy.py check` on each letter (answer
   JSON on stdin) and paste its verdict.
+- Completion: the checker exits 1 while any problem, quote failure or unresolved identifier is left. The
+  workflow ends with a checker-only gate; the brief is released (copied to its final path) only on a clean run,
+  and a failed gathering step, validator or gate ends the run as incomplete.
 - Audit: the checker's tally line pasted last, its quote result ("n quotes checked, n not found"), its
   identifier result ("n record identifiers checked, n unresolved"), and every problem it raised with what was done.
 - How this was produced: date, AGENCY, record date, navy.py and report.py calls by command, pages read, the

@@ -1,14 +1,17 @@
-"""Mechanical checks on a startup intelligence brief: table shape, exact quotes against the saved sources,
-record identifiers against the record (report.py's resolver), the published ranking rule, the fit and lead order
-lines, banned words, people rules and the tally.
+"""Mechanical checks on a startup intelligence brief: table shape, each row's exact quote against the source its
+Source cell names (OUT/sources/index.jsonl, written by save_source.py, or a record file), failed fetches listed as
+gaps, record identifiers against the record (report.py's resolver), the published ranking rule, the fit and lead
+order lines, banned words, people readings and the tally.
 
-usage: AGENCY=<key> python research/workflow/check.py BRIEF SOURCE_DIR [SOURCE_DIR ...]
-Prints JSON: {"problems": [...], "tally": "...", "quotes": {...}, "identifiers": {...}}."""
+usage: AGENCY=<key> python research/workflow/check.py BRIEF OUT/sources [RECORD_DIR ...]
+Prints JSON: {"ok": bool, "problems": [...], "tally": "...", "quotes": {...}, "identifiers": {...}, "gaps": [...]}
+and exits 1 unless ok: any problem, quote failure or unresolved identifier blocks the brief."""
 import html
 import json
 import os
 import re
 import sys
+from urllib.parse import urlparse
 
 TOOLS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "tools")
 
@@ -20,7 +23,12 @@ GROUP_WORDS = [("instrument", 0), ("route", 1), ("live signal", 2), ("signal", 2
 BANNED = re.compile(r"\b(likely|probably|imminent|expected soon|will release|rfp coming)\b", re.I)
 CLAIMS = re.compile(r"every fact (?:is )?from", re.I)
 GATE_CODE = re.compile(r"\bG[1-4]\b")
-DECIDER = re.compile(r"decision[- ]maker", re.I)  # report.py's rule: the record ties people to roles, never to decisions
+# a record shows a role; a reading of budget authority, decision or advocacy is only ever "potential", with its reasons
+ROLE_WORDS = re.compile(r"\b(decision[- ]makers?|budget holders?|champions?)\b", re.I)
+READINGS = ("potential budget holder", "potential decision maker", "potential champion")
+P0_HEADER = "| Field | Value | Identifier | Passage (exact quote) | Source | Class | Provenance |"
+NO_PASSAGE = ("not in file", "not collected")
+TEXT_FILES = (".txt", ".md", ".json", ".html", ".tsv", ".csv")
 # ponytail: personal webmail domains only; a notice's published contact is allowed, so phones are left to the validators
 PERSONAL = re.compile(r"\b[\w.+-]+@(?:gmail|yahoo|outlook|hotmail|icloud|proton)(?:mail)?\.\w+\b", re.I)
 SECTIONS = [
@@ -46,15 +54,97 @@ def norm(s):
     return re.sub(r"\s+", " ", s).strip().lower()
 
 
-def haystack(dirs):
-    parts = []
-    for d in dirs:
+def source_key(s):
+    """A url or command as the index and a Source cell both write it: no scheme, environment, interpreter, script
+    directory or redirect ("AGENCY=navy .venv/bin/python research/tools/navy.py office X > f" -> "navy.py office x")."""
+    s = norm(s)
+    s = re.sub(r"https?://(?:www\.)?", "", s)
+    s = re.sub(r"(?:^|\s)[a-z_]+=\S+", " ", s)
+    s = re.sub(r"\S*python[\d.]*\s", " ", s)
+    s = re.sub(r"[\w./-]*/(?=[\w-]+\.py\b)", "", s)
+    s = re.sub(r"\s(?:>|2>|&>)\s*\S+", " ", s)
+    return re.sub(r"\s+", " ", s).strip().rstrip("/")
+
+
+def load(src_dir, record_dirs=()):
+    """The saved sources: every text file under the run's sources and the record dirs, normalized, by path; and the
+    run's index (save_source.py), which maps each url or command to the file holding its text, or to a failed fetch."""
+    texts = {}
+    for d in [src_dir, *record_dirs]:
         for root, _, files in os.walk(d, followlinks=True):
             for f in files:
-                if f.endswith((".txt", ".md", ".json", ".html", ".tsv", ".csv")) and not f.startswith("brief"):
-                    with open(os.path.join(root, f), errors="replace") as fh:
-                        parts.append(norm(fh.read()))
-    return "\n".join(parts)
+                if f.endswith(TEXT_FILES) and not f.startswith("brief"):
+                    path = os.path.normpath(os.path.join(root, f))
+                    with open(path, errors="replace") as fh:
+                        texts[path] = norm(fh.read())
+    index, path = [], os.path.join(src_dir, "index.jsonl")
+    if os.path.exists(path):
+        with open(path) as fh:
+            for line in fh:
+                if line.strip():
+                    e = json.loads(line)
+                    e["path"] = os.path.normpath(os.path.join(src_dir, e["file"])) if e.get("file") else None
+                    e["key"] = source_key(e["source"])
+                    index.append(e)
+    return {"src": os.path.normpath(src_dir), "records": [os.path.normpath(d) for d in record_dirs],
+            "texts": texts, "index": index}
+
+
+def resolve(cell, S):
+    """The saved sources a Source cell names: the indexed urls and commands it contains (the longest when one
+    contains another) and the record files it cites by path. A file under the run's sources counts only when
+    indexed, so an agent's own notes never stand in for a source."""
+    key, hits = source_key(cell), []
+    for e in sorted(S["index"], key=lambda e: -len(e["key"])):
+        if len(e["key"]) >= 8 and e["key"] in key and not any(e["key"] in h["key"] != e["key"] for h in hits):
+            hits.append(e)
+    indexed = {e["path"] for e in S["index"] if e["status"] == "ok"}
+    for tok in re.findall(r"[\w./-]+\.(?:txt|md|json|html|tsv|csv)\b", cell):
+        for path in [os.path.normpath(os.path.join(base, tok)) for base in ("", S["src"], *S["records"])]:
+            if path in S["texts"] and (path in indexed or not path.startswith(S["src"] + os.sep)):
+                hits.append({"source": tok, "key": tok, "path": path, "status": "ok", "reason": ""})
+                break
+    return hits
+
+
+def gaps(S):
+    """Failed fetches that no later save of the same source replaced."""
+    good = {e["key"] for e in S["index"] if e["status"] == "ok"}
+    return [e for e in S["index"] if e["status"] == "failed" and e["key"] not in good]
+
+
+def frags(q):
+    for frag in re.split(r"\s*(?:\.\.\.|…|\[\.\.\.\]|\[…\])\s*", q):
+        frag = norm(frag).strip(" .,;:")
+        if len(frag) >= 12:
+            yield frag
+
+
+def source_row(i, passage, source, prov, last, S, quotes, bad):
+    """Tie a row's passage to the source its Source cell names ("same" repeats the row above in the table). A quote
+    found only in another file fails, with where it was found. Returns the resolution for the next row."""
+    res = last if source.strip().lower().rstrip(".") in ("same", "same as above") and last else resolve(source, S)
+    if not res:
+        bad("source", i, f"Source '{source[:80]}' names nothing saved: index the page or command with save_source.py, "
+                         "or cite the record file")
+        return res
+    ok = [e for e in res if e["status"] == "ok" and e["path"] in S["texts"]]
+    if not ok:
+        bad("gap", i, f"rests on a failed fetch of '{res[0]['source'][:80]}' ({res[0]['reason']}): list it in Still open "
+                      "as not collected and drop the row")
+        return res
+    found_any = False
+    for m in QUOTE.finditer(passage):
+        found_any = True
+        for frag in frags(m.group(1) or m.group(2)):
+            quotes["checked"] += 1
+            if not any(frag in S["texts"][e["path"]] for e in ok):
+                elsewhere = next((p for p, t in S["texts"].items() if frag in t), None)
+                quotes["failures"].append({"line": i + 1, "provenance": prov, "quote": frag[:160],
+                                           "source": source[:120], "found_in": elsewhere})
+    if not found_any and not passage.lower().startswith(NO_PASSAGE):
+        bad("quote", i, "no exact passage in double quotes: each row carries the source's own words")
+    return res
 
 
 def cells(line):
@@ -65,7 +155,7 @@ def unquoted(line):
     return QUOTE.sub(" ", line)
 
 
-def check(text, hay, resolver=None):
+def check(text, S, resolver=None):
     lines = text.split("\n")
     problems = []
 
@@ -87,45 +177,60 @@ def check(text, hay, resolver=None):
     elif len(lines[fit].split()) < 20 or re.match(r"\*\*Fit:\*\*\s*(yes|no)\W*$", lines[fit], re.I):
         bad("fit", fit, "fit line is a bare verdict; say what fits, what does not and what the agency does not buy")
 
-    rows, tally_rows, evidence, not_in_file, quotes, failed = [], [], [], 0, 0, []
-    in_ranked, group, ranked, header = False, None, [], ""
+    rows, tally_rows, evidence, not_in_file, quotes = [], [], [], 0, {"checked": 0, "failures": []}
+    in_ranked, group, ranked, header, section, last, readings, where = False, None, [], "", "", None, [], {}
     for i, l in enumerate(lines):
         if l.startswith("## "):
-            in_ranked = l.startswith("## Ranked opportunities")
+            section = l[3:].strip()
+            in_ranked = section.startswith("Ranked opportunities")
         if in_ranked and l.startswith("**") and not l.startswith("| "):
             low = l.strip("* ").lower()
             group = next((g for w, g in GROUP_WORDS if low.startswith(w)), group)
         if not l.startswith("|") or set(l) <= set("|-: "):
             continue
         c = cells(l)
-        if lines[i + 1].startswith("|---") if i + 1 < len(lines) else False:
-            header = l
-        not_in_file += sum(1 for x in c if x.lower().startswith("not in file"))
-        if in_ranked and len(c) == 12 and c[0].isdigit():
-            ranked.append((i, group, c))
+        if i + 1 < len(lines) and lines[i + 1].startswith("|---"):
+            header, last = l.strip(), None
+            if header.startswith("| Field |") and header != P0_HEADER:
+                bad("row", i, "P0 fields need the passage column: " + P0_HEADER)
             continue
-        if len(c) == 6 and c[-1] in PROV and c[4] in CLASS:
-            tally_rows.append(c)
-            evidence.append((i, c[2] if header.startswith("| Field |") else c[0], c[-1]))
-            if c[2] in STATUS:
-                rows.append((i, c))
-        elif header.startswith(("| Identifier |", "| Field |")) and l != header and (c[-1] not in PROV or c[4] not in CLASS):
-            bad("row", i, f"six-column row with Class '{c[4]}' or Provenance '{c[-1]}' outside the allowed values")
+        not_in_file += sum(1 for x in c if x.lower().startswith("not in file"))
         for x in c:
             if x == "":
                 bad("row", i, "empty cell; write 'not in file' when the primary source lacks the fact")
                 break
+        if in_ranked and len(c) == 12 and c[0].isdigit():
+            ranked.append((i, group, c))
+            continue
+        hc = cells(header)
+        if hc[0] == "Person":
+            row = dict(zip(hc, c))
+            readings.append((i, row))
+            role = next((v for k, v in row.items() if k.startswith("Documented role")), "")
+            last = source_row(i, role, row.get("Source", ""), "people", last, S, quotes, bad)
+            continue
+        p0 = header == P0_HEADER
+        if (len(c) == 6 or p0 and len(c) == 7) and c[-1] in PROV and c[-2] in CLASS:
+            ident = (c[2] if header.startswith("| Field |") else c[0]).strip("` ")
+            tally_rows.append(c)
+            evidence.append((i, ident, c[-1]))
+            where.setdefault(ident, set()).add(section)
+            if len(c) == 6 and c[2] in STATUS:
+                rows.append((i, c))
+            last = source_row(i, c[3] if p0 else c[1], c[-3], c[-1], last, S, quotes, bad)
+        elif header.startswith(("| Identifier |", "| Field |")):
+            bad("row", i, f"evidence row needs {len(hc)} cells with Class in {sorted(CLASS)} and Provenance in "
+                          f"{sorted(PROV)}; got {len(c)} cells, '{c[-2]}', '{c[-1]}'")
 
-    for i, c in rows:
-        for m in QUOTE.finditer(c[1]):
-            q = m.group(1) or m.group(2)
-            for frag in re.split(r"\s*(?:\.\.\.|…|\[\.\.\.\]|\[…\])\s*", q):
-                frag = norm(frag).strip(" .,;:")
-                if len(frag) < 12:
-                    continue
-                quotes += 1
-                if frag not in hay:
-                    failed.append({"line": i + 1, "provenance": c[-1], "quote": frag[:160]})
+    for i, row in readings:
+        check_reading(i, row, where, bad)
+
+    still = norm("\n".join(section_lines(lines, "Still open")))
+    open_gaps = gaps(S)
+    for e in open_gaps:
+        host = urlparse("//" + e["key"].split()[0]).hostname if "." in e["key"].split()[0] else None
+        if e["key"] not in still and not (host and host in still):
+            bad("gap", 0, f"failed fetch of '{e['source'][:100]}' ({e['reason']}) is not in Still open as not collected")
 
     for i, l in enumerate(lines):
         plain = unquoted(l)
@@ -139,8 +244,10 @@ def check(text, hay, resolver=None):
             bad("style", i, f"corpus claim '{m.group(0)}'; list the sources instead")
         if GATE_CODE.search(plain):
             bad("style", i, "gate code (G1, G2); say the test in plain words")
-        if DECIDER.search(plain):
-            bad("people", i, "names a decision-maker; the record ties people to offices and roles, never to decisions")
+        for m in ROLE_WORDS.finditer(plain):
+            if "potential" not in plain[max(0, m.start() - 60):m.start()].lower():
+                bad("people", i, f"'{m.group(0)}' without 'potential': a record shows a role, never budget authority, "
+                                 "a decision or advocacy; give the reading in People and program offices")
         m = PERSONAL.search(l)
         if m:
             bad("people", i, f"personal contact '{m.group(0)}'; only official mailboxes and contacts a notice publishes")
@@ -149,7 +256,7 @@ def check(text, hay, resolver=None):
 
     prov = {p: sum(1 for c in tally_rows if c[-1] == p) for p in sorted(PROV)}
     st = {s: sum(1 for _, c in rows if c[2] == s) for s in sorted(STATUS)}
-    cl = {k: sum(1 for c in tally_rows if c[4] == k) for k in sorted(CLASS)}
+    cl = {k: sum(1 for c in tally_rows if c[-2] == k) for k in sorted(CLASS)}
     tally = (f"Tally: cells 'not in file' {not_in_file}; evidence rows {len(tally_rows)}; "
              + "; ".join(f"rows {s} {n}" for s, n in st.items() if n) + "; "
              + "; ".join(f"rows from {p} {n}" for p, n in prov.items() if n) + "; "
@@ -157,9 +264,51 @@ def check(text, hay, resolver=None):
     last = [l for l in lines if l.startswith("Tally:")]
     if not last or last[-1].strip() != tally:
         bad("tally", 0, "the last Tally line in Audit differs from the count; paste: " + tally)
-    return {"problems": problems, "tally": tally,
-            "quotes": {"checked": quotes, "not_found": len(failed), "failures": failed},
-            "identifiers": identifiers(evidence, resolver, hay)}
+    result = {"problems": problems, "tally": tally,
+              "quotes": {"checked": quotes["checked"], "not_found": len(quotes["failures"]),
+                         "failures": quotes["failures"]},
+              "identifiers": identifiers(evidence, resolver, S["texts"].values()),
+              "gaps": [{"source": e["source"], "reason": e["reason"]} for e in open_gaps]}
+    result["ok"] = not blocking(result)
+    return result
+
+
+def blocking(result):
+    """Anything the brief cannot be released with."""
+    return bool(result["problems"] or result["quotes"]["not_found"] or result["identifiers"]["unresolved"])
+
+
+def section_lines(lines, title):
+    start = next((i for i, l in enumerate(lines) if l.startswith("## " + title)), None)
+    if start is None:
+        return []
+    end = next((i for i in range(start + 1, len(lines)) if lines[i].startswith("## ")), len(lines))
+    return lines[start + 1:end]
+
+
+def check_reading(i, row, where, bad):
+    """A potential budget holder, decision maker or champion rests on more than a title: a budget holder on a budget
+    line placed in the person's office, a decision maker or champion on an action or statement outside People and
+    program offices. Each says what is still to confirm. "Rests on" lists row identifiers, separated by semicolons."""
+    person = row.get("Person", "").strip("* ")
+    reading = row.get("Reading", "potential champion").strip().lower()
+    if reading not in READINGS:
+        bad("people", i, f"{person}: reading '{reading}' is not one of {', '.join(READINGS)}")
+        return
+    rests = [x.strip("` ") for x in row.get("Rests on", "").split(";") if x.strip()]
+    missing = [x for x in rests if x not in where]
+    if missing:
+        bad("people", i, f"{person}: Rests on names rows the brief does not carry: {'; '.join(missing)[:200]}")
+    sections = {s for x in rests if x in where and x != person for s in where[x]}
+    if reading == "potential budget holder":
+        if not any(s.startswith("Budget lines behind the work") for s in sections):
+            bad("people", i, f"{person}: a budget holder reading needs a budget line placed in the person's office, a "
+                             "row in Budget lines behind the work; a title alone is not budget authority")
+    elif not any(not s.startswith("People and program offices") for s in sections):
+        bad("people", i, f"{person}: a {reading} reading needs an action or statement outside People and program "
+                         "offices; a title alone is not enough")
+    if row.get("Still to confirm", "").strip().lower().rstrip(".") in ("", "none", "nothing", "n/a", "-"):
+        bad("people", i, f"{person}: say what still needs confirmation")
 
 
 def record_resolver():
@@ -181,7 +330,7 @@ def bare(ident):
     return re.sub(r"^(PE|PIID|notice|contract|award|program element)\s+", "", head, flags=re.I)
 
 
-def identifiers(evidence, resolver, hay=""):
+def identifiers(evidence, resolver, texts=()):
     """Each tool or repo row's identifier must name a record, office, person, vendor or budget line in the record
     (report.py's resolver), or appear word for word in the record files and sources read (an observation id, a
     report number). A typo or an invented identifier does neither."""
@@ -194,7 +343,8 @@ def identifiers(evidence, resolver, hay=""):
             continue
         checked += 1
         short = bare(ident) or ident
-        if norm(short) in hay or norm(short.split()[0]) in hay and len(short.split()[0]) >= 6:
+        head = norm(short.split()[0])
+        if any(norm(short) in t or len(head) >= 6 and head in t for t in texts):
             continue
         try:
             kind = resolver(ident) or resolver(short)
@@ -267,6 +417,7 @@ def check_ranked(ranked, lines, bad):
 
 
 if __name__ == "__main__":
-    BRIEF = sys.argv[1]
-    text = open(BRIEF).read()
-    print(json.dumps(check(text, haystack(sys.argv[2:]), record_resolver()), indent=1))
+    with open(sys.argv[1]) as fh:
+        out = check(fh.read(), load(sys.argv[2], sys.argv[3:]), record_resolver())
+    print(json.dumps(out, indent=1))
+    sys.exit(0 if out["ok"] else 1)
