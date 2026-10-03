@@ -674,7 +674,30 @@ def tool_call(s: str) -> str:
     s = re.sub(r"(?:^|\s)[A-Z_]+=\S+", " ", s)
     s = re.sub(r"\S*python[\d.]*\s", " ", s)
     s = re.sub(r"^\s*(?:\S*/)?navy\.py\s+|^\s*(?:mcp|tool):\s*", "", s.strip())
+    try:
+        s = " ".join(shlex.split(s))  # people 'PMA/PMW 101' and people PMA/PMW 101 are the same call
+    except ValueError:
+        pass
     return " ".join(s.split()).lower()
+
+
+def url_blocks(output: str, url: str) -> list[str]:
+    """The parts of a tool answer a URL source vouches for: each JSON record that carries the URL, or each paragraph
+    of a text answer that prints it. A quote cited to the URL must sit in one of them, not anywhere in the answer."""
+    try:
+        data = json.loads(output)
+    except ValueError:
+        return [p for p in re.split(r"\n\s*\n", output) if url in p]
+    blocks, stack = [], [data]
+    while stack:
+        node = stack.pop()
+        if isinstance(node, dict):
+            if any(isinstance(v, str) and url in v for v in node.values()):
+                blocks.append(json.dumps(node, indent=1, ensure_ascii=False))
+            stack.extend(node.values())
+        elif isinstance(node, list):
+            stack.extend(node)
+    return blocks
 
 
 def check(bundle: dict, answer: dict, plan_: dict) -> dict:
@@ -698,12 +721,13 @@ def check(bundle: dict, answer: dict, plan_: dict) -> dict:
             where = f"{key} claim {i}"
             quote = c.get("quote", "")
             src = (c.get("source") or "").strip()
-            # the quote must be in the answer its source names (or this section's own), never just anywhere gathered
-            cited = [o for o in outputs.values() if src in o] if re.match(r"https?://", src) else calls.get(tool_call(src), [])
-            if verbatim(quote, own) or any(verbatim(quote, o) for o in cited):
+            # the quote must be in the answer its source names; this section's own answer counts only when the source
+            # names that call, and a URL vouches only for the record or paragraph that carries it
+            cited = [b for o in outputs.values() for b in url_blocks(o, src)] if re.match(r"https?://", src) else calls.get(tool_call(src), [])
+            if any(verbatim(quote, o) for o in cited):
                 row["quotes_verified"] += 1
             elif verbatim(quote, everything):
-                row["problems"].append(f"{where}: quote is in another step's answer, not in the one its source {src[:60]!r} names: {quote[:60]!r}")
+                row["problems"].append(f"{where}: quote is not in the answer its source {src[:60]!r} names, only elsewhere in the gathered evidence: {quote[:60]!r}")
             else:
                 row["problems"].append(f"{where}: quote not in the gathered evidence: {quote[:80]!r}")
             kind = resolve_any(c.get("identifier", ""), everything)
@@ -1012,8 +1036,10 @@ def selfcheck() -> int:
         other = {**bundle, "gathered": [*bundle["gathered"], {"key": "office:PMW 205", "section": "office", "command": "office", "args": "'PMW 205'",
                                                                 "output": "Bob Other, Contracting Officer, PMW 205", "chars": 40, "empty": False, "boundary": None}]}
         stray = {**c0, "identifier": "Ann Example", "quote": "Bob Other, Contracting Officer"}
-        assert any("another step's answer" in p for p in check(other, bad(claims=[stray]), plan_)["problems"])
+        assert any("only elsewhere" in p for p in check(other, bad(claims=[stray]), plan_)["problems"])
         assert check(other, bad(claims=[{**stray, "source": "navy.py office 'PMW 205'"}]), plan_)["problems"] == []
+        # this section's own answer does not rescue a quote whose source names another call
+        assert any("only elsewhere" in p for p in check(other, bad(claims=[{**c0, "source": "navy.py office 'PMW 205'"}]), plan_)["problems"])
         assert any("no rule" in p for p in check(bundle, bad(inferences=[{"inference": "x", "rule": "", "rests_on": []}]), plan_)["problems"])
         assert any("not a claim identifier" in p for p in check(bundle, bad(inferences=[{"inference": "x", "rule": "r", "rests_on": ["PMW 205"]}]), plan_)["problems"])
         boundary_bad = {"sections": {**good["sections"], budget_key: {"summary": "", "claims": [c0], "inferences": [], "not_found": ""}}, "reading": "r"}

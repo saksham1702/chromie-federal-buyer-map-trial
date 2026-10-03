@@ -171,6 +171,29 @@ def test_check_passes_a_sourced_answer_and_names_each_defect(walk):
     assert sum("boundary section" in p for p in report.check(bundle, boundary, plan)["problems"]) == 2
 
 
+def test_a_quote_counts_only_in_the_answer_its_source_names(walk):
+    """Regression: a quote used to pass when it appeared anywhere in the section's own answer, whatever source the
+    claim cited, and a URL source vouched for every answer that printed the URL."""
+    plan = report.plan(report.load_spec("agency-brief"), inventory_stub(("budget",)), "", None, walk.layer, OWNERS, [])
+    bundle, good, people_key, _ = good_answer(plan)
+    url_a, url_b = "https://example.gov/notice-a", "https://example.gov/notice-b"
+    records = [{"name": "Ann Example", "title": "Program Manager, PMA/PMW 101", "source_url": url_a},
+               {"name": "Bob Other", "title": "Contracting Officer, PMW 205", "source_url": url_b}]
+    bundle["gathered"] += [{"key": "office:PMW 205", "section": "office", "command": "office", "args": "'PMW 205'",
+                            "output": json.dumps({"contacts": records}, indent=1), "chars": 300, "empty": False, "boundary": None}]
+    c0 = good["sections"][people_key]["claims"][0]
+    with_claims = lambda *claims: {"sections": {**good["sections"], people_key: {**good["sections"][people_key], "claims": list(claims)}}, "reading": "r"}
+    problems = lambda answer: report.check(bundle, answer, plan)["problems"]
+
+    assert problems(with_claims(c0)) == [], "the source names this section's own call"
+    assert problems(with_claims({**c0, "source": "navy.py people PMA/PMW 101"})) == [], "shell quoting does not change the call"
+    unrelated = {**c0, "source": "navy.py office 'PMW 205'"}
+    assert any("only elsewhere" in p for p in problems(with_claims(unrelated))), "the section's own answer no longer rescues an unrelated source"
+    assert problems(with_claims({**c0, "quote": "Program Manager, PMA/PMW 101", "source": url_a})) == [], "the record carrying the URL holds the quote"
+    assert any("only elsewhere" in p for p in problems(with_claims({**c0, "quote": "Contracting Officer, PMW 205", "source": url_a}))), \
+        "a URL vouches only for its own record, not the whole answer that prints it"
+
+
 def test_render_puts_the_boundary_first_and_keeps_facts_apart(walk):
     plan = report.plan(report.load_spec("agency-brief"), inventory_stub(("budget",)), "", None, walk.layer, OWNERS, [])
     bundle, good, people_key, budget_key = good_answer(plan)
