@@ -1,5 +1,6 @@
 """Save one source text under OUT/sources and record it in OUT/sources/index.jsonl, so the checker can tie each
-row's quote to the source its Source cell names.
+row's quote to the source its Source cell names. Each saved result gets its own id (S1, S2, ... in index order),
+printed with the entry; a row cites it as [S12], so two searches that share a prefix never stand in for each other.
 
 usage: <command> | python research/workflow/save_source.py SOURCES_DIR REL_PATH --source "<url or command>"
        python research/workflow/save_source.py SOURCES_DIR REL_PATH --file --source "<command that wrote it>"
@@ -31,7 +32,12 @@ def failure(text):
 
 def save(sources, rel, source, text=None, reason=None):
     source = SECRET.sub(r"\1=REDACTED", source)
-    entry = {"source": source, "file": rel, "status": "ok", "reason": ""}
+    index = os.path.join(sources, "index.jsonl")
+    os.makedirs(sources, exist_ok=True)
+    with open(index, "a+") as fh:
+        fh.seek(0)
+        n = sum(1 for line in fh if line.strip())
+    entry = {"id": f"S{n + 1}", "source": source, "file": rel, "status": "ok", "reason": ""}
     if reason is None and text is not None:
         reason = failure(text)
         if rel and text.strip():
@@ -41,7 +47,7 @@ def save(sources, rel, source, text=None, reason=None):
                 fh.write(text)
     if reason:
         entry.update(status="failed", reason=reason)
-    with open(os.path.join(sources, "index.jsonl"), "a") as fh:
+    with open(index, "a") as fh:
         fh.write(json.dumps(entry) + "\n")
     return entry
 

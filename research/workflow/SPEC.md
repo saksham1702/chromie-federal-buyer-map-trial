@@ -48,10 +48,12 @@ All paths are relative to the repository root; `PY=.venv/bin/python` unless the 
 - Every table row: `| Identifier | What it says (exact quote) | Status | Source | Class | Provenance |`.
   The quote is the source's words, character for character, in double quotes, and it must exist in the file
   the row's Source names. Paraphrase goes in prose, never in the quote column.
-- Source: the url or the command as saved by `save_source.py` (its line in `OUT/sources/index.jsonl` points to
-  the file holding the text), or a record file by path; "same" repeats the row above in the same table. The
-  checker reads the quote only there: a passage from one record never supports a row about another, and a
-  note the run wrote is never a source.
+- Source: the id `save_source.py` printed for the saved result, then its url or command (`[S12] navy.py search
+  radio`; its line in `OUT/sources/index.jsonl` points to the file holding the text), or a record file by path;
+  "same" repeats the row above in the same table. Matching is exact: a url or command without its id must equal
+  the saved one, so `navy.py search radiosonde` never resolves to a saved `navy.py search radio`. The checker
+  reads the quote only there: a passage from one record never supports a row about another, and a note the run
+  wrote is never a source.
 - A refused, rate-limited or empty fetch is saved as failed (`save_source.py --failed`, or automatically for
   empty output and block pages). It is a collection gap: Still open lists it as "not collected" with its
   reason, and no row rests on it. It is never an empty result.

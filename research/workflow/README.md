@@ -36,7 +36,7 @@ ranking rule, has the draft validated three ways, applies the fixes and leaves a
    incomplete.
 
 Everything a quote rests on is saved under `OUT/sources/` through `save_source.py`, so the checker and the
-validators read the same text, and each row's quote is checked only in the source that row cites.
+validators read the same text, and each row's quote is checked only in the saved result that row cites by its id.
 Read only: no pipeline stage, sweep or database write.
 
 ## Run it

@@ -92,6 +92,37 @@ def test_same_and_commands_resolve(tmp_path):
     assert problems(got, "source"), "'same' with no row above resolves to nothing"
 
 
+def test_a_citation_binds_only_the_saved_result_it_names(tmp_path):
+    src = str(tmp_path / "sources")
+    radio = "PMW 170 buys tactical radio terminals for surface ships under the next communications increment."
+    sonde = "The program office fields radiosonde launchers for shipboard weather balloons in FY 2027."
+    run = "AGENCY=navy .venv/bin/python research/tools/navy.py search {} > x.txt"
+    row = '| PMW 170 | "buys tactical radio terminals for surface ships" | Live | {} | primary | tool |'
+    assert save_source.save(src, "tools/radio.txt", run.format("radio"), text=radio)["id"] == "S1"
+    S = check.load(src)
+    for cell in ("[S1] navy.py search radio", "[S1]", "navy.py search radio"):
+        got = check.check(table(row.format(cell)), S)
+        assert not problems(got, "source") and got["quotes"]["not_found"] == 0, cell
+    # a search never saved that shares the saved one's prefix, an unknown id, and an id under another command
+    for cell in ("navy.py search radiosonde", "[S9]", "[S1] navy.py search radiosonde"):
+        got = check.check(table(row.format(cell)), S)
+        assert any("names nothing saved" in p for p in problems(got, "source")), cell
+    assert save_source.save(src, "tools/sonde.txt", run.format("radiosonde"), text=sonde)["id"] == "S2"
+    S = check.load(src)
+    for cell in ("navy.py search radiosonde", "[S2] navy.py search radiosonde"):
+        fail = check.check(table(row.format(cell)), S)["quotes"]["failures"]
+        assert len(fail) == 1 and fail[0]["found_in"].endswith("tools/radio.txt"), "the quote is read only in S2"
+
+
+def test_a_failed_tool_run_is_listed_by_its_own_command(tmp_path):
+    S = sources(tmp_path, failed=[("AGENCY=navy .venv/bin/python research/tools/navy.py office NAVSEA", "timeout")])
+    still = "\n## Still open\n\n{}\n"
+    got = check.check(still.format("navy.py search radio was read; navy.py office NAVSEAL is pending."), S)
+    assert any("is not in Still open" in p for p in problems(got, "gap")), "a script name or a longer command is no listing"
+    for listing in ("not collected: navy.py office NAVSEA (timeout)", "not collected: [S6] (timeout)"):
+        assert not problems(check.check(still.format(listing), S), "gap"), listing
+
+
 def test_record_file_by_path(tmp_path):
     rec = tmp_path / "record" / "events"
     rec.mkdir(parents=True)

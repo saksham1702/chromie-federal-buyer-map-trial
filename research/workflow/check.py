@@ -1,5 +1,5 @@
-"""Mechanical checks on a startup intelligence brief: table shape, each row's exact quote against the source its
-Source cell names (OUT/sources/index.jsonl, written by save_source.py, or a record file), failed fetches listed as
+"""Mechanical checks on a startup intelligence brief: table shape, each row's exact quote against the saved result its
+Source cell names (its id in OUT/sources/index.jsonl, written by save_source.py, or a record file), failed fetches listed as
 gaps, record identifiers against the record (report.py's resolver), the published ranking rule, the fit and lead
 order lines, banned words, people readings and the tally.
 
@@ -42,6 +42,7 @@ SECTIONS = [
     "Bid protests", "Small business routes", "Brief for the first meeting", "Outreach drafts", "Still open",
     "Audit", "How this was produced",
 ]
+SOURCE_ID = re.compile(r"\[(S\d+)\]")
 QUOTE = re.compile(r'"([^"]{12,}?)"|“([^”]{12,}?)”')
 TRANS = str.maketrans({"‘": "'", "’": "'", "“": '"', "”": '"', "–": "-", "—": "-",
                        "‑": "-", " ": " ", " ": " ", "*": None, "`": None})
@@ -83,6 +84,7 @@ def load(src_dir, record_dirs=()):
             for line in fh:
                 if line.strip():
                     e = json.loads(line)
+                    e.setdefault("id", f"S{len(index) + 1}")  # an index written before ids: the same order save_source.py numbers
                     e["path"] = os.path.normpath(os.path.join(src_dir, e["file"])) if e.get("file") else None
                     e["key"] = source_key(e["source"])
                     index.append(e)
@@ -91,13 +93,17 @@ def load(src_dir, record_dirs=()):
 
 
 def resolve(cell, S):
-    """The saved sources a Source cell names: the indexed urls and commands it contains (the longest when one
-    contains another) and the record files it cites by path. A file under the run's sources counts only when
-    indexed, so an agent's own notes never stand in for a source."""
-    key, hits = source_key(cell), []
-    for e in sorted(S["index"], key=lambda e: -len(e["key"])):
-        if len(e["key"]) >= 8 and e["key"] in key and not any(e["key"] in h["key"] != e["key"] for h in hits):
-            hits.append(e)
+    """The saved results a Source cell names, matched exactly, never by a shared prefix: each "[S12]" id is that one
+    result (any url or command written after the id must be the one saved under it), each other part of the cell,
+    split on ";", is a url or command whose key equals an indexed one, and record files are cited by path. A file under
+    the run's sources counts only when indexed, so an agent's own notes never stand in for a source."""
+    hits, by_id = [], {e["id"]: e for e in S["index"]}
+    for part in cell.split(";"):
+        ids, rest = SOURCE_ID.findall(part), source_key(SOURCE_ID.sub(" ", part))
+        if ids:
+            hits += [by_id[i] for i in ids if i in by_id and (not rest or by_id[i]["key"] == rest)]
+        else:
+            hits += [e for e in S["index"] if rest and e["key"] == rest]
     indexed = {e["path"] for e in S["index"] if e["status"] == "ok"}
     for tok in re.findall(r"[\w./-]+\.(?:txt|md|json|html|tsv|csv)\b", cell):
         for path in [os.path.normpath(os.path.join(base, tok)) for base in ("", S["src"], *S["records"])]:
@@ -125,8 +131,8 @@ def source_row(i, passage, source, prov, last, S, quotes, bad):
     found only in another file fails, with where it was found. Returns the resolution for the next row."""
     res = last if source.strip().lower().rstrip(".") in ("same", "same as above") and last else resolve(source, S)
     if not res:
-        bad("source", i, f"Source '{source[:80]}' names nothing saved: index the page or command with save_source.py, "
-                         "or cite the record file")
+        bad("source", i, f"Source '{source[:80]}' names nothing saved: cite the id save_source.py printed for the result "
+                         "([S12]), the url or command exactly as saved, or the record file")
         return res
     ok = [e for e in res if e["status"] == "ok" and e["path"] in S["texts"]]
     if not ok:
@@ -228,8 +234,10 @@ def check(text, S, resolver=None):
     still = norm("\n".join(section_lines(lines, "Still open")))
     open_gaps = gaps(S)
     for e in open_gaps:
-        host = urlparse("//" + e["key"].split()[0]).hostname if "." in e["key"].split()[0] else None
-        if e["key"] not in still and not (host and host in still):
+        first = e["key"].split()[0]
+        host = urlparse("//" + first).hostname if "." in first and not first.endswith(".py") else None  # a tool run has no host
+        named = re.search(re.escape(e["key"]) + r"(?![\w.-])", still) or f"[{e['id'].lower()}]" in still
+        if not named and not (host and host in still):
             bad("gap", 0, f"failed fetch of '{e['source'][:100]}' ({e['reason']}) is not in Still open as not collected")
 
     for i, l in enumerate(lines):
