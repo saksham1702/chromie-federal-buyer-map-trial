@@ -504,6 +504,7 @@ def emit_people(seed: dict, org_ids: dict[str, str], out: list[str], hosts: dict
              lit(AGENCY_NAME), lit("program"), lit(SEED_SOURCE)]
             for node_id, node in people.items()], out)
 
+    dates = observation_dates(seed)
     rows = []
     for rel in seed["relationships"]:
         if rel["type"] != "leads":
@@ -521,15 +522,20 @@ def emit_people(seed: dict, org_ids: dict[str, str], out: list[str], hosts: dict
         if state in ("ended", "superseded") and not rel.get("effective_to"):
             note_skip(f"leadership claim is {state} with no end date; no column can say so")
             continue
+        # observed_at is required and defaults to the load's own time, so it carries the newest observation stating the claim.
+        seen = latest_observed(rel.get("observation_ids"), dates)
+        if not seen:
+            note_skip("leadership claim with no dated observation; observed_at would read as the load time")
+            continue
         rows.append([
             lit(uid("position", rel["id"])), lit(uid("contact", rel["from"])), lit(org_ids[rel["to"]]),
             lit(role_type(rel.get("role_as_written"))), lit(rel.get("role_as_written")),
-            lit(rel.get("effective_from")), lit(rel.get("effective_to")),
+            lit(rel.get("effective_from")), lit(rel.get("effective_to")), lit(seen),
             lit(SEED_SOURCE), lit(rel["id"]),
         ])
     insert("public.gov_contact_positions",
            ["id", "contact_id", "organization_id", "role_type", "raw_title",
-            "valid_from", "valid_to", "source", "source_ref"], rows, out)
+            "valid_from", "valid_to", "observed_at", "source", "source_ref"], rows, out)
     insert("public.agency_brain_items", ITEM_COLUMNS, leadership_events(seed, org_ids, hosts), out)
 
 
@@ -1409,7 +1415,8 @@ def emit_lrae(org_ids: dict[str, str], out: list[str], uics: dict[str, str] | No
             revisions_by_need[key].append(ident)
             award_fy = fiscal_year(row["award_fy"])
             expected_from, expected_to = quarter_bounds(award_fy, row["award_quarter"])
-            statement = row["description"] or needs[key]["title"]
+            # The release's own title: the merged need carries the newest release's, which this release may not state.
+            statement = row["description"] or per_release[(release, key)]["title"]
             assertion(assertions, ident, "requirement", f"requirement:{key}", basis_of(tie),
                       tie_note(tie) + f"{release} states the scope, method ({row['procurement_method'] or 'unstated'}) "
                       f"and award timing ({row['award_fy'] or 'unstated'} {row['award_quarter']}).".strip(),
@@ -2130,14 +2137,18 @@ def selfcheck() -> int:
     r2 = [l for l in "\n".join(edge_lines).splitlines() if "'r2'" in l][0]
     assert r2.rstrip(",").endswith("'https://example.mil/page', '2025-01-02')"), "an edge cites its observation's URL and date"
     seed["relationships"] += [
-        {**rel("r8", "leads", "person:a", "o:0", state="superseded"), "role_as_written": "Program Manager"},
-        {**rel("r9", "leads", "person:b", "o:0"), "role_as_written": "Program Manager"}]
+        {**rel("r8", "leads", "person:a", "o:0", state="superseded"), "role_as_written": "Program Manager", "observation_ids": ["ob:1"]},
+        {**rel("r9", "leads", "person:b", "o:0"), "role_as_written": "Program Manager", "observation_ids": ["ob:1"]},
+        {**rel("r11", "leads", "person:b", "o:1"), "role_as_written": "Deputy Program Manager"}]
     lines = []
     m_ids = dict(ids)
     m_ids.pop("person:a", None)
     emit_people(seed, m_ids, lines, {})
     body = "\n".join(lines)
     assert body.count("'Program Manager'") == 1, "superseded leader must not load as current"
+    # observed_at defaults to the load's own time, so a claim no dated observation states is left out.
+    assert "'2025-01-02'" in [l for l in body.splitlines() if "'Program Manager'" in l][0]
+    assert "'Deputy Program Manager'" not in body, "an undated leadership claim must not read as observed at load time"
 
     # A dated departure and a dated arrival at one office on one day are one leadership change, naming
     # both; an undated claim is none. The FPDS end is the latest completion date any action stated.

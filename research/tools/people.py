@@ -250,16 +250,18 @@ def remarks_people() -> list[tuple[str, str, dict]]:
         office = orgs.most_common(1)[0][0] if len(orgs) == 1 else DEPARTMENT
         people = []
         if doc.get("speaker_name"):
-            people.append((doc["speaker_name"], doc.get("speaker_role") or "", f"spoke: {doc['title']}"))
+            people.append((doc["speaker_name"], doc.get("speaker_role") or "", f"spoke: {doc['title']}", doc["url"]))
+        # The witness list comes from the hearing page, not from this statement, so the hearing page is what names them.
+        hearing = doc.get("hearing_url") or doc["url"]
         for w in doc.get("witnesses") or []:
             if isinstance(w, dict) and w.get("name"):
-                people.append((w["name"], w.get("position") or "", f"witness: {doc['title']}"))
-        for name, role, context in people:
+                people.append((w["name"], w.get("position") or "", f"witness: {doc['title']}", hearing))
+        for name, role, context, url in people:
             if not norm_name(name):
                 continue
             named = [o["office"] for o in resolve_offices(role) if not o["former"]]
             where = named[0] if len(named) == 1 else office
-            out.append((name, "", position(where, role_of(role), role, doc["issued"], source, doc["url"], doc["url"], context)))
+            out.append((name, "", position(where, role_of(role), role, doc["issued"], source, url, url, context)))
     return out
 
 

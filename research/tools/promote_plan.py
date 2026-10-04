@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Plan a promotion of the Navy export into the production agency-intelligence tables.
 
+    python research/tools/promote_plan.py --fresh-check DIR     # write DIR/fresh_check.sql, run it with psql
     python research/tools/promote_plan.py [--db NAME] [--snapshot DIR] [--offices FILE]
     python research/tools/promote_plan.py ... --emit-sql FILE   # write the load file
     python research/tools/promote_plan.py --selfcheck
@@ -24,8 +25,16 @@ mapped parent. One that shares any of those with a production row, whatever its 
 is held with everything pointing at it until --offices names the production row or
 says "new".
 
---snapshot DIR reads production from DIR/<table>.json and fetches a missing table once
-(GET), so the plan and the file's guard describe the same production state. The file
+Rows production's own check constraints refuse are left out with everything pointing
+at them and counted as refused: production keeps procurement sources for state, local,
+tribal and territorial portals only, so the export's federal sources stay in the export.
+
+--fresh-check DIR writes one psql script for the read-only check login: server facts, the
+applied migrations, row counts and the target tables' definitions under DIR/check, and
+every table this plan reads under DIR/snapshot, in one session with the password typed at
+the prompt. --snapshot DIR then reads production only from DIR/<table>.json and stops if a
+table is missing, so the plan and the file's guard describe the same production state and
+no service key is used. Without --snapshot it reads live (GET). The file
 stops before writing if the production offices it relies on changed since then. It
 writes transactions of at most 1,000 parent rows, each child with its parent, and every
 insert skips a row whose primary key exists, so a partly applied file can be rerun;
@@ -45,6 +54,7 @@ import os
 import re
 import subprocess
 import sys
+import tempfile
 import urllib.error
 import urllib.request
 from collections import Counter
@@ -57,6 +67,8 @@ BATCH = 1000
 # Production stamps these itself on insert.
 PRODUCTION_FILLS = {"created_at", "updated_at", "recorded_at"}
 ASSERTIONS = "gov_intelligence_assertions"
+# Production's insert triggers write these: the agency page goes stale and a compile job queues.
+TRIGGER_FILLED = ("agency_brain_pages", "brain_jobs")
 
 # The file's transaction kinds in load order. A batch counts rows of the kind's first
 # table; rows of the others travel in the transaction of the row they point at. Brain
@@ -111,6 +123,11 @@ STOP_KEYS = {
     "gov_needs": unique("source", "source_key"),
     "gov_intelligence_evidence": unique("provider", "source_key"),
     ASSERTIONS: unique("producer", "source_key"),
+}
+# Production's check constraint refuses the row: leave it out, with everything that
+# depends on it. government_level is not null and one of these four in production.
+REFUSED = {
+    "gov_procurement_sources": lambda row: row["government_level"] not in ("state", "local", "tribal", "territorial"),
 }
 
 # Types that may stand in for one another. A program office is never a contracting
@@ -191,12 +208,15 @@ def catalog(dsn: str) -> tuple[dict, dict, dict, dict]:
     return columns, numeric, pk, fks
 
 
-def export_rows(dsn: str, table: str, columns: list[str], numeric: set[str], pk: tuple) -> list[dict]:
+def rows_sql(table: str, columns: list[str], numeric: set[str], pk: tuple) -> str:
     """One JSON row per line. Numeric is read as text, so an amount stays exact."""
     select = ", ".join(f'"{c}"::text as "{c}"' if c in numeric else f'"{c}"' for c in columns)
     order = ", ".join(f'"{c}"' for c in pk)
-    out = psql(dsn, f'select row_to_json(t)::text from (select {select} from public."{table}" order by {order}) t')
-    return [json.loads(line) for line in out.splitlines()]
+    return f'select row_to_json(t)::text from (select {select} from public."{table}" order by {order}) t'
+
+
+def export_rows(dsn: str, table: str, columns: list[str], numeric: set[str], pk: tuple) -> list[dict]:
+    return [json.loads(line) for line in psql(dsn, rows_sql(table, columns, numeric, pk)).splitlines()]
 
 
 def prod_env() -> tuple[str, str]:
@@ -238,13 +258,43 @@ def prod_get(table: str, order: tuple) -> list[dict]:
 
 
 def prod_rows(table: str, snapshot: Path | None, order: tuple) -> list[dict]:
-    path = snapshot / f"{table}.json" if snapshot else None
-    if path and path.exists():
+    if snapshot:
+        path = snapshot / f"{table}.json"
+        if not path.exists():
+            raise SystemExit(f"{path} missing: take the snapshot with --fresh-check and the check login")
         return json.loads(path.read_text())
-    rows = prod_get(table, order)
-    if path:
-        path.write_text(json.dumps(rows))
-    return rows
+    return prod_get(table, order)
+
+
+def fresh_check_sql(tables: list[str], read: dict[str, tuple]) -> str:
+    """One read-only psql session: what step 2 of the load plan reports, then the production rows the plan reads.
+    Run from the directory it was written to, so check/ and snapshot/ land beside it."""
+    names = ", ".join(f"'{t}'" for t in tables)
+    lines = ["-- Fresh production check for the Navy load, generated by research/tools/promote_plan.py.",
+             "-- Run with the read-only check login, from this directory:",
+             "--   psql 'postgresql://chromie_navy_check.<project ref>@<session pooler host>:5432/postgres' -f fresh_check.sql",
+             "\\set ON_ERROR_STOP on", "set default_transaction_read_only = on;", "\\pset footer off",
+             "\\o check/server.txt",
+             "select now() as read_at, version();",
+             "select pg_size_pretty(pg_database_size(current_database())) as database_size,",
+             "       (select pg_size_pretty(sum(size)) from pg_ls_waldir()) as wal_size;",
+             "select state, count(*) from pg_stat_activity where datname = current_database() group by 1 order by 1;",
+             "\\o check/migrations.txt", "select version from supabase_migrations.schema_migrations order by 1;",
+             "\\o check/counts.txt",
+             " union all\n".join(f"select '{t}' as table_name, count(*) from public.\"{t}\"" for t in tables) + ";",
+             "\\o check/definitions.txt",
+             "select table_name, ordinal_position, column_name, data_type, is_nullable, column_default"
+             f" from information_schema.columns where table_schema = 'public' and table_name in ({names}) order by 1, 2;",
+             "select conrelid::regclass as table_name, conname, pg_get_constraintdef(oid) from pg_constraint"
+             f" where conrelid::regclass::text in ({names}) order by 1, 2;",
+             "select tgrelid::regclass as table_name, tgname, pg_get_triggerdef(oid) from pg_trigger"
+             f" where not tgisinternal and tgrelid::regclass::text in ({names}) order by 1, 2;",
+             "\\t on", "\\a"]
+    for table, order in read.items():
+        by = ", ".join(f'"{c}"' for c in order)
+        lines += [f"\\o snapshot/{table}.json",
+                  f"select coalesce(json_agg(t order by {by}), '[]'::json) from public.\"{table}\" t;"]
+    return "\n".join(lines + ["\\o", ""])
 
 
 # ----------------------------------------------------------------- office match
@@ -377,6 +427,12 @@ def resolve_offices(local_rows: list[dict], prod_rows: list[dict], agency_map: d
         else:
             created.append(row)
     return matched, created, held
+
+
+def read_decisions(raw: dict) -> tuple[dict[str, str], dict[str, str]]:
+    """An office decision is a production id or "new", or {"id": ..., "reason": ...} with the reading written down."""
+    decisions = {ref: d["id"] if isinstance(d, dict) else d for ref, d in raw.items()}
+    return decisions, {ref: d["reason"] for ref, d in raw.items() if isinstance(d, dict) and d.get("reason")}
 
 
 def map_agencies(local_rows: list[dict], prod_rows: list[dict]) -> dict[str, str]:
@@ -561,27 +617,20 @@ def verify_references(rows: dict, prod: dict, fks: dict) -> None:
                                  f"that neither production nor this file holds")
 
 
-def main(argv: list[str]) -> int:
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--db", default="postgres", help="local database holding the export")
-    parser.add_argument("--snapshot", type=Path, help="production rows as DIR/<table>.json")
-    parser.add_argument("--offices", type=Path,
-                        help='checked office decisions, JSON {"source_ref": "production id" or "new"}')
-    parser.add_argument("--emit-sql", type=Path)
-    args = parser.parse_args(argv)
-
-    dsn = LOCAL + args.db
+def build(db: str, snapshot: Path | None, offices: dict) -> dict:
+    """Everything the load file is made of: the export, production as read, each office's fate and the final rows,
+    remapped to production's ids. The verifier calls this too, so it checks the rows the file inserts."""
+    dsn = LOCAL + db
     columns, numeric, pk, fks = catalog(dsn)
+    read = {t: pk[t] for t in dict.fromkeys((*MAPPED, *SKIP_KEYS, *STOP_KEYS))}
     wanted = ("agencies", *TABLES)
     if missing := [t for t in wanted if t not in columns]:
-        raise SystemExit(f"{args.db} lacks {', '.join(missing)}")
+        raise SystemExit(f"{db} lacks {', '.join(missing)}")
     carried = {t: [c for c in columns[t] if c not in PRODUCTION_FILLS] for t in wanted}
     export = {t: export_rows(dsn, t, carried[t], numeric.get(t, set()), pk[t]) for t in wanted}
     check_export(export)
-    if args.snapshot:
-        args.snapshot.mkdir(parents=True, exist_ok=True)
-    prod = {t: prod_rows(t, args.snapshot, pk[t]) for t in dict.fromkeys((*MAPPED, *SKIP_KEYS, *STOP_KEYS))}
-    decisions = json.loads(args.offices.read_text()) if args.offices else {}
+    prod = {t: prod_rows(t, snapshot, order) for t, order in read.items()}
+    decisions, reasons = read_decisions(offices)
 
     agency_map = map_agencies(export["agencies"], prod["agencies"])
     matched, created, held = resolve_offices(export["gov_organizations"], prod["gov_organizations"],
@@ -611,6 +660,10 @@ def main(argv: list[str]) -> int:
             dropped.setdefault(table, set()).add(key_of(table, row))
             if table == "agency_brain_items":
                 skipped_items.append((row, prod_id))
+    refused = {table: {key_of(table, r) for r in load[table] if refused_by_production(r)}
+               for table, refused_by_production in REFUSED.items()}
+    for table, keys in refused.items():
+        dropped.setdefault(table, set()).update(keys)
     propagate(load, pk, fks, dropped)
     final = {t: [r for r in load[t] if key_of(t, r) not in dropped.get(t, ())] for t in TABLES}
     for table, keys in STOP_KEYS.items():
@@ -619,9 +672,36 @@ def main(argv: list[str]) -> int:
                              + "; ".join(f"{keys(r)[0]} -> {p}" for r, p in clash[:5]))
     verify_references(final, prod, fks)
 
+    return {"columns": columns, "numeric": numeric, "pk": pk, "fks": fks, "carried": carried, "export": export,
+            "prod": prod, "agency_map": agency_map, "matched": matched, "held": held, "held_rows": held_rows,
+            "reused": reused, "dropped": dropped, "refused": refused, "skipped_items": skipped_items, "final": final,
+            "decisions": decisions, "reasons": reasons, "maps": maps}
+
+
+def main(argv: list[str]) -> int:
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--db", default="postgres", help="local database holding the export")
+    parser.add_argument("--snapshot", type=Path, help="production rows as DIR/<table>.json")
+    parser.add_argument("--offices", type=Path,
+                        help='checked office decisions, JSON {"source_ref": "production id" or "new", '
+                             'or {"id": ..., "reason": ...}}')
+    parser.add_argument("--emit-sql", type=Path)
+    parser.add_argument("--fresh-check", type=Path, help="write DIR/fresh_check.sql for the check login and stop")
+    args = parser.parse_args(argv)
+
+    if args.fresh_check:
+        pk = catalog(LOCAL + args.db)[2]
+        read = {t: pk[t] for t in dict.fromkeys((*MAPPED, *SKIP_KEYS, *STOP_KEYS))}
+        for sub in ("check", "snapshot"):
+            (args.fresh_check / sub).mkdir(parents=True, exist_ok=True)
+        (args.fresh_check / "fresh_check.sql").write_text(fresh_check_sql(["agencies", *TABLES, *TRIGGER_FILLED], read))
+        print(f"wrote {args.fresh_check / 'fresh_check.sql'}; run it there with psql and the check login")
+        return 0
+    built = build(args.db, args.snapshot, json.loads(args.offices.read_text()) if args.offices else {})
+    prod, final, pk, fks, matched, agency_map = (built[k] for k in ("prod", "final", "pk", "fks", "matched", "agency_map"))
     depth = levels(final["gov_organizations"], "parent_organization_id") | levels(final[ASSERTIONS], "supersedes_id")
     plan = [(kind, tables, batches(tables, final, fks, depth)) for kind, tables in KINDS]
-    report(args, export, prod, matched, held, reused, held_rows, dropped, final, skipped_items, plan)
+    report(args, built, plan)
 
     if not args.emit_sql:
         print("\nRe-run with --emit-sql FILE to write the load file. "
@@ -630,47 +710,75 @@ def main(argv: list[str]) -> int:
     created_ids = {r["id"] for r in final["gov_organizations"]}
     guard = guard_sql(prod["gov_organizations"], set(agency_map.values()),
                       {p["id"] for p, _ in matched.values()}, created_ids)
-    emit(args, plan, guard, depth, carried, pk, final)
+    emit(args, plan, guard, depth, built["carried"], pk, final)
     return 0
 
 
-def report(args, export, prod, matched, held, reused, held_rows, dropped, final, skipped_items, plan) -> None:
+def report(args, built: dict, plan) -> None:
+    export, prod, matched, held, reused, held_rows, dropped, final, skipped_items, pk, refused, decisions, reasons = (
+        built[k] for k in ("export", "prod", "matched", "held", "reused", "held_rows", "dropped", "final",
+                           "skipped_items", "pk", "refused", "decisions", "reasons"))
     prod_name = {p["id"]: p["name"] for p in prod["gov_organizations"]}
-    ref_of = {r["id"]: r["source_ref"] for r in export["gov_organizations"]}
+    local = {r["id"]: r for r in export["gov_organizations"]}
     source = f"snapshot {args.snapshot}" if args.snapshot else "live GET"
     print(f"export {args.db} | production {source}\n")
 
-    print(f"offices matched to production rows: {len(matched)}")
-    for local_id, (p, how) in sorted(matched.items(), key=lambda m: (m[1][1], ref_of[m[0]])):
-        print(f"  {ref_of[local_id]:<26} by {how:<11} -> {p['name'][:52]} ({p['org_type']}, {p['id'][:8]})")
+    def because(ref):
+        return f"\n      reason: {reasons[ref]}" if reasons.get(ref) else ""
+
+    how_counts = Counter(how for _, how in matched.values())
+    print(f"offices matched to production rows: {len(matched)} ("
+          + ", ".join(f"{n} by {how}" for how, n in how_counts.most_common()) + ")")
+    for local_id, (p, how) in sorted(matched.items(), key=lambda m: (m[1][1], local[m[0]]["source_ref"])):
+        row = local[local_id]
+        print(f"  {row['source_ref']:<24} by {how:<9} {row['name'][:40]:<40} ({row['org_type']})\n"
+              f"      -> {p['name'][:60]} ({p['org_type']}, {p['id'][:8]}){because(row['source_ref'])}")
     inserted_offices = final["gov_organizations"]
     print(f"\noffices created, parents first: {len(inserted_offices)}")
     for row in inserted_offices:
         parent = row["parent_organization_id"]
-        under = prod_name.get(parent) or ref_of.get(parent) or "no parent"
-        print(f"  {row['source_ref']:<26} {row['org_type']:<26} {row['name'][:34]:<34} under {under[:40]}")
+        under = prod_name.get(parent) or local.get(parent, {}).get("source_ref") or "no parent"
+        decided = " (decided new)" if decisions.get(row["source_ref"]) == "new" else ""
+        print(f"  {row['source_ref']:<26} {row['org_type']:<26} {row['name'][:34]:<34} under {under[:40]}"
+              f"{decided}{because(row['source_ref'])}")
     if held:
         print(f"\noffices held until --offices decides them: {len(held)}, "
               f"with {len(held_rows['gov_organizations']) - len(held)} new offices under them")
         for local_id, twins in held.items():
-            row = next(r for r in export["gov_organizations"] if r["id"] == local_id)
+            row = local[local_id]
             print(f"  {row['source_ref']:<26} {row['org_type']:<26} {row['name'][:48]}")
             for p in twins:
                 print(f"      twin {p['id']}  {p['org_type']:<24} {p['name'][:60]}")
 
-    print(f"\n{'table':<34}{'export':>8}{'reused':>8}{'skipped':>9}{'held':>8}{'inserted':>10}")
+    columns = ("export", "reused", "refused", "skipped", "held", "inserted")
+    print("\n" + f"{'table':<34}" + "".join(f"{c:>9}" for c in columns))
     totals = Counter()
     for table in ("agencies", *TABLES):
-        held_n = len(held_rows.get(table, ()))
-        counts = {"export": len(export[table]), "reused": reused.get(table, 0),
-                  "skipped": len(dropped.get(table, set()) - held_rows.get(table, set())),
-                  "held": held_n, "inserted": len(final.get(table, ()))}
+        held_keys = held_rows.get(table, set())
+        refused_keys = refused.get(table, set()) - held_keys
+        counts = {"export": len(export[table]), "reused": reused.get(table, 0), "refused": len(refused_keys),
+                  "skipped": len(dropped.get(table, set()) - held_keys - refused_keys),
+                  "held": len(held_keys), "inserted": len(final.get(table, ()))}
         assert counts["export"] == sum(v for k, v in counts.items() if k != "export"), (table, counts)
         totals.update(counts)
-        print(f"{table:<34}{counts['export']:>8}{counts['reused']:>8}{counts['skipped']:>9}"
-              f"{counts['held']:>8}{counts['inserted']:>10}")
-    print(f"{'total':<34}{totals['export']:>8}{totals['reused']:>8}{totals['skipped']:>9}"
-          f"{totals['held']:>8}{totals['inserted']:>10}")
+        print(f"{table:<34}" + "".join(f"{counts[c]:>9}" for c in columns))
+    print(f"{'total':<34}" + "".join(f"{totals[c]:>9}" for c in columns))
+
+    detail = sum(len(rows) for t, rows in final.items() if pk[t] != ("id",))
+    reused_by = ", ".join(f"{n:,} {t}" for t, n in reused.items() if n)
+    print(f"""
+reconciliation
+  {totals['export']:>9,}  rows in the export
+  {totals['reused']:>9,}  already in production, so the load points at production's row ({reused_by})
+  {totals['refused']:>9,}  refused by production: federal procurement sources, which production's check
+             constraint does not accept (government_level must be state, local, tribal or territorial)
+  {totals['skipped']:>9,}  left out because production already states the same fact under its own id
+  {totals['held']:>9,}  held until an office decision is written down
+  {totals['inserted']:>9,}  inserted by the load file
+  {totals['inserted'] - detail:>9,}  ids in the manifest: inserted rows less the {detail:,} detail rows, which have no id
+             of their own and cannot commit without the assertion the manifest lists
+  Production's insert triggers also mark the agency page stale, queue page-compile jobs and record each new
+  need's first lifecycle state. Those rows are production's own and are not counted above.""")
     if skipped_items:
         print(f"\nBrain items skipped because production holds the live claim key: {len(skipped_items)}")
         for row, prod_id in skipped_items:
@@ -865,6 +973,11 @@ def selfcheck() -> int:
     assert dropped["gov_need_organizations"] == {("a1",)}
     assert dropped["gov_assertion_evidence"] == {("a1", "ev", "supports"), ("a1", "ev2", "supports")}
 
+    # Production refuses federal sources and a missing level; the other four load.
+    levels_seen = ["federal", None, "state", "local", "tribal", "territorial"]
+    assert [REFUSED["gov_procurement_sources"]({"government_level": g}) for g in levels_seen] == \
+        [True, True, False, False, False, False]
+
     # A row needs the row it points at inserted first, at any depth.
     chain = [{"id": "c", "p": "b"}, {"id": "a", "p": None}, {"id": "b", "p": "a"}, {"id": "z", "p": "elsewhere"}]
     assert levels(chain, "p") == {"a": 0, "b": 1, "c": 2, "z": 0}
@@ -920,6 +1033,19 @@ def selfcheck() -> int:
                           (ASSERTIONS, "gov_requirement_revisions")):
         assert TABLES.index(parent) < TABLES.index(child), f"{parent} must precede {child}"
     assert {"gov_requirement_revisions", "gov_funding_observations", "gov_need_organizations"} <= set(TABLES)
+
+    # With a snapshot, production is read from it alone: a missing table stops, it is never fetched.
+    with tempfile.TemporaryDirectory() as tmp:
+        Path(tmp, "agencies.json").write_text('[{"id": "a"}]')
+        assert prod_rows("agencies", Path(tmp), ("id",)) == [{"id": "a"}]
+        assert refused(lambda: prod_rows("gov_organizations", Path(tmp), ("id",)))
+    script = fresh_check_sql(["agencies", "gov_needs"], {"agencies": ("id",), "gov_needs": ("id",)})
+    assert "set default_transaction_read_only = on;" in script and "\\set ON_ERROR_STOP on" in script
+    assert "\\o snapshot/gov_needs.json" in script and 'json_agg(t order by "id")' in script
+    assert not re.search(r"^\s*(insert|update|delete|create|alter|drop)\b", script, re.I | re.M)
+
+    assert read_decisions({"a": "p1", "b": {"id": "new", "reason": "no twin is this office"}, "c": {"id": "p2"}}) == (
+        {"a": "p1", "b": "new", "c": "p2"}, {"b": "no twin is this office"})
 
     print("selfcheck ok")
     return 0
