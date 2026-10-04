@@ -591,10 +591,13 @@ def check_sql(sql_name: str, manifest_name: str, tables: list[str]) -> str:
     return (f"-- Rows {sql_name} inserted that the database lacks. Every missing count should be 0.\n"
             f"-- Run from the directory holding {manifest_name}. Detail rows and evidence links\n"
             f"-- are covered by their assertion, which cannot commit without them.\n"
+            "-- The read-only check login runs it too: a read-only transaction refuses even a temporary\n"
+            "-- table, so the manifest is read in one read-write transaction that ends in rollback.\n"
             "\\set ON_ERROR_STOP on\n"
+            "begin read write;\n"
             "create temp table manifest (table_name text, id uuid);\n"
             f"\\copy manifest from '{manifest_name}' with (format csv, header)\n"
-            f"{counts}\norder by table_name;\n")
+            f"{counts}\norder by table_name;\nrollback;\n")
 
 
 def check_export(export: dict) -> None:
