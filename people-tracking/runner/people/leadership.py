@@ -530,9 +530,10 @@ def _close_departures(
         basis = event["date_basis"]
         for row in names:
             if row.get("valid_to") is None and str(row.get("valid_from") or "")[:10] <= day:
+                # one basis covers both dates, so the closed post reads stated only when its start and end both are
+                both = basis == "stated" and (not row.get("valid_from") or row.get("date_basis") == "stated")
                 sb.table("gov_contact_positions").update(
-                    {"valid_to": day, "date_basis": basis if basis == "stated" or not row.get("valid_from") else row["date_basis"],
-                     "updated_at": timestamp}
+                    {"valid_to": day, "date_basis": "stated" if both else "observed", "updated_at": timestamp}
                 ).eq("id", row["id"]).execute()
                 row["valid_to"] = day
                 closed += 1

@@ -91,13 +91,14 @@ def detect_fpds_moves(sb: Any, *, now: datetime | None = None) -> dict[str, int]
     codes = {code for moves, _ in found.values() for a, b in moves for code in (a[2], b[2])}
     offices = {row["source_ref"]: row for row in _select_in(sb, "gov_organizations", "id,name,source,source_ref", "source_ref", codes)
                if row.get("source") == "fpds_office"}
-    rows, closes, skipped = [], [], 0
+    rows, closes, skipped, seen = [], [], 0, set()
     for contact, (moves, accounts_held) in found.items():
         person = contacts.get(contact) or {}
         mine = sorted((row for row in positions if str(row["contact_id"]) == contact),
                       key=lambda row: str(row.get("last_observed_at") or ""), reverse=True)
         key = next(f"fpds:{parsed['person']}" for row in accounts_held if (parsed := parse_fpds_user(row["value"])))
         for (a_first, a_last, a_code, a_count), (b_first, b_last, b_code, b_count) in moves:
+            seen.add((f"fpds-move:{a_code}>{b_code}", key))  # still shown by the records even when skipped below
             url_of = {code: next((row["source_url"] for row in mine if row.get("source_ref") == code and row.get("source_url")), None)
                       for code in (a_code, b_code)}
             source_url = url_of[b_code] or url_of[a_code] or next((row["source_url"] for row in mine if row.get("source_url")), None)
@@ -137,8 +138,7 @@ def detect_fpds_moves(sb: Any, *, now: datetime | None = None) -> dict[str, int]
         .eq("source_provider", FPDS_SOURCE).order("id"))}
     for row in rows:
         row["reported_at"] = (held.get((row["source_ref"], row["person_identity_key"])) or row)["reported_at"]
-    current = {(row["source_ref"], row["person_identity_key"]) for row in rows}
-    retracted = [row["id"] for key, row in held.items() if key not in current and row.get("status") != "retracted"]
+    retracted = [row["id"] for key, row in held.items() if key not in seen and row.get("status") != "retracted"]
     for start in range(0, len(retracted), 150):
         sb.table("gov_contact_role_history").update({"status": "retracted", "updated_at": timestamp}).in_(
             "id", retracted[start : start + 150]).execute()

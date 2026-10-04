@@ -233,6 +233,24 @@ class WriterEventTests(unittest.TestCase):
                                        "date_basis": "stated", "valid_from": "2024-06-01"}], source="bio_pages", now=NOW)
         self.assertEqual((stale["positions_inserted"], stale["positions_reactivated"]), (0, 0))
 
+    def test_a_closed_post_reads_stated_only_when_its_start_and_end_both_are(self) -> None:
+        # an observed post is written without a start date, so a stated end is then its only date
+        for start, close, want in [("stated", "observed", "observed"), ("observed", "stated", "stated"),
+                                   ("stated", "stated", "stated")]:
+            db = _db()
+            from orchestration.gov.people.writer import resolve_contacts
+
+            bio = [{"name": "Dana Okafor", "title": "Commander, Fleet Readiness Center Southwest", "agency": NAVY.name,
+                    "source_url": "u", "identifiers": [("name_org", f"dana okafor|{NAVY.name.lower()}")]}]
+            [okafor], _ = resolve_contacts(db, bio, source="bio_pages", now=NOW)
+            upsert_positions(db, [{"contact_id": okafor, "organization_id": "org-frc", "role_type": "other",
+                                   "raw_title": "Commander, Fleet Readiness Center Southwest", "source_ref": "bio",
+                                   "first_observed_at": "2025-05-01", "last_observed_at": "2026-08-01",
+                                   "date_basis": start, "valid_from": "2024-06-01"}], source="bio_pages", now=NOW)
+            write_leadership_events(db, self._change(date_basis=close), source="dvids_leadership", now=NOW)
+            [closed] = [row for row in db.tables["gov_contact_positions"] if row["source"] == "bio_pages"]
+            self.assertEqual((closed["valid_to"], closed["date_basis"]), ("2026-09-03", want), (start, close))
+
     def test_two_stories_of_one_ceremony_are_one_person_and_one_move(self) -> None:
         db = _db()
         first = self._change()
@@ -484,6 +502,23 @@ class DvidsTests(unittest.TestCase):
         run_dvids_monitor(db, get=get, now=NOW, stories_per_run=5, sleep=lambda _s: None)
         run_dvids_monitor(db, get=get, now=NOW, stories_per_run=5, sleep=lambda _s: None)
         self.assertEqual(asked, ["news:1", "news:2", "news:3"])
+
+    def test_a_story_without_a_usable_date_is_read_past(self) -> None:
+        listing = [{"id": "news:1", "date": "2026-09-01T00:00:00Z"}, {"id": "news:2", "date": "2026-09-02T00:00:00Z"}]
+        stories = {"news:1": {"body": "<p>Undated.</p>", "url": "https://www.dvidshub.net/news/1/x", "date_published": ""},
+                   "news:2": {"body": STORY, "url": "https://www.dvidshub.net/news/2/y", "branch": "Navy",
+                              "date_published": "2026-09-04"}}
+
+        def get(path: str, params: dict[str, Any]) -> dict[str, Any]:
+            if path == "search":
+                since = params["from_date"][:10]
+                return {"results": [item for item in listing if item["date"][:10] >= since] if params["page"] == 1 else []}
+            return {"results": stories[params["id"]]}
+
+        db = _db()
+        first = run_dvids_monitor(db, get=get, now=NOW, sleep=lambda _s: None)
+        self.assertEqual((first["stories_read"], first["moves"]), (2, 2))
+        self.assertEqual(run_dvids_monitor(db, get=get, now=NOW, sleep=lambda _s: None)["stories_listed"], 0)
 
     def test_a_model_outage_keeps_what_was_read_and_resumes_at_its_story(self) -> None:
         stories = {

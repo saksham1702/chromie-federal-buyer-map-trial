@@ -61,6 +61,9 @@ function PersonRow({ person }) {
   )
 }
 
+// Inbound moves that are not yet (or not only) an arrival say what the record states, as the alert e-mails do.
+const INBOUND_VERBS = { announcement: " named to ", promotion: " promoted to ", acting: " acting as " }
+
 function MoveRow({ move }) {
   const other = move.direction === "in" ? move.previous_organization
     : move.event_type === "departure" ? null : move.organization
@@ -71,7 +74,8 @@ function MoveRow({ move }) {
         <div className="min-w-0">
           <p className="text-[13.5px] text-cdx-ink">
             <Link href={personHref(move.contact_id)} className="font-medium hover:text-cdx-blue">{move.name}</Link>
-            {move.direction === "in" ? " joined as " : move.event_type === "departure" ? " left " : " left for "}
+            {move.direction === "in" ? INBOUND_VERBS[move.event_type] || " joined as "
+              : move.event_type === "departure" ? " left " : " left for "}
             {move.title}
           </p>
           {move.now ? <p className="mt-0.5 text-[12px] text-cdx-ink-2">Now: {move.now}</p> : null}

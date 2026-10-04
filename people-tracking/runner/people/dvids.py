@@ -111,7 +111,11 @@ def run_dvids_monitor(
             story = get("asset", {"id": item["id"]}).get("results") or {}
         except Exception:
             break  # the rest waits for the next run
-        if story.get("url"):
+        try:
+            dated = bool(story.get("url")) and bool(_published(story))
+        except ValueError:
+            dated = False  # no usable publish date to read the story's dates against: read past it, as one with no url
+        if dated:
             try:
                 found, called = story_events(story, invoke=invoke if model_calls < model_budget else None)
             except Exception:

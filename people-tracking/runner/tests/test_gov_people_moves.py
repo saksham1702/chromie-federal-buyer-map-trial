@@ -105,6 +105,16 @@ class DetectorTests(unittest.TestCase):
         self.assertEqual((result["fpds_moves"], result["moves_retracted"], written["positions_reactivated"]), (0, 1, 1))
         self.assertEqual(db.tables["gov_contact_role_history"][0]["status"], "retracted")
 
+    def test_a_move_skipped_for_a_missing_field_is_not_retracted(self) -> None:
+        db = _db()
+        write_roster(db, _career(), now=NOW)
+        detect_fpds_moves(db, now=NOW)
+        for row in db.tables["gov_contact_positions"]:
+            row["source_url"] = None  # the records still show the move; only the link to cite is gone this run
+        result = detect_fpds_moves(db, now=NOW)
+        self.assertEqual(result["moves_retracted"], 0)
+        self.assertEqual(db.tables["gov_contact_role_history"][0]["status"], "current")
+
 
 class AlertTests(unittest.TestCase):
     def _moved(self) -> _Db:
