@@ -166,3 +166,12 @@ relationships are `gov_organization_relationships` rows (`relationship_type`, da
 observations are evidence references pointing at `research/sources/documents_manifest.jsonl` rows. Fields outside
 the existing columns: `effective_dates_status`, `current_status`, `scope_as_stated`,
 `review_status` with `retraction`, the review record, and interpretations as a table of their own. `consolidated_into` is a new relationship type.
+
+A date column reads as a day a source states. The load writes `effective_from` and `effective_to` only when
+`effective_dates_status` is `documented`; an inferred day stays in the memory with its note (acting from
+May 2023 is not loaded as 2023-05-01). A claim ended or superseded on a day no source states is left out,
+since a row without `valid_to` reads as current.
+A position's `observed_at` carries its newest dated cited observation, and a memory person's `last_seen` the
+newest dated source naming them (a cited observation or a document the people file ties to them); each row
+takes that source's address as `source_url`. A claim or person no dated source states is left out rather than
+dated at load time.

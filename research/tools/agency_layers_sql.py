@@ -367,6 +367,21 @@ def first_url(observation_ids, urls: dict[str, str]) -> str | None:
     return None
 
 
+def newest_url(observation_ids, urls: dict[str, str], dates: dict[str, str]) -> str | None:
+    """The source a row's observed_at is read from: the newest cited observation with a fetchable URL, so the
+    page a reader opens states the claim on the date the row gives."""
+    found = [(dates.get(o) or "", urls[o]) for o in observation_ids or [] if urls.get(o, "").startswith("http")]
+    return max(found)[1] if found else None
+
+
+def documented_dates(rel: dict) -> tuple[str | None, str | None]:
+    """A claim's start and end as a date column may carry them. A date column reads as a day a source states,
+    so a day the memory inferred or set by convention (acting from May 2023 held as 2023-05-01) stays empty."""
+    if rel.get("effective_dates_status") != "documented":
+        return None, None
+    return rel.get("effective_from"), rel.get("effective_to")
+
+
 def release_source_url(release: str) -> str | None:
     path = ROOT / "datapack" / release / "SOURCE.json"
     return json.loads(path.read_text(encoding="utf-8")).get("source_url") if path.exists() else None
@@ -463,16 +478,17 @@ def emit_offices(seed: dict, out: list[str]) -> dict[str, str]:
 def leadership_events(seed: dict, org_ids: dict[str, str], hosts: dict[str, str]) -> list[list[str]]:
     """One derived item per office and day on which someone began or stopped leading it. An arrival
     and a departure the seed dates to the same day are one change, so a succession is one event with
-    both names. A claim with no date states no day to put an event on and is counted instead."""
+    both names. A claim with no documented date states no day to put an event on and is counted instead."""
     names = {n["id"]: n["name"] for n in seed["nodes"]}
     urls = observation_urls(seed)
     changes: dict[tuple[str, str], dict] = {}
     for rel in seed["relationships"]:
         if rel["type"] != "leads" or rel["review_status"] == "retracted" or rel["to"] not in org_ids:
             continue
-        dated = [(day, side) for day, side in ((rel.get("effective_from"), "arrived"), (rel.get("effective_to"), "departed")) if day]
+        start, end = documented_dates(rel)
+        dated = [(day, side) for day, side in ((start, "arrived"), (end, "departed")) if day]
         if not dated:
-            note_skip("leadership claim with no date states no day for an event")
+            note_skip("leadership claim with no documented date states no day for an event")
             continue
         for day, side in dated:
             change = changes.setdefault((rel["to"], day), {"arrived": [], "departed": [], "observations": [], "dates": []})
@@ -497,14 +513,38 @@ def leadership_events(seed: dict, org_ids: dict[str, str], hosts: dict[str, str]
     return rows
 
 
+def person_last_seen(seed: dict) -> dict[str, tuple[str, str | None]]:
+    """Memory person -> (day, url) of the newest dated source naming them: the observations their leadership
+    claims cite and the documents the people file ties to them."""
+    from people import PEOPLE  # noqa: E402
+    urls, dates = observation_urls(seed), observation_dates(seed)
+    found: dict[str, list] = {}
+    for rel in seed["relationships"]:
+        if rel["type"] == "leads" and rel["review_status"] != "retracted":
+            for o in rel.get("observation_ids") or []:
+                if dates.get(o):
+                    found.setdefault(rel["from"], []).append((dates[o], urls[o] if urls.get(o, "").startswith("http") else None))
+    if PEOPLE.exists():
+        for person in json.loads(PEOPLE.read_text(encoding="utf-8"))["rows"]:
+            if person["seed_id"] and person["last_seen"]:
+                found.setdefault(person["seed_id"], []).append((person["last_seen"], person["positions"][0]["source_url"] or None))
+    return {p: max(v, key=lambda d: (d[0], d[1] or "")) for p, v in found.items()}
+
+
 def emit_people(seed: dict, org_ids: dict[str, str], out: list[str], hosts: dict[str, str]) -> None:
     people = {n["id"]: n for n in seed["nodes"] if n["type"] == "person"}
-    insert("public.gov_contacts", ["id", "identity_key", "name", "agency", "role", "source"],
-           [[lit(uid("contact", node_id)), lit(f"{MEMORY_NS}:{node_id}"), lit(node["name"]),
-             lit(AGENCY_NAME), lit("program"), lit(SEED_SOURCE)]
-            for node_id, node in people.items()], out)
+    # last_seen is required and defaults to the load's own time, so it carries the newest source naming the person.
+    named, contacts = person_last_seen(seed), []
+    for node_id, node in people.items():
+        if node_id not in named:
+            note_skip("memory person no dated source names; last_seen would read as the load time")
+            continue
+        day, url = named[node_id]
+        contacts.append([lit(uid("contact", node_id)), lit(f"{MEMORY_NS}:{node_id}"), lit(node["name"]),
+                         lit(AGENCY_NAME), lit("program"), lit(SEED_SOURCE), lit(url), lit(day)])
+    insert("public.gov_contacts", ["id", "identity_key", "name", "agency", "role", "source", "source_url", "last_seen"], contacts, out)
 
-    dates = observation_dates(seed)
+    urls, dates = observation_urls(seed), observation_dates(seed)
     rows = []
     for rel in seed["relationships"]:
         if rel["type"] != "leads":
@@ -518,9 +558,10 @@ def emit_people(seed: dict, org_ids: dict[str, str], out: list[str], hosts: dict
         # valid_to is the only way to say a position is over. A leadership claim a
         # source ended or superseded without giving a date would land as an open
         # current position beside the successor, so it is left out.
+        start, end = documented_dates(rel)
         state = rel["current_status"]["state"]
-        if state in ("ended", "superseded") and not rel.get("effective_to"):
-            note_skip(f"leadership claim is {state} with no end date; no column can say so")
+        if state in ("ended", "superseded") and not end:
+            note_skip(f"leadership claim is {state} with no documented end date; no column can say so")
             continue
         # observed_at is required and defaults to the load's own time, so it carries the newest observation stating the claim.
         seen = latest_observed(rel.get("observation_ids"), dates)
@@ -530,12 +571,12 @@ def emit_people(seed: dict, org_ids: dict[str, str], out: list[str], hosts: dict
         rows.append([
             lit(uid("position", rel["id"])), lit(uid("contact", rel["from"])), lit(org_ids[rel["to"]]),
             lit(role_type(rel.get("role_as_written"))), lit(rel.get("role_as_written")),
-            lit(rel.get("effective_from")), lit(rel.get("effective_to")), lit(seen),
-            lit(SEED_SOURCE), lit(rel["id"]),
+            lit(start), lit(end), lit(seen),
+            lit(SEED_SOURCE), lit(rel["id"]), lit(newest_url(rel.get("observation_ids"), urls, dates)),
         ])
     insert("public.gov_contact_positions",
            ["id", "contact_id", "organization_id", "role_type", "raw_title",
-            "valid_from", "valid_to", "observed_at", "source", "source_ref"], rows, out)
+            "valid_from", "valid_to", "observed_at", "source", "source_ref", "source_url"], rows, out)
     insert("public.agency_brain_items", ITEM_COLUMNS, leadership_events(seed, org_ids, hosts), out)
 
 
@@ -765,17 +806,18 @@ def emit_relationships(seed: dict, org_ids: dict[str, str], out: list[str]) -> N
         # (PMS 312 under PEO CARRIERS, with its farther NAVSEA claim as a row) had no path at all.
         # Ended claims stay too: NEN under PEO EIS until 2020-05-13 is the office's history.
         # valid_to is the only way to say a claim is over. A claim a source ended or
-        # superseded without giving a date would read as current, so it is left out
+        # superseded without stating the day would read as current, so it is left out
         # rather than published as live.
-        if state in ("ended", "superseded") and not rel.get("effective_to"):
-            note_skip(f"claim is {state} with no end date; no column can say so")
+        start, end = documented_dates(rel)
+        if state in ("ended", "superseded") and not end:
+            note_skip(f"claim is {state} with no documented end date; no column can say so")
             continue
         source_org, target_org = rel["from"], rel["to"]
         if rel["type"] in REVERSED:
             source_org, target_org = target_org, source_org
         rows.append([
             lit(uid("orgrel", rel["id"])), lit(org_ids[source_org]), lit(org_ids[target_org]),
-            lit(REL_TYPE[rel["type"]]), lit(rel.get("effective_from")), lit(rel.get("effective_to")),
+            lit(REL_TYPE[rel["type"]]), lit(start), lit(end),
             confidence_for(rel["evidence_class"]), lit(SEED_SOURCE), lit(rel["id"]),
             lit(first_url(rel.get("observation_ids"), urls)), lit(latest_observed(rel.get("observation_ids"), dates)),
         ])
@@ -2073,7 +2115,7 @@ def selfcheck() -> int:
     def rel(ident, kind, src, dst, state="last_confirmed", review="draft", to=None):
         return {"id": ident, "type": kind, "from": src, "to": dst, "review_status": review,
                 "current_status": {"state": state}, "effective_from": None, "effective_to": to,
-                "effective_dates_status": "unknown", "evidence_class": "directly_documented"}
+                "effective_dates_status": "documented" if to else "unknown", "evidence_class": "directly_documented"}
 
     seed = {"nodes": [{"id": f"o:{n}", "type": "program_office", "name": f"Office {n}",
                        "aliases": [], "codes": {}, "observation_ids": ["ob:1"] if n == 0 else []} for n in range(5)],
@@ -2120,6 +2162,14 @@ def selfcheck() -> int:
     former = [l for l in body.splitlines() if "'r10'" in l]
     assert len(former) == 1 and "'2020-05-13'" in former[0], former
     assert former[0].index(ids["o:0"]) < former[0].index(ids["o:2"]), "the child is the source of a child_of edge"
+    # A day the memory inferred is no day a source states: an inferred start stays empty, and a claim
+    # superseded on an inferred day would read as current, so it is left out.
+    guessed = {**rel("r13", "child_of", "o:3", "o:0"), "effective_from": "2023-05-01", "effective_dates_status": "inferred"}
+    gone = {**rel("r14", "child_of", "o:4", "o:0", state="superseded", to="2026-05-10"), "effective_dates_status": "inferred"}
+    lines = []
+    emit_relationships({**seed, "relationships": [guessed, gone]}, ids, lines)
+    body = "\n".join(lines)
+    assert "'r13'" in body and "2023-05-01" not in body and "'r14'" not in body, body
 
     # A leadership claim a source superseded without a date must not load as a
     # current position beside the person who replaced them.
@@ -2149,6 +2199,27 @@ def selfcheck() -> int:
     # observed_at defaults to the load's own time, so a claim no dated observation states is left out.
     assert "'2025-01-02'" in [l for l in body.splitlines() if "'Program Manager'" in l][0]
     assert "'Deputy Program Manager'" not in body, "an undated leadership claim must not read as observed at load time"
+    # A position carries the page its observed date is read from, and only a start a source states.
+    seed["observations"].append({"id": "ob:2", "source_url": "https://example.mil/newer", "observed_at": "2026-04-12"})
+    seed["relationships"][-2].update(observation_ids=["ob:1", "ob:2"], effective_from="2023-05-01", effective_dates_status="inferred")
+    lines = []
+    emit_people(seed, m_ids, lines, {})
+    body = "\n".join(lines)
+    assert "public.gov_contact_positions (id, contact_id, organization_id, role_type, raw_title, valid_from, valid_to, " \
+           "observed_at, source, source_ref, source_url) values" in body, "positions name their source_url column"
+    current = [l for l in body.splitlines() if "'Program Manager'" in l][0]
+    assert "'https://example.mil/newer'" in current and "'2026-04-12'" in current and "2023-05-01" not in current, current
+    assert newest_url(["ob:2", "ob:1"], observation_urls(seed), observation_dates(seed)) == "https://example.mil/newer"
+    assert newest_url(["ob:9"], {}, {}) is None
+    # A memory person's contact is last seen on the newest day a source names them, a superseded claim included;
+    # a person no dated source names is left out rather than seen at load time.
+    seed["nodes"].append({"id": "person:z", "type": "person", "name": "Z", "aliases": [], "codes": {}})
+    lines = []
+    emit_people(seed, m_ids, lines, {})
+    contact = {p: [l for l in "\n".join(lines).splitlines() if f"'{MEMORY_NS}:{p}'" in l] for p in ("person:a", "person:b", "person:z")}
+    assert contact["person:b"][0].rstrip(",").endswith("'https://example.mil/newer', '2026-04-12')"), contact
+    assert contact["person:a"][0].rstrip(",").endswith("'https://example.mil/page', '2025-01-02')"), contact
+    assert not contact["person:z"], "a person no dated source names must not read as seen at load time"
 
     # A dated departure and a dated arrival at one office on one day are one leadership change, naming
     # both; an undated claim is none. The FPDS end is the latest completion date any action stated.
@@ -2156,11 +2227,14 @@ def selfcheck() -> int:
                         {"id": "p:b", "type": "person", "name": "B"}, {"id": "p:c", "type": "person", "name": "C"}],
               "observations": [{"id": "ob:1", "source_url": "https://x.mil/leaders"}],
               "relationships": [{**rel("l1", "leads", "p:a", "o:0", state="ended", to="2025-08-19"), "role_as_written": "Program Manager", "observation_ids": ["ob:1"]},
-                                {**rel("l2", "leads", "p:b", "o:0"), "effective_from": "2025-08-19", "role_as_written": "Program Manager", "observation_ids": ["ob:1"]},
-                                {**rel("l3", "leads", "p:c", "o:0"), "role_as_written": "Deputy"}]}
+                                {**rel("l2", "leads", "p:b", "o:0"), "effective_from": "2025-08-19", "effective_dates_status": "documented",
+                                 "role_as_written": "Program Manager", "observation_ids": ["ob:1"]},
+                                {**rel("l3", "leads", "p:c", "o:0"), "role_as_written": "Deputy"},
+                                {**rel("l4", "leads", "p:c", "o:0"), "effective_from": "2023-05-01", "effective_dates_status": "inferred",
+                                 "role_as_written": "Program Executive Officer (acting from 2023-05)", "observation_ids": ["ob:1"]}]}
     events = leadership_events(people, {"o:0": "org-0"}, {"x.mil": "x_site"})
     assert len(events) == 1 and events[0][9] == "'leadership_change'" and events[0][12] == "'x_site'", events
-    assert "A ended as Program Manager; B began as Program Manager" in events[0][6]
+    assert "A ended as Program Manager; B began as Program Manager" in events[0][6], "an inferred day is no event"
     end = latest_end([{"completion": "2026-09-30", "signed": "2024-01-05"}, {"completion": "2027-09-30", "signed": "2025-03-01"},
                       {"completion": "", "signed": "2025-06-01"}])
     assert (end["completion"], end["signed"]) == ("2027-09-30", "2025-03-01")
