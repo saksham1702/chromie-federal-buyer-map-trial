@@ -21,6 +21,14 @@ with what was read. After the record, a web pass (section 5) adds what the recor
 the record's facts. No other database or API. Write to a working folder
 `pursuit/<agency>-<budget|champions>-<topic slug>/` (DIR below).
 
+Connect once per machine, then log in with `/mcp` using a Supabase account that has the project:
+
+```
+claude mcp add --transport http supabase "https://mcp.supabase.com/mcp?read_only=true&project_ref=bxzxoixtutqpmqjkjvbh"
+```
+
+If `execute_sql` is not available, stop and say the record is not connected; never answer from the web alone.
+
 The views carry every loaded agency. Filter on `agency` with the name exactly as `agent.record_holds` prints it
 (`Department of the Navy`, not `%navy%`).
 
