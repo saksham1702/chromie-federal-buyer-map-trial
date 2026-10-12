@@ -153,14 +153,42 @@ select b.id as item_id, a.canonical_name as agency, b.data ->> 'name' as person,
              and cp.source like '%organization_seed.json' and agent.name_key(c.name) = agent.name_key(b.data ->> 'name'))) as title_as_written,
        b.body as said,
        b.data ->> 'person' as person_id, f.office, f.office_path,
-       coalesce(pa.canonical_name, a.canonical_name) as department
+       coalesce(pa.canonical_name, a.canonical_name) as department,
+       -- how to reach the person: the loaded contact's own address and phone, else a contact from another source
+       -- (SAM, the app) with the same name at the same agency and one address only, said so in contact_basis
+       case when oc.email is not null or oc.phone is not null then oc.email else ac.email end as email,
+       case when oc.email is not null or oc.phone is not null then oc.phone else ac.phone end as phone,
+       case when oc.email is not null or oc.phone is not null then 'our contact record'
+            when ac.email is not null then 'same name at the same agency, from ' || ac.sources end as contact_basis
 from agency_brain_items b
 join agencies a on a.id = b.agency_id
 left join agencies pa on pa.id = a.parent_agency_id
 left join agent.offices f on f.office_id = b.primary_organization_id
 left join lateral jsonb_array_elements(coalesce(b.data -> 'posts', '[]'::jsonb)) as p on true
+left join gov_contacts oc on oc.id = extensions.uuid_generate_v5('7c3d1f5a-9b24-4f8e-8c61-2a0d5e7b41c3'::uuid, 'contact:' || (b.data ->> 'person'))
+left join (
+  -- other sources write the agency as SAM's path ('HOMELAND SECURITY, DEPARTMENT OF.US COAST GUARD',
+  -- 'DEPT OF DEFENSE.DEPT OF THE NAVY.NAVSEA') or as a name with its acronym: the agency's name, its 'X, DEPARTMENT OF'
+  -- form or 'DEPT OF THE X' inside that text places the contact; only agencies with readings are matched (a generic
+  -- name such as 'Administration' would place contacts everywhere)
+  select m.agency_id, agent.name_key(c.name) as name_key, min(c.email) as email,
+         string_agg(distinct c.phone, '; ') as phone, string_agg(distinct coalesce(c.source, 'the app'), ', ') as sources
+    from (select ca.agency, ag.id as agency_id
+            from (select distinct agency, upper(agency) as u from gov_contacts
+                   where (source is null or source not like 'federal-buyer-map-trial/%') and email is not null) ca
+            join (select g.id, upper(g.canonical_name) as u1,
+                         upper(regexp_replace(g.canonical_name, '^Department of ', '')) || ', DEPARTMENT OF' as u2,
+                         case when g.canonical_name like 'Department of the %' then 'DEPT OF THE ' || upper(substr(g.canonical_name, 19)) end as u3
+                    from agencies g
+                   where exists (select 1 from agency_brain_items x where x.agency_id = g.id and x.section = 'people'
+                                    and x.data ? 'bucket' and x.superseded_by is null)) ag
+              on position(ag.u1 in ca.u) > 0 or position(ag.u2 in ca.u) > 0 or position(ag.u3 in ca.u) > 0) m
+    join gov_contacts c on c.agency = m.agency and (c.source is null or c.source not like 'federal-buyer-map-trial/%') and c.email is not null
+   group by 1, 2
+  having count(distinct lower(c.email)) = 1
+) ac on ac.agency_id = a.id and ac.name_key = agent.name_key(b.data ->> 'name')
 where b.section = 'people' and b.data ? 'bucket' and b.superseded_by is null;
-comment on view agent.people_readings is 'One row per person per post. reading is the record''s bucket, written as potential for budget holder, decision maker and champion: a reading, never a fact. basis says how it was reached (listed, stated, self-stated, inferred). "leader by title" is a title and nothing more. Contracting staff are a route, never an advocate. role_as_written is the record''s role code; title_as_written is the post as the source printed it, and said is what the reading rests on: search those two for words like a program name. office is the office the person is filed at, office_path its ancestry; post_status (confirmed_current, recently_observed, history) and observed_at say how current the post is. person_id groups one person''s rows. Contacts are names only: an address or a phone number in the text shows as withheld.';
+comment on view agent.people_readings is 'One row per person per post. reading is the record''s bucket, written as potential for budget holder, decision maker and champion: a reading, never a fact. basis says how it was reached (listed, stated, self-stated, inferred). "leader by title" is a title and nothing more. Contracting staff are a route, never an advocate. role_as_written is the record''s role code; title_as_written is the post as the source printed it, and said is what the reading rests on: search those two for words like a program name. office is the office the person is filed at, office_path its ancestry; post_status (confirmed_current, recently_observed, history) and observed_at say how current the post is. person_id groups one person''s rows. email and phone reach the person: contact_basis says whether they are on our own contact record or matched by the same name at the same agency from another source (a match, not a stated link: say so).';
 
 create or replace view agent.needs as
 select n.id as need_id, a.canonical_name as agency, n.title,

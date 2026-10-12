@@ -117,7 +117,7 @@ FACTS:
 WEB:
 - <finding> (<URL>, read <date>: "<exact quote>")
 INFERENCE: <reading> (rule: <rule>; rests on: <item ids or URLs>)
-NEXT MOVE: contact <who> (<how>), pitch <what> against <the specific line, notice or need>, by <date> (<why>).
+NEXT MOVE: contact <who> (<email or phone, with contact_basis>), pitch <what> against <the specific line, notice or need>, by <date> (<why>).
 ```
 
 For budget, add the money trail per line as a table (requested, Congress, obligated, solicited, still available, who
@@ -154,6 +154,9 @@ Each one cost a wrong "not found" in the 2026-10-10 eval run.
   yourself. A hearing witness whose title names another employer (GAO, MITRE, VFW) is not agency staff. Contracting
   staff are a route, never an advocate, and a forecast contact who also appears as contracting staff is a route too,
   whatever the reading says.
+- Contacts: `email` and `phone` in `agent.people_readings` are how to reach the person; give them in NEXT MOVE.
+  `contact_basis` says where they come from: "our contact record", or "same name at the same agency, from <source>",
+  which is a match, not a stated link: say so beside the address.
 - Views are slow: one statement per call, filter `agency` first, aggregate in SQL, no unions of many view subqueries.
 
 ## Rules
