@@ -73,7 +73,7 @@ left join agencies pa on pa.id = a.parent_agency_id
 left join agent.offices f on f.office_id = b.primary_organization_id
 left join agency_brain_documents d on d.id = coalesce(b.source_document_id, case when b.source ->> 'document_id' ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$' then (b.source ->> 'document_id')::uuid end)
 where b.superseded_by is null;
-comment on view agent.items is 'Every live dated statement in the record (notices, forecast rows, awards, budget, remarks, oversight, people), one row each with its source URL (an http(s) URL: the record''s own, else the cited document''s), sha256 and retrieval date, and source_pages when the document is long. Search title and body with ilike (contacts are names only: an address or a phone number in the text shows as withheld). department is the parent department and office_path the office''s ancestry: a sub-agency (CDC, NIH, FAA) is found by department plus office_path ~ ''\mCDC\M'', not by agency.';
+comment on view agent.items is 'Every live dated statement in the record (notices, forecast rows, awards, budget, remarks, oversight, people), one row each with its source URL (an http(s) URL: the record''s own, else the cited document''s), sha256 and retrieval date, and source_pages when the document is long. Search title and body with ilike. department is the parent department and office_path the office''s ancestry: a sub-agency (CDC, NIH, FAA) is found by department plus office_path ~ ''\mCDC\M'', not by agency.';
 
 create or replace view agent.budget_lines as
 select b.id as item_id, a.canonical_name as agency,
@@ -230,16 +230,20 @@ left join lateral (
        order by (e.source_url ~* '^https?://') desc nulls last limit 1) ev on true
    where rq.need_id = n.id and ia.retracted_at is null
    order by ia.observed_at desc nulls last limit 1) r on true;
-comment on view agent.needs is 'Each requirement (forecast row or notice group) with the office that owns it and the office that contracts for it, as the record ties them (acronyms or codes: search owner_offices, contracting_offices and office_paths, not only the full name). as_of is the date of its newest observation (the notice''s posting, the forecast release''s date), release the forecast release it came in, expected_from/expected_to the dates it states, source_url the notice or forecast file, item_id the statement in agent.items/agent.evidence that quotes it, estimate_as_written the record''s procurement estimate with its own units. Forecast content lives here, not in agent.items. Contacts are names only: an address or a phone number shows as withheld.';
+comment on view agent.needs is 'Each requirement (forecast row or notice group) with the office that owns it and the office that contracts for it, as the record ties them (acronyms or codes: search owner_offices, contracting_offices and office_paths, not only the full name). as_of is the date of its newest observation (the notice''s posting, the forecast release''s date), release the forecast release it came in, expected_from/expected_to the dates it states, source_url the notice or forecast file, item_id the statement in agent.items/agent.evidence that quotes it, estimate_as_written the record''s procurement estimate with its own units. Forecast content lives here, not in agent.items.';
 
 create or replace view agent.evidence as
 select v.brain_item_id as item_id, b.section, b.title,
        case when v.source_url ~* '^https?://' then v.source_url end as source_url,
        v.excerpt, v.published_at, v.provider,
-       v.pages
+       v.pages, a.canonical_name as agency, coalesce(pa.canonical_name, a.canonical_name) as department, f.office_path
 from gov_intelligence_evidence v
-join agency_brain_items b on b.id = v.brain_item_id;
-comment on view agent.evidence is 'The excerpts each statement rests on, with the source URL (http(s) only) and pages. Join to agent.items, agent.people_readings or agent.needs by item_id. An excerpt is what the source says; a statement''s title can say more than its excerpt, so quote the excerpt. Contacts are names only: an address or a phone number an excerpt quotes shows as withheld.';
+join agency_brain_items b on b.id = v.brain_item_id
+join agencies a on a.id = b.agency_id
+left join agencies pa on pa.id = a.parent_agency_id
+left join agent.offices f on f.office_id = b.primary_organization_id
+where b.superseded_by is null;
+comment on view agent.evidence is 'The excerpts each statement rests on, with the source URL (http(s) only) and pages. Join to agent.items, agent.people_readings or agent.needs by item_id. An excerpt is what the source says; a statement''s title can say more than its excerpt, so quote the excerpt.';
 
 do $$ begin
   if not exists (select from pg_roles where rolname = 'agent_reader') then create role agent_reader nologin; end if;

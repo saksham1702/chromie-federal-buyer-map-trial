@@ -59,7 +59,7 @@ budget_statements item_id, agency, kind, title, body, figures_as_written, as_of,
 people_readings   item_id, agency, person, bucket, reading, basis, role_as_written, office_key, post_status, post_source,
                   source_url, observed_at, evidence_rows, title_as_written, said, person_id, office, office_path,
                   department, email, phone, contact_basis
-evidence          item_id, section, title, source_url, excerpt, published_at, provider, pages
+evidence          item_id, section, title, source_url, excerpt, published_at, provider, pages, agency, department, office_path
 ```
 
 ## 1. What the record holds, first
@@ -176,8 +176,8 @@ Each one cost a wrong "not found" in the 2026-10-10 eval run.
 - Sub-agencies (CDC, NIH, FDA, FAA, NESDIS, CISA, PEOs): filter the parent `agency` (or `department`) and match the
   acronym in `office_path` (`needs.office_paths`), e.g. `office_path ~ '\mCDC\M'`. `agency = 'Centers for Disease
   Control and Prevention'` finds almost nothing. `agent.offices` lists the offices under an agency.
-- Offices are stored as acronyms and codes (NESDIS, 75N9xx for NIH contracting): search `owner_offices`,
-  `contracting_offices` and `office_path`, not only the full name.
+- Offices are stored as acronyms and codes (NESDIS, 75N9xx for NIH contracting): on `agent.needs` search
+  `owner_offices`, `contracting_offices` and `office_paths` (`office_path` on the other views), not only the full name.
 - Short acronyms: case-sensitive word boundary (`~ '\mALS\M'`), then confirm with the full name; `ilike '%ALS%'`
   hits 'intervALS' (and EED, SCaN, LIDS hit ordinary words the same way). Old program names do not map to new ones (IVAS is now SBMC): search both.
 - Book columns: a book's current-year column can be a continuing resolution level, not enacted (CISA and NASA
