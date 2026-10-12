@@ -4,20 +4,21 @@ description: >
   For a vendor pursuing a topic at one federal agency, answer one of two questions from production's record, the same
   way every run: where the money for the topic is, from the budget request to what is still available, and who
   potentially holds it (budget, the money trail), or who could back the pursuit with a support letter, a customer memo
-  or an introduction, each with a route to the money (champions). Production only: the read-only `agent` views through
-  the Supabase MCP server. Use when the user says "budget analysis for <topic> at <agency>", "where is the money for
-  <topic>", "who holds the budget for <topic>", "money trail", "what is still available", "who can pay for <topic>",
-  "who could champion <topic>", "letter of support", "customer memo", "potential champions at <agency>", or names a
-  federal agency with a pursuit, budget or champion.
+  or an introduction, each with a route to the money (champions). The record is production's read-only `agent` views
+  through the Supabase MCP server; a web pass follows, labelled apart. Use when the user says "budget analysis for
+  <topic> at <agency>", "where is the money for <topic>", "who holds the budget for <topic>", "money trail", "what is
+  still available", "who can pay for <topic>", "who could champion <topic>", "letter of support", "customer memo",
+  "potential champions at <agency>", or names a federal agency with a pursuit, budget or champion.
 user-invokable: true
-argument-hint: "<agency> <topic> budget|champions [--office OFFICE]"
+argument-hint: "<agency> <topic> budget|champions [--office OFFICE] [--no-web]"
 ---
 
 # Pursuit: the money, or the people who could back it
 
-Every fact comes from production through the Supabase MCP server in read-only mode (`execute_sql`, SELECT only), and
-only from the `agent` schema: never the raw tables, never a write, and no other source (no web, no files, no other
-APIs). What the views do not hold is stated as not held, with what was read. Write to a working folder
+The record is production, read through the Supabase MCP server in read-only mode (`execute_sql`, SELECT only), and
+only from the `agent` schema: never the raw tables, never a write. What the views do not hold is stated as not held,
+with what was read. After the record, a web pass (section 5) adds what the record cannot hold fresh, kept apart from
+the record's facts. No other database or API. Write to a working folder
 `pursuit/<agency>-<budget|champions>-<topic slug>/` (DIR below).
 
 The views carry every loaded agency. Filter on `agency` with the name exactly as `agent.record_holds` prints it
@@ -62,9 +63,11 @@ labelled (request, enacted, actual, forecast estimate).
    vendor, award, end date.
 4. Solicited: the open notices and forecast lines the line's office is buying (`agent.needs`), dates and estimates
    as written.
-5. Still available: a floor, only where the record holds the line's amount and what is obligated or solicited
-   against it for the same fiscal year: amount minus obligated minus solicited. Say which fiscal year's money it is,
-   that multi-year money carries over, and that a floor is not a promise of funds. Otherwise the link stops, with why.
+5. Still available: a floor, only where the line's amount and what is obligated or solicited against it are known
+   for the same fiscal year: amount minus obligated minus solicited. Obligations to date for the account are not in
+   the views; take them from the web pass, as the agency publishes them, labelled as web. Say which fiscal year's
+   money it is, that multi-year money carries over, and that a floor is not a promise of funds. Otherwise the link
+   stops, with why.
 6. Who holds it: `placed_office`, on the basis the record states, and that office's people (`agent.people_readings`).
    Its listed head is a *potential* budget holder only as an inference resting on two claims (the role, and money
    placed in that office). An empty `placed_office` means the line sits at agency level: say "not placed in an
@@ -89,12 +92,31 @@ champion: give candidates from several angles (end users, technical, program man
 the direct route to the potential budget holder, so the vendor can go through a champion or straight to the money. A
 champion with a money route ranks above one without.
 
-## 5. Write the answer
+## 5. The web, after the record (on unless `--no-web`)
+
+Search the web for what a "not held" line names, then for what the record cannot hold fresh: amendments, award size
+and page limits on the topic or notice page, the sponsor it names, obligations to date on the line's account, who
+holds a post today, the office's small business specialist, news within the month. A benchmark on 2026-10-12 (the
+same questions, Claude with web search alone) found those on the web and not in the record, while only the record
+held forecast fields, topic authors, notice deadlines and contracting officers, award history and budget line moves.
+
+- Web findings never go under FACTS: they go under WEB, one row each with what it adds, the exact quote, the URL and
+  the date read.
+- Quote only page text you opened. A search snippet is the tool's wording, labelled so, and confirms nothing. A page
+  that would not open is "not collected".
+- Prefer the agency's own pages, the solicitation portal and congress.gov over news and consultant pages, and say
+  which kind each source is. LinkedIn is self-stated: use it only when name and office match the record.
+- When the web and the record disagree, show both with their dates; never overwrite the record.
+- A potential role reading still needs two claims; a web page can be one of them, labelled as web.
+
+## 6. Write the answer
 
 ```
 FACTS:
 - <fact> (agent.VIEW item_id=ID: "<exact quote>")
-INFERENCE: <reading> (rule: <rule>; rests on: <item ids>)
+WEB:
+- <finding> (<URL>, read <date>: "<exact quote>")
+INFERENCE: <reading> (rule: <rule>; rests on: <item ids or URLs>)
 NEXT MOVE: contact <who> (<how>), pitch <what> against <the specific line, notice or need>, by <date> (<why>).
 ```
 
@@ -136,12 +158,14 @@ Each one cost a wrong "not found" in the 2026-10-10 eval run.
 
 ## Rules
 
-- Production only, read-only, through the `agent` views. No other source.
+- The record is production, read-only, through the `agent` views. The web adds to it under WEB, never replaces it.
+  No other database or API.
 - Facts, inferences and recommendations stay apart. Never infer authority, a decision or advocacy from a title alone.
 - Nothing is zero that was not read. Name offices as the record writes them. No likely, probably, imminent, soon.
 
 ## Hand back
 
-The answer file in DIR, the anchor offices with their basis, what the record does not hold, and the main rows: for
+The answer file in DIR, the anchor offices with their basis, what the record does not hold, what the web added, and
+the main rows: for
 budget, the money trail per line; for champions, the ranked candidates with their money routes. Do not paste the
 whole answer.
