@@ -8,8 +8,8 @@ description: >
   read-only agent views through the Supabase MCP server); the web only for the gaps the
   record states. Use when the user says "budget analysis for <topic> at <agency>", "where is the money for <topic>",
   "who holds the budget for <topic>", "who could champion <topic>", "letter of support", "customer memo", "potential
-  champions at <agency>", or names an agency key (navy, darpa, army, airforce, dhs, doe, nasa, noaa, hhs, va) with a
-  pursuit, budget or champion.
+  champions at <agency>", or names an agency key (navy, darpa, army, airforce, dhs, doe, nasa, noaa, hhs, va, gsa,
+  epa, dot) with a pursuit, budget or champion.
 user-invokable: true
 argument-hint: "<agency key> <topic> budget|champions [--office OFFICE] [--web]"
 ---
@@ -28,8 +28,9 @@ pursuit's rules and the web gap-fill. Work from the repository root with `.venv/
 ```
 
 Tell the user the record's date and what is absent before anything else. A missing domain is "not in this record",
-never zero: no budget lines (NASA, DOE, NOAA today) means the budget answer rests on forecasts and awards only; no
-people beyond contracting staff (DOE, NOAA today) means champions come from offices and notice contacts only.
+never zero: no budget lines (only Navy, Army, Air Force, DARPA and DHS have them today) means the budget answer rests
+on statements, directives, forecasts and awards; no people beyond contracting staff (Army, DOE, NOAA today) means
+champions come from offices and notice contacts only.
 
 ## 2. Plan and gather
 
@@ -115,6 +116,34 @@ An agent with no checkout reads the same record from production, through the Sup
 4. Champions: `agent.people_readings`. `reading` already says "potential"; keep `basis` and `observed_at`, and the
    two-claim rule of section 3 still holds.
 5. `agent.evidence` by `item_id`: the excerpt and URL a statement rests on.
+
+Usage rules (each one cost a wrong "not found" in the 2026-10-10 eval run):
+- Forecasts: query `agent.needs` (`source like '%datapack'`), not `agent.items` section `forecast` (locator-only
+  rows for most civilian agencies). `as_of`, `release`, `estimate_as_written` and `source_url` date and cite a need.
+- Sub-agencies (CDC, NIH, FDA, FAA, NESDIS, CISA, PEOs): filter the parent `agency` (or `department`) and match the
+  acronym in `office_path` (`needs.office_paths`), e.g. `office_path ~ '\mCDC\M'`. `agency = 'Centers for Disease
+  Control and Prevention'` finds almost nothing. `agent.offices` lists the offices under an agency.
+- Offices are stored as acronyms and codes (NESDIS, 75N9xx for NIH contracting): search `owner_offices`,
+  `contracting_offices` and `office_path`, not only the full name.
+- Short acronyms: case-sensitive word boundary (`~ '\mALS\M'`), then confirm with the full name; `ilike '%ALS%'`
+  hits 'intervALS'. Old program names do not map to new ones (IVAS is now SBMC): search both.
+- Budget lines: never sum across `measure`s (a program block repeats its book line); filter
+  `measure ilike '%book line'` and name the book (PB2026 and PB2027 print the same year differently). A null
+  `amount_musd` is a column with no figure in the record: say so, never zero. A program block's `source_url` is the
+  program listing; the book's citation is in `agent.evidence` for the same `item_id`.
+- Directives: search `body` as well as `title` (headings can be 'Briefing'); the year is `fiscal_year`
+  (or `figures_as_written->>'fiscal_year'`). Qualify columns when joining a view to a table (`s.kind`).
+- A null `source_url` after v2 means no public URL in the record: say so; never cite a `local://` path.
+- People: `reading` already says "potential"; "leader by title" is a title only, never a decision maker or budget
+  holder. Quote `title_as_written` (the source's words), not `role_as_written` (a role code). `post_status` and
+  `observed_at` answer "is this person current": take the newest `observed_at` across all of the person's rows, since
+  one person's posts can sit under several office keys (a center and its contracting office). Group one person by
+  `person_id`; a name can still appear as two
+  people ("GRIFFIN, JIM" and "James Griffin"): say so, never merge them yourself. A hearing witness whose title names
+  another employer (GAO, MITRE, VFW) is not agency staff. Contracting staff are a route, never an advocate, and a
+  forecast contact who also appears as contracting staff is a route too, whatever the reading says.
+- `record_holds` counts rows, not coverage: read a few rows before calling a section covered.
+- Views are slow: one statement per call, filter `agency` first, aggregate in SQL, no unions of many view subqueries.
 
 Save each query and its full result under `DIR/sql/NN-view.json`. A claim's source is
 `mcp:supabase execute_sql agent.VIEW item_id=ID` (or `need_id=`), its quote copied exactly from that saved result, its
