@@ -2,16 +2,18 @@
 name: pursuit
 description: >
   For a vendor pursuing a topic at one federal agency, answer one of two questions from this repository's record, the
-  same way every run: where the money for the topic is and who potentially holds it (budget), or who could back the
-  pursuit with a support letter, a customer memo or an introduction (champions). Record first, through the agency's
+  same way every run: where the money for the topic is, from the budget request to what is still available, and who
+  potentially holds it (budget, the money trail), or who could back the pursuit with a support letter, a customer memo
+  or an introduction, each with a route to the money (champions). Record first, through the agency's
   read surface (research/tools/navy.py, its MCP server named by the agency key, or with no checkout production's
-  read-only agent views through the Supabase MCP server); the web only for the gaps the
-  record states. Use when the user says "budget analysis for <topic> at <agency>", "where is the money for <topic>",
-  "who holds the budget for <topic>", "who could champion <topic>", "letter of support", "customer memo", "potential
+  read-only agent views through the Supabase MCP server); then the web, labelled apart, for the gaps the record states
+  and what it cannot hold fresh. Use when the user says "budget analysis for <topic> at <agency>", "where is the money
+  for <topic>", "who holds the budget for <topic>", "money trail", "what is still available", "who can pay for
+  <topic>", "who could champion <topic>", "letter of support", "customer memo", "potential
   champions at <agency>", or names an agency key (navy, darpa, army, airforce, dhs, doe, nasa, noaa, hhs, va, gsa,
   epa, dot) with a pursuit, budget or champion.
 user-invokable: true
-argument-hint: "<agency key> <topic> budget|champions [--office OFFICE] [--web]"
+argument-hint: "<agency key> <topic> budget|champions [--office OFFICE] [--no-web]"
 ---
 
 # Pursuit: the money, or the people who could back it
@@ -56,11 +58,24 @@ source, source = that tool call), `inferences` (inference, rule, rests_on claim 
 An identifier names what the claim is about as the record writes it: a record id, a full office name, a person, a
 budget line with its appropriation (`1319 line 0604518N`), a record file.
 
-**Budget.** Each money claim carries its line or program identifier, fiscal year, amount and the measure exactly as
-labelled (request, enacted, obligated, forecast estimate). Who holds it follows the chain: Congress funds the line;
-the line is placed in an office on the basis the record states; the office's listed head is a *potential* budget
-holder only as an inference resting on two claims (the role, and a line placed in that office). "Remaining" is a
-floor, with its caveats. A contracting office holds no placed budget: it buys for others.
+**Budget: the money trail.** Follow each line or program through six links, one row per link, each marked as stated
+by a source or inferred by a named rule. Every money claim carries its line or program identifier, fiscal year,
+amount and the measure exactly as labelled (request, enacted, obligated, forecast estimate).
+
+1. Requested: the budget justification line and its amount by fiscal year.
+2. Congress: the marks, directives and funding changes on that line, or on its PPA, program element or account.
+3. Obligated: what the account and program activity behind the line has obligated this fiscal year, as published
+   for that account, and the awards under it that are still running (vendor, award, end date).
+4. Solicited: the open notices and forecast lines the line's office is buying, dates and estimates as written.
+5. Still available: a floor, budgetary resources minus obligations for that account and program activity, less what
+   is already solicited. Say which fiscal year's money it is, that multi-year money carries over, and that a floor is
+   not a promise of funds.
+6. Who holds it: the office the line is placed in, on the basis a source states, and that office's people. Its
+   listed head is a *potential* budget holder only as an inference resting on two claims (the role, and money placed
+   in that office). A contracting office holds no placed budget: it buys for others.
+
+A link the sources do not reach says what was read and why it stops (no placement, an account shared by many
+programs, a request not yet enacted), never zero.
 
 **Champions.** A candidate needs a documented role quoted as written, plus at least one separate fact tying the
 person or office to this topic's problem or money (a forecast row or notice naming them, a line placed in their
@@ -69,6 +84,13 @@ liaison; technical; potential decision maker. Contracting staff are a route, nev
 current ranks above one last seen on a date. Every reading is "potential", rests on two claims or more, and says
 what is still to confirm; "willing to advocate" is "none found" unless a source says so. An office with no named
 person stays as an office row.
+
+A champion with no purchasing power, and no line to someone who has it, moves nothing. For every champion give the
+money route: the office or person above them that holds money for this topic (link 6 of the money trail, reached
+through the office's parent chain), or "none found" with what was read. Never stop at one champion: give candidates
+from several angles (end users, technical, program management, liaison) and, beside them, the direct route to the
+potential budget holder, so the vendor can go through a champion or straight to the money. A champion with a money
+route ranks above one without.
 
 ## 4. Check until clean, then render
 
@@ -80,10 +102,14 @@ person stays as an office row.
 Fix every problem the checker names (a quote not in its step's answer, an unknown identifier, a role word without
 "potential", an inference without a rule or on fewer than two claims) and run it again.
 
-## 5. The web, only for the stated gaps (when the user asks for it, or `--web`)
+## 5. The web, after the record (on unless `--no-web`)
 
-After the record's report is clean, look up only what a boundary or `not_found` names. Navy's budget justification
-books are already saved in `data/raw/jbooks/`: read those before the web. Then: the agency's budget
+After the record's report is clean, look up what a boundary or `not_found` names, then what the record cannot hold
+fresh: amendments, award size and page limits on the topic or notice page, the sponsor it names, who holds a post
+today, the office's small business specialist, news within the month. A benchmark on 2026-10-12 (the same questions,
+Claude with web search alone) found those on the web and not in the record, while only the record held forecast
+fields, topic authors, notice deadlines and contracting officers, award history and budget line moves. Navy's budget
+justification books are already saved in `data/raw/jbooks/`: read those before the web. Then: the agency's budget
 justification or comptroller pages, USAspending, congress.gov, SAM.gov, an official biography or organization chart to
 confirm a post is current, a conference agenda. Save each page read:
 
@@ -113,8 +139,13 @@ An agent with no checkout reads the same record from production, through the Sup
    research files (office_owners.json) are not in production. Then `agent.budget_statements`: congressional
    directives, funding changes quoted from remarks and summary figures (most of the civilian agencies' money is here).
    Quote `body` or `figures_as_written` as written, units included; never convert or add across items.
+   Then the rest of the money trail (section 3): what the line's office is soliciting from `agent.needs`, the awards
+   still running from `agent.items` section `vendors_incumbents`, and the office the line is placed in. Obligations
+   and budgetary resources for the account are not in the views: take them from the web pass (section 5) as
+   published, or say the link stops there.
 4. Champions: `agent.people_readings`. `reading` already says "potential"; keep `basis` and `observed_at`, and the
-   two-claim rule of section 3 still holds.
+   two-claim rule of section 3 still holds. For each champion's office, walk `agent.offices` (`parent_office`,
+   `office_path`) up to the office that holds the money from step 3: that path is the champion's money route.
 5. `agent.evidence` by `item_id`: the excerpt and URL a statement rests on.
 
 Usage rules (each one cost a wrong "not found" in the 2026-10-10 eval run):
@@ -158,5 +189,6 @@ identifier the record id, line or person as the row writes it. The rules of sect
 ## Hand back
 
 The path of `report.md` (and `web.md`), the checker's counts, the anchor offices with their basis, the boundaries,
-and the top rows: for budget, the lines and amounts by fiscal year with who potentially holds them; for champions, the
-ranked candidates with the two claims each rests on and what is still to confirm. Do not paste the whole report.
+and the main rows: for budget, the money trail per line (requested, Congress, obligated, solicited, still available,
+who potentially holds it), each link stated or inferred; for champions, the ranked candidates with the two claims each
+rests on, the money route, and what is still to confirm. Do not paste the whole report.
