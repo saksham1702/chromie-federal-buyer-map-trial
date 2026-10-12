@@ -43,6 +43,25 @@ The views carry every loaded agency. Filter on `agency` with the name exactly as
 | `agent.people_readings` | Potential readings on people, with basis, post, title as written and date observed |
 | `agent.evidence` | The excerpt and URL each statement rests on, by `item_id` |
 
+Columns (a guessed name fails the query):
+
+```
+record_holds      agency, section, rows, newest, department
+offices           office_id, agency, department, office, acronym, org_type, parent_office, office_path, active
+items             item_id, agency, section, event_type, title, body, as_of, published_at, source_url, sha256, retrieved_at,
+                  source_provider, source_tier, organization, department, office_path, source_pages
+needs             need_id, agency, title, description, lifecycle, source, source_key, owner_offices, contracting_offices,
+                  as_of, release, expected_from, expected_to, source_url, item_id, estimate_as_written, office_paths, department
+budget_lines      item_id, agency, line, title, appropriation, budget_activity, book_column, fiscal_year, amount_musd, measure,
+                  placed_office, source_url, sha256, retrieved_at, book_date, department, office_path
+budget_statements item_id, agency, kind, title, body, figures_as_written, as_of, published_at, source_url, retrieved_at,
+                  source_provider, placed_office, fiscal_year, source_pages, department, office_path
+people_readings   item_id, agency, person, bucket, reading, basis, role_as_written, office_key, post_status, post_source,
+                  source_url, observed_at, evidence_rows, title_as_written, said, person_id, office, office_path,
+                  department, email, phone, contact_basis
+evidence          item_id, section, title, source_url, excerpt, published_at, provider, pages
+```
+
 ## 1. What the record holds, first
 
 Query `agent.record_holds` for the agency. Tell the user the record's newest dates and what is absent before
@@ -50,6 +69,11 @@ anything else. A missing section is "not in this record", never zero: an agency 
 answer rests on statements, directives, forecasts and awards; an agency with no people beyond contracting staff means
 champions come from offices and notice contacts only. `record_holds` counts rows, not coverage: read a few rows
 before calling a section covered.
+
+Every "not held" line says what was read for that item and what it shows: a blank column, a printed "--", a book
+column that is a continuing resolution level, a section not loaded for this agency, a notice held as a title only, or
+a figure not yet published. Name the web page that fills it if section 5 found one. A bare "not in the record" is not
+an answer: the 2026-10-12 benchmark failed 8 of 10 answers on it.
 
 ## 2. The topic and its anchor offices
 
@@ -64,8 +88,10 @@ named rule. Every money claim carries its line or program identifier, fiscal yea
 labelled (request, enacted, actual, forecast estimate).
 
 1. Requested: the line in `agent.budget_lines`, its `book_column` and `measure` as written, by fiscal year.
-2. Congress: `agent.budget_statements` on that line, or on its PPA, program element, appropriation or account:
-   marks, directives and funding changes, `body` or `figures_as_written` quoted with units.
+2. Congress: `agent.budget_statements` on that line, or on its PPA, program element, appropriation or account, and
+   `agent.items` with `event_type` in ('congressional_directive', 'funding_change'): most directives sit there under
+   section `mission_priorities`, outside `budget_statements`. Marks, directives and funding changes, `body` or
+   `figures_as_written` quoted with units.
 3. Obligated: the book's prior-year actual column for the line where the book prints one, and the awards under the
    line's office that are still running (`agent.items` section `vendors_incumbents`; the title carries the end date):
    vendor, award, end date.
@@ -78,8 +104,10 @@ labelled (request, enacted, actual, forecast estimate).
    stops, with why.
 6. Who holds it: `placed_office`, on the basis the record states, and that office's people (`agent.people_readings`).
    Its listed head is a *potential* budget holder only as an inference resting on two claims (the role, and money
-   placed in that office). An empty `placed_office` means the line sits at agency level: say "not placed in an
-   office" and name no holder. A contracting office holds no placed budget: it buys for others.
+   placed in that office). An empty `placed_office`, or the agency itself, means the line sits at agency level: say
+   "not placed in an office" and name no holder from the record. The web pass then looks for the office that runs
+   the program (the agency's program page, the budget book's narrative) and names it under WEB as an inference. A
+   contracting office holds no placed budget: it buys for others.
 
 A link the record does not reach says what was read and why it stops (no placement, an account shared by many
 programs, a request not yet enacted), never zero.
@@ -95,7 +123,10 @@ last seen on a date. Every reading is "potential", rests on two claims or more, 
 
 A champion with no purchasing power, and no line to someone who has it, moves nothing. For every champion give the
 money route: walk `agent.offices` (`parent_office`, `office_path`) from the champion's office up to the office that
-holds money for this topic (link 6 of the money trail), or say "none found" with what was read. Never stop at one
+holds money for this topic (link 6 of the money trail), or say "none found" with what was read. Where no line is
+placed in an office (most civilian agencies), the route is the channel the money moves through: an open solicitation,
+BAA or other transaction call, a grant program or assistance listing, or a forecast row's requirement owner, named as
+the record or the web states it. Never stop at one
 champion: give candidates from several angles (end users, technical, program management, liaison) and, beside them,
 the direct route to the potential budget holder, so the vendor can go through a champion or straight to the money. A
 champion with a money route ranks above one without.
@@ -106,7 +137,9 @@ Search the web for what a "not held" line names, then for what the record cannot
 and page limits on the topic or notice page, the sponsor it names, obligations to date on the line's account, who
 holds a post today, the office's small business specialist, news within the month. A benchmark on 2026-10-12 (the
 same questions, Claude with web search alone) found those on the web and not in the record, while only the record
-held forecast fields, topic authors, notice deadlines and contracting officers, award history and budget line moves.
+held forecast fields, contracting officers, award history and budget line moves. Notice text in the views is often a
+title only, and SBIR topic authors and notice deadlines are often absent: take them from the topic or notice page. A DoD SBIR or STTR topic's TPOC names, e-mails and phones are on its
+DSIP listing (dodsbirsttr.mil); aggregators such as HigherGov drop the addresses.
 
 - Web findings never go under FACTS: they go under WEB, one row each with what it adds, the exact quote, the URL and
   the date read.
@@ -146,7 +179,9 @@ Each one cost a wrong "not found" in the 2026-10-10 eval run.
 - Offices are stored as acronyms and codes (NESDIS, 75N9xx for NIH contracting): search `owner_offices`,
   `contracting_offices` and `office_path`, not only the full name.
 - Short acronyms: case-sensitive word boundary (`~ '\mALS\M'`), then confirm with the full name; `ilike '%ALS%'`
-  hits 'intervALS'. Old program names do not map to new ones (IVAS is now SBMC): search both.
+  hits 'intervALS' (and EED, SCaN, LIDS hit ordinary words the same way). Old program names do not map to new ones (IVAS is now SBMC): search both.
+- Book columns: a book's current-year column can be a continuing resolution level, not enacted (CISA and NASA
+  print "annualized CR"): quote `book_column` as written and never call it enacted unless it says so.
 - Budget lines: never sum across `measure`s (a program block repeats its book line); filter
   `measure ilike '%book line'` and name the book (PB2026 and PB2027 print the same year differently). A null
   `amount_musd` is a column with no figure in the record: say so, never zero. A program block's `source_url` is the

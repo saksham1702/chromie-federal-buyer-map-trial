@@ -43,5 +43,38 @@ Add dated technical and product decisions here.
   by id where null on our rows (identity keys untouched): HHS 1,413, DHS 1,188, DOT 650, EPA 262. Rehearsed on each
   local copy, then a rolled-back run on production, then applied. People with an e-mail in the view: DHS 844 of 2,006,
   HHS 876 of 1,867, DOT 409 of 592, EPA 153 of 205.
-- **Open.** The builder still defaults to names only and captures no phone; flipping it changes people items for every
-  agency, so it waits on a local rebuild compare before the next top-up.
+- **Resolved below.** The builder still defaulted to names only and captured no phone; flipping it changed people items for every
+  agency, so it waited on a local rebuild compare (done: EPA rebuilt identical).
+
+## 2026-10-12 - The people builder writes every address and phone on the person, and stored text stays as loaded
+
+- **Owner, 2026-10-11/12:** "emails, contacts everything". `research/tools/people.py` now writes each person's
+  `emails` and `phones` (a SAM.gov point of contact's phone field; an old notice's single field holding several contacts
+  gives no one its phone), and `emit_contacts` writes `gov_contacts.phone`.
+- **Assumption.** Passages and identity keys stay names only (`KEEP_EMAILS` still False): rows already loaded rebuild
+  identical, Apollo answers keyed by the person key still match, and the plan never meets a changed row. The contact
+  row carries the address and phone, and `agent.people_readings` shows them. Forecast e-mail and phone columns are not
+  read yet: an address there would change how forecast contacts merge, so person ids would move.
+- **Checked.** people selfcheck (Navy) and agency_layers_sql selfcheck ok; tests/test_people*.py 10 passed. EPA rebuilt:
+  323 people, same ids, keys, positions and offices as before; 262 with an e-mail, 246 with a phone.
+
+
+## 2026-10-12 - Phones in production contacts, and a people view that answers a whole agency in seconds
+
+- **Owner, 2026-10-12:** approved both. 13,795 of our production contacts got a phone (`NNN-NNN-NNNN`, several joined
+  by "; ") and 11 an e-mail, written only into empty fields on rows whose source is ours. Files from
+  `prod-load-test/correction/contacts_back.py`, counted read-only on production and rehearsed on local copies first;
+  a recount after shows nothing left to fill.
+- **View.** The one-address-per-agency-and-name match was a joined subquery the planner ran again for every person, so a
+  whole-agency count with e-mail timed out at 120 s. It is now a materialized CTE, with the name key computed once per
+  row: DHS, 2,205 rows, in about 4 s. Applied 2026-10-12 through `build/pursuit_cisa/run_sql.py`.
+
+## 2026-10-12 - Pursuit skill: every "not held" line says what the source shows
+
+- **Benchmark.** Record and web in one agent (`research/evals/benchmark_both_1012.md`): all 10 answers actionable, 1 of
+  10 passed every check, 8 failed on a bare "not in the record".
+- **Rule.** Say what was read for the item and what it shows: a blank, a printed "--", a continuing resolution column,
+  a section not loaded, a notice held as a title only, a figure not yet published. DoD SBIR and STTR contacts come from
+  the DSIP listing, not aggregators. A continuing resolution column is never called enacted.
+- **Assumption.** A gap with no reason reads as a missing fact the vendor cannot act on; the grader's demand matches
+  the reader's.
