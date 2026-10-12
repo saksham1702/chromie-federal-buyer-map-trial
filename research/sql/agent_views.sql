@@ -14,11 +14,6 @@
 
 create schema if not exists agent;
 
--- Names only: an e-mail address or a phone number in quoted text shows as withheld (inlined by the planner).
-create or replace function agent.names_only(t text) returns text language sql immutable parallel safe as $$
-  select regexp_replace(regexp_replace(t, '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}', '[address withheld]', 'g'), '(\(\d{3}\)\s?|\m\d{3}[-. ])\d{3}[-. ]\d{4}\M', '[number withheld]', 'g')
-$$;
-
 -- A name for matching only: no honorific ("The Honorable", Dr.), no nickname in brackets, case and spacing folded.
 create or replace function agent.name_key(t text) returns text language sql immutable parallel safe as $$
   select btrim(lower(regexp_replace(regexp_replace(regexp_replace(t, '\s*\([^)]*\)', '', 'g'),
@@ -61,8 +56,8 @@ group by 1, 2, 5;
 comment on view agent.record_holds is 'What the record holds per agency and section, with the newest date. Read it first: a section missing here was not collected, which is not the same as nothing happening. A row count is not coverage: read some rows (forecast items of most civilian agencies are locator-only; their content is in agent.needs).';
 
 create or replace view agent.items as
-select b.id as item_id, a.canonical_name as agency, b.section, b.event_type, agent.names_only(b.title) as title,
-       agent.names_only(b.body) as body, b.as_of, b.published_at,
+select b.id as item_id, a.canonical_name as agency, b.section, b.event_type, b.title,
+       b.body, b.as_of, b.published_at,
        coalesce(case when b.source ->> 'url' ~* '^https?://' then b.source ->> 'url' end,
                 case when b.source -> 'listing' ->> 'url' ~* '^https?://' then b.source -> 'listing' ->> 'url' end,
                 case when b.source ->> 'source_url' ~* '^https?://' then b.source ->> 'source_url' end,
@@ -147,7 +142,7 @@ select b.id as item_id, a.canonical_name as agency, b.data ->> 'name' as person,
        (select count(*) from gov_intelligence_evidence v where v.brain_item_id = b.id) as evidence_rows,
        -- the post's title as the source wrote it, from the loaded contact's positions: the contact id is uuid5 of the
        -- person id; a leader the organization memory lists sits under the memory's own contact, at the item's office
-       agent.names_only(coalesce(
+       coalesce(
          (select string_agg(distinct nullif(btrim(cp.raw_title), ''), '; ')
             from gov_contact_positions cp
            where cp.contact_id = extensions.uuid_generate_v5('7c3d1f5a-9b24-4f8e-8c61-2a0d5e7b41c3'::uuid, 'contact:' || (b.data ->> 'person'))
@@ -155,8 +150,8 @@ select b.id as item_id, a.canonical_name as agency, b.data ->> 'name' as person,
          (select string_agg(distinct nullif(btrim(cp.raw_title), ''), '; ')
             from gov_contact_positions cp join gov_contacts c on c.id = cp.contact_id
            where p ->> 'source' = 'organization_seed' and cp.organization_id = b.primary_organization_id
-             and cp.source like '%organization_seed.json' and agent.name_key(c.name) = agent.name_key(b.data ->> 'name')))) as title_as_written,
-       agent.names_only(b.body) as said,
+             and cp.source like '%organization_seed.json' and agent.name_key(c.name) = agent.name_key(b.data ->> 'name'))) as title_as_written,
+       b.body as said,
        b.data ->> 'person' as person_id, f.office, f.office_path,
        coalesce(pa.canonical_name, a.canonical_name) as department
 from agency_brain_items b
@@ -168,8 +163,8 @@ where b.section = 'people' and b.data ? 'bucket' and b.superseded_by is null;
 comment on view agent.people_readings is 'One row per person per post. reading is the record''s bucket, written as potential for budget holder, decision maker and champion: a reading, never a fact. basis says how it was reached (listed, stated, self-stated, inferred). "leader by title" is a title and nothing more. Contracting staff are a route, never an advocate. role_as_written is the record''s role code; title_as_written is the post as the source printed it, and said is what the reading rests on: search those two for words like a program name. office is the office the person is filed at, office_path its ancestry; post_status (confirmed_current, recently_observed, history) and observed_at say how current the post is. person_id groups one person''s rows. Contacts are names only: an address or a phone number in the text shows as withheld.';
 
 create or replace view agent.needs as
-select n.id as need_id, a.canonical_name as agency, agent.names_only(n.title) as title,
-       agent.names_only(n.description) as description, n.lifecycle, n.source, n.source_key,
+select n.id as need_id, a.canonical_name as agency, n.title,
+       n.description, n.lifecycle, n.source, n.source_key,
        (select string_agg(distinct coalesce(o.acronym, o.name), '; ') from gov_need_organizations x
           join gov_organizations o on o.id = x.organization_id
          where x.need_id = n.id and x.role = 'originating_requirement_owner') as owner_offices,
@@ -209,7 +204,7 @@ comment on view agent.needs is 'Each requirement (forecast row or notice group) 
 create or replace view agent.evidence as
 select v.brain_item_id as item_id, b.section, b.title,
        case when v.source_url ~* '^https?://' then v.source_url end as source_url,
-       agent.names_only(v.excerpt) as excerpt, v.published_at, v.provider,
+       v.excerpt, v.published_at, v.provider,
        v.pages
 from gov_intelligence_evidence v
 join agency_brain_items b on b.id = v.brain_item_id;
@@ -220,4 +215,4 @@ do $$ begin
 end $$;
 grant usage on schema agent to agent_reader;
 grant select on all tables in schema agent to agent_reader;
-grant execute on function agent.names_only(text), agent.name_key(text) to agent_reader;
+grant execute on function agent.name_key(text) to agent_reader;
