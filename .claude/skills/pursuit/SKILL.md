@@ -2,7 +2,7 @@
 name: pursuit
 description: >
   For a vendor pursuing a topic at one federal agency, answer one of two questions from production's record, the same
-  way every run: where the money for the topic is, from the budget request to what is still available, and who
+  way every run: where the money for the topic is, from the budget request to the account's unobligated balance, and who
   potentially holds it (budget, the money trail), or who could back the pursuit with a support letter, a customer memo
   or an introduction, each with a route to the money (champions). The record is production's read-only `agent` views
   through the Supabase MCP server; a web pass follows, labelled apart. Use when the user says "budget analysis for
@@ -80,7 +80,9 @@ an answer: the 2026-10-12 benchmark failed 8 of 10 answers on it.
 
 Search `agent.items` (`title`, `body`) and `agent.needs` (`title`, `description`) for the topic. The offices whose
 statements and requirements carry the topic, contracting offices aside, are the anchors: an inference, so state the
-rule. If the user named an office, add it as an anchor and say so.
+rule. If the user named an office, add it as an anchor and say so. A user usually names only the product: derive
+the search words from what it does (the problem it solves, the words a buyer writes in a notice, several synonyms),
+let the matches name the offices, programs and missions, and say which words found each.
 
 ## 3. Budget: the money trail
 
@@ -102,10 +104,16 @@ labelled (request, enacted, actual, forecast estimate).
    grants: `usaspending.py search` with several `--keywords` (one phrase misses most winners; `--kind grants
    --listings <number>` for a grant program), cited the same way; its first line says if the list is truncated. Run it
    with `--role funding` too: another agency often buys for the office (CISA's CDM orders are awarded by GSA FAS).
+   An award counts as obligated on the line only when `usaspending.py funding <piid>` shows it paid from the line's
+   account (and program activity, where step 5 matched one) in the line's fiscal year. Paid from another account, it
+   is named with who paid and left out of the line's sum: CISA's CDM order is paid from GSA's Acquisition Services
+   Fund (an assisted buy), not from CISA's procurement account.
    Every `usaspending.py` command's first line carries `as_of` (the data date to cite) and `name_corrected` when it
    had to respell an agency name; recompetes, winners and monthly take search's filters (`--agency`, `--role`...).
    - Recompetes and incumbents: `recompetes --subagency <name> --role funding [--months 18]`: contracts whose current
      or potential end is in the window, with incumbent, vehicle, ceiling, competition, offers and set-aside.
+     A keyword filter misses awards whose description lacks the word: for a topic, filter by office or funding
+     agency and read the descriptions, or run it once per synonym.
    - The competitive field: `winners <filters> --from <date> --to <date>`: recipients by obligations in the period,
      not contract values.
    - Subcontractors (teaming routes): `subawards <piid>`: sub-recipients by amount, as the prime reported them.
@@ -114,19 +122,28 @@ labelled (request, enacted, actual, forecast estimate).
    - Competitor: `recipient <piid or recipient_id> --fy <FY>`: parent, subsidiaries, payers, NAICS; never by name.
 4. Solicited: the open notices and forecast lines the line's office is buying (`agent.needs`), dates and estimates
    as written; a notice's response date is `facts_as_written ->> 'responses_due'` on its `agent.items` row.
-5. Still available: a floor, only where the line's amount and what is obligated or solicited against it are known
-   for the same fiscal year: amount minus obligated minus solicited. Obligations to date for the account are not in
-   the views: `usaspending.py budget <Treasury code, 070 for DHS> --fy <FY> --keyword <bureau>` gives each account's
-   resources, obligated and unobligated, and what each Treasury account has left, expired years flagged (they cannot
-   pay for new work), through the period its `as_of` names. When the money moves, for NEXT MOVE's date: `monthly
-   <filters> --fy <years>` (obligations by fiscal month, September's share). Say which fiscal year's money it is,
-   that multi-year money carries over, and that a floor is not a promise of funds. Otherwise the link stops, with why.
+5. Unobligated balance, in GAO's budget terms (GAO-05-734SP): budgetary resources, obligations, unobligated
+   balance; only unexpired money can take new obligations. These are account figures, not the views': find the line's
+   account with `usaspending.py budget <Treasury code: 070 DHS, 057 Air Force> --fy <FY> --keyword <bureau or
+   appropriation words>` (the book's appropriation and bureau must both match the account title; two candidates, the
+   link stops), then `budget <account> --fy <FY>`: resources, obligated, unobligated, the unexpired part, and what each
+   program activity obligated in the year, through the period its `as_of` names. A program activity stands for the
+   line only when its name is the line's PPA as the book prints it; then its obligations sit beside the line's amount.
+   A line below the PPA (an investment, a program element) has no published obligations: say so. Never subtract
+   solicitations (a notice names no account; list them beside, as solicited at the line's office), never subtract an
+   account's or activity's obligations from a smaller line, and never call a remainder available: the words are
+   "unobligated balance in <account>, unexpired, through <as_of>". When the money moves, for NEXT MOVE's date:
+   `monthly <filters> --fy <years>` (obligations by fiscal month, September's share). Say which fiscal year's money
+   it is and that multi-year money carries over. Otherwise the link stops, with why.
 6. Who holds it: `placed_office`, on the basis the record states, and that office's people (`agent.people_readings`).
    Its listed head is a *potential* budget holder only as an inference resting on two claims (the role, and money
    placed in that office). An empty `placed_office`, or the agency itself, means the line sits at agency level: say
    "not placed in an office" and name no holder from the record. The web pass then looks for the office that runs
    the program (the agency's program page, the budget book's narrative) and names it under WEB as an inference. A
-   contracting office holds no placed budget: it buys for others.
+   contracting office holds no placed budget: it buys for others. People along the line: `usaspending.py paid
+   <account> --fy <FY> [--activity <the PPA's program activity>]` lists the awards that account or activity paid,
+   with their funding office (the requirement side) and awarding office (the contracting route); those offices'
+   people in `agent.people_readings` link to the line through those awards, each link named.
 
 A link the record does not reach says what was read and why it stops (no placement, an account shared by many
 programs, a request not yet enacted), never zero.
@@ -177,11 +194,22 @@ FACTS:
 WEB:
 - <finding> (<URL>, read <date>: "<exact quote>")
 INFERENCE: <reading> (rule: <rule>; rests on: <item ids or URLs>)
-NEXT MOVE: contact <who> (<email or phone, with contact_basis>), pitch <what> against <the specific line, notice or need>, by <date> (<why>).
+NEXT MOVE: first step <verify fit | verify authority | pitch>: <who> (<email or phone, with contact_basis>), on <the specific line, notice or need>.
+  Fit: <why this buy fits the product, in the notice's or need's own words; or "unconfirmed: ask <what>">
+  Authority: <why this person can help: role as written plus the fact tying them to this money; or "unconfirmed: ask <what>">
+  Path to payment: <the vehicle, contract, open solicitation, line, SBIR or OT call the money moves through, and whether the vendor can use it>
+  Timing: <deadline: a date a source sets, cited> or <suggested by <date> (<why>)>
 ```
 
-For budget, add the money trail per line as a table (requested, Congress, obligated, solicited, still available, who
-potentially holds it), each link stated or inferred. For champions, a table: candidate, role as written, the two
+The next move follows from the evidence above it: fit, authority and path to payment each name their fact. When fit
+or authority rests on an inference, the first step is verifying it (does the buy cover the product, who owns the
+money), not a pitch; plausible leads stay, labelled as leads. A ceiling is the most a contract or vehicle may
+obligate, not money anyone holds: never present it as funding, room or budget. A deadline is a date a source sets (a
+notice's `responses_due`, a forecast date as written, a contract's end); a date chosen for outreach is "suggested by",
+with its reason.
+
+For budget, add the money trail per line as a table (requested, Congress, obligated on the line's account or activity,
+solicited at the office, unobligated balance in the account, who potentially holds it), each link stated or inferred. For champions, a table: candidate, role as written, the two
 claims, money route, what is still to confirm. Save each query and its full result under `DIR/sql/NN-view.json`; a
 quote is copied exactly from a saved result, its identifier the record id, line or person as the row writes it. Cite
 the excerpt and URL from `agent.evidence` for the same `item_id`.

@@ -17,6 +17,8 @@ summary carrying `as_of`.
     python3 .claude/skills/pursuit/usaspending.py orders 47QTCK18D0009          # a vehicle (IDV) PIID
     python3 .claude/skills/pursuit/usaspending.py subawards 47QFRA24F0005       # a prime PIID
     python3 .claude/skills/pursuit/usaspending.py history 47QFRA24F0005
+    python3 .claude/skills/pursuit/usaspending.py funding 47QFRA24F0005
+    python3 .claude/skills/pursuit/usaspending.py paid 070-0412 --fy 2026 [--activity "CAS - CYBERSECURITY"]
     python3 .claude/skills/pursuit/usaspending.py recipient 47QFRA24F0005|RECIPIENT_ID --fy 2026
     python3 .claude/skills/pursuit/usaspending.py check      # self-check against known awards, live
 
@@ -29,7 +31,10 @@ First line is the summary (total from the count endpoint, truncated when total >
 one award per line, largest first by default. `end` is the current end date; the potential end date needs `award PIID`.
 as_of: the award data date (reloaded daily); for budget, the account data period (monthly, about six weeks behind).
 budget: `agency` is the 3-digit Treasury code (070 DHS, 017 Navy, 021 Army, 057 Air Force, 097 DoD, 080 NASA); each
-account lists its Treasury accounts (TAS) with what is left; expired years cannot pay for new work.
+account lists its Treasury accounts (TAS) with what is left; expired years cannot pay for new work. One account
+(070-0412) also lists what each program activity obligated in the year: the finest split the account files give.
+funding: the account and program activity that paid for an award, by fiscal year. paid: the reverse, the awards an
+account (or one of its program activities) paid in a year: a budget line's awards, offices and incumbents.
 winners and monthly are obligations in the period, not contract values.
 """
 import argparse
@@ -64,6 +69,7 @@ RECOMPETE_COLUMNS = [
     "solicitation_identifier", "naics_code", "product_or_service_code", "type_of_contract_pricing",
     "prime_award_base_transaction_description"]
 MONTHS = "Oct Nov Dec Jan Feb Mar Apr May Jun Jul Aug Sep".split()  # fiscal month 1 is October
+DOD_PARTS = {"017": "navy-marine-corps", "021": "army", "057": "air-force"}  # Treasury codes USAspending files as DoD (097) bureaus
 RECIPIENT_ID = re.compile(r"[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}-[PCR]")
 
 
@@ -240,14 +246,26 @@ def budget(agency: str, fy: int, keyword: str | None = None, limit: int = 50) ->
     """Money left per federal account in a fiscal year: resources, obligated, unobligated (the account snapshot), and
     each Treasury account under it with what is left. `agency` is a 3-digit Treasury code, or one account code."""
     # /agency/{code}/federal_account/ no longer returns budgetary resources (2026-10-13): the account endpoints do
-    more = False
+    more, limit = False, min(max(limit, 1), 100)
     if "-" in agency:
         codes = [agency]
+    elif agency in DOD_PARTS:  # the service's own accounts, by name when a keyword is given
+        r = call(f"/agency/097/sub_components/{DOD_PARTS[agency]}/?fiscal_year={fy}&limit=100")
+        found = [(a["total_budgetary_resources"] or 0, a["id"]) for a in r["results"]
+                 if not keyword or keyword.lower() in a["name"].lower()]
+        codes, more = [c for _, c in sorted(found, reverse=True)][:limit], len(found) > limit
     else:
-        lst = call("/federal_accounts/", {"filters": {"fy": str(fy), "agency_identifier": agency}, "limit": min(max(limit, 1), 100),
+        lst = call("/federal_accounts/", {"filters": {"fy": str(fy), "agency_identifier": agency}, "limit": limit,
                                           "sort": {"field": "budgetary_resources", "direction": "desc"}, "page": 1,
                                           **({"keyword": keyword} if keyword else {})})
-        codes, more = [r["account_number"] for r in lst["results"]], lst["hasNext"]
+        found, more = [(r["budgetary_resources"] or 0, r["account_number"]) for r in lst["results"]], lst["hasNext"]
+        # the keyword matches account names only: USCIS's fee account carries no "Citizenship", its bureau does
+        for b in call(f"/agency/{agency}/sub_components/?fiscal_year={fy}&limit=100")["results"] if keyword else []:
+            if keyword.lower() in b["name"].lower():
+                found += [(a["total_budgetary_resources"] or 0, a["id"]) for a in call(
+                    f"/agency/{agency}/sub_components/{b['id']}/?fiscal_year={fy}&limit=100")["results"]]
+        codes = list(dict.fromkeys(c for _, c in sorted(found, reverse=True)))
+        codes, more = codes[:limit], more or len(codes) > limit
     rows = []
     for code in codes:
         fa = call(f"/federal_accounts/{code}/?fiscal_year={fy}")
@@ -263,6 +281,11 @@ def budget(agency: str, fy: int, keyword: str | None = None, limit: int = 50) ->
                      "unobligated": snap.get("unobligated"),
                      "left_unexpired": round(sum(t["left"] for t in tas if not t["expired"]), 2) if tas else None,
                      "tas": sorted(tas, key=lambda t: -(t["resources"] or 0))})
+        if "-" in agency:  # one account: what each program activity (a book PPA, by name) obligated in the year
+            pa = call(f"/federal_accounts/{code}/program_activities/total/",
+                      {"filters": {"time_period": [{"start_date": f"{fy - 1}-10-01", "end_date": f"{fy}-09-30"}]}, "limit": 100})
+            rows[-1]["activities"] = [{"code": x["code"], "activity": x["name"], "obligated": round(x["obligations"], 2)}
+                                      for x in sorted(pa["results"], key=lambda x: -x["obligations"])]
     return {"agency": agency, "keyword": keyword, "fy": fy, "accounts": len(rows), "truncated": more,
             "as_of": period(fy), "ran": datetime.date.today().isoformat()}, rows
 
@@ -405,6 +428,38 @@ def history(piid: str) -> tuple[dict, list[dict]]:
             "url": a["url"]}, rows
 
 
+def funding(piid: str) -> tuple[dict, list[dict]]:
+    """Which account and program activity paid for an award, per fiscal year, as the paying agency reported it (its
+    monthly account files). An award counts against a budget line only when it is paid from that line's account: an
+    assisted buy is paid from the buying agency's fund (CISA's CDM order from GSA's Acquisition Services Fund)."""
+    a, uid = prime(piid)
+    if not uid:
+        return a, []
+    # ponytail: 1,000 monthly account rows; the summary says when more exist
+    got, more = pages("/awards/funding/", {"award_id": uid, "sort": "reporting_fiscal_date", "order": "desc"}, 10)
+    by = collections.defaultdict(float)
+    for x in got:
+        by[(x["reporting_fiscal_year"], x["federal_account"], x["account_title"], x["program_activity_code"],
+            x["program_activity_name"])] += x["transaction_obligated_amount"] or 0
+    rows = [{"fy": fy, "account": acct, "account_title": title, "activity_code": code, "activity": name,
+             "obligated": round(v, 2)} for (fy, acct, title, code, name), v in sorted(by.items(), key=lambda kv: (-kv[0][0], -kv[1]))]
+    return {"piid": a["piid"], "recipient": a["recipient"], "obligated": a["obligated"], "funding": a["funding"],
+            "accounts": sorted({r["account"] for r in rows}), "rows_read": len(got), "truncated": more,
+            "basis": "the paying agency's account files (File C); awards before FY2017 are not reported", "url": a["url"]}, rows
+
+
+def paid(account: str, fy: int, activity: str | None = None, kind: str = "contracts", limit: int = 50) -> tuple[dict, list[dict]]:
+    """Awards paid from one federal account (070-0412) in a fiscal year, optionally from one program activity by its
+    name as `budget <account>` prints it: the awards behind a budget line's money, with their offices. Each row's
+    amounts are the whole award's, not the part this account paid (`funding <piid>` gives that split)."""
+    aid, main = account.split("-")
+    f = {**filters(kind, date_from=f"{fy - 1}-10-01", date_to=f"{fy}-09-30"), "tas_codes": [{"aid": aid, "main": main}],
+         **({"program_activities": [{"name": activity}]} if activity else {})}
+    s, rows = matches(f, kind, "amount", limit)
+    return {**s, "account": account, "fy": fy, "activity": activity,
+            "basis": "awards with an account-file row for this account in the year; amounts are whole-award"}, rows
+
+
 def recipient(ref: str, fy: int) -> tuple[dict, list[dict]]:
     """A competitor card for a fiscal year from a recipient id (winners prints them) or an award's PIID, never a name
     search ("CACI" also matches "ACACIA"): the recipient, its parent, who pays the parent for contracts and under
@@ -493,6 +548,22 @@ if __name__ == "__main__":
         t = {t["tas"]: t for t in b["tas"]}
         assert t["070-2026/2026-0566-000"]["resources"] > 2.0e9 and not t["070-2026/2026-0566-000"]["expired"], b
         assert t["070-2021/2021-0566-000"]["expired"] and s["as_of"] >= "2026-08-31 (FY2026 P11", s
+        # the USCIS fee account (070-5088, about $11.2B) is found by its bureau's name, not its own
+        s, rows = budget("070", 2026, "Citizenship", limit=3)
+        assert rows[0]["account"] == "070-5088" and rows[0]["bureau"] == "Citizenship and Immigration Services", rows[:1]
+        # the Air Force code lists nothing under 057 itself: its accounts sit under DoD's Air Force bureau
+        s, rows = budget("057", 2026, "Space Force", limit=10)
+        assert "057-3620" in {x["account"] for x in rows} and all(x["account"].startswith("057-") for x in rows), rows
+        # CISA's PC&I account split by program activity: FY2026 Cybersecurity obligated about $367M of $392M
+        s, (b,) = budget("070-0412", 2026)
+        cyber = next(x for x in b["activities"] if x["activity"] == "CAS - CYBERSECURITY")
+        assert 3.0e8 < cyber["obligated"] <= b["obligated"] + 1, b["activities"]
+        # CISA pays for its CDM order, but the order is obligated from GSA's Acquisition Services Fund, not CISA's account
+        # the awards CISA's PC&I Cybersecurity activity paid in FY2026 (8 contracts on 10-13), all bought by DHS OPO
+        s, rows = paid("070-0412", 2026, "CAS - CYBERSECURITY")
+        assert 3 <= s["total"] <= 40 and rows and s["filters"]["program_activities"], (s, rows[:2])
+        s, rows = funding("47QFRA24F0005")
+        assert s["accounts"] == ["047-4534"] and "Cybersecurity" in s["funding"] and rows[0]["obligated"] > 0, (s, rows[:2])
         # CISA-funded contracts ending by 2028-04-13: 148; CDM DEFEND A (CACI, on GSA vehicle 47QTCK18D0009) among them
         s, rows = recompetes(filters(**CISA, date_from="2021-10-01"))
         cdm = next(x for x in rows if x["piid"] == "47QFRA24F0005")
@@ -568,14 +639,23 @@ if __name__ == "__main__":
                 emit(*guarded(monthly, f))
             else:
                 emit(*guarded(recompetes, f, o.months))
-    elif cmd in ("orders", "subawards", "history") and args:
-        emit(*{"orders": orders, "subawards": subawards, "history": history}[cmd](args[0]))
+    elif cmd in ("orders", "subawards", "history", "funding") and args:
+        emit(*{"orders": orders, "subawards": subawards, "history": history, "funding": funding}[cmd](args[0]))
+    elif cmd == "paid":
+        p = argparse.ArgumentParser(prog="usaspending.py paid", description="Awards paid from one federal account.")
+        p.add_argument("account", help="federal account, e.g. 070-0412")
+        p.add_argument("--fy", type=int, required=True)
+        p.add_argument("--activity", help="program activity name as `budget <account>` prints it")
+        p.add_argument("--kind", choices=["contracts", "grants"], default="contracts")
+        p.add_argument("--limit", type=int, default=50)
+        o = p.parse_args(args)
+        emit(*paid(o.account, o.fy, o.activity, o.kind, o.limit))
     elif cmd in ("budget", "recipient"):
         p = argparse.ArgumentParser(prog=f"usaspending.py {cmd}", description=f"USAspending {cmd}.")
         p.add_argument("ref", help="budget: Treasury agency code (070) or account (070-0566); recipient: id or PIID")
         p.add_argument("--fy", type=int, required=True)
         if cmd == "budget":
-            p.add_argument("--keyword", help="words in the account name, e.g. a bureau: Cybersecurity")
+            p.add_argument("--keyword", help="words in the account or bureau name: Cybersecurity, Citizenship, Space Force")
             p.add_argument("--limit", type=int, default=50, help="accounts, largest first, 1-100")
         o = p.parse_args(args)
         emit(*(budget(o.ref, o.fy, o.keyword, o.limit) if cmd == "budget" else recipient(o.ref, o.fy)))
