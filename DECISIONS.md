@@ -78,3 +78,15 @@ Add dated technical and product decisions here.
   the DSIP listing, not aggregators. A continuing resolution column is never called enacted.
 - **Assumption.** A gap with no reason reads as a missing fact the vendor cannot act on; the grader's demand matches
   the reader's.
+
+## 2026-10-12 - agent.items shows each statement's stored fields, and evidence keeps to live rows
+
+- **Found.** Production items already hold, in their own fields, notice response dates (NASA GSMO-4, 2026-10-26),
+  grant amounts, recipients and awarding sub-agency, contract PIID, vendor, offices and end date, and SBIR topic
+  dates; no view showed them, so answers called them missing. The deadlines and grant office asks were view gaps.
+- **Change.** `agent.items` appends `facts_as_written` (the item's fields, keys as written), and the skill reads
+  deadlines and award fields from it. `agent.evidence` keeps to live rows and appends agency, department and
+  office_path, like every other view. View comments no longer say contacts are names only (removed 2026-10-12, entry above).
+- **Still open.** Contract rows hold no dollar amount; the USAspending award detail call fills it
+  (`research/evals/usaspending_api_1012.md`), not a reload.
+- **Production.** Applied 2026-10-13 at the owner's request after a rolled-back dry run; checked through the MCP server.

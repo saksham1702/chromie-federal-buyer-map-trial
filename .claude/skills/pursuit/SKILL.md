@@ -49,7 +49,7 @@ Columns (a guessed name fails the query):
 record_holds      agency, section, rows, newest, department
 offices           office_id, agency, department, office, acronym, org_type, parent_office, office_path, active
 items             item_id, agency, section, event_type, title, body, as_of, published_at, source_url, sha256, retrieved_at,
-                  source_provider, source_tier, organization, department, office_path, source_pages
+                  source_provider, source_tier, organization, department, office_path, source_pages, facts_as_written
 needs             need_id, agency, title, description, lifecycle, source, source_key, owner_offices, contracting_offices,
                   as_of, release, expected_from, expected_to, source_url, item_id, estimate_as_written, office_paths, department
 budget_lines      item_id, agency, line, title, appropriation, budget_activity, book_column, fiscal_year, amount_musd, measure,
@@ -94,9 +94,10 @@ labelled (request, enacted, actual, forecast estimate).
    `figures_as_written` quoted with units.
 3. Obligated: the book's prior-year actual column for the line where the book prints one, and the awards under the
    line's office that are still running (`agent.items` section `vendors_incumbents`; the title carries the end date):
-   vendor, award, end date.
+   vendor, award, end date, from `facts_as_written` (`piid`, `vendor`, `expires_on`; a grant's `amount`). Contract rows
+   hold no dollar amount: say so, and take the award's obligated value from the web pass (USAspending award page).
 4. Solicited: the open notices and forecast lines the line's office is buying (`agent.needs`), dates and estimates
-   as written.
+   as written; a notice's response date is `facts_as_written ->> 'responses_due'` on its `agent.items` row.
 5. Still available: a floor, only where the line's amount and what is obligated or solicited against it are known
    for the same fiscal year: amount minus obligated minus solicited. Obligations to date for the account are not in
    the views; take them from the web pass, as the agency publishes them, labelled as web. Say which fiscal year's
@@ -138,7 +139,7 @@ and page limits on the topic or notice page, the sponsor it names, obligations t
 holds a post today, the office's small business specialist, news within the month. A benchmark on 2026-10-12 (the
 same questions, Claude with web search alone) found those on the web and not in the record, while only the record
 held forecast fields, contracting officers, award history and budget line moves. Notice text in the views is often a
-title only, and SBIR topic authors and notice deadlines are often absent: take them from the topic or notice page. A DoD SBIR or STTR topic's TPOC names, e-mails and phones are on its
+title only, and SBIR topic authors are absent (deadlines sit in `facts_as_written`): take them from the topic or notice page. A DoD SBIR or STTR topic's TPOC names, e-mails and phones are on its
 DSIP listing (dodsbirsttr.mil); aggregators such as HigherGov drop the addresses.
 
 - Web findings never go under FACTS: they go under WEB, one row each with what it adds, the exact quote, the URL and

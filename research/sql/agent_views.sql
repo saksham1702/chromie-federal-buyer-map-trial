@@ -66,14 +66,15 @@ select b.id as item_id, a.canonical_name as agency, b.section, b.event_type, b.t
        coalesce(b.source ->> 'sha256', b.source -> 'listing' ->> 'sha256') as sha256,
        coalesce(b.source ->> 'retrieved_at', b.source -> 'listing' ->> 'retrieved_at') as retrieved_at,
        b.source_provider, b.source_tier, f.office as organization,
-       coalesce(pa.canonical_name, a.canonical_name) as department, f.office_path, b.source -> 'pages' as source_pages
+       coalesce(pa.canonical_name, a.canonical_name) as department, f.office_path, b.source -> 'pages' as source_pages,
+       b.data as facts_as_written
 from agency_brain_items b
 join agencies a on a.id = b.agency_id
 left join agencies pa on pa.id = a.parent_agency_id
 left join agent.offices f on f.office_id = b.primary_organization_id
 left join agency_brain_documents d on d.id = coalesce(b.source_document_id, case when b.source ->> 'document_id' ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$' then (b.source ->> 'document_id')::uuid end)
 where b.superseded_by is null;
-comment on view agent.items is 'Every live dated statement in the record (notices, forecast rows, awards, budget, remarks, oversight, people), one row each with its source URL (an http(s) URL: the record''s own, else the cited document''s), sha256 and retrieval date, and source_pages when the document is long. Search title and body with ilike. department is the parent department and office_path the office''s ancestry: a sub-agency (CDC, NIH, FAA) is found by department plus office_path ~ ''\mCDC\M'', not by agency.';
+comment on view agent.items is 'Every live dated statement in the record (notices, forecast rows, awards, budget, remarks, oversight, people), one row each with its source URL (an http(s) URL: the record''s own, else the cited document''s), sha256 and retrieval date, and source_pages when the document is long. Search title and body with ilike. department is the parent department and office_path the office''s ancestry: a sub-agency (CDC, NIH, FAA) is found by department plus office_path ~ ''\mCDC\M'', not by agency. facts_as_written is the record''s own fields for the statement, keys as it wrote them: a notice''s responses_due; a grant''s amount, recipient, award_id, start, end and awarding_sub_agency; a contract''s piid, vendor, contracting_office, funding_office and expires_on (no dollar amount: the record does not hold one for contracts); an SBIR topic''s open, close, qa_open, qa_close and ceiling; a protest''s outcome and decision_date. Dates and amounts the title and body leave out are often here.';
 
 create or replace view agent.budget_lines as
 select b.id as item_id, a.canonical_name as agency,
