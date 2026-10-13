@@ -95,7 +95,9 @@ labelled (request, enacted, actual, forecast estimate).
 3. Obligated: the book's prior-year actual column for the line where the book prints one, and the awards under the
    line's office that are still running (`agent.items` section `vendors_incumbents`; the title carries the end date):
    vendor, award, end date, from `facts_as_written` (`piid`, `vendor`, `expires_on`; a grant's `amount`). Contract rows
-   hold no dollar amount: say so, and take the award's obligated value from the web pass (USAspending award page).
+   hold no dollar amount: run `python3 .claude/skills/pursuit/usaspending.py award <piid> [<piid> ...]` (public
+   USAspending API, no key) for obligated to date, ceiling (base and all options), dates, awarding and funding office
+   and the award page URL, and cite it as USAspending with the day you ran it.
 4. Solicited: the open notices and forecast lines the line's office is buying (`agent.needs`), dates and estimates
    as written; a notice's response date is `facts_as_written ->> 'responses_due'` on its `agent.items` row.
 5. Still available: a floor, only where the line's amount and what is obligated or solicited against it are known
@@ -174,6 +176,8 @@ Each one cost a wrong "not found" in the 2026-10-10 eval run.
 
 - Forecasts: query `agent.needs` (`source like '%datapack'`), not `agent.items` section `forecast` (locator-only
   rows for most civilian agencies). `as_of`, `release`, `estimate_as_written` and `source_url` date and cite a need.
+  A forecast need's own fields (contracting center, solicitation and award dates, vehicle, value, incumbent and its
+  contract number, requirement contacts) are `facts_as_written -> 'stated'` on the `agent.items` row of its `item_id`.
 - Sub-agencies (CDC, NIH, FDA, FAA, NESDIS, CISA, PEOs): filter the parent `agency` (or `department`) and match the
   acronym in `office_path` (`needs.office_paths`), e.g. `office_path ~ '\mCDC\M'`. `agency = 'Centers for Disease
   Control and Prevention'` finds almost nothing. `agent.offices` lists the offices under an agency.
