@@ -18,7 +18,8 @@ argument-hint: "<agency> <topic> budget|champions [--office OFFICE] [--no-web]"
 The record is production, read through the Supabase MCP server in read-only mode (`execute_sql`, SELECT only), and
 only from the `agent` schema: never the raw tables, never a write. What the views do not hold is stated as not held,
 with what was read. After the record, a web pass (section 5) adds what the record cannot hold fresh, kept apart from
-the record's facts. No other database or API. Write to a working folder
+the record's facts. The one other source is the public USAspending API through `usaspending.py` (awards, accounts,
+recompetes), cited with its `as_of`; no other database or API. Write to a working folder
 `pursuit/<agency>-<budget|champions>-<topic slug>/` (DIR below).
 
 Connect once per machine, then log in with `/mcp` using a Supabase account that has the project:
@@ -97,14 +98,29 @@ labelled (request, enacted, actual, forecast estimate).
    vendor, award, end date, from `facts_as_written` (`piid`, `vendor`, `expires_on`; a grant's `amount`). Contract rows
    hold no dollar amount: run `python3 .claude/skills/pursuit/usaspending.py award <piid> [<piid> ...]` (public
    USAspending API, no key) for obligated to date, ceiling (base and all options), dates, awarding and funding office
-   and the award page URL, and cite it as USAspending with the day you ran it.
+   and the award page URL, and cite it as USAspending with the day you ran it. Who won similar buys before, and
+   grants: `usaspending.py search` with several `--keywords` (one phrase misses most winners; `--kind grants
+   --listings <number>` for a grant program), cited the same way; its first line says if the list is truncated. Run it
+   with `--role funding` too: another agency often buys for the office (CISA's CDM orders are awarded by GSA FAS).
+   Every `usaspending.py` command's first line carries `as_of` (the data date to cite) and `name_corrected` when it
+   had to respell an agency name; recompetes, winners and monthly take search's filters (`--agency`, `--role`...).
+   - Recompetes and incumbents: `recompetes --subagency <name> --role funding [--months 18]`: contracts whose current
+     or potential end is in the window, with incumbent, vehicle, ceiling, competition, offers and set-aside.
+   - The competitive field: `winners <filters> --from <date> --to <date>`: recipients by obligations in the period,
+     not contract values.
+   - Subcontractors (teaming routes): `subawards <piid>`: sub-recipients by amount, as the prime reported them.
+   - Vehicle orders: `orders <IDV piid>` (an award's `parent`): holder, ceiling, orders by funding agency.
+   - Change history: `history <piid>`: each modification, option exercise and funding action, summing to obligated.
+   - Competitor: `recipient <piid or recipient_id> --fy <FY>`: parent, subsidiaries, payers, NAICS; never by name.
 4. Solicited: the open notices and forecast lines the line's office is buying (`agent.needs`), dates and estimates
    as written; a notice's response date is `facts_as_written ->> 'responses_due'` on its `agent.items` row.
 5. Still available: a floor, only where the line's amount and what is obligated or solicited against it are known
    for the same fiscal year: amount minus obligated minus solicited. Obligations to date for the account are not in
-   the views; take them from the web pass, as the agency publishes them, labelled as web. Say which fiscal year's
-   money it is, that multi-year money carries over, and that a floor is not a promise of funds. Otherwise the link
-   stops, with why.
+   the views: `usaspending.py budget <Treasury code, 070 for DHS> --fy <FY> --keyword <bureau>` gives each account's
+   resources, obligated and unobligated, and what each Treasury account has left, expired years flagged (they cannot
+   pay for new work), through the period its `as_of` names. When the money moves, for NEXT MOVE's date: `monthly
+   <filters> --fy <years>` (obligations by fiscal month, September's share). Say which fiscal year's money it is,
+   that multi-year money carries over, and that a floor is not a promise of funds. Otherwise the link stops, with why.
 6. Who holds it: `placed_office`, on the basis the record states, and that office's people (`agent.people_readings`).
    Its listed head is a *potential* budget holder only as an inference resting on two claims (the role, and money
    placed in that office). An empty `placed_office`, or the agency itself, means the line sits at agency level: say
@@ -211,7 +227,7 @@ Each one cost a wrong "not found" in the 2026-10-10 eval run.
 ## Rules
 
 - The record is production, read-only, through the `agent` views. The web adds to it under WEB, never replaces it.
-  No other database or API.
+  The public USAspending API through `usaspending.py` is the one other source; no other database or API.
 - Facts, inferences and recommendations stay apart. Never infer authority, a decision or advocacy from a title alone.
 - Nothing is zero that was not read. Name offices as the record writes them. No likely, probably, imminent, soon.
 
