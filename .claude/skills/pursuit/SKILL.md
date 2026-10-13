@@ -181,8 +181,9 @@ Each one cost a wrong "not found" in the 2026-10-10 eval run.
   `owner_offices`, `contracting_offices` and `office_paths` (`office_path` on the other views), not only the full name.
 - Short acronyms: case-sensitive word boundary (`~ '\mALS\M'`), then confirm with the full name; `ilike '%ALS%'`
   hits 'intervALS' (and EED, SCaN, LIDS hit ordinary words the same way). Old program names do not map to new ones (IVAS is now SBMC): search both.
-- Book columns: a book's current-year column can be a continuing resolution level, not enacted (CISA and NASA
-  print "annualized CR"): quote `book_column` as written and never call it enacted unless it says so.
+- Book columns: a book's current-year column can be a continuing resolution level, not enacted (DHS books,
+  CISA's among them, print "FY 2026 Annualized CR"; NASA's prints "Enacted", P.L. 119-74): quote `book_column` as
+  written and never call it enacted unless it says so.
 - Budget lines: never sum across `measure`s (a program block repeats its book line); filter
   `measure ilike '%book line'` and name the book (PB2026 and PB2027 print the same year differently). A null
   `amount_musd` is a column with no figure in the record: say so, never zero. A program block's `source_url` is the
