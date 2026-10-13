@@ -20,6 +20,19 @@ create or replace function agent.name_key(t text) returns text language sql immu
          '^\s*((the\s+)?honorable|hon\.|dr\.?|mr\.?|mrs\.?|ms\.?)\s+', '', 'i'), '\s+', ' ', 'g')))
 $$;
 
+-- One person's name however a source wrote it, for grouping one person's readings: name_key, then 'Last, First' turned
+-- round, a rank in front ('Brig. Gen.', 'LCDR'), credentials after a comma, middle initials and a Jr./III dropped.
+-- 'Brig. Gen. Jane Doe', 'Jane Q. Doe' and 'Doe, Jane' all give 'jane doe'. A same-name
+-- match, not a stated link.
+create or replace function agent.person_key(t text) returns text language sql immutable parallel safe as $$
+  select nullif(btrim(regexp_replace(regexp_replace(regexp_replace(regexp_replace(
+           regexp_replace(case when k ~ '^[^ ,]+, [^,]+$' then split_part(k, ', ', 2) || ' ' || split_part(k, ', ', 1)
+                               else split_part(k, ',', 1) end,
+             '^(((lt|maj|brig|rear|vice|1st|2nd)\.?\s+)?(gen|general|col|colonel|adm|admiral|lt|ltg|ltc|mg|bg|maj|major|capt|captain|cpt|cdr|lcdr|cmdr|rdml|radm|vadm|sgt|msgt|smsgt|cmsgt|csm|sgm|cw[1-5])\.?\s+)+', ''),
+           '[.]', ' ', 'g'), '\s(jr|sr|ii|iii|iv|phd|pmp)\s*$', ''), '(^|\s)[a-z](?=\s|$)', ' ', 'g'), '\s+', ' ', 'g')), '')
+    from (select agent.name_key(t) as k) n
+$$;
+
 -- Every office the record holds, with its ancestry. Six levels cover the deepest office loaded (five ancestors).
 create or replace view agent.offices as
 select o.id as office_id, a.canonical_name as agency, coalesce(pa.canonical_name, a.canonical_name) as department,
@@ -32,7 +45,14 @@ select o.id as office_id, a.canonical_name as agency, coalesce(pa.canonical_name
          case when p2.acronym is null or strpos(p2.name, p2.acronym) > 0 then p2.name else p2.name || ' (' || p2.acronym || ')' end,
          case when p1.acronym is null or strpos(p1.name, p1.acronym) > 0 then p1.name else p1.name || ' (' || p1.acronym || ')' end,
          case when o.acronym is null or strpos(o.name, o.acronym) > 0 then o.name else o.name || ' (' || o.acronym || ')' end) as office_path,
-       o.active
+       o.active,
+       -- a reorganization: the office that took this one over, and the one this office took over (successor_to rows)
+       (select string_agg(s.name, '; ' order by s.name) from gov_organization_relationships r
+          join gov_organizations s on s.id = r.source_organization_id
+         where r.target_organization_id = o.id and r.relationship_type = 'successor_to') as successor_office,
+       (select string_agg(t.name, '; ' order by t.name) from gov_organization_relationships r
+          join gov_organizations t on t.id = r.target_organization_id
+         where r.source_organization_id = o.id and r.relationship_type = 'successor_to') as predecessor_office
 from gov_organizations o
 left join agencies a on a.id = o.agency_id
 left join agencies pa on pa.id = a.parent_agency_id
@@ -155,6 +175,16 @@ with ac as materialized (
     join gov_contacts c on c.agency = m.agency and (c.source is null or c.source not like 'federal-buyer-map-trial/%') and c.email is not null
    group by 1, 2
   having count(distinct lower(c.email)) = 1
+),
+-- a reading a later load re-read: the same person, office and words, loaded a day or more after it (the 10-11 rule
+-- that a title alone is a leader by title re-read 216 budget holder and decision maker readings; insert-only loads
+-- keep the old row live). Readings written by one load together (contracting and problem owner) all stand.
+reread as materialized (
+  select id from (select r.id, r.created_at,
+                         max(r.created_at) over (partition by r.data ->> 'person', r.primary_organization_id, r.body) as newest
+                    from agency_brain_items r
+                   where r.section = 'people' and r.data ? 'bucket' and r.superseded_by is null) x
+   where newest > created_at + interval '1 day'
 )
 select b.id as item_id, a.canonical_name as agency, b.data ->> 'name' as person, b.data ->> 'bucket' as bucket,
        case when b.data ->> 'bucket' in ('budget_holder', 'decision_maker', 'champion')
@@ -182,7 +212,8 @@ select b.id as item_id, a.canonical_name as agency, b.data ->> 'name' as person,
        case when oc.email is not null or oc.phone is not null then oc.email else ac.email end as email,
        case when oc.email is not null or oc.phone is not null then oc.phone else ac.phone end as phone,
        case when oc.email is not null or oc.phone is not null then 'our contact record'
-            when ac.email is not null then 'same name at the same agency, from ' || ac.sources end as contact_basis
+            when ac.email is not null then 'same name at the same agency, from ' || ac.sources end as contact_basis,
+       agent.person_key(b.data ->> 'name') as person_key
 from agency_brain_items b
 join agencies a on a.id = b.agency_id
 left join agencies pa on pa.id = a.parent_agency_id
@@ -191,8 +222,12 @@ left join lateral jsonb_array_elements(coalesce(b.data -> 'posts', '[]'::jsonb))
 left join gov_contacts oc on oc.id = extensions.uuid_generate_v5('7c3d1f5a-9b24-4f8e-8c61-2a0d5e7b41c3'::uuid, 'contact:' || (b.data ->> 'person'))
 cross join lateral (select agent.name_key(b.data ->> 'name') as name_key offset 0) k  -- once per row, not per pair
 left join ac on ac.agency_id = a.id and ac.name_key = k.name_key
-where b.section = 'people' and b.data ? 'bucket' and b.superseded_by is null;
-comment on view agent.people_readings is 'One row per person per post. reading is the record''s bucket, written as potential for budget holder, decision maker and champion: a reading, never a fact. basis says how it was reached (listed, stated, self-stated, inferred). "leader by title" is a title and nothing more. Contracting staff are a route, never an advocate. role_as_written is the record''s role code; title_as_written is the post as the source printed it, and said is what the reading rests on: search those two for words like a program name. office is the office the person is filed at, office_path its ancestry; post_status (confirmed_current, recently_observed, history) and observed_at say how current the post is. person_id groups one person''s rows. email and phone reach the person: contact_basis says whether they are on our own contact record or matched by the same name at the same agency from another source (a match, not a stated link: say so).';
+where b.section = 'people' and b.data ? 'bucket' and b.superseded_by is null
+  and not exists (select 1 from reread x where x.id = b.id)
+  -- ponytail: a notice sentence read as a name ('WHEN SOLICITATION HAS BEEN APPROVED BY ...', 15 words) is no person;
+  -- the longest real names held (an office prefix glued on, 'Natl Ctr for HIV, ... Jane Doe') run to 12 words
+  and coalesce(array_length(regexp_split_to_array(btrim(b.data ->> 'name'), '\s+'), 1), 0) <= 12;
+comment on view agent.people_readings is 'One row per person per post. reading is the record''s bucket, written as potential for budget holder, decision maker and champion: a reading, never a fact. basis says how it was reached (listed, stated, self-stated, inferred). "leader by title" is a title and nothing more. Contracting staff are a route, never an advocate. role_as_written is the record''s role code; title_as_written is the post as the source printed it, and said is what the reading rests on: search those two for words like a program name. office is the office the person is filed at, office_path its ancestry; post_status (confirmed_current, recently_observed, history) and observed_at say how current the post is. person_id groups one person''s rows. email and phone reach the person: contact_basis says whether they are on our own contact record or matched by the same name at the same agency from another source (a match, not a stated link: say so). person_key groups one person written several ways or filed under several person_ids (rank, initials, ''Last, First'' folded): a same-name match, not a stated link. When a later load re-read a reading (same person, office and words), only the newer one shows.';
 
 create or replace view agent.needs as
 select n.id as need_id, a.canonical_name as agency, n.title,
@@ -252,3 +287,4 @@ end $$;
 grant usage on schema agent to agent_reader;
 grant select on all tables in schema agent to agent_reader;
 grant execute on function agent.name_key(text) to agent_reader;
+grant execute on function agent.person_key(text) to agent_reader;
